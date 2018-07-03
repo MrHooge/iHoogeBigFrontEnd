@@ -1,9 +1,11 @@
 import { login, logout, getInfo } from '@/api/login'
+import { Message } from 'element-ui'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
     token: getToken(),
+    account: '',
     name: '',
     avatar: '',
     roles: []
@@ -12,6 +14,9 @@ const user = {
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+    SET_ACCOUNT: (state, account) => {
+      state.account = account
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -30,10 +35,15 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
-          resolve()
+          const res = response.data
+          console.log(res)
+          if (res.success) {
+            setToken(res.data.account)
+            commit('SET_TOKEN', res.data.account)
+            resolve()
+          } else {
+            Message.error(res.msg)
+          }
         }).catch(error => {
           reject(error)
         })
