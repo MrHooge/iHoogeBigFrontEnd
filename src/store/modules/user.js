@@ -1,13 +1,14 @@
-import { login, logout, getInfo } from '@/api/login'
+import { login, getMenu, getChildMenu } from '@/api/login'
 import { Message } from 'element-ui'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 
 const user = {
   state: {
-    token: getToken(),
+    token: getCookies('token'),
     account: '',
     name: '',
     avatar: '',
+    menus: [],
     roles: []
   },
 
@@ -22,10 +23,17 @@ const user = {
       state.name = name
     },
     SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
+      if (avatar) {
+        state.avatar = avatar
+      } else {
+        state.avatar = '/static/avatar/default.png'
+      }
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_MENUS: (state, menus) => {
+      state.menus = menus
     }
   },
 
@@ -36,10 +44,17 @@ const user = {
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
           const res = response.data
-          console.log(res)
           if (res.success) {
-            setToken(res.data.account)
             commit('SET_TOKEN', res.data.account)
+            commit('SET_NAME', res.data.account)
+            commit('SET_ROLES', res.data.account)
+            commit('SET_AVATAR', '/static/avatar/default.png')
+            setCookies('token', res.data.account)
+            setCookies('name', res.data.account)
+            setCookies('id', res.data.id)
+            setCookies('roleId', res.data.roleId)
+            setCookies('status', res.data.status)
+            setCookies('avatar', '/static/avatar/default.png')
             resolve()
           } else {
             Message.error(res.msg)
@@ -53,33 +68,71 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
+        getMenu().then(response => {
           const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
+          if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_MENUS', data.data)
+            // getChildMenu().then(response => {
+            //   const data = response.data
+            //   if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
+            //     // commit('SET_MENUS', data.data)
+            //   } else {
+            //     reject('getInfo: roles must be a non-null array !')
+            //   }
+            //   resolve()
+            // }).catch(error => {
+            //   reject(error)
+            // })
           } else {
             reject('getInfo: roles must be a non-null array !')
           }
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+        commit('SET_NAME', getCookies('name'))
+        commit('SET_AVATAR', getCookies('avatar'))
+        commit('SET_ROLES', getCookies('name'))
+        resolve()
+      })
+    },
+
+    // 获取用户Menu
+    GetMenu({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        getMenu(state.token).then(response => {
+          const data = response.data
+          console.log(data)
+          // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+          //   commit('SET_ROLES', data.roles)
+          // } else {
+          //   reject('getInfo: roles must be a non-null array !')
+          // }
+          // commit('SET_AVATAR', data.avatar)
           resolve(response)
         }).catch(error => {
           reject(error)
         })
+        // commit('SET_NAME', getCookies('name'))
+        resolve()
       })
     },
 
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        // logout(state.token).then(() => {
+        //   commit('SET_TOKEN', '')
+        //   commit('SET_ROLES', [])
+        //   removeCookies('token')
+        //   resolve()
+        // }).catch(error => {
+        //   reject(error)
+        // })
+        commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
+        removeCookies('token')
+        resolve()
       })
     },
 
@@ -87,7 +140,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
-        removeToken()
+        removeCookies('token')
         resolve()
       })
     }

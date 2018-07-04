@@ -1,8 +1,8 @@
 <template>
   <div class="menu-wrapper">
-    <template v-for="item in routes" v-if="!item.hidden&&item.children">
+    <template v-for="item in routes">
 
-      <router-link v-if="hasOneShowingChildren(item.children) && !item.children[0].children&&!item.alwaysShow" :to="item.path+'/'+item.children[0].path"
+      <!-- <router-link v-if="hasOneShowingChildren(item.children) && !item.children[0].children&&!item.alwaysShow" :to="item.path+'/'+item.children[0].path"
         :key="item.children[0].name">
         <el-menu-item :index="item.path+'/'+item.children[0].path" :class="{'submenu-title-noDropdown':!isNest}">
           <svg-icon v-if="item.children[0].meta&&item.children[0].meta.icon" :icon-class="item.children[0].meta.icon"></svg-icon>
@@ -26,8 +26,12 @@
             </el-menu-item>
           </router-link>
         </template>
+      </el-submenu> -->
+      <el-submenu :index="item.name||item.path" :key="item.name">
+        <template slot="title">
+          {{item.name}}
+        </template>
       </el-submenu>
-
     </template>
   </div>
 </template>
@@ -43,6 +47,9 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  created() {
+    console.log(this.routes)
   },
   methods: {
     hasOneShowingChildren(children) {

@@ -9,7 +9,7 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
-      <sidebar-item :routes="routes"></sidebar-item>
+      <sidebar-item :routes="menus"></sidebar-item>
     </el-menu>
   </el-scrollbar>
 </template>
@@ -22,9 +22,11 @@ export default {
   components: { SidebarItem },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'sidebar',
+      'menus'
     ]),
     routes() {
+      console.log(this.$router.options.routes)
       return this.$router.options.routes
     },
     isCollapse() {
