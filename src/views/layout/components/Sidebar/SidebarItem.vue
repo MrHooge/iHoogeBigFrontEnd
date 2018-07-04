@@ -28,7 +28,7 @@
         </template>
       </el-submenu> -->
       <el-submenu :index="item.name||item.path" :key="item.name">
-        <template slot="title">
+        <template slot="title" @click="childMenu">
           {{item.name}}
         </template>
       </el-submenu>
@@ -60,6 +60,9 @@ export default {
         return true
       }
       return false
+    },
+    childMenu (id) {
+
     }
   }
 }

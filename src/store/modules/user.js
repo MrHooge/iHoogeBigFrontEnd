@@ -1,4 +1,4 @@
-import { login, getMenu, getChildMenu } from '@/api/login'
+import { login, getMenu } from '@/api/login'
 import { Message } from 'element-ui'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 
@@ -33,6 +33,7 @@ const user = {
       state.roles = roles
     },
     SET_MENUS: (state, menus) => {
+      console.log('menus', menus)
       state.menus = menus
     }
   },
@@ -47,7 +48,7 @@ const user = {
           if (res.success) {
             commit('SET_TOKEN', res.data.account)
             commit('SET_NAME', res.data.account)
-            commit('SET_ROLES', res.data.account)
+            // commit('SET_ROLES', res.data.account)
             commit('SET_AVATAR', '/static/avatar/default.png')
             setCookies('token', res.data.account)
             setCookies('name', res.data.account)
@@ -72,6 +73,7 @@ const user = {
           const data = response.data
           if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_MENUS', data.data)
+            commit('SET_ROLES', getCookies('token'))
             // getChildMenu().then(response => {
             //   const data = response.data
             //   if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
