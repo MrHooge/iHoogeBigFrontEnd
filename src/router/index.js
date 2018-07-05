@@ -38,23 +38,35 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/example',
+    path: '/sysManage',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    redirect: '/sysManage/mamber',
+    name: '系统管理',
+    meta: { title: '系统管理', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'mamber',
+        name: '用户管理',
+        component: () => import('@/views/sys_management/user'),
+        meta: { title: '用户管理', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'property',
+        name: '权限管理',
+        component: () => import('@/views/sys_management/property'),
+        meta: { title: '权限管理', icon: 'table' }
+      },
+      {
+        path: 'roles',
+        name: '角色管理',
+        component: () => import('@/views/sys_management/roles'),
+        meta: { title: '角色管理', icon: 'table' }
+      },
+      {
+        path: 'modules',
+        name: '模块管理',
+        component: () => import('@/views/sys_management/modules'),
+        meta: { title: '模块管理', icon: 'table' }
       }
     ]
   },

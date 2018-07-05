@@ -35,6 +35,14 @@ export function getChildMenu(id) {
   })
 }
 
+export function getRolePermission(account) {
+  return request.member({
+    url: '/user/findRoleAndPermission',
+    method: 'get',
+    params: { account }
+  })
+}
+
 export function logout() {
   return request({
     url: '/user/logout',

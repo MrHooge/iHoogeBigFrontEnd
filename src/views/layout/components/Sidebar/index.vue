@@ -9,7 +9,7 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
-      <sidebar-item :routes="menus"></sidebar-item>
+      <sidebar-item :routes="roles"></sidebar-item>
     </el-menu>
   </el-scrollbar>
 </template>
@@ -23,7 +23,7 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'menus'
+      'roles'
     ]),
     routes() {
       console.log(this.$router.options.routes)

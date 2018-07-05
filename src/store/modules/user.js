@@ -1,4 +1,4 @@
-import { login, getMenu, getChildMenu } from '@/api/login'
+import { login, getMenu, getRolePermission } from '@/api/login'
 import { Message } from 'element-ui'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 
@@ -47,7 +47,7 @@ const user = {
           if (res.success) {
             commit('SET_TOKEN', res.data.account)
             commit('SET_NAME', res.data.account)
-            commit('SET_ROLES', res.data.account)
+            // commit('SET_ROLES', res.data.account)
             commit('SET_AVATAR', '/static/avatar/default.png')
             setCookies('token', res.data.account)
             setCookies('name', res.data.account)
@@ -68,31 +68,20 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getMenu().then(response => {
-          const data = response.data
-          if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_MENUS', data.data)
-            // getChildMenu().then(response => {
-            //   const data = response.data
-            //   if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
-            //     // commit('SET_MENUS', data.data)
-            //   } else {
-            //     reject('getInfo: roles must be a non-null array !')
-            //   }
-            //   resolve()
-            // }).catch(error => {
-            //   reject(error)
-            // })
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        // getMenu().then(response => {
+        //   const data = response.data
+        //   if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
+        //     commit('SET_MENUS', data.data)
+        //   } else {
+        //     reject('getInfo: roles must be a non-null array !')
+        //   }
+        //   resolve()
+        // }).catch(error => {
+        //   reject(error)
+        // })
         commit('SET_NAME', getCookies('name'))
         commit('SET_AVATAR', getCookies('avatar'))
-        commit('SET_ROLES', getCookies('name'))
+        // commit('SET_ROLES', getCookies('name'))
         resolve()
       })
     },
@@ -141,6 +130,26 @@ const user = {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
         removeCookies('token')
+        resolve()
+      })
+    },
+
+    // 获取用户权限
+    GetRolePermission({ commit }, account) {
+      return new Promise((resolve, reject) => {
+        getRolePermission(account).then(response => {
+          const data = response.data
+          if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', data.data)
+            console.log(data)
+            localStorage.setItem('SET_ROLES', JSON.stringify(data))
+          } else {
+            reject('getInfo: roles must be a non-null array !')
+          }
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
         resolve()
       })
     }
