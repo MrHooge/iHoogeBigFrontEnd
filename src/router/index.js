@@ -42,44 +42,119 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/sysManage/mamber',
     name: '系统管理',
-    meta: { title: '系统管理', icon: 'example' },
+    meta: { title: '系统管理' },
     children: [
       {
         path: 'mamber',
         name: '用户管理',
         component: () => import('@/views/sys_management/user'),
-        meta: { title: '用户管理', icon: 'table' }
+        meta: { title: '用户管理' }
       },
       {
         path: 'property',
         name: '权限管理',
         component: () => import('@/views/sys_management/property'),
-        meta: { title: '权限管理', icon: 'table' }
+        meta: { title: '权限管理' }
       },
       {
         path: 'roles',
         name: '角色管理',
         component: () => import('@/views/sys_management/roles'),
-        meta: { title: '角色管理', icon: 'table' }
+        meta: { title: '角色管理' }
       },
       {
         path: 'modules',
         name: '模块管理',
         component: () => import('@/views/sys_management/modules'),
-        meta: { title: '模块管理', icon: 'table' }
+        meta: { title: '模块管理' }
       }
     ]
   },
 
+  // 新闻公告
   {
-    path: '/form',
+    path: '/newsBulletin',
     component: Layout,
+    redirect: '/newsBulletin/addNews',
+    name: '新闻公告',
+    meta: { title: '新闻公告' },
     children: [
       {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        path: 'addNews',
+        name: '发布新闻',
+        component: () => import('@/views/newsBulletin/add_news'),
+        meta: { title: '发布新闻' }
+      },
+      {
+        path: 'newsManage',
+        name: '新闻管理',
+        component: () => import('@/views/newsBulletin/news_manage'),
+        meta: { title: '新闻管理' }
+      },
+      {
+        path: 'lotteryDaily',
+        name: '竞彩日报',
+        component: () => import('@/views/newsBulletin/lottery_daily'),
+        meta: { title: '竞彩日报' }
+      },
+      {
+        path: 'websiteLettery',
+        name: '站内信',
+        component: () => import('@/views/newsBulletin/website_lettery'),
+        meta: { title: '站内信' }
+      }
+    ]
+  },
+
+  // 代理管理
+  {
+    path: '/agentManager',
+    component: Layout,
+    redirect: '/agentManager/agentManager',
+    name: '代理管理',
+    meta: { title: '代理管理' },
+    children: [
+      {
+        path: 'agentManager',
+        name: '代理查询',
+        component: () => import('@/views/agent_manager/agent_manager'),
+        meta: { title: '代理查询' }
+      },
+      {
+        path: 'examine',
+        name: '代理审核',
+        component: () => import('@/views/agent_manager/examine'),
+        meta: { title: '代理审核' }
+      },
+      {
+        path: 'salesManage',
+        name: '销售管理',
+        component: () => import('@/views/agent_manager/sales_manage'),
+        meta: { title: '销售管理' }
+      },
+      {
+        path: 'salesDetail',
+        name: '业绩明细',
+        component: () => import('@/views/agent_manager/sales_detail'),
+        meta: { title: '业绩明细' }
+      },
+      {
+        path: 'salesSummary',
+        name: '业绩汇总',
+        component: () => import('@/views/agent_manager/sales_summary'),
+        meta: { title: '业绩汇总' }
+      },
+      {
+        path: 'lotteryRecord', // 代理名下客户的购彩记录
+        name: '购彩记录',
+        component: () => import('@/views/agent_manager/lottery_record'),
+        meta: { title: '购彩记录' }
+      },
+      {
+        path: 'capitalFlow',
+        name: '资金流水',
+        component: () => import('@/views/agent_manager/capital_flow'),
+        meta: { title: '资金流水' }
       }
     ]
   },

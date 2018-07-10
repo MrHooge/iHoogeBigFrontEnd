@@ -95,7 +95,7 @@ export default {
         role_name: ''
       },
       formLabelWidth: '120px',
-      curAccPer: [], //当前用户的权限
+      curAccPer: [], // 当前用户的权限
       props: {
         label: 'name',
         children: 'zones'
@@ -135,7 +135,7 @@ export default {
     },
     getFindRoleAndPermission(account) {
       findRoleAndPermission(account).then(res => {
-        if(res.data.error_code === 200) {
+        if (res.data.error_code === 200) {
           this.curAccPer = res.data.data.childList
         } else {
           Message.error(res.data.message)
