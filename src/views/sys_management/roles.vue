@@ -61,16 +61,17 @@
         </el-form-item>
         <el-form-item label="权限设置" :label-width="formLabelWidth">
           <el-tree
+            :data="curAllPer"
+            node-key="id"
             :props="props"
-            :load="loadNode"
-            lazy
             show-checkbox
+            @node-click="handleNodeClick"
             @check-change="handleCheckChange">
           </el-tree>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="viewFormVisible=false">取 消</el-button>
         <el-button type="primary" @click="submitInfos">确 定</el-button>
       </div>
     </el-dialog>
@@ -78,7 +79,7 @@
 </template>
 
 <script>
-import { findAllRole, addRole, findRoleAndPermission } from '@/api/sys_user'
+import { findAllRole, addRole, findRoleAndPermission, findAllChildModel } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -96,9 +97,10 @@ export default {
       },
       formLabelWidth: '120px',
       curAccPer: [], // 当前用户的权限
+      curAllPer: [], // 当前所有的权限
       props: {
-        label: 'name',
-        children: 'zones'
+        label: 'modelNme',
+        children: 'childList'
       },
       count: 1
     }
@@ -110,7 +112,7 @@ export default {
     waves
   },
   methods: {
-    // 查询所有子模块
+    // 查询所有角色
     getFindAllRole() {
       findAllRole().then(res => {
         if (res.data.error_code === 200) {
@@ -130,13 +132,59 @@ export default {
         role_desc: data.memo,
         role_name: data.NAME
       }
-      this.getFindRoleAndPermission(data.NAME)
-      this.viewFormVisible = true
+      // this.getFindRoleAndPermission(data.NAME)
+      this.getFindAllChildModel('', 1, 50)
     },
+    // 查询当前用户的权限
     getFindRoleAndPermission(account) {
       findRoleAndPermission(account).then(res => {
         if (res.data.error_code === 200) {
-          this.curAccPer = res.data.data.childList
+          const data = res.data.data
+          data.forEach(element => {
+            element.childList.forEach(item => {
+              item.modelNme = item.model_name
+            })
+          })
+          this.curAccPer = data
+          this.viewFormVisible = true
+        } else {
+          Message.error(res.data.message)
+        }
+      }).catch(error => {
+        Message.error(error)
+      })
+    },
+    // 查询所有的权限
+    getFindAllChildModel(id, page, pageSize) {
+      findAllChildModel(id, page, pageSize).then(res => {
+        if (res.data.error_code === 200) {
+          const data = res.data.data.list
+          const tempArray = []
+          data.forEach(item => {
+            const tempObj = {
+              model_parent: item.model_parent,
+              parent_name: item.parent_name,
+              childList: []
+            }
+            const childObj = {
+              id: item.id,
+              model_name: item.model_name,
+              model_url: item.model_url
+            }
+            if (tempArray.length > 0) {
+              tempArray.forEach(arr => {
+                if (arr.model_parent === item.model_parent) {
+                  arr.childList.push(childObj)
+                }
+              })
+            } else {
+              tempObj.childList.push(childObj)
+              tempArray.push(tempObj)
+            }
+          })
+          console.log('tempArray:', tempArray)
+          this.curAllPer = data
+          console.log(data)
         } else {
           Message.error(res.data.message)
         }
@@ -168,33 +216,6 @@ export default {
     },
     handleNodeClick(data) {
       console.log(data)
-    },
-    loadNode(node, resolve) {
-      if (node.level === 0) {
-        return resolve([{ name: 'region1' }, { name: 'region2' }])
-      }
-      if (node.level > 3) return resolve([])
-      var hasChild
-      if (node.data.name === 'region1') {
-        hasChild = true
-      } else if (node.data.name === 'region2') {
-        hasChild = false
-      } else {
-        hasChild = Math.random() > 0.5
-      }
-      setTimeout(() => {
-        var data
-        if (hasChild) {
-          data = [{
-            name: 'zone' + this.count++
-          }, {
-            name: 'zone' + this.count++
-          }]
-        } else {
-          data = []
-        }
-        resolve(data)
-      }, 500)
     }
   }
 }
