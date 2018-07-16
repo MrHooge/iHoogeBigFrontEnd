@@ -132,7 +132,7 @@ export function updateParentModel(modelInfo) {
 export function addRoleBondPermission(params) {
   return request.member({
     url: '/user/addRoleBondPermission',
-    method: 'get',
+    method: 'post',
     params: {
       params
     }

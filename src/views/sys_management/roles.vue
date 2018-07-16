@@ -228,17 +228,15 @@ export default {
     },
     // 设置权限
     postAddRoleBondPermission() {
-      const permChildObj = {
-        child_model_id: 0,
-        child_permission: '修改,查询,添加'
-      }
       let permissions = ''
       const child_premission = []
       this.curSelectPer.forEach(item => {
-        permissions = item.model_parent
+        permissions += item.model_parent
         item.childList.forEach(value => {
-          permissions += '#' + value
+          const permChildObj = {}
+          permissions += '\#' + value
           permChildObj.child_model_id = value
+          permChildObj.child_permission = '修改,查询,添加'
           child_premission.push(permChildObj)
         })
         permissions += '@'
@@ -247,15 +245,16 @@ export default {
         role_name: this.form.role_name,
         role_desc: this.form.role_desc,
         role_id: this.form.role_id,
-        permissions: permissions,
+        permissions: permissions.substring(0, permissions.length - 1),
         child_premission: child_premission
       }
-      addRoleBondPermission(encodeURIComponent(JSON.stringify(obj))).then(res => {
+      addRoleBondPermission(JSON.stringify(obj)).then(res => {
         if (res.data.error_code === 200) {
           Message.success('权限配置成功！')
         } else {
           Message.error(res.data.message)
         }
+        this.viewFormVisible = false
       }).catch(error => {
         Message.error(error)
       })
@@ -277,7 +276,7 @@ export default {
           const index = this.curSelectPer.map(item => item.model_parent).indexOf(paerntId)
           if (index > -1) {
             this.curSelectPer.forEach(item => {
-              if (item.model_parent === paerntId) {
+              if (item.childList.map(val => val).indexOf(id) < 0) {
                 item.childList.push(id)
               }
             })
@@ -285,7 +284,6 @@ export default {
             this.curSelectPer.push(tempObj)
           }
         } else {
-          console.log('paerntId', paerntId)
           this.curSelectPer.map(item => {
             const index = item.childList.map(value => value).indexOf(id)
             if (index > -1) {
@@ -298,17 +296,21 @@ export default {
         }
       } else {
         // 点选一级菜单
-        console.log(this.curSelectPer)
         if (checked) {
           tempObj.model_parent = id
           data.childList.forEach(ids => {
-            tempObj.childList.push(ids.id)
+            if (tempObj.childList.map(val => val).indexOf(ids.id) < 0) {
+              tempObj.childList.push(ids.id)
+            }
           })
-          this.curSelectPer.push(tempObj)
+          if ((this.curSelectPer.map(item => item.model_parent).indexOf(id) < 0)) {
+            this.curSelectPer.push(tempObj)
+          }
         } else if (!indeterminate) {
           this.curSelectPer.splice((this.curSelectPer.map(item => item.model_parent).indexOf(id)), 1)
         }
       }
+      console.log('this.curSelectPer', this.curSelectPer)
     },
     handleNodeClick(data) {
       // console.log(data)
