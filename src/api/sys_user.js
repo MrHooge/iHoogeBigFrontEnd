@@ -119,11 +119,22 @@ export function addParentModel(modelInfo) {
   })
 }
 
-// http://localhost:8081/user/updateParentModel
+// 修改父模块
 export function updateParentModel(modelInfo) {
   return request.member({
     url: '/user/updateParentModel',
     method: 'get',
     params: modelInfo
+  })
+}
+
+// 给角色 配置权限
+export function addRoleBondPermission(params) {
+  return request.member({
+    url: '/user/addRoleBondPermission',
+    method: 'get',
+    params: {
+      params
+    }
   })
 }

@@ -65,6 +65,7 @@
             node-key="id"
             :props="props"
             show-checkbox
+            ref="tree"
             @node-click="handleNodeClick"
             @check-change="handleCheckChange">
           </el-tree>
@@ -79,7 +80,7 @@
 </template>
 
 <script>
-import { findAllRole, addRole, findRoleAndPermission, findAllChildModel } from '@/api/sys_user'
+import { findAllRole, addRole, findRoleAndPermission, findAllChildModel, addRoleBondPermission } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -91,6 +92,7 @@ export default {
       permissions: [],
       dialogFormVisible: false,
       viewFormVisible: false,
+      viewFormType: 'view',
       form: {
         role_desc: '',
         role_name: ''
@@ -98,8 +100,10 @@ export default {
       formLabelWidth: '120px',
       curAccPer: [], // 当前用户的权限
       curAllPer: [], // 当前所有的权限
+      curSelectPer: [], // 当前选中的权限
+      curPermissions: [], // 当前选中的权限(存储)
       props: {
-        label: 'modelNme',
+        label: 'model_name',
         children: 'childList'
       },
       count: 1
@@ -126,9 +130,10 @@ export default {
       this.dialogFormVisible = true
       // console.log(data)
     },
-    showView(data) {
-      console.log(data)
+    showView(data, type) {
+      this.viewFormType = type
       this.form = {
+        role_id: data.id,
         role_desc: data.memo,
         role_name: data.NAME
       }
@@ -163,7 +168,7 @@ export default {
           data.forEach(item => {
             const tempObj = {
               model_parent: item.model_parent,
-              parent_name: item.parent_name,
+              model_name: item.parent_name,
               childList: []
             }
             const childObj = {
@@ -172,9 +177,14 @@ export default {
               model_url: item.model_url
             }
             if (tempArray.length > 0) {
-              tempArray.forEach(arr => {
+              tempArray.forEach((arr, index) => {
                 if (arr.model_parent === item.model_parent) {
                   arr.childList.push(childObj)
+                } else {
+                  if (index === (tempArray.length - 1)) {
+                    tempObj.childList.push(childObj)
+                    tempArray.push(tempObj)
+                  }
                 }
               })
             } else {
@@ -182,9 +192,9 @@ export default {
               tempArray.push(tempObj)
             }
           })
-          console.log('tempArray:', tempArray)
-          this.curAllPer = data
-          console.log(data)
+          this.curAllPer = tempArray
+          console.log('this.curAllPer', this.curAllPer)
+          this.viewFormVisible = true
         } else {
           Message.error(res.data.message)
         }
@@ -209,13 +219,99 @@ export default {
       this.dialogFormVisible = false
     },
     submitInfos() {
+      if (this.viewFormType === 'view') {
+        this.viewFormVisible = false
+      } else {
+        this.postAddRoleBondPermission()
+      }
       console.log(this.form)
     },
+    // 设置权限
+    postAddRoleBondPermission() {
+      const permChildObj = {
+        child_model_id: 0,
+        child_permission: '修改,查询,添加'
+      }
+      let permissions = ''
+      const child_premission = []
+      this.curSelectPer.forEach(item => {
+        permissions = item.model_parent
+        item.childList.forEach(value => {
+          permissions += '#' + value
+          permChildObj.child_model_id = value
+          child_premission.push(permChildObj)
+        })
+        permissions += '@'
+      })
+      const obj = {
+        role_name: this.form.role_name,
+        role_desc: this.form.role_desc,
+        role_id: this.form.role_id,
+        permissions: permissions,
+        child_premission: child_premission
+      }
+      addRoleBondPermission(encodeURIComponent(JSON.stringify(obj))).then(res => {
+        if (res.data.error_code === 200) {
+          Message.success('权限配置成功！')
+        } else {
+          Message.error(res.data.message)
+        }
+      }).catch(error => {
+        Message.error(error)
+      })
+    },
     handleCheckChange(data, checked, indeterminate) {
-      console.log(data, checked, indeterminate)
+      // console.log(data, checked, indeterminate)
+      const id = data.id || data.model_parent
+      let paerntId = null
+      const tempObj = {
+        model_parent: 0,
+        childList: []
+      }
+      if (this.$refs.tree.getNode(id)) {
+        // 点选二级菜单
+        paerntId = this.$refs.tree.getNode(id).parent.data.model_parent
+        if (checked) {
+          tempObj.model_parent = paerntId
+          tempObj.childList.push(id)
+          const index = this.curSelectPer.map(item => item.model_parent).indexOf(paerntId)
+          if (index > -1) {
+            this.curSelectPer.forEach(item => {
+              if (item.model_parent === paerntId) {
+                item.childList.push(id)
+              }
+            })
+          } else {
+            this.curSelectPer.push(tempObj)
+          }
+        } else {
+          console.log('paerntId', paerntId)
+          this.curSelectPer.map(item => {
+            const index = item.childList.map(value => value).indexOf(id)
+            if (index > -1) {
+              item.childList.splice(index, 1)
+            }
+            if (item.childList.length < 1) {
+              this.curSelectPer.splice((this.curSelectPer.map(item => item.model_parent).indexOf(paerntId)), 1)
+            }
+          })
+        }
+      } else {
+        // 点选一级菜单
+        console.log(this.curSelectPer)
+        if (checked) {
+          tempObj.model_parent = id
+          data.childList.forEach(ids => {
+            tempObj.childList.push(ids.id)
+          })
+          this.curSelectPer.push(tempObj)
+        } else if (!indeterminate) {
+          this.curSelectPer.splice((this.curSelectPer.map(item => item.model_parent).indexOf(id)), 1)
+        }
+      }
     },
     handleNodeClick(data) {
-      console.log(data)
+      // console.log(data)
     }
   }
 }
