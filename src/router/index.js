@@ -105,6 +105,40 @@ export const constantRouterMap = [
       }
     ]
   },
+  // 轮播墙
+  {
+    path: '/swiperWall',
+    component: Layout,
+    redirect: '/swiperWall/openAccountWall',
+    name: '轮播墙',
+    meta: { title: '轮播墙' },
+    children: [
+      {
+        path: 'openAccountWall',
+        name: '开户轮播墙',
+        component: () => import ('@/views/swiperWall/openAccount_Wall'),
+        meta: { title: '开户轮播墙' }
+      },
+      {
+        path: 'activateWall',
+        name: '激活轮播墙',
+        component: () => import('@/views/swiperWall/activate_Wall'),
+        meta: { title: '激活轮播墙' }
+      },
+      {
+        path: 'rechangeWall',
+        name: '充值轮播墙',
+        component: () => import('@/views/swiperWall/rechange_Wall'),
+        meta: { title: '充值轮播墙' }
+      },
+      {
+        path: 'consumeWall',
+        name: '消费轮播墙',
+        component: () => import('@/views/swiperWall/consume_Wall'),
+        meta: { title: '消费轮播墙' }
+      }
+    ]
+  },
 
   // 代理管理
   {
