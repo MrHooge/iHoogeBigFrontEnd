@@ -107,7 +107,7 @@
 
 import { Message, MessageBox } from 'element-ui'
 import { findAgentInfoByAccount, exportExcle } from '@/api/sys_user'
-
+import InfiniteLoading from 'vue-infinite-loading'
 export default {
   data() {
     return {
@@ -133,13 +133,23 @@ export default {
     }
   },
 
-  components: {},
+  components: {
+        
+  },
 
   created(){
     this.getTableList('',1)
   },
 
   methods: {
+        //上一页
+        Previouspage(){
+              if(pageCurr <=1){
+                    pageCurr = 1
+              }
+              
+
+        },
         getone(){
               if(!this.account){
                     this.$message("请输入用户名")
@@ -163,12 +173,18 @@ export default {
                Message.error(error)
          })
          
-    },
+    },   
+     export2Excel() {
+　　　　　　
+　　　　},
+　　　formatJson(filterVal, jsonData) {
+　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
+　　　　},
     //导出表格
-    exportSome(){
+    exportSome(){         
           this.tableData.forEach((e,index) => {
                 let newobj = {
-               "编号": index + 1,
+               num: index + 1,
                "开户数": e.regist,
                "激活数": e.active,
                "消费数": Number(e.payNum).toFixed(2),
@@ -183,15 +199,25 @@ export default {
           }
           this.newarr.push(newobj)
           })
-          let model = {
+          var model = {
                 listParmas:JSON.stringify(this.newarr),
                 title:"单个代理的销量详情"
-          }
+          };
           exportExcle(model.listParmas,model.title)
           .then(res => {
-
+                //window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
           })
-
+          console.log(this.newarr)
+         require.ensure([], () => {
+　　　　　　　　const { export_json_to_excel } = require('../../vendor/Export2Excel');
+　　　　　　　　const tHeader =['编号', '开户数', '激活数', '消费数', '北单', '佣金', '日期' ,'跟单', '老足彩', '扣减', '自购', '数字']; //对应表格输出的title
+　　　　　　　　const filterVal = this.newarr; // 对应表格输出的数据
+　　　　　　　　const list = this.tableData;
+　　　　　　　　const data = this.formatJson(filterVal, list);
+　　　　　　　　export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+　　　　　　})
+      
+           
     }
   }
 }

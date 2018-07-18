@@ -154,8 +154,8 @@ export function findAgentInfoByAccount(account,isMonth) {
 //导出表格
 export function exportExcle(listParams,title) {
   return request.member({
-    url:'/exportExcle',
-    method:'get',
+    url:'/user/exportExcle',
+    method:'post',
     params:{
       listParams,
       title
