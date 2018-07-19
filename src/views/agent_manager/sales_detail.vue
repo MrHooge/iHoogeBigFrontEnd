@@ -18,10 +18,6 @@
       注:金额默认是消费金额
       </p>
       <!-- 上下页 -->
-      <el-button-group>
-        <el-button type="primary" icon="el-icon-arrow-left" @click="Previouspage" :disabled="up">上一页</el-button>
-        <el-button type="primary" @click="Nextpage">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-        </el-button-group>
         </div>
         <el-table
                :data="tableData"
@@ -107,7 +103,6 @@
 
 import { Message, MessageBox } from 'element-ui'
 import { findAgentInfoByAccount, exportExcle } from '@/api/sys_user'
-import InfiniteLoading from 'vue-infinite-loading'
 export default {
   data() {
     return {
@@ -129,27 +124,16 @@ export default {
        stime:'',
        etime:'',
        datetime: '', // 获取的日期和时间
-       newarr: [], // 导出的数据表格
+       newarr: [],
     }
   },
-
-  components: {
-        
-  },
-
   created(){
     this.getTableList('',1)
   },
 
   methods: {
-        //上一页
-        Previouspage(){
-              if(pageCurr <=1){
-                    pageCurr = 1
-              }
-              
-
-        },
+      
+       
         getone(){
               if(!this.account){
                     this.$message("请输入用户名")
@@ -166,7 +150,6 @@ export default {
     getTableList(account,isMOuth){     
          findAgentInfoByAccount(account,isMOuth)
          .then(res => {
-               console.log(123);
                this.tableData = res.data.data
          })
          .catch(error => {
