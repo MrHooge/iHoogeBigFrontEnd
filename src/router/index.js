@@ -140,6 +140,26 @@ export const constantRouterMap = [
     ]
   },
 
+
+  //活动管理
+  {
+    path: '/activityManager',
+    component: Layout,
+    redirect: '/activityManager/activitySetting',
+    name: '活动管理',
+    meta: { title: '活动管理' },
+    children: [
+      {
+        path: 'activitySetting',
+        name: '活动配置',
+        component: () => import('@/views/activity_manager/activity_setting'),
+        meta: { title: '活动配置' }
+      }
+     
+    ]
+  },
+
+
   // 代理管理
   {
     path: '/agentManager',

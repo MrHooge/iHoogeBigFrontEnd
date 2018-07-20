@@ -15,6 +15,10 @@ import store from './store'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import axios from 'axios'
+Vue.prototype.$http = axios
+
+
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
