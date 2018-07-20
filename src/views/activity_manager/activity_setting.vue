@@ -165,6 +165,7 @@
 <script>
 import { getActivityData,addActivity } from '@/api/activity'
 import { Message, MessageBox } from 'element-ui'
+import setTime from './index.js'
 export default {
     data() {
         return {
@@ -191,6 +192,14 @@ export default {
             
         }
     },
+    filters: {
+        status(a) {
+            return a ? '开启' : '关闭'
+        },
+        times(b) {
+            return setTime(b)
+        }
+    },
     //获取数据
     created(){
         this.getTable();
@@ -206,7 +215,12 @@ export default {
         },
         //添加活动
         addactivey(){
-            this.title='添加活动',
+            this.aname=''
+            this.checkList=[]
+            this.description=''
+            this.stime=[]
+            this.Switchstatus==true
+            this.title='添加活动'
             this.dialogVisible = true
 
         },
@@ -223,10 +237,11 @@ export default {
             }else if(this.stime.length==0){
                 this.$message('请选择活动时间')
             }else{ 
+                let is_switch;
                 if(this.Switchstatus==true){
-                   this.is_switch = 1
+                   is_switch = 1
                 }else{
-                    this.is_switch = 0
+                    is_switch = 0
                 }  
                 
                 let form = {
@@ -236,12 +251,15 @@ export default {
                     description:this.description,
                     end_time:this.stime[1],
                     is_edit:0 ,
-                    start_time:this.stime[0]
+                    start_time:this.stime[0],
+                    is_switch
                 }
                     
                 addActivity(form).then(res =>{
                     if (res.data.error_code === 200) {
-                         Message.success('添加信息成功')
+                         Message.success('添加信息成功');
+                         this.dialogVisible = false;
+                         this.getTable();
                           } else {
                                Message.error(res.data.message)
                                }
@@ -279,10 +297,11 @@ export default {
             }else if(this.stime.length==0){
                 this.$message('请选择活动时间')
             }else{
-                 if(this.Switchstatus==true){
-                   this.is_switch = 1
+                let is_switch;
+                if(this.Switchstatus==true){
+                   is_switch = 1
                 }else{
-                    this.is_switch = 0
+                    is_switch = 0
                 }  
                 
                 let form = {
@@ -291,13 +310,16 @@ export default {
                     content:this.checkList.join(','),
                     description:this.description,
                     end_time:this.stime[1],
-                    is_edit:0 ,
-                    start_time:this.stime[0]
+                    is_edit:1 ,
+                    start_time:this.stime[0],
+                    is_switch
                 }
                     
                 addActivity(form).then(res =>{
                     if (res.data.error_code === 200) {
-                         Message.success('添加信息成功')
+                         Message.success('修改信息成功');
+                          this.dialogVisible = false;
+                         this.getTable();
                           } else {
                                Message.error(res.data.message)
                                }

@@ -11,6 +11,14 @@ export function addActivity(userInfos){
     return request.member({
         url:'/userManage/addActivity',
         method:'get',
-        parmas:userInfos
+        params:userInfos
+    })
+}
+//保存彩金卡
+export function addGoldCard(params){
+    return request.member({
+        url:'/userManage/addGoldCard',
+        method:'get',
+        params:params
     })
 }

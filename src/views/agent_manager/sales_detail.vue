@@ -135,16 +135,17 @@ export default {
         }
   },
   methods: {
-      getone(){
-            if(!this.account){
-                  this.$message("请输入用户名")
-            }else if(!this.isMOuth){
-                  this.$message("请输入时间段")
-            }else{
-                  this.getTableList('','')
-            }
-      },
-      //获取表单数据
+        getone(){
+              if(!this.account){
+                    this.$message("请输入用户名")
+              }else if(!this.isMOuth){
+                    this.$message("请输入时间段")
+              }else{
+                     this.getTableList(this.account,this.isMOuth)
+
+              }
+        },
+        //获取表单数据
     getTableList(account,isMOuth){     
       findAgentInfoByAccount(account,isMOuth)
       .then(res => {
