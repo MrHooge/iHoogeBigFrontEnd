@@ -140,7 +140,7 @@ export default {
               }else if(!this.isMOuth){
                     this.$message("请输入时间段")
               }else{
-                     this.getTableList('','')
+                     this.getTableList(this.account,this.isMOuth)
 
               }
              
