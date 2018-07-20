@@ -173,6 +173,11 @@ export default {
             title:'',
             dialogVisible: false,
             aname: '', // 活动名称
+            description: '', //描述
+            checkList: [], //选中的模块
+            stime: [], //活动时间
+            id:'', //每条数据的id
+            Switchstatus:false,
             lables: [
                 '竞彩足球',
                 '竞彩篮球',
@@ -182,19 +187,8 @@ export default {
                 '北单',
                 '老足彩'
             ],
-            obj:{
-                    activity_id:this.id||'',
-                    content:this.checkList,
-                    description:this.description,
-                    end_time:this.stime,
-                    is_edit:0 ,
-                    start_time:this.stime
-                },
-            description: '', //描述
-            checkList: [], //选中的模块
-            stime: [], //活动时间
-            id:'', //每条数据的id
-            Switchstatus:false,
+            
+            
         }
     },
     //获取数据
@@ -228,21 +222,90 @@ export default {
                 
             }else if(this.stime.length==0){
                 this.$message('请选择活动时间')
-            }else{              
-                addActivity(this.obj).then(res =>{
-                    if(res.data.error_code === 200){
-                        Message.success('添加信息成功')
-                        this.dialogVisible = false;
-                        this.getTable()
-                    }else{
-                        Message.error(res.data.message)
-                    }
-                }).catch(error => {
-                Message.error(error)
-            })
+            }else{ 
+                if(this.Switchstatus==true){
+                   this.is_switch = 1
+                }else{
+                    this.is_switch = 0
+                }  
+                
+                let form = {
+                    activity_id:this.id ||'',
+                    activity_name:this.aname,
+                    content:this.checkList.join(','),
+                    description:this.description,
+                    end_time:this.stime[1],
+                    is_edit:0 ,
+                    start_time:this.stime[0]
+                }
+                    
+                addActivity(form).then(res =>{
+                    if (res.data.error_code === 200) {
+                         Message.success('添加信息成功')
+                          } else {
+                               Message.error(res.data.message)
+                               }
+                })
 
             }
-        }
+        },
+        //编辑
+        handleEdit(a){
+            this.stime = [];
+            this.title = "编辑活动"
+            this.dialogVisible = true
+            this.aname = a.activity_name
+            this.id = a.id
+            this.checkList = a.content.split(',')
+            this.description = a.description
+            this.stime.push(setTime(a.start_time))
+            this.stime.push(setTime(a.end_time))
+            if(a.is_switch==1){
+                this.Switchstatus=true
+            }else{
+                this.Switchstatus = false
+            }
+        },
+            //编辑确定
+            editsure(){
+                 if(!this.aname){
+                this.$message('请输入活动名称')
+            }else if(!this.checkList){
+                this.$message('请选择至少一个活动名称')
+                
+            }else if(!this.description){
+                this.$message('请输入活动描述')
+                
+            }else if(this.stime.length==0){
+                this.$message('请选择活动时间')
+            }else{
+                 if(this.Switchstatus==true){
+                   this.is_switch = 1
+                }else{
+                    this.is_switch = 0
+                }  
+                
+                let form = {
+                    activity_id:this.id,
+                    activity_name:this.aname,
+                    content:this.checkList.join(','),
+                    description:this.description,
+                    end_time:this.stime[1],
+                    is_edit:0 ,
+                    start_time:this.stime[0]
+                }
+                    
+                addActivity(form).then(res =>{
+                    if (res.data.error_code === 200) {
+                         Message.success('添加信息成功')
+                          } else {
+                               Message.error(res.data.message)
+                               }
+                })
+
+            }
+            }
+        
     }
     
         }

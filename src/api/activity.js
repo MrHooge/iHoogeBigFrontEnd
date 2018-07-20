@@ -9,7 +9,7 @@ export function getActivityData(){
 //添加活动
 export function addActivity(userInfos){
     return request.member({
-        url:'/user/addActivity',
+        url:'/userManage/addActivity',
         method:'get',
         parmas:userInfos
     })
