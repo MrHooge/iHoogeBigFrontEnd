@@ -11,6 +11,6 @@ export function addActivity(userInfos){
     return request.member({
         url:'/userManage/addActivity',
         method:'get',
-        parmas:userInfos
+        params:userInfos
     })
 }
