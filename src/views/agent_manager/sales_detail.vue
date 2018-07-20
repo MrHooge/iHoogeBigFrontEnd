@@ -4,7 +4,7 @@
     <!-- 搜索 -->
     <div class="row">
     <el-input placeholder="请输入用户名" v-model="account" style="width: 300px;margin-right:100px;"></el-input>
-     <el-select v-model="isMOuth" placeholder="请选择时间段" style="margin-right:100px;" @change="getval">
+     <el-select v-model="isMOuth" placeholder="请选择时间段" style="margin-right:100px;">
            <el-option
             v-for="item in options"
             :key="item.value"
@@ -65,12 +65,12 @@
                </el-table-column>
                <el-table-column
                      label="日期"
-                     prop=" date"
+                     prop="date"
                      align="center">
                </el-table-column>
                <el-table-column
                      label="跟单(金额)"
-                     prop="followBuy"
+                     prop="fllowBuy"
                      align="center">
                </el-table-column>
                <el-table-column
@@ -95,7 +95,6 @@
                </el-table-column>              
                
             </el-table>
-
   </div>
 </template>
 
@@ -130,32 +129,30 @@ export default {
   created(){
     this.getTableList('',1)
   },
-
+  filters: {
+        sumCommision(sum){
+              return sum ? sum : 0
+        }
+  },
   methods: {
-      
-       
-        getone(){
-              if(!this.account){
-                    this.$message("请输入用户名")
-              }else if(!this.isMOuth){
-                    this.$message("请输入时间段")
-              }else{
-                     this.getTableList('','')
-
-              }
-             
-
-        },
-        //获取表单数据
+      getone(){
+            if(!this.account){
+                  this.$message("请输入用户名")
+            }else if(!this.isMOuth){
+                  this.$message("请输入时间段")
+            }else{
+                  this.getTableList('','')
+            }
+      },
+      //获取表单数据
     getTableList(account,isMOuth){     
-         findAgentInfoByAccount(account,isMOuth)
-         .then(res => {
-               this.tableData = res.data.data
-         })
-         .catch(error => {
-               Message.error(error)
-         })
-         
+      findAgentInfoByAccount(account,isMOuth)
+      .then(res => {
+            this.tableData = res.data.data
+      })
+      .catch(error => {
+            Message.error(error)
+      })
     },   
      export2Excel() {
 　　　　　　
@@ -166,13 +163,14 @@ export default {
     //导出表格
     exportSome(){         
           this.tableData.forEach((e,index) => {
+                console.log(e)
                 let newobj = {
                num: index + 1,
                "开户数": e.regist,
                "激活数": e.active,
                "消费数": Number(e.payNum).toFixed(2),
                "北单": Number(e.beidan).toFixed(2),
-               "佣金": Number(e.sumCommision).toFixed(2),
+               "佣金": (e.sumCommision?e.sumCommision:0).toFixed(2),
                "日期": e.date,
                "跟单": Number(e.followBuy).toFixed(2),
                "老足彩": Number(e.laozucai).toFixed(2),
