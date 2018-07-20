@@ -154,6 +154,12 @@ export const constantRouterMap = [
         name: '活动配置',
         component: () => import('@/views/activity_manager/activity_setting'),
         meta: { title: '活动配置' }
+      },
+      {
+        path: 'activityGiftcard',
+        name: '充值送礼金卡',
+        component: () => import('@/views/activity_manager/activity_giftcard'),
+        meta: { title: '充值送礼金卡' }
       }
      
     ]
