@@ -67,6 +67,19 @@ export const constantRouterMap = [
         name: '模块管理',
         component: () => import('@/views/sys_management/modules'),
         meta: { title: '模块管理' }
+      },
+      {
+        path: 'SetUpAgent',
+        name: '设置渠道',
+        component: () => import('@/views/sys_management/SetUpAgent'),
+        meta: { title: '设置渠道' }
+      },
+      {
+        path: 'lookUp',
+        name: '渠道列表',
+        component: () =>
+          import ('@/views/sys_management/lookUp'),
+        meta: { title: '渠道列表' }
       }
     ]
   },
@@ -127,16 +140,12 @@ export const constantRouterMap = [
       },
       {
         path: 'rechangeWall',
-        name: '充值轮播墙',
+        name: '充值与消费墙',
         component: () => import('@/views/swiperWall/rechange_Wall'),
-        meta: { title: '充值轮播墙' }
+        meta: {
+          title: '充值与消费墙'
+        }
       },
-      {
-        path: 'consumeWall',
-        name: '消费轮播墙',
-        component: () => import('@/views/swiperWall/consume_Wall'),
-        meta: { title: '消费轮播墙' }
-      }
     ]
   },
 

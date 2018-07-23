@@ -131,6 +131,7 @@ export default {
       // console.log(data)
     },
     showView(data, type) {
+      console.log(data)
       this.viewFormType = type
       this.form = {
         role_id: data.id,
