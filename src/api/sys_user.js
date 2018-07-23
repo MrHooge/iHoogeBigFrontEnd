@@ -196,7 +196,7 @@ export function openAccountWall(loginAccount) {
 
 export function findAccountActiveWall(loginAccount) {
   return request.member({
-    url: 'http://192.168.42.40:8081/userCount/findAccountActiveWall',
+    url: '/userCount/findAccountActiveWall',
     method: 'get',
     params: {
       loginAccount
@@ -206,7 +206,7 @@ export function findAccountActiveWall(loginAccount) {
 // 充值消费轮播墙
 export function findRechargeAndConsumerWall(params) {
   return request.member({
-    url: 'http://192.168.42.40:8081/userCount/findRechargeAndConsumerWall',
+    url: '/userCount/findRechargeAndConsumerWall',
     method: 'get',
     params: 
       params
