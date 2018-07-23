@@ -47,63 +47,14 @@
                 <el-button type="primary" @click="sure">确 定</el-button>
             </span>
         </el-dialog>
-        <div class="gift">
-                  <el-table
-            :data="tableData"
-            border
-            style="width: 100%">
-            <el-table-column
-            align="center"
-            label="用户账号">
-            </el-table-column>
-            <el-table-column
-            align="center"
-            label="彩金卡名字" >
-            </el-table-column>
-            <el-table-column
-                align="center"
-                label="获得时间" >
-            </el-table-column>
-            <el-table-column
-                align="center"
-                label="截至时间" >
-            </el-table-column>
-            <el-table-column
-                align="center"
-                label="满额度使用" >
-            </el-table-column>
-            <el-table-column
-                align="center"
-                label="金额" >
-            </el-table-column>
-            <el-table-column label="获得渠道" algin="center">
-              <el-table-column
-                align="center"
-                label="使用状态" >
-            </el-table-column>
-            <el-table-column
-                align="center"
-                label="使用时间" >
-            </el-table-column>
-            <template slot-scope="scope">
-                <el-button
-                size="mini"
-                type="primary"
-                @click="handleEdit(scope.row)">编辑</el-button>
-                <!-- <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.row)">删除</el-button> -->
-            </template>
-            </el-table-column>
-        </el-table>
-        </div>
+      
         </div>
   </div>
 </template>
 
 <script>
 import { addGoldCard } from '@/api/activity'
+import { Message, MessageBox } from 'element-ui'
 export default {
          data() { 
               return {
@@ -163,10 +114,13 @@ export default {
                        money: this.money,
                        require_type: 2
                      }
-                    let newobj = JSON.stringify(arr.push(obj))
+                     arr.push(obj);
+                    let newobj = JSON.stringify(arr)
+                    //console.log(newobj);
                     addGoldCard(newobj).then(res => {
                       if(res.data.error_code === 200){
-                        Message.success('保存成功');
+                          this.$message(res.data.message)
+                        //Message.success(res.message);
                         this.dialogVisible = false
                       }
                     })

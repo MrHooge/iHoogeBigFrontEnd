@@ -19,6 +19,8 @@ export function addGoldCard(params){
     return request.member({
         url:'/userManage/addGoldCard',
         method:'get',
-        params:params
+        params:{
+            params
+        }
     })
 }
