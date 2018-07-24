@@ -20,3 +20,30 @@ export function findAllMember(userinfos){
     })
 }
 //会员管理
+//短信查询
+export function getSmsCode(mobile){
+    return request.member({
+        url:'/user/getSmsCode',
+        method:'get',
+        params:{
+            mobile
+        }
+    })
+}
+
+//客户关联查询
+export function findMemberAssociation(userinfos){
+    return request.member({
+        url:'/user/findMemberAssociationr',
+        method:'get',
+        params:userinfos
+    })
+}
+//客户转移查询
+export function findMemberMove(userinfos){
+    return request.member({
+        url:'/user/findMemberMove',
+        method:'get',
+        params:userinfos
+    })
+}

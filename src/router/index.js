@@ -212,6 +212,12 @@ export const constantRouterMap = [
         meta: {title: '客户关联申请'}
       },
       {
+        path:'messageSearch',
+        name:'查询短信',
+        component: () => import('@/views/customer_manager/message_search'),
+        meta: {title: '查询短信'}
+      },
+      {
         path:'customerTransfer',
         name:'客户转移申请',
         component: () => import('@/views/customer_manager/customer_transfer'),

@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { findMemberAssociation } from '@/api/customer'
+import { findMemberMove } from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
     data(){
@@ -110,7 +110,7 @@ export default {
                 endDate:this.end,
                 startDate:this.start
             }
-            findMemberAssociation(obj).then(res => {
+            findMemberMove(obj).then(res => {
                 console.log(123)
                 console.log(res.data)
                 this.tableData = res.data.data
