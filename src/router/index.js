@@ -204,6 +204,18 @@ export const constantRouterMap = [
         name:'会员统计',
         component: () => import('@/views/customer_manager/customer_statistics'),
         meta: {title: '会员统计'}
+      },
+      {
+        path:'customerAssociation',
+        name:'客户关联申请',
+        component: () => import('@/views/customer_manager/customer_association'),
+        meta: {title: '客户关联申请'}
+      },
+      {
+        path:'customerTransfer',
+        name:'客户转移申请',
+        component: () => import('@/views/customer_manager/customer_transfer'),
+        meta: {title: '客户转移申请'}
       }
       
     ]
