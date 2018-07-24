@@ -147,6 +147,7 @@ export default {
             if(!this.account){
                 this.$message("请输入用户名")
             }else{
+               //console.log(1263)
                this.obj.account = this.account;
                this.gettablelist();
 
