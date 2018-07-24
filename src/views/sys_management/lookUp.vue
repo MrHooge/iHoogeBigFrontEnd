@@ -32,7 +32,7 @@
 
 				<template slot-scope="scope">
 					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">添加代理</el-button>
+					           @click="handleEdit(scope.row, 'modify')">绑定代理</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -52,11 +52,6 @@
 				          tooltip-effect="dark"
 				          style="width: 100%"
 				          @selection-change="handleSelectionChange">
-				<!-- <el-table ref="multipleTable"
-				          :data="tableDatalayer"
-				          border
-				          tooltip-effect="dark"
-				          style="width: 100%"> -->
 					<el-table-column type="selection"
 					                 align="center">
 					</el-table-column>
@@ -106,6 +101,7 @@ export default {
 	},
 	filters: {
 		type(a) {
+			
 			return a ? '代理' : '渠道'
 		}
 	},

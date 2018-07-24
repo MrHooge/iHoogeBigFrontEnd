@@ -162,10 +162,18 @@ export function findAllMember(page) {
     }
   })
 }
-// 会员设置为渠道
+// 会员设置渠道
 export function handleEdit(params) {
   return request.member({
     url: '/user/updateMemberToQD',
+    method: 'get',
+    params: params
+  })
+}
+// 会员设置代理
+export function setMemberToAgent(params) {
+  return request.member({
+    url: '/userManage/setMemberToAgent',
     method: 'get',
     params: params
   })
@@ -211,5 +219,17 @@ export function findRechargeAndConsumerWall(params) {
     params: 
       params
     
+  })
+}
+// 充值消费轮播墙
+export function findAllRate(page, pageSize) {
+  return request.member({
+    url: 'http://192.168.42.40:8081/userManage/findAllRate',
+    method: 'get',
+    params: {
+      page,
+      pageSize:20,
+      account:''
+    }
   })
 }

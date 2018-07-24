@@ -148,6 +148,25 @@ export const constantRouterMap = [
       },
     ]
   },
+  // 轮播墙
+  {
+    path: '/platfor_manager',
+    component: Layout,
+    redirect: '/platfor_manager/rebatesList',
+    name: '平台代理',
+    meta: { title: '平台代理' },
+    children: [
+     { //  会员返点列表
+       path: 'rebatesList',
+       name: '会员返点列表',
+       component: () =>
+         import ('@/views/platfor_manager/rebatesList'),
+       meta: {
+         title: '会员返点列表'
+       }
+     }
+    ]
+  },
 
   // 代理管理
   {
@@ -198,7 +217,8 @@ export const constantRouterMap = [
         name: '资金流水',
         component: () => import('@/views/agent_manager/capital_flow'),
         meta: { title: '资金流水' }
-      }
+      }, 
+ 
     ]
   },
 
