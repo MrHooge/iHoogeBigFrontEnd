@@ -143,6 +143,31 @@ export function addRoleBondPermission(params) {
     }
   })
 }
+
+//获取表单数据
+export function findAgentInfoByAccount(account,isMonth) {
+  return request.member({
+    url:'/user/findAgentInfoByAccount',
+    method:'get',
+    params:{
+      account,
+      isMonth
+    }
+  })
+}
+
+//导出表格
+export function exportExcle(listParams,title) {
+  return request.member({
+    url:'/user/exportExcle',
+    method:'post',
+    params:{
+      listParams,
+      title
+    }
+  })
+}
+
 // 获取代理和渠道列表
 export function findAllAgentAndQD() {
   return request.member({

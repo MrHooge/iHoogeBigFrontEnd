@@ -168,6 +168,32 @@ export const constantRouterMap = [
     ]
   },
 
+
+  //活动管理
+  {
+    path: '/activityManager',
+    component: Layout,
+    redirect: '/activityManager/activitySetting',
+    name: '活动管理',
+    meta: { title: '活动管理' },
+    children: [
+      {
+        path: 'activitySetting',
+        name: '活动配置',
+        component: () => import('@/views/activity_manager/activity_setting'),
+        meta: { title: '活动配置' }
+      },
+      {
+        path: 'activityGiftcard',
+        name: '充值送礼金卡',
+        component: () => import('@/views/activity_manager/activity_giftcard'),
+        meta: { title: '充值送礼金卡' }
+      }
+     
+    ]
+  },
+
+
   // 代理管理
   {
     path: '/agentManager',
@@ -221,6 +247,31 @@ export const constantRouterMap = [
  
     ]
   },
+
+  //客户管理中心
+  {
+    path: '/customerManager',
+    component: Layout,
+    redirect: '/agentManager/modifyPassword',
+    name: '客户管理中心',
+    meta: { title: '客户管理中心' },
+    children: [
+      {
+        path: 'modifyPassword',
+        name: '修改密码',
+        component: () => import('@/views/customer_manager/modify_password'),
+        meta: { title: '修改密码' }
+      },
+      {
+        path:'customerStatistics',
+        name:'会员统计',
+        component: () => import('@/views/customer_manager/customer_statistics'),
+        meta: {title: '会员统计'}
+      }
+      
+    ]
+  },
+
 
   { path: '*', redirect: '/404', hidden: true }
 ]

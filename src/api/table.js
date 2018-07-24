@@ -7,3 +7,10 @@ export function getList(params) {
     params
   })
 }
+export function findAgentInfoByAccount(model) {
+  return request({
+    url:'/user/findAgentInfoByAccount',
+    method:'get',
+    params:model
+  })
+}
