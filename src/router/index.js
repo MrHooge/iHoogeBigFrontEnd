@@ -219,6 +219,31 @@ export const constantRouterMap = [
     ]
   },
 
+  //客户管理中心
+  {
+    path: '/customerManager',
+    component: Layout,
+    redirect: '/agentManager/modifyPassword',
+    name: '客户管理中心',
+    meta: { title: '客户管理中心' },
+    children: [
+      {
+        path: 'modifyPassword',
+        name: '修改密码',
+        component: () => import('@/views/customer_manager/modify_password'),
+        meta: { title: '修改密码' }
+      },
+      {
+        path:'customerStatistics',
+        name:'会员统计',
+        component: () => import('@/views/customer_manager/customer_statistics'),
+        meta: {title: '会员统计'}
+      }
+      
+    ]
+  },
+
+
   { path: '*', redirect: '/404', hidden: true }
 ]
 
