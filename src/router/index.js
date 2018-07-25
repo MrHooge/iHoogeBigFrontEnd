@@ -148,7 +148,7 @@ export const constantRouterMap = [
       },
     ]
   },
-  // 轮播墙
+  // 平台代理
   {
     path: '/platfor_manager',
     component: Layout,
@@ -164,10 +164,38 @@ export const constantRouterMap = [
        meta: {
          title: '会员返点列表'
        }
-     }
+     },
+     { //  设置会员返点
+       path: 'setRebates',
+       name: '设置会员返点',
+       component: () =>
+         import ('@/views/platfor_manager/setRebates'),
+       meta: {
+         title: '设置会员返点'
+       }
+     },
     ]
   },
+  // 代理授信
+  {
+    path: '/creadit',
+    component: Layout,
+    redirect: '/creadit/backend',
+    name: '平台代理',
+    meta: { title: '平台代理' },
+    children: [
+     { //  会员返点列表
+       path: 'backend',
+       name: '授信表',
+       component: () =>
+         import ('@/views/creadit/backend'),
+       meta: {
+         title: '授信表'
+       }
+     },
 
+    ]
+  },
 
   //活动管理
   {

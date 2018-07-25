@@ -246,15 +246,34 @@ export function findRechargeAndConsumerWall(params) {
     
   })
 }
-// 充值消费轮播墙
+// 会员返点列表
 export function findAllRate(page, pageSize) {
   return request.member({
-    url: 'http://192.168.42.40:8081/userManage/findAllRate',
+    url: '/userManage/findAllRate',
     method: 'get',
     params: {
       page,
       pageSize:20,
       account:''
+    }
+  })
+}
+// 会员返点修改
+export function updateRateByAccount(params) {
+  return request.member({
+    url: '/userManage/updateRateByAccount',
+    method: 'get',
+    params: params
+  })
+}
+// 设置返点
+export function setRate(account, rateParams) {
+  return request.member({
+    url: '/userManage/setRate',
+    method: 'get',
+    params: {
+      account,
+      rateParams
     }
   })
 }
