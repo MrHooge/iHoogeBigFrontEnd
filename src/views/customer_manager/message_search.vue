@@ -30,13 +30,14 @@
                 label="验证码">
             </el-table-column>
         </el-table>
+        
     </div>
 </template>
 
 
 <script>
 import { getSmsCode } from '@/api/customer'
-
+import { Message, MessageBox } from 'element-ui'
 export default {
   data() {
     return {
@@ -54,6 +55,11 @@ export default {
             let obj = {
                 mobile:this.mobile
             }
+            getSmsCode(obj).then(res => {
+                this.tableData = res.data.data
+            }).catch(error => {
+                Message.error(error)
+            })
             
         } 
     }

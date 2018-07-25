@@ -94,7 +94,14 @@
                      label="昵称"
                      prop="username"
                      align="center">
-               </el-table-column>  
+               </el-table-column>
+               <el-table-column
+                     label="操作"
+                     align="center">
+                     <template slot-scope="scope">
+                           <el-button type="warning" @click="addwhite(scope.row,'modify')">加白</el-button>
+                           </template>
+               </el-table-column>    
             </el-table>
             <el-pagination
         background
@@ -112,7 +119,7 @@
 </template>
 
 <script>
-import { findAllMember } from '@/api/customer'
+import { findAllMember,memberToWrite } from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
     data(){
@@ -152,6 +159,17 @@ export default {
                this.gettablelist();
 
             }
+        },
+        //加白
+        addwhite(data){
+              this.account = data.account;
+              memberToWrite(this.account).then(res => {
+                    if (res.data.error_code === 200) {
+                     Message.success('加白成功')
+                     } else {
+                         Message.error(res.data.message)
+                         }
+              })
         }
 
     }

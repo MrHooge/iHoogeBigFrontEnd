@@ -29,9 +29,11 @@
                 label="创建时间">
             </el-table-column>
             <el-table-column
-                prop="isReal"
                 align="center"
                 label="是否实名">
+                <template slot-scope="scope">
+                    {{scope.row.isReal | type}}
+                </template>
             </el-table-column>
 
             <el-table-column
@@ -43,7 +45,7 @@
                 align="center"
                 label="操作">
                 <template slot-scope="scope">
-                    <el-button type="warning" @click="editnums(scope.row.agent_account)">通过</el-button>
+                    <el-button type="warning" @click="editnums(scope.row,'modify')">通过</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -51,7 +53,7 @@
 </template>
 
 <script>
-import { findMemberAssociation } from '@/api/customer'
+import { findMemberAssociation,MemberAudit } from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
     data(){
@@ -86,9 +88,15 @@ export default {
                   }
                }
             ]
-         }
+         },
+        
         }
     },
+     filters:{
+             type(a){
+                 return a == 1?"未实名":"已实名"
+             }
+         },
     created(){
         this.gettabledata();
     },
@@ -111,8 +119,6 @@ export default {
                 startDate:this.start
             }
             findMemberAssociation(obj).then(res => {
-                console.log(123)
-                console.log(res.data)
                 this.tableData = res.data.data
 
             }).catch(error => {
@@ -121,14 +127,22 @@ export default {
 
         },
         //通过操作
-        editnums(){
+        editnums(data){
+            //console.log(data.agent_account);
+            this.agentName = data.agent_account;
             let newobj = {
-                is_erview:this.is_erview,
                 agentName:this.agentName,
-                memeberName:this.memeberName,
-                moveAgent:this.moveAgent                              
+                memeberName:data.member_account,
+                is_erview:1
             }
-            
+            MemberAudit(newobj).then(res => {
+                 if (res.data.error_code === 200) {
+                     Message.success('已通过')
+                     } else {
+                         Message.error(res.data.message)
+                         }
+
+            })
         }
     }
 

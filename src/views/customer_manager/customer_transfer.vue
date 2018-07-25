@@ -18,7 +18,7 @@
                   <el-table :data="tableData" border style="width: 100%;">
             <el-table-column
                 prop="agent_account"
-                label="代理昵称"
+                label="代理账号"
                 align="center"
                 width="180">
             </el-table-column>
@@ -37,13 +37,23 @@
             <el-table-column
                 prop="member_account"
                 align="center"
-                label="会员昵称">
+                label="会员账号">
+            </el-table-column>
+            <el-table-column
+                prop="move_agentName"
+                align="center"
+                label="移动代理账号">
+            </el-table-column>
+            <el-table-column
+                prop="note"
+                align="center"
+                label="备注">
             </el-table-column>
             <el-table-column
                 align="center"
                 label="操作">
                 <template slot-scope="scope">
-                    <el-button type="warning" @click="editnums(scope.row.agent_account)">通过</el-button>
+                    <el-button type="warning" @click="editnums(scope.row,'modify')">通过</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -51,7 +61,7 @@
 </template>
 
 <script>
-import { findMemberMove } from '@/api/customer'
+import { findMemberMove,MemberMoveAudit } from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
     data(){
@@ -121,13 +131,24 @@ export default {
 
         },
         //通过操作
-        editnums(){
+        editnums(data){
+            this.agentName = data.agent_account;
+            this.moveAgent = data.move_agentName;
+            this.memeberName = data.member_account
             let newobj = {
-                is_erview:this.is_erview,
                 agentName:this.agentName,
                 memeberName:this.memeberName,
-                moveAgent:this.moveAgent                              
+                is_erview:1,
+                moveAgent:this.moveAgent
             }
+            MemberMoveAudit(newobj).then(res => {
+                 if (res.data.error_code === 200) {
+                     Message.success('已通过')
+                     } else {
+                         Message.error(res.data.message)
+                         }
+
+            })
             
         }
     }

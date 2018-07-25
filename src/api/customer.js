@@ -19,7 +19,28 @@ export function findAllMember(userinfos){
         params:userinfos
     })
 }
+//会员加白
+export function memberToWrite(account){
+    return request.member({
+        url:'/userManage/memberToWrite',
+        method:'get',
+        params:{
+            account
+        }
+    })
+}
 //会员管理
+//绑定记录和转移记录
+export function memberMoveLogs(page,pageSize){
+    return request.member({
+        url:'/user/memberMoveLogs',
+        method:'get',
+        params:{
+           page,
+           pageSize
+        }
+    })
+}
 //短信查询
 export function getSmsCode(mobile){
     return request.member({
@@ -34,7 +55,15 @@ export function getSmsCode(mobile){
 //客户关联查询
 export function findMemberAssociation(userinfos){
     return request.member({
-        url:'/user/findMemberAssociationr',
+        url:'http://192.168.42.40:8081/user/findMemberAssociation',
+        method:'get',
+        params:userinfos
+    })
+}
+//客户关联通过
+export function MemberAudit(userinfos){
+    return request.member({
+        url:'http://192.168.42.40:8081/user/MemberAudit',
         method:'get',
         params:userinfos
     })
@@ -42,7 +71,15 @@ export function findMemberAssociation(userinfos){
 //客户转移查询
 export function findMemberMove(userinfos){
     return request.member({
-        url:'/user/findMemberMove',
+        url:'http://192.168.42.40:8081/user/findMemberMove',
+        method:'get',
+        params:userinfos
+    })
+}
+//客户转移通过
+export function MemberMoveAudit(userinfos){
+    return request.member({
+        url:'http://192.168.42.40:8081/user/MemberMoveAudit',
         method:'get',
         params:userinfos
     })
