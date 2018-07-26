@@ -233,11 +233,20 @@ export const constantRouterMap = [
     children: [
   {
     path: 'rechange_open_session',
-    name: '活动配置',
+    name: '支付设置',
     component: () =>
       import ('@/views/recharge_center/rechange_open_session'),
     meta: {
-      title: '活动配置'
+      title: '支付设置'
+    }
+  },
+  {
+    path: 'rechangeDetail',
+    name: '线下充值明细',
+    component: () =>
+      import ('@/views/recharge_center/rechangeDetail'),
+    meta: {
+      title: '线下充值明细'
     }
   },
 

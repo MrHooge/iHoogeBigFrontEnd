@@ -340,3 +340,19 @@ export function findPaySwitch() {
     method: 'get',
   })
 }
+//支付修改
+export function addPaySwitch(params) {
+  return request.member({
+    url: '/userCount/addPaySwitch',
+    method: 'get',
+    params:params
+  })
+}
+//支线下充值明细
+export function getMemberWalletLineByXx(params) {
+  return request.pay({
+    url: '/xxPay/getMemberWalletLineByXx',
+    method: 'get',
+    params:params
+  })
+}
