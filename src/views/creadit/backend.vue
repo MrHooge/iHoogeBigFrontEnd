@@ -1,9 +1,9 @@
 <template>
 	<div class="backend app-container">
-		<!-- <div class="search">
+		<div class="search">
             <el-input v-model="input1" placeholder="请输入会员名" style="width:50%;"></el-input>
             <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-        </div> -->
+        </div>
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%;"
@@ -56,16 +56,16 @@
 						<span>{{totalFree}}</span>
 					</div>
 				</el-col>
-				<el-col :span="16">
+				<!-- <el-col :span="16">
 					<div class="page">
 						<el-pagination background
-						               :page-size=20
+						               :page-size=10
 						               @current-change="changepage"
 						               layout="prev, pager, next"
 						               :total="total">
 						</el-pagination>
 					</div>
-				</el-col>
+				</el-col> -->
 			</el-row>
 
 		</div>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { getCreditMember } from '@/api/sys_user'
+import { getCreditMember, credit } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -111,8 +111,9 @@ export default {
 			totalFree: "",//总计冻结金额
 		};
 	},
+
 	created() {
-		this.getData(1);
+		this.getData(1,'');
 	},
 	methods: {
 		// 点击的搜索信息
@@ -121,11 +122,11 @@ export default {
 		},
 		//   授信的点击事件
 		shouxin(a) {
+			console.log(a)
 			this.dialogVisible = true;
-
 			this.obj = a
+			console.log(this.obj)
 			// 获取授信代理用户名
-
 			this.username = a.account;
 			// 获取授信额度
 			this.money = a.creditLimit;
@@ -134,67 +135,54 @@ export default {
 		// 弹窗的确定回调
 		makersure() {
 			this.dialogVisible = false;
-
-			let oper = "admin";//假设admin账户
-
-			this.getCreadit(this.obj.account, this.obj.creditLimit, oper);
+			let oper = getCookies('name');//假设admin账户
+			this.clickCreadit(this.obj.account, this.obj.creditLimit, oper);
 		},
 		// 调接口数据
-		getData(curr) {
+		getData(curr,a) {
 			let obj = {
 				page: curr,
 				pageSize: 10,
-				loginAccount: getCookies('name')
+				loginAccount: getCookies('name'),
+				account:a,
 			};
 			getCreditMember(obj).then(res => {
 				console.log(res)
+				if (res.status == 200) {
+					this.tableData = res.data.data
+					this.total = res.data.totalCount;
+					let total = 0;
+					let free = 0;
+					this.tableData.forEach(e => {
+						// 全部可用金额
+						total += e.ableCreditBalance
+						// 全部冻结金额
+						free += e.freezeCreditBalance
+						this.totalMoney = total
+						this.totalFree = free
+						// console.log(e)
+					})
+				}
 			})
 		},
-		// getData(curr, uname) {
-		//   let obj = { page: curr, pageSize: 10, account: uname ,loginAccount:localStorage.getItem('account')};
-		//   this.$http
-		//     .get(api.member+"/user/getCreditMember", {
-		//       params: obj
-		//     })
-		//     .then(res => {
-		//       if (res.status == 200) {
-		//         this.tableData = res.data.data;
-		//         this.total = res.data.totalCount;
-		//         let total = 0;
-		//         let free = 0;
-		//         this.tableData.forEach(e =>{
-		//           // 全部可用金额
-		//           total += e.ableCreditBalance
-		//           // 全部冻结金额
-		//           free += e.freezeCreditBalance
-		//           this.totalMoney = total
-		//           this.totalFree = free
-		//           // console.log(e)
-		//         })
-		//       }
-		//     });
-		// },
+
 		// 点击授信按钮调接口数据
-		getCreadit(a, b, c) {
-			// account	被授信代理用户名
-			// creditLimit	授信额度
-			// operater
+		clickCreadit(a,b,c) {
 			let creadit = { account: a, creditLimit: b, operater: c };
-			this.$http.get(api.pay + "/xxPay/credit", { params: creadit })
-				.then(res => {
-					console.log(res.data.success);
-					if (res.data.success == false) {
-						this.$message(res.data.msg);
-						return;
-					} else {
-						this.$message('授信成功！');
-						window.location.reload();
-					}
-				});
+			credit(creadit).then(res => {
+				console.log(res)
+				if (res.data.success == false) {
+					Message.success(res.data.message)
+					return;
+				} else {
+					Message.success('授信成功！')
+					// window.location.reload();
+				}
+			})
 		},
 		// 分页的回调
 		changepage(val) {
-			this.getTable(val)
+			this.getData(val)
 		},
 	}
 };

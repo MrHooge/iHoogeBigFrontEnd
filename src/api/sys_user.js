@@ -280,8 +280,63 @@ export function setRate(account, rateParams) {
 //授信表数据
 export function getCreditMember(params) {
   return request.member({
-    url: ' /user/getCreditMember',
+    url: '/user/getCreditMember',
     method: 'get',
     params: params
+  })
+}
+//授信
+export function credit(params) {
+  return request.pay({
+    url: '/xxPay/credit',
+    method: 'get',
+    params: params
+  })
+}
+//授信操作记录
+export function getCreditLimitLine(params) {
+  return request.pay({
+    url: '/xxPay/getCreditLimitLine',
+    method: 'get',
+    params: params
+  })
+}
+//代理给客户加款流水
+export function getAgentChargeLine(params) {
+  return request.pay({
+    url: '/xxPay/getAgentChargeLine',
+    method: 'get',
+    params: params
+  })
+}
+//获取代理还款申请/记录
+export function getCreditRefund(params) {
+  return request.pay({
+    url: '/xxPay/getCreditRefund',
+    method: 'get',
+    params: params
+  })
+}
+//通过还款申请
+export function passCreditRefundApply(params) {
+  return request.pay({
+    url: '/xxPay/passCreditRefundApply',
+    method: 'get',
+    params: params
+  })
+}
+//驳回还款申请
+export function refuseCreditRefundApply(params) {
+  return request.pay({
+    url: '/xxPay/refuseCreditRefundApply',
+    method: 'get',
+    params: params
+  })
+}
+//查询所有支付
+export function findPaySwitch() {
+  return request.member({
+    url: 'userCount/findPaySwitch',
+    method: 'get',
   })
 }

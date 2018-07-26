@@ -125,9 +125,10 @@
 								<el-table-column label="合买返点"
 								                 align="center">
 									<template slot-scope="scope">
-										<el-input v-model="hm_rate"
+										<!-- <el-input v-model="hm_rate"
 										          class="xx"
-										          placeholder="请输入"></el-input>
+										          placeholder="请输入"></el-input> -->
+															0
 									</template>
 								</el-table-column>
 								<el-table-column label="彩种"
@@ -282,7 +283,7 @@ export default {
 			let params = {
 				account: this.onePeople.ACCOUNT,
 				gd_rate: this.gd_rate, // 代购返点
-				hm_rate: this.hm_rate,  //  合买返点
+				hm_rate: 0,  //  合买返点
 				rate_id: this.onePeople.rate_id, //返点id
 				startDate: this.value1, //  返点开始
 				endDate: this.value2, //  返点结束
@@ -291,18 +292,14 @@ export default {
 			if (this.value1 == '' || this.value2 == '') {
 				Message.success('请填写时间')
 				return
-			} else if (this.gd_rate == '' || this.hm_rate == '') {
+			} else if (this.gd_rate == '') {
 				Message.success('请填写完整信息')
 			} else {
 				updateRateByAccount(params).then(res => {
 					console.log(res)
 					if(res.data.error_code==200){
 						Message.success(res.data.message)
-						// this.viewFormVisible = false;
-						this.gd_rate == ''
-						this.hm_rate ==''
-						this.value1 == ''
-						this.value2 == ''
+						this.viewFormVisible = false;
 					}else {
 						Message.success(res.data.message)
 					}

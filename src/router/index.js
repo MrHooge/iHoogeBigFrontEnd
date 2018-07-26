@@ -184,7 +184,7 @@ export const constantRouterMap = [
     name: '平台代理',
     meta: { title: '平台代理' },
     children: [
-     { //  会员返点列表
+     { //  授信表
        path: 'backend',
        name: '授信表',
        component: () =>
@@ -193,6 +193,53 @@ export const constantRouterMap = [
          title: '授信表'
        }
      },
+     { //  授信操作记录
+       path: 'operationSurface',
+       name: '授信记录表',
+       component: () =>
+         import ('@/views/creadit/operationSurface'),
+       meta: {
+         title: '授信记录表'
+       }
+     },
+     { //  代理给客户加款流水
+       path: 'subcustomer',
+       name: '代理给客户加款流水',
+       component: () =>
+         import ('@/views/creadit/subcustomer'),
+       meta: {
+         title: '代理给客户加款流水'
+       }
+     },
+     { //  代理向平台还款流水及确认
+       path: 'creaditop',
+       name: '代理还款流水及确认',
+       component: () =>
+         import ('@/views/creadit/creaditop'),
+       meta: {
+         title: '代理还款流水及确认'
+       }
+     },
+
+    ]
+  },
+  // 支付模块
+  {
+    path: '/recharge_center',
+    component: Layout,
+    redirect: '/recharge_center/rechange_open_session',
+    name: '支付中心',
+    meta: { title: '支付中心' },
+    children: [
+  {
+    path: 'rechange_open_session',
+    name: '活动配置',
+    component: () =>
+      import ('@/views/recharge_center/rechange_open_session'),
+    meta: {
+      title: '活动配置'
+    }
+  },
 
     ]
   },

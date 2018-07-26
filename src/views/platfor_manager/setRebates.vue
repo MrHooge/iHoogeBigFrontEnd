@@ -189,7 +189,7 @@ export default {
 				label: '加奖 '
 			}, {
 				value: '3',
-				label: '返点嘉奖'
+				label: '返点加奖'
 			}],
 			valueType: '',
 			rateParams: []
@@ -236,8 +236,7 @@ export default {
 				startDate: this.value1,// 返点开始
 				endDate: this.value2,// 返点结束
 			}
-			console.log(obj)
-			console.log(obj)
+
 			this.rateParams.push(obj)
 			console.log(this.rateParams)
 			let account = this.onePeople.account
