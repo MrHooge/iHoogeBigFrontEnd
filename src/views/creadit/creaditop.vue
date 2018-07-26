@@ -3,7 +3,7 @@
 		<div class="search">
 			<el-input v-model="username"
 			          placeholder="请输入会员名进行查询"
-			          style="width:60%;"></el-input>
+			          style="width:60%;" @input="onInput"></el-input>
 			<el-button type="primary"
 			           icon="el-icon-search"
 			           @click="search">搜索</el-button>
@@ -157,6 +157,11 @@ export default {
 		this.getData(1, '', '');
 	},
 	methods: {
+		onInput(){
+			if(this.username==''){
+				this.getData(1, this.username, this.value);
+			}
+		},
 		//   下拉选择框的筛选
 		getval() {
 			// console.log(this.value);
