@@ -141,8 +141,8 @@
 										<div class="block">
 											<el-date-picker v-model="value1"
 											                type="datetime"
-											                format="yyyy-MM-dd hh-mm-ss"
-											                value-format="yyyy-MM-dd hh-mm-ss">
+											                format="yyyy-MM-dd hh:mm:ss"
+											                value-format="yyyy-MM-dd hh:mm:ss">
 											</el-date-picker>
 										</div>
 									</template>
@@ -154,8 +154,8 @@
 										<div class="block">
 											<el-date-picker v-model="value2"
 											                type="datetime"
-											                format="yyyy-MM-dd hh-mm-ss"
-											                value-format="yyyy-MM-dd hh-mm-ss">
+											                format="yyyy-MM:dd hh-mm:ss"
+											                value-format="yyyy-MM-dd hh:mm:ss">
 											</el-date-picker>
 										</div>
 									</template>

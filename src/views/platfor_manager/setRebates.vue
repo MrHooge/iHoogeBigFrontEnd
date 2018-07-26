@@ -32,7 +32,7 @@
 					<div>
 						<el-button type="primary"
 						           @click="showDailag(scope.row, 'modify')"
-						           icon="el-icon-edit"></el-button>
+						           >设置返点</el-button>
 					</div>
 				</template>
 			</el-table-column>
@@ -50,7 +50,7 @@
 		           width='70%'
 		           :visible.sync="viewFormVisible">
 			<div style="display: flex;">
-				<!-- <span style="flex:1;">会员账号：{{onePeople.ACCOUNT}}</span> -->
+				<span style="flex:1;">会员账号：{{onePeople.account}}</span>
 			</div>
 			<!--   修改返点 -->
 			<div class="pierce">
@@ -70,15 +70,23 @@
 						<el-table-column label="合买返点"
 						                 align="center">
 							<template slot-scope="scope">
-								<el-input v-model="hm_rate"
-								          placeholder="请输入"></el-input>
+								<!-- <el-input v-model="hm_rate"
+								          placeholder="请输入"></el-input> -->
+													0
 							</template>
 						</el-table-column>
 						<el-table-column label="彩种"
 						                 align="center">
 							<template slot-scope="scope">
-								<el-input v-model="lotteryType"
-								          placeholder="请输入"></el-input>
+								<el-select v-model="value"
+								           placeholder="请选择"
+													 @change="changeStatus">
+									<el-option v-for="item in options"
+									           :key="item.value"
+									           :label="item.label"
+									           :value="item.value">
+									</el-option>
+								</el-select>
 							</template>
 						</el-table-column>
 						<el-table-column label="点位开始时间"
@@ -88,8 +96,8 @@
 								<div class="block">
 									<el-date-picker v-model="value1"
 									                type="datetime"
-									                format="yyyy-MM-dd hh-mm-ss"
-									                value-format="yyyy-MM-dd hh-mm-ss">
+									                format="yyyy-MM-dd hh:mm:ss"
+									                value-format="yyyy-MM-dd hh:mm:ss">
 									</el-date-picker>
 								</div>
 							</template>
@@ -101,8 +109,8 @@
 								<div class="block">
 									<el-date-picker v-model="value2"
 									                type="datetime"
-									                format="yyyy-MM-dd hh-mm-ss"
-									                value-format="yyyy-MM-dd hh-mm-ss">
+									                format="yyyy-MM-dd hh:mm:ss"
+									                value-format="yyyy-MM-dd hh:mm:ss">
 									</el-date-picker>
 								</div>
 							</template>
@@ -110,8 +118,14 @@
 						<el-table-column label="返点类型"
 						                 align="center">
 							<template slot-scope="scope">
-								<el-input v-model="remark"
-								          placeholder="请输入"></el-input>
+								<el-select v-model="valueType"
+								           placeholder="请选择">
+									<el-option v-for="item in options2"
+									           :key="item.value"
+									           :label="item.label"
+									           :value="item.value">
+									</el-option>
+								</el-select>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -121,7 +135,7 @@
 			     class="dialog-footer">
 				<el-button @click="clearForm">取 消</el-button>
 				<el-button type="primary"
-				           @click="submitInfos">修改返点</el-button>
+				           @click="submitInfos">设置返点</el-button>
 			</div>
 
 		</el-dialog>
@@ -155,7 +169,30 @@ export default {
 			lotteryType: '', //  彩种
 			value1: '',
 			value2: '',
-			// rateParams1: []
+			options: [{
+				value: '38',
+				label: '竞彩足球'
+			}, {
+				value: '39',
+				label: '竞彩篮球'
+			}],
+			value: '',
+
+			options2: [{
+				value: '0',
+				label: '非返点'
+			}, {
+				value: '1',
+				label: '返点'
+			}, {
+				value: '2',
+				label: '加奖 '
+			}, {
+				value: '3',
+				label: '返点嘉奖'
+			}],
+			valueType: '',
+			rateParams: []
 
 		}
 	},
@@ -163,6 +200,9 @@ export default {
 		this.getTable(1)
 	},
 	methods: {
+		changeStatus(val){
+		return this.value = val
+		},
 		handleChange(val) {
 			console.log(val);
 		},
@@ -177,26 +217,41 @@ export default {
 			console.log(data)
 			this.viewFormType = type
 			this.viewFormVisible = true
+			this.tableData3 = []
 			this.tableData3.push(data);
 			this.onePeople = data
 		},
 
-		clearForm() { //表单取消按钮
+		clearForm() { //取消按钮
 			this.viewFormVisible = false
 
 		},
 		submitInfos() {  // 确定按钮
+			// console.log(this.value)
 			let obj = {
-				lotteryType: 38,
+				lotteryType: this.value,
 				dg_rate: this.gd_rate, //  代购返点
-				hm_rate: this.hm_rate, // 合买返点  
-				remark: this.remark,  //  返点类型
+				hm_rate: '0', // 合买返点  
+				remark: this.valueType,  //  返点类型
 				startDate: this.value1,// 返点开始
 				endDate: this.value2,// 返点结束
 			}
+			console.log(obj)
+			console.log(obj)
+			this.rateParams.push(obj)
+			console.log(this.rateParams)
 			let account = this.onePeople.account
-			// params.rateParams =  rateParams1
-			setRate(account, JSON.stringify(obj)).then(res => {
+			setRate(account, JSON.stringify(this.rateParams)).then(res => {
+				if(res.data.error_code==200) {
+					Message.success(res.data.message)
+					this.viewFormVisible = false
+					this.tableData3 = []
+				}else {
+					Message.success(res.data.message)
+					this.viewFormVisible = false
+					this.tableData3 = []
+					
+				}
 				console.log(res)
 			})
 		},
@@ -210,4 +265,15 @@ export default {
 </script>
 
 <style scoped>
+.pierce >>> .el-input__inner {
+  outline: none;
+  border: 0 !important;
+  padding: 0;
+}
+.pierce >>> .el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100%;
+  padding-right: 10px;
+  padding-left: 30px;
+}
 </style>

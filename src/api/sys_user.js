@@ -277,3 +277,11 @@ export function setRate(account, rateParams) {
     }
   })
 }
+//授信表数据
+export function getCreditMember(params) {
+  return request.member({
+    url: ' /user/getCreditMember',
+    method: 'get',
+    params: params
+  })
+}
