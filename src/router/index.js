@@ -9,6 +9,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '../views/layout/Layout'
 
+
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -293,7 +294,7 @@ export const constantRouterMap = [
       {
         path: 'walletFlowquery',
         name: '钱包流水查询',
-        component: () => import('@/views/details_search/wallet-flowquery'),
+        component: () => import('@/views/details_search/wallet_flowquery'),
         meta: { title: '钱包流水查询' }
       },
     ]

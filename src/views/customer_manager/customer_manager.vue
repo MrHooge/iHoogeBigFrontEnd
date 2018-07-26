@@ -29,6 +29,50 @@
             <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
 
         </div>
+        <!-- 绑定银行卡信息 -->
+        <template>
+             <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+                               <el-form :model="form">
+                                   <el-form-item label="账号" prop="account" :label-width="formLabelWidth">
+                                        <el-input v-model="account" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="银行" prop="bank" :label-width="formLabelWidth">
+                                        <el-input v-model="form.bank" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="卡号" prop="bankCard" :label-width="formLabelWidth">
+                                        <el-input v-model="form.bankCard" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="支行" prop="bankPart" :label-width="formLabelWidth">
+                                        <el-input v-model="form.bankPart" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="身份证号" prop="certNo" :label-width="formLabelWidth">
+                                        <el-input v-model="form.certNo" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="开户城市" prop="city" :label-width="formLabelWidth">
+                                        <el-input v-model="form.city" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="开户省份" prop="province" :label-width="formLabelWidth">
+                                        <el-input v-model="form.province" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="真实姓名" prop="name" :label-width="formLabelWidth">
+                                        <el-input v-model="name" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="支付宝账号" prop="zfbAccount" :label-width="formLabelWidth">
+                                        <el-input v-model="form.zfbAccount" auto-complete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="提款方式" prop="bank_type" :label-width="formLabelWidth">
+                                        <el-radio-group v-model="bank_type">
+                                        <el-radio label="银行提款"></el-radio>
+                                        <el-radio label="支付宝"></el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    </el-form>
+                                    <div slot="footer" class="dialog-footer">
+                                        <el-button @click="dialogFormVisible = false">取 消</el-button>
+                                        <el-button type="primary" @click="bankbinding">确 定</el-button>
+                                    </div>
+                                    </el-dialog>
+        </template>
         <div class="show_data">
             <el-table
                :data="tableData"
@@ -131,6 +175,46 @@
                      prop="username"
                      align="center">
                </el-table-column> 
+               <el-table-column
+                     label="操作"
+                     align="center">
+
+                   <template slot-scope="scope">
+                       <el-dropdown>
+                           <el-button type="primary" style="width:70px">操作<i class="el-icon-arrow-down el-icon--right"></i>
+                           </el-button>
+                           <el-dropdown-menu slot="dropdown">
+                               <el-popover
+                               placement="right"
+                               width="400"
+                               trigger="click">
+                               <el-table :data="gridData">
+                                   </el-table>
+                                   <el-button slot="reference">修改</el-button>
+                                   </el-popover>
+                                   <el-popover
+                               placement="right"
+                               width="1300"
+                               trigger="click">
+                               <el-table :data="walletData">
+                                   <el-table-column width="150" property="ableBalance" label="可用金额"></el-table-column>
+                                   <el-table-column width="150" property="account" label="用户名"></el-table-column>  
+                                   <el-table-column width="150" property="freezeBalance" label="冻结金额"></el-table-column>  
+                                   <el-table-column width="150" property="heapBalance" label="历史消费金额"></el-table-column>                                    
+                                   <el-table-column width="150" property="heapPrize" label="历史中奖金额"></el-table-column>  
+                                   <el-table-column width="150" property="memberId" label="	会员id"></el-table-column>
+                                   <el-table-column width="150" property="prizeBalance" label="	奖金账户"></el-table-column>
+                                   <el-table-column width="150" property="takeCashQuota" label="提现配额"></el-table-column>
+                                   <el-table-column width="150" property="walletType" label="钱包类型"></el-table-column>  
+                                   </el-table>
+                                   <el-button slot="reference" @click="wallet(scope.row,'modify')">钱包</el-button>
+                                   </el-popover>
+                               <el-button type="warning" @click="runningwater(scope.row,'modify')"><router-link to="./customer_transfer">流水</router-link></el-button>
+                                    <el-button type="warning" @click="showdiage">绑定银行</el-button>
+                                </el-dropdown-menu>
+                                </el-dropdown> 
+                   </template>
+               </el-table-column> 
             </el-table>
             <div class="page">
             <el-pagination
@@ -151,12 +235,17 @@
 </template>
 
 <script>
-import { findAllMember,memberToWrite } from '@/api/customer'
+import { mapGetters } from 'vuex'
+import { findAllMember,memberToWrite,getMemberWalletByMemberId,getMemberWallet,bind } from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
+import { getCookies } from '@/utils/cookies'
 export default {
     data(){
         return {
+
             tableData:[],
+            walletData:[],
+            dialogFormVisible: false,
             account:'',
             name:'',
             idcard:'',
@@ -164,9 +253,44 @@ export default {
             telphone:'',
             partner:'',
             page:1,
-            pageSize:10
+            pageSize:10,
+            visible2: false,
+            form:{
+            bank:'',
+            bankCard:'',
+            bankPart:'',
+            certNo:'',
+            city:'',
+            province:'',
+            zfbAccount:'',
+            },
+
+            bank_type:''
         }
     },
+    props: {
+    routes: {
+      type: Array
+    },
+    isNest: {
+      type: Boolean,
+      default: false
+    }
+  },
+   computed: {
+    ...mapGetters([
+      'sidebar',
+      'roles'
+    ]),
+    routes() {
+        console.log(this.$router.options.routes)
+        console.log(123456)
+      return this.$router.options.routes
+    },
+    isCollapse() {
+      return !this.sidebar.opened
+    }
+  },
     filters:{
         type(cert){
             return cert == 1?"身份证":""
@@ -188,7 +312,11 @@ export default {
         }
     },
     created(){
-        this.gettablelist()
+        this.gettablelist();
+        
+        // console.log(this.routes)
+        // console.log(123456)
+        //console.log(getCookies('token'))
 
     },
     methods:{
@@ -225,7 +353,61 @@ export default {
         handleSizeChange(num){
             this.pageSize = num;
             this.gettablelist()
-        }
+        },
+        //钱包
+        wallet(data){
+            let memberId = data.id;
+            getMemberWalletByMemberId(memberId).then(res => {
+                 if (res.data.error_code === 200) {
+                     Message.success('已显示')
+                     } else {
+                         Message.error(res.data.message)
+                         }
+            });
+            this.getWallet()
+            
+        },
+        //获取钱包信息
+        getWallet(){
+            let token = getCookies('token');
+            getMemberWallet(token).then(res => {
+                console.log(123);
+                console.log(res.data);
+                this.walletData = res.data.data
+            }).catch(error => {
+                Message.error(error)
+            })
+        },
+        showdiage(){
+            this.dialogFormVisible = true
+        },
+        //绑定银行确认
+        bankbinding(){
+            let bankfrom = {
+                account:this.account,
+                realName:this.name,
+                is_back:0,
+                token:getCookies('token'),
+                bank:this.form.bank,
+                bankCard:this.form.bankCard,
+                bankPart:this.form.bankPart,
+                certNo:this.form.certNo,
+                city:this.form.city,
+                province:this.form.province,
+                zfbAccount:this.form.zfbAccount,
+                bank_type:1||2
+            }
+            bind(bankfrom).then(res => {
+                console.log(res.data.msg)
+                     this.$message(res.data.msg)
+                     this.dialogFormVisible = false
+            })
+        },
+        //流水查询
+        // runningwater(){
+        //     this.$router.go('http://localhost:5061/detailsSearch/walletFlowquery')
+        // }
+       
     }
 }
 </script>
@@ -234,7 +416,26 @@ export default {
 .manager{
     padding: 10px 20px
 }
+.walletshow{
+    width: 80%;
+    height: 80%;
+    margin: 10% auto;
+    border: 1px solid black;
+    background: white;
+    position: absolute;
+    top:20%;
+    left: 15%;
+}
 .page{
     margin-top: 30px
 }
+.el-dropdown {
+    vertical-align: top;
+  }
+  .el-dropdown + .el-dropdown {
+    margin-left: 15px;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
 </style>

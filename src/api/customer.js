@@ -84,3 +84,31 @@ export function MemberMoveAudit(userinfos){
         params:userinfos
     })
 }
+//通过id查询钱包
+export function getMemberWalletByMemberId(memberId){
+    return request.member({
+        url:'http://192.168.42.40:8081/user/getMemberWalletByMemberId',
+        method:'get',
+        params:{
+            memberId
+        }
+    })
+}
+//获取钱包信息
+export function getMemberWallet(token){
+    return request.member({
+        url:'http://192.168.42.40:8081/user/getMemberWallet',
+        method:'get',
+        params:{
+            token
+        }
+    })
+}
+//绑定银行卡信息
+export function bind(userinfos){
+    return request.member({
+        url:'http://192.168.42.40:8081/user/bind',
+        method:'get',
+        params:userinfos
+    })
+}
