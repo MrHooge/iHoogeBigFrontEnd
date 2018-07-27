@@ -249,6 +249,24 @@ export const constantRouterMap = [
       title: '线下充值明细'
     }
   },
+  {
+    path: 'online_SerialNumber',
+    name: '线上充值流水',
+    component: () =>
+      import ('@/views/recharge_center/online_SerialNumber'),
+    meta: {
+      title: '线上充值流水'
+    }
+  },
+  {
+    path: 'all_rechange_surface',
+    name: '会员充值流水查询-总表',
+    component: () =>
+      import ('@/views/recharge_center/all_rechange_surface'),
+    meta: {
+      title: '会员充值流水查询-总表'
+    }
+  },
 
     ]
   },

@@ -75,14 +75,14 @@
 								<el-table-column label="ID"
 								                 align="center">
 									<template slot-scope="scope">
-											{{ scope.row.id}}
+										{{ scope.row.id}}
 									</template>
 								</el-table-column>
 								<el-table-column label="支付名称"
 								                 align="center">
 									<template slot-scope="scope">
 										<el-input v-model="scope.row.pay_name"
-												placeholder="请输入内容"></el-input>
+										          placeholder="请输入内容"></el-input>
 
 									</template>
 								</el-table-column>
@@ -93,11 +93,10 @@
 								<el-table-column label="状态"
 								                 align="center">
 									<template slot-scope="scope">
-										<el-switch
-											v-model="value3"
-											active-text="开"
-											inactive-text="关"
-											@change="switchChange">
+										<el-switch v-model="value3"
+										           active-text="开"
+										           inactive-text="关"
+										           @change="switchChange">
 										</el-switch>
 									</template>
 								</el-table-column>
@@ -124,88 +123,88 @@ import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
-  data() {
-    return {
-      pageShow: true,
-      tableData: [],
-      total: 0,
-      username: "",
-      viewFormVisible: false,
-      tableData3: [], //
-      onePeople: {}, // 存选择的某一条数据
-      activeNames: ["2"], //  折叠面板
-      is_open:'',
-      value1: "",
-	  value2: "",
-	  value3: true,
-	value4: true,
-    };
-  },
-  filters: {
-    type(a) {
-      return a == "0" ? "开启" : "关闭";
-    }
-  },
+	data() {
+		return {
+			pageShow: true,
+			tableData: [],
+			total: 0,
+			username: "",
+			viewFormVisible: false,
+			tableData3: [], //
+			onePeople: {}, // 存选择的某一条数据
+			activeNames: ["2"], //  折叠面板
+			is_open: '',
+			value1: "",
+			value2: "",
+			value3: true,
+			value4: true,
+		};
+	},
+	filters: {
+		type(a) {
+			return a == "0" ? "开启" : "关闭";
+		}
+	},
 
-  computed: {},
-  created() {
-    this.getTable();
-  },
-  methods: {
-	  switchChange(){
-		//   console.log(this.value3)
-		  if(this.value3==true){
-			this.is_open=1
-		}else {
-			this.is_open=0
+	computed: {},
+	created() {
+		this.getTable();
+	},
+	methods: {
+		switchChange() {
+			//   console.log(this.value3)
+			if (this.value3 == true) {
+				this.is_open = 1
+			} else {
+				this.is_open = 0
+			}
+		},
+		handleChange(val) {
+			console.log(val);
+		},
+		getTable() {
+			//   获取所有会员列表
+			findPaySwitch().then(res => {
+				if (res.data.error_code == 200) {
+					this.tableData = res.data.data;
+				}
+				console.log(res);
+			});
+		},
+		handleEdit(obj) {
+			console.log(obj);
+			this.tableData3 = [];
+			this.viewFormVisible = true;
+			this.tableData3.push(obj);
+			//   console.log(this.tableData3);
+			this.onePeople = obj;
+			//   console.log(this.onePeople);
+		},
+		submitInfos() {
+			if (this.value3 == true) {
+				this.is_open = 1
+			} else {
+				this.is_open = 0
+			}
+			let obj = {
+				is_open: this.is_open,
+				is_update: 1,
+				pay_name: this.onePeople.pay_name
+			};
+			console.log(obj)
+			//   addPaySwitch(obj).then(res => {
+			//     console.log(res);
+			//   });
+		},
+		clearForm() {
+			//  取消按钮
+			this.viewFormVisible = false;
+		},
+		// 分页的回调
+		changepage(val) {
+			this.getTable(val);
 		}
-	  },
-    handleChange(val) {
-      console.log(val);
-    },
-    getTable() {
-      //   获取所有会员列表
-      findPaySwitch().then(res => {
-        if (res.data.error_code == 200) {
-          this.tableData = res.data.data;
-        }
-        console.log(res);
-      });
-    },
-    handleEdit(obj) {
-      console.log(obj);
-      this.tableData3 = [];
-      this.viewFormVisible = true;
-      this.tableData3.push(obj);
-      //   console.log(this.tableData3);
-      this.onePeople = obj;
-      //   console.log(this.onePeople);
-    },
-    submitInfos() {
-		  if(this.value3==true){
-			this.is_open=1
-		}else {
-			this.is_open=0
-		}
-      let obj = {
-        is_open: this.is_open,
-        is_update: 1,
-        pay_name: this.onePeople.pay_name
-	  };
-	  console.log(obj)
-    //   addPaySwitch(obj).then(res => {
-    //     console.log(res);
-    //   });
-    },
-    clearForm() {
-      //  取消按钮
-      this.viewFormVisible = false;
-    },
-    // 分页的回调
-    changepage(val) {
-      this.getTable(val);
-    }
-  }
+	}
 };
 </script>
 

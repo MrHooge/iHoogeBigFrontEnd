@@ -333,7 +333,7 @@ export function refuseCreditRefundApply(params) {
     params: params
   })
 }
-//查询所有支付
+//查询所有支付方式
 export function findPaySwitch() {
   return request.member({
     url: 'userCount/findPaySwitch',
@@ -348,10 +348,34 @@ export function addPaySwitch(params) {
     params:params
   })
 }
-//支线下充值明细
-export function getMemberWalletLineByXx(params) {
+//线下充值加款明细
+export function findRechargeUnderLine(params) {
+  return request.member({
+    url: '/user/findRechargeUnderLine',
+    method: 'get',
+    params:params
+  })
+}
+//支线下充值明细 充值功能
+export function xxCharge(params) {
   return request.pay({
-    url: '/xxPay/getMemberWalletLineByXx',
+    url: '/xxPay/xxCharge',
+    method: 'get',
+    params:params
+  })
+}
+//线上充值流水 
+export function findRechargeOnLine(params) {
+  return request.member({
+    url: 'user/findRechargeOnLine',
+    method: 'get',
+    params:params
+  })
+}
+//会员充值流水查询--总表
+export function findMemberWalletLineByAccount(params ) {
+  return request.member({
+    url: 'user/findMemberWalletLineByAccount',
     method: 'get',
     params:params
   })
