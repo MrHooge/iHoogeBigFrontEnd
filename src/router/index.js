@@ -292,6 +292,12 @@ export const constantRouterMap = [
         meta: { title: '返点佣金查询' }
       },
       {
+        path: 'billingCommission',
+        name: '发单佣金查询',
+        component: () => import('@/views/details_search/billing_commission'),
+        meta: { title: '发单佣金查询' }
+      },
+      {
         path: 'walletFlowquery',
         name: '钱包流水查询',
         component: () => import('@/views/details_search/wallet_flowquery'),

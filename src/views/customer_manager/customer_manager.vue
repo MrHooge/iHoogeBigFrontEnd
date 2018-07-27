@@ -209,7 +209,7 @@
                                    </el-table>
                                    <el-button slot="reference" @click="wallet(scope.row,'modify')">钱包</el-button>
                                    </el-popover>
-                               <el-button type="warning" @click="runningwater(scope.row,'modify')"><router-link to="./customer_transfer">流水</router-link></el-button>
+                               <el-button type="warning"><router-link to="./detailsSearch/walletFlowquery">流水</router-link></el-button>
                                     <el-button type="warning" @click="showdiage">绑定银行</el-button>
                                 </el-dropdown-menu>
                                 </el-dropdown> 
@@ -266,30 +266,23 @@ export default {
             },
 
             bank_type:''
+            
         }
     },
     props: {
     routes: {
       type: Array
-    },
-    isNest: {
-      type: Boolean,
-      default: false
     }
   },
    computed: {
     ...mapGetters([
-      'sidebar',
       'roles'
     ]),
     routes() {
-        console.log(this.$router.options.routes)
-        console.log(123456)
+        //console.log(this.$router.options.routes)
+        //console.log(123456)
       return this.$router.options.routes
     },
-    isCollapse() {
-      return !this.sidebar.opened
-    }
   },
     filters:{
         type(cert){

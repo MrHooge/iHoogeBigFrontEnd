@@ -1,24 +1,11 @@
 <template>
     <div class="wallet">
         <div class="search">
-            <template>
-                <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                <div style="margin: 15px 0;"></div>
-                <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-                </el-checkbox-group>
-            </template>
-            <br />
-            方案编号：<el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            订单编号：<el-input v-model="idcard" placeholder="请输入身份证号" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            追号编号：<el-input v-model="email" placeholder="请输入邮箱" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:20px"></el-input>
-            钱包流水编号：<el-input v-model="telphone" placeholder="请输入电话" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:20px"></el-input>
-            渠道ID：<el-input v-model="partner" placeholder="" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:20px"></el-input>
-            provider：<el-input v-model="partner" placeholder="" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:20px"></el-input><br />
+            账号：<el-input v-model="account" placeholder="请输入账户" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             开始时间：<el-date-picker
             v-model="stime"
             type="date"
-            style="margin-bottom:40px;margin-right:20px;width:150px"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
             value-format="yyyy-MM-dd">
             </el-date-picker>
@@ -29,7 +16,7 @@
             value-format="yyyy-MM-dd"
             type="date"
             style="margin-left:10px;
-            width:150px
+            width:200px
             margin-bottom:40px;"
             placeholder="请选择结束日期"
             >
@@ -63,21 +50,35 @@
                 label="	历史消费">
             </el-table-column>
             <el-table-column
-                prop="LOTTERY_TYPE"
+                prop="HEAP_BALANCE"
                 align="center"
-                label="彩票类型">
-               
+                label="方案类型">
+            </el-table-column>
+            <el-table-column
+                prop="HEAP_BALANCE"
+                align="center"
+                label="方案类型说明">
             </el-table-column>
             <el-table-column
                 prop="PLAN_NO"
                 align="center"
-                label="	方案号">
-               
+                label="	方案号">           
+            </el-table-column>
+            <el-table-column
+                prop="REMARK"
+                align="center"
+                label="流水描述">           
             </el-table-column>
             <el-table-column
                 prop="TRANS_TYPE"
                 align="center"
                 label="	发生类型">
+               
+            </el-table-column>
+            <el-table-column
+                prop="TRANS_TYPE"
+                align="center"
+                label="	发生类型说明">
                
             </el-table-column>
             <el-table-column
@@ -94,21 +95,36 @@
             </el-table-column>
         </el-table>
         </div>
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
     </div>
 </template>
 
 <script>
 import { findMemberWalletLineByAccount } from '@/api/customerDetails'
 import { Message, MessageBox } from 'element-ui'
-const cityOptions = ['高频彩', '低频彩', '竞技彩',];
 export default {
     data(){
         return {
-            checkAll: false,
-            checkedCities: [],
-            cities: cityOptions,
             isIndeterminate: true,
-            tableData:[]
+            tableData:[],
+            account:'',
+            stime:'',
+            etime:'',
+            qdAccount:'',
+            dlAccount:'',
+            page:1,
+            pageSize:10
         }
     },
     created(){
@@ -120,14 +136,50 @@ export default {
                 account:'',
                 end_time:'',
                 start_time:'',
+                child_type:'',
+                qdAccount:'',
+                dlAccount:'',
+                loginAccount:'manager',
+                page:this.page,
+                pageSize:this.pageSize,
                 type:''
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
-                this.tableData = res.data.data
+                 this.tableData = res.data.data.list
             }).catch(error => {
                  Message.error(error)
             })
-        }
+        },
+         //查询
+        inquire(){
+            let wallerdata = {
+                account:this.account,
+                end_time:this.etime,
+                start_time:this.stime,
+                qdAccount:this.qdAccount,
+                dlAccount:this.dlAccount,
+                loginAccount:'manager',
+                page:this.page,
+                pageSize:this.pageSize,
+                child_type:'',
+                type:''
+            }
+            findMemberWalletLineByAccount(wallerdata).then(res => {
+                this.tableData = res.data.data.list
+            }).catch(error => {
+                 Message.error(error)
+            })
+        },
+        //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getfluwwallet()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getfluwwallet()
+        },
     }
 }
 </script>

@@ -20,12 +20,13 @@ export function findAllMember(userinfos){
     })
 }
 //会员加白
-export function memberToWrite(account){
+export function memberToWrite(account,type){
     return request.member({
         url:'/userManage/memberToWrite',
         method:'get',
         params:{
-            account
+            account,
+            type
         }
     })
 }
@@ -110,5 +111,16 @@ export function bind(userinfos){
         url:'http://192.168.42.40:8081/user/bind',
         method:'get',
         params:userinfos
+    })
+}
+//显示一个月以上未登录用户
+export function getHistoryClient(offset,pageSize){
+    return request.member({
+        url:'http://192.168.41.61:8089/userManage/getHistoryClient',
+        method:'get',
+        params:{
+            offset,
+            pageSize
+        }
     })
 }
