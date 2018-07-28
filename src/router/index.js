@@ -287,11 +287,11 @@ export const constantRouterMap = [
   },
   {
     path: 'fundReversal',
-    name: '资金充正',
+    name: '资金冲正',
     component: () =>
       import ('@/views/recharge_center/fundReversal'),
     meta: {
-      title: '资金充正'
+      title: '资金冲正'
     }
   },
 
