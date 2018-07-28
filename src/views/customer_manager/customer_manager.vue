@@ -332,7 +332,7 @@ export default {
                 username:''
             }
             findAllMember(obj).then(res => {
-                this.tableData = res.data.data.list
+                this.tableData = res.data.data
             }).catch(error => {
                 Message.error(error)
             })
