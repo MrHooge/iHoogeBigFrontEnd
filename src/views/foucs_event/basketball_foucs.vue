@@ -60,7 +60,7 @@
 
 <script>
 import api from '@/api/Api'
-import { getBasketBallMatch } from '@/api/events'
+import { updateBbFocusMatchStatus,getBasketBallMatch } from '@/api/events'
 // import settime from './index.js'
 export default {
     data() {
@@ -84,25 +84,22 @@ export default {
                 type: 2
             }
             getBasketBallMatch(obj)
-            .then( res => {
-                 this.tableData.push(res.data.data[0])
+            .then(res => {
+                //console.log(res.data)
+                this.tableData.push(res.data.data[0])
             })
             
         },
         handleEdit(a) {
-            let obj = {
-                id: a.id
-            }
-            this.$ajax
-                .get(api.lottery + '/lottery/updateBbFocusMatchStatus', obj)
-                .then(res => {
-                    if (res.error_code == 200) {
-                        this.$message(res.message)
-                        this.getTable()
-                    } else {
-                        this.$message(res.message)
-                    }
-                })
+            let id = a.id;     
+            updateBbFocusMatchStatus(id)
+            .then(res => {
+                if(res.data.error_code == 200){
+                    this.$message(res.data.message)
+                }else{
+                    this.$message(res.data.message)
+                }
+            })
         }
     }
 }

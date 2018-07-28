@@ -59,3 +59,13 @@ export function updateDGByStatus(userinfos){
         params:userinfos
     })
 }
+//取消篮球焦点赛事
+export function updateBbFocusMatchStatus(id){
+    return request.lottery({
+        url:'/lottery/updateBbFocusMatchStatus',
+        method:'get',
+        params:{
+            id
+        }
+    })
+}
