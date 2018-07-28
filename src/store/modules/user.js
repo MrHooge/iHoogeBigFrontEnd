@@ -124,7 +124,7 @@ const user = {
           const data = response.data
           if (data.data && data.data.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', data.data)
-            console.log(data)
+            console.log(data,'aside')
             localStorage.setItem('SET_ROLES', JSON.stringify(data))
           } else {
             reject('getInfo: roles must be a non-null array !')

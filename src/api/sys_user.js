@@ -1,4 +1,9 @@
 import request from '@/utils/request'
+import {
+  getCookies,
+  setCookies,
+  removeCookies
+} from '@/utils/cookies'
 
 export function findAllRole(role_id) {
   return request.member({
@@ -162,5 +167,94 @@ export function exportExcle(listParams,title) {
     }
   })
 }
+// 获取代理和渠道列表
+export function findAllAgentAndQD() {
+  return request.member({
+    url: '/user/findAllAgentAndQD',
+    method: 'get',
+  })
+}
+
+// 获取所有会员列表
+export function findAllMember(page) {
+  return request.member({
+    url: '/user/findAllMember',
+    method: 'get',
+    params:{
+      page,
+      pageSize:20
+    }
+  })
+}
+// 会员设置渠道
+export function handleEdit(params) {
+  return request.member({
+    url: '/user/updateMemberToQD',
+    method: 'get',
+    params: params
+  })
+}
+// 会员设置代理
+export function setMemberToAgent(params) {
+  return request.member({
+    url: '/userManage/setMemberToAgent',
+    method: 'get',
+    params: params
+  })
+}
+//  给代理绑定渠道
+export function addAgency(params) {
+  return request.member({
+    url: '/user/addAgentToQD',
+    method: 'get',
+    params: {
+      params
+    }
+  })
+}
 
 
+// 开户轮播墙
+
+export function openAccountWall(loginAccount) {
+  return request.member({
+    url: '/userCount/findAccountWall',
+    method: 'get',
+    params: {
+      loginAccount
+    }
+  })
+}
+// 激活轮播墙
+
+export function findAccountActiveWall(loginAccount) {
+  return request.member({
+    url: '/userCount/findAccountActiveWall',
+    method: 'get',
+    params: {
+      loginAccount
+    }
+  })
+}
+// 充值消费轮播墙
+export function findRechargeAndConsumerWall(params) {
+  return request.member({
+    url: '/userCount/findRechargeAndConsumerWall',
+    method: 'get',
+    params: 
+      params
+    
+  })
+}
+// 充值消费轮播墙
+export function findAllRate(page, pageSize) {
+  return request.member({
+    url: 'http://192.168.42.40:8081/userManage/findAllRate',
+    method: 'get',
+    params: {
+      page,
+      pageSize:20,
+      account:''
+    }
+  })
+}

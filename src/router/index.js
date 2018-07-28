@@ -68,6 +68,19 @@ export const constantRouterMap = [
         name: '模块管理',
         component: () => import('@/views/sys_management/modules'),
         meta: { title: '模块管理' }
+      },
+      {
+        path: 'SetUpAgent',
+        name: '设置渠道',
+        component: () => import('@/views/sys_management/SetUpAgent'),
+        meta: { title: '设置渠道' }
+      },
+      {
+        path: 'lookUp',
+        name: '渠道列表',
+        component: () =>
+          import ('@/views/sys_management/lookUp'),
+        meta: { title: '渠道列表' }
       }
     ]
   },
@@ -104,6 +117,55 @@ export const constantRouterMap = [
         component: () => import('@/views/newsBulletin/website_lettery'),
         meta: { title: '站内信' }
       }
+    ]
+  },
+  // 轮播墙
+  {
+    path: '/swiperWall',
+    component: Layout,
+    redirect: '/swiperWall/openAccountWall',
+    name: '轮播墙',
+    meta: { title: '轮播墙' },
+    children: [
+      {
+        path: 'openAccountWall',
+        name: '开户轮播墙',
+        component: () => import ('@/views/swiperWall/openAccount_Wall'),
+        meta: { title: '开户轮播墙' }
+      },
+      {
+        path: 'activateWall',
+        name: '激活轮播墙',
+        component: () => import('@/views/swiperWall/activate_Wall'),
+        meta: { title: '激活轮播墙' }
+      },
+      {
+        path: 'rechangeWall',
+        name: '充值与消费墙',
+        component: () => import('@/views/swiperWall/rechange_Wall'),
+        meta: {
+          title: '充值与消费墙'
+        }
+      },
+    ]
+  },
+  // 轮播墙
+  {
+    path: '/platfor_manager',
+    component: Layout,
+    redirect: '/platfor_manager/rebatesList',
+    name: '平台代理',
+    meta: { title: '平台代理' },
+    children: [
+     { //  会员返点列表
+       path: 'rebatesList',
+       name: '会员返点列表',
+       component: () =>
+         import ('@/views/platfor_manager/rebatesList'),
+       meta: {
+         title: '会员返点列表'
+       }
+     }
     ]
   },
 
@@ -182,7 +244,8 @@ export const constantRouterMap = [
         name: '资金流水',
         component: () => import('@/views/agent_manager/capital_flow'),
         meta: { title: '资金流水' }
-      }
+      }, 
+ 
     ]
   },
 
