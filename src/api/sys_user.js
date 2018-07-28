@@ -380,3 +380,12 @@ export function findMemberWalletLineByAccount(params ) {
     params:params
   })
 }
+
+// 当日所有人员的销量详情
+export function findSaleInfo(params) {
+  return request.member({
+    url: 'user/findSaleInfo',
+    method: 'get',
+    params:params
+  })
+}

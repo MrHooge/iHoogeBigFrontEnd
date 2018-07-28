@@ -1,43 +1,30 @@
 <template>
 	<div class="backend app-container">
 		<div class="search">
-            <el-input v-model="input1" placeholder="请输入会员名" style="width:50%;"></el-input>
-            <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-        </div>
-		<el-table :data="tableData"
-		          border
-		          style="width: 100%;"
-		          show-summary>
-			<el-table-column prop="account"
-			                 label="会员名"
-			                 align="center"
-			                 width="180">
+			<el-input v-model="input1" placeholder="请输入会员名" style="width:50%;"></el-input>
+			<el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+		</div>
+		<el-table :data="tableData" border style="width: 100%;" show-summary>
+      <el-table-column type="index" align="center" label="编号">
+      </el-table-column>
+			<el-table-column prop="account" label="会员名" align="center" width="180">
 			</el-table-column>
 
-			<el-table-column align="center"
-			                 label="授信值">
+			<el-table-column align="center" label="授信值">
 				<template slot-scope="scope">
-					<el-input v-model="scope.row.creditLimit"
-					          placeholder="请输入内容"></el-input>
+					<el-input v-model="scope.row.creditLimit" placeholder="请输入内容"></el-input>
 				</template>
 			</el-table-column>
 
-			<el-table-column prop="ableCreditBalance"
-			                 align="center"
-			                 label="当前可用金额">
+			<el-table-column prop="ableCreditBalance" align="center" label="当前可用金额">
 			</el-table-column>
 
-			<el-table-column prop="freezeCreditBalance"
-			                 align="center"
-			                 label="冻结金额">
+			<el-table-column prop="freezeCreditBalance" align="center" label="冻结金额">
 			</el-table-column>
 
-			<el-table-column align="center"
-			                 label="操作">
+			<el-table-column align="center" label="操作">
 				<template slot-scope="scope">
-					<el-button size="mini"
-					           type="primary"
-					           @click="shouxin(scope.row)">授信</el-button>
+					<el-button size="mini" type="primary" @click="shouxin(scope.row)">授信</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -72,18 +59,14 @@
 		<!-- 分页 -->
 
 		<!-- 弹窗事件 -->
-		<el-dialog title="提示"
-		           :visible.sync="dialogVisible"
-		           width="40%">
+		<el-dialog title="提示" :visible.sync="dialogVisible" width="40%">
 			<div>
 				<p>会员名：{{ username }}</p>
 				<p>额度：{{ money }}</p>
 			</div>
-			<span slot="footer"
-			      class="dialog-footer">
+			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary"
-				           @click="makersure">确 定</el-button>
+				<el-button type="primary" @click="makersure">确 定</el-button>
 			</span>
 		</el-dialog>
 
@@ -98,7 +81,7 @@ import treeTable from '@/components/TreeTable'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 
 export default {
-	data() {
+	data () {
 		return {
 			obj: "",//每一行的数据
 			input1: "",
@@ -112,16 +95,16 @@ export default {
 		};
 	},
 
-	created() {
-		this.getData(1,'');
+	created () {
+		this.getData(1, '');
 	},
 	methods: {
 		// 点击的搜索信息
-		search() {
+		search () {
 			this.getData(1, this.input1);
 		},
 		//   授信的点击事件
-		shouxin(a) {
+		shouxin (a) {
 			console.log(a)
 			this.dialogVisible = true;
 			this.obj = a
@@ -133,18 +116,18 @@ export default {
 			// 获取操作人
 		},
 		// 弹窗的确定回调
-		makersure() {
+		makersure () {
 			this.dialogVisible = false;
 			let oper = getCookies('name');//假设admin账户
 			this.clickCreadit(this.obj.account, this.obj.creditLimit, oper);
 		},
 		// 调接口数据
-		getData(curr,a) {
+		getData (curr, a) {
 			let obj = {
 				page: curr,
 				pageSize: 10,
 				loginAccount: getCookies('name'),
-				account:a,
+				account: a,
 			};
 			getCreditMember(obj).then(res => {
 				console.log(res)
@@ -167,7 +150,7 @@ export default {
 		},
 
 		// 点击授信按钮调接口数据
-		clickCreadit(a,b,c) {
+		clickCreadit (a, b, c) {
 			let creadit = { account: a, creditLimit: b, operater: c };
 			credit(creadit).then(res => {
 				console.log(res)
@@ -181,7 +164,7 @@ export default {
 			})
 		},
 		// 分页的回调
-		changepage(val) {
+		changepage (val) {
 			this.getData(val)
 		},
 	}
