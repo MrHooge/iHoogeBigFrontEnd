@@ -9,6 +9,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '../views/layout/Layout'
 
+
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -369,11 +370,106 @@ export const constantRouterMap = [
         name:'会员统计',
         component: () => import('@/views/customer_manager/customer_statistics'),
         meta: {title: '会员统计'}
+      },
+      {
+        path:'customerManager',
+        name:'会员管理',
+        component: () => import('@/views/customer_manager/customer_manager'),
+        meta: {title: '会员管理'}
+      },
+      {
+        path:'operatingRecording',
+        name:'绑定及转移记录',
+        component: () => import('@/views/customer_manager/operating_recording'),
+        meta: {title: '绑定及转移记录'}
+      },
+      {
+        path:'customerAssociation',
+        name:'客户关联申请',
+        component: () => import('@/views/customer_manager/customer_association'),
+        meta: {title: '客户关联申请'}
+      },
+      {
+        path:'messageSearch',
+        name:'查询短信',
+        component: () => import('@/views/customer_manager/message_search'),
+        meta: {title: '查询短信'}
+      },
+      {
+        path:'customerTransfer',
+        name:'客户转移申请',
+        component: () => import('@/views/customer_manager/customer_transfer'),
+        meta: {title: '客户转移申请'}
       }
       
     ]
   },
 
+
+  //客户详情查询
+  {
+    path: '/detailsSearch',
+    component: Layout,
+    redirect: '/detailsSearch/fluwQuery',
+    name: '客户详情查询',
+    meta: { title: '客户详情查询' },
+    children:[
+      {
+        path: 'fluwQuery',
+        name: '操作流水查询',
+        component: () => import('@/views/details_search/fluw_query'),
+        meta: { title: '操作流水查询' }
+      },
+      {
+        path: 'giftcardSearch',
+        name: '彩金卡查询',
+        component: () => import('@/views/details_search/giftcard_search'),
+        meta: { title: '彩金卡查询' }
+      },
+      {
+        path: 'redpackageSearch',
+        name: '客户红包流水查询',
+        component: () => import('@/views/details_search/redpackage_search'),
+        meta: { title: '客户红包流水查询' }
+      },
+      {
+        path: 'integralSearch',
+        name: '积分查询',
+        component: () => import('@/views/details_search/integral_search'),
+        meta: { title: '积分查询' }
+      },
+      {
+        path: 'lotterySearch',
+        name: '彩金查询',
+        component: () => import('@/views/details_search/lottery_search'),
+        meta: { title: '彩金查询' }
+      },
+      {
+        path: 'awardsgiving',
+        name: '嘉奖派发、使用查询',
+        component: () => import('@/views/details_search/awardsgiving'),
+        meta: { title: '嘉奖派发、使用查询' }
+      },
+      {
+        path: 'rebateCommission',
+        name: '返点佣金查询',
+        component: () => import('@/views/details_search/rebate_commission'),
+        meta: { title: '返点佣金查询' }
+      },
+      {
+        path: 'billingCommission',
+        name: '发单佣金查询',
+        component: () => import('@/views/details_search/billing_commission'),
+        meta: { title: '发单佣金查询' }
+      },
+      {
+        path: 'walletFlowquery',
+        name: '钱包流水查询',
+        component: () => import('@/views/details_search/wallet_flowquery'),
+        meta: { title: '钱包流水查询' }
+      },
+    ]
+  },
 
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -5,7 +5,6 @@
         <template slot="title">
           <span v-if="item.modelNme" slot="title">{{item.modelNme}}</span>
         </template>
-
         <template v-for="child in item.childList">
           <router-link :to="child.model_url" :key="child.model_name">
             <el-menu-item :index="child.model_name">
@@ -56,7 +55,9 @@ export default {
     }
   },
   created() {
-    console.log(this.routes)
+    // console.log(123456)
+    // console.log(this.routes)
+    // console.log(123456)
   },
   methods: {
     hasOneShowingChildren(children) {

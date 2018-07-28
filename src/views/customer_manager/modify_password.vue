@@ -33,6 +33,7 @@ export default {
                     pass:this.password
                 }
                 resetPassword(obj.name,obj.pass).then(res =>{
+                    //console.log(1263)
                     if(res.status == 200){
                         if(res.data.error_code==200){
                             this.$message(res.data.message)
