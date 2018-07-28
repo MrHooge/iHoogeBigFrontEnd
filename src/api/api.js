@@ -11,11 +11,11 @@ function Api(baseUrl) {
         // 开发环境
         QY = {
             // member: "http://member.api.qiyun88.cn",
-            member: "http://member.api.qiyun88.cn",
-            infos: "http://infos.api.qiyun88.cn",
-            pay: "http://pay.api.qiyun88.cn",
-            ticket: "http://ticket.api.qiyun88.cn",
-            lottery: "http://lottery.api.qiyun88.cn",
+            member: "https://member.api.qiyun88.cn",
+            infos: "https://infos.api.qiyun88.cn",
+            pay: "https://pay.api.qiyun88.cn",
+            ticket: "https://ticket.api.qiyun88.cn",
+            lottery: "https://lottery.api.qiyun88.cn",
         }
 
     } else {

@@ -191,17 +191,19 @@ export default {
 			}
 
 			if (this.value == '1') {
-				this.account = this.name
-				this.dlAccount = ''
-				this.qdAccount = ''
+				console.log('value11111111')
+				obj.account= this.name
+				obj.dlAccount = ''
+				obj.qdAccount = ''
 			} else if (this.value == '2') {
-				this.account = ''
-				this.dlAccount = this.name
-				this.qdAccount = ''
+				console.log('2222222222222')
+				obj.account = ''
+				obj.dlAccount = this.name
+				obj.qdAccount = ''
 			} else {
-				this.account = ''
-				this.dlAccount = ''
-				this.qdAccount = this.name
+				obj.account = ''
+				obj.dlAccount = ''
+				obj.qdAccount = this.name
 			}
 			console.log(obj)
 			findMemberWalletLineByAccount(obj).then(res => {
@@ -209,6 +211,9 @@ export default {
 					console.log(res)
 					this.tableData = res.data.data.list
 					this.total = res.data.data.total
+				}else {
+					console.log(res)
+					Message.success(res.data.message)
 				}
 			})
 		},
