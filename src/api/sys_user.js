@@ -375,7 +375,31 @@ export function findRechargeOnLine(params) {
 //会员充值流水查询--总表
 export function findMemberWalletLineByAccount(params ) {
   return request.member({
-    url: 'user/findMemberWalletLineByAccount',
+    url: '/user/findMemberWalletLineByAccount',
+    method: 'get',
+    params:params
+  })
+}
+//获取所有充值失败的订单
+export function getAllFailPayOrder(params) {
+  return request.pay({
+    url: '/pay/getAllFailPayOrder',
+    method: 'get',
+    params:params
+  })
+}
+//充值补单
+export function chargeFix(params) {
+  return request.pay({
+    url: '/pay/chargeFix',
+    method: 'get',
+    params:params
+  })
+}
+//资金冲正
+export function chargeRight(params) {
+  return request.pay({
+    url: 'pay/chargeRight',
     method: 'get',
     params:params
   })

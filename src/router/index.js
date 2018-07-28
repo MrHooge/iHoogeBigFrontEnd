@@ -175,6 +175,15 @@ export const constantRouterMap = [
          title: '设置会员返点'
        }
      },
+     { //  代理分配
+       path: 'agencyAllocation',
+       name: '代理分配',
+       component: () =>
+         import ('@/views/platfor_manager/agencyAllocation'),
+       meta: {
+         title: '代理分配'
+       }
+     },
     ]
   },
   // 代理授信
@@ -266,6 +275,24 @@ export const constantRouterMap = [
       import ('@/views/recharge_center/all_rechange_surface'),
     meta: {
       title: '会员充值流水查询-总表'
+    }
+  },
+  {
+    path: 'replenishment_order',
+    name: '充值补单',
+    component: () =>
+      import ('@/views/recharge_center/replenishment_order'),
+    meta: {
+      title: '充值补单'
+    }
+  },
+  {
+    path: 'fundReversal',
+    name: '资金冲正',
+    component: () =>
+      import ('@/views/recharge_center/fundReversal'),
+    meta: {
+      title: '资金冲正'
     }
   },
 
@@ -401,6 +428,24 @@ export const constantRouterMap = [
         component: () => import('@/views/customer_manager/customer_transfer'),
         meta: {title: '客户转移申请'}
       }
+      
+    ]
+  },
+  //财务管理
+  {
+    path: '/financialManagement',
+    component: Layout,
+    redirect: '/financialManagement/Rechange',
+    name: '财务管理',
+    meta: { title: '财务管理' },
+    children: [
+      {
+        path: 'Rechange',
+        name: '充值',
+        component: () =>
+          import ('@/views/financialManagement/Rechange'),
+        meta: { title: '充值' }
+      },
       
     ]
   },

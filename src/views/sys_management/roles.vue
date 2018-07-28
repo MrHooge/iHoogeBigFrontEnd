@@ -139,7 +139,7 @@ export default {
         role_name: data.NAME
       }
       // this.getFindRoleAndPermission(data.NAME)
-      this.getFindAllChildModel('', 1, 50)
+      this.getFindAllChildModel('', 1, 1000)
     },
     // 查询当前用户的权限
     getFindRoleAndPermission(account) {
