@@ -203,7 +203,7 @@ export function setMemberToAgent(params) {
     params: params
   })
 }
-//  给代理绑定渠道
+//  给渠道绑定代理
 export function addAgency(params) {
   return request.member({
     url: '/user/addAgentToQD',
@@ -211,6 +211,22 @@ export function addAgency(params) {
     params: {
       params
     }
+  })
+}
+//  将渠道或代理降级为会员
+export function setAgentToMember(params) {
+  return request.member({
+    url: '/userManage/setAgentToMember',
+    method: 'get',
+    params: params
+  })
+}
+//  将代理升级为渠道
+export function upgradeAgentToQD(params) {
+  return request.member({
+    url: '/user/upgradeAgentToQD',
+    method: 'get',
+    params: params
   })
 }
 
@@ -275,6 +291,22 @@ export function setRate(account, rateParams) {
       account,
       rateParams
     }
+  })
+}
+// 删除返点
+export function delRateByAccount(params) {
+  return request.member({
+    url: '/userManage/delRateByAccount',
+    method: 'get',
+    params: params
+  })
+}
+// 根据账号查找下级人员
+export function getSubordinateMember(params) {
+  return request.member({
+    url: '/userManage/getSubordinateMember',
+    method: 'get',
+    params: params
   })
 }
 //授信表数据

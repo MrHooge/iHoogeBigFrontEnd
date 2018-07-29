@@ -1,9 +1,13 @@
 <template>
 	<div class="backend app-container">
 		<div class="search">
-            <el-input v-model="input1" placeholder="请输入会员名" style="width:50%;"></el-input>
-            <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-        </div>
+			<el-input v-model="input1"
+			          placeholder="请输入会员名"
+			          style="width:50%;"></el-input>
+			<el-button type="primary"
+			           icon="el-icon-search"
+			           @click="search">搜索</el-button>
+		</div>
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%;"
@@ -113,7 +117,7 @@ export default {
 	},
 
 	created() {
-		this.getData(1,'');
+		this.getData(1, '');
 	},
 	methods: {
 		// 点击的搜索信息
@@ -139,12 +143,12 @@ export default {
 			this.clickCreadit(this.obj.account, this.obj.creditLimit, oper);
 		},
 		// 调接口数据
-		getData(curr,a) {
+		getData(curr, a) {
 			let obj = {
 				page: curr,
 				pageSize: 10,
 				loginAccount: getCookies('name'),
-				account:a,
+				account: a,
 			};
 			getCreditMember(obj).then(res => {
 				console.log(res)
@@ -167,7 +171,7 @@ export default {
 		},
 
 		// 点击授信按钮调接口数据
-		clickCreadit(a,b,c) {
+		clickCreadit(a, b, c) {
 			let creadit = { account: a, creditLimit: b, operater: c };
 			credit(creadit).then(res => {
 				console.log(res)

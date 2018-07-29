@@ -21,9 +21,18 @@ import Layout from '../views/layout/Layout'
     icon: 'svg-name'             the icon show in the sidebar,
   }
 **/
-export const constantRouterMap = [
-  { path: '/login', component: () => import('@/views/login/index'), hidden: true },
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
+export const constantRouterMap = [{
+    path: '/login',
+    component: () =>
+      import ('@/views/login/index'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () =>
+      import ('@/views/404'),
+    hidden: true
+  },
 
   {
     path: '/',
@@ -33,7 +42,8 @@ export const constantRouterMap = [
     hidden: true,
     children: [{
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      component: () =>
+        import ('@/views/dashboard/index')
     }]
   },
 
@@ -42,45 +52,46 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/sysManage/mamber',
     name: '系统管理',
-    meta: { title: '系统管理' },
-    children: [
-      {
+    meta: {
+      title: '系统管理'
+    },
+    children: [{
         path: 'mamber',
         name: '用户管理',
-        component: () => import('@/views/sys_management/user'),
-        meta: { title: '用户管理' }
+        component: () =>
+          import ('@/views/sys_management/user'),
+        meta: {
+          title: '用户管理'
+        }
       },
       {
         path: 'property',
         name: '权限管理',
-        component: () => import('@/views/sys_management/property'),
-        meta: { title: '权限管理' }
+        component: () =>
+          import ('@/views/sys_management/property'),
+        meta: {
+          title: '权限管理'
+        }
       },
       {
         path: 'roles',
         name: '角色管理',
-        component: () => import('@/views/sys_management/roles'),
-        meta: { title: '角色管理' }
+        component: () =>
+          import ('@/views/sys_management/roles'),
+        meta: {
+          title: '角色管理'
+        }
       },
       {
         path: 'modules',
         name: '模块管理',
-        component: () => import('@/views/sys_management/modules'),
-        meta: { title: '模块管理' }
-      },
-      {
-        path: 'SetUpAgent',
-        name: '设置渠道',
-        component: () => import('@/views/sys_management/SetUpAgent'),
-        meta: { title: '设置渠道' }
-      },
-      {
-        path: 'lookUp',
-        name: '渠道列表',
         component: () =>
-          import ('@/views/sys_management/lookUp'),
-        meta: { title: '渠道列表' }
-      }
+          import ('@/views/sys_management/modules'),
+        meta: {
+          title: '模块管理'
+        }
+      },
+
     ]
   },
 
@@ -90,31 +101,44 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/newsBulletin/addNews',
     name: '新闻公告',
-    meta: { title: '新闻公告' },
-    children: [
-      {
+    meta: {
+      title: '新闻公告'
+    },
+    children: [{
         path: 'addNews',
         name: '发布新闻',
-        component: () => import('@/views/newsBulletin/add_news'),
-        meta: { title: '发布新闻' }
+        component: () =>
+          import ('@/views/newsBulletin/add_news'),
+        meta: {
+          title: '发布新闻'
+        }
       },
       {
         path: 'newsManage',
         name: '新闻管理',
-        component: () => import('@/views/newsBulletin/news_manage'),
-        meta: { title: '新闻管理' }
+        component: () =>
+          import ('@/views/newsBulletin/news_manage'),
+        meta: {
+          title: '新闻管理'
+        }
       },
       {
         path: 'lotteryDaily',
         name: '竞彩日报',
-        component: () => import('@/views/newsBulletin/lottery_daily'),
-        meta: { title: '竞彩日报' }
+        component: () =>
+          import ('@/views/newsBulletin/lottery_daily'),
+        meta: {
+          title: '竞彩日报'
+        }
       },
       {
         path: 'websiteLettery',
         name: '站内信',
-        component: () => import('@/views/newsBulletin/website_lettery'),
-        meta: { title: '站内信' }
+        component: () =>
+          import ('@/views/newsBulletin/website_lettery'),
+        meta: {
+          title: '站内信'
+        }
       }
     ]
   },
@@ -124,24 +148,32 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/swiperWall/openAccountWall',
     name: '轮播墙',
-    meta: { title: '轮播墙' },
-    children: [
-      {
+    meta: {
+      title: '轮播墙'
+    },
+    children: [{
         path: 'openAccountWall',
         name: '开户轮播墙',
-        component: () => import ('@/views/swiperWall/openAccount_Wall'),
-        meta: { title: '开户轮播墙' }
+        component: () =>
+          import ('@/views/swiperWall/openAccount_Wall'),
+        meta: {
+          title: '开户轮播墙'
+        }
       },
       {
         path: 'activateWall',
         name: '激活轮播墙',
-        component: () => import('@/views/swiperWall/activate_Wall'),
-        meta: { title: '激活轮播墙' }
+        component: () =>
+          import ('@/views/swiperWall/activate_Wall'),
+        meta: {
+          title: '激活轮播墙'
+        }
       },
       {
         path: 'rechangeWall',
         name: '充值与消费墙',
-        component: () => import('@/views/swiperWall/rechange_Wall'),
+        component: () =>
+          import ('@/views/swiperWall/rechange_Wall'),
         meta: {
           title: '充值与消费墙'
         }
@@ -154,35 +186,82 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/platfor_manager/rebatesList',
     name: '平台代理',
-    meta: { title: '平台代理' },
-    children: [
-     { //  会员返点列表
-       path: 'rebatesList',
-       name: '会员返点列表',
-       component: () =>
-         import ('@/views/platfor_manager/rebatesList'),
-       meta: {
-         title: '会员返点列表'
-       }
-     },
-     { //  设置会员返点
-       path: 'setRebates',
-       name: '设置会员返点',
-       component: () =>
-         import ('@/views/platfor_manager/setRebates'),
-       meta: {
-         title: '设置会员返点'
-       }
-     },
-     { //  代理分配
-       path: 'agencyAllocation',
-       name: '代理分配',
-       component: () =>
-         import ('@/views/platfor_manager/agencyAllocation'),
-       meta: {
-         title: '代理分配'
-       }
-     },
+    meta: {
+      title: '平台代理'
+    },
+    children: [{ //  会员返点列表
+        path: 'rebatesList',
+        name: '会员返点列表',
+        component: () =>
+          import ('@/views/platfor_manager/rebatesList'),
+        meta: {
+          title: '会员返点列表'
+        }
+      },
+      { //  设置会员返点
+        path: 'setRebates',
+        name: '设置会员返点',
+        component: () =>
+          import ('@/views/platfor_manager/setRebates'),
+        meta: {
+          title: '设置会员返点'
+        }
+      },
+      { //  代理分配
+        path: 'agencyAllocation',
+        name: '代理分配',
+        component: () =>
+          import ('@/views/platfor_manager/agencyAllocation'),
+        meta: {
+          title: '代理分配'
+        }
+      },
+      {
+        path: 'demotion',
+        name: '渠道或代理降级为会员',
+        component: () =>
+          import ('@/views/platfor_manager/demotion'),
+        meta: {
+          title: '渠道或代理降级为会员'
+        }
+      },
+      {
+        path: 'SetUpAgent',
+        name: '设置渠道或代理',
+        component: () =>
+          import ('@/views/platfor_manager/SetUpAgent'),
+        meta: {
+          title: '设置渠道或代理'
+        }
+      }, 
+      {
+        path: 'lookUp',
+        name: '渠道绑定代理',
+        component: () =>
+          import ('@/views/platfor_manager/lookUp'),
+        meta: {
+          title: '渠道绑定代理'
+        }
+      },
+      {
+        path: 'agency_upgrade',
+        name: '代理升级为渠道',
+        component: () =>
+          import ('@/views/platfor_manager/agency_upgrade'),
+        meta: {
+          title: '代理升级为渠道'
+        }
+      },
+      {
+        path: 'customer_transfer',
+        name: '客户转移',
+        component: () =>
+          import ('@/views/platfor_manager/customer_transfer'),
+        meta: {
+          title: '客户转移'
+        }
+      },
+
     ]
   },
   // 代理授信
@@ -191,44 +270,45 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/creadit/backend',
     name: '平台代理',
-    meta: { title: '平台代理' },
-    children: [
-     { //  授信表
-       path: 'backend',
-       name: '授信表',
-       component: () =>
-         import ('@/views/creadit/backend'),
-       meta: {
-         title: '授信表'
-       }
-     },
-     { //  授信操作记录
-       path: 'operationSurface',
-       name: '授信记录表',
-       component: () =>
-         import ('@/views/creadit/operationSurface'),
-       meta: {
-         title: '授信记录表'
-       }
-     },
-     { //  代理给客户加款流水
-       path: 'subcustomer',
-       name: '代理给客户加款流水',
-       component: () =>
-         import ('@/views/creadit/subcustomer'),
-       meta: {
-         title: '代理给客户加款流水'
-       }
-     },
-     { //  代理向平台还款流水及确认
-       path: 'creaditop',
-       name: '代理还款流水及确认',
-       component: () =>
-         import ('@/views/creadit/creaditop'),
-       meta: {
-         title: '代理还款流水及确认'
-       }
-     },
+    meta: {
+      title: '平台代理'
+    },
+    children: [{ //  授信表
+        path: 'backend',
+        name: '授信表',
+        component: () =>
+          import ('@/views/creadit/backend'),
+        meta: {
+          title: '授信表'
+        }
+      },
+      { //  授信操作记录
+        path: 'operationSurface',
+        name: '授信记录表',
+        component: () =>
+          import ('@/views/creadit/operationSurface'),
+        meta: {
+          title: '授信记录表'
+        }
+      },
+      { //  代理给客户加款流水
+        path: 'subcustomer',
+        name: '代理给客户加款流水',
+        component: () =>
+          import ('@/views/creadit/subcustomer'),
+        meta: {
+          title: '代理给客户加款流水'
+        }
+      },
+      { //  代理向平台还款流水及确认
+        path: 'creaditop',
+        name: '代理还款流水及确认',
+        component: () =>
+          import ('@/views/creadit/creaditop'),
+        meta: {
+          title: '代理还款流水及确认'
+        }
+      },
 
     ]
   },
@@ -238,62 +318,63 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/recharge_center/rechange_open_session',
     name: '支付中心',
-    meta: { title: '支付中心' },
-    children: [
-  {
-    path: 'rechange_open_session',
-    name: '支付设置',
-    component: () =>
-      import ('@/views/recharge_center/rechange_open_session'),
     meta: {
-      title: '支付设置'
-    }
-  },
-  {
-    path: 'rechangeDetail',
-    name: '线下充值明细',
-    component: () =>
-      import ('@/views/recharge_center/rechangeDetail'),
-    meta: {
-      title: '线下充值明细'
-    }
-  },
-  {
-    path: 'online_SerialNumber',
-    name: '线上充值流水',
-    component: () =>
-      import ('@/views/recharge_center/online_SerialNumber'),
-    meta: {
-      title: '线上充值流水'
-    }
-  },
-  {
-    path: 'all_rechange_surface',
-    name: '会员充值流水查询-总表',
-    component: () =>
-      import ('@/views/recharge_center/all_rechange_surface'),
-    meta: {
-      title: '会员充值流水查询-总表'
-    }
-  },
-  {
-    path: 'replenishment_order',
-    name: '充值补单',
-    component: () =>
-      import ('@/views/recharge_center/replenishment_order'),
-    meta: {
-      title: '充值补单'
-    }
-  },
-  {
-    path: 'fundReversal',
-    name: '资金冲正',
-    component: () =>
-      import ('@/views/recharge_center/fundReversal'),
-    meta: {
-      title: '资金冲正'
-    }
-  },
+      title: '支付中心'
+    },
+    children: [{
+        path: 'rechange_open_session',
+        name: '支付设置',
+        component: () =>
+          import ('@/views/recharge_center/rechange_open_session'),
+        meta: {
+          title: '支付设置'
+        }
+      },
+      {
+        path: 'rechangeDetail',
+        name: '线下充值明细',
+        component: () =>
+          import ('@/views/recharge_center/rechangeDetail'),
+        meta: {
+          title: '线下充值明细'
+        }
+      },
+      {
+        path: 'online_SerialNumber',
+        name: '线上充值流水',
+        component: () =>
+          import ('@/views/recharge_center/online_SerialNumber'),
+        meta: {
+          title: '线上充值流水'
+        }
+      },
+      {
+        path: 'all_rechange_surface',
+        name: '会员充值流水查询-总表',
+        component: () =>
+          import ('@/views/recharge_center/all_rechange_surface'),
+        meta: {
+          title: '会员充值流水查询-总表'
+        }
+      },
+      {
+        path: 'replenishment_order',
+        name: '充值补单',
+        component: () =>
+          import ('@/views/recharge_center/replenishment_order'),
+        meta: {
+          title: '充值补单'
+        }
+      },
+      {
+        path: 'fundReversal',
+        name: '资金冲正',
+        component: () =>
+          import ('@/views/recharge_center/fundReversal'),
+        meta: {
+          title: '资金冲正'
+        }
+      },
 
     ]
   },
@@ -304,21 +385,28 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/activityManager/activitySetting',
     name: '活动管理',
-    meta: { title: '活动管理' },
-    children: [
-      {
+    meta: {
+      title: '活动管理'
+    },
+    children: [{
         path: 'activitySetting',
         name: '活动配置',
-        component: () => import('@/views/activity_manager/activity_setting'),
-        meta: { title: '活动配置' }
+        component: () =>
+          import ('@/views/activity_manager/activity_setting'),
+        meta: {
+          title: '活动配置'
+        }
       },
       {
         path: 'activityGiftcard',
         name: '充值送礼金卡',
-        component: () => import('@/views/activity_manager/activity_giftcard'),
-        meta: { title: '充值送礼金卡' }
+        component: () =>
+          import ('@/views/activity_manager/activity_giftcard'),
+        meta: {
+          title: '充值送礼金卡'
+        }
       }
-     
+
     ]
   },
 
@@ -329,51 +417,73 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/agentManager/agentManager',
     name: '代理管理',
-    meta: { title: '代理管理' },
-    children: [
-      {
+    meta: {
+      title: '代理管理'
+    },
+    children: [{
         path: 'agentManager',
         name: '代理查询',
-        component: () => import('@/views/agent_manager/agent_manager'),
-        meta: { title: '代理查询' }
+        component: () =>
+          import ('@/views/agent_manager/agent_manager'),
+        meta: {
+          title: '代理查询'
+        }
       },
       {
         path: 'examine',
         name: '代理审核',
-        component: () => import('@/views/agent_manager/examine'),
-        meta: { title: '代理审核' }
+        component: () =>
+          import ('@/views/agent_manager/examine'),
+        meta: {
+          title: '代理审核'
+        }
       },
       {
         path: 'salesManage',
         name: '销售管理',
-        component: () => import('@/views/agent_manager/sales_manage'),
-        meta: { title: '销售管理' }
+        component: () =>
+          import ('@/views/agent_manager/sales_manage'),
+        meta: {
+          title: '销售管理'
+        }
       },
       {
         path: 'salesDetail',
         name: '业绩明细',
-        component: () => import('@/views/agent_manager/sales_detail'),
-        meta: { title: '业绩明细' }
+        component: () =>
+          import ('@/views/agent_manager/sales_detail'),
+        meta: {
+          title: '业绩明细'
+        }
       },
       {
         path: 'salesSummary',
         name: '业绩汇总',
-        component: () => import('@/views/agent_manager/sales_summary'),
-        meta: { title: '业绩汇总' }
+        component: () =>
+          import ('@/views/agent_manager/sales_summary'),
+        meta: {
+          title: '业绩汇总'
+        }
       },
       {
         path: 'lotteryRecord', // 代理名下客户的购彩记录
         name: '购彩记录',
-        component: () => import('@/views/agent_manager/lottery_record'),
-        meta: { title: '购彩记录' }
+        component: () =>
+          import ('@/views/agent_manager/lottery_record'),
+        meta: {
+          title: '购彩记录'
+        }
       },
       {
         path: 'capitalFlow',
         name: '资金流水',
-        component: () => import('@/views/agent_manager/capital_flow'),
-        meta: { title: '资金流水' }
-      }, 
- 
+        component: () =>
+          import ('@/views/agent_manager/capital_flow'),
+        meta: {
+          title: '资金流水'
+        }
+      },
+
     ]
   },
 
@@ -383,21 +493,28 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/agentManager/modifyPassword',
     name: '客户管理中心',
-    meta: { title: '客户管理中心' },
-    children: [
-      {
+    meta: {
+      title: '客户管理中心'
+    },
+    children: [{
         path: 'modifyPassword',
         name: '修改密码',
-        component: () => import('@/views/customer_manager/modify_password'),
-        meta: { title: '修改密码' }
+        component: () =>
+          import ('@/views/customer_manager/modify_password'),
+        meta: {
+          title: '修改密码'
+        }
       },
       {
-        path:'customerStatistics',
-        name:'会员统计',
-        component: () => import('@/views/customer_manager/customer_statistics'),
-        meta: {title: '会员统计'}
+        path: 'customerStatistics',
+        name: '会员统计',
+        component: () =>
+          import ('@/views/customer_manager/customer_statistics'),
+        meta: {
+          title: '会员统计'
+        }
       }
-      
+
     ]
   },
   //财务管理
@@ -406,26 +523,34 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/financialManagement/Rechange',
     name: '财务管理',
-    meta: { title: '财务管理' },
-    children: [
-      {
+    meta: {
+      title: '财务管理'
+    },
+    children: [{
         path: 'Rechange',
         name: '充值',
         component: () =>
           import ('@/views/financialManagement/Rechange'),
-        meta: { title: '充值' }
+        meta: {
+          title: '充值'
+        }
       },
-      
+
     ]
   },
 
 
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
 ]
 
 export default new Router({
   // mode: 'history', //后端支持可开
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: constantRouterMap
 })
-
