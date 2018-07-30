@@ -1,8 +1,3 @@
 build/*.js
 config/*.js
-<<<<<<< HEAD
 src/assets
-src/*
-=======
-src/assets
->>>>>>> cx_cms

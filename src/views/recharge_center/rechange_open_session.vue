@@ -14,121 +14,65 @@
 			          style="width:300px;"
 			          placeholder="请输入用户账号进行筛选"></el-input>
 		</div> -->
-		<el-table :data="tableData"
-		          border
-		          style="width: 100%; margin-top: 20px">
-			<el-table-column label="编号"
-			                 align="center"
-			                 type="index"
-			                 width="120px">
+		<el-table :data="tableData" border style="width: 100%; margin-top: 20px">
+			<el-table-column label="编号" align="center" type="index" width="120px">
 			</el-table-column>
-			<el-table-column prop="pay_name"
-			                 align="center"
-			                 label="类型">
+			<el-table-column prop="pay_name" align="center" label="类型">
 			</el-table-column>
-			<el-table-column label="状态"
-			                 align="center">
+			<el-table-column label="状态" align="center">
 				<template slot-scope="scope">
 					{{scope.row.is_open | type}}
 				</template>
 			</el-table-column>
-			<el-table-column align="center"
-			                 label="图片">
+			<el-table-column align="center" label="图片">
 				<template slot-scope="scope">
-					<img :src="'https://'+scope.row.pay_picture"
-					     alt="">
+					<img :src="'https://' + scope.row.pay_picture"/>
 				</template>
 			</el-table-column>
-			<el-table-column align="center"
-			                 width="220px;"
-			                 label="操作">
+			<el-table-column align="center" width="220px;" label="操作">
 				<template slot-scope="scope">
-					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">支付修改</el-button>
+					<el-button type="primary" @click="handleEdit(scope.row, 'modify')">查看详情</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
-		<!-- 弹窗 -->
-		<el-dialog title="支付信息"
-		           width='70%'
-		           :visible.sync="viewFormVisible">
-			<el-table :data="tableData3"
-			          border
-			          tooltip-effect="dark"
-			          style="width: 100%">
-				<el-table-column label="ID"
-				                 align="center">
+		<el-dialog title="支付信息" width='70%' :visible.sync="viewFormVisible">
+			<el-table :data="tableData3" border tooltip-effect="dark" style="width: 100%">
+				<el-table-column label="ID" align="center">
 					<template slot-scope="scope">{{ scope.row.id}}</template>
 				</el-table-column>
-				<el-table-column label="支付名称"
-				                 align="center">
+				<el-table-column label="支付名称" align="center">
 					<template slot-scope="scope">{{ scope.row.pay_name }}</template>
 				</el-table-column>
-				<el-table-column label="图标"
-				                 align="center">
-					<template slot-scope="scope"><img :src="'https://'+scope.row.pay_picture"
-						     alt=""></template>
+				<el-table-column label="图标" align="center">
+					<template slot-scope="scope"><img :src="'https://' + scope.row.pay_picture"/></template>
 				</el-table-column>
-				<el-table-column label="状态"
-				                 align="center">
+				<el-table-column label="状态" align="center">
 					<template slot-scope="scope">{{ scope.row.is_open | type}}</template>
 				</el-table-column>
 			</el-table>
 			<!--   修改支付 -->
 			<div class="pierce">
-				<el-collapse v-model="activeNames"
-				             @change="handleChange">
-					<el-collapse-item title="修改支付"
-					                  name="1">
+				<el-collapse v-model="activeNames" @change="handleChange">
+					<el-collapse-item title="修改返点" name="1">
 						<div>
-							<el-table :data="tableData3"
-							          border
-							          tooltip-effect="dark"
-							          style="width: 100%">
-								<el-table-column label="ID"
-								                 align="center">
+							<el-table :data="tableData3" border tooltip-effect="dark" style="width: 100%">
+								<el-table-column label="ID" align="center">
 									<template slot-scope="scope">
 										{{ scope.row.id}}
 									</template>
 								</el-table-column>
-								<el-table-column label="支付名称"
-								                 align="center">
+								<el-table-column label="支付名称" align="center">
 									<template slot-scope="scope">
-										<el-input v-model="rechangeName"
-										          placeholder="请输入内容"></el-input>
+										<el-input v-model="scope.row.pay_name" placeholder="请输入内容"></el-input>
 
 									</template>
 								</el-table-column>
-								<el-table-column label="图标"
-								                 align="center">
-									<template slot-scope="scope">
-										<!-- <el-upload class="avatar-uploader"
-										           :action="uploadUrl"
-										           :show-file-list="false"
-										           :on-success="handleAvatarSuccess"
-										           :before-upload="beforeAvatarUpload">
-											<img v-if="imageUrl"
-											     :src="imageUrl"
-											     class="avatar">
-											<i v-else
-											   class="el-icon-plus avatar-uploader-icon"></i>
-										</el-upload> -->
-										<el-upload :action="uploadUrl"
-										           list-type="picture-card"
-										           :on-success="handleAvatarSuccess"
-										           :before-upload="beforeAvatarUpload"
-										           :on-remove="handleRemove">
-											<i class="el-icon-plus"></i>
-										</el-upload>
-									</template>
+								<el-table-column label="图标" align="center">
+									<template slot-scope="scope">{{ scope.row.pay_picture }}</template>
 								</el-table-column>
-								<el-table-column label="状态"
-								                 align="center">
+								<el-table-column label="状态" align="center">
 									<template slot-scope="scope">
-										<el-switch v-model="value3"
-										           active-text="开"
-										           inactive-text="关"
-										           @change="switchChange">
+										<el-switch v-model="value3" active-text="开" inactive-text="关" @change="switchChange">
 										</el-switch>
 									</template>
 								</el-table-column>
@@ -137,11 +81,9 @@
 					</el-collapse-item>
 				</el-collapse>
 			</div>
-			<div slot="footer"
-			     class="dialog-footer">
+			<div slot="footer" class="dialog-footer">
 				<el-button @click="clearForm">取 消</el-button>
-				<el-button type="primary"
-				           @click="submitInfos">修改支付</el-button>
+				<el-button type="primary" @click="submitInfos">修改返点</el-button>
 			</div>
 
 		</el-dialog>
@@ -212,7 +154,7 @@ import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 import api from "@/api/api.js";
 export default {
-	data() {
+	data () {
 		return {
 			pageShow: true,
 			tableData: [],
@@ -250,13 +192,13 @@ export default {
 		}
 	},
 	filters: {
-		type(a) {
-			return a == "0" ? "关闭" : "开启";
+		type (a) {
+			return a == "0" ? "开启" : "关闭";
 		}
 	},
 
 	computed: {},
-	created() {
+	created () {
 		this.getTable();
 	},
 	mounted() {
@@ -265,74 +207,7 @@ export default {
 	},
 
 	methods: {
-		handleRemove(file, fileList) {
-			console.log(file, fileList);
-		},
-		handleAvatarSuccess(res, file) {
-			console.log(res);
-			// console.log(file)
-			this.ruleForm.pay_picture = res  //  添加支付的图片名
-			this.fileUrl = res  //  修改支付的图片名
-			this.imageUrl = URL.createObjectURL(file.raw);
-		},
-		beforeAvatarUpload(file) {
-			const JPGArr = ["image/jpg", "image/jpeg", "image/png", "image/gif"]
-			const isJPG = JPGArr.indexOf(file.type) > -1;
-			const isLt2M = file.size / 1024 / 1024 < 2;
-
-			if (!isJPG) {
-				this.$message.error("上传图片只能是 JPG/PNG/GIF 格式!");
-			}
-			if (!isLt2M) {
-				this.$message.error("上传图片大小不能超过 2MB!");
-			}
-			return isJPG && isLt2M;
-		},
-		submitForm(formName) {  //   添加支付
-			if (this.value3 == true) {
-				this.ruleForm.is_open = 1;
-			} else {
-				this.ruleForm.is_open = 0;
-			}
-			let obj = {
-				id: '',
-				is_update: 0,
-				pay_name: this.ruleForm.name,
-				is_open: this.ruleForm.is_open,
-				pay_picture: this.ruleForm.pay_picture
-			}
-			console.log(obj)
-			// addPaySwitch(obj).then(res=>{
-
-			// })
-			this.$refs[formName].validate(valid => {
-				if (valid) {
-					// alert("submit!");
-					addPaySwitch(obj).then(res => {
-						console.log(res)
-						if (res.data.error_code == 200) {
-							Message.success(res.data.message)
-							this.dialogVisible1 = false
-							this.findPaySwitch()
-						} else {
-							Message.success(res.data.message)
-						}
-					})
-				} else {
-					console.log("error submit!!");
-					return false;
-				}
-			});
-		},
-		resetForm(formName) {
-			this.$refs[formName].resetFields();
-		},
-		//   ===================================================================
-		showDailag() {
-			//  添加图片
-			this.dialogVisible1 = true;
-		},
-		switchChange() {
+		switchChange () {
 			//   console.log(this.value3)
 			if (this.value3 == true) {
 				this.is_open = 1;
@@ -340,10 +215,10 @@ export default {
 				this.is_open = 0;
 			}
 		},
-		handleChange(val) {
+		handleChange (val) {
 			console.log(val);
 		},
-		getTable() {
+		getTable () {
 			//   获取所有会员列表
 			findPaySwitch().then(res => {
 				console.log(res)
@@ -353,7 +228,7 @@ export default {
 				console.log(res);
 			});
 		},
-		handleEdit(obj) {
+		handleEdit (obj) {
 			console.log(obj);
 			this.tableData3 = [];
 			this.viewFormVisible = true;
@@ -362,7 +237,7 @@ export default {
 			this.onePeople = obj;
 			//   console.log(this.onePeople);
 		},
-		submitInfos() {   //  修改支付
+		submitInfos () {
 			if (this.value3 == true) {
 				this.is_open = 1;
 			} else {
@@ -388,12 +263,12 @@ export default {
 				}
 			});
 		},
-		clearForm() {
+		clearForm () {
 			//  取消按钮
 			this.viewFormVisible = false;
 		},
 		// 分页的回调
-		changepage(val) {
+		changepage (val) {
 			this.getTable(val);
 		}
 	}
