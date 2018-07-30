@@ -131,7 +131,7 @@ export default {
       // console.log(data)
     },
     showView(data, type) {
-      console.log(data)
+      // console.log(data)
       this.viewFormType = type
       this.form = {
         role_id: data.id,
@@ -139,7 +139,7 @@ export default {
         role_name: data.NAME
       }
       // this.getFindRoleAndPermission(data.NAME)
-      this.getFindAllChildModel('', 1,1000)
+      this.getFindAllChildModel('', 1, 1000)
     },
     // 查询当前用户的权限
     getFindRoleAndPermission(account) {
@@ -166,6 +166,7 @@ export default {
         if (res.data.error_code === 200) {
           const data = res.data.data.list
           const tempArray = []
+          // console.log('data', data)
           data.forEach(item => {
             const tempObj = {
               model_parent: item.model_parent,
@@ -178,23 +179,23 @@ export default {
               model_url: item.model_url
             }
             if (tempArray.length > 0) {
-              tempArray.forEach((arr, index) => {
-                if (arr.model_parent === item.model_parent) {
-                  arr.childList.push(childObj)
-                } else {
-                  if (index === (tempArray.length - 1)) {
-                    tempObj.childList.push(childObj)
-                    tempArray.push(tempObj)
-                  }
-                }
+              let index = tempArray.findIndex(value => {
+                return value.model_parent === item.model_parent
               })
-            } else {
+              if(index > -1){
+                tempArray[index].childList.push(childObj)
+              } else {
+                tempObj.childList.push(childObj)
+                tempArray.push(tempObj)
+              }
+            } 
+            if ((tempArray.length === 0)) {
               tempObj.childList.push(childObj)
               tempArray.push(tempObj)
             }
           })
           this.curAllPer = tempArray
-          console.log('this.curAllPer', this.curAllPer)
+          // console.log('this.curAllPer', this.curAllPer)
           this.viewFormVisible = true
         } else {
           Message.error(res.data.message)
@@ -225,7 +226,7 @@ export default {
       } else {
         this.postAddRoleBondPermission()
       }
-      console.log(this.form)
+      // console.log(this.form)
     },
     // 设置权限
     postAddRoleBondPermission() {
@@ -261,54 +262,56 @@ export default {
       })
     },
     handleCheckChange(data, checked, indeterminate) {
-      // console.log(data, checked, indeterminate)
+      console.log(data, checked, indeterminate)
       const id = data.id || data.model_parent
       let paerntId = null
       const tempObj = {
         model_parent: 0,
         childList: []
       }
+      // console.log(this.$refs.tree.getNode(id))
       if (this.$refs.tree.getNode(id)) {
         // 点选二级菜单
-        paerntId = this.$refs.tree.getNode(id).parent.data.model_parent
-        if (checked) {
+        let treeNode = this.$refs.tree.getNode(id)
+        paerntId = treeNode.parent.data.model_parent
+        if (treeNode.checked) {
           tempObj.model_parent = paerntId
           tempObj.childList.push(id)
-          const index = this.curSelectPer.map(item => item.model_parent).indexOf(paerntId)
+          const index = this.curSelectPer.findIndex(value => {
+            return value.model_parent === paerntId
+          })
           if (index > -1) {
-            this.curSelectPer.forEach(item => {
-              if (item.childList.map(val => val).indexOf(id) < 0) {
-                item.childList.push(id)
-              }
+            const _index = this.curSelectPer[index].childList.findIndex(value => {
+              return value === id
             })
+            if (_index < 0) {
+              this.curSelectPer[index].childList.push(id)
+            }
           } else {
             this.curSelectPer.push(tempObj)
           }
         } else {
-          this.curSelectPer.map(item => {
-            const index = item.childList.map(value => value).indexOf(id)
-            if (index > -1) {
-              item.childList.splice(index, 1)
+          let removeId = treeNode.data.id
+          this.curSelectPer.forEach(item => {
+            if(item.model_parent === paerntId) {
+              item.childList.splice(item.childList.findIndex(value => value === removeId), 1)
             }
-            if (item.childList.length < 1) {
-              this.curSelectPer.splice((this.curSelectPer.map(item => item.model_parent).indexOf(paerntId)), 1)
+            if (item.childList.length === 0) {
+              this.curSelectPer.splice((this.curSelectPer.findIndex(_item => _item.model_parent === paerntId)), 1)
             }
           })
         }
       } else {
-        // 点选一级菜单
         if (checked) {
           tempObj.model_parent = id
           data.childList.forEach(ids => {
-            if (tempObj.childList.map(val => val).indexOf(ids.id) < 0) {
+            if (tempObj.childList.findIndex(value => value === ids.id) < 0) {
               tempObj.childList.push(ids.id)
             }
           })
-          if ((this.curSelectPer.map(item => item.model_parent).indexOf(id) < 0)) {
+          if (this.curSelectPer.findIndex(item => item.model_parent === id) < 0) {
             this.curSelectPer.push(tempObj)
           }
-        } else if (!indeterminate) {
-          this.curSelectPer.splice((this.curSelectPer.map(item => item.model_parent).indexOf(id)), 1)
         }
       }
       console.log('this.curSelectPer', this.curSelectPer)

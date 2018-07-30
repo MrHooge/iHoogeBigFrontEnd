@@ -149,7 +149,7 @@ export const constantRouterMap = [
       },
     ]
   },
-  // 轮播墙
+  // 平台代理
   {
     path: '/platfor_manager',
     component: Layout,
@@ -165,10 +165,139 @@ export const constantRouterMap = [
        meta: {
          title: '会员返点列表'
        }
-     }
+     },
+     { //  设置会员返点
+       path: 'setRebates',
+       name: '设置会员返点',
+       component: () =>
+         import ('@/views/platfor_manager/setRebates'),
+       meta: {
+         title: '设置会员返点'
+       }
+     },
+     { //  代理分配
+       path: 'agencyAllocation',
+       name: '代理分配',
+       component: () =>
+         import ('@/views/platfor_manager/agencyAllocation'),
+       meta: {
+         title: '代理分配'
+       }
+     },
     ]
   },
+  // 代理授信
+  {
+    path: '/creadit',
+    component: Layout,
+    redirect: '/creadit/backend',
+    name: '平台代理',
+    meta: { title: '平台代理' },
+    children: [
+     { //  授信表
+       path: 'backend',
+       name: '授信表',
+       component: () =>
+         import ('@/views/creadit/backend'),
+       meta: {
+         title: '授信表'
+       }
+     },
+     { //  授信操作记录
+       path: 'operationSurface',
+       name: '授信记录表',
+       component: () =>
+         import ('@/views/creadit/operationSurface'),
+       meta: {
+         title: '授信记录表'
+       }
+     },
+     { //  代理给客户加款流水
+       path: 'subcustomer',
+       name: '代理给客户加款流水',
+       component: () =>
+         import ('@/views/creadit/subcustomer'),
+       meta: {
+         title: '代理给客户加款流水'
+       }
+     },
+     { //  代理向平台还款流水及确认
+       path: 'creaditop',
+       name: '代理还款流水及确认',
+       component: () =>
+         import ('@/views/creadit/creaditop'),
+       meta: {
+         title: '代理还款流水及确认'
+       }
+     },
 
+    ]
+  },
+  // 支付模块
+  {
+    path: '/recharge_center',
+    component: Layout,
+    redirect: '/recharge_center/rechange_open_session',
+    name: '支付中心',
+    meta: { title: '支付中心' },
+    children: [
+  {
+    path: 'rechange_open_session',
+    name: '支付设置',
+    component: () =>
+      import ('@/views/recharge_center/rechange_open_session'),
+    meta: {
+      title: '支付设置'
+    }
+  },
+  {
+    path: 'rechangeDetail',
+    name: '线下充值明细',
+    component: () =>
+      import ('@/views/recharge_center/rechangeDetail'),
+    meta: {
+      title: '线下充值明细'
+    }
+  },
+  {
+    path: 'online_SerialNumber',
+    name: '线上充值流水',
+    component: () =>
+      import ('@/views/recharge_center/online_SerialNumber'),
+    meta: {
+      title: '线上充值流水'
+    }
+  },
+  {
+    path: 'all_rechange_surface',
+    name: '会员充值流水查询-总表',
+    component: () =>
+      import ('@/views/recharge_center/all_rechange_surface'),
+    meta: {
+      title: '会员充值流水查询-总表'
+    }
+  },
+  {
+    path: 'replenishment_order',
+    name: '充值补单',
+    component: () =>
+      import ('@/views/recharge_center/replenishment_order'),
+    meta: {
+      title: '充值补单'
+    }
+  },
+  {
+    path: 'fundReversal',
+    name: '资金冲正',
+    component: () =>
+      import ('@/views/recharge_center/fundReversal'),
+    meta: {
+      title: '资金冲正'
+    }
+  },
+
+    ]
+  },
 
   //活动管理
   {
@@ -302,6 +431,24 @@ export const constantRouterMap = [
       
     ]
   },
+  //财务管理
+  {
+    path: '/financialManagement',
+    component: Layout,
+    redirect: '/financialManagement/Rechange',
+    name: '财务管理',
+    meta: { title: '财务管理' },
+    children: [
+      {
+        path: 'Rechange',
+        name: '充值',
+        component: () =>
+          import ('@/views/financialManagement/Rechange'),
+        meta: { title: '充值' }
+      },
+      
+    ]
+  },
 
 
   //客户详情查询
@@ -368,6 +515,52 @@ export const constantRouterMap = [
       },
     ]
   },
+  //麒云88模块
+  {
+    path: '/qiyun88',
+    component: Layout,
+    redirect: '/qiyun88/Sundryinglist',
+    name: '麒云88模块',
+    meta: { title: '麒云88模块' },
+    children: [
+      {
+        path: 'Sundryinglist',
+        name: '晒单列表',
+        component: () =>
+          import ('@/views/qiyun88/Sundryinglist'),
+        meta: { title: '晒单列表' }
+      },
+      {
+        path: 'Newstarlist',
+        name: '新星榜',
+        component: () =>
+          import ('@/views/qiyun88/Newstarlist'),
+        meta: { title: '新星榜' }
+      },
+      {
+        path: 'Winninglist',
+        name: '中奖列表',
+        component: () =>
+          import ('@/views/qiyun88/Winninglist'),
+        meta: { title: '中奖列表' }
+      },
+      {
+        path: 'Addcelebrity',
+        name: '发单名人添加',
+        component: () =>
+          import ('@/views/qiyun88/Addcelebrity'),
+        meta: { title: '发单名人添加' }
+      },
+      {
+        path: 'Stationletter',
+        name: '站内信',
+        component: () =>
+          import ('@/views/qiyun88/Stationletter'),
+        meta: { title: '站内信' }
+      }
+    ]
+  },
+
   //焦点赛事模块
   {
     path: '/foucsEvent',

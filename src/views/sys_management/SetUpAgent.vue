@@ -1,40 +1,25 @@
 <template>
-	<div class="app-container">
-		<!-- <el-button v-waves type="primary">设置渠道或代理</el-button> -->
-		<el-table :data="tableData"
-		          border
-		          style="width: 100%; margin-top: 20px">
-			<el-table-column label="编号"
-			                 align="center"
-			                 type="index"
-			                 width="120px">
-			</el-table-column>
-			<el-table-column prop="account"
-			                 align="center"
-			                 label="用户名">
-			</el-table-column>
-			<el-table-column prop="name"
-			                 align="center"
-			                 label="姓名">
-			</el-table-column>
-			<el-table-column prop="username"
-			                 align="center"
-			                 label="昵称">
-			</el-table-column>
-			<el-table-column prop="mobile"
-			                 align="center"
-			                 label="手机号">
-			</el-table-column>
-			<el-table-column align="center"
-			                 width="220px;"
-			                 label="操作">
-				<template slot-scope="scope">
+<div class="app-container">
+	<!-- <el-button v-waves type="primary">设置渠道或代理</el-button> -->
+	<el-table :data="tableData" border style="width: 100%; margin-top: 20px">
+		<el-table-column label="编号" align="center" type="index" width="120px">
+		</el-table-column>
+		<el-table-column prop="account" align="center" label="用户名">
+		</el-table-column>
+		<el-table-column prop="name" align="center" label="姓名">
+		</el-table-column>
+		<el-table-column prop="username" align="center" label="昵称">
+		</el-table-column>
+		<el-table-column prop="mobile" align="center" label="手机号">
+		</el-table-column>
+		<el-table-column align="center" width="220px;" label="操作">
+			<template slot-scope="scope">
 					<div>
 						<el-button type="primary"
 						           @click="showDailag(scope.row, 'modify')"
 						           icon="el-icon-edit"></el-button>
 					</div>
-				</template>
+</template>
 			</el-table-column>
 		</el-table>
 		<div class="page">
@@ -78,11 +63,22 @@
 </template>
 
 <script>
-import { findAllMember, handleEdit, setMemberToAgent } from '@/api/sys_user'
+import {
+	findAllMember,
+	handleEdit,
+	setMemberToAgent
+} from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message, Checkbox } from 'element-ui'
+import {
+	Message,
+	Checkbox
+} from 'element-ui'
 import treeTable from '@/components/TreeTable'
-import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import {
+	getCookies,
+	setCookies,
+	removeCookies
+} from '@/utils/cookies'
 export default {
 	data() {
 		return {
@@ -132,7 +128,7 @@ export default {
 			this.viewFormVisible = false
 
 		},
-		submitInfos() {  // 确定按钮
+		submitInfos() { // 确定按钮
 			if (this.radio == '1') {
 				let obj = {
 					account: this.account,
@@ -165,8 +161,7 @@ export default {
 				console.log('设置代理')
 			}
 		},
-		handleCheckChange() {
-		},
+		handleCheckChange() {},
 		// 分页的回调
 		changepage(val) {
 			this.getTable(val)
@@ -176,4 +171,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

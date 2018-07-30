@@ -213,7 +213,6 @@ export function addAgency(params) {
   })
 }
 
-
 // 开户轮播墙
 
 export function openAccountWall(loginAccount) {
@@ -246,15 +245,170 @@ export function findRechargeAndConsumerWall(params) {
     
   })
 }
-// 充值消费轮播墙
+// 会员返点列表
 export function findAllRate(page, pageSize) {
   return request.member({
-    url: 'http://192.168.42.40:8081/userManage/findAllRate',
+    url: '/userManage/findAllRate',
     method: 'get',
     params: {
       page,
       pageSize:20,
       account:''
     }
+  })
+}
+// 会员返点修改
+export function updateRateByAccount(params) {
+  return request.member({
+    url: '/userManage/updateRateByAccount',
+    method: 'get',
+    params: params
+  })
+}
+// 设置返点
+export function setRate(account, rateParams) {
+  return request.member({
+    url: '/userManage/setRate',
+    method: 'get',
+    params: {
+      account,
+      rateParams
+    }
+  })
+}
+//授信表数据
+export function getCreditMember(params) {
+  return request.member({
+    url: '/user/getCreditMember',
+    method: 'get',
+    params: params
+  })
+}
+//授信
+export function credit(params) {
+  return request.pay({
+    url: '/xxPay/credit',
+    method: 'get',
+    params: params
+  })
+}
+//授信操作记录
+export function getCreditLimitLine(params) {
+  return request.pay({
+    url: '/xxPay/getCreditLimitLine',
+    method: 'get',
+    params: params
+  })
+}
+//代理给客户加款流水
+export function getAgentChargeLine(params) {
+  return request.pay({
+    url: '/xxPay/getAgentChargeLine',
+    method: 'get',
+    params: params
+  })
+}
+//获取代理还款申请/记录
+export function getCreditRefund(params) {
+  return request.pay({
+    url: '/xxPay/getCreditRefund',
+    method: 'get',
+    params: params
+  })
+}
+//通过还款申请
+export function passCreditRefundApply(params) {
+  return request.pay({
+    url: '/xxPay/passCreditRefundApply',
+    method: 'get',
+    params: params
+  })
+}
+//驳回还款申请
+export function refuseCreditRefundApply(params) {
+  return request.pay({
+    url: '/xxPay/refuseCreditRefundApply',
+    method: 'get',
+    params: params
+  })
+}
+//查询所有支付方式
+export function findPaySwitch() {
+  return request.member({
+    url: 'userCount/findPaySwitch',
+    method: 'get',
+  })
+}
+//支付修改
+export function addPaySwitch(params) {
+  return request.member({
+    url: '/userCount/addPaySwitch',
+    method: 'get',
+    params:params
+  })
+}
+//线下充值加款明细
+export function findRechargeUnderLine(params) {
+  return request.member({
+    url: '/user/findRechargeUnderLine',
+    method: 'get',
+    params:params
+  })
+}
+//支线下充值明细 充值功能
+export function xxCharge(params) {
+  return request.pay({
+    url: '/xxPay/xxCharge',
+    method: 'get',
+    params:params
+  })
+}
+//线上充值流水 
+export function findRechargeOnLine(params) {
+  return request.member({
+    url: 'user/findRechargeOnLine',
+    method: 'get',
+    params:params
+  })
+}
+//会员充值流水查询--总表
+export function findMemberWalletLineByAccount(params ) {
+  return request.member({
+    url: '/user/findMemberWalletLineByAccount',
+    method: 'get',
+    params:params
+  })
+}
+//获取所有充值失败的订单
+export function getAllFailPayOrder(params) {
+  return request.pay({
+    url: '/pay/getAllFailPayOrder',
+    method: 'get',
+    params:params
+  })
+}
+//充值补单
+export function chargeFix(params) {
+  return request.pay({
+    url: '/pay/chargeFix',
+    method: 'get',
+    params:params
+  })
+}
+//资金冲正
+export function chargeRight(params) {
+  return request.pay({
+    url: 'pay/chargeRight',
+    method: 'get',
+    params:params
+  })
+}
+
+// 当日所有人员的销量详情
+export function findSaleInfo(params) {
+  return request.member({
+    url: 'user/findSaleInfo',
+    method: 'get',
+    params:params
   })
 }
