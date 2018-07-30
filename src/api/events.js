@@ -69,3 +69,55 @@ export function updateBbFocusMatchStatus(id){
         }
     })
 }
+//获取足球赛事列表
+export function findFootballMixureInfo(userinfos){
+    return request.lottery({
+        url:'/lottery/findFootballMixureInfo',
+        method:'get',
+        params:userinfos
+    })
+}
+//设置足球焦点赛事列表
+export function setFbFocusMatch(ids){
+    return request.lottery({
+        url:'/lottery/setFbFocusMatch',
+        method:'get',
+        params:{
+            ids
+        }
+    })
+}
+//取消足球焦点赛事
+export function updateFbFocusMatchStatus(id){
+    return request.lottery({
+        url:'/lottery/updateFbFocusMatchStatus',
+        method:'get',
+        params:{
+            id
+        }
+    })
+}
+//有效代理列表
+export function getAgentList(userinfos){
+    return request.member({
+        url:'/user/getAgentList',
+        method:'get',
+        params:userinfos
+    })
+}
+//设置嘉奖名单
+export function setAddPrizeBlackOrWhite(userinfos){
+    return request.lottery({
+        url:'/lottery/setAddPrizeBlackOrWhite',
+        method:'get',
+        params:userinfos
+    })
+}
+//获取嘉奖黑名单列表
+export function getAddPrizeBlack(userinfos){
+    return request.lottery({
+        url:'/lottery/getAddPrizeBlack',
+        method:'get',
+        params:userinfos
+    })
+}

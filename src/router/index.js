@@ -397,7 +397,7 @@ export const constantRouterMap = [
       {
         path: 'footballEvent',
         name: '足球赛事列表',
-        component: () => import('@/views/foucs_event/basketball_event'),
+        component: () => import('@/views/foucs_event/football_event'),
         meta: { title: '足球赛事列表' }
       },
       {

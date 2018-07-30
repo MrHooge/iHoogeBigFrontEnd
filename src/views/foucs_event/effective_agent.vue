@@ -2,8 +2,10 @@
    <div class="effectiveagent">
       <!-- 1 2代理及底下会员黑名单 3代理白名单 4代理及底下会员白名单 -->
       <div class="bens">
-         <el-button type="primary" @click="setAgent(1)">设置加奖黑名单</el-button>
-         <el-button type="danger" @click="setAgent(3)">设置加奖白名单</el-button>
+         <el-button type="primary" @click="setAgent(1)">设置代理黑名单</el-button>
+         <el-button type="primary" @click="setAgent(2)">设置代理及底下黑名单</el-button>
+         <el-button type="danger" @click="setAgent(3)">设置代理白名单</el-button>
+         <el-button type="primary" @click="setAgent(4)">设置代理及底下黑名单</el-button>
          <!-- <el-button type="danger">设置代理及底下会员黑名单</el-button>
          <el-button type="danger">设置代理及底下会员白名单</el-button> -->
       </div>
@@ -44,51 +46,51 @@
          <!-- 分页 -->
            <div class="page">
             <el-pagination
-               background
-               @current-change = "currpage"
-               :page-size="pages"
-               layout="prev, pager, next"
-               :total="total">
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
             </el-pagination>
          </div>
    </div>
 </template>
 
 <script>
-import api from '@/api/Api'
+import { getAgentList,setAddPrizeBlackOrWhite } from '@/api/events'
 
 export default {
     data() {
         return {
             tableData: [],
-            pages: 20,
+            pageSize: 20,
             selections:[],
-            total: 0
+            total: 0,
+            page:1
         }
     },
     filters: {},
     created() {
-        this.getTable(1)
+        this.getTable()
     },
     methods: {
         // 获取表格数据
-        getTable(curr) {
+        getTable() {
             let obj = {
-                page: curr,
-                pageSize: 20
+                page: this.page,
+                pageSize: this.pageSize
             }
-            this.$http
-                .get(api.member + '/user/getAgentList', {
-                    params: obj
-                })
-                .then(res => {
-                    if (res.status == 200) {
-                        if (res.data.error_code == 200) {
-                            this.tableData = res.data.data.list
-                            this.total = res.data.data.total
-                        }
-                    }
-                })
+            getAgentList(obj)
+            .then(res => {
+                console.log(res.data.data.list)
+                this.tableData = res.data.data.list
+            })
+            
         },
         // 分页的回调
         currpage(val) {
@@ -98,6 +100,16 @@ export default {
         handleSelectionChange(selection) {
             console.log(selection)
             this.selections = selection
+        },
+         //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getTable()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getTable()
         },
         //   设置黑名单
         setAgent(types) {
@@ -110,10 +122,11 @@ export default {
                     ids:arr.join(','),
                     type:types
                 }
-                this.$ajax.get(api.lottery +'/lottery/setAddPrizeBlackOrWhite',obj).then(res => {
+               setAddPrizeBlackOrWhite(obj)
+               .then(res => {
                     if(res.error_code==200) {
                         this.$message('设置' + res.message)
-                        this.getTable(1)
+                        this.getTable()
                     } else {
                         this.$message(res.message)
                     }
@@ -128,6 +141,9 @@ export default {
 </script>
 
 <style scoped>
+.effectiveagent{
+    padding: 10px 20px 
+}
 div.page {
     padding: 10px 0;
 }

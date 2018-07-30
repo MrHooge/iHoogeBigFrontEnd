@@ -10,35 +10,77 @@
                >
             </el-table-column>
             <el-table-column
-                prop="matchName"
+                prop="GAME_SHORT_NAME"
                 align="center"
                 label="赛事名称">
             </el-table-column>
             <el-table-column
+                prop="concede"
+                align="center"
+                label="让球">
+            </el-table-column>
+            <el-table-column
+                prop="drawAward"
+                align="center"
+                label="平sp">
+            </el-table-column>
+            <el-table-column
+                prop="guestTeam"
+                align="center"
+                label="客队">
+            </el-table-column>
+            <el-table-column
+                prop="guestWinAward"
+                align="center"
+                label="客胜ps">
+            </el-table-column>
+            <el-table-column
+                prop="homeTeam"
+                align="center"
+                label="主队">
+            </el-table-column>
+            <el-table-column
+                prop="homeWinAward"
+                align="center"
+                label="主胜sp">
+            </el-table-column>
+            <el-table-column
                 prop="matchId"
+                align="center"
+                label="id">
+            </el-table-column>
+            <el-table-column
+                prop="matchIds"
                 align="center"
                 label="场次号">
             </el-table-column>
-            <el-table-column
-            prop="guestTeam"
-            label="客队名称"
-            align="center"
-            >
-            </el-table-column>
-            <el-table-column
-            prop="homeTeam"
-            align="center"
-            label="主队名称"
-            >
-            </el-table-column>
-            <el-table-column
+           <el-table-column
                 prop="matchTime"
-                label="开赛日期"
-                align="center">
-                
+                align="center"
+                label="比赛时间">
             </el-table-column>
             <el-table-column
-                prop="matchDealTime"
+                prop="rq_drawAward"
+                align="center"
+                label="让球平sp">
+            </el-table-column>
+            <el-table-column
+                prop="rq_guestWinAward"
+                align="center"
+                label="让球客胜sp">
+            </el-table-column>
+            <el-table-column
+                prop="rq_homeWinAward"
+                align="center"
+                label="让球主胜sp">
+            </el-table-column>
+            <el-table-column
+                prop="showNum"
+                align="center"
+                label="停开售">
+            </el-table-column>
+            <el-table-column
+                prop="MatchDealTime"
                 label="截止日期"
                 align="center">
                
@@ -55,17 +97,31 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
    </div>
 </template>
 
 <script>
 import api from '@/api/Api'
-import { updateBbFocusMatchStatus,getBasketBallMatch } from '@/api/events'
+import { findFootballMixureInfo,updateFbFocusMatchStatus } from '@/api/events'
 // import settime from './index.js'
 export default {
     data() {
         return {
-            tableData: []
+            tableData: [],
+            page:1,
+            pageSize:10
         }
     },
     filters: {
@@ -81,18 +137,20 @@ export default {
         getTable() {
             let obj = {
                 isFocus: 1,
-                type: 2
+                type: 2,
+                page:this.page,
+                pageSize:this.pageSize
             }
-            getBasketBallMatch(obj)
+            findFootballMixureInfo(obj)
             .then(res => {
-                //console.log(res.data)
-                this.tableData.push(res.data.data[0])
+                console.log(res.data.data.list)
+                this.tableData = res.data.data.list
             })
             
         },
         handleEdit(a) {
             let id = a.id;     
-            updateBbFocusMatchStatus(id)
+            updateFbFocusMatchStatus(id)
             .then(res => {
                 if(res.data.error_code == 200){
                     this.$message(res.data.message)
@@ -100,7 +158,16 @@ export default {
                     this.$message(res.data.message)
                 }
             })
-        }
+        },
+        handleCurrentChange(num){
+            this.page = num;
+            this.getTable()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getTable()
+        },
     }
 }
 </script>

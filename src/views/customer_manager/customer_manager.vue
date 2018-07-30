@@ -264,7 +264,8 @@ export default {
             province:'',
             zfbAccount:'',
             },
-
+            stime:'',
+            etime:'',
             bank_type:''
             
         }
@@ -314,7 +315,7 @@ export default {
     },
     methods:{
         inquire(){
-            if(this.account ||this.name ||this.idcard ||this.telphone){
+            if(this.account ||this.name ||this.idcard ||this.telphone ||this.stime){
                 this.gettablelist()
             }else {
                 this.$message('请输入相关信息')
@@ -324,11 +325,11 @@ export default {
         gettablelist(){
             let obj={
                 account:this.account,
-                endTime:'',
+                endTime:this.etime,
                 mobile:this.telphone,
                 page:this.page,
                 pageSize:this.pageSize,
-                startTime:'',
+                startTime:this.stime,
                 username:''
             }
             findAllMember(obj).then(res => {

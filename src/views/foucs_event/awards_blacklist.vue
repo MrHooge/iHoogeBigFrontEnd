@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import api from '@/api/Api'
+import { getAddPrizeBlack } from '@/api/events'
 export default {
     data() {
         return {
@@ -75,9 +75,11 @@ export default {
                 page: curr,
                 pageSize: 20
             }
-            this.$ajax.get(api.lottery + '/lottery/getAddPrizeBlack',model).then(res=>{
-                if(res.error_code==200){
-                    this.tableData = res.data.list
+            getAddPrizeBlack(model)
+            .then(res=>{
+                console.log(res.data.error_code)
+                if(res.data.error_code == 200){
+                    this.tableData = res.data.data.list
                     this.total = res.data.total
                 }else{
                     this.$message(res.message)
@@ -97,6 +99,9 @@ export default {
 </script>
 
 <style scoped>
+.bonuslist{
+    padding: 10px 20px
+}
 div.box{
     padding-bottom: 15px;
 }

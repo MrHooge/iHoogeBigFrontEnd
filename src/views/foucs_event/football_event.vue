@@ -83,7 +83,7 @@
                width="55">
             </el-table-column>
             <el-table-column
-                prop="matchName"
+                prop="GAME_SHORT_NAME"
                 align="center"
                 label="赛事名称">
             </el-table-column>
@@ -128,11 +128,23 @@
                 </template>
             </el-table-column> -->
          </el-table>
+         <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
    </div>
 </template>
 
 <script>
-import { getBasketBallMatch,setBbFocusMatch,updateDGByStatus } from '@/api/events'
+import { findFootballMixureInfo,setFbFocusMatch,updateMatchDealTime,updateDGByStatus } from '@/api/events'
 export default {
     data() {
         return {
@@ -143,6 +155,8 @@ export default {
             val: '', // 分钟数
             isopenSwitch:true,
             time:'',
+            page:1,
+            pageSize:10,
         }
     },
     filters: {
@@ -155,11 +169,13 @@ export default {
         getTable() {
             let obj = {
                 isFocus: 0,
-                type: 2
+                type: 2,
+                page:this.page,
+                pageSize:this.pageSize
             }
-            getBasketBallMatch(obj)
+            findFootballMixureInfo(obj)
             .then(res => {
-                this.tableData.push(res.data.data[0])
+                this.tableData = res.data.data.list
 
             })
         },
@@ -239,7 +255,7 @@ export default {
                     arr.push(e.id)
                 })
                 let ids = arr.join(',')
-                setBbFocusMatch(ids)
+                setFbFocusMatch(ids)
                 .then(res => {
                     console.log(res)
                     if(res.data.error_code == 200){
@@ -255,7 +271,17 @@ export default {
         // 选择框全部
         handleSelectionChange(selection) {
             this.selections = selection
-        }
+        },
+        //分页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getTable()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getTable()
+        },
     }
 }
 </script>
