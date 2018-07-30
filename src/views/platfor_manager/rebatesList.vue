@@ -36,7 +36,7 @@
 			                 label="操作">
 				<template slot-scope="scope">
 					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">设置返点</el-button>
+					           @click="handleEdit(scope.row, 'modify')">修改返点</el-button>
 					<!-- <el-button type="primary"
 					           @click="deleteRebates(scope.row, 'modify')">删除返点</el-button> -->
 										 <el-button type="info" @click="deleteRebates(scope.row, 'modify')">删除返点</el-button>

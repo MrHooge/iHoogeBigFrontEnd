@@ -526,13 +526,32 @@ export const constantRouterMap = [{
     meta: {
       title: '财务管理'
     },
-    children: [{
+    children: [
+      {
         path: 'Rechange',
         name: '充值',
         component: () =>
           import ('@/views/financialManagement/Rechange'),
         meta: {
           title: '充值'
+        }
+      },
+      {
+        path: 'capitaldetails',
+        name: '财务资金明细',
+        component: () =>
+          import ('@/views/financialManagement/capitaldetails'),
+        meta: {
+          title: '财务资金明细'
+        }
+      },
+      {
+        path: 'cashdetails',
+        name: '财务现金明细',
+        component: () =>
+          import ('@/views/financialManagement/cashdetails'),
+        meta: {
+          title: '财务现金明细'
         }
       },
 

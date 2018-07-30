@@ -1,7 +1,6 @@
 <template>
 	<div class="backend app-container">
-		<div class="layerbody"
-		     style="height: 600px;overflow: auto;">
+		<div class="layerbody">
 			<div class="search">
 				<el-input v-model="sjname"
 				          placeholder="请输入会员名"
@@ -34,7 +33,17 @@
 				</el-table>
 			</div>
 		</div>
-		<div class="page">
+		<div slot="footer"
+		     class="dialog-footer"
+		     v-show="isShow"
+		     style="padding:30px 0">
+			<el-button type="primary"
+			           style="width:100%"
+			           @click="cofirm">确 定</el-button>
+		</div>
+		<div class="page"
+		     v-show="pageShow"
+		     style="padding:30px 0">
 			<el-pagination background
 			               :page-size=20
 			               @current-change="changepage"
@@ -42,17 +51,27 @@
 			               :total="total">
 			</el-pagination>
 		</div>
-		<!-- <span slot="footer"
-		      class="dialog-footer">
-			<el-button @click="dialogVisible = false">取 消</el-button>
-			<el-button type="primary"
-			           @click="cofirm">确 定</el-button>
-		</span> -->
+		<!-- 弹窗事件 -->
+		<el-dialog title="确认转移"
+		           :visible.sync="dialogVisible"
+		           width="40%">
+			<div>
+				<el-input v-model="input"
+				          placeholder="请输入转入用户名"></el-input>
+
+			</div>
+			<span slot="footer"
+			      class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary"
+				           @click="makersure">确 定</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
-import { getSubordinateMember } from '@/api/sys_user'
+import { getSubordinateMember, moveMember } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -60,11 +79,17 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
+			pageShow: false, //  分页
+			input: '', //  转移后
+			dialogVisible: false, //确认弹框
+			isShow: false,
 			sjname: '', //  搜索名
 			total: 0, //总页数
 			tableData: [], //表格数据
 			multipleSelection: [], //选中的数据
-			number:[]
+			number: [],
+			
+
 		}
 	},
 	// created(){
@@ -83,23 +108,61 @@ export default {
 			}
 			getSubordinateMember(obj).then(res => {
 				console.log(res)
-				if(res.data.error_code==200){
+				if (res.data.error_code == 200) {
 					this.tableData = res.data.data.list
+					this.total = res.data.data.total
+					this.pageShow = true
+				} else {
+					this.pageShow = false
+					Message.success(res.data.message)
 				}
 			})
 		},
-		cofirm() {
-			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-				return this.number.push(e.id)
-			});
-			console.log(this.number)
-		},
+
 		// 选择框的回调
 		handleSelectionChange(val) {
 			this.multipleSelection = val
-			// console.log(val)
+			if (val.length > 0) {
+				this.isShow = true
+
+			} else {
+				this.isShow = false
+			}
+			console.log(val)
 
 		},
+		cofirm() {
+			this.number = []
+			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
+				return this.number.push(e.id)
+			});
+
+			this.num=this.number.join(',');
+			console.log(this.num)
+			this.dialogVisible = true
+		},
+		makersure() {
+			let oldAccount = this.sjname
+			let newAccount = this.input
+			let moveMemberId = this.num
+			// console.log(obj)
+
+			if (this.input == '') {
+				Message.success('请输入用户名')
+			} else {
+				moveMember(oldAccount, newAccount, moveMemberId).then(res => {
+					console.log(res)
+					if(res.data.error_code = 200){
+						Message.success(res.data.message)
+						this.dialogVisible = false
+						this.input = ''
+					}else {
+						Message.success(res.data.message)
+					}
+				})
+			}
+		},
+
 		changepage(val) {  //  分页回调
 			this.getData(val.id)
 		}

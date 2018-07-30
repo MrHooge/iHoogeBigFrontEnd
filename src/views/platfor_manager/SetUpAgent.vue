@@ -1,6 +1,14 @@
 <template>
 	<div class="app-container">
-		<!-- <el-button v-waves type="primary">设置渠道或代理</el-button> -->
+		<div class="search">
+			<el-input v-model="sjname"
+			          placeholder="请输入会员名"
+			          style="width:50%;"
+								@input="onInput"></el-input>
+			<el-button type="primary"
+			           icon="el-icon-search"
+			           @click="search">搜索</el-button>
+		</div>
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%; margin-top: 20px">
@@ -86,6 +94,7 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
+			sjname: '',
 			viewFormVisible: false,
 			viewFormType: 'view',
 			formLabelWidth: '120px',
@@ -104,11 +113,20 @@ export default {
 		}
 	},
 	created() {
-		this.getTable(1)
+		this.getTable(1, this.sjname)
 	},
 	methods: {
-		getTable(page, pageSize) { //   获取所有会员列表
-			findAllMember(page, pageSize).then(res => {
+		onInput(){
+			if (this.sjname=='') {
+				this.getTable(1,this,sjname)
+			}
+		},
+		search() {  //  搜索
+			this.getTable(1, this.sjname)
+		},
+		getTable(page, a) { //   获取所有会员列表
+
+			findAllMember(page, a).then(res => {
 				console.log(res)
 				this.tableData = res.data.data.list
 				this.total = res.data.data.total
@@ -169,7 +187,7 @@ export default {
 		},
 		// 分页的回调
 		changepage(val) {
-			this.getTable(val)
+			this.getTable(val,this.sjname)
 		},
 	}
 }

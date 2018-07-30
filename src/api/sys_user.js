@@ -177,13 +177,15 @@ export function findAllAgentAndQD() {
 }
 
 // 获取所有会员列表
-export function findAllMember(page) {
+export function findAllMember(page, account) {
   return request.member({
     url: '/user/findAllMember',
     method: 'get',
     params:{
       page,
-      pageSize:20
+      pageSize:20,
+      account,
+
     }
   })
 }
@@ -221,6 +223,7 @@ export function setAgentToMember(params) {
     params: params
   })
 }
+
 //  将代理升级为渠道
 export function upgradeAgentToQD(params) {
   return request.member({
@@ -309,7 +312,19 @@ export function getSubordinateMember(params) {
     params: params
   })
 }
-//授信表数据
+//  客户批量转移
+export function moveMember(oldAccount, newAccount, moveMemberId) {
+  return request.member({
+    url: '/userManage/moveMember',
+    method: 'get',
+    params: {
+      oldAccount,
+      newAccount,
+      moveMemberId
+    }
+  })
+}
+//获取代理授信表数据
 export function getCreditMember(params) {
   return request.member({
     url: '/user/getCreditMember',
@@ -431,8 +446,25 @@ export function chargeFix(params) {
 //资金冲正
 export function chargeRight(params) {
   return request.pay({
-    url: 'pay/chargeRight',
+    url: '/pay/chargeRight',
     method: 'get',
     params:params
   })
 }
+//财务资金明细
+export function findFinancialMoneyInfo(params) {
+  return request.member({
+    url: '/user/findFinancialMoneyInfo',
+    method: 'get',
+    params:params
+  })
+}
+//财务现金明细
+export function findFinancialCashInfo(params) {
+  return request.member({
+    url: '/user/findFinancialCashInfo',
+    method: 'get',
+    params:params
+  })
+}
+

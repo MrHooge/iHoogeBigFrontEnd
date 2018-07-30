@@ -3,7 +3,8 @@
 		<div class="search">
 			<el-input v-model="input1"
 			          placeholder="请输入会员名"
-			          style="width:50%;"></el-input>
+			          style="width:50%;"
+								@input="newInput"></el-input>
 			<el-button type="primary"
 			           icon="el-icon-search"
 			           @click="search">搜索</el-button>
@@ -120,6 +121,11 @@ export default {
 		this.getData(1, '');
 	},
 	methods: {
+		newInput(){  //  s搜索值为空时 调用所有数据
+				if(this.input1==''){
+					this.getData(1)
+				}
+		},
 		// 点击的搜索信息
 		search() {
 			this.getData(1, this.input1);
