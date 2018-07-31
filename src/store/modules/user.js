@@ -52,6 +52,7 @@ const user = {
             commit('SET_AVATAR', '/static/avatar/default.png')
             setCookies('token', res.data.account)
             setCookies('name', res.data.account)
+            localStorage.setItem('adminUser', res.data.account)
             setCookies('id', res.data.id)
             setCookies('roleId', res.data.roleId)
             setCookies('status', res.data.status)

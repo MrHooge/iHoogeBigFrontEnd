@@ -42,7 +42,7 @@
 						           @click="showDailag(scope.row, 'modify')"
 						           icon="el-icon-edit"></el-button>
 					</div>
-				</template>
+</template>
 			</el-table-column>
 		</el-table>
 		<div class="page">
@@ -86,11 +86,22 @@
 </template>
 
 <script>
-import { findAllMember, handleEdit, setMemberToAgent } from '@/api/sys_user'
+import {
+	findAllMember,
+	handleEdit,
+	setMemberToAgent
+} from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message, Checkbox } from 'element-ui'
+import {
+	Message,
+	Checkbox
+} from 'element-ui'
 import treeTable from '@/components/TreeTable'
-import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import {
+	getCookies,
+	setCookies,
+	removeCookies
+} from '@/utils/cookies'
 export default {
 	data() {
 		return {
@@ -150,7 +161,7 @@ export default {
 			this.viewFormVisible = false
 
 		},
-		submitInfos() {  // 确定按钮
+		submitInfos() { // 确定按钮
 			if (this.radio == '1') {
 				let obj = {
 					account: this.account,
@@ -183,8 +194,7 @@ export default {
 				console.log('设置代理')
 			}
 		},
-		handleCheckChange() {
-		},
+		handleCheckChange() {},
 		// 分页的回调
 		changepage(val) {
 			this.getTable(val,this.sjname)
@@ -194,4 +204,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

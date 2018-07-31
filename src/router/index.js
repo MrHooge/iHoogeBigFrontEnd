@@ -9,6 +9,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '../views/layout/Layout'
 
+
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -506,13 +507,40 @@ export const constantRouterMap = [{
         }
       },
       {
-        path: 'customerStatistics',
-        name: '会员统计',
-        component: () =>
-          import ('@/views/customer_manager/customer_statistics'),
-        meta: {
-          title: '会员统计'
-        }
+        path:'customerStatistics',
+        name:'会员统计',
+        component: () => import('@/views/customer_manager/customer_statistics'),
+        meta: {title: '会员统计'}
+      },
+      {
+        path:'customerManager',
+        name:'会员管理',
+        component: () => import('@/views/customer_manager/customer_manager'),
+        meta: {title: '会员管理'}
+      },
+      {
+        path:'operatingRecording',
+        name:'绑定及转移记录',
+        component: () => import('@/views/customer_manager/operating_recording'),
+        meta: {title: '绑定及转移记录'}
+      },
+      {
+        path:'customerAssociation',
+        name:'客户关联申请',
+        component: () => import('@/views/customer_manager/customer_association'),
+        meta: {title: '客户关联申请'}
+      },
+      {
+        path:'messageSearch',
+        name:'查询短信',
+        component: () => import('@/views/customer_manager/message_search'),
+        meta: {title: '查询短信'}
+      },
+      {
+        path:'customerTransfer',
+        name:'客户转移申请',
+        component: () => import('@/views/customer_manager/customer_transfer'),
+        meta: {title: '客户转移申请'}
       }
 
     ]
@@ -558,12 +586,170 @@ export const constantRouterMap = [{
     ]
   },
 
-
+  //客户详情查询
   {
-    path: '*',
-    redirect: '/404',
-    hidden: true
-  }
+    path: '/detailsSearch',
+    component: Layout,
+    redirect: '/detailsSearch/fluwQuery',
+    name: '客户详情查询',
+    meta: { title: '客户详情查询' },
+    children:[
+      {
+        path: 'fluwQuery',
+        name: '操作流水查询',
+        component: () => import('@/views/details_search/fluw_query'),
+        meta: { title: '操作流水查询' }
+      },
+      {
+        path: 'giftcardSearch',
+        name: '彩金卡查询',
+        component: () => import('@/views/details_search/giftcard_search'),
+        meta: { title: '彩金卡查询' }
+      },
+      {
+        path: 'redpackageSearch',
+        name: '客户红包流水查询',
+        component: () => import('@/views/details_search/redpackage_search'),
+        meta: { title: '客户红包流水查询' }
+      },
+      {
+        path: 'integralSearch',
+        name: '积分查询',
+        component: () => import('@/views/details_search/integral_search'),
+        meta: { title: '积分查询' }
+      },
+      {
+        path: 'lotterySearch',
+        name: '彩金查询',
+        component: () => import('@/views/details_search/lottery_search'),
+        meta: { title: '彩金查询' }
+      },
+      {
+        path: 'awardsgiving',
+        name: '嘉奖派发、使用查询',
+        component: () => import('@/views/details_search/awardsgiving'),
+        meta: { title: '嘉奖派发、使用查询' }
+      },
+      {
+        path: 'rebateCommission',
+        name: '返点佣金查询',
+        component: () => import('@/views/details_search/rebate_commission'),
+        meta: { title: '返点佣金查询' }
+      },
+      {
+        path: 'billingCommission',
+        name: '发单佣金查询',
+        component: () => import('@/views/details_search/billing_commission'),
+        meta: { title: '发单佣金查询' }
+      },
+      {
+        path: 'walletFlowquery',
+        name: '钱包流水查询',
+        component: () => import('@/views/details_search/wallet_flowquery'),
+        meta: { title: '钱包流水查询' }
+      },
+    ]
+  },
+  //麒云88模块
+  {
+    path: '/qiyun88',
+    component: Layout,
+    redirect: '/qiyun88/Sundryinglist',
+    name: '麒云88模块',
+    meta: { title: '麒云88模块' },
+    children: [
+      {
+        path: 'Sundryinglist',
+        name: '晒单列表',
+        component: () =>
+          import ('@/views/qiyun88/Sundryinglist'),
+        meta: { title: '晒单列表' }
+      },
+      {
+        path: 'Newstarlist',
+        name: '新星榜',
+        component: () =>
+          import ('@/views/qiyun88/Newstarlist'),
+        meta: { title: '新星榜' }
+      },
+      {
+        path: 'Winninglist',
+        name: '中奖列表',
+        component: () =>
+          import ('@/views/qiyun88/Winninglist'),
+        meta: { title: '中奖列表' }
+      },
+      {
+        path: 'Addcelebrity',
+        name: '发单名人添加',
+        component: () =>
+          import ('@/views/qiyun88/Addcelebrity'),
+        meta: { title: '发单名人添加' }
+      },
+      {
+        path: 'Stationletter',
+        name: '站内信',
+        component: () =>
+          import ('@/views/qiyun88/Stationletter'),
+        meta: { title: '站内信' }
+      }
+    ]
+  },
+
+  //焦点赛事模块
+  {
+    path: '/foucsEvent',
+    component: Layout,
+    redirect: '/foucsEvent/awardsConfiguration',
+    name: '焦点赛事',
+    meta: { title: '焦点赛事' },
+    children: [
+      {
+        path: 'awardsConfiguration',
+        name: '嘉奖配置列表',
+        component: () => import('@/views/foucs_event/awards_configuration'),
+        meta: { title: '嘉奖配置列表' }
+      },
+      {
+        path: 'basketballEvent',
+        name: '篮球赛事列表',
+        component: () => import('@/views/foucs_event/basketball_event'),
+        meta: { title: '篮球赛事列表' }
+      },
+      {
+        path: 'basketballFoucs',
+        name: '焦点篮球赛事列表',
+        component: () => import('@/views/foucs_event/basketball_foucs'),
+        meta: { title: '焦点篮球赛事列表' }
+      },
+      {
+        path: 'footballEvent',
+        name: '足球赛事列表',
+        component: () => import('@/views/foucs_event/football_event'),
+        meta: { title: '足球赛事列表' }
+      },
+      {
+        path: 'footballFoucs',
+        name: '焦点足球赛事列表',
+        component: () => import('@/views/foucs_event/football_foucs'),
+        meta: { title: '焦点足球赛事列表' }
+      },
+      {
+        path: 'effectiveAgent',
+        name: '有效代理列表',
+        component: () => import('@/views/foucs_event/effective_agent'),
+        meta: { title: '有效代理列表' }
+      },
+      {
+        path: 'awardsBlacklist',
+        name: '嘉奖黑名单列表',
+        component: () => import('@/views/foucs_event/awards_blacklist'),
+        meta: { title: '嘉奖黑名单列表' }
+      },
+    ]
+  },
+
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({

@@ -14,20 +14,12 @@
 			          style="width:300px;"
 			          placeholder="请输入用户账号进行筛选"></el-input>
 		</div> -->
-		<el-table :data="tableData"
-		          border
-		          style="width: 100%; margin-top: 20px">
-			<el-table-column label="编号"
-			                 align="center"
-			                 type="index"
-			                 width="120px">
+		<el-table :data="tableData" border style="width: 100%; margin-top: 20px">
+			<el-table-column label="编号" align="center" type="index" width="120px">
 			</el-table-column>
-			<el-table-column prop="pay_name"
-			                 align="center"
-			                 label="类型">
+			<el-table-column prop="pay_name" align="center" label="类型">
 			</el-table-column>
-			<el-table-column label="状态"
-			                 align="center">
+			<el-table-column label="状态" align="center">
 				<template slot-scope="scope">
 					{{scope.row.is_open | type}}
 				</template>
@@ -39,9 +31,7 @@
 					     alt="">
 				</template>
 			</el-table-column>
-			<el-table-column align="center"
-			                 width="220px;"
-			                 label="操作">
+			<el-table-column align="center" width="220px;" label="操作">
 				<template slot-scope="scope">
 					<el-button type="primary"
 					           @click="handleEdit(scope.row, 'modify')">支付修改</el-button>
@@ -60,8 +50,7 @@
 				                 align="center">
 					<template slot-scope="scope">{{ scope.row.id}}</template>
 				</el-table-column>
-				<el-table-column label="支付名称"
-				                 align="center">
+				<el-table-column label="支付名称" align="center">
 					<template slot-scope="scope">{{ scope.row.pay_name }}</template>
 				</el-table-column>
 				<el-table-column label="图标"
@@ -69,8 +58,7 @@
 					<template slot-scope="scope"><img :src="'https://'+scope.row.pay_picture"
 						     alt=""></template>
 				</el-table-column>
-				<el-table-column label="状态"
-				                 align="center">
+				<el-table-column label="状态" align="center">
 					<template slot-scope="scope">{{ scope.row.is_open | type}}</template>
 				</el-table-column>
 			</el-table>
@@ -81,18 +69,13 @@
 					<el-collapse-item title="修改支付"
 					                  name="1">
 						<div>
-							<el-table :data="tableData3"
-							          border
-							          tooltip-effect="dark"
-							          style="width: 100%">
-								<el-table-column label="ID"
-								                 align="center">
+							<el-table :data="tableData3" border tooltip-effect="dark" style="width: 100%">
+								<el-table-column label="ID" align="center">
 									<template slot-scope="scope">
 										{{ scope.row.id}}
 									</template>
 								</el-table-column>
-								<el-table-column label="支付名称"
-								                 align="center">
+								<el-table-column label="支付名称" align="center">
 									<template slot-scope="scope">
 										<el-input v-model="rechangeName"
 										          placeholder="请输入内容"></el-input>
@@ -122,13 +105,9 @@
 										</el-upload>
 									</template>
 								</el-table-column>
-								<el-table-column label="状态"
-								                 align="center">
+								<el-table-column label="状态" align="center">
 									<template slot-scope="scope">
-										<el-switch v-model="value3"
-										           active-text="开"
-										           inactive-text="关"
-										           @change="switchChange">
+										<el-switch v-model="value3" active-text="开" inactive-text="关" @change="switchChange">
 										</el-switch>
 									</template>
 								</el-table-column>
@@ -137,8 +116,7 @@
 					</el-collapse-item>
 				</el-collapse>
 			</div>
-			<div slot="footer"
-			     class="dialog-footer">
+			<div slot="footer" class="dialog-footer">
 				<el-button @click="clearForm">取 消</el-button>
 				<el-button type="primary"
 				           @click="submitInfos">修改支付</el-button>
@@ -210,9 +188,9 @@ import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
-import api from "@/api/api.js";
+// import api from "@/api/api.js";
 export default {
-	data() {
+	data () {
 		return {
 			pageShow: true,
 			tableData: [],
@@ -256,7 +234,7 @@ export default {
 	},
 
 	computed: {},
-	created() {
+	created () {
 		this.getTable();
 	},
 	mounted() {
@@ -340,10 +318,10 @@ export default {
 				this.is_open = 0;
 			}
 		},
-		handleChange(val) {
+		handleChange (val) {
 			console.log(val);
 		},
-		getTable() {
+		getTable () {
 			//   获取所有会员列表
 			findPaySwitch().then(res => {
 				console.log(res)
@@ -353,7 +331,7 @@ export default {
 				console.log(res);
 			});
 		},
-		handleEdit(obj) {
+		handleEdit (obj) {
 			console.log(obj);
 			this.tableData3 = [];
 			this.viewFormVisible = true;
@@ -388,12 +366,12 @@ export default {
 				}
 			});
 		},
-		clearForm() {
+		clearForm () {
 			//  取消按钮
 			this.viewFormVisible = false;
 		},
 		// 分页的回调
-		changepage(val) {
+		changepage (val) {
 			this.getTable(val);
 		}
 	}

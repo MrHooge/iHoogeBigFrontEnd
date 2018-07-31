@@ -167,7 +167,6 @@ export function exportExcle(listParams,title) {
     }
   })
 }
-
 // 获取代理和渠道列表
 export function findAllAgentAndQD() {
   return request.member({
@@ -459,6 +458,16 @@ export function findFinancialMoneyInfo(params) {
     params:params
   })
 }
+
+// 当日所有人员的销量详情
+export function findSaleInfo(params) {
+  return request.member({
+    url: 'user/findSaleInfo',
+    method: 'get',
+    params:params
+  })
+}
+
 //财务现金明细
 export function findFinancialCashInfo(params) {
   return request.member({
@@ -467,4 +476,3 @@ export function findFinancialCashInfo(params) {
     params:params
   })
 }
-
