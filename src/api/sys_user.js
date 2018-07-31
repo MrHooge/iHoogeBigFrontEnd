@@ -174,6 +174,24 @@ export function findAllAgentAndQD() {
     method: 'get',
   })
 }
+// 通过渠道账号查询名下代理
+export function findAgentByQDAccount(params) {
+  return request.member({
+    url: '/userCount/findAgentByQDAccount',
+    method: 'get',
+    params:params
+  })
+}
+// 后台代理分组功能实现
+export function setAgentToGroup(params) {
+  return request.member({
+    url: '/userCount/setAgentToGroup',
+    method: 'get',
+    params:{
+      params
+    }
+  })
+}
 
 // 获取所有会员列表
 export function findAllMember(page, account) {
@@ -382,7 +400,7 @@ export function refuseCreditRefundApply(params) {
 //查询所有支付方式
 export function findPaySwitch() {
   return request.member({
-    url: 'userCount/findPaySwitch',
+    url: '/userCount/findPaySwitch',
     method: 'get',
   })
 }
@@ -476,3 +494,12 @@ export function findFinancialCashInfo(params) {
     params:params
   })
 }
+// 会员账号查询
+export function getMemberWalletByAccount(params) {
+  return request.pay({
+    url: '/xxPay/getMemberWalletByAccount',
+    method: 'get',
+    params:params
+  })
+}
+

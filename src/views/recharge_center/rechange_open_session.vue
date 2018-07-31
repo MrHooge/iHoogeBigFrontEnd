@@ -416,4 +416,8 @@ export default {
   height: 178px;
   display: block;
 }
+img {
+	width: 50px;
+	height: 50px;
+}
 </style>

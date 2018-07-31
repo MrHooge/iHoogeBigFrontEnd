@@ -43,7 +43,7 @@
 						<span>{{totalFree}}</span>
 					</div>
 				</el-col>
-				<!-- <el-col :span="16">
+				<el-col :span="16">
 					<div class="page">
 						<el-pagination background
 						               :page-size=10
@@ -52,7 +52,7 @@
 						               :total="total">
 						</el-pagination>
 					</div>
-				</el-col> -->
+				</el-col>
 			</el-row>
 
 		</div>
@@ -137,8 +137,8 @@ export default {
 			getCreditMember(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					this.tableData = res.data.data
-					this.total = res.data.totalCount;
+					this.tableData = res.data.data.list
+					this.total = res.data.data.total;
 					let total = 0;
 					let free = 0;
 					this.tableData.forEach(e => {

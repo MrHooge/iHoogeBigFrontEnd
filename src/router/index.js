@@ -208,13 +208,13 @@ export const constantRouterMap = [{
           title: '设置会员返点'
         }
       },
-      { //  代理分配
+      { //  代理分组
         path: 'agencyAllocation',
-        name: '代理分配',
+        name: '代理分组',
         component: () =>
           import ('@/views/platfor_manager/agencyAllocation'),
         meta: {
-          title: '代理分配'
+          title: '代理分组'
         }
       },
       {
@@ -374,6 +374,24 @@ export const constantRouterMap = [{
           import ('@/views/recharge_center/fundReversal'),
         meta: {
           title: '资金冲正'
+        }
+      },
+      {
+        path: 'repaylist',
+        name: '支付列表',
+        component: () =>
+          import ('@/views/recharge_center/repaylist'),
+        meta: {
+          title: '支付列表'
+        }
+      },
+      {
+        path: 'addrepay',
+        name: '添加线下支付',
+        component: () =>
+          import ('@/views/recharge_center/addrepay'),
+        meta: {
+          title: '添加线下支付'
         }
       },
 
