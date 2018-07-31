@@ -32,7 +32,7 @@
 
 				<template slot-scope="scope">
 					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">添加代理</el-button>
+					           @click="handleEdit(scope.row, 'modify')">绑定代理</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -52,11 +52,6 @@
 				          tooltip-effect="dark"
 				          style="width: 100%"
 				          @selection-change="handleSelectionChange">
-				<!-- <el-table ref="multipleTable"
-				          :data="tableDatalayer"
-				          border
-				          tooltip-effect="dark"
-				          style="width: 100%"> -->
 					<el-table-column type="selection"
 					                 align="center">
 					</el-table-column>
@@ -106,6 +101,7 @@ export default {
 	},
 	filters: {
 		type(a) {
+			
 			return a ? '代理' : '渠道'
 		}
 	},
@@ -126,11 +122,11 @@ export default {
 	},
 	methods: {
 		getTable() {
-			findAllAgentAndQD().then(res => {  //  获取渠道列表
+			findAllAgentAndQD().then(res => {  //  获取渠道数据
 				this.tableData = res.data.data.filter((e, index) => {
 					return e.AGENT_TYPE == 0
 				})
-				this.tableData3 = res.data.data.filter((e, index) => {
+				this.tableData3 = res.data.data.filter((e, index) => {   //  获取代理数据
 					return e.AGENT_TYPE == 1
 				})
 				// console.log(res)
@@ -156,8 +152,6 @@ export default {
 				let a = this.onePeople.member_id
 				let obj = {}
 				obj[a] = arr.join(',')
-				// console.log(obj)
-				// // api.member + 
 				addAgency(JSON.stringify(obj)).then(res => {
 				// console.log(res)
 					if (res.data.error_code == 200) {

@@ -1,8 +1,12 @@
 build/*.js
 config/*.js
 <<<<<<< HEAD
+<<<<<<< HEAD
 src/assets
 src/*
 =======
 src/assets
 >>>>>>> cx_cms
+=======
+src/assets
+>>>>>>> develop
