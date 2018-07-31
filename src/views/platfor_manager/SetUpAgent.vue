@@ -1,19 +1,42 @@
 <template>
-<div class="app-container">
-	<!-- <el-button v-waves type="primary">设置渠道或代理</el-button> -->
-	<el-table :data="tableData" border style="width: 100%; margin-top: 20px">
-		<el-table-column label="编号" align="center" type="index" width="120px">
-		</el-table-column>
-		<el-table-column prop="account" align="center" label="用户名">
-		</el-table-column>
-		<el-table-column prop="name" align="center" label="姓名">
-		</el-table-column>
-		<el-table-column prop="username" align="center" label="昵称">
-		</el-table-column>
-		<el-table-column prop="mobile" align="center" label="手机号">
-		</el-table-column>
-		<el-table-column align="center" width="220px;" label="操作">
-			<template slot-scope="scope">
+	<div class="app-container">
+		<div class="search">
+			<el-input v-model="sjname"
+			          placeholder="请输入会员名"
+			          style="width:50%;"
+								@input="onInput"></el-input>
+			<el-button type="primary"
+			           icon="el-icon-search"
+			           @click="search">搜索</el-button>
+		</div>
+		<el-table :data="tableData"
+		          border
+		          style="width: 100%; margin-top: 20px">
+			<el-table-column label="编号"
+			                 align="center"
+			                 type="index"
+			                 width="120px">
+			</el-table-column>
+			<el-table-column prop="account"
+			                 align="center"
+			                 label="用户名">
+			</el-table-column>
+			<el-table-column prop="name"
+			                 align="center"
+			                 label="姓名">
+			</el-table-column>
+			<el-table-column prop="username"
+			                 align="center"
+			                 label="昵称">
+			</el-table-column>
+			<el-table-column prop="mobile"
+			                 align="center"
+			                 label="手机号">
+			</el-table-column>
+			<el-table-column align="center"
+			                 width="220px;"
+			                 label="操作">
+				<template slot-scope="scope">
 					<div>
 						<el-button type="primary"
 						           @click="showDailag(scope.row, 'modify')"
@@ -82,6 +105,7 @@ import {
 export default {
 	data() {
 		return {
+			sjname: '',
 			viewFormVisible: false,
 			viewFormType: 'view',
 			formLabelWidth: '120px',
@@ -100,11 +124,20 @@ export default {
 		}
 	},
 	created() {
-		this.getTable(1)
+		this.getTable(1, this.sjname)
 	},
 	methods: {
-		getTable(page, pageSize) { //   获取所有会员列表
-			findAllMember(page, pageSize).then(res => {
+		onInput(){
+			if (this.sjname=='') {
+				this.getTable(1,this,sjname)
+			}
+		},
+		search() {  //  搜索
+			this.getTable(1, this.sjname)
+		},
+		getTable(page, a) { //   获取所有会员列表
+
+			findAllMember(page, a).then(res => {
 				console.log(res)
 				this.tableData = res.data.data.list
 				this.total = res.data.data.total
@@ -164,7 +197,7 @@ export default {
 		handleCheckChange() {},
 		// 分页的回调
 		changepage(val) {
-			this.getTable(val)
+			this.getTable(val,this.sjname)
 		},
 	}
 }

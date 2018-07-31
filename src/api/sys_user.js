@@ -177,13 +177,15 @@ export function findAllAgentAndQD() {
 }
 
 // 获取所有会员列表
-export function findAllMember(page) {
+export function findAllMember(page, account) {
   return request.member({
     url: '/user/findAllMember',
     method: 'get',
     params:{
       page,
-      pageSize:20
+      pageSize:20,
+      account,
+
     }
   })
 }
@@ -203,7 +205,7 @@ export function setMemberToAgent(params) {
     params: params
   })
 }
-//  给代理绑定渠道
+//  给渠道绑定代理
 export function addAgency(params) {
   return request.member({
     url: '/user/addAgentToQD',
@@ -211,6 +213,23 @@ export function addAgency(params) {
     params: {
       params
     }
+  })
+}
+//  将渠道或代理降级为会员
+export function setAgentToMember(params) {
+  return request.member({
+    url: '/userManage/setAgentToMember',
+    method: 'get',
+    params: params
+  })
+}
+
+//  将代理升级为渠道
+export function upgradeAgentToQD(params) {
+  return request.member({
+    url: '/user/upgradeAgentToQD',
+    method: 'get',
+    params: params
   })
 }
 
@@ -277,7 +296,35 @@ export function setRate(account, rateParams) {
     }
   })
 }
-//授信表数据
+// 删除返点
+export function delRateByAccount(params) {
+  return request.member({
+    url: '/userManage/delRateByAccount',
+    method: 'get',
+    params: params
+  })
+}
+// 根据账号查找下级人员
+export function getSubordinateMember(params) {
+  return request.member({
+    url: '/userManage/getSubordinateMember',
+    method: 'get',
+    params: params
+  })
+}
+//  客户批量转移
+export function moveMember(oldAccount, newAccount, moveMemberId) {
+  return request.member({
+    url: '/userManage/moveMember',
+    method: 'get',
+    params: {
+      oldAccount,
+      newAccount,
+      moveMemberId
+    }
+  })
+}
+//获取代理授信表数据
 export function getCreditMember(params) {
   return request.member({
     url: '/user/getCreditMember',
@@ -375,7 +422,39 @@ export function findRechargeOnLine(params) {
 //会员充值流水查询--总表
 export function findMemberWalletLineByAccount(params ) {
   return request.member({
-    url: 'user/findMemberWalletLineByAccount',
+    url: '/user/findMemberWalletLineByAccount',
+    method: 'get',
+    params:params
+  })
+}
+//获取所有充值失败的订单
+export function getAllFailPayOrder(params) {
+  return request.pay({
+    url: '/pay/getAllFailPayOrder',
+    method: 'get',
+    params:params
+  })
+}
+//充值补单
+export function chargeFix(params) {
+  return request.pay({
+    url: '/pay/chargeFix',
+    method: 'get',
+    params:params
+  })
+}
+//资金冲正
+export function chargeRight(params) {
+  return request.pay({
+    url: '/pay/chargeRight',
+    method: 'get',
+    params:params
+  })
+}
+//财务资金明细
+export function findFinancialMoneyInfo(params) {
+  return request.member({
+    url: '/user/findFinancialMoneyInfo',
     method: 'get',
     params:params
   })
@@ -385,6 +464,15 @@ export function findMemberWalletLineByAccount(params ) {
 export function findSaleInfo(params) {
   return request.member({
     url: 'user/findSaleInfo',
+    method: 'get',
+    params:params
+  })
+}
+
+//财务现金明细
+export function findFinancialCashInfo(params) {
+  return request.member({
+    url: '/user/findFinancialCashInfo',
     method: 'get',
     params:params
   })

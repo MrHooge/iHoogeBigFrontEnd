@@ -47,12 +47,7 @@
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%">
-			<el-table-column label="流水号"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.wallet_Line_No }}
-				</template>
-			</el-table-column>
+
 			<el-table-column label="客户账号"
 			                 align="center">
 				<template slot-scope="scope">
@@ -65,47 +60,31 @@
 					{{ scope.row.username }}
 				</template>
 			</el-table-column>
-			<el-table-column label="可用余额"
+			<el-table-column label="流水号"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.ABLE_BALANCE }}
+					{{ scope.row.wallet_Line_No }}
+				</template>
+			</el-table-column>
+			<el-table-column label="类别"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.species }}
+				</template>
+			</el-table-column>
+			<el-table-column label="时间"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.CREATE_DATE_TIME |changeTime }}
+				</template>
+			</el-table-column>
+			<el-table-column label="充值补单人"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.rechargeCompensation }}
 				</template>
 			</el-table-column>
 
-			<el-table-column label="客户冻结"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.FREEZE_BALANCE }}
-				</template>
-			</el-table-column>
-			<el-table-column label="代理昵称"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.agentName }}
-				</template>
-			</el-table-column>
-			<el-table-column label="代理冻结"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.freeze_credit_balance }}
-				</template>
-			</el-table-column>
-
-			<el-table-column label="充值金额"
-			                 align="center">
-				<template slot-scope="scope">
-					<el-input v-model="scope.row.number"
-					          placeholder="请输入充值金额"></el-input>
-				</template>
-			</el-table-column>
-
-			<!-- <el-table-column label="操作"
-			                 align="center">
-				<template slot-scope="scope">
-					<el-button size="mini"
-					           @click="handleRepy(scope.row)">充值</el-button>
-				</template>
-			</el-table-column> -->
 		</el-table>
 		<!-- 弹窗事件 -->
 		<!-- <el-dialog title="提示"
@@ -177,34 +156,19 @@ export default {
 				}
 			})
 		},
+	},
+	filters: {
+		changeTime(timestamp) {
+			var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			let Y = date.getFullYear() + '-';
+			let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+			let D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+			let h = date.getHours() + ':';
+			let m = date.getMinutes();
+			// let s = date.getSeconds();
+			return Y + M + D + h + m;
+		}
 
-		// // 分页的回调
-		// changepage(val) {
-		// 	this.getData(val)
-		// },
-		// // 点击充值掉接口
-		// handleRepy(row) {
-		// 	this.dialogVisible = true
-		// 	this.username = row.account
-		// 	this.money = row.number
-		// 	console.log(row)
-		// },
-		// makersure() {
-		// 	let obj = {
-		// 		account: this.username,
-		// 		amount: this.money
-		// 	}
-		// 	xxCharge(obj).then(res => {
-		// 		console.log(res)
-		// 		if (res.status == 200) {
-		// 			this.dialogVisible = false
-		// 			Message.success('充值成功')
-		// 			this.getData()
-		// 		} else {
-
-		// 		}
-		// 	})
-		// }
 	}
 };
 </script>

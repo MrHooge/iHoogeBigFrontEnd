@@ -95,10 +95,15 @@ export default {
 		};
 	},
 
-	created () {
+	created() {
 		this.getData(1, '');
 	},
 	methods: {
+		newInput(){  //  s搜索值为空时 调用所有数据
+				if(this.input1==''){
+					this.getData(1)
+				}
+		},
 		// 点击的搜索信息
 		search () {
 			this.getData(1, this.input1);
@@ -122,7 +127,7 @@ export default {
 			this.clickCreadit(this.obj.account, this.obj.creditLimit, oper);
 		},
 		// 调接口数据
-		getData (curr, a) {
+		getData(curr, a) {
 			let obj = {
 				page: curr,
 				pageSize: 10,
@@ -150,7 +155,7 @@ export default {
 		},
 
 		// 点击授信按钮调接口数据
-		clickCreadit (a, b, c) {
+		clickCreadit(a, b, c) {
 			let creadit = { account: a, creditLimit: b, operater: c };
 			credit(creadit).then(res => {
 				console.log(res)
