@@ -515,6 +515,7 @@ export const constantRouterMap = [
       },
     ]
   },
+  //资讯模块
   //麒云88模块
   {
     path: '/qiyun88',
