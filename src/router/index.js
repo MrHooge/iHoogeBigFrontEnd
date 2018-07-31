@@ -650,6 +650,104 @@ export const constantRouterMap = [{
       },
     ]
   },
+  //麒云88模块
+  {
+    path: '/qiyun88',
+    component: Layout,
+    redirect: '/qiyun88/Sundryinglist',
+    name: '麒云88模块',
+    meta: { title: '麒云88模块' },
+    children: [
+      {
+        path: 'Sundryinglist',
+        name: '晒单列表',
+        component: () =>
+          import ('@/views/qiyun88/Sundryinglist'),
+        meta: { title: '晒单列表' }
+      },
+      {
+        path: 'Newstarlist',
+        name: '新星榜',
+        component: () =>
+          import ('@/views/qiyun88/Newstarlist'),
+        meta: { title: '新星榜' }
+      },
+      {
+        path: 'Winninglist',
+        name: '中奖列表',
+        component: () =>
+          import ('@/views/qiyun88/Winninglist'),
+        meta: { title: '中奖列表' }
+      },
+      {
+        path: 'Addcelebrity',
+        name: '发单名人添加',
+        component: () =>
+          import ('@/views/qiyun88/Addcelebrity'),
+        meta: { title: '发单名人添加' }
+      },
+      {
+        path: 'Stationletter',
+        name: '站内信',
+        component: () =>
+          import ('@/views/qiyun88/Stationletter'),
+        meta: { title: '站内信' }
+      }
+    ]
+  },
+
+  //焦点赛事模块
+  {
+    path: '/foucsEvent',
+    component: Layout,
+    redirect: '/foucsEvent/awardsConfiguration',
+    name: '焦点赛事',
+    meta: { title: '焦点赛事' },
+    children: [
+      {
+        path: 'awardsConfiguration',
+        name: '嘉奖配置列表',
+        component: () => import('@/views/foucs_event/awards_configuration'),
+        meta: { title: '嘉奖配置列表' }
+      },
+      {
+        path: 'basketballEvent',
+        name: '篮球赛事列表',
+        component: () => import('@/views/foucs_event/basketball_event'),
+        meta: { title: '篮球赛事列表' }
+      },
+      {
+        path: 'basketballFoucs',
+        name: '焦点篮球赛事列表',
+        component: () => import('@/views/foucs_event/basketball_foucs'),
+        meta: { title: '焦点篮球赛事列表' }
+      },
+      {
+        path: 'footballEvent',
+        name: '足球赛事列表',
+        component: () => import('@/views/foucs_event/football_event'),
+        meta: { title: '足球赛事列表' }
+      },
+      {
+        path: 'footballFoucs',
+        name: '焦点足球赛事列表',
+        component: () => import('@/views/foucs_event/football_foucs'),
+        meta: { title: '焦点足球赛事列表' }
+      },
+      {
+        path: 'effectiveAgent',
+        name: '有效代理列表',
+        component: () => import('@/views/foucs_event/effective_agent'),
+        meta: { title: '有效代理列表' }
+      },
+      {
+        path: 'awardsBlacklist',
+        name: '嘉奖黑名单列表',
+        component: () => import('@/views/foucs_event/awards_blacklist'),
+        meta: { title: '嘉奖黑名单列表' }
+      },
+    ]
+  },
 
   { path: '*', redirect: '/404', hidden: true }
 ]

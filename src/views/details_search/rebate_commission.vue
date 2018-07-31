@@ -105,6 +105,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            style="margin-top:40px"
             >
             </el-pagination>
     </div>
@@ -136,7 +137,7 @@ export default {
                 account:'',
                 end_time:'',
                 start_time:'',
-                child_type:'',
+                child_type:1056,
                 qdAccount:'',
                 dlAccount:'',
                 loginAccount:'manager',
@@ -162,7 +163,7 @@ export default {
                 loginAccount:'manager',
                 page:this.page,
                 pageSize:this.pageSize,
-                child_type:'',
+                child_type:1056,
                 type:''
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {

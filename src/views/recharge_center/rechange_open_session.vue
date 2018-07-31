@@ -188,7 +188,7 @@ import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
-import api from "@/api/api.js";
+// import api from "@/api/api.js";
 export default {
 	data () {
 		return {

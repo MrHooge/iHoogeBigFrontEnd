@@ -167,7 +167,6 @@ export function exportExcle(listParams,title) {
     }
   })
 }
-
 // 获取代理和渠道列表
 export function findAllAgentAndQD() {
   return request.member({

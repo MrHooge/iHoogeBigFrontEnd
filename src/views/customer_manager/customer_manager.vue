@@ -209,7 +209,7 @@
                                    </el-table>
                                    <el-button slot="reference" @click="wallet(scope.row,'modify')">钱包</el-button>
                                    </el-popover>
-                               <el-button type="warning"><router-link to="./detailsSearch/walletFlowquery">流水</router-link></el-button>
+                               <el-button type="warning" @click="runningwater">流水</el-button>
                                     <el-button type="warning" @click="showdiage">绑定银行</el-button>
                                 </el-dropdown-menu>
                                 </el-dropdown> 
@@ -264,7 +264,8 @@ export default {
             province:'',
             zfbAccount:'',
             },
-
+            stime:'',
+            etime:'',
             bank_type:''
             
         }
@@ -314,7 +315,7 @@ export default {
     },
     methods:{
         inquire(){
-            if(this.account ||this.name ||this.idcard ||this.telphone){
+            if(this.account ||this.name ||this.idcard ||this.telphone ||this.stime){
                 this.gettablelist()
             }else {
                 this.$message('请输入相关信息')
@@ -324,15 +325,15 @@ export default {
         gettablelist(){
             let obj={
                 account:this.account,
-                endTime:'',
+                endTime:this.etime,
                 mobile:this.telphone,
                 page:this.page,
                 pageSize:this.pageSize,
-                startTime:'',
+                startTime:this.stime,
                 username:''
             }
             findAllMember(obj).then(res => {
-                this.tableData = res.data.data.list
+                this.tableData = res.data.data
             }).catch(error => {
                 Message.error(error)
             })
@@ -396,10 +397,11 @@ export default {
                      this.dialogFormVisible = false
             })
         },
-        //流水查询
-        // runningwater(){
-        //     this.$router.go('http://localhost:5061/detailsSearch/walletFlowquery')
-        // }
+        //点击按钮跳到流水查询页面
+        runningwater(){
+           
+           this.$router.push('/detailsSearch/walletFlowquery')
+        }
        
     }
 }

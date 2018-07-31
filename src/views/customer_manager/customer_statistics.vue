@@ -3,6 +3,7 @@
          <el-input placeholder="请输入用户名" v-model="account" style="width: 300px;margin-right:100px;margin-bottom:30px"></el-input>
          <el-button type="primary" @click="search_customer" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">搜索</el-button>
          <el-button type="primary" @click="longtime" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">一个月以上未登录用户</el-button>
+          <el-button type="primary" @click="moredeletewhite">批量取消加白</el-button>
         <el-table
                :data="tableData"
                border
@@ -147,7 +148,7 @@ export default {
     },
     created(){
         this.gettablelist()
-
+        
     },
     methods:{
         //获取表格数据
@@ -193,6 +194,28 @@ export default {
                          }
               })
         },
+        //批量取消加白
+        moredeletewhite(){
+              if(this.selections === 0){
+              this.$message('至少选择一个用户')
+        }else{
+              let newarr = [];
+              this.selections.forEach(e => {
+                    //console.log(e.account);
+                    newarr.push(e.account)
+              });
+              let newaccount = newarr.join(',');
+              this.obj.account = newaccount;
+              this.obj.type = 2;
+              memberToWrite(this.obj.account,this.obj.type).then(res => {
+                    if (res.data.error_code === 200) {
+                     Message.success('取消加白成功')
+                     } else {
+                         Message.error(res.data.message)
+                         }
+              })
+        }
+        },
          //翻页
         handleCurrentChange(num){
             this.obj.page = num;
@@ -216,7 +239,15 @@ export default {
         },
         // 选择框全部
         handleSelectionChange(selection) {
-            this.selections = selection
+            this.selections = selection;
+            // console.log(this.selections.length)
+            // // console.log(this.selections[0].account)
+            // for(let i = 0;i<this.selections.length;i++){
+            //       //console.log(this.selections[i].account);
+            //       let newarr =[];
+            //       newarr.push(this.selections[i].account);
+            //       //console.log(newarr)
+            // }
         }
 
     }
