@@ -24,3 +24,26 @@ export function addGoldCard(params){
         }
     })
 }
+//红包记录
+export function grabRedRacketList2(params){
+    return request.pay({
+        url:'/redPacket/grabRedRacketList2',
+        method:'get',
+        params:params
+    })
+}
+export function putRedRacketList2(params){
+    return request.pay({
+        url:'/redPacket/putRedRacketList2',
+        method:'get',
+        params:params
+    })
+}
+//发布平台红包
+export function addRedRacketForPlatform(params){
+    return request.pay({
+        url:'/redPacket/addRedRacketForPlatform',
+        method:'get',
+        params:params
+    })
+}

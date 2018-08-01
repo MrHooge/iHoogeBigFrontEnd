@@ -6,8 +6,8 @@ const QYAPI = {
   // member: "'http://192.168.42.40:8081'",
   user: "'https://user.api.qiyun88.cn'",
   infos: "'https://infos.api.qiyun88.cn'",
-  // pay: "'https://pay.api.qiyun88.cn'",
-  pay: "'http://192.168.42.40:8087'",
+   pay: "'https://pay.api.qiyun88.cn'",
+ // pay: "'http://192.168.42.40:8087'",
   ticket: "'https://ticket.api.qiyun88.cn'",
   lottery: "'https://lottery.api.qiyun88.cn'"
 }

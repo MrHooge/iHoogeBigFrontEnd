@@ -2,20 +2,19 @@ import request from '@/utils/request'
 
 //竞彩日报
 //每日两单一
-export function createDayOneDan1(params) {
+export function createDayOneDan1(dayOneDan2DTO) {
   return request.infos({
-    url: '/information/createDayOneDan1',
+    url: 'http://192.168.41.61:8081/information/createDayOneDan1',
     method: 'post',
-    params:params
+    params:{dayOneDan2DTO}
   })
 }
 //每日两单二
-export function createDayOneDan2(userinfos) {
+export function createDayOneDan2(dayOneDan2DTO) {
   return request.infos({
-    headers:{"Content-Type":"application/json"},
     url: '/information/createDayOneDan2',
     method: 'post',
-    params:userinfos
+    params:{dayOneDan2DTO}
   })
 }
 //实战二串一（一）
