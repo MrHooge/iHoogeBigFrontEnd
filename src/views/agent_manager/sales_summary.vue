@@ -119,6 +119,7 @@ export default {
     },
     handleCurrentChange(val){
       this.pageCurr = val
+      this.getTableList()
     },
     //获取表单数据
     getTableList() {
@@ -132,8 +133,8 @@ export default {
       }
       findSaleInfo(paramsObj)
         .then(res => {
-          this.tableData = res.data.data
-          this.total = res.data.data.length
+          this.tableData = res.data.data.list
+          this.total = res.data.data.total
         })
         .catch(error => {
           Message.error(error)
