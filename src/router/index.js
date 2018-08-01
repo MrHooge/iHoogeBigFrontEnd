@@ -600,6 +600,15 @@ export const constantRouterMap = [{
           title: '财务现金明细'
         }
       },
+      {
+        path: 'handsel_give',
+        name: '彩金赠送',
+        component: () =>
+          import ('@/views/financialManagement/handsel_give'),
+        meta: {
+          title: '彩金赠送'
+        }
+      },
 
     ]
   },

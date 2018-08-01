@@ -235,11 +235,12 @@ export default {
 
 	computed: {},
 	created () {
+	
 		this.getTable();
 	},
 	mounted() {
-		this.uploadUrl = api.member + '/userCount/uploadFile'
-		// this.uploadUrl ='https://member.api.qiyun88.cn/userCount/uploadFile'
+		// this.uploadUrl = api.member + '/userCount/uploadFile'
+		this.uploadUrl ='https://member.api.qiyun88.cn/userCount/uploadFile'
 	},
 
 	methods: {
