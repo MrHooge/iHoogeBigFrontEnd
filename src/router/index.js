@@ -394,6 +394,33 @@ export const constantRouterMap = [{
           title: '添加线下支付'
         }
       },
+      {
+        path: 'repayset',
+        name: '支付配置',
+        component: () =>
+          import ('@/views/recharge_center/repayset'),
+        meta: {
+          title: '支付配置'
+        }
+      },
+      {
+        path: 'greaplist',
+        name: '修改支付渠道',
+        component: () =>
+          import ('@/views/recharge_center/greaplist'),
+        meta: {
+          title: '修改支付渠道'
+        }
+      },
+      {
+        path: 'auditList',
+        name: '线下支付审核',
+        component: () =>
+          import ('@/views/recharge_center/auditList'),
+        meta: {
+          title: '线下支付审核'
+        }
+      },
 
     ]
   },
@@ -607,6 +634,15 @@ export const constantRouterMap = [{
           import ('@/views/financialManagement/handsel_give'),
         meta: {
           title: '彩金赠送'
+        }
+      },
+      {
+        path: 'withdrawal_request_list',
+        name: '提款申请',
+        component: () =>
+          import ('@/views/financialManagement/withdrawal_request_list'),
+        meta: {
+          title: '提款申请'
         }
       },
 

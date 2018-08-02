@@ -126,7 +126,7 @@
 		<!-- 添加图片弹窗 -->
 		<el-dialog title="添加图片"
 		           :visible.sync="dialogVisible1"
-		           width="50%">
+		           width="70%">
 			<div class="uploadFrom">
 				<el-form :model="ruleForm"
 				         :rules="rules"
@@ -355,17 +355,17 @@ export default {
 				pay_picture: this.fileUrl
 			};
 			console.log(obj);
-			addPaySwitch(obj).then(res => {
-				console.log(res);
-				if (res.data.error_code == 200) {
-					Message.success(res.data.message)
-					this.viewFormVisible = false
-					this.rechangeName = ''
-					this.findPaySwitch()
-				} else {
-					Message.success(res.data.message)
-				}
-			});
+			// addPaySwitch(obj).then(res => {
+			// 	console.log(res);
+			// 	if (res.data.error_code == 200) {
+			// 		Message.success(res.data.message)
+			// 		this.viewFormVisible = false
+			// 		this.rechangeName = ''
+			// 		this.findPaySwitch()
+			// 	} else {
+			// 		Message.success(res.data.message)
+			// 	}
+			// });
 		},
 		clearForm () {
 			//  取消按钮

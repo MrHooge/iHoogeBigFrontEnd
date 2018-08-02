@@ -53,12 +53,12 @@
 			</el-pagination>
 		</div>
 		<!-- 弹窗事件 -->
-		<el-dialog title="确认分组"
+		<el-dialog title="确认赠送"
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
 				<el-input v-model="input"
-				          placeholder="请输入分组名"></el-input>
+				          placeholder="请输入赠送金额"></el-input>
 
 			</div>
 			<span slot="footer"

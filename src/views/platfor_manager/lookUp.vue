@@ -26,6 +26,14 @@
 			                 align="center"
 			                 label="姓名">
 			</el-table-column>
+			<el-table-column prop="upName"
+			                 align="center"
+			                 label="上级">
+			</el-table-column>
+			<el-table-column prop="grouping"
+			                 align="center"
+			                 label="分组">
+			</el-table-column>
 			<el-table-column align="center"
 			                 width="240px;"
 			                 label="操作">

@@ -11,9 +11,9 @@
 				           :value="item.value">
 				</el-option>
 			</el-select>
-			<!-- <el-button type="primary"
+			<el-button type="primary"
 			           style="margin-left:10%;"
-			           @click="exportSome">导出</el-button> -->
+			           @click="exportSome">导出</el-button>
 		</div>
 		<el-table :data="tableData"
 		          border
@@ -106,9 +106,9 @@
 </template>
 
 <script>
-import { findFinancialMoneyInfo,exportExcle } from '@/api/sys_user'
+import { findFinancialMoneyInfo, exportExcle } from '@/api/sys_user'
+import { Message, MessageBox } from 'element-ui'
 import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
@@ -194,39 +194,51 @@ export default {
 			})
 			return sums
 		},
-		// exportSome() {
-		// 	let newobj
-		// 	this.tableData.forEach((e, index) => {
-		// 		newobj = {
-		// 			"编号": index + 1,
-		// 			"日期": e.date,
-		// 			"线下充值": e.allUnderLineMoney.toFixed(2),
-		// 			"提款": e.commissionUse.toFixed(2),
-		// 			"消费": e.allconsumMoney.toFixed(2),
-		// 			"税后奖金": e.posttaxPrize.toFixed(2),
-		// 			"当日赠送": e.todaySend.toFixed(2),
-		// 			"红包嘉奖奖金使用": e.lotteryCard.toFixed(2),
-		// 			"彩卡金使用": e.lotteryCardUse.toFixed(2),
-		// 			"佣金使用": e.commissionUse.toFixed(2),
-		// 			"销售佣金": e.saleCommissionMoney.toFixed(2),
-		// 			"平台收佣": e.platformCommissionMoney.toFixed(2)
-		// 		}
-		// 		this.newarr.push(newobj)
-		// 	})
-		// 	let model = {
-		// 		listParams: JSON.stringify(this.newarr),
-		// 		title: '财务资金明细'
-		// 	}
-		// 	console.log(model)
-		// 	// this.$http
-		// 	// 	.post(api.member + '/user/exportExcle', {
-		// 	// 		params: model
-		// 	// 	})
-		// 	// 	.then(res => { })
-		// 		 exportExcle(model).then(res=>{
-		// 			 	console.log(res)
-		// 		 })
-		// }
+		export2Excel() {
+
+		　　　　},
+		　　　formatJson(filterVal, jsonData) {
+			　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
+		　　　　},
+		exportSome() {
+			let newobj
+			this.tableData.forEach((e, index) => {
+				newobj = {
+					"编号": index + 1,
+					"日期": e.date,
+					"线下充值": e.allUnderLineMoney.toFixed(2),
+					"提款": e.commissionUse.toFixed(2),
+					"消费": e.allconsumMoney.toFixed(2),
+					"税后奖金": e.posttaxPrize.toFixed(2),
+					"当日赠送": e.todaySend.toFixed(2),
+					"红包嘉奖奖金使用": e.lotteryCard.toFixed(2),
+					"彩卡金使用": e.lotteryCardUse.toFixed(2),
+					"佣金使用": e.commissionUse.toFixed(2),
+					"销售佣金": e.saleCommissionMoney.toFixed(2),
+					"平台收佣": e.platformCommissionMoney.toFixed(2)
+				}
+				this.newarr.push(newobj)
+			})
+			var model = {
+				listParams: JSON.stringify(this.newarr),
+				title: "单个代理的销量详情"
+			};
+			console.log(model)
+			exportExcle(model.listParams, model.title)
+				.then(res => {
+					//window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
+				})
+			console.log(this.newarr)
+			require.ensure([], () => {
+				const { export_json_to_excel } = require('../../vendor/Export2Excel');
+				const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title
+				const filterVal = this.newarr; // 对应表格输出的数据
+				const list = this.tableData;
+				const data = this.formatJson(filterVal, list);
+				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+			})
+
+		}
 	}
 }
 </script>

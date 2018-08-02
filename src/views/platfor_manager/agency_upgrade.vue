@@ -1,4 +1,5 @@
 <template>
+<!-- // 代理升级为渠道 -->
 	<div class="app-container">
 		<el-table :data="tableData"
 		          border
@@ -25,6 +26,14 @@
 			<el-table-column prop="name"
 			                 align="center"
 			                 label="姓名">
+			</el-table-column>
+			<el-table-column prop="upName"
+			                 align="center"
+			                 label="上级">
+			</el-table-column>
+			<el-table-column prop="grouping"
+			                 align="center"
+			                 label="分组">
 			</el-table-column>
 			<el-table-column align="center"
 			                 width="240px;"
@@ -74,21 +83,11 @@ export default {
 	},
 	filters: {
 		type(a) {
-
 			return a ? '代理' : '渠道'
 		}
 	},
 	computed: {
-		// memberfilter() {
-		// 	return this.tableData.filter(name => {
-		// 		return name.ACCOUNT.match(this.username)
-		// 	})
-		// },
-		// tableDatalayer() {
-		// 	return this.tableData3.filter(name => {
-		// 		return name.ACCOUNT.match(this.sjname)
-		// 	})
-		// }
+
 	},
 	created() {
 		this.getTable()
@@ -101,6 +100,7 @@ export default {
 						return e.AGENT_TYPE == 1
 					})
 				}
+				console.log(this.tableData)
 			})
 		},
 		//  给渠道绑定代理

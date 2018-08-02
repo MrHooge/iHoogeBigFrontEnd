@@ -412,6 +412,30 @@ export function addPaySwitch(params) {
     params:params
   })
 }
+//线下支付审核-列表
+export function getPayApplyList(params) {
+  return request.pay({
+    url: '/xxPay/getPayApplyList',
+    method: 'get',
+    params:params
+  })
+}
+//线下支付审核-列表 - 通过
+export function passPayApply(params) {
+  return request.pay({
+    url: '/xxPay/passPayApply',
+    method: 'get',
+    params:params
+  })
+}
+//线下支付审核-列表 - 驳回
+export function refuseApply(params) {
+  return request.pay({
+    url: '/xxPay/refuseApply',
+    method: 'get',
+    params:params
+  })
+}
 //获取线下支付列表
 export function getPayChannelList(params) {
   return request.pay({
@@ -500,6 +524,33 @@ export function chargeRight(params) {
     params:params
   })
 }
+//支付配置 -获取所有渠道/代理
+export function getPayMember(params) {
+  return request.pay({
+    url: '/xxPay/getPayMember',
+    method: 'get',
+    params:params
+  })
+}
+//支付配置 -查询单个会员
+export function getPayMemberByAccount(params) {
+  return request.pay({
+    url: '/xxPay/getPayMemberByAccount',
+    method: 'get',
+    params:params
+  })
+}
+//支付配置 -修改支付渠道
+export function updateMemberPayWays(id, ids) {
+  return request.pay({
+    url: '/xxPay/updateMemberPayWays',
+    method: 'get',
+    params:{
+      id,
+      ids
+    }
+  })
+}
 //财务资金明细
 export function findFinancialMoneyInfo(params) {
   return request.member({
@@ -545,4 +596,21 @@ export function presentes(username,params) {
     }
   })
 }
+// 提款申请列表
+export function findMemberDrawingList(params) {
+  return request.pay({
+    url: '/pay/findMemberDrawingList',
+    method: 'get',
+    params:params
+  })
+}
+// 提款申请列表 - 审核操作
+export function memberDrawingReview(params) {
+  return request.pay({
+    url: '/pay/memberDrawingReview',
+    method: 'get',
+    params:params
+  })
+}
+
 
