@@ -455,6 +455,7 @@ export const constantRouterMap = [
       
     ]
   },
+
   //方案中心
   {
     path: '/programCenter',
@@ -486,6 +487,30 @@ export const constantRouterMap = [
         name: '查询中奖方案',
         component: () => import ('@/views/program_center/winningprogram'),
         meta: { title: '查询中奖方案' }
+      },
+      {
+        path: 'sparklingbasketball',
+        name: '竞彩篮球',
+        component: () => import ('@/views/program_center/sparklingbasketball'),
+        meta: { title: '竞彩篮球' }
+      },
+      {
+        path: 'smg',
+        name: '竞彩足球',
+        component: () => import ('@/views/program_center/smg'),
+        meta: { title: '竞彩足球' }
+      },
+      {
+        path: 'programquery',
+        name: '方案查询',
+        component: () => import ('@/views/program_center/programquery'),
+        meta: { title: '方案查询' }
+      },
+      {
+        path: 'slaeandstop',
+        name: '彩种开停售',
+        component: () => import ('@/views/program_center/slaeandstop'),
+        meta: { title: '彩种开停售' }
       },
     ]
   },
@@ -554,7 +579,31 @@ export const constantRouterMap = [
       },
     ]
   },
-  //资讯模块
+  //票务中心
+  {
+    path: '/ticketingCenter',
+    component: Layout,
+    redirect: '/ticketingCenter/searchticketing',
+    name: '票务中心',
+    meta: { title: '票务中心' },
+    children: [
+      {
+        path: 'searchticketing',
+        name: '票务查询',
+        component: () =>
+          import ('@/views/ticketing_center/searchticketing'),
+        meta: { title: '票务查询' }
+      },
+      {
+        path: 'ticketlist',
+        name: '票务查询列表',
+        component: () =>
+          import ('@/views/ticketing_center/ticketlist'),
+        meta: { title: '票务查询列表' }
+      },
+      
+    ]
+  },
   //麒云88模块
   {
     path: '/qiyun88',

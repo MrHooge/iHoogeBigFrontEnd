@@ -1,9 +1,12 @@
 <template>
     <div class="openprize">
+        <el-button type="primary" @click="searchlist">查询中奖方案 </el-button>
+        <el-button type="primary" @click="payprize">多个派奖 </el-button>
         <el-table
       :data="tableData"
       border
-      style="width: 100%; margin-top: 20px">
+      style="width: 100%; margin-top: 20px"
+      @selection-change="handleSelectionChange">
       <el-table-column
                type="selection"
                width="55">
@@ -55,7 +58,8 @@ import { openResult,returnPrize } from '@/api/period'
 export default {
     data(){
         return{
-            tableData:[]
+            tableData:[],
+            selection:''
         }
     },
      created(){
@@ -77,7 +81,28 @@ export default {
                     this.$message(res.data.message)
                 }
             })
-        }
+        },
+        //多个派奖
+        payprize(){
+             if (this.selections.length == 0) {
+                this.$message('请至少选择一条数据')
+            } else {
+                let arr = []
+                this.selections.forEach(e => {
+                    arr.push(e.planNo)
+                })
+                let plans = arr.join(',')
+                returnPrize(plans).then(res => {
+                if(res.data.error_code == 200){
+                    this.$message(res.data.message)
+                }
+            })
+            }
+        },
+        // 选择框全部
+        handleSelectionChange(selection) {
+            this.selections = selection
+        },
     }
 
 }
