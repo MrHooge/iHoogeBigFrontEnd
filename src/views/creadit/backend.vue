@@ -28,35 +28,15 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<div class="moneyadd">
-			<el-row>
-				<el-col :span="2">
-					<div class="grid-content bg-purple">总计：</div>
-				</el-col>
-				<el-col :span="3">
-					<div class="grid-content bg-purple">可用金额:
-						<span>{{ totalMoney }}</span>
-					</div>
-				</el-col>
-				<el-col :span="3">
-					<div class="grid-content bg-purple-light">冻结金额:
-						<span>{{totalFree}}</span>
-					</div>
-				</el-col>
-				<!-- <el-col :span="16">
-					<div class="page">
-						<el-pagination background
-						               :page-size=10
-						               @current-change="changepage"
-						               layout="prev, pager, next"
-						               :total="total">
-						</el-pagination>
-					</div>
-				</el-col> -->
-			</el-row>
-
-		</div>
 		<!-- 分页 -->
+		<el-pagination
+			background
+      @current-change="handleCurrentChange"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="10"
+      layout="sizes, prev, pager, next"
+      :total="total">
+    </el-pagination>
 
 		<!-- 弹窗事件 -->
 		<el-dialog title="提示" :visible.sync="dialogVisible" width="40%">
@@ -85,6 +65,7 @@ export default {
 		return {
 			obj: "",//每一行的数据
 			input1: "",
+			currentPage: 0,
 			total: 0, //总页数
 			dialogVisible: false,
 			tableData: [], //表格数据
@@ -137,8 +118,8 @@ export default {
 			getCreditMember(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					this.tableData = res.data.data
-					this.total = res.data.totalCount;
+					this.tableData = res.data.data.list
+					this.total = res.data.data.total;
 					let total = 0;
 					let free = 0;
 					this.tableData.forEach(e => {
@@ -152,6 +133,9 @@ export default {
 					})
 				}
 			})
+		},
+		handleCurrentChange(val){
+			this.getData(val, '');
 		},
 
 		// 点击授信按钮调接口数据
