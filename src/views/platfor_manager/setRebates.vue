@@ -1,6 +1,15 @@
 <template>
 	<div class="app-container">
-		<!-- <el-button v-waves type="primary">设置渠道或代理</el-button> -->
+		<!-- 设置会员返点 -->
+					<div class="search">
+				<el-input v-model="sjname"
+				          placeholder="请输入查询账号"
+				          style="width:50%;"
+									@input="onInput"></el-input>
+				<el-button type="primary"
+				           icon="el-icon-search"
+				           @click="search">搜索</el-button>
+			</div>
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%; margin-top: 20px">
@@ -151,6 +160,7 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
+			sjname:'',  //  搜索值
 			viewFormVisible: false,
 			viewFormType: 'view',
 			formLabelWidth: '120px',
@@ -197,17 +207,23 @@ export default {
 		}
 	},
 	created() {
-		this.getTable(1)
+		this.getTable(1,this.sjname)
 	},
 	methods: {
+		onInput(){   //  搜索框 为空时
+				this.getTable(1,this.sjname)
+		},
+		search(){  //  搜索按钮
+				this.getTable(1,this.sjname)
+		},
 		changeStatus(val){
 		return this.value = val
 		},
 		handleChange(val) {
 			console.log(val);
 		},
-		getTable(page, pageSize) { //   获取所有会员列表
-			findAllMember(page, pageSize).then(res => {
+		getTable(page, a) { //   获取所有会员列表
+			findAllMember(page, a).then(res => {
 				console.log(res)
 				this.tableData = res.data.data.list
 				this.total = res.data.data.total
@@ -257,7 +273,7 @@ export default {
 
 		// 分页的回调
 		changepage(val) {
-			this.getTable(val)
+			this.getTable(val,this.sjname)
 		},
 	}
 }

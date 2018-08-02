@@ -61,7 +61,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <!-- <div class="page">
+    <div class="page">
             <el-pagination
                 background
                 :page-size='pages'
@@ -69,7 +69,7 @@
                 @current-change="currentPage"
                 :total="total">
             </el-pagination>
-        </div> -->
+        </div>
   </div>
 </template>
 
@@ -92,7 +92,7 @@ export default {
     };
   },
   created() {
-    this.getData();
+    this.getData(1);
   },
   // 按照会员名称进行筛选
   computed: {
@@ -105,7 +105,7 @@ export default {
   methods: {
     search() {
       // console.log(this.input1);
-      this.getData(this.input1);
+      this.getData(1,this.input1);
     },
     // 点击授信额度弹窗
     layer() {
@@ -113,8 +113,10 @@ export default {
     },
 
     // 调接口数据、
-    getData(name) {
+    getData(curr,name) {
       let obj = {
+        page:curr,
+        pageSize:20,
         account: name,
         loginAccount: getCookies('name')
       };
@@ -122,6 +124,7 @@ export default {
         console.log(res)
         if (res.status = 200) {
           this.tableData = res.data.data;
+          this.total = res.data.totalCount
         }
       })
     },

@@ -3,8 +3,9 @@
 		<div class="layerbody">
 			<div class="search">
 				<el-input v-model="sjname"
-				          placeholder="请输入渠道账号"
-				          style="width:50%;"></el-input>
+				          placeholder="请输入查询账号"
+				          style="width:50%;"
+				          @input="onInput"></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
@@ -18,12 +19,12 @@
 					<el-table-column type="selection"
 					                 align="center">
 					</el-table-column>
-					<el-table-column label="会员名"
+					<el-table-column label="会员账号"
 					                 prop="account"
 					                 align="center">
 					</el-table-column>
 					<el-table-column label="昵称"
-					                 prop="username"
+					                 prop="name"
 					                 align="center">
 					</el-table-column>
 					<el-table-column label="姓名"
@@ -41,7 +42,7 @@
 			           style="width:100%"
 			           @click="cofirm">确 定</el-button>
 		</div>
-		<!-- <div class="page"
+		<div class="page"
 		     v-show="pageShow"
 		     style="padding:30px 0">
 			<el-pagination background
@@ -50,14 +51,14 @@
 			               layout="prev, pager, next"
 			               :total="total">
 			</el-pagination>
-		</div> -->
+		</div>
 		<!-- 弹窗事件 -->
-		<el-dialog title="确认转移"
+		<el-dialog title="确认分组"
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
 				<el-input v-model="input"
-				          placeholder="请输入转入用户名"></el-input>
+				          placeholder="请输入分组名"></el-input>
 
 			</div>
 			<span slot="footer"
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-import { findAgentByQDAccount, setAgentToGroup } from '@/api/sys_user'
+import { findAllMember, presentes } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -79,35 +80,40 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
-			input: '', //  转移后
+			input: '', //  分组名
 			dialogVisible: false, //确认弹框
 			isShow: false,
-			sjname: 'sj991541460', //  搜索名
+			sjname: '', //  搜索名
 			total: 0, //总页数
 			tableData: [], //表格数据
 			multipleSelection: [], //选中的数据
 			number: [],
 			arr: [],
+			pageShow: false
 		}
 	},
-	// created(){
-	// 	this.getData()
-	// }
+	created() {
+		this.getData(1, this.sjname)
+	},
 
 	methods: {
-		search() {
-			this.getData(this.sjname)
+		onInput() {
+			this.getData(1, this.sjname)
 		},
-		getData(a) {
+		search() {
+			this.getData(1, this.sjname)
+		},
+		getData(curr, a) {
 			let obj = {
-				QDAccount: a,
+				page: curr,
+				account: a //  不传 查询全部
 			}
-			findAgentByQDAccount(obj).then(res => {
+			findAllMember(curr, a).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
-					this.tableData = res.data.data
-					// this.total = res.data.data.total
-					// this.pageShow = true
+					this.tableData = res.data.data.list
+					this.total = res.data.data.total
+					this.pageShow = true
 				} else {
 					this.pageShow = false
 					Message.success(res.data.message)
@@ -128,6 +134,7 @@ export default {
 		},
 		cofirm() {
 			this.number = []
+
 			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
 				this.number.push(e.account)
 			});
@@ -138,20 +145,19 @@ export default {
 			let myObj = {}
 			this.number.forEach(e => {
 				myObj[e] = this.input
-				// arr.push(myObj)
-
 			});
 			Object.keys(myObj).forEach(function (key) {   //   对象循环
 				arr.push({ [key]: myObj[key] })
 				// console.log(key)
 			})
 			console.log(arr)
-
+			let userName = getCookies('name')
+			let params = arr
 			if (this.input == '') {
-				Message.success('请输入分组名')
+				Message.success('请输入赠送金额')
 				return
 			} else {
-				setAgentToGroup(JSON.stringify(arr)).then(res => {
+				presentes(userName,JSON.stringify(params)).then(res => {
 					console.log(res)
 					if (res.data.error_code = 200) {
 						Message.success(res.data.message)
@@ -164,9 +170,9 @@ export default {
 			}
 		},
 
-		// changepage(val) {  //  分页回调
-		// 	this.getData(val.id)
-		// }
+		changepage(val) {  //  分页回调
+			this.getData(val, this.sjname)
+		}
 	}
 }
 </script>

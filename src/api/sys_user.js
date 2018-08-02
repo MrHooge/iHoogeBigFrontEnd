@@ -174,6 +174,24 @@ export function findAllAgentAndQD() {
     method: 'get',
   })
 }
+// 通过渠道账号查询名下代理
+export function findAgentByQDAccount(params) {
+  return request.member({
+    url: '/userCount/findAgentByQDAccount',
+    method: 'get',
+    params:params
+  })
+}
+// 后台代理分组功能实现
+export function setAgentToGroup(params) {
+  return request.member({
+    url: '/userCount/setAgentToGroup',
+    method: 'get',
+    params:{
+      params
+    }
+  })
+}
 
 // 获取所有会员列表
 export function findAllMember(page, account) {
@@ -303,7 +321,7 @@ export function delRateByAccount(params) {
     params: params
   })
 }
-// 根据账号查找下级人员
+// 代理给客户加款流水记录记录
 export function getSubordinateMember(params) {
   return request.member({
     url: '/userManage/getSubordinateMember',
@@ -382,7 +400,7 @@ export function refuseCreditRefundApply(params) {
 //查询所有支付方式
 export function findPaySwitch() {
   return request.member({
-    url: 'userCount/findPaySwitch',
+    url: '/userCount/findPaySwitch',
     method: 'get',
   })
 }
@@ -394,6 +412,38 @@ export function addPaySwitch(params) {
     params:params
   })
 }
+//获取线下支付列表
+export function getPayChannelList(params) {
+  return request.pay({
+    url: '/xxPay/getPayChannelList',
+    method: 'get',
+    params:params
+  })
+}
+//线下支付列表删除
+export function deletePayChannel(params) {
+  return request.pay({
+    url: '/xxPay/deletePayChannel',
+    method: 'post',
+    params:params
+  })
+}
+//线下支付状态修改
+export function updateStatus(params) {
+  return request.pay({
+    url: '/xxPay/updateStatus',
+    method: 'get',
+    params:params
+  })
+}
+//添加线下支付
+export function addPay(params) {
+  return request.pay({
+    url: '/xxPay/add',
+    method: 'post',
+    params:params
+  })
+}
 //线下充值加款明细
 export function findRechargeUnderLine(params) {
   return request.member({
@@ -402,7 +452,7 @@ export function findRechargeUnderLine(params) {
     params:params
   })
 }
-//支线下充值明细 充值功能
+//线下充值明细 充值功能
 export function xxCharge(params) {
   return request.pay({
     url: '/xxPay/xxCharge',
@@ -476,3 +526,23 @@ export function findFinancialCashInfo(params) {
     params:params
   })
 }
+// 线下充值会员账号查询
+export function getMemberWalletByAccount(params) {
+  return request.pay({
+    url: '/xxPay/getMemberWalletByAccount',
+    method: 'get',
+    params:params
+  })
+}
+// 彩金赠送
+export function presentes(username,params) {
+  return request.member({
+    url: '/userManage/presentes',
+    method: 'get',
+    params:{
+        username,
+        params
+    }
+  })
+}
+

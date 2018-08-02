@@ -12,7 +12,8 @@ function Api(baseUrl) {
         QY = {
             member: "http://member.api.qiyun88.cn",
             infos: "http://infos.api.qiyun88.cn",
-            pay: "http://pay.api.qiyun88.cn",
+            // pay: "http://pay.api.qiyun88.cn",
+             pay: "'http://192.168.42.40:8087'",
             ticket: "http://ticket.api.qiyun88.cn",
             lottery: "http://lottery.api.qiyun88.cn",
         }
