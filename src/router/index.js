@@ -419,11 +419,14 @@ export const constantRouterMap = [{
       {
         path: 'activityGiftcard',
         name: '充值送礼金卡',
-        component: () =>
-          import ('@/views/activity_manager/activity_giftcard'),
-        meta: {
-          title: '充值送礼金卡'
-        }
+        component: () => import('@/views/activity_manager/activity_giftcard'),
+        meta: { title: '充值送礼金卡' }
+      },
+      {
+        path: 'redpackage',
+        name: '红包记录',
+        component: () => import('@/views/activity_manager/redpackage'),
+        meta: { title: '红包记录' }
       }
 
     ]
@@ -612,6 +615,40 @@ export const constantRouterMap = [{
 
     ]
   },
+  //方案中心
+  {
+    path: '/programCenter',
+    component: Layout,
+    redirect: '/programCenter/periodmanager',
+    name: '方案中心',
+    meta: { title: '方案中心' },
+    children: [
+      {
+        path: 'periodmanager',
+        name: '彩期管理',
+        component: () => import ('@/views/program_center/periodmanager'),
+        meta: { title: '彩期管理' }
+      },
+      {
+        path: 'period',
+        name: '彩期显示',
+        component: () => import ('@/views/program_center/period'),
+        meta: { title: '彩期显示' }
+      },
+      {
+        path: 'lotteryprize',
+        name: '开奖派奖',
+        component: () => import ('@/views/program_center/lotteryprize'),
+        meta: { title: '开奖派奖' }
+      },
+      {
+        path: 'winningprogram',
+        name: '查询中奖方案',
+        component: () => import ('@/views/program_center/winningprogram'),
+        meta: { title: '查询中奖方案' }
+      },
+    ]
+  },
 
   //客户详情查询
   {
@@ -677,6 +714,7 @@ export const constantRouterMap = [{
       },
     ]
   },
+  //资讯模块
   //麒云88模块
   {
     path: '/qiyun88',

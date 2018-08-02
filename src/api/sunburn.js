@@ -70,8 +70,8 @@ export function updateWinPromotionStatus(userinfos){
 }
 //添加站内信
 export function addMail(userinfos){
-    return request.lottery({
-        url:'/lottery/addMail',
+    return request.infos({
+        url:'/information/addMail',
         method:'get',
         params:userinfos
     })
