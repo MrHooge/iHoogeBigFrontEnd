@@ -1,8 +1,9 @@
 import request from '@/utils/request'
-export function getList(params) {
-    return request({
-      url: '/table/list',
+//获取票务数据
+export function searchTicket(userinfos) {
+    return request.ticket({
+      url: '/ticket/searchTicket',
       method: 'get',
-      params
+      params:userinfos
     })
   }

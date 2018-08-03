@@ -604,6 +604,51 @@ export const constantRouterMap = [
       
     ]
   },
+  //麒云大师模块
+  {
+    path: '/qiyunGrandmaster',
+    component: Layout,
+    redirect: '/qiyunGrandmaster/customerRecharge',
+    name: '麒云大师',
+    meta: { title: '麒云大师' },
+    children: [
+      {
+        path: 'customerRecharge',
+        name: '客户充值提款流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/customerRecharge'),
+        meta: { title: '客户充值提款流水' }
+      },
+      {
+        path: 'shoppingrecommend',
+        name: '客户推荐购买退款流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/shoppingrecommend'),
+        meta: { title: '客户推荐购买退款流水' }
+      },
+      {
+        path: 'rewardflut',
+        name: '打赏流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/rewardflut'),
+        meta: { title: '打赏流水' }
+      },
+      {
+        path: 'Recommendedincome',
+        name: '推荐收入',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/Recommendedincome'),
+        meta: { title: '推荐收入' }
+      },
+      {
+        path: 'wholecustomerflut',
+        name: '总流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/wholecustomerflut'),
+        meta: { title: '总流水' }
+      },
+    ]
+  },
   //麒云88模块
   {
     path: '/qiyun88',

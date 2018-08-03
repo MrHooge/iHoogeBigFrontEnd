@@ -46,9 +46,6 @@
    <el-form-item label="内容">
     <el-input type="textarea" v-model="form.content" style="width:500px;"></el-input>
   </el-form-item>
-   <el-form-item label="上传图片">
-    <el-button type="sendnews" @click="pictureurl">选择路径</el-button>
-  </el-form-item><br />
   <el-form-item label="创建时间">
     <el-col :span="11">
       <el-date-picker type="date" v-model="form.createDateTime" style="width: 150px;"></el-date-picker>
@@ -58,6 +55,12 @@
     <el-col :span="12">
       <el-date-picker type="date" v-model="form.showDateTime" style="width: 150px;"></el-date-picker>
     </el-col>
+  </el-form-item>
+  <br />
+   <el-form-item label="上传图片" style="border:none">
+  
+      <el-input type="file" @change="upload"></el-input>
+
   </el-form-item><br />
   <el-form-item>
     <el-button type="primary" @click="update">修改</el-button>
@@ -80,15 +83,7 @@
                 </el-col>
                 <el-col :span="12">
                   <div class="grid-content bg-purple">
-                      <el-upload
-                        class="avatar-uploader"
-                        :action="imurl()"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                      </el-upload>
+                      
                   </div>
                 </el-col>
               </el-row>
@@ -135,8 +130,8 @@ export default {
   components: {},
 
   methods: {
-    imurl(){
-      return api + '/information/setNewsPicetur'
+    upload(file){
+      console.log(file)
     },
     update(){
      if(this.form.click&&this.form.editor&&this.form.keyword&&this.form.summary&&this.form.title&&this.form.type&&this.form.id){
@@ -164,20 +159,7 @@ export default {
     pictureurl(){
       this.dialogVisible = true
     },
-     //编辑的时候 图片上传***///////////////////
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-      // console.log(this.imageUrl)
-    },
-    beforeAvatarUpload(file) {
-      // const isJPG = file.type === "image/png|gig|jpg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isLt2M;
-    },
+    
   }
 }
 </script>
@@ -189,4 +171,7 @@ export default {
 .sendnews{
   padding: 10px 20px
 }
+/* .sendnews >>> .el-input__inner{
+  border: none !important;
+} */
 </style>

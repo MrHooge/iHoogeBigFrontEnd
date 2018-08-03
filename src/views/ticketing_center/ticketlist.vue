@@ -1,5 +1,5 @@
 <template>
-    <div>{{type}}</div>
+    <div>这事{{provider}}</div>
 </template>
 
 <script>
@@ -12,9 +12,14 @@ export default {
     },
     computed: {
     ...mapGetters([
-      'type'
+      'provider'
     ])
   },
+  methods:{
+      created(){
+          console.log(this.provider)
+      }
+  }
 }
 </script>
 
