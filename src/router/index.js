@@ -647,6 +647,27 @@ export const constantRouterMap = [
           import ('@/views/qiyun_grandmaster/wholecustomerflut'),
         meta: { title: '总流水' }
       },
+      {
+        path: 'famousman',
+        name: '名人和大神',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/famousman'),
+        meta: { title: '名人和大神' }
+      },
+      {
+        path: 'tobesetted',
+        name: '待审核列表',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/tobesetted'),
+        meta: { title: '待审核列表' }
+      },
+      {
+        path: 'withdraw',
+        name: '提现列表',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/withdraw'),
+        meta: { title: '提现列表' }
+      },
     ]
   },
   //麒云88模块
