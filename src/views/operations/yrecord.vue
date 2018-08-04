@@ -26,18 +26,6 @@
                 </template> -->
 				</el-table-column>
 
-				<el-table-column label="所属渠道">
-					<!-- <template slot-scope="scope">
-                        
-                    </template> -->
-				</el-table-column>
-
-				<el-table-column label="所属代理">
-					<!-- <template slot-scope="scope">
-                        
-                    </template> -->
-				</el-table-column>
-
 				<el-table-column prop="account"
 				                 label="客户昵称">
 					<!-- <template slot-scope="scope">

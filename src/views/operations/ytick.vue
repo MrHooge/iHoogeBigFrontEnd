@@ -1,129 +1,103 @@
 <template>
-<!-- //  运营寻票操作 -->
-    <div class="recordtick app-container">
-        <el-row :gutter="30">
-            <el-col :span="3">
-                <div class="grid-content bg-purple-dark">
-                    <div class="custname">
-                        提交关注的客户名
-                    </div>
-                </div>
-            </el-col>
-            <el-col :span="5">
-                <div class="grid-content bg-purple-dark">
-                <el-input
-                    placeholder="请输入客户名"
-                    v-model="custormsname"
-                clearable>
-                </el-input>
-                </div>
-            </el-col>
-            <el-col :span="6">
-                <div class="grid-content bg-purple-dark">
-                    <div class="custname0">{{ custormsname }}</div>
-                </div>
-            </el-col>
-            <el-col :span="3">
-                <div class="grid-content bg-purple-dark">
-                  <el-button type="primary">提交</el-button>
-                </div>
-            </el-col>
-        </el-row> 
-        <div class="lastrow">
-            <el-row :gutter="30">
-                <el-col :span="3">
-                    <div class="grid-content bg-purple-dark">
-                        <div class="custname">
-                            寻票票号N0.
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="5">
-                    <div class="grid-content bg-purple-dark">
-                    <el-input
-                        placeholder="请输入票号数字"
-                        v-model="ticknum"
-                    clearable>
-                    </el-input>
-                    </div>
-                </el-col>
-                <el-col :span="6">
-                    <div class="grid-content bg-purple-dark">
-                        <div class="custname0">{{ ticknum }}</div>
-                    </div>
-                </el-col>
-                <el-col :span="3">
-                    <div class="grid-content bg-purple-dark">
-                    <el-button type="primary">提交</el-button>
-                    </div>
-                </el-col>
-            </el-row>    
-        </div>  
-        <div class="shuoming">
-            
-            
-            <p class="colr1">
-                <i class="el-icon-star-on"></i>
-               查询结果：根据判断显示结果，已提交。
-            </p>
 
-            <p class="colr1">
-                <i class="el-icon-star-on"></i>
-                使用规则
-            </p>
+	<div class="custorm app-container">
+		<el-row :gutter="10">
+			<el-col :span="4">
+				<div class="grid-content bg-purple">
+					<el-input v-model="planNo"
+					          placeholder="请输入方案编号"></el-input>
+				</div>
+			</el-col>
 
-            <p>1、比赛投注截止时间前3分钟后无法使用</p>
-            
-        </div>
-    </div>
+			<el-col :span="3">
+				<div class="grid-content bg-purple">
+					<el-button type="primary"
+					           @click="seach">查询</el-button>
+				</div>
+			</el-col>
+		</el-row>
+		<!-- 弹窗事件 -->
+		<el-dialog title="提示"
+		           :visible.sync="dialogVisible"
+		           width="40%">
+			<div>
+				<p>信息：{{ message }}</p>
+
+			</div>
+			<span slot="footer"
+			      class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary"
+				           @click="dialogVisible = false">确 定</el-button>
+			</span>
+		</el-dialog>
+	</div>
 </template>
 
 <script>
-    export default {
-        data(){
-            return {
-               custormsname: '',
-               ticknum: '' 
-            }
-        }
-    }
+import { findTicke2 } from '@/api/sys_user'
+import waves from '@/directive/waves/index.js' // 水波纹指令
+import { Message } from 'element-ui'
+import treeTable from '@/components/TreeTable'
+import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+// import moment from "moment"
+export default {
+	data() {
+		return {
+			planNo: '', //  方案编号
+			dialogVisible: false,
+		};
+	},
+	methods: {
+		seach() {//  查询按钮
+			this.getData()
+		},
+		handleEdit(index, row) {
+			console.log(index, row);
+		},
+		handleDelete(index, row) {
+			console.log(index, row);
+		},
+		// dateFormat:function(row, column) {  
+		//     var date = row[column.property];  
+		//     if (date == undefined) {  
+		//         return "";  
+		//     }  
+		//     return moment(date).format("YYYY-MM-DD HH:mm:ss");  
+		// },
+		getData() {
+			let obj = {
+				account: getCookies('name'),
+				planNo: this.planNo,  // 方案编号
+				type: 2, // 1代理列表 2后台列表
+			}
+			findTicke2(obj).then(res => {
+				console.log(res)
+				if (res.status == 200) {
+					this.dialogVisible = true
+					this.message = res.data.message
+
+				}
+			})
+		},
+		// 分页的回调
+		// changecurr(val) {
+		// 	this.getData(val)
+		// 	// console.log(val)
+		// }
+
+	}
+};
 </script>
 
 <style lang="scss" scoped>
-.recordtick{
-    color: #444;
-    padding:2% 10px;
-    font-size: 15px;
-    div.lastrow{
-        padding: 20px 0;
-    }
-    div.shuoming {
-    border: 1px solid #fff;
-    border-radius: 8px;
-    padding: 10px 20px;
-    width: 475px;
-    margin-top: 50px;
-    background-color: #f9f9f9;
-    box-shadow: 0px 0px 15px #999;
-        p{
-            font-size: 14px;
-            line-height: 30px;
-        }
-        p.colr1{
-            color:#E6A23C;
-            font-size: 15px;
-        }
-    }
- 
-    .custname{
-        text-align: left;
-        line-height: 36px;
-    }
-    .custname0{
-        text-align: center;
-        line-height: 36px;
-        width: 100%;
-    }
+.custorm {
+  .tablebox {
+    margin-top: 20px;
+  }
+  .pages {
+    float: right;
+    padding: 10px 50px;
+  }
 }
-
 </style>

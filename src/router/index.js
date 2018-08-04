@@ -827,6 +827,12 @@ export const constantRouterMap = [{
         component: () => import('@/views/foucs_event/awards_blacklist'),
         meta: { title: '嘉奖黑名单列表' }
       },
+      {
+        path: 'Combination_restricted',
+        name: '组合限售',
+        component: () => import('@/views/foucs_event/Combination_restricted'),
+        meta: { title: '组合限售' }
+      },
     ]
   },
   //运营管理
@@ -839,9 +845,9 @@ export const constantRouterMap = [{
     children: [
       {
         path: 'seekingtick',
-        name: '代理寻票记录',
+        name: '寻票列表',
         component: () => import('@/views/operations/seekingtick'),
-        meta: { title: '代理寻票记录' }
+        meta: { title: '寻票列表' }
       },
       
       {
@@ -857,6 +863,18 @@ export const constantRouterMap = [{
         meta: { title: '运营传票记录' }
       },
       {
+        path: 'ticket_checking',
+        name: '出票校验',
+        component: () => import('@/views/operations/ticket_checking'),
+        meta: { title: '出票校验' }
+      },
+      {
+        path: 'Directout',
+        name: '设置会员直接出票',
+        component: () => import('@/views/operations/Directout'),
+        meta: { title: '设置会员直接出票' }
+      },
+      {
         path: 'Robot',
         name: '机器人列表',
         component: () => import('@/views/operations/Robot'),
@@ -867,6 +885,12 @@ export const constantRouterMap = [{
         name: '彩研设置',
         component: () => import('@/views/operations/cyseting'),
         meta: { title: '彩研设置' }
+      },
+      {
+        path: 'FollowUpPlan',
+        name: '自动跟单',
+        component: () => import('@/views/operations/FollowUpPlan'),
+        meta: { title: '自动跟单' }
       },
       
     ]

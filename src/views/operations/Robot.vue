@@ -1,4 +1,5 @@
 <template>
+<!-- 机器人列表 -->
 	<div class="robot app-container">
 		<div class="btn">
 			<el-button type="primary"

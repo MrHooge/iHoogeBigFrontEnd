@@ -1,23 +1,18 @@
 <template>
+
 	<div class="custorm app-container">
 		<el-row :gutter="10">
-			<el-col :span="6">
+			<el-col :span="4">
 				<div class="grid-content bg-purple">
-					<el-input v-model="input"
-					          placeholder="请输入客户名"></el-input>
+					<el-input v-model="planNo"
+					          placeholder="请输入方案编号"></el-input>
 				</div>
 			</el-col>
-			<el-col :span="10">
-				<el-date-picker v-model="value6"
-				                type="datetimerange"
-				                start-placeholder="寻票开始日期"
-				                end-placeholder="寻票结束日期"
-				                :default-time="['12:00:00']">
-				</el-date-picker>
-			</el-col>
+
 			<el-col :span="3">
 				<div class="grid-content bg-purple">
-					<el-button type="primary">查询</el-button>
+					<el-button type="primary"
+					           @click="seach">查询</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -26,41 +21,82 @@
 			<el-table :data="tableData"
 			          border
 			          style="width: 100%;">
-				<el-table-column label="编号"
+				<el-table-column label="用户名"
 				                 align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.account }}</span>
+						<span style="margin-left: 10px">{{ scope.row.kh_account }}</span>
 					</template>
 				</el-table-column>
 
 				<el-table-column label="客户昵称"
 				                 align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.account }}</span>
+						<span style="margin-left: 10px">{{ scope.row.kh_username }}</span>
 					</template>
 				</el-table-column>
 
-				<el-table-column label="单号"
+				<el-table-column label="方案编号"
 				                 align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.planNo }}</span>
+						<span style="margin-left: 10px">{{ scope.row.plan_no }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="状态"
+				                 align="center">
+					<template slot-scope="scope">
+						<span style="margin-left: 10px">{{ scope.row.status |cahngeStatus}}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="寻票状态"
+				                 align="center">
+					<template slot-scope="scope">
+						<span style="margin-left: 10px">{{getStr(scope.row.ticket_status)}}</span>
 					</template>
 				</el-table-column>
 
 				<el-table-column label="发起时间"
 				                 align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.createDateTime | changeTime}}</span>
+						<span style="margin-left: 10px">{{ scope.row.create_date_time | changeTime}}</span>
 					</template>
 				</el-table-column>
 
 				<el-table-column label="寻票时间"
 				                 align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.findTime | changeTime}}</span>
+						<span style="margin-left: 10px">{{ scope.row.find_time | changeTime}}</span>
 					</template>
 				</el-table-column>
-				<!-- <el-table-column label="照片预览"
+				<el-table-column label="寻票人用户名"
+				                 align="center">
+					<template slot-scope="scope">
+						<span style="margin-left: 10px">{{ scope.row.xp_account }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="寻票人昵称"
+				                 align="center">
+					<template slot-scope="scope">
+						<span style="margin-left: 10px">{{ scope.row.xp_username }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="抄单方案号"
+				                 align="center">
+					<template slot-scope="scope">
+						<span style="margin-left: 10px">{{ scope.row.copy_plan_no }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="抄单"
+				                 align="center">
+					<template slot-scope="scope">
+						<div v-if="scope.row.copy_status==1">
+							<el-button type="primary"
+							           @click="copyMsg(scope.row)">抄单</el-button>
+						</div>
+						<div v-else></div>
+
+					</template>
+				</el-table-column>
+				<!-- <el-table-column label="操作"
 				                 align="center">
 					<template slot-scope="scope">
 						<el-button type="primary">点击查看</el-button>
@@ -81,7 +117,7 @@
 </template>
 
 <script>
-import { findTicketList } from '@/api/sys_user'
+import { findTicketList2, copyPlan } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -91,12 +127,10 @@ export default {
 	data() {
 		return {
 			input: "",
+			planNo: '', //  方案编号
 			total: 0, // 总页数
-			value1: "",
-			value2: "",
-			value6: "",
-			tableData: [
-			]
+			tableData: [],
+			planNo: '', //  方案编号
 		};
 	},
 	filters: {
@@ -109,13 +143,32 @@ export default {
 			let m = date.getMinutes();
 			// let s = date.getSeconds();
 			return Y + M + D + h + m;
-		}
+		},
+		cahngeStatus(a) {
+			return a ? '成功' : '驳回'
+		},
 
 	},
 	created() {
 		this.getData(1)
 	},
 	methods: {
+		copyMsg(a) {  //  抄单
+			let obj = {
+				planNo: a.plan_no
+			}
+			copyPlan(obj).then(res => {
+				console.log(res)
+				if(res.data.error_code==200){
+					Messagae.success(res.data.message)
+				}else {
+					Messagae.success(res.data.message)
+				}
+			})
+		},
+		seach() {//  查询按钮
+			this.getData()
+		},
 		handleEdit(index, row) {
 			console.log(index, row);
 		},
@@ -130,18 +183,44 @@ export default {
 		//     return moment(date).format("YYYY-MM-DD HH:mm:ss");  
 		// },
 		getData(curr) {
-			let obj = { offset: curr, pageSize: 20 }
-			findTicketList(obj).then(res => {
+			let obj = {
+				account: getCookies('name'),
+				planNo: this.planNo,  // 方案编号
+				type: 2, // 1代理列表 2后台列表
+				page: curr,
+				pageSize: 20			}
+			findTicketList2(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					if (res.data.findTicketList.list.length > 0) {
-						this.total = res.data.findTicketList.total;
-						this.tableData = res.data.findTicketList.list;
-					} else {
-						return;
-					}
+
+					this.total = res.data.data.total;
+					this.tableData = res.data.data.list;
+
 				}
 			})
+		},
+		getStr(num) {
+			if (num == 1) {
+				return "未支付";
+			} else if (num == 2) {
+				return "已出票";
+			} else if (num == 3) {
+				return "出票中";
+			} else if (num == 4) {
+				return "已出票";
+			} else if (num == 5) {
+				return "已撤单";
+			} else if (num == 6) {
+				return "已流单";
+			} else if (num == 7) {
+				return "受理中";
+			} else if (num == 8) {
+				return "部分出票";
+			} else if (num == 9) {
+				return "未出票作废";
+			} else if (num == 10) {
+				return "已过期";
+			}
 		},
 		// 分页的回调
 		changecurr(val) {

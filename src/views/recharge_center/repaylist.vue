@@ -236,24 +236,24 @@ export default {
 			};
 			console.log(obj)
 
-			// this.$refs[formName].validate(valid => {
-			// 	if (valid) {
-			// 		// alert("submit!");
-			// 		updatePayChanne(obj).then(res => {
-			// 			console.log(res)
-			// 			if (res.data.error_code == 200) {
-			// 				Message.success(res.data.message)
-			// 				this.dialogVisible1 = false
-			// 				// this.findPaySwitch()
-			// 			} else {
-			// 				Message.success(res.data.message)
-			// 			}
-			// 		})
-			// 	} else {
-			// 		console.log("error submit!!");
-			// 		return false;
-			// 	}
-			// });
+			this.$refs[formName].validate(valid => {
+				if (valid) {
+					// alert("submit!");
+					updatePayChanne(obj).then(res => {
+						console.log(res)
+						if (res.data.error_code == 200) {
+							Message.success(res.data.message)
+							this.dialogVisible1 = false
+							// this.findPaySwitch()
+						} else {
+							Message.success(res.data.message)
+						}
+					})
+				} else {
+					console.log("error submit!!");
+					return false;
+				}
+			});
 		},
 		resetForm(formName) {
 			this.$refs[formName].resetFields();
