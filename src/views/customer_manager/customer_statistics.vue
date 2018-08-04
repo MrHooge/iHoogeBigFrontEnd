@@ -61,8 +61,10 @@
                </el-table-column>
                <el-table-column
                      label="最后登陆时间"
-                     prop="lastLoginDateTime"
                      align="center">
+                      <template slot-scope="scope">
+                    {{scope.row.lastLoginDateTime | time}}
+                     </template>
                </el-table-column>
                <el-table-column
                      label="手机"
@@ -84,8 +86,10 @@
                </el-table-column>
                <el-table-column
                      label="注册时间"
-                     prop="registerDateTime"
                      align="center">
+                       <template slot-scope="scope">
+                    {{scope.row.registerDateTime | time}}
+                     </template>
                </el-table-column>    
                <el-table-column
                      label="状态"
@@ -144,6 +148,24 @@ export default {
                 username:'',
                 type:''
             }
+        }
+    },
+    filters:{
+                 time(a){
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+
         }
     },
     created(){

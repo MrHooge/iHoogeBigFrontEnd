@@ -52,3 +52,11 @@ export function createNews(userinfos) {
     params:userinfos
   })
 }
+//上传图片
+export function uploadImage(userinfos) {
+  return request.infos({
+    url: '/information/uploadImage',
+    method: 'post',
+    params:userinfos
+  })
+}

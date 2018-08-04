@@ -39,7 +39,7 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
-            <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+            <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
@@ -56,10 +56,11 @@
                 label="		金额">
             </el-table-column>
             <el-table-column
-                prop="createTime"
                 align="center"
                 label="	发单时间">
-               
+                <template slot-scope="scope">
+                    {{scope.row.createTime | time}}
+                </template>
             </el-table-column>
 
             <el-table-column
@@ -165,9 +166,25 @@ export default {
         }
     },
     filters:{
-        type(a){
-            return a == '' ? '' : a
-        }
+        type(b){
+            return b == '' ? '' : b
+        },
+        time(a){
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+
+        },
     },
     created(){
         this.gettable()
@@ -197,7 +214,7 @@ export default {
             })
         },
         //查询
-        inquire(){
+        search(){
             this.gettable()
         },
          //翻页

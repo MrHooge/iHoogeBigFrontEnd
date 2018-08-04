@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { createNews } from '@/api/news'
+import { createNews,uploadImage } from '@/api/news'
 import api from '../../../config/dev.env'
 export default {
   data() {
@@ -131,7 +131,18 @@ export default {
 
   methods: {
     upload(file){
-      console.log(file)
+      console.log(file);
+      let obj = {
+        file,
+        folder:'info'
+      }
+      uploadImage(obj)
+      .then(res => {
+        if(res.data.error_code == 200) {
+          this.$message(res.data.message)
+        }
+      })
+
     },
     update(){
      if(this.form.click&&this.form.editor&&this.form.keyword&&this.form.summary&&this.form.title&&this.form.type&&this.form.id){

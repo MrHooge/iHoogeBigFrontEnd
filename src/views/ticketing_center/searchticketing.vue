@@ -149,7 +149,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd hh:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -158,7 +158,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd hh:mm:ss"
             size="mini">
             </el-date-picker><br />
      打印票时间&nbsp;开始：<el-date-picker
@@ -166,7 +166,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd hh:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -175,7 +175,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd hh:mm:ss"
             size="mini">
             </el-date-picker><br />
     送票时间&nbsp;&nbsp;&nbsp;&nbsp;开始：&nbsp;<el-date-picker
@@ -183,7 +183,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd hh:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -192,7 +192,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd hh:mm:ss"
             size="mini">
             </el-date-picker><br /> 
     彩期&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始：&nbsp;<el-date-picker
@@ -200,7 +200,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd hh:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -209,16 +209,17 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd hh:mm:ss"
             size="mini">
             </el-date-picker><br />
              <el-button type="primary" @click="openprize" style="margin-left:26%;margin-bottom:20px">查询 </el-button>
     </div>  
-    <!-- 表格数据列表 -->
+    <!-- 列表 -->
+    <span>出票总金额：{{whole}}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wholeget}}元</span>&nbsp;
     <el-table
                :data="tableData"
                border
-               style="width: 100%;">
+               style="width: 100%;margin-top:20px">
                <el-table-column
                      label="彩期"
                      prop="term"
@@ -230,12 +231,12 @@
                      align="center">
                </el-table-column>  
                 <el-table-column
-                     label="	送票日期"
+                     label="送票日期"
                      prop="sendDateTime"
                      align="center">
                </el-table-column>  
                <el-table-column
-                     label="	中奖金额"
+                     label="中奖金额"
                      prop="bingoAmount"
                      align="center">  
                </el-table-column>
@@ -244,27 +245,17 @@
                      prop="bingoContent"
                      align="center">
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="证件号"
                      prop="content"
                      align="center"> 
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
-                     label="证件类型"
+                     label="出票日期"
                      align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.convertDateTime | type}}
-                </template>
-               </el-table-column>
-               <el-table-column
-                     label="邮箱"
-                     prop="createDateTime"
-                     align="center">
-               </el-table-column>
-               <el-table-column
-                     label="是否充值"
-                     prop="dealDateTime"
-                     align="center">
+                       <template slot-scope="scope">
+                    {{scope.row.createDateTime|type}}
+                </template>  
                </el-table-column>
                <el-table-column
                      label="中奖状态"
@@ -289,17 +280,17 @@
                      align="center">
                </el-table-column>
                <el-table-column
-                     label="	玩法"
-                     prop="playType"
+                     label="玩法"
+                     prop="fhPlayType"
                      align="center">
-                     <template slot-scope="scope">
-                         <img :src="scope.row.picture" >
-                     </template>
+                   
                </el-table-column>
                <el-table-column
-                     label="	打票日期"
-                     prop="printDateTime"
+                     label="打票日期"
                      align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.printDateTime|type}}
+                </template>   
                </el-table-column>    
                <el-table-column
                      label="	出票状态"
@@ -314,6 +305,18 @@
                      align="center">
                </el-table-column>  
             </el-table>   
+             <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
 </div>
     </div>
 </template>
@@ -324,32 +327,74 @@ import { mapActions } from 'vuex'
 export default {
     data(){
         return{
+            whole:'',
+            wholeget:'',
+            tableData:[],
             provider:''||null,
             term:''||null,
             id:''||null,
             planNo:''||null,
             playType:''||null,
-            isBingo:'',
-            status:'',
-            createDateTimeStart:'',
-            createDateTimeEnd:'',
-            printDateTimeStart:'',
-            printDateTimeEnd:'',
-            sendTicketDateTimeStart:'',
-            sendTicketDateTimeEnd:'',
-            startTerm:'',
-            endTerm:'',
+            isBingo:''||null,
+            status:''||null,
+            createDateTimeStart:''||null,
+            createDateTimeEnd:''||null,
+            printDateTimeStart:''||null,
+            printDateTimeEnd:''||null,
+            sendTicketDateTimeStart:''||null,
+            sendTicketDateTimeEnd:''||null,
+            startTerm:''||null,
+            endTerm:''||null,
             page:1,
-            pageSize:10,
-            type:''
+            pagesize:10,
+            type:''||null
         }
+    },
+    filters:{
+         type(a){
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+
+        },
+        white(status){
+            if(status == 1){
+                return "未中奖"
+            }else{
+                return "中奖"
+            }
+        },
+        use(studio){
+            if(studio == 1){
+                return "未送票"
+            }else if(studio == 3){
+                return "未确认"
+            }else if(studio == 4){
+                return "出票成功"
+            }else if(studio == 5){
+                return "出票失败"
+            }
+        }
+    },
+    created(){
+        this.gettable()
     },
     methods:{
         ...mapActions({
                 openprize: 'Sendtime'
             }),
-            //查询操作
-        openprize(){
+            //查询操作openprize
+        gettable(){
             let obj = {
             provider:this.provider,//提供商
             term:this.term,//彩期
@@ -367,16 +412,30 @@ export default {
             startTerm:this.startTerm,//彩期开始
             endTerm:this.endTerm,//彩期结束
             offset:this.page,//页数
-            pageSize:this.pageSize
+            pagesize:this.pagesize
             }
             searchTicket(obj).then(res => {
-                // console.log(1)
-                this.tableData = res.data.data
+                 console.log(1)
+                console.log(res.data.amount)
+                console.log(1)
+                this.tableData = res.data.data;
+                this.whole = res.data.amount;
+                this.wholeget = res.data.bingoAmount
               })
            this.$store.dispatch('Sendtime',obj);
            console.log(this.$store.getters)
             //this.$router.push({ path: '/ticketingCenter/ticketlist' })
-        }
+        }, 
+        //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.gettable()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.gettable()
+        },
     }
 }
 </script>
