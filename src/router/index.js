@@ -92,6 +92,15 @@ export const constantRouterMap = [{
           title: '模块管理'
         }
       },
+      {
+        path: 'Binding_channels',
+        name: '绑定渠道',
+        component: () =>
+          import ('@/views/sys_management/Binding_channels'),
+        meta: {
+          title: '绑定渠道'
+        }
+      },
 
     ]
   },
@@ -451,7 +460,16 @@ export const constantRouterMap = [{
         meta: {
           title: '充值送礼金卡'
         }
-      }
+      },
+      {
+        path: 'seiper_banner',
+        name: '轮播土管理',
+        component: () =>
+          import ('@/views/activity_manager/seiper_banner'),
+        meta: {
+          title: '轮播土管理'
+        }
+      },
 
     ]
   },
@@ -809,6 +827,48 @@ export const constantRouterMap = [{
         component: () => import('@/views/foucs_event/awards_blacklist'),
         meta: { title: '嘉奖黑名单列表' }
       },
+    ]
+  },
+  //运营管理
+  {
+    path: '/operations',
+    component: Layout,
+    redirect: '/operations/seekingtick',
+    name: '运营管理',
+    meta: { title: '运营管理' },
+    children: [
+      {
+        path: 'seekingtick',
+        name: '代理寻票记录',
+        component: () => import('@/views/operations/seekingtick'),
+        meta: { title: '代理寻票记录' }
+      },
+      
+      {
+        path: 'ytick',
+        name: '运营寻票操作',
+        component: () => import('@/views/operations/ytick'),
+        meta: { title: '运营寻票操作' }
+      },
+      {
+        path: 'yrecord',
+        name: '运营传票记录',
+        component: () => import('@/views/operations/yrecord'),
+        meta: { title: '运营传票记录' }
+      },
+      {
+        path: 'Robot',
+        name: '机器人列表',
+        component: () => import('@/views/operations/Robot'),
+        meta: { title: '机器人列表' }
+      },
+      {
+        path: 'cyseting',
+        name: '彩研设置',
+        component: () => import('@/views/operations/cyseting'),
+        meta: { title: '彩研设置' }
+      },
+      
     ]
   },
 

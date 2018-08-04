@@ -167,6 +167,18 @@ export function exportExcle(listParams,title) {
     }
   })
 }
+// 绑定渠道
+export function setOrUpdateQDtoUser(is_del, member_account, user_account, ) {
+  return request.member({
+    url: '/user/setOrUpdateQDtoUser',
+    method: 'get',
+    params:{
+      is_del,
+      member_account,
+      user_account,
+    }
+  })
+}
 // 获取代理和渠道列表
 export function findAllAgentAndQD() {
   return request.member({
@@ -250,6 +262,22 @@ export function upgradeAgentToQD(params) {
   })
 }
 
+// 轮播图列表
+export function findAllBanner(params) {
+  return request.member({
+    url: '/userCount/findAllBanner',
+    method: 'get',
+    params: params
+  })
+}
+// 轮播图列表 -- 添加 修改
+export function addBanner(params) {
+  return request.member({
+    url: '/userCount/addBanner',
+    method: 'get',
+    params: params
+  })
+}
 // 开户轮播墙
 
 export function openAccountWall(loginAccount) {
@@ -468,6 +496,22 @@ export function addPay(params) {
     params:params
   })
 }
+//线下支付 - 修改
+export function updatePayChanne(params) {
+  return request.pay({
+    url: '/xxPay/updatePayChanne',
+    method: 'get',
+    params:params
+  })
+}
+//添加线下支付 - 图片上传
+export function uploadImage(params) {
+  return request.infos({
+    url: '/information/uploadImage',
+    method: 'post',
+    params:params
+  })
+}
 //线下充值加款明细
 export function findRechargeUnderLine(params) {
   return request.member({
@@ -608,6 +652,55 @@ export function findMemberDrawingList(params) {
 export function memberDrawingReview(params) {
   return request.pay({
     url: '/pay/memberDrawingReview',
+    method: 'get',
+    params:params
+  })
+}
+// 运营管理==============
+//  寻票列表
+export function findTicketList(params) {
+  return request.ticket({
+    url: '/ticket/findTicketList',
+    method: 'get',
+    params:params
+  })
+}
+//  发起送票
+export function deliverTicket(params) {
+  return request.ticket({
+    url: '/ticket/deliverTicket',
+    method: 'get',
+    params:params
+  })
+}
+//  机器人列表
+export function getRobotList(params) {
+  return request.member({
+    url: '/userManage/getRobotList',
+    method: 'get',
+    params:params
+  })
+}
+//  添加机器人
+export function addRobot(params) {
+  return request.member({
+    url: '/userManage/addRobot',
+    method: 'get',
+    params:params
+  })
+}
+//  彩研列表
+export function getMember(params) {
+  return request.member({
+    url: '/user/getMember',
+    method: 'get',
+    params:params
+  })
+}
+//  彩研-设置
+export function toCaiYan(params) {
+  return request.member({
+    url: '/user/toCaiYan',
     method: 'get',
     params:params
   })
