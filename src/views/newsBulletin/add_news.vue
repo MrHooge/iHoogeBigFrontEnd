@@ -59,8 +59,20 @@
   <br />
    <el-form-item label="上传图片" style="border:none">
   
-      <el-input type="file" @change="upload"></el-input>
-
+      <!-- <el-input type="file" @change="upload"></el-input> -->
+      <el-upload
+          class="upload-demo"
+          action="https://infos.api.qiyun88.cn/information/uploadImage"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          multiple
+          :limit="3"
+          @change="upload"
+          :on-exceed="handleExceed"
+          :file-list="fileList">
+          <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
   </el-form-item><br />
   <el-form-item>
     <el-button type="primary" @click="update">修改</el-button>
