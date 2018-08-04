@@ -69,7 +69,7 @@ const ticket = {
             return new Promise((resolve, reject) => {
                 searchTicket(obj).then(response => {    
                 const res = response.data    
-                console.log(res)       
+                //console.log(res)       
                 commit('SET_PROVIDER',res.message);
                 commit('SET_TERM',res.term);
                 resolve()

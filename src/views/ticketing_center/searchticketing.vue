@@ -149,7 +149,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -158,7 +158,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini">
             </el-date-picker><br />
      打印票时间&nbsp;开始：<el-date-picker
@@ -166,7 +166,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -175,7 +175,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini">
             </el-date-picker><br />
     送票时间&nbsp;&nbsp;&nbsp;&nbsp;开始：&nbsp;<el-date-picker
@@ -183,7 +183,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -192,7 +192,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini">
             </el-date-picker><br /> 
     彩期&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始：&nbsp;<el-date-picker
@@ -200,7 +200,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -209,11 +209,12 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini">
             </el-date-picker><br />
-             <el-button type="primary" @click="openprize">查询 </el-button>
+             <el-button type="primary" @click="openprize" style="margin-left:26%;margin-bottom:20px">查询 </el-button>
     </div>  
+    <!-- 表格数据列表 -->
     <el-table
                :data="tableData"
                border
@@ -347,33 +348,34 @@ export default {
         ...mapActions({
                 openprize: 'Sendtime'
             }),
+            //查询操作
         openprize(){
             let obj = {
-            provider:this.provider,
-            term:this.term,
-            id:this.id,
-            planNo:this.planNo,
-            playType:123456,
-            isBingo:this.isBingo,
-            status:this.status,
-            provider:this.provider,
-            createDateTimeStart:this.createDateTimeStart,
-            createDateTimeEnd:this.createDateTimeEnd,
-            printDateTimeStart:this.printDateTimeStart,
-            printDateTimeEnd:this.printDateTimeEnd,
-            sendTicketDateTimeStart:this.sendTicketDateTimeStart,
-            sendTicketDateTimeEnd:this.sendTicketDateTimeEnd,
-            startTerm:this.startTerm,
-            endTerm:this.endTerm,
-            offset:this.page,
+            provider:this.provider,//提供商
+            term:this.term,//彩期
+            id:this.id,//票号
+            planNo:this.planNo,//方案编号
+            playType:'',//玩法
+            isBingo:this.isBingo,//中奖状态
+            status:this.status,//出票状态
+            createDateTimeStart:this.createDateTimeStart,//生成票时间开始
+            createDateTimeEnd:this.createDateTimeEnd,//生成票时间结束
+            printDateTimeStart:this.printDateTimeStart,//打印票时间开始
+            printDateTimeEnd:this.printDateTimeEnd,//打印票时间结束
+            sendTicketDateTimeStart:this.sendTicketDateTimeStart,//送票时间开始
+            sendTicketDateTimeEnd:this.sendTicketDateTimeEnd,//送票时间结束
+            startTerm:this.startTerm,//彩期开始
+            endTerm:this.endTerm,//彩期结束
+            offset:this.page,//页数
             pageSize:this.pageSize
             }
             searchTicket(obj).then(res => {
-                console.log(1)
-            })
+                // console.log(1)
+                this.tableData = res.data.data
+              })
            this.$store.dispatch('Sendtime',obj);
            console.log(this.$store.getters)
-            this.$router.push({ path: '/ticketingCenter/ticketlist' })
+            //this.$router.push({ path: '/ticketingCenter/ticketlist' })
         }
     }
 }
