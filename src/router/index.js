@@ -666,6 +666,7 @@ export const constantRouterMap = [{
 
     ]
   },
+
   //方案中心
   {
     path: '/programCenter',
@@ -697,6 +698,30 @@ export const constantRouterMap = [{
         name: '查询中奖方案',
         component: () => import ('@/views/program_center/winningprogram'),
         meta: { title: '查询中奖方案' }
+      },
+      {
+        path: 'sparklingbasketball',
+        name: '竞彩篮球',
+        component: () => import ('@/views/program_center/sparklingbasketball'),
+        meta: { title: '竞彩篮球' }
+      },
+      {
+        path: 'smg',
+        name: '竞彩足球',
+        component: () => import ('@/views/program_center/smg'),
+        meta: { title: '竞彩足球' }
+      },
+      {
+        path: 'programquery',
+        name: '方案查询',
+        component: () => import ('@/views/program_center/programquery'),
+        meta: { title: '方案查询' }
+      },
+      {
+        path: 'slaeandstop',
+        name: '彩种开停售',
+        component: () => import ('@/views/program_center/slaeandstop'),
+        meta: { title: '彩种开停售' }
       },
     ]
   },
@@ -765,7 +790,97 @@ export const constantRouterMap = [{
       },
     ]
   },
-  //资讯模块
+  //票务中心
+  {
+    path: '/ticketingCenter',
+    component: Layout,
+    redirect: '/ticketingCenter/searchticketing',
+    name: '票务中心',
+    meta: { title: '票务中心' },
+    children: [
+      {
+        path: 'searchticketing',
+        name: '票务查询',
+        component: () =>
+          import ('@/views/ticketing_center/searchticketing'),
+        meta: { title: '票务查询' }
+      },
+      {
+        path: 'ticketlist',
+        name: '票务查询列表',
+        component: () =>
+          import ('@/views/ticketing_center/ticketlist'),
+        meta: { title: '票务查询列表' }
+      },
+      
+    ]
+  },
+  //麒云大师模块
+  {
+    path: '/qiyunGrandmaster',
+    component: Layout,
+    redirect: '/qiyunGrandmaster/customerRecharge',
+    name: '麒云大师',
+    meta: { title: '麒云大师' },
+    children: [
+      {
+        path: 'customerRecharge',
+        name: '客户充值提款流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/customerRecharge'),
+        meta: { title: '客户充值提款流水' }
+      },
+      {
+        path: 'shoppingrecommend',
+        name: '客户推荐购买退款流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/shoppingrecommend'),
+        meta: { title: '客户推荐购买退款流水' }
+      },
+      {
+        path: 'rewardflut',
+        name: '打赏流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/rewardflut'),
+        meta: { title: '打赏流水' }
+      },
+      {
+        path: 'Recommendedincome',
+        name: '推荐收入',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/Recommendedincome'),
+        meta: { title: '推荐收入' }
+      },
+      {
+        path: 'wholecustomerflut',
+        name: '总流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/wholecustomerflut'),
+        meta: { title: '总流水' }
+      },
+      {
+        path: 'famousman',
+        name: '名人和大神',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/famousman'),
+        meta: { title: '名人和大神' }
+      },
+      {
+        path: 'tobesetted',
+        name: '待审核列表',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/tobesetted'),
+        meta: { title: '待审核列表' }
+      },
+      {
+        path: 'withdraw',
+        name: '提现列表',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/withdraw'),
+        meta: { title: '提现列表' }
+      },
+    ]
+  },
   //麒云88模块
   {
     path: '/qiyun88',

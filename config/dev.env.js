@@ -2,10 +2,11 @@
 const merge = require('webpack-merge')
 const prodEnv = require('./prod.env')
 const QYAPI = {
-  member: "'https://member.api.qiyun88.cn'",
-  // member: "'http://192.168.42.40:8081'",
+  //member: "'https://member.api.qiyun88.cn'",
+   member: "'http://192.168.42.40:8081'",
   user: "'https://user.api.qiyun88.cn'",
   infos: "'https://infos.api.qiyun88.cn'",
+  //infos:"'http://192.168.6.61:8081'",
    pay: "'https://pay.api.qiyun88.cn'",
  // pay: "'http://192.168.42.40:8087'",
   ticket: "'https://ticket.api.qiyun88.cn'",

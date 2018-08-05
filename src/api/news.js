@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import user from '../store/modules/user';
 
 //竞彩日报
 //每日两单一
@@ -10,11 +11,11 @@ export function createDayOneDan1(dayOneDan2DTO) {
   })
 }
 //每日两单二
-export function createDayOneDan2(dayOneDan2DTO) {
+export function createDayOneDan2(userinfos) {
   return request.infos({
     url: '/information/createDayOneDan2',
     method: 'post',
-    params:{dayOneDan2DTO}
+    params:userinfos
   })
 }
 //实战二串一（一）
@@ -47,6 +48,14 @@ export function getNewsList(userinfos) {
 export function createNews(userinfos) {
   return request.infos({
     url: '/information/createNews',
+    method: 'post',
+    params:userinfos
+  })
+}
+//上传图片
+export function uploadImage(userinfos) {
+  return request.infos({
+    url: '/information/uploadImage',
     method: 'post',
     params:userinfos
   })

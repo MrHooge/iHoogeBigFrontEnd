@@ -34,27 +34,27 @@
   </div>
   <div class="right">
    <p>每日两单（二）</p>
-        <el-form ref="form" :model="form" label-width="80px" size="500px">
+        <el-form ref="form" :model="formsecond" label-width="80px" size="500px">
          <el-form-item label="玩法" style="width:400px">
-    <el-input v-model="form.playType"></el-input>
+    <el-input v-model="formsecond.playType"></el-input>
   </el-form-item>
   <el-form-item label="场次" style="width:400px">
-    <el-input v-model="form.matchId"></el-input>
+    <el-input v-model="formsecond.matchId"></el-input>
   </el-form-item>
   <el-form-item label="主队" style="width:400px">
-    <el-input v-model="form.homeTeam"></el-input>
+    <el-input v-model="formsecond.homeTeam"></el-input>
   </el-form-item>
    <el-form-item label="客队" style="width:400px">
-    <el-input v-model="form.guestTeam"></el-input>
+    <el-input v-model="formsecond.guestTeam"></el-input>
   </el-form-item>
    <el-form-item label="推荐" style="width:400px">
-    <el-input v-model="form.recommend"></el-input>
+    <el-input v-model="formsecond.recommend"></el-input>
   </el-form-item>
    <el-form-item label="sp值" style="width:400px">
-    <el-input v-model="form.sp"></el-input>
+    <el-input v-model="formsecond.sp"></el-input>
   </el-form-item>
   <el-form-item label="分析" style="width:400px;">
-    <el-input type="textarea" v-model="form.analyze"></el-input>
+    <el-input type="textarea" v-model="formsecond.analyze"></el-input>
   </el-form-item>
     <el-form-item>
     <el-button type="primary" @click="onSubmitsecond">提交</el-button>
@@ -72,83 +72,89 @@
         <div class="chuan">
           <div class="no">
    <p>实战二串一（一）</p>
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form :inline="true" :model="formthird" class="demo-form-inline">
         <el-form-item label="场次">
-          <el-input></el-input>
+          <el-input v-model="formthird.amount"></el-input>
         </el-form-item>
         <el-form-item label="主队">
-          <el-input></el-input>
+          <el-input v-model="formthird.author"></el-input>
         </el-form-item>
         <el-form-item label="客队">
-          <el-input></el-input>
+          <el-input v-model="formthird.bonus"></el-input>
         </el-form-item>
         <el-form-item label="推荐">
-          <el-input></el-input>
+          <el-input v-model="formthird.guestTeam1"></el-input>
         </el-form-item><br />
         <el-form-item label="场次">
-          <el-input></el-input>
+          <el-input v-model="formthird.guestTeam2"></el-input>
         </el-form-item>
         <el-form-item label="主队">
-          <el-input></el-input>
+          <el-input v-model="formthird.homeTeam1"></el-input>
         </el-form-item>
         <el-form-item label="客队">
-          <el-input></el-input>
+          <el-input v-model="formthird.homeTeam2"></el-input>
         </el-form-item>
         <el-form-item label="推荐">
-          <el-input></el-input>
+          <el-input v-model="formthird.matchId1"></el-input>
         </el-form-item><br />
         <el-form-item label="方案注数">
-          <el-input></el-input>
+          <el-input v-model="formthird.matchId2"></el-input>
         </el-form-item>
         <el-form-item label="方案金额">
-          <el-input></el-input>
+          <el-input v-model="formthird.multiple"></el-input>
         </el-form-item>
         <el-form-item label="预测金额">
-          <el-input></el-input>
+          <el-input v-model="formthird.recommend1"></el-input>
+        </el-form-item>
+         <el-form-item label="预测金额">
+          <el-input v-model="formthird.recommend2"></el-input>
         </el-form-item><br />
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">提交</el-button>
+          <el-button type="primary" @click="onSubmitthird">提交</el-button>
         </el-form-item>
       </el-form>
   </div>
           <div class="no">
    <p>实战二串一（二）</p>
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form :inline="true" :model="formforth" class="demo-form-inline">
         <el-form-item label="场次">
-          <el-input></el-input>
+          <el-input v-model="formforth.amount"></el-input>
         </el-form-item>
         <el-form-item label="主队">
-          <el-input></el-input>
+          <el-input v-model="formforth.author"></el-input>
         </el-form-item>
         <el-form-item label="客队">
-          <el-input></el-input>
+          <el-input v-model="formforth.bonus"></el-input>
         </el-form-item>
         <el-form-item label="推荐">
-          <el-input></el-input>
+          <el-input v-model="formforth.guestTeam1"></el-input>
         </el-form-item><br />
         <el-form-item label="场次">
-          <el-input></el-input>
+          <el-input v-model="formforth.guestTeam2"></el-input>
         </el-form-item>
         <el-form-item label="主队">
-          <el-input></el-input>
+          <el-input v-model="formforth.homeTeam1"></el-input>
         </el-form-item>
         <el-form-item label="客队">
-          <el-input></el-input>
+          <el-input v-model="formforth.homeTeam2"></el-input>
         </el-form-item>
         <el-form-item label="推荐">
-          <el-input></el-input>
+          <el-input v-model="formforth.matchId1"></el-input>
         </el-form-item><br />
         <el-form-item label="方案注数">
-          <el-input></el-input>
+          <el-input v-model="formforth.matchId2"></el-input>
         </el-form-item>
         <el-form-item label="方案金额">
-          <el-input></el-input>
+          <el-input v-model="formforth.multiple"></el-input>
         </el-form-item>
         <el-form-item label="预测金额">
-          <el-input></el-input>
+          <el-input v-model="formforth.recommend1"></el-input>
+        </el-form-item>
+         <el-form-item label="预测金额">
+          <el-input v-model="formforth.recommend2"></el-input>
         </el-form-item><br />
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">提交</el-button>
+          <el-button type="primary" @click="onSubmitforth">提交</el-button>
         </el-form-item>
       </el-form>
   </div>
@@ -157,7 +163,7 @@
 </template>
 
 <script>
-import { createDayOneDan1,createDayOneDan2 } from '@/api/news'
+import { createDayOneDan1,createDayOneDan2,createSZ2C11,createSZ2C12 } from '@/api/news'
 export default {
   data() {
     return {
@@ -170,6 +176,44 @@ export default {
       playType:'',
       recommend:'',
       sp:''
+      },
+      formsecond:{
+      analyze:'',	
+      author:'',
+      guestTeam	:'',	
+      homeTeam:'',
+      matchId:'',
+      playType:'',
+      recommend:'',
+      sp:''
+      },
+      formthird:{
+      amount:'',	
+      author:'',
+      bonus:'',
+      guestTeam1:'',
+      guestTeam2:'',	
+      homeTeam1:'',	
+      homeTeam2:'',
+      matchId1:'',	
+      matchId2:'',	
+      multiple:'',	
+      recommend1:'',		
+      recommend2:''
+      },
+      formforth:{
+        amount:'',	
+        author:'',
+        bonus:'',
+        guestTeam1:'',
+        guestTeam2:'',	
+        homeTeam1:'',	
+        homeTeam2:'',
+        matchId1:'',	
+        matchId2:'',	
+        multiple:'',	
+        recommend1:'',		
+        recommend2:''
       }
     }
   },
@@ -178,21 +222,21 @@ export default {
 
   methods: {
     onSubmitfirst(){
-      // if(!this.playType){
-      //   this.$message('请输入玩法')
-      // }else if(!this.matchId){
-      //   this.$message('请输入场次')
-      // }else if(!this.homeTeam){
-      //   this.$message('请输入主队')
-      // }else if(!this.guestTeam){
-      //   this.$message('请输入客队')
-      // }else if(!this.recommend){
-      //   this.$message('请输入推荐')
-      // }else if(!this.sp){
-      //   this.$message('请输入sp值')
-      // }else if(!this.analyze){
-      //   this.$message('请输入分析')
-      // }else{
+      if(!this.form.playType){
+        this.$message('请输入玩法')
+      }else if(!this.form.matchId){
+        this.$message('请输入场次')
+      }else if(!this.form.homeTeam){
+        this.$message('请输入主队')
+      }else if(!this.guestTeam){
+        this.$message('请输入客队')
+      }else if(!this.form.recommend){
+        this.$message('请输入推荐')
+      }else if(!this.form.sp){
+        this.$message('请输入sp值')
+      }else if(!this.form.analyze){
+        this.$message('请输入分析')
+      }else{
         let obj = {
  
           analyze:this.form.analyze,	
@@ -204,52 +248,139 @@ export default {
           recommend:this.form.recommend,
           sp:this.form.sp
         }
-        // let key = dayOneDan2DTO;
-        //   var that = this 
-        // var parmas = new URLSearchParams();
-        
-        // parmas.append('analyze',this.analyze)
-        // parmas.append('author','manager')
-        // parmas.append('guestTeam',this.guestTeam)
-        // parmas.append('homeTeam',this.homeTeam)
-        // parmas.append('matchId',this.matchId)
-        // parmas.append('playType',this.playType)
-        // parmas.append('recommend',this.recommend)
-        // parmas.append('sp',this.sp)
         createDayOneDan1(JSON.stringify(obj)).then(res => {
-          console.log(res)
+         if(res.error_code == 200){
+           thi.$message(res.message)
+         }
         })
-      // }
+       }
     },
     onSubmitsecond(){
-      // if(!this.playType){
-      //   this.$message('请输入玩法')
-      // }else if(!this.matchId){
-      //   this.$message('请输入场次')
-      // }else if(!this.homeTeam){
-      //   this.$message('请输入主队')
-      // }else if(!this.guestTeam){
-      //   this.$message('请输入客队')
-      // }else if(!this.recommend){
-      //   this.$message('请输入推荐')
-      // }else if(!this.sp){
-      //   this.$message('请输入sp值')
-      // }else if(!this.analyze){
-      //   this.$message('请输入分析')
-      // }else{
+      if(!this.formsecond.playType){
+        this.$message('请输入玩法')
+      }else if(!this.formsecond.matchId){
+        this.$message('请输入场次')
+      }else if(!this.formsecond.homeTeam){
+        this.$message('请输入主队')
+      }else if(!this.formsecond.guestTeam){
+        this.$message('请输入客队')
+      }else if(!this.formsecond.recommend){
+        this.$message('请输入推荐')
+      }else if(!this.formsecond.sp){
+        this.$message('请输入sp值')
+      }else if(!this.formsecond.analyze){
+        this.$message('请输入分析')
+      }else{
         let obj = {
-          analyze:this.form.analyze,	
+          analyze:this.formsecond.analyze,	
           author:'manager',
-          guestTeam	:this.form.guestTeam,	
-          homeTeam:this.form.homeTeam,
-          matchId:this.form.matchId,
-          playType:this.form.playType,
-          recommend:this.form.recommend,
-          sp:this.form.sp
+          guestTeam	:this.formsecond.guestTeam,	
+          homeTeam:this.formsecond.homeTeam,
+          matchId:this.formsecond.matchId,
+          playType:this.formsecond.playType,
+          recommend:this.formsecond.recommend,
+          sp:this.formsecond.sp
         }
-      createDayOneDan2(JSON.stringify(obj)).then(res => {
-
+      createDayOneDan2(obj).then(res => {
+         if(res.error_code == 200){
+           thi.$message(res.message)
+         }
       })
+      }
+    },
+    onSubmitthird(){
+       if(!this.formthird.amount){
+        this.$message('请输入玩法')
+      }else if(!this.formthird.author){
+        this.$message('请输入场次')
+      }else if(!this.formthird.bonus){
+        this.$message('请输入主队')
+      }else if(!this.formthird.guestTeam1){
+        this.$message('请输入客队')
+      }else if(!this.formthird.guestTeam2){
+        this.$message('请输入推荐')
+      }else if(!this.formthird.homeTeam1){
+        this.$message('请输入sp值')
+      }else if(!this.formthird.homeTeam2){
+        this.$message('请输入分析')
+      }else if(!this.formthird.matchId1){
+        this.$message('请输入分析')
+      }else if(!this.formthird.matchId2){
+        this.$message('请输入分析')
+      }else if(!this.formthird.multiple){
+        this.$message('请输入分析')
+      }else if(!this.formthird.recommend1){
+        this.$message('请输入分析')
+      }else if(!this.formthird.recommend2){
+        this.$message('请输入分析')
+      }else{
+        let obj = {
+          analyze:this.formthird.amount,	
+          author:'manager',
+          guestTeam	:this.formthird.bonus,	
+          homeTeam:this.formthird.guestTeam1,
+          matchId:this.formthird.guestTeam2,
+          playType:this.formthird.homeTeam1,
+          recommend:this.formthird.homeTeam2,
+          sp:this.formthird.matchId1,
+          homeTeam:this.formthird.matchId2,
+          matchId:this.formthird.multiple,
+          playType:this.formthird.recommend1,
+          recommend:this.formthird.recommend2
+        }
+      createSZ2C11(obj).then(res => {
+         if(res.error_code == 200){
+           thi.$message(res.message)
+         }
+      })
+      }
+    },
+    onSubmitforth(){
+      if(!this.formforth.amount){
+        this.$message('请输入玩法')
+      }else if(!this.formforth.author){
+        this.$message('请输入场次')
+      }else if(!this.formforth.bonus){
+        this.$message('请输入主队')
+      }else if(!this.formforth.guestTeam1){
+        this.$message('请输入客队')
+      }else if(!this.formforth.guestTeam2){
+        this.$message('请输入推荐')
+      }else if(!this.formforth.homeTeam1){
+        this.$message('请输入sp值')
+      }else if(!this.formforth.homeTeam2){
+        this.$message('请输入分析')
+      }else if(!this.formforth.matchId1){
+        this.$message('请输入分析')
+      }else if(!this.formforth.matchId2){
+        this.$message('请输入分析')
+      }else if(!this.formforth.multiple){
+        this.$message('请输入分析')
+      }else if(!this.formforth.recommend1){
+        this.$message('请输入分析')
+      }else if(!this.formforth.recommend2){
+        this.$message('请输入分析')
+      }else{
+        let obj = {
+          analyze:this.formthird.amount,	
+          author:'manager',
+          guestTeam	:this.formthird.bonus,	
+          homeTeam:this.formthird.guestTeam1,
+          matchId:this.formthird.guestTeam2,
+          playType:this.formthird.homeTeam1,
+          recommend:this.formthird.homeTeam2,
+          sp:this.formthird.matchId1,
+          homeTeam:this.formthird.matchId2,
+          matchId:this.formthird.multiple,
+          playType:this.formthird.recommend1,
+          recommend:this.formthird.recommend2
+        }
+      createSZ2C12(obj).then(res => {
+         if(res.error_code == 200){
+           thi.$message(res.message)
+         }
+      })
+      }
     }
   }
 }
