@@ -8,36 +8,35 @@
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%">
-			<el-table-column label="编号"
+			<el-table-column label="ID"
 			                 align="center"
-			                 type="index"
+			                 prop="id"
 			                 width="180">
 			</el-table-column>
-			<el-table-column label="类型"
-			                 align="center">
+			<el-table-column label="彩种"
+			                 align="center"
+			                 prop="lotteryType">
 				<template slot-scope="scope">
-					{{ scope.row.AGENT_TYPE | type}}
+					{{ scope.row.lotteryType | type}}
 				</template>
 			</el-table-column>
-			<el-table-column prop="ACCOUNT"
-			                 align="center"
-			                 label="用户名">
+			<el-table-column label="玩法"
+			                 prop="passType"
+			                 align="center">
 			</el-table-column>
-			<el-table-column prop="username"
-			                 align="center"
-			                 label="昵称">
+			<el-table-column label="状态"
+			                 align="center">
+											 				<template slot-scope="scope">
+					{{ scope.row.status | changeType}}
+				</template>
 			</el-table-column>
-			<el-table-column prop="name"
+			<el-table-column prop="createTime"
 			                 align="center"
-			                 label="姓名">
+			                 label="限售时间">
 			</el-table-column>
-			<el-table-column prop="upName"
+			<el-table-column prop="dealTime"
 			                 align="center"
-			                 label="上级">
-			</el-table-column>
-			<el-table-column prop="grouping"
-			                 align="center"
-			                 label="分组">
+			                 label="截止时间">
 			</el-table-column>
 			<el-table-column align="center"
 			                 width="240px;"
@@ -45,7 +44,7 @@
 
 				<template slot-scope="scope">
 					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">操作</el-button>
+					           @click="handleEdit(scope.row, 'modify')">修改状态</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -55,11 +54,11 @@
 		           width="70%">
 			<div class="layers">
 				<el-row :gutter="20">
-						<div class="grid-content bg-purple leftbox">
-							组合规则:
-							<p>竞彩足球组合格式：【20180804_001_胜~20180804_002_负~20180804_002_平】</p>
-							<p>竞彩篮球组合格式：【20180804_001_胜~20180804_002_负~20180804_002_平】</p>
-						</div>
+					<div class="grid-content bg-purple leftbox">
+						组合规则:
+						<p>竞彩足球组合格式：【20180804_001_胜~20180804_002_负~20180804_002_平】</p>
+						<p>竞彩篮球组合格式：【20180804_001_胜~20180804_002_负~20180804_002_平】</p>
+					</div>
 					<el-col :span="4">
 						<div class="grid-content bg-purple leftbox">
 							组合:
@@ -117,6 +116,35 @@
 				           @click="selfbuy">确 定</el-button>
 			</span>
 		</el-dialog>
+		<!-- 弹窗事件 -->
+		<el-dialog title="提示：修改组合限售状态"
+		           :visible.sync="dialogVisible2"
+		           width="40%">
+			<div>
+				<el-row :gutter="20">
+					<el-col :span="4">
+						<div class="grid-content bg-purple leftbox">
+							状态:
+						</div>
+					</el-col>
+					<el-col :span="19">
+						<div class="grid-content bg-purple">
+							<el-radio v-model="radio2"
+							          label="1">有效</el-radio>
+							<el-radio v-model="radio2"
+							          label="0">无效</el-radio>
+						</div>
+					</el-col>
+
+				</el-row>
+			</div>
+			<span slot="footer"
+			      class="dialog-footer">
+				<el-button @click="dialogVisible2 = false">取 消</el-button>
+				<el-button type="primary"
+				           @click="makersure">确 定</el-button>
+			</span>
+		</el-dialog>
 		<div class="page"
 		     style="padding:30px 0">
 			<el-pagination background
@@ -148,12 +176,14 @@ export default {
 	components: { treeTable },
 	data() {
 		return {
+			dialogVisible2: false, // 修改状态弹窗
 			tableData: [], //表格数据
 			dialogVisible: false,
 			tableData3: [], // 弹窗的表格数据
 			multipleSelection: [], //选中的数据
 			onePeople: {}, // 存选择的某一条数据
-			radio: '38',  //  篮球足球选项
+			radio: '38',  //  篮球 、足球选项
+			radio2: '', //   组合限售状态修改 1 有效 0 无效
 			total: 0,
 			checkAll: false,
 			checkedCities: [],
@@ -165,8 +195,10 @@ export default {
 	},
 	filters: {
 		type(a) {
-
-			return a ? '代理' : '渠道'
+			return a==38 ? '竞彩足球' : '竞彩篮球'
+		},
+		changeType(s){
+			return s==1? '有效' : '无效'
 		}
 	},
 	computed: {
@@ -182,9 +214,12 @@ export default {
 				page: curr,
 				pageSize: 10
 			}
-			getLotteryLimit(obj).then(res => {  //  获取渠道数据
-
+			getLotteryLimit(obj).then(res => {  //  获取渠道数
 				console.log(res)
+				if(res.data.error_code==200){
+					this.tableData = res.data.data.list
+					this.total = res.data.data.total
+				}
 			})
 		},
 		addGame() {  //  添加组合限售
@@ -211,15 +246,31 @@ export default {
 			}
 			addLotteryLimit(obj).then(res => {
 				console.log(res)
+				if (res.status == 200) {
+					this.dialogVisible = false
+					Message.success(res.data.message)
+				}
 			})
 		},
-// handleEdit(val){
-// 	this.onePeople = val
-// 		let obj = {
-// 			id:this.onePeople.id,
-// 			status:this.onePeople.status,
-// 		}
-// },
+		handleEdit(val) {
+			this.dialogVisible2 = true
+			this.onePeople = val
+		},
+		makersure() {
+			let obj = {
+				id: this.onePeople.id,
+				status: this.radio2,
+			}
+			updateLotteryLimitStatus(obj).then(res => {
+				console.log(res)
+				if (res.status == 200) {
+					this.dialogVisible2 = false
+					Message.success(res.data.message)
+				}else {
+					Message.success(res.data.message)
+				}
+			})
+		},
 		//  分页回调
 		changepage(val) {
 			this.getTable(val)
