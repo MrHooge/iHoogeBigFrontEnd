@@ -1,8 +1,12 @@
 <template>
 	<div class="app-container">
-		<el-table :data="tableData"
+		<el-table :data="memberfilter"
 		          border
-		          style="width: 100%">
+		          style="width: 100%"
+		          @selection-change="handleSelectionChange">
+			<el-table-column type="selection"
+			                 align="center">
+			</el-table-column>
 			<el-table-column label="编号"
 			                 align="center"
 			                 type="index"
@@ -34,23 +38,23 @@
 			                 align="center"
 			                 label="分组">
 			</el-table-column>
-			<el-table-column align="center"
+			<!-- <el-table-column align="center"
 			                 width="240px;"
 			                 label="操作">
 
 				<template slot-scope="scope">
 					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">降级为会员</el-button>
+					           @click="handleEdit(scope.row, 'modify')">绑定代理</el-button>
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 		</el-table>
 		<!-- 弹窗事件 -->
 		<el-dialog title="提示"
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
-				<p>会员名：{{ username }}</p>
-				<p>设置：降为会员</p>
+				<el-input v-model="input"
+				          placeholder="请输入绑定人账号"></el-input>
 			</div>
 			<span slot="footer"
 			      class="dialog-footer">
@@ -59,11 +63,19 @@
 				           @click="makersure">确 定</el-button>
 			</span>
 		</el-dialog>
+		<div slot="footer"
+		     class="dialog-footer"
+		     v-show="isShow"
+		     style="padding:30px 0">
+			<el-button type="primary"
+			           style="width:100%"
+			           @click="cofirm">确 定</el-button>
+		</div>
 	</div>
 </template>
 
 <script>
-import { findAllAgentAndQD, setAgentToMember } from '@/api/sys_user'
+import { findAllAgentAndQD, setOrUpdateQDtoUser } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -71,7 +83,8 @@ export default {
 	components: { treeTable },
 	data() {
 		return {
-			username:'',
+			input: '', //  绑定账号
+			isShow: false, //  确定按钮
 			tableData: [], //表格数据
 			sjname: '',//模糊搜索
 			dialogVisible: false,
@@ -87,11 +100,11 @@ export default {
 		}
 	},
 	computed: {
-		// memberfilter() {
-		// 	return this.tableData.filter(name => {
-		// 		return name.ACCOUNT.match(this.username)
-		// 	})
-		// },
+		memberfilter() {
+			return this.tableData.filter(name => {
+				return name.ACCOUNT.match(this.username)
+			})
+		},
 		// tableDatalayer() {
 		// 	return this.tableData3.filter(name => {
 		// 		return name.ACCOUNT.match(this.sjname)
@@ -103,33 +116,68 @@ export default {
 	},
 	methods: {
 		getTable() {
-			findAllAgentAndQD().then(res => {  //  获取渠道列表
-				if(res.status == 200) {
-					this.tableData = res.data.data
-				}
+			findAllAgentAndQD().then(res => {  //  获取渠道数据
+				this.tableData = res.data.data.filter((e, index) => {
+					return e.AGENT_TYPE == 0
+				})
+				// console.log(res)
 			})
 		},
-		//  给渠道绑定代理
-		handleEdit(a) {
-			this.dialogVisible = true
-			this.onePeople = a
-			this.username = this.onePeople.ACCOUNT
+
+		cofirm() {  //  弹框确定按钮
+			// console.log(this.multipleSelection)
+
+			if (this.multipleSelection.length < 1) {
+				this.$message('请选择一个代理')
+			} else {
+				this.dialogVisible = true
+			}
 		},
-		makersure() {   // 弹窗确认按钮
-		let obj = {
-			account: this.onePeople.ACCOUNT
-		}
-		console.log(obj)
-				setAgentToMember(obj).then(res=>{
+		makersure() {
+			let arr = '';
+			this.multipleSelection.forEach(x => {
+				// arr.push(x.ACCOUNT)
+					arr +=x.ACCOUNT+','
+			})
+			console.log(arr)
+			if (this.input == '') {
+				this.$message('请输入绑定账号')
+			} else {
+				let obj = {
+					is_del: 1, //1 增加,0 删除
+					member_account: arr, //渠道账号,渠道账号
+					user_account: this.input
+
+				}
+				let is_del = 1
+				let member_account = arr
+				let user_account = this.input
+				setOrUpdateQDtoUser(is_del,member_account,user_account).then(res => {
 					console.log(res)
-					if(res.status==200){
+					if(res.data.error_code==200){
 						this.dialogVisible = false
 						Message.success(res.data.message)
 					}else {
-
+						Message.success(res.data.message)
 					}
 				})
-		}
+			}
+
+
+		},
+		// 选择框的回调
+		handleSelectionChange(val) {
+			this.multipleSelection = val
+			if (val.length > 0) {
+				this.isShow = true
+
+			} else {
+			
+				
+				this.isShow = false
+			}
+
+		},
 	},
 
 

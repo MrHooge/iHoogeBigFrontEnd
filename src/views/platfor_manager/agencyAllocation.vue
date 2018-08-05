@@ -1,10 +1,12 @@
 <template>
+	<!-- 代理分组 -->
 	<div class="backend app-container">
 		<div class="layerbody">
 			<div class="search">
 				<el-input v-model="sjname"
-				          placeholder="请输入渠道账号"
-				          style="width:50%;"></el-input>
+				          placeholder="请输入渠道账号查询名下代理"
+				          style="width:50%;"
+									@input="onInput"></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
@@ -18,8 +20,14 @@
 					<el-table-column type="selection"
 					                 align="center">
 					</el-table-column>
+
+					<el-table-column label="ID"
+					                 prop="member_id"
+					                 align="center">
+					</el-table-column>
+
 					<el-table-column label="会员名"
-					                 prop="account"
+					                 prop="ACCOUNT"
 					                 align="center">
 					</el-table-column>
 					<el-table-column label="昵称"
@@ -27,7 +35,19 @@
 					                 align="center">
 					</el-table-column>
 					<el-table-column label="姓名"
-					                 prop="name"
+					                 prop="NAME"
+					                 align="center">
+					</el-table-column>
+					<el-table-column label="代理/渠道"
+					                 align="center">
+						<template slot-scope="scope">{{ scope.row.AGENT_TYPE |type }}</template>
+					</el-table-column>
+					<el-table-column label="上级"
+					                 prop="upName"
+					                 align="center">
+					</el-table-column>
+					<el-table-column label="分组"
+					                 prop="grouping"
 					                 align="center">
 					</el-table-column>
 				</el-table>
@@ -52,12 +72,12 @@
 			</el-pagination>
 		</div> -->
 		<!-- 弹窗事件 -->
-		<el-dialog title="确认转移"
+		<el-dialog title="确认分组"
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
 				<el-input v-model="input"
-				          placeholder="请输入转入用户名"></el-input>
+				          placeholder="请输入分组名"></el-input>
 
 			</div>
 			<span slot="footer"
@@ -71,7 +91,7 @@
 </template>
 
 <script>
-import { findAgentByQDAccount, setAgentToGroup } from '@/api/sys_user'
+import { findAllAgentAndQD, findAgentByQDAccount, setAgentToGroup } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -82,7 +102,7 @@ export default {
 			input: '', //  转移后
 			dialogVisible: false, //确认弹框
 			isShow: false,
-			sjname: 'sj991541460', //  搜索名
+			sjname: '', //  搜索名
 			total: 0, //总页数
 			tableData: [], //表格数据
 			multipleSelection: [], //选中的数据
@@ -90,26 +110,41 @@ export default {
 			arr: [],
 		}
 	},
-	// created(){
-	// 	this.getData()
-	// }
+	filters: {
+		type(a) {
+
+			return a ? '代理' : '渠道'
+		}
+	},
+	created() {
+		this.getData()
+	},
 
 	methods: {
-		search() {
-			this.getData(this.sjname)
+		onInput(){
+				if(this.sjname==''){
+					this.getData()
+				}
 		},
-		getData(a) {
+		search() {
 			let obj = {
-				QDAccount: a,
+				QDAccount: this.sjname
 			}
 			findAgentByQDAccount(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
 					this.tableData = res.data.data
-					// this.total = res.data.data.total
-					// this.pageShow = true
 				} else {
-					this.pageShow = false
+					Message.success(res.data.message)
+				}
+			})
+		},
+		getData() {   //  获取 所有代理和渠道
+			findAllAgentAndQD().then(res => {
+				console.log(res)
+				if (res.data.error_code == 200) {
+					this.tableData = res.data.data
+				} else {
 					Message.success(res.data.message)
 				}
 			})

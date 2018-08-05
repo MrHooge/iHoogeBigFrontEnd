@@ -92,6 +92,15 @@ export const constantRouterMap = [{
           title: '模块管理'
         }
       },
+      {
+        path: 'Binding_channels',
+        name: '绑定渠道',
+        component: () =>
+          import ('@/views/sys_management/Binding_channels'),
+        meta: {
+          title: '绑定渠道'
+        }
+      },
 
     ]
   },
@@ -394,6 +403,33 @@ export const constantRouterMap = [{
           title: '添加线下支付'
         }
       },
+      {
+        path: 'repayset',
+        name: '支付配置',
+        component: () =>
+          import ('@/views/recharge_center/repayset'),
+        meta: {
+          title: '支付配置'
+        }
+      },
+      {
+        path: 'greaplist',
+        name: '修改支付渠道',
+        component: () =>
+          import ('@/views/recharge_center/greaplist'),
+        meta: {
+          title: '修改支付渠道'
+        }
+      },
+      {
+        path: 'auditList',
+        name: '线下支付审核',
+        component: () =>
+          import ('@/views/recharge_center/auditList'),
+        meta: {
+          title: '线下支付审核'
+        }
+      },
 
     ]
   },
@@ -419,15 +455,21 @@ export const constantRouterMap = [{
       {
         path: 'activityGiftcard',
         name: '充值送礼金卡',
-        component: () => import('@/views/activity_manager/activity_giftcard'),
-        meta: { title: '充值送礼金卡' }
+        component: () =>
+          import ('@/views/activity_manager/activity_giftcard'),
+        meta: {
+          title: '充值送礼金卡'
+        }
       },
       {
-        path: 'redpackage',
-        name: '红包记录',
-        component: () => import('@/views/activity_manager/redpackage'),
-        meta: { title: '红包记录' }
-      }
+        path: 'seiper_banner',
+        name: '轮播图管理',
+        component: () =>
+          import ('@/views/activity_manager/seiper_banner'),
+        meta: {
+          title: '轮播图管理'
+        }
+      },
 
     ]
   },
@@ -610,6 +652,15 @@ export const constantRouterMap = [{
           import ('@/views/financialManagement/handsel_give'),
         meta: {
           title: '彩金赠送'
+        }
+      },
+      {
+        path: 'withdrawal_request_list',
+        name: '提款申请',
+        component: () =>
+          import ('@/views/financialManagement/withdrawal_request_list'),
+        meta: {
+          title: '提款申请'
         }
       },
 
@@ -811,6 +862,72 @@ export const constantRouterMap = [{
         component: () => import('@/views/foucs_event/awards_blacklist'),
         meta: { title: '嘉奖黑名单列表' }
       },
+      {
+        path: 'Combination_restricted',
+        name: '组合限售',
+        component: () => import('@/views/foucs_event/Combination_restricted'),
+        meta: { title: '组合限售' }
+      },
+    ]
+  },
+  //运营管理
+  {
+    path: '/operations',
+    component: Layout,
+    redirect: '/operations/seekingtick',
+    name: '运营管理',
+    meta: { title: '运营管理' },
+    children: [
+      {
+        path: 'seekingtick',
+        name: '寻票列表',
+        component: () => import('@/views/operations/seekingtick'),
+        meta: { title: '寻票列表' }
+      },
+      
+      {
+        path: 'ytick',
+        name: '运营寻票操作',
+        component: () => import('@/views/operations/ytick'),
+        meta: { title: '运营寻票操作' }
+      },
+      {
+        path: 'yrecord',
+        name: '运营传票记录',
+        component: () => import('@/views/operations/yrecord'),
+        meta: { title: '运营传票记录' }
+      },
+      {
+        path: 'ticket_checking',
+        name: '出票校验',
+        component: () => import('@/views/operations/ticket_checking'),
+        meta: { title: '出票校验' }
+      },
+      {
+        path: 'Directout',
+        name: '设置会员直接出票',
+        component: () => import('@/views/operations/Directout'),
+        meta: { title: '设置会员直接出票' }
+      },
+      {
+        path: 'Robot',
+        name: '机器人列表',
+        component: () => import('@/views/operations/Robot'),
+        meta: { title: '机器人列表' }
+      },
+      {
+        path: 'cyseting',
+        name: '彩研设置',
+        component: () => import('@/views/operations/cyseting'),
+        meta: { title: '彩研设置' }
+      },
+      {
+        path: 'FollowUpPlan',
+        name: '自动跟单',
+        component: () => import('@/views/operations/FollowUpPlan'),
+        meta: { title: '自动跟单' }
+      },
+      
     ]
   },
 
