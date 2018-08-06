@@ -15,8 +15,8 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-const env = require('../config/prod.env')
-// const env = require('../config/dev.env')
+// const env = require('../config/prod.env')
+const env = require('../config/dev.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
