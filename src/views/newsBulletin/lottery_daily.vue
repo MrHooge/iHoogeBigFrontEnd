@@ -290,29 +290,29 @@ export default {
     },
     onSubmitthird(){
        if(!this.formthird.amount){
-        this.$message('请输入玩法')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.author){
-        this.$message('请输入场次')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.bonus){
-        this.$message('请输入主队')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.guestTeam1){
-        this.$message('请输入客队')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.guestTeam2){
-        this.$message('请输入推荐')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.homeTeam1){
-        this.$message('请输入sp值')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.homeTeam2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.matchId1){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.matchId2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.multiple){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.recommend1){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.recommend2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else{
         let obj = {
           analyze:this.formthird.amount,	
@@ -337,29 +337,29 @@ export default {
     },
     onSubmitforth(){
       if(!this.formforth.amount){
-        this.$message('请输入玩法')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.author){
-        this.$message('请输入场次')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.bonus){
-        this.$message('请输入主队')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.guestTeam1){
-        this.$message('请输入客队')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.guestTeam2){
-        this.$message('请输入推荐')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.homeTeam1){
-        this.$message('请输入sp值')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.homeTeam2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.matchId1){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.matchId2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.multiple){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.recommend1){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.recommend2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else{
         let obj = {
           analyze:this.formthird.amount,	
