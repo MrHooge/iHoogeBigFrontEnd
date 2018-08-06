@@ -26,6 +26,14 @@
 			                 align="center"
 			                 label="姓名">
 			</el-table-column>
+			<el-table-column prop="upName"
+			                 align="center"
+			                 label="上级">
+			</el-table-column>
+			<el-table-column prop="grouping"
+			                 align="center"
+			                 label="分组">
+			</el-table-column>
 			<el-table-column align="center"
 			                 width="240px;"
 			                 label="操作">
@@ -122,11 +130,11 @@ export default {
 	},
 	methods: {
 		getTable() {
-			findAllAgentAndQD().then(res => {  //  获取渠道列表
+			findAllAgentAndQD().then(res => {  //  获取渠道数据
 				this.tableData = res.data.data.filter((e, index) => {
 					return e.AGENT_TYPE == 0
 				})
-				this.tableData3 = res.data.data.filter((e, index) => {
+				this.tableData3 = res.data.data.filter((e, index) => {   //  获取代理数据
 					return e.AGENT_TYPE == 1
 				})
 				// console.log(res)
@@ -152,8 +160,6 @@ export default {
 				let a = this.onePeople.member_id
 				let obj = {}
 				obj[a] = arr.join(',')
-				// console.log(obj)
-				// // api.member + 
 				addAgency(JSON.stringify(obj)).then(res => {
 				// console.log(res)
 					if (res.data.error_code == 200) {

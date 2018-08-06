@@ -145,11 +145,11 @@ export function addRoleBondPermission(params) {
 }
 
 //获取表单数据
-export function findAgentInfoByAccount(account,isMonth) {
+export function findAgentInfoByAccount(account, isMonth) {
   return request.member({
-    url:'/user/findAgentInfoByAccount',
-    method:'get',
-    params:{
+    url: '/user/findAgentInfoByAccount',
+    method: 'get',
+    params: {
       account,
       isMonth
     }
@@ -157,13 +157,25 @@ export function findAgentInfoByAccount(account,isMonth) {
 }
 
 //导出表格
-export function exportExcle(listParams,title) {
+export function exportExcle(listParams, title) {
   return request.member({
-    url:'/user/exportExcle',
-    method:'post',
-    params:{
+    url: '/user/exportExcle',
+    method: 'post',
+    params: {
       listParams,
       title
+    }
+  })
+}
+// 绑定渠道
+export function setOrUpdateQDtoUser(is_del, member_account, user_account, ) {
+  return request.member({
+    url: '/user/setOrUpdateQDtoUser',
+    method: 'get',
+    params: {
+      is_del,
+      member_account,
+      user_account,
     }
   })
 }
@@ -174,15 +186,35 @@ export function findAllAgentAndQD() {
     method: 'get',
   })
 }
+// 通过渠道账号查询名下代理
+export function findAgentByQDAccount(params) {
+  return request.member({
+    url: '/userCount/findAgentByQDAccount',
+    method: 'get',
+    params: params
+  })
+}
+// 后台代理分组功能实现
+export function setAgentToGroup(params) {
+  return request.member({
+    url: '/userCount/setAgentToGroup',
+    method: 'get',
+    params: {
+      params
+    }
+  })
+}
 
 // 获取所有会员列表
-export function findAllMember(page) {
+export function findAllMember(page, account) {
   return request.member({
     url: '/user/findAllMember',
     method: 'get',
-    params:{
+    params: {
       page,
-      pageSize:20
+      pageSize: 20,
+      account,
+
     }
   })
 }
@@ -202,7 +234,7 @@ export function setMemberToAgent(params) {
     params: params
   })
 }
-//  给代理绑定渠道
+//  给渠道绑定代理
 export function addAgency(params) {
   return request.member({
     url: '/user/addAgentToQD',
@@ -212,7 +244,40 @@ export function addAgency(params) {
     }
   })
 }
+//  将渠道或代理降级为会员
+export function setAgentToMember(params) {
+  return request.member({
+    url: '/userManage/setAgentToMember',
+    method: 'get',
+    params: params
+  })
+}
 
+//  将代理升级为渠道
+export function upgradeAgentToQD(params) {
+  return request.member({
+    url: '/user/upgradeAgentToQD',
+    method: 'get',
+    params: params
+  })
+}
+
+// 轮播图列表
+export function findAllBanner(params) {
+  return request.member({
+    url: '/userCount/findAllBanner',
+    method: 'get',
+    params: params
+  })
+}
+// 轮播图列表 -- 添加 修改
+export function addBanner(params) {
+  return request.member({
+    url: '/userCount/addBanner',
+    method: 'get',
+    params: params
+  })
+}
 // 开户轮播墙
 
 export function openAccountWall(loginAccount) {
@@ -240,9 +305,8 @@ export function findRechargeAndConsumerWall(params) {
   return request.member({
     url: '/userCount/findRechargeAndConsumerWall',
     method: 'get',
-    params: 
-      params
-    
+    params: params
+
   })
 }
 // 会员返点列表
@@ -252,8 +316,8 @@ export function findAllRate(page, pageSize) {
     method: 'get',
     params: {
       page,
-      pageSize:20,
-      account:''
+      pageSize: 20,
+      account: ''
     }
   })
 }
@@ -276,7 +340,35 @@ export function setRate(account, rateParams) {
     }
   })
 }
-//授信表数据
+// 删除返点
+export function delRateByAccount(params) {
+  return request.member({
+    url: '/userManage/delRateByAccount',
+    method: 'get',
+    params: params
+  })
+}
+// 代理给客户加款流水记录记录
+export function getSubordinateMember(params) {
+  return request.member({
+    url: '/userManage/getSubordinateMember',
+    method: 'get',
+    params: params
+  })
+}
+//  客户批量转移
+export function moveMember(oldAccount, newAccount, moveMemberId) {
+  return request.member({
+    url: '/userManage/moveMember',
+    method: 'get',
+    params: {
+      oldAccount,
+      newAccount,
+      moveMemberId
+    }
+  })
+}
+//获取代理授信表数据
 export function getCreditMember(params) {
   return request.member({
     url: '/user/getCreditMember',
@@ -335,7 +427,7 @@ export function refuseCreditRefundApply(params) {
 //查询所有支付方式
 export function findPaySwitch() {
   return request.member({
-    url: 'userCount/findPaySwitch',
+    url: '/userCount/findPaySwitch',
     method: 'get',
   })
 }
@@ -344,7 +436,79 @@ export function addPaySwitch(params) {
   return request.member({
     url: '/userCount/addPaySwitch',
     method: 'get',
-    params:params
+    params: params
+  })
+}
+//线下支付审核-列表
+export function getPayApplyList(params) {
+  return request.pay({
+    url: '/xxPay/getPayApplyList',
+    method: 'get',
+    params: params
+  })
+}
+//线下支付审核-列表 - 通过
+export function passPayApply(params) {
+  return request.pay({
+    url: '/xxPay/passPayApply',
+    method: 'get',
+    params: params
+  })
+}
+//线下支付审核-列表 - 驳回
+export function refuseApply(params) {
+  return request.pay({
+    url: '/xxPay/refuseApply',
+    method: 'get',
+    params: params
+  })
+}
+//获取线下支付列表
+export function getPayChannelList(params) {
+  return request.pay({
+    url: '/xxPay/getPayChannelList',
+    method: 'get',
+    params: params
+  })
+}
+//线下支付列表删除
+export function deletePayChannel(params) {
+  return request.pay({
+    url: '/xxPay/deletePayChannel',
+    method: 'post',
+    params: params
+  })
+}
+//线下支付状态修改
+export function updateStatus(params) {
+  return request.pay({
+    url: '/xxPay/updateStatus',
+    method: 'get',
+    params: params
+  })
+}
+//添加线下支付
+export function addPay(params) {
+  return request.pay({
+    url: '/xxPay/add',
+    method: 'post',
+    params: params
+  })
+}
+//线下支付 - 修改
+export function updatePayChanne(params) {
+  return request.pay({
+    url: '/xxPay/updatePayChanne',
+    method: 'get',
+    params: params
+  })
+}
+//添加线下支付 - 图片上传
+export function uploadImage(params) {
+  return request.infos({
+    url: '/information/uploadImage',
+    method: 'post',
+    params: params
   })
 }
 //线下充值加款明细
@@ -352,15 +516,15 @@ export function findRechargeUnderLine(params) {
   return request.member({
     url: '/user/findRechargeUnderLine',
     method: 'get',
-    params:params
+    params: params
   })
 }
-//支线下充值明细 充值功能
+//线下充值明细 充值功能
 export function xxCharge(params) {
   return request.pay({
     url: '/xxPay/xxCharge',
     method: 'get',
-    params:params
+    params: params
   })
 }
 //线上充值流水 
@@ -368,15 +532,15 @@ export function findRechargeOnLine(params) {
   return request.member({
     url: 'user/findRechargeOnLine',
     method: 'get',
-    params:params
+    params: params
   })
 }
 //会员充值流水查询--总表
-export function findMemberWalletLineByAccount(params ) {
+export function findMemberWalletLineByAccount(params) {
   return request.member({
     url: '/user/findMemberWalletLineByAccount',
     method: 'get',
-    params:params
+    params: params
   })
 }
 //获取所有充值失败的订单
@@ -384,7 +548,7 @@ export function getAllFailPayOrder(params) {
   return request.pay({
     url: '/pay/getAllFailPayOrder',
     method: 'get',
-    params:params
+    params: params
   })
 }
 //充值补单
@@ -392,15 +556,50 @@ export function chargeFix(params) {
   return request.pay({
     url: '/pay/chargeFix',
     method: 'get',
-    params:params
+    params: params
   })
 }
 //资金冲正
 export function chargeRight(params) {
   return request.pay({
-    url: 'pay/chargeRight',
+    url: '/pay/chargeRight',
     method: 'get',
-    params:params
+    params: params
+  })
+}
+//支付配置 -获取所有渠道/代理
+export function getPayMember(params) {
+  return request.pay({
+    url: '/xxPay/getPayMember',
+    method: 'get',
+    params: params
+  })
+}
+//支付配置 -查询单个会员
+export function getPayMemberByAccount(params) {
+  return request.pay({
+    url: '/xxPay/getPayMemberByAccount',
+    method: 'get',
+    params: params
+  })
+}
+//支付配置 -修改支付渠道
+export function updateMemberPayWays(id, ids) {
+  return request.pay({
+    url: '/xxPay/updateMemberPayWays',
+    method: 'get',
+    params: {
+      id,
+      ids
+    }
+  })
+}
+//财务资金明细
+export function findFinancialMoneyInfo(params) {
+  return request.member({
+    url: '/user/findFinancialMoneyInfo',
+    method: 'get',
+    params: params
   })
 }
 
@@ -409,6 +608,187 @@ export function findSaleInfo(params) {
   return request.member({
     url: 'user/findSaleInfo',
     method: 'get',
-    params:params
+    params: params
+  })
+}
+
+//财务现金明细
+export function findFinancialCashInfo(params) {
+  return request.member({
+    url: '/user/findFinancialCashInfo',
+    method: 'get',
+    params: params
+  })
+}
+// 线下充值会员账号查询
+export function getMemberWalletByAccount(params) {
+  return request.pay({
+    url: '/xxPay/getMemberWalletByAccount',
+    method: 'get',
+    params: params
+  })
+}
+// 彩金赠送
+export function presentes(username, params) {
+  return request.member({
+    url: '/userManage/presentes',
+    method: 'get',
+    params: {
+      username,
+      params
+    }
+  })
+}
+// 提款申请列表
+export function findMemberDrawingList(params) {
+  return request.pay({
+    url: '/pay/findMemberDrawingList',
+    method: 'get',
+    params: params
+  })
+}
+// 提款申请列表 - 审核操作
+export function memberDrawingReview(params) {
+  return request.pay({
+    url: '/pay/memberDrawingReview',
+    method: 'get',
+    params: params
+  })
+}
+// 运营管理==============
+//  寻票列表====暂存
+export function findTicketList(params) {
+  return request.ticket({
+    url: '/ticket/findTicketList',
+    method: 'get',
+    params: params
+  })
+}
+//  寻票列表
+export function findTicketList2(params) {
+  return request.ticket({
+    url: '/ticket/findTicketList2',
+    method: 'get',
+    params: params
+  })
+}
+//  抄单
+export function copyPlan(params) {
+  return request.lottery({
+    url: '/lottery/copyPlan',
+    method: 'get',
+    params: params
+  })
+}
+//  运营寻票操作
+export function findTicke2(params) {
+  return request.ticket({
+    url: '/ticket/findTicke2',
+    method: 'get',
+    params: params
+  })
+}
+//  发起送票
+export function deliverTicket(params) {
+  return request.ticket({
+    url: '/ticket/deliverTicket',
+    method: 'get',
+    params: params
+  })
+}
+//  出票检验参数
+export function getTicketConfig(params) {
+  return request.ticket({
+    url: '/ticket/getTicketConfig',
+    method: 'get',
+    params: params
+  })
+}
+//  出票检验参数 - 修改校验参数
+export function updateTicketConfig(params) {
+  return request.ticket({
+    url: '/ticket/updateTicketConfig',
+    method: 'get',
+    params: params
+  })
+}
+//  获取直接出票会员
+export function getMemberTicket(params) {
+  return request.lottery({
+    url: '/lottery/getMemberTicket',
+    method: 'get',
+    params: params
+  })
+}
+//  设置直接出票会员
+export function setMemberTicket(params) {
+  return request.lottery({
+    url: '/lottery/setMemberTicket',
+    method: 'get',
+    params: params
+  })
+}
+//  自动跟单
+export function autoCopyPlan(params) {
+  return request.lottery({
+    url: '/lottery/autoCopyPlan',
+    method: 'get',
+    params: params
+  })
+}
+//  机器人列表
+export function getRobotList(params) {
+  return request.member({
+    url: '/userManage/getRobotList',
+    method: 'get',
+    params: params
+  })
+}
+//  添加机器人
+export function addRobot(params) {
+  return request.member({
+    url: '/userManage/addRobot',
+    method: 'get',
+    params: params
+  })
+}
+//  彩研列表
+export function getMember(params) {
+  return request.member({
+    url: '/user/getMember',
+    method: 'get',
+    params: params
+  })
+}
+//  彩研-设置
+export function toCaiYan(params) {
+  return request.member({
+    url: '/user/toCaiYan',
+    method: 'get',
+    params: params
+  })
+}
+//  组合限售列表
+export function getLotteryLimit(params) {
+  return request.lottery({
+    url: '/lottery/getLotteryLimit',
+    method: 'get',
+    params: params
+  })
+}
+//  组合限售-添加
+export function addLotteryLimit(params) {
+  return request.lottery({
+    url: '/lottery/addLotteryLimit',
+    method: 'get',
+    params: params
+  })
+}
+//  组合限售-修改限售状态
+export function updateLotteryLimitStatus(params) {
+  return request.lottery({
+    url: '/lottery/updateLotteryLimitStatus',
+    method: 'get',
+    params: params
   })
 }

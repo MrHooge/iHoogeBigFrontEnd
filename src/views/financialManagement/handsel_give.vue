@@ -1,12 +1,11 @@
 <template>
-	<!-- 代理分组 -->
 	<div class="backend app-container">
 		<div class="layerbody">
 			<div class="search">
 				<el-input v-model="sjname"
-				          placeholder="请输入渠道账号查询名下代理"
+				          placeholder="请输入查询账号"
 				          style="width:50%;"
-									@input="onInput"></el-input>
+				          @input="onInput"></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
@@ -20,34 +19,16 @@
 					<el-table-column type="selection"
 					                 align="center">
 					</el-table-column>
-
-					<el-table-column label="ID"
-					                 prop="member_id"
-					                 align="center">
-					</el-table-column>
-
-					<el-table-column label="会员名"
-					                 prop="ACCOUNT"
+					<el-table-column label="会员账号"
+					                 prop="account"
 					                 align="center">
 					</el-table-column>
 					<el-table-column label="昵称"
-					                 prop="username"
+					                 prop="name"
 					                 align="center">
 					</el-table-column>
 					<el-table-column label="姓名"
-					                 prop="NAME"
-					                 align="center">
-					</el-table-column>
-					<el-table-column label="代理/渠道"
-					                 align="center">
-						<template slot-scope="scope">{{ scope.row.AGENT_TYPE |type }}</template>
-					</el-table-column>
-					<el-table-column label="上级"
-					                 prop="upName"
-					                 align="center">
-					</el-table-column>
-					<el-table-column label="分组"
-					                 prop="grouping"
+					                 prop="name"
 					                 align="center">
 					</el-table-column>
 				</el-table>
@@ -61,7 +42,7 @@
 			           style="width:100%"
 			           @click="cofirm">确 定</el-button>
 		</div>
-		<!-- <div class="page"
+		<div class="page"
 		     v-show="pageShow"
 		     style="padding:30px 0">
 			<el-pagination background
@@ -70,14 +51,14 @@
 			               layout="prev, pager, next"
 			               :total="total">
 			</el-pagination>
-		</div> -->
+		</div>
 		<!-- 弹窗事件 -->
-		<el-dialog title="确认分组"
+		<el-dialog title="确认赠送"
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
 				<el-input v-model="input"
-				          placeholder="请输入分组名"></el-input>
+				          placeholder="请输入赠送金额"></el-input>
 
 			</div>
 			<span slot="footer"
@@ -91,7 +72,7 @@
 </template>
 
 <script>
-import { findAllAgentAndQD, findAgentByQDAccount, setAgentToGroup } from '@/api/sys_user'
+import { findAllMember, presentes } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -99,7 +80,7 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
-			input: '', //  转移后
+			input: '', //  分组名
 			dialogVisible: false, //确认弹框
 			isShow: false,
 			sjname: '', //  搜索名
@@ -108,43 +89,33 @@ export default {
 			multipleSelection: [], //选中的数据
 			number: [],
 			arr: [],
-		}
-	},
-	filters: {
-		type(a) {
-
-			return a ? '代理' : '渠道'
+			pageShow: false
 		}
 	},
 	created() {
-		this.getData()
+		this.getData(1, this.sjname)
 	},
 
 	methods: {
-		onInput(){
-				if(this.sjname==''){
-					this.getData()
-				}
+		onInput() {
+			this.getData(1, this.sjname)
 		},
 		search() {
-			let obj = {
-				QDAccount: this.sjname
-			}
-			findAgentByQDAccount(obj).then(res => {
-				console.log(res)
-				if (res.data.error_code == 200) {
-					this.tableData = res.data.data
-				} else {
-					Message.success(res.data.message)
-				}
-			})
+			this.getData(1, this.sjname)
 		},
-		getData() {   //  获取 所有代理和渠道
-			findAllAgentAndQD().then(res => {
+		getData(curr, a) {
+			let obj = {
+				page: curr,
+				account: a //  不传 查询全部
+			}
+			findAllMember(curr, a).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
-					this.tableData = res.data.data
+					this.tableData = res.data.data.list
+					this.total = res.data.data.total
+					this.pageShow = true
 				} else {
+					this.pageShow = false
 					Message.success(res.data.message)
 				}
 			})
@@ -163,6 +134,7 @@ export default {
 		},
 		cofirm() {
 			this.number = []
+
 			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
 				this.number.push(e.account)
 			});
@@ -173,20 +145,19 @@ export default {
 			let myObj = {}
 			this.number.forEach(e => {
 				myObj[e] = this.input
-				// arr.push(myObj)
-
 			});
 			Object.keys(myObj).forEach(function (key) {   //   对象循环
 				arr.push({ [key]: myObj[key] })
 				// console.log(key)
 			})
 			console.log(arr)
-
+			let userName = getCookies('name')
+			let params = arr
 			if (this.input == '') {
-				Message.success('请输入分组名')
+				Message.success('请输入赠送金额')
 				return
 			} else {
-				setAgentToGroup(JSON.stringify(arr)).then(res => {
+				presentes(userName,JSON.stringify(params)).then(res => {
 					console.log(res)
 					if (res.data.error_code = 200) {
 						Message.success(res.data.message)
@@ -199,9 +170,9 @@ export default {
 			}
 		},
 
-		// changepage(val) {  //  分页回调
-		// 	this.getData(val.id)
-		// }
+		changepage(val) {  //  分页回调
+			this.getData(val, this.sjname)
+		}
 	}
 }
 </script>

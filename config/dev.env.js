@@ -11,6 +11,7 @@ const QYAPI = {
  // pay: "'http://192.168.42.40:8087'",
   ticket: "'https://ticket.api.qiyun88.cn'",
   lottery: "'https://lottery.api.qiyun88.cn'"
+  // lottery: "'http://47.97.192.124:10090'"
 }
 
 module.exports = merge(prodEnv, {

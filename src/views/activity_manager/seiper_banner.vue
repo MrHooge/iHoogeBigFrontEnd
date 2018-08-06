@@ -1,10 +1,25 @@
 <template>
 	<div class="app-container">
+		<!--    轮播图 管理 -->
 		<el-row>
 			<el-button type="primary"
-			           @click="showDailag">添加支付</el-button>
+			           @click="showDailag">添加轮播图</el-button>
 
 		</el-row>
+
+<div style="padding-top:10px">
+				<el-select v-model="value"
+			           placeholder="请选择"
+								 @change="selectChange">
+				<el-option v-for="item in options"
+				           :key="item.value"
+				           :label="item.label"
+				           :value="item.value"
+				           >
+				</el-option>
+			</el-select>
+</div>
+
 		<!-- <el-button v-waves
 		           type="primary"
 		           @click="showDailag">上传图片</el-button> -->
@@ -14,24 +29,34 @@
 			          style="width:300px;"
 			          placeholder="请输入用户账号进行筛选"></el-input>
 		</div> -->
-		<el-table :data="tableData" border style="width: 100%; margin-top: 20px">
-			<el-table-column label="编号" align="center" type="index" width="120px">
+		<el-table :data="tableData"
+		          border
+		          style="width: 100%; margin-top: 20px">
+			<el-table-column label="编号"
+			                 align="center"
+			                 type="index"
+			                 width="120px">
 			</el-table-column>
-			<el-table-column prop="pay_name" align="center" label="类型">
+			<el-table-column prop="pay_name"
+			                 align="center"
+			                 label="类型">
 			</el-table-column>
-			<el-table-column label="状态" align="center">
+			<el-table-column label="状态"
+			                 align="center">
 				<template slot-scope="scope">
-					{{scope.row.is_open | type}}
+					{{scope.row.is_user | type}}
 				</template>
 			</el-table-column>
 			<el-table-column align="center"
 			                 label="图片">
 				<template slot-scope="scope">
-					<img :src="'https://'+scope.row.pay_picture"
+					<img :src="'https://'+scope.row.picture"
 					     alt="">
 				</template>
 			</el-table-column>
-			<el-table-column align="center" width="220px;" label="操作">
+			<el-table-column align="center"
+			                 width="220px;"
+			                 label="操作">
 				<template slot-scope="scope">
 					<el-button type="primary"
 					           @click="handleEdit(scope.row, 'modify')">支付修改</el-button>
@@ -50,16 +75,18 @@
 				                 align="center">
 					<template slot-scope="scope">{{ scope.row.id}}</template>
 				</el-table-column>
-				<el-table-column label="支付名称" align="center">
+				<el-table-column label="支付名称"
+				                 align="center">
 					<template slot-scope="scope">{{ scope.row.pay_name }}</template>
 				</el-table-column>
 				<el-table-column label="图标"
 				                 align="center">
-					<template slot-scope="scope"><img :src="'https://'+scope.row.pay_picture"
+					<template slot-scope="scope"><img :src="'https://'+scope.row.picture"
 						     alt=""></template>
 				</el-table-column>
-				<el-table-column label="状态" align="center">
-					<template slot-scope="scope">{{ scope.row.is_open | type}}</template>
+				<el-table-column label="状态"
+				                 align="center">
+					<template slot-scope="scope">{{ scope.row.is_user | type}}</template>
 				</el-table-column>
 			</el-table>
 			<!--   修改支付 -->
@@ -69,17 +96,14 @@
 					<el-collapse-item title="修改支付"
 					                  name="1">
 						<div>
-							<el-table :data="tableData3" border tooltip-effect="dark" style="width: 100%">
-								<el-table-column label="ID" align="center">
+							<el-table :data="tableData3"
+							          border
+							          tooltip-effect="dark"
+							          style="width: 100%">
+								<el-table-column label="ID"
+								                 align="center">
 									<template slot-scope="scope">
 										{{ scope.row.id}}
-									</template>
-								</el-table-column>
-								<el-table-column label="支付名称" align="center">
-									<template slot-scope="scope">
-										<el-input v-model="rechangeName"
-										          placeholder="请输入内容"></el-input>
-
 									</template>
 								</el-table-column>
 								<el-table-column label="图标"
@@ -94,9 +118,13 @@
 										</el-upload>
 									</template>
 								</el-table-column>
-								<el-table-column label="状态" align="center">
+								<el-table-column label="状态"
+								                 align="center">
 									<template slot-scope="scope">
-										<el-switch v-model="value3" active-text="开" inactive-text="关" @change="switchChange">
+										<el-switch v-model="value3"
+										           active-text="开"
+										           inactive-text="关"
+										           @change="switchChange">
 										</el-switch>
 									</template>
 								</el-table-column>
@@ -105,10 +133,11 @@
 					</el-collapse-item>
 				</el-collapse>
 			</div>
-			<div slot="footer" class="dialog-footer">
+			<div slot="footer"
+			     class="dialog-footer">
 				<el-button @click="clearForm">取 消</el-button>
 				<el-button type="primary"
-				           @click="submitInfos">修改支付</el-button>
+				           @click="submitInfos">修改</el-button>
 			</div>
 
 		</el-dialog>
@@ -122,12 +151,9 @@
 				         ref="ruleForm"
 				         label-width="100px"
 				         class="demo-ruleForm">
-					<el-form-item label="支付名称"
-					              prop="name">
-						<el-input v-model="ruleForm.name"></el-input>
-					</el-form-item>
+
 					<el-form-item label="状态"
-					              prop="is_open">
+					              prop="is_user">
 						<el-switch v-model="value3"
 						           active-text="开"
 						           inactive-text="关"
@@ -135,7 +161,7 @@
 						</el-switch>
 					</el-form-item>
 					<el-form-item label="图标"
-					              prop="pay_picture">
+					              prop="picture">
 						<el-upload :action="uploadUrl"
 						           list-type="picture-card"
 						           :on-success="handleAvatarSuccess"
@@ -157,19 +183,29 @@
 				</el-form>
 			</div>
 		</el-dialog>
+		<!-- 分页 -->
+		<div class="page">
+			<el-pagination background
+			               :page-size=10
+			               @current-change="changepage"
+			               layout="prev, pager, next"
+			               :total="total">
+			</el-pagination>
+		</div>
 	</div>
 </template>
 
 <script>
-import { findPaySwitch, addPaySwitch } from "@/api/sys_user";
+import { findAllBanner, addBanner } from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 // import api from "@/api/api.js";
 export default {
-	data () {
+	data() {
 		return {
+
 			pageShow: true,
 			tableData: [],
 			total: 0,
@@ -178,9 +214,8 @@ export default {
 			dialogVisible1: false,
 			tableData3: [], //
 			onePeople: {}, // 存选择的某一条数据
-			rechangeName: '', //  修改支付的名称
 			activeNames: ["2"], //  折叠面板
-			is_open: "",
+			is_user: "",
 			value1: "",
 			value2: "",
 			value3: true,
@@ -190,8 +225,8 @@ export default {
 			imageUrl: '',
 			ruleForm: {
 				name: "",
-				is_open: "",
-				pay_picture: ""
+				is_user: "",
+				picture: ""
 			},
 			rules: {
 				name: [
@@ -200,24 +235,32 @@ export default {
 				]
 			},
 			uploadUrl: "",//  图片上传接口
-			fileUrl: ''
-
+			fileUrl: '',
+			options: [{
+				value: '0',
+				label: '当前未使用'
+			}, {
+				value: '1',
+				label: '当前使用'
+			},],
+			value: '',
+			render_url:'',  // 跳转地址
 
 		}
 	},
 	filters: {
 		type(a) {
-			return a == "0" ? "关闭" : "开启";
+			return a == "0" ? "未使用" : "使用中";
 		}
 	},
 
 	computed: {},
-	created () {
-		this.getTable();
+	created() {
+		this.getTable(1, this.value);
 	},
 	mounted() {
 		// this.uploadUrl = api.member + '/userCount/uploadFile'
-		this.uploadUrl ='https://member.api.qiyun88.cn/userCount/uploadFile'
+		this.uploadUrl = 'https://infos.api.qiyun88.cn/userCount/uploadFile'
 	},
 
 	methods: {
@@ -228,7 +271,7 @@ export default {
 			console.log('111111111111111111')
 			console.log(res);
 			// console.log(file)
-			this.ruleForm.pay_picture = res  //  添加支付的图片名
+			this.ruleForm.picture = res  //  添加支付的图片名
 			this.fileUrl = res  //  修改支付的图片名
 			this.imageUrl = URL.createObjectURL(file.raw);
 		},
@@ -245,18 +288,17 @@ export default {
 			}
 			return isJPG && isLt2M;
 		},
-		submitForm(formName) {  //   添加支付
+		submitForm(formName) {  //   添加 轮播图
 			if (this.value3 == true) {
-				this.ruleForm.is_open = 1;
+				this.ruleForm.is_user = 1;
 			} else {
-				this.ruleForm.is_open = 0;
+				this.ruleForm.is_user = 0;
 			}
 			let obj = {
 				id: '',
-				is_update: 0,
-				pay_name: this.ruleForm.name,
-				is_open: this.ruleForm.is_open,
-				pay_picture: this.ruleForm.pay_picture
+				is_user: this.ruleForm.is_user,  //  是否使用
+				picture: this.ruleForm.picture,  //  图片地址
+				render_url:'', //  跳转地址
 			}
 			console.log(obj)
 			// addPaySwitch(obj).then(res=>{
@@ -265,7 +307,7 @@ export default {
 			this.$refs[formName].validate(valid => {
 				if (valid) {
 					// alert("submit!");
-					addPaySwitch(obj).then(res => {
+					addBanner(obj).then(res => {
 						console.log(res)
 						if (res.data.error_code == 200) {
 							Message.success(res.data.message)
@@ -292,17 +334,22 @@ export default {
 		switchChange() {
 			//   console.log(this.value3)
 			if (this.value3 == true) {
-				this.is_open = 1;
+				this.is_user = 1;   //  使用
 			} else {
-				this.is_open = 0;
+				this.is_user = 0; //  不使用
 			}
 		},
-		handleChange (val) {
+		handleChange(val) {
 			console.log(val);
 		},
-		getTable () {
-			//   获取所有会员列表
-			findPaySwitch().then(res => {
+		getTable(curr, a) {  //   获取所有banner 列表
+
+			let obj = {
+				is_user: a,  //0 当前未使用,1当前使用
+				page: curr,
+				pageSize: 10
+			}
+			findAllBanner(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
 					this.tableData = res.data.data;
@@ -310,7 +357,10 @@ export default {
 				console.log(res);
 			});
 		},
-		handleEdit (obj) {
+		selectChange() {   //select 选中回调
+			this.getTable(1, this.value)
+		},
+		handleEdit(obj) {
 			console.log(obj);
 			this.tableData3 = [];
 			this.viewFormVisible = true;
@@ -321,37 +371,26 @@ export default {
 		},
 		submitInfos() {   //  修改支付
 			if (this.value3 == true) {
-				this.is_open = 1;
+				this.is_user = 1;
 			} else {
-				this.is_open = 0;
+				this.is_user = 0;
 			}
 			let obj = {
 				id: this.onePeople.id,
-				is_open: this.is_open,
+				is_user: this.is_user,
 				is_update: 1,
-				pay_name: this.rechangeName,
-				pay_picture: this.fileUrl
+				picture: this.fileUrl, //  图片地址
+				render_url:'', // 图片跳转地址
 			};
 			console.log(obj);
-			// addPaySwitch(obj).then(res => {
-			// 	console.log(res);
-			// 	if (res.data.error_code == 200) {
-			// 		Message.success(res.data.message)
-			// 		this.viewFormVisible = false
-			// 		this.rechangeName = ''
-			// 		this.findPaySwitch()
-			// 	} else {
-			// 		Message.success(res.data.message)
-			// 	}
-			// });
 		},
-		clearForm () {
+		clearForm() {
 			//  取消按钮
 			this.viewFormVisible = false;
 		},
 		// 分页的回调
-		changepage (val) {
-			this.getTable(val);
+		changepage(val) {
+			this.getTable(val, this.value);
 		}
 	}
 };
@@ -396,7 +435,7 @@ export default {
   display: block;
 }
 img {
-	width: 50px;
-	height: 50px;
+  width: 50px;
+  height: 50px;
 }
 </style>

@@ -1,0 +1,414 @@
+<template>
+	<!-- 提款申请 -->
+	<div class="chongzhi app-container">
+		<!-- 顶部筛选 -->
+		<div class="topten">
+
+			<el-row :gutter="20">
+				<el-col :span="3">
+					<div class="grid-content bg-purple">
+						<el-input v-model="name"
+						          placeholder="请输入查询的账号"></el-input>
+					</div>
+				</el-col>
+				<el-col :span="3">
+					<div class="grid-content bg-purple">
+						<el-input v-model="flow_num"
+						          placeholder="请输入查询流水ID"></el-input>
+					</div>
+				</el-col>
+				<el-col :span="3">
+					<el-select v-model="value"
+					           placeholder="请选择">
+						<el-option v-for="item in options"
+						           :key="item.value"
+						           :label="item.label"
+						           :value="item.value">
+						</el-option>
+					</el-select>
+				</el-col>
+				<el-col :span="12">
+					<div class="block"
+					     style="display: inline-block;">
+						<el-date-picker v-model="value1"
+						                type="date"
+						                placeholder="选择日期"
+						                format="yyyy-MM-dd"
+						                value-format="yyyy-MM-dd">
+						</el-date-picker>
+					</div>
+					至
+					<div class="block"
+					     style="display: inline-block;">
+						<el-date-picker v-model="value2"
+						                type="date"
+						                placeholder="选择日期"
+						                format="yyyy-MM-dd"
+						                value-format="yyyy-MM-dd">
+						</el-date-picker>
+					</div>
+				</el-col>
+
+				<el-col :span="2">
+					<div class="grid-content bg-purple"
+					     @click="search">
+						<el-button type="primary"
+						           icon="el-icon-search">搜索</el-button>
+					</div>
+				</el-col>
+			</el-row>
+		</div>
+		<!-- 表格数据  -->
+		<el-table :data="tableData"
+		          border
+		          style="width: 100%">
+			<el-table-column label="流水号"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.id }}
+				</template>
+			</el-table-column>
+			<el-table-column label="账号"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.account }}
+				</template>
+			</el-table-column>
+			<el-table-column label="财务审核时间"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.FINANCE_DEAL_DATE_TIME }}
+				</template>
+			</el-table-column>
+			<el-table-column label="客服审核时间	"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.deal_date_time }}
+				</template>
+			</el-table-column>
+
+			<el-table-column label="金额"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.amount }}
+				</template>
+			</el-table-column>
+
+			<el-table-column label="个人手续费"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.drawing_Fee }}
+				</template>
+			</el-table-column>
+			<el-table-column label="手续费负担方"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.fee_payer_belong }}
+				</template>
+			</el-table-column>
+			<el-table-column label="优惠手续费(公司负担)"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.privilege_drawing_Fee}}
+				</template>
+			</el-table-column>
+			<el-table-column label="手续费(用户支付)"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.show_drawing_Fee}}
+				</template>
+			</el-table-column>
+			<el-table-column label="汇款时间"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.send_date_time}}
+				</template>
+			</el-table-column>
+			<el-table-column label="汇款时间"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.send_date_time}}
+				</template>
+			</el-table-column>
+			<el-table-column label="交易到账时间"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.confirm_date_time}}
+				</template>
+			</el-table-column>
+			<el-table-column label="创建时间"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.create_Date_Time}}
+				</template>
+			</el-table-column>
+			<el-table-column label="声明人"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.name}}
+				</template>
+			</el-table-column>
+			<el-table-column label="状态"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.STATUS}}
+				</template>
+			</el-table-column>
+			<el-table-column label="提款类型平台"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.PLATFORM}}
+				</template>
+			</el-table-column>
+			<el-table-column label="开户支行"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.part_bank}}
+				</template>
+			</el-table-column>
+			<el-table-column label="操作"
+			                 align="center">
+				<template slot-scope="scope">
+					<div style="padding:5px 0">
+						<el-button size="mini"
+						           type="primary"
+						           @click="examine(scope.row)">通过</el-button>
+					</div>
+					<div>
+						<el-button size="mini"
+						           type="danger"
+						           @click="reject(scope.row)">驳回</el-button>
+					</div>
+				</template>
+			</el-table-column>
+
+		</el-table>
+		<!-- 审核弹窗 -->
+		<el-dialog title="您确定要通过以下会员的审核吗？"
+		           :visible.sync="dialogVisible"
+		           width="30%">
+			<div>
+				<p>姓名：{{ a }}</p>
+				<p>金额：{{ b }}</p>
+			</div>
+			<span slot="footer"
+			      class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary"
+				           @click="confirm()">确 定</el-button>
+			</span>
+		</el-dialog>
+		<!-- 驳回弹窗 -->
+		<el-dialog title="您确定要驳回以下会员的审核吗？"
+		           :visible.sync="dialogVisible1"
+		           width="30%">
+			<div>
+				<p>姓名：{{ a }}</p>
+				<p>金额：{{ b }}</p>
+				<div style="padding-bottom:5px">
+					<el-select v-model="valueList"
+					           placeholder="请选择">
+						<el-option v-for="item in optionsList"
+						           :key="item.valueList"
+						           :label="item.label"
+						           :value="item.valueList">
+						</el-option>
+					</el-select>
+				</div>
+				<el-input type="textarea"
+				          :rows="2"
+				          placeholder="请输入驳回描述"
+				          v-model="textarea">
+				</el-input>
+
+			</div>
+			<span slot="footer"
+			      class="dialog-footer">
+				<el-button @click="dialogVisible1 = false">取 消</el-button>
+				<el-button type="primary"
+				           @click="sure()">确 定</el-button>
+			</span>
+		</el-dialog>
+		<div class="page"
+		     v-show="pageShow">
+			<el-pagination background
+			               :page-size=20
+			               @current-change="changepage"
+			               layout="prev, pager, next"
+			               :total="total">
+			</el-pagination>
+		</div>
+	</div>
+</template>
+
+<script>
+import { findMemberDrawingList, memberDrawingReview } from "@/api/sys_user";
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message, Checkbox } from "element-ui";
+import treeTable from "@/components/TreeTable";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
+export default {
+	data() {
+		return {
+			pageShow: true,
+			name: "", // 用户名
+			number: "", // 充值的金额
+			total: 0, // 总页数
+			tableData: [],//表格的数据
+
+			dialogVisible: false,
+			dialogVisible1: false,
+			username: '',
+			money: '',
+			value1: '',
+			value2: '',
+			options: [{
+				value: '0',
+				label: '申请时间'
+			}, {
+				value: '1',
+				label: '汇款时间'
+			}],
+			value: '',
+			flow_num: '', //   流水 ID
+			a: "", //  姓名
+			b: "",  // 金额
+			ob: "",
+			textarea: '', //  驳回描述
+			optionsList: [{    //  驳回 选项
+				valueList: '-1',
+				label: '其他'
+			}, {
+				valueList: '0',
+				label: '重复购买'
+			}, {
+				valueList: '1',
+				label: '方案过期'
+			}, {
+				valueList: '2',
+				label: '出票失败'
+			}],
+			valueList: '-1'
+
+		};
+	},
+	created() {
+		// this.search(1)
+		this.getData(1)
+	},
+	methods: {
+		search() {
+			this.getData(1)
+
+		},
+		getData(curr) { // a 账号， b 开始时间，
+			let obj = {
+				loginAccount: '',
+				page: curr,
+				pageSize: 10,
+				start_time: this.value1,
+				end_time: this.value2,
+				account: this.name,  //  账号
+				flow_num: this.flow_num, //  流水 ID
+				is_drawing_time: this.value, // 0 申请时间,1汇款时间
+			}
+			console.log(obj)
+			findMemberDrawingList(obj).then(res => {
+				console.log(res)
+				if (res.status == 200) {
+					console.log(res)
+					this.tableData = res.data.data.list
+					this.total = res.data.data.total
+				} else {
+					console.log(res)
+					Message.success(res.data.message)
+				}
+			})
+		},
+		// 询问弹出框
+		examine(a) {
+			this.a = a.account;
+			this.b = a.amount;
+			this.dialogVisible = true;
+			this.ob = a;
+		},
+		// 确定的回调
+		confirm() {
+			console.log(this.ob);
+			let obj = {
+				drawingId: this.ob.id,
+				account: this.ob.account,
+				status: 1, //0 不通过 1通过
+				remark: '',
+				returnRemark: '',
+			}
+			console.log(obj)
+			memberDrawingReview(obj).then(res => {
+				console.log(res)
+				if (res.status == 200) {
+					Message.success("审核成功！")
+					this.getData(1);
+					this.dialogVisible = false;
+				}
+			})
+		},
+		// 驳回弹窗
+		reject(a) {
+			this.dialogVisible1 = true;
+			this.a = a.account;
+			this.b = a.amount;
+			this.ob = a;
+		},
+		// 驳回弹窗的确定回调
+		sure() {
+			let obj = {
+				drawingId: this.ob.id,
+				account: this.ob.account,
+				status: 0,  //0 不通过 1通过
+				remark: this.textarea,
+				returnRemark: this.valueList,
+
+			};
+			memberDrawingReview(obj).then(res => {
+				console.log(res)
+				if (res.status == 200) {
+					Message.success("驳回成功！")
+					this.getData(1);
+					this.dialogVisible1 = false;
+				}
+			})
+		},
+		// 分也回调
+		changepage(val) {
+			this.getData(val)
+		}
+	},
+	// filters: {
+	// 	changeTime(timestamp) {
+	// 		var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+	// 		let Y = date.getFullYear() + '-';
+	// 		let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+	// 		let D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+	// 		let h = date.getHours() + ':';
+	// 		let m = date.getMinutes();
+	// 		// let s = date.getSeconds();
+	// 		return Y + M + D + h + m;
+	// 	}
+
+	// }
+};
+</script>
+
+<style scoped>
+div.page {
+  float: right;
+  padding: 10px 0;
+}
+.topten {
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+.el-select {
+  width: 100px;
+}
+</style>

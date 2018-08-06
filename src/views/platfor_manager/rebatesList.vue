@@ -32,11 +32,14 @@
 			                 label="时间">
 			</el-table-column>
 			<el-table-column align="center"
-			                 width="220px;"
+			                 width="300px;"
 			                 label="操作">
 				<template slot-scope="scope">
 					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">查看详情</el-button>
+					           @click="handleEdit(scope.row, 'modify')">修改返点</el-button>
+					<!-- <el-button type="primary"
+					           @click="deleteRebates(scope.row, 'modify')">删除返点</el-button> -->
+										 <el-button type="info" @click="deleteRebates(scope.row, 'modify')">删除返点</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -128,7 +131,7 @@
 										<!-- <el-input v-model="hm_rate"
 										          class="xx"
 										          placeholder="请输入"></el-input> -->
-															0
+										0
 									</template>
 								</el-table-column>
 								<el-table-column label="彩种"
@@ -195,11 +198,26 @@
 			</div>
 
 		</el-dialog>
+		<!-- 弹窗事件 -->
+		<el-dialog title="提示 : 删除此会员返点"
+		           :visible.sync="dialogVisible2"
+		           width="40%">
+			<div>
+				<p>会员名：{{ ACCOUNT }}</p>
+				<p>类型：{{ LOTTERY_TYPE | type}}</p>
+			</div>
+			<span slot="footer"
+			      class="dialog-footer">
+				<el-button @click="dialogVisible2 = false">取 消</el-button>
+				<el-button type="primary"
+				           @click="makersure">确 定</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
-import { findAllRate, updateRateByAccount } from "@/api/sys_user";
+import { findAllRate, updateRateByAccount, delRateByAccount } from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
@@ -207,6 +225,7 @@ import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
 	data() {
 		return {
+			dialogVisible2: false, //  删除会员返点弹框
 			pageShow: true,
 			tableData: [],
 			total: 0,
@@ -221,6 +240,8 @@ export default {
 			endDate: '',  // 返点结束
 			value1: '',
 			value2: '',
+			ACCOUNT:'',
+			LOTTERY_TYPE:'',
 		};
 	},
 	filters: {
@@ -287,7 +308,7 @@ export default {
 				rate_id: this.onePeople.rate_id, //返点id
 				startDate: this.value1, //  返点开始
 				endDate: this.value2, //  返点结束
-				lottery_type:this.onePeople.LOTTERY_TYPE,
+				lottery_type: this.onePeople.LOTTERY_TYPE,
 			}
 			if (this.value1 == '' || this.value2 == '') {
 				Message.success('请填写时间')
@@ -297,16 +318,37 @@ export default {
 			} else {
 				updateRateByAccount(params).then(res => {
 					console.log(res)
-					if(res.data.error_code==200){
+					if (res.data.error_code == 200) {
 						Message.success(res.data.message)
 						this.viewFormVisible = false;
-					}else {
+					} else {
 						Message.success(res.data.message)
 					}
 				})
 			}
-			// console.log(obj)
 
+		},
+		deleteRebates(row) {  //  返点删除 按钮
+			this.dialogVisible2 = true
+			this.LOTTERY_TYPE = row.LOTTERY_TYPE
+			this.ACCOUNT = row.ACCOUNT
+
+		},
+		makersure(){
+			let obj = {
+					account: this.ACCOUNT,
+					lottery_type :this.LOTTERY_TYPE
+			}
+			console.log(obj)
+			delRateByAccount(obj).then(res => {
+				console.log(res)
+				if(res.data.error_code==200){
+					Message.success(res.data.message)
+					this.dialogVisible2 = false
+				}else {
+					Message.success(res.data.message)
+				}
+			})
 		},
 		// 分页的回调
 		changepage(val) {
