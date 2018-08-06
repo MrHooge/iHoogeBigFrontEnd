@@ -232,8 +232,10 @@
                </el-table-column>  
                 <el-table-column
                      label="送票日期"
-                     prop="sendDateTime"
                      align="center">
+                      <template slot-scope="scope">
+                    {{scope.row.sendDateTime|type}}
+                </template>  
                </el-table-column>  
                <el-table-column
                      label="中奖金额"
