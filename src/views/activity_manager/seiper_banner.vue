@@ -290,7 +290,6 @@ export default {
 			console.log(file, fileList);
 		},
 		handleAvatarSuccess(res, file) {
-			console.log('111111111111111111')
 			console.log(res);
 			// console.log(file)
 			this.ruleForm.picture = res  //  添加支付的图片名

@@ -80,7 +80,7 @@
 			<el-table-column label="支付时间"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.pay_time }}
+					{{ scope.row.pay_time | changeTime}}
 				</template>
 			</el-table-column>
 
@@ -131,6 +131,7 @@
 </template>
 
 <script>
+import setTime from '@/utils/time.js'
 import { getAllFailPayOrder,chargeFix } from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
@@ -157,6 +158,12 @@ export default {
 
 		};
 	},
+		filters: {
+		changeTime(b) {
+			return setTime(b)
+		}
+	},
+
 	created() {
 		// this.search(1)
 		this.getData(1, this.name, this.value1, this.value2)
