@@ -43,9 +43,12 @@
   <el-form-item label="权重">
     <el-input v-model="form.sort" style="width:100px"></el-input>
   </el-form-item><br />
-   <el-form-item label="内容">
+   <!-- <el-form-item label="内容">
     <el-input type="textarea" v-model="form.content" style="width:500px;"></el-input>
-  </el-form-item>
+    <quill-editor v-model="content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+ @change="onEditorChange($event)">
+ </quill-editor>
+  </el-form-item> -->
   <el-form-item label="创建时间">
     <el-col :span="11">
       <el-date-picker type="date" v-model="form.createDateTime" style="width: 150px;"></el-date-picker>
@@ -83,6 +86,15 @@
     <el-button type="sendnews" @click="update">发布</el-button>
   </el-form-item>
 </el-form>
+<div class="quill">
+  <h4>编辑内容</h4>
+  <quill-editor v-model="form.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+ @change="onEditorChange($event)">
+ </quill-editor>
+</div>
+<!-- <quill-editor v-model="content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+ @change="onEditorChange($event)">
+ </quill-editor> -->
 <el-dialog
           title="编辑"
           :visible.sync="dialogVisible"
@@ -126,8 +138,8 @@ export default {
       imgurl:'',
        form: {
           click:'',
-          content:'',
           createDateTime:'',
+           content:'',
           showDateTime:'',	
           cz:'',	
           editor:'',	
@@ -215,7 +227,38 @@ export default {
 }
 </script>
 
-<style scoped>
+ <style scoped>
+ .quill{
+   position: absolute;
+   top: 40px;
+   right:80px
+ }
+ .quill-editor {
+ height: 425px;
+ width: 1000px
+}
+  .ql-container {
+ height: 380px;
+ width: 360px
+ }
+.limit {
+ height: 30px;
+ border: 1px solid #ccc;
+ line-height: 30px;
+ text-align: right;
+ 
+ 
+}
+ .limit span {
+ color: #ee2a7b;
+ }
+.ql-snow .ql-editor img {
+ max-width: 480px;
+}
+ 
+.ql-editor .ql-video {
+ max-width: 480px;
+}
 .el-textarea__inner{
     height: 250px
 }

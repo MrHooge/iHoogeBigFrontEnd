@@ -7,50 +7,42 @@
 
 		</el-row>
 
-<div style="padding-top:10px">
-				<el-select v-model="value"
+		<div style="padding-top:10px">
+			<el-select v-model="value"
 			           placeholder="请选择"
-								 @change="selectChange">
+			           @change="selectChange">
 				<el-option v-for="item in options"
 				           :key="item.value"
 				           :label="item.label"
-				           :value="item.value"
-				           >
+				           :value="item.value">
 				</el-option>
 			</el-select>
-</div>
+		</div>
 
-		<!-- <el-button v-waves
-		           type="primary"
-		           @click="showDailag">上传图片</el-button> -->
-		<!--    支付 开 停 操作 -->
-		<!-- <div class="search">
-			<el-input v-model="username"
-			          style="width:300px;"
-			          placeholder="请输入用户账号进行筛选"></el-input>
-		</div> -->
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%; margin-top: 20px">
-			<el-table-column label="编号"
+			<el-table-column label="ID"
 			                 align="center"
-			                 type="index"
+			                 prop="id"
 			                 width="120px">
 			</el-table-column>
-			<el-table-column prop="pay_name"
-			                 align="center"
-			                 label="类型">
+			<el-table-column align="center"
+			                 label="创建时间">
+				<template slot-scope="scope">
+					{{scope.row.create_time | changeTime}}
+				</template>
 			</el-table-column>
 			<el-table-column label="状态"
 			                 align="center">
 				<template slot-scope="scope">
-					{{scope.row.is_user | type}}
+					{{scope.row.is_use | type}}
 				</template>
 			</el-table-column>
 			<el-table-column align="center"
 			                 label="图片">
 				<template slot-scope="scope">
-					<img :src="'https://'+scope.row.picture"
+					<img :src="'https://'+'qyun88.oss-cn-hangzhou.aliyuncs.com/pay/'+scope.row.picture"
 					     alt="">
 				</template>
 			</el-table-column>
@@ -59,12 +51,12 @@
 			                 label="操作">
 				<template slot-scope="scope">
 					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">支付修改</el-button>
+					           @click="handleEdit(scope.row, 'modify')">轮播修改</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
 		<!-- 弹窗 -->
-		<el-dialog title="支付信息"
+		<el-dialog title="轮播信息"
 		           width='70%'
 		           :visible.sync="viewFormVisible">
 			<el-table :data="tableData3"
@@ -75,25 +67,25 @@
 				                 align="center">
 					<template slot-scope="scope">{{ scope.row.id}}</template>
 				</el-table-column>
-				<el-table-column label="支付名称"
+				<el-table-column label="状态"
 				                 align="center">
-					<template slot-scope="scope">{{ scope.row.pay_name }}</template>
+					<template slot-scope="scope">{{scope.row.is_use | type}}</template>
 				</el-table-column>
 				<el-table-column label="图标"
 				                 align="center">
-					<template slot-scope="scope"><img :src="'https://'+scope.row.picture"
-						     alt=""></template>
+					<template slot-scope="scope">	<img :src="'https://'+'qyun88.oss-cn-hangzhou.aliyuncs.com/pay/'+scope.row.picture"
+					     alt=""></template>
 				</el-table-column>
-				<el-table-column label="状态"
+				<el-table-column label="跳转地址"
 				                 align="center">
-					<template slot-scope="scope">{{ scope.row.is_user | type}}</template>
+					<template slot-scope="scope">{{ scope.row.render_url}}</template>
 				</el-table-column>
 			</el-table>
-			<!--   修改支付 -->
+			<!--   修改轮播图 -->
 			<div class="pierce">
 				<el-collapse v-model="activeNames"
 				             @change="handleChange">
-					<el-collapse-item title="修改支付"
+					<el-collapse-item title="修改轮播"
 					                  name="1">
 						<div>
 							<el-table :data="tableData3"
@@ -128,6 +120,14 @@
 										</el-switch>
 									</template>
 								</el-table-column>
+								<el-table-column label="跳转地址"
+								                 align="center">
+									<template slot-scope="scope">
+										<el-input v-model="input"
+										          placeholder="请输入跳转地址"></el-input>
+
+									</template>
+								</el-table-column>
 							</el-table>
 						</div>
 					</el-collapse-item>
@@ -160,9 +160,16 @@
 						           @change="switchChange">
 						</el-switch>
 					</el-form-item>
+					<el-form-item label="跳转地址"
+					              prop="upUrle">
+						<el-input v-model="upUrle"
+						          placeholder="请输入跳转地址"></el-input>
+
+					</el-form-item>
 					<el-form-item label="图标"
 					              prop="picture">
 						<el-upload :action="uploadUrl"
+						           :data='folder'
 						           list-type="picture-card"
 						           :on-success="handleAvatarSuccess"
 						           :before-upload="beforeAvatarUpload"
@@ -196,6 +203,7 @@
 </template>
 
 <script>
+import setTime from '@/utils/time.js'
 import { findAllBanner, addBanner } from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
@@ -226,7 +234,8 @@ export default {
 			ruleForm: {
 				name: "",
 				is_user: "",
-				picture: ""
+				picture: "",
+				upUrle: '', //  跳转地址
 			},
 			rules: {
 				name: [
@@ -244,13 +253,20 @@ export default {
 				label: '当前使用'
 			},],
 			value: '',
-			render_url:'',  // 跳转地址
+			render_url: '',  // 跳转地址
+			folder: {
+				folder: 'member'
+			},
+			input: '', //  修改跳转的地址
 
 		}
 	},
 	filters: {
 		type(a) {
 			return a == "0" ? "未使用" : "使用中";
+		},
+		changeTime(b) {
+			return setTime(b)
 		}
 	},
 
@@ -260,7 +276,7 @@ export default {
 	},
 	mounted() {
 		// this.uploadUrl = api.member + '/userCount/uploadFile'
-		this.uploadUrl = 'https://infos.api.qiyun88.cn/userCount/uploadFile'
+		this.uploadUrl = 'https://member.api.qiyun88.cn/userCount/uploadFile'
 	},
 
 	methods: {
@@ -298,7 +314,7 @@ export default {
 				id: '',
 				is_user: this.ruleForm.is_user,  //  是否使用
 				picture: this.ruleForm.picture,  //  图片地址
-				render_url:'', //  跳转地址
+				render_url: this.ruleForm.upUrle, //  跳转地址
 			}
 			console.log(obj)
 			// addPaySwitch(obj).then(res=>{
@@ -352,7 +368,8 @@ export default {
 			findAllBanner(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
-					this.tableData = res.data.data;
+					this.tableData = res.data.data.list;
+					this.total = res.data.data.total
 				}
 				console.log(res);
 			});
@@ -369,7 +386,7 @@ export default {
 			this.onePeople = obj;
 			//   console.log(this.onePeople);
 		},
-		submitInfos() {   //  修改支付
+		submitInfos() {   //  修改轮播图
 			if (this.value3 == true) {
 				this.is_user = 1;
 			} else {
@@ -378,10 +395,19 @@ export default {
 			let obj = {
 				id: this.onePeople.id,
 				is_user: this.is_user,
-				is_update: 1,
 				picture: this.fileUrl, //  图片地址
-				render_url:'', // 图片跳转地址
-			};
+				render_url: this.input, // 图片跳转地址
+			}
+			addBanner(obj).then(res => {
+				console.log(res)
+				if (res.data.error_code == 200) {
+					Message.success(res.data.message)
+					this.viewFormVisible = false
+					// this.findPaySwitch()
+				} else {
+					Message.success(res.data.message)
+				}
+			})
 			console.log(obj);
 		},
 		clearForm() {

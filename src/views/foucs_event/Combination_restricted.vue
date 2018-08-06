@@ -21,22 +21,28 @@
 				</template>
 			</el-table-column>
 			<el-table-column label="玩法"
-			                 prop="passType"
 			                 align="center">
+				<template slot-scope="scope">
+					{{ plays }}
+				</template>
 			</el-table-column>
 			<el-table-column label="状态"
 			                 align="center">
-											 				<template slot-scope="scope">
+				<template slot-scope="scope">
 					{{ scope.row.status | changeType}}
 				</template>
 			</el-table-column>
-			<el-table-column prop="createTime"
-			                 align="center"
+			<el-table-column align="center"
 			                 label="限售时间">
+				<template slot-scope="scope">
+					{{ scope.row.createTime | changeTime}}
+				</template>
 			</el-table-column>
-			<el-table-column prop="dealTime"
-			                 align="center"
+			<el-table-column align="center"
 			                 label="截止时间">
+				<template slot-scope="scope">
+					{{ scope.row.dealTime | changeTime}}
+				</template>
 			</el-table-column>
 			<el-table-column align="center"
 			                 width="240px;"
@@ -172,6 +178,7 @@ import { getLotteryLimit, addLotteryLimit, updateLotteryLimitStatus } from '@/ap
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
+import setTime from '@/utils/time.js'
 export default {
 	components: { treeTable },
 	data() {
@@ -190,15 +197,20 @@ export default {
 			cities: cityOptions,
 			isIndeterminate: true,
 			textarea: '',
+			numPlay: [], //  存储分割的玩法
+			plays: '', //  存储删选的 玩法对应的 name
 
 		}
 	},
 	filters: {
 		type(a) {
-			return a==38 ? '竞彩足球' : '竞彩篮球'
+			return a == 38 ? '竞彩足球' : '竞彩篮球'
 		},
-		changeType(s){
-			return s==1? '有效' : '无效'
+		changeType(s) {
+			return s == 1 ? '有效' : '无效'
+		},
+		changeTime(b){
+			return setTime(b)
 		}
 	},
 	computed: {
@@ -214,11 +226,26 @@ export default {
 				page: curr,
 				pageSize: 10
 			}
-			getLotteryLimit(obj).then(res => {  //  获取渠道数
-				console.log(res)
-				if(res.data.error_code==200){
+			getLotteryLimit(obj).then(res => {  //  
+				// console.log(res)
+				if (res.data.error_code == 200) {
+					this.plays = '' //  
 					this.tableData = res.data.data.list
+					this.tableData.forEach(e => {
+						// console.log(e)
+						this.numPlay = e.passType.split(',')
+					});
+					this.numPlay.forEach(x => {
+						cityOptions.forEach(v => {
+							if (x == v.value) {
+								// this.plays.push(v.name)
+								this.plays += v.name + ','
+
+							}
+						});
+					});
 					this.total = res.data.data.total
+					console.log(this.plays)
 				}
 			})
 		},
@@ -249,6 +276,7 @@ export default {
 				if (res.status == 200) {
 					this.dialogVisible = false
 					Message.success(res.data.message)
+					this.getTable(1)
 				}
 			})
 		},
@@ -256,7 +284,7 @@ export default {
 			this.dialogVisible2 = true
 			this.onePeople = val
 		},
-		makersure() {
+		makersure() {  //  修改 组合限售的状态
 			let obj = {
 				id: this.onePeople.id,
 				status: this.radio2,
@@ -266,7 +294,8 @@ export default {
 				if (res.status == 200) {
 					this.dialogVisible2 = false
 					Message.success(res.data.message)
-				}else {
+					this.getTable(1)
+				} else {
 					Message.success(res.data.message)
 				}
 			})

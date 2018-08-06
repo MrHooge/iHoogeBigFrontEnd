@@ -333,17 +333,17 @@ export default {
 				pay_picture: this.fileUrl
 			};
 			console.log(obj);
-			// addPaySwitch(obj).then(res => {
-			// 	console.log(res);
-			// 	if (res.data.error_code == 200) {
-			// 		Message.success(res.data.message)
-			// 		this.viewFormVisible = false
-			// 		this.rechangeName = ''
-			// 		this.findPaySwitch()
-			// 	} else {
-			// 		Message.success(res.data.message)
-			// 	}
-			// });
+			addPaySwitch(obj).then(res => {
+				console.log(res);
+				if (res.data.error_code == 200) {
+					Message.success(res.data.message)
+					this.viewFormVisible = false
+					this.rechangeName = ''
+					this.findPaySwitch()
+				} else {
+					Message.success(res.data.message)
+				}
+			});
 		},
 		clearForm () {
 			//  取消按钮
