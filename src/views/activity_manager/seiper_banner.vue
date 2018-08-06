@@ -42,9 +42,14 @@
 			<el-table-column align="center"
 			                 label="图片">
 				<template slot-scope="scope">
-					<img :src="'https://'+'qyun88.oss-cn-hangzhou.aliyuncs.com/pay/'+scope.row.picture"
+					<img :src="scope.row.picture"
 					     alt="">
 				</template>
+			</el-table-column>
+			<el-table-column align="center"
+			                 label="跳转地址"
+			                 prop="render_url">
+
 			</el-table-column>
 			<el-table-column align="center"
 			                 width="220px;"
@@ -73,8 +78,8 @@
 				</el-table-column>
 				<el-table-column label="图标"
 				                 align="center">
-					<template slot-scope="scope">	<img :src="'https://'+'qyun88.oss-cn-hangzhou.aliyuncs.com/pay/'+scope.row.picture"
-					     alt=""></template>
+					<template slot-scope="scope"> <img :src="scope.row.picture"
+						     alt=""></template>
 				</el-table-column>
 				<el-table-column label="跳转地址"
 				                 align="center">
@@ -102,6 +107,7 @@
 								                 align="center">
 									<template slot-scope="scope">
 										<el-upload :action="uploadUrl"
+										           :data='folder'
 										           list-type="picture-card"
 										           :on-success="handleAvatarSuccess"
 										           :before-upload="beforeAvatarUpload"
@@ -162,7 +168,7 @@
 					</el-form-item>
 					<el-form-item label="跳转地址"
 					              prop="upUrle">
-						<el-input v-model="upUrle"
+						<el-input v-model="ruleForm.upUrle"
 						          placeholder="请输入跳转地址"></el-input>
 
 					</el-form-item>
@@ -255,7 +261,7 @@ export default {
 			value: '',
 			render_url: '',  // 跳转地址
 			folder: {
-				folder: 'member'
+				folder: 'info'
 			},
 			input: '', //  修改跳转的地址
 
@@ -276,7 +282,7 @@ export default {
 	},
 	mounted() {
 		// this.uploadUrl = api.member + '/userCount/uploadFile'
-		this.uploadUrl = 'https://member.api.qiyun88.cn/userCount/uploadFile'
+		this.uploadUrl = 'https://infos.api.qiyun88.cn/information/uploadImage'
 	},
 
 	methods: {
@@ -465,3 +471,5 @@ img {
   height: 50px;
 }
 </style>
+
+
