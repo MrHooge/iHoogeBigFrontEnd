@@ -172,7 +172,7 @@ export default {
 			uploadUrl: "",//  图片上传接口
 			fileUrl: '',
 			folder: {
-				folder: 'info'
+				folder: 'pay'
 			}
 
 		};
@@ -198,7 +198,7 @@ export default {
 	},
 	mounted() {
 		// this.uploadUrl = api.member + '/userCount/uploadFile'
-		this.uploadUrl = 'https://infos.api.qiyun88.cn/information/uploadImage'
+		this.uploadUrl = 'https://pay.api.qiyun88.cn/information/uploadImage'
 	},
 	methods: {
 		// ====================== 修改支付 ========================================
