@@ -10,9 +10,9 @@
 				           :value="item.value">
 				</el-option>
 			</el-select>
-			<!-- <el-button type="primary"
+			<el-button type="primary"
 			           style="margin-left:10%"
-			           @click="exportSome">导出</el-button> -->
+			           @click="exportSome">导出</el-button>
 		</div>
 		<el-table :data="tableData"
 		          border
@@ -106,7 +106,7 @@
 <script>
 import { findFinancialCashInfo, exportExcle } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import treeTable from '@/components/TreeTable'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
@@ -192,42 +192,51 @@ export default {
 			})
 			return sums
 		},
+				export2Excel() {
+
+		　　　　},
+		　　　formatJson(filterVal, jsonData) {
+			　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
+		　　　　},
 		// 导出
-		// exportSome() {
-		// 	let newobj
-		// 	this.tableData.forEach((e, index) => {
-		// 		newobj = {
-		// 			"编号": index + 1,
-		// 			"日期": e.date,
-		// 			"线下代理授信加款": e.officeUnderLineAdd.toFixed(2),
-		// 			"线下运营加款": e.operationsUnderLineAdd.toFixed(2),
-		// 			"线下客服加款": e.cusServiceUnderLineAdd.toFixed(2),
-		// 			"线下财务加款": e.financialUnderLineAdd.toFixed(2),
-		// 			"易宝": e.yibao.toFixed(2),
-		// 			"联动": e.liandong.toFixed(2),
-		// 			"支付宝": e.zifubao.toFixed(2),
-		// 			"合计": e.allMoney.toFixed(2),
-		// 			"当日提款": e.withdrawal.toFixed(2),
-		// 			"当日赠送": e.sendMoney.toFixed(2)
-		// 		}
-		// 		this.newarr.push(newobj)
-		// 	})
-		// 	let model = {
-		// 		listParams: JSON.stringify(this.newarr),
-		// 		title: '财务现金明细'
-		// 	}
-		// 	console.log(model)
-		// 	exportExcle(model).then(res => {
-		// 		console.log(res)
-		// 	})
-		// 	//  this.$http
-		// 	//     .post(api.member + '/user/exportExcle', {
-		// 	//        params: model
-		// 	//     })
-		// 	//     .then(res => {
-		// 	//        if (res.status == 200) {}
-		// 	//     })
-		// }
+		exportSome() {
+			let newobj
+			this.tableData.forEach((e, index) => {
+				newobj = {
+					"编号": index + 1,
+					"日期": e.date,
+					"线下代理授信加款": e.officeUnderLineAdd.toFixed(2),
+					"线下运营加款": e.operationsUnderLineAdd.toFixed(2),
+					"线下客服加款": e.cusServiceUnderLineAdd.toFixed(2),
+					"线下财务加款": e.financialUnderLineAdd.toFixed(2),
+					"易宝": e.yibao.toFixed(2),
+					"联动": e.liandong.toFixed(2),
+					"支付宝": e.zifubao.toFixed(2),
+					"合计": e.allMoney.toFixed(2),
+					"当日提款": e.withdrawal.toFixed(2),
+					"当日赠送": e.sendMoney.toFixed(2)
+				}
+				this.newarr.push(newobj)
+			})
+			let model = {
+				listParams: JSON.stringify(this.newarr),
+				title: '财务现金明细'
+			}
+			console.log(model)
+			exportExcle(model.listParams, model.title)
+				.then(res => {
+					//window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
+				})
+			console.log(this.newarr)
+			require.ensure([], () => {
+				const { export_json_to_excel } = require('../../vendor/Export2Excel');
+				const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title
+				const filterVal = this.newarr; // 对应表格输出的数据
+				const list = this.tableData;
+				const data = this.formatJson(filterVal, list);
+				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+			})
+		}
 	}
 }
 </script>

@@ -72,91 +72,72 @@
 			<!-- 弹窗中间展示内容 -->
 			<div class="layercontent">
 				<!-- 第一行图片 -->
-				<div class="oneimg">
-					<el-row :gutter="20">
-						<el-col :span="4">
-							<div class="grid-content bg-purple">
-								图片：
+				<el-form :model="ruleForm"
+				         :rules="rules"
+				         ref="ruleForm"
+				         label-width="100px"
+				         class="demo-ruleForm">
+					<!-- <el-form-item label="名字"
+					              prop="name">
+						<el-input v-model="ruleForm.name"
+						          id="upInput"></el-input>
+					</el-form-item> -->
+					            <p class="name">
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                      <div class="grid-content bg-purple">
+                        名字：
+                      </div>
+                    </el-col>
+                    <el-col :span="18">
+                      <div class="grid-content bg-purple">
+                        {{ rowdate.name }}
+                      </div>
+                    </el-col>
+                </el-row> 
+            </p>
+					<el-form-item label="图标"
+					              prop="pay_picture">
+						<!-- <el-input v-model="ruleForm.pay_picture"
+						          type="file"
+						          class="addBorder"></el-input> -->
+						<el-upload :action="uploadUrl"
+						           :data='folder'
+						           list-type="picture-card"
+						           :on-success="handleAvatarSuccess"
+						           :before-upload="beforeAvatarUpload"
+						           :on-remove="handleRemove">
+							<i class="el-icon-plus"></i>
+						</el-upload>
+					</el-form-item>
+					<el-form-item label="类型"
+					              prop="radio">
+						<div class="grid-content bg-purple">
+							<div>
+								<el-radio v-model="ruleForm.radio"
+								          label="zfb"
+								          border>支付宝</el-radio>
+								<el-radio v-model="ruleForm.radio"
+								          label="wx"
+								          border>微信</el-radio>
 							</div>
-						</el-col>
-						<el-col :span="6">
-							<div class="grid-content bg-purple">
-								<div class="showimg">
-									<img :src="'https://'+rowdate.pictureUrl"
-									     alt="这是个图片"
-									     style="max-width:100%">
-								</div>
-							</div>
-						</el-col>
-						<el-col :span="12">
-							<div class="grid-content bg-purple">
-								<el-upload class="avatar-uploader"
-								           :action="imurl"
-								           :show-file-list="false"
-								           :on-success="handleAvatarSuccess"
-								           :before-upload="beforeAvatarUpload">
-									<img v-if="imageUrl"
-									     :src="imageUrl"
-									     class="avatar">
-									<i v-else
-									   class="el-icon-plus avatar-uploader-icon"></i>
-								</el-upload>
-							</div>
-						</el-col>
-					</el-row>
-				</div>
-				<!-- 人物名字 -->
-				<p class="name">
-					<el-row :gutter="20">
-						<el-col :span="4">
-							<div class="grid-content bg-purple">
-								名字：
-							</div>
-						</el-col>
-						<el-col :span="18">
-							<div class="grid-content bg-purple">
-								{{ rowdate.name }}
-							</div>
-						</el-col>
-					</el-row>
-				</p>
-				<!-- 支付类型 -->
-				<div class="zhifu">
-					<el-row :gutter="20">
-						<el-col :span="4">
-							<div class="grid-content bg-purple">
-								类型：
-							</div>
-						</el-col>
-						<el-col :span="18">
-							<div class="grid-content bg-purple">
-								<div>
-									<el-radio v-model="radio"
-									          label="zfb"
-									          border>支付宝</el-radio>
-									<el-radio v-model="radio"
-									          label="wx"
-									          border>微信</el-radio>
-								</div>
-							</div>
-						</el-col>
-					</el-row>
-				</div>
+						</div>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary"
+						           @click="submitForm('ruleForm')">立即创建</el-button>
+						<el-button @click="resetForm('ruleForm')">重置</el-button>
+					</el-form-item>
+				</el-form>
 			</div>
-			<span slot="footer"
-			      class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary"
-				           @click="editlayer">确 定</el-button>
-			</span>
 		</el-dialog>
 		<!-- 编辑的弹窗 结束-->
-	</div>
+		</div>
 </template>
 
 <script> 
 import addrepay from './addrepay'
-import { getPayChannelList, deletePayChannel, updateStatus } from '@/api/sys_user'
+import { getPayChannelList, deletePayChannel, updateStatus,updatePayChanne } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -176,7 +157,23 @@ export default {
 			imageUrl: "", // 图片地址
 			has: '', // 保存选择的有效和无效的状态
 			ids: '', // 存储选择的当前行数据的id
-			imurl: 'https://member.api.qiyun88.cn/userCount/uploadFile', //图片上传地址
+			imurl: '', //图片上传地址
+			ruleForm: {
+				name: "",
+				radio: '',
+				pay_picture: ""
+			},
+			rules: {
+				name: [
+					{ required: true, message: "请输入活动名称", trigger: "blur" },
+					{ min: 1, max: 10, message: "长度在 1 到 10 个字符", trigger: "blur" }
+				]
+			},
+			uploadUrl: "",//  图片上传接口
+			fileUrl: '',
+			folder: {
+				folder: 'info'
+			}
 
 		};
 	},
@@ -199,24 +196,71 @@ export default {
 	created() {
 		this.getRepayList(1);
 	},
+	mounted() {
+		// this.uploadUrl = api.member + '/userCount/uploadFile'
+		this.uploadUrl = 'https://infos.api.qiyun88.cn/information/uploadImage'
+	},
 	methods: {
-
-		currentPage(val) {
-			this.getRepayList(val)
+		// ====================== 修改支付 ========================================
+		// =====================================================
+		handleRemove(file, fileList) {
+			console.log(file, fileList);
 		},
-		//编辑的时候 图片上传***///////////////////
 		handleAvatarSuccess(res, file) {
+			console.log(res);
+			console.log(file)
+			this.ruleForm.pay_picture = res  //  添加支付的图片名
+			this.fileUrl = res  //  修改支付的图片名
 			this.imageUrl = URL.createObjectURL(file.raw);
-			// console.log(this.imageUrl)
 		},
 		beforeAvatarUpload(file) {
-			// const isJPG = file.type === "image/png|gig|jpg";
+			const JPGArr = ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+			const isJPG = JPGArr.indexOf(file.type) > -1;
 			const isLt2M = file.size / 1024 / 1024 < 2;
 
-			if (!isLt2M) {
-				this.$message.error("上传头像图片大小不能超过 2MB!");
+			if (!isJPG) {
+				this.$message.error("上传图片只能是 JPG/PNG/GIF 格式!");
 			}
-			return isLt2M;
+			if (!isLt2M) {
+				this.$message.error("上传图片大小不能超过 2MB!");
+			}
+			return isJPG && isLt2M;
+		},
+		submitForm(formName) {  //   添加支付
+
+			let obj = {
+				QRCode: this.ruleForm.pay_picture,
+				name: this.rowdate.name,
+				type: this.ruleForm.radio,
+				id:this.rowdate.id
+			};
+			console.log(obj)
+
+			this.$refs[formName].validate(valid => {
+				if (valid) {
+					// alert("submit!");
+					updatePayChanne(obj).then(res => {
+						console.log(res)
+						if (res.data.error_code == 200) {
+							Message.success(res.data.message)
+							this.dialogVisible1 = false
+							// this.findPaySwitch()
+						} else {
+							Message.success(res.data.message)
+						}
+					})
+				} else {
+					console.log("error submit!!");
+					return false;
+				}
+			});
+		},
+		resetForm(formName) {
+			this.$refs[formName].resetFields();
+		},
+		// ==============================================================
+		currentPage(val) {
+			this.getRepayList(val)
 		},
 		// 图片上传***///////////////////
 		// 调支付列表接口数据
@@ -250,6 +294,7 @@ export default {
 		handleEdit(row) {
 			this.dialogVisible = true;
 			this.rowdate = row;
+			console.log()
 		},
 		// 编辑弹窗的确定按钮回调
 		editlayer() {
@@ -317,9 +362,9 @@ export default {
 				.then(() => {
 					console.log(row.id);
 					updateStatus(obj).then(res => {
-						if(res.status==200){
+						if (res.status == 200) {
 							Message.success(res.data.msg)
-						}else {
+						} else {
 							Message.success(res.data.msg)
 						}
 					})

@@ -85,17 +85,6 @@
 								<el-table-column label="图标"
 								                 align="center">
 									<template slot-scope="scope">
-										<!-- <el-upload class="avatar-uploader"
-										           :action="uploadUrl"
-										           :show-file-list="false"
-										           :on-success="handleAvatarSuccess"
-										           :before-upload="beforeAvatarUpload">
-											<img v-if="imageUrl"
-											     :src="imageUrl"
-											     class="avatar">
-											<i v-else
-											   class="el-icon-plus avatar-uploader-icon"></i>
-										</el-upload> -->
 										<el-upload :action="uploadUrl"
 										           list-type="picture-card"
 										           :on-success="handleAvatarSuccess"
@@ -126,7 +115,7 @@
 		<!-- 添加图片弹窗 -->
 		<el-dialog title="添加图片"
 		           :visible.sync="dialogVisible1"
-		           width="50%">
+		           width="70%">
 			<div class="uploadFrom">
 				<el-form :model="ruleForm"
 				         :rules="rules"
@@ -137,7 +126,7 @@
 					              prop="name">
 						<el-input v-model="ruleForm.name"></el-input>
 					</el-form-item>
-					<el-form-item label="支付名称"
+					<el-form-item label="状态"
 					              prop="is_open">
 						<el-switch v-model="value3"
 						           active-text="开"
@@ -147,17 +136,6 @@
 					</el-form-item>
 					<el-form-item label="图标"
 					              prop="pay_picture">
-						<!-- <el-upload class="avatar-uploader"
-						           :action="uploadUrl"
-						           :show-file-list="false"
-						           :on-success="handleAvatarSuccess"
-						           :before-upload="beforeAvatarUpload">
-							<img v-if="imageUrl"
-							     :src="imageUrl"
-							     class="avatar">
-							<i v-else
-							   class="el-icon-plus avatar-uploader-icon"></i>
-						</el-upload> -->
 						<el-upload :action="uploadUrl"
 						           list-type="picture-card"
 						           :on-success="handleAvatarSuccess"
@@ -218,7 +196,7 @@ export default {
 			rules: {
 				name: [
 					{ required: true, message: "请输入活动名称", trigger: "blur" },
-					{ min: 1, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+					{ min: 1, max: 10, message: "长度在 1 到 10 个字符", trigger: "blur" }
 				]
 			},
 			uploadUrl: "",//  图片上传接口
@@ -235,7 +213,6 @@ export default {
 
 	computed: {},
 	created () {
-	
 		this.getTable();
 	},
 	mounted() {
@@ -248,6 +225,7 @@ export default {
 			console.log(file, fileList);
 		},
 		handleAvatarSuccess(res, file) {
+			console.log('111111111111111111')
 			console.log(res);
 			// console.log(file)
 			this.ruleForm.pay_picture = res  //  添加支付的图片名
@@ -292,7 +270,7 @@ export default {
 						if (res.data.error_code == 200) {
 							Message.success(res.data.message)
 							this.dialogVisible1 = false
-							this.findPaySwitch()
+							// this.findPaySwitch()
 						} else {
 							Message.success(res.data.message)
 						}

@@ -92,6 +92,15 @@ export const constantRouterMap = [{
           title: '模块管理'
         }
       },
+      {
+        path: 'Binding_channels',
+        name: '绑定渠道',
+        component: () =>
+          import ('@/views/sys_management/Binding_channels'),
+        meta: {
+          title: '绑定渠道'
+        }
+      },
 
     ]
   },
@@ -394,6 +403,33 @@ export const constantRouterMap = [{
           title: '添加线下支付'
         }
       },
+      {
+        path: 'repayset',
+        name: '支付配置',
+        component: () =>
+          import ('@/views/recharge_center/repayset'),
+        meta: {
+          title: '支付配置'
+        }
+      },
+      {
+        path: 'greaplist',
+        name: '修改支付渠道',
+        component: () =>
+          import ('@/views/recharge_center/greaplist'),
+        meta: {
+          title: '修改支付渠道'
+        }
+      },
+      {
+        path: 'auditList',
+        name: '线下支付审核',
+        component: () =>
+          import ('@/views/recharge_center/auditList'),
+        meta: {
+          title: '线下支付审核'
+        }
+      },
 
     ]
   },
@@ -419,15 +455,21 @@ export const constantRouterMap = [{
       {
         path: 'activityGiftcard',
         name: '充值送礼金卡',
-        component: () => import('@/views/activity_manager/activity_giftcard'),
-        meta: { title: '充值送礼金卡' }
+        component: () =>
+          import ('@/views/activity_manager/activity_giftcard'),
+        meta: {
+          title: '充值送礼金卡'
+        }
       },
       {
-        path: 'redpackage',
-        name: '红包记录',
-        component: () => import('@/views/activity_manager/redpackage'),
-        meta: { title: '红包记录' }
-      }
+        path: 'seiper_banner',
+        name: '轮播图管理',
+        component: () =>
+          import ('@/views/activity_manager/seiper_banner'),
+        meta: {
+          title: '轮播图管理'
+        }
+      },
 
     ]
   },
@@ -612,9 +654,19 @@ export const constantRouterMap = [{
           title: '彩金赠送'
         }
       },
+      {
+        path: 'withdrawal_request_list',
+        name: '提款申请',
+        component: () =>
+          import ('@/views/financialManagement/withdrawal_request_list'),
+        meta: {
+          title: '提款申请'
+        }
+      },
 
     ]
   },
+
   //方案中心
   {
     path: '/programCenter',
@@ -646,6 +698,30 @@ export const constantRouterMap = [{
         name: '查询中奖方案',
         component: () => import ('@/views/program_center/winningprogram'),
         meta: { title: '查询中奖方案' }
+      },
+      {
+        path: 'sparklingbasketball',
+        name: '竞彩篮球',
+        component: () => import ('@/views/program_center/sparklingbasketball'),
+        meta: { title: '竞彩篮球' }
+      },
+      {
+        path: 'smg',
+        name: '竞彩足球',
+        component: () => import ('@/views/program_center/smg'),
+        meta: { title: '竞彩足球' }
+      },
+      {
+        path: 'programquery',
+        name: '方案查询',
+        component: () => import ('@/views/program_center/programquery'),
+        meta: { title: '方案查询' }
+      },
+      {
+        path: 'slaeandstop',
+        name: '彩种开停售',
+        component: () => import ('@/views/program_center/slaeandstop'),
+        meta: { title: '彩种开停售' }
       },
     ]
   },
@@ -714,7 +790,97 @@ export const constantRouterMap = [{
       },
     ]
   },
-  //资讯模块
+  //票务中心
+  {
+    path: '/ticketingCenter',
+    component: Layout,
+    redirect: '/ticketingCenter/searchticketing',
+    name: '票务中心',
+    meta: { title: '票务中心' },
+    children: [
+      {
+        path: 'searchticketing',
+        name: '票务查询',
+        component: () =>
+          import ('@/views/ticketing_center/searchticketing'),
+        meta: { title: '票务查询' }
+      },
+      {
+        path: 'ticketlist',
+        name: '票务查询列表',
+        component: () =>
+          import ('@/views/ticketing_center/ticketlist'),
+        meta: { title: '票务查询列表' }
+      },
+      
+    ]
+  },
+  //麒云大师模块
+  {
+    path: '/qiyunGrandmaster',
+    component: Layout,
+    redirect: '/qiyunGrandmaster/customerRecharge',
+    name: '麒云大师',
+    meta: { title: '麒云大师' },
+    children: [
+      {
+        path: 'customerRecharge',
+        name: '客户充值提款流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/customerRecharge'),
+        meta: { title: '客户充值提款流水' }
+      },
+      {
+        path: 'shoppingrecommend',
+        name: '客户推荐购买退款流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/shoppingrecommend'),
+        meta: { title: '客户推荐购买退款流水' }
+      },
+      {
+        path: 'rewardflut',
+        name: '打赏流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/rewardflut'),
+        meta: { title: '打赏流水' }
+      },
+      {
+        path: 'Recommendedincome',
+        name: '推荐收入',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/Recommendedincome'),
+        meta: { title: '推荐收入' }
+      },
+      {
+        path: 'wholecustomerflut',
+        name: '总流水',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/wholecustomerflut'),
+        meta: { title: '总流水' }
+      },
+      {
+        path: 'famousman',
+        name: '名人和大神',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/famousman'),
+        meta: { title: '名人和大神' }
+      },
+      {
+        path: 'tobesetted',
+        name: '待审核列表',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/tobesetted'),
+        meta: { title: '待审核列表' }
+      },
+      {
+        path: 'withdraw',
+        name: '提现列表',
+        component: () =>
+          import ('@/views/qiyun_grandmaster/withdraw'),
+        meta: { title: '提现列表' }
+      },
+    ]
+  },
   //麒云88模块
   {
     path: '/qiyun88',
@@ -811,6 +977,72 @@ export const constantRouterMap = [{
         component: () => import('@/views/foucs_event/awards_blacklist'),
         meta: { title: '嘉奖黑名单列表' }
       },
+      {
+        path: 'Combination_restricted',
+        name: '组合限售',
+        component: () => import('@/views/foucs_event/Combination_restricted'),
+        meta: { title: '组合限售' }
+      },
+    ]
+  },
+  //运营管理
+  {
+    path: '/operations',
+    component: Layout,
+    redirect: '/operations/seekingtick',
+    name: '运营管理',
+    meta: { title: '运营管理' },
+    children: [
+      {
+        path: 'seekingtick',
+        name: '寻票列表',
+        component: () => import('@/views/operations/seekingtick'),
+        meta: { title: '寻票列表' }
+      },
+      
+      {
+        path: 'ytick',
+        name: '运营寻票操作',
+        component: () => import('@/views/operations/ytick'),
+        meta: { title: '运营寻票操作' }
+      },
+      {
+        path: 'yrecord',
+        name: '运营传票记录',
+        component: () => import('@/views/operations/yrecord'),
+        meta: { title: '运营传票记录' }
+      },
+      {
+        path: 'ticket_checking',
+        name: '出票校验',
+        component: () => import('@/views/operations/ticket_checking'),
+        meta: { title: '出票校验' }
+      },
+      {
+        path: 'Directout',
+        name: '设置会员直接出票',
+        component: () => import('@/views/operations/Directout'),
+        meta: { title: '设置会员直接出票' }
+      },
+      {
+        path: 'Robot',
+        name: '机器人列表',
+        component: () => import('@/views/operations/Robot'),
+        meta: { title: '机器人列表' }
+      },
+      {
+        path: 'cyseting',
+        name: '彩研设置',
+        component: () => import('@/views/operations/cyseting'),
+        meta: { title: '彩研设置' }
+      },
+      {
+        path: 'FollowUpPlan',
+        name: '自动跟单',
+        component: () => import('@/views/operations/FollowUpPlan'),
+        meta: { title: '自动跟单' }
+      },
+      
     ]
   },
 

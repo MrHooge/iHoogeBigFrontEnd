@@ -159,7 +159,7 @@ export default {
         this.getData(this.name, this.value1, this.value2)
     },
     methods: {
-        onInput() {
+        onInput() {   //  input 事件
             if (this.name == '') {
                 this.getData(this.name, this.value1, this.value2)
             }
@@ -170,7 +170,7 @@ export default {
             console.log(this.value2)
             this.getData(this.name, this.value1, this.value2)
         },
-        getData(a, b, c) {
+        getData(a, b, c) {   //  获取数据列表
             let obj = {
                 loginAccount: getCookies('name'),
                 agentName: a,
