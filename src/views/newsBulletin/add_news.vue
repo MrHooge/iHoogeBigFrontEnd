@@ -57,18 +57,22 @@
     </el-col>
   </el-form-item>
   <br />
-   <el-form-item label="上传图片" style="border:none">
-  
+   <el-form-item label="id">
+    <el-input v-model="id" style="width:100px" placeholder="必填"></el-input>
+  </el-form-item>
+  <el-form-item label="上传图片" style="border:none">
       <!-- <el-input type="file" @change="upload"></el-input> -->
       <el-upload
           class="upload-demo"
+          :data="folder"
           action="https://infos.api.qiyun88.cn/information/uploadImage"
           :on-preview="handlePreview"
           :on-remove="handleRemove"
           :before-remove="beforeRemove"
+          :before-upload="beforeAvatarUpload"
+          :on-success="handleAvatarSuccess"
           multiple
           :limit="3"
-          @change="upload"
           :on-exceed="handleExceed"
           :file-list="fileList">
           <el-button size="small" type="primary">点击上传</el-button>
@@ -110,12 +114,16 @@
 </template>
 
 <script>
-import { createNews,uploadImage } from '@/api/news'
+import { createNews,uploadImage,setNewsPicetur } from '@/api/news'
 import api from '../../../config/dev.env'
 export default {
   data() {
     return {
       dialogVisible:false,
+      folder:'info',
+      file:'',
+      id:'',
+      imgurl:'',
        form: {
           click:'',
           content:'',
@@ -140,22 +148,42 @@ export default {
   },
 
   components: {},
+  mounted(){
+    this.imgurl = 'https://infos.api.qiyun88.cn/information/uploadImage'
+  },
 
   methods: {
-    upload(file){
-      console.log(file);
+    //上传图片成功回调
+    handleAvatarSuccess(res){
+      // this.imgurl = 'https://infos.api.qiyun88.cn/information/uploadImage'
+      this.file = res;
+      console.log(this.folder)
+      console.log(res)
       let obj = {
-        file,
-        folder:'info'
+        file:this.file,
+        id:this.id
       }
-      uploadImage(obj)
+      setNewsPicetur(obj)
       .then(res => {
-        if(res.data.error_code == 200) {
+        if(res.data.error_code == 200){
           this.$message(res.data.message)
         }
       })
-
     },
+     beforeAvatarUpload(file) {
+      const JPGArr = ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+      const isJPG = JPGArr.indexOf(file.type) > -1;
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传图片只能是 JPG/PNG/GIF 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    },
+
     update(){
      if(this.form.click&&this.form.editor&&this.form.keyword&&this.form.summary&&this.form.title&&this.form.type&&this.form.id){
         this.form.cz = 2;
