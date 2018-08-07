@@ -60,3 +60,11 @@ export function uploadImage(userinfos) {
     params:userinfos
   })
 }
+//上传图片
+export function setNewsPicetur(userinfos) {
+  return request.infos({
+    url: '/information/setNewsPicetur',
+    method: 'post',
+    params:userinfos
+  })
+}
