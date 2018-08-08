@@ -232,8 +232,10 @@
                </el-table-column>  
                 <el-table-column
                      label="送票日期"
-                     prop="sendDateTime"
                      align="center">
+                      <template slot-scope="scope">
+                    {{scope.row.sendDateTime|type}}
+                </template>  
                </el-table-column>  
                <el-table-column
                      label="中奖金额"
@@ -301,8 +303,10 @@
                </el-table-column> 
                <el-table-column
                      label="提供商"
-                     prop="provider"
                      align="center">
+                     <template slot-scope="scope">
+                         {{scope.row.provider |come }}
+                         </template>
                </el-table-column>  
             </el-table>   
              <el-pagination
@@ -366,6 +370,13 @@ export default {
             s = s < 10 ? ('0' + s) : s;
             return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
 
+        },
+        come(a){
+            if(a == -1){
+                return "全部"
+            }else{
+                return "其他"
+            }
         },
         white(status){
             if(status == 1){

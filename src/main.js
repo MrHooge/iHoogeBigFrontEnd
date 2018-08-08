@@ -5,7 +5,9 @@ import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
-
+import  VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
 import '@/styles/index.scss' // global css
 
 import App from './App'
@@ -20,7 +22,7 @@ Vue.prototype.$http = axios
 
 
 Vue.use(ElementUI, { locale })
-
+Vue.use(VueQuillEditor)
 Vue.config.productionTip = false
 
 new Vue({

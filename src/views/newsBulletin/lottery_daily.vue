@@ -168,24 +168,24 @@ export default {
   data() {
     return {
       form:{
-      analyze:'',	
-      author:'',
-      guestTeam	:'',	
-      homeTeam:'',
-      matchId:'',
-      playType:'',
-      recommend:'',
-      sp:''
+      analyze:''||null,	
+      author:''||null,
+      guestTeam	:''||null,	
+      homeTeam:''||null,
+      matchId:''||null,
+      playType:''||null,
+      recommend:''||null,
+      sp:''||null
       },
       formsecond:{
-      analyze:'',	
-      author:'',
-      guestTeam	:'',	
-      homeTeam:'',
-      matchId:'',
-      playType:'',
-      recommend:'',
-      sp:''
+       analyze:''||null,	
+        author:''||null,
+        guestTeam	:''||null,	
+        homeTeam:''||null,
+        matchId:''||null,
+        playType:''||null,
+        recommend:''||null,
+        sp:''||null
       },
       formthird:{
       amount:'',	
@@ -228,7 +228,7 @@ export default {
         this.$message('请输入场次')
       }else if(!this.form.homeTeam){
         this.$message('请输入主队')
-      }else if(!this.guestTeam){
+      }else if(!this.form.guestTeam){
         this.$message('请输入客队')
       }else if(!this.form.recommend){
         this.$message('请输入推荐')
@@ -290,43 +290,43 @@ export default {
     },
     onSubmitthird(){
        if(!this.formthird.amount){
-        this.$message('请输入玩法')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.author){
-        this.$message('请输入场次')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.bonus){
-        this.$message('请输入主队')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.guestTeam1){
-        this.$message('请输入客队')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.guestTeam2){
-        this.$message('请输入推荐')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.homeTeam1){
-        this.$message('请输入sp值')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.homeTeam2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.matchId1){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.matchId2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.multiple){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.recommend1){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formthird.recommend2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else{
         let obj = {
-          analyze:this.formthird.amount,	
+          amount:this.formthird.amount,	
           author:'manager',
-          guestTeam	:this.formthird.bonus,	
-          homeTeam:this.formthird.guestTeam1,
-          matchId:this.formthird.guestTeam2,
-          playType:this.formthird.homeTeam1,
-          recommend:this.formthird.homeTeam2,
-          sp:this.formthird.matchId1,
-          homeTeam:this.formthird.matchId2,
-          matchId:this.formthird.multiple,
-          playType:this.formthird.recommend1,
-          recommend:this.formthird.recommend2
+          bonus	:this.formthird.bonus,	
+          guestTeam1:this.formthird.guestTeam1,
+          guestTeam2:this.formthird.guestTeam2,
+          homeTeam1:this.formthird.homeTeam1,
+          homeTeam2:this.formthird.homeTeam2,
+          matchId1:this.formthird.matchId1,
+          matchId2:this.formthird.matchId2,
+          multiple:this.formthird.multiple,
+          recommend1:this.formthird.recommend1,
+          recommend2:this.formthird.recommend2
         }
       createSZ2C11(obj).then(res => {
          if(res.error_code == 200){
@@ -337,43 +337,43 @@ export default {
     },
     onSubmitforth(){
       if(!this.formforth.amount){
-        this.$message('请输入玩法')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.author){
-        this.$message('请输入场次')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.bonus){
-        this.$message('请输入主队')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.guestTeam1){
-        this.$message('请输入客队')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.guestTeam2){
-        this.$message('请输入推荐')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.homeTeam1){
-        this.$message('请输入sp值')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.homeTeam2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.matchId1){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.matchId2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.multiple){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.recommend1){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else if(!this.formforth.recommend2){
-        this.$message('请输入分析')
+        this.$message('请输入完整数据')
       }else{
         let obj = {
-          analyze:this.formthird.amount,	
+          amount:this.formthird.amount,	
           author:'manager',
-          guestTeam	:this.formthird.bonus,	
-          homeTeam:this.formthird.guestTeam1,
-          matchId:this.formthird.guestTeam2,
-          playType:this.formthird.homeTeam1,
-          recommend:this.formthird.homeTeam2,
-          sp:this.formthird.matchId1,
-          homeTeam:this.formthird.matchId2,
-          matchId:this.formthird.multiple,
-          playType:this.formthird.recommend1,
-          recommend:this.formthird.recommend2
+          bonus	:this.formthird.bonus,	
+          guestTeam1:this.formthird.guestTeam1,
+          guestTeam2:this.formthird.guestTeam2,
+          homeTeam1:this.formthird.homeTeam1,
+          homeTeam2:this.formthird.homeTeam2,
+          matchId1:this.formthird.matchId1,
+          matchId2:this.formthird.matchId2,
+          multiple:this.formthird.multiple,
+          recommend1:this.formthird.recommend1,
+          recommend2:this.formthird.recommend2
         }
       createSZ2C12(obj).then(res => {
          if(res.error_code == 200){
