@@ -114,11 +114,12 @@ export default {
         },
         // 审核通过
         adopt(a) {
+            console.log(a)
             let model = {
                 id: a,
                 type: 1
             }
-            examine(obj)
+            examine(model)
                 .then(res => {
                     console.log(res)
                     if (res.status == 200) {
