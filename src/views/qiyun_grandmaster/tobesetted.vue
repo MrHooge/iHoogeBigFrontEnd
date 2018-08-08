@@ -61,7 +61,7 @@
 </template>
 
 <script>
-// import setimes from '@/until.js'
+import setimes from '@/utils/time.js'
 import { examineList,examine } from '@/api/grandmaster'
 export default {
     data() {
