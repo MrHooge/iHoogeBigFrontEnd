@@ -4,7 +4,8 @@
 			<div class="search">
 				<el-input v-model="sjname"
 				          placeholder="请输入会员名"
-				          style="width:50%;"></el-input>
+				          style="width:50%;"
+                            @input="onInput"></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
@@ -97,8 +98,15 @@ export default {
 	// }
 
 	methods: {
+        onInput(){
+            if(this.sjname == ""){
+                this.tableData = ""
+                this.pageShow = false
+            }
+        },
 		search() {
 			this.getData(1, this.sjname)
+
 		},
 		getData(curr, a) {
 			let obj = {
@@ -115,6 +123,7 @@ export default {
 				} else {
 					this.pageShow = false
 					Message.success(res.data.message)
+                    this.tableData = ""
 				}
 			})
 		},

@@ -2,7 +2,7 @@
    <div class="effectiveagent">
       <!-- 1 2代理及底下会员黑名单 3代理白名单 4代理及底下会员白名单 -->
       <div class="bens">
-         <el-button type="primary" @click="setingGames">设置篮球焦点赛事</el-button>
+         <el-button type="primary" @click="setingGames">设置足球焦点赛事</el-button>
          <el-button type="danger" @click="editTime">修改赛事时间</el-button>
          <el-button type="warning" @click="openclose()">开关投注</el-button>
       </div>
