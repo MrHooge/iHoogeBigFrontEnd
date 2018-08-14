@@ -5,7 +5,7 @@ import user from '../store/modules/user';
 //每日两单一
 export function createDayOneDan1(dayOneDan2DTO) {
   return request.infos({
-    url: 'http://192.168.41.61:8081/information/createDayOneDan1',
+    url: '/information/createDayOneDan1',
     method: 'post',
     params:{dayOneDan2DTO}
   })

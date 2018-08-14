@@ -56,7 +56,7 @@ export function getSmsCode(mobile){
 //客户关联查询
 export function findMemberAssociation(userinfos){
     return request.member({
-        url:'http://192.168.42.40:8081/user/findMemberAssociation',
+        url:'/user/findMemberAssociation',
         method:'get',
         params:userinfos
     })
@@ -64,7 +64,7 @@ export function findMemberAssociation(userinfos){
 //客户关联通过
 export function MemberAudit(userinfos){
     return request.member({
-        url:'http://192.168.42.40:8081/user/MemberAudit',
+        url:'/user/MemberAudit',
         method:'get',
         params:userinfos
     })
@@ -72,7 +72,7 @@ export function MemberAudit(userinfos){
 //客户转移查询
 export function findMemberMove(userinfos){
     return request.member({
-        url:'http://192.168.42.40:8081/user/findMemberMove',
+        url:'/user/findMemberMove',
         method:'get',
         params:userinfos
     })
@@ -80,7 +80,7 @@ export function findMemberMove(userinfos){
 //客户转移通过
 export function MemberMoveAudit(userinfos){
     return request.member({
-        url:'http://192.168.42.40:8081/user/MemberMoveAudit',
+        url:'/user/MemberMoveAudit',
         method:'get',
         params:userinfos
     })
@@ -88,7 +88,7 @@ export function MemberMoveAudit(userinfos){
 //通过id查询钱包
 export function getMemberWalletByMemberId(memberId){
     return request.member({
-        url:'http://192.168.42.40:8081/user/getMemberWalletByMemberId',
+        url:'/user/getMemberWalletByMemberId',
         method:'get',
         params:{
             memberId
@@ -98,7 +98,7 @@ export function getMemberWalletByMemberId(memberId){
 //获取钱包信息
 export function getMemberWallet(token){
     return request.member({
-        url:'http://192.168.42.40:8081/user/getMemberWallet',
+        url:'/user/getMemberWallet',
         method:'get',
         params:{
             token
@@ -108,7 +108,7 @@ export function getMemberWallet(token){
 //绑定银行卡信息
 export function bind(userinfos){
     return request.member({
-        url:'http://192.168.42.40:8081/user/bind',
+        url:'/user/bind',
         method:'get',
         params:userinfos
     })
@@ -116,7 +116,7 @@ export function bind(userinfos){
 //显示一个月以上未登录用户
 export function getHistoryClient(offset,pageSize){
     return request.member({
-        url:'http://192.168.41.61:8089/userManage/getHistoryClient',
+        url:'/userManage/getHistoryClient',
         method:'get',
         params:{
             offset,
