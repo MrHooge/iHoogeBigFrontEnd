@@ -68,3 +68,44 @@ export function setNewsPicetur(userinfos) {
     params:userinfos
   })
 }
+
+//评论列表
+export function getUnreviewedCommentList(params) {
+    return request.infos({
+      url: '/information/getUnreviewedCommentList',
+      method: 'get',
+      params:params
+    })
+  }
+  //评论审核
+export function shComment(type,cid) {
+    return request.infos({
+      url: '/information/shComment',
+      method: 'get',
+      params: {
+          type,
+          cid
+      }
+    })
+  }
+
+  //中奖评论列表
+export function getUnreviewedWinCommentList(params) {
+    return request.infos({
+      url: '/information/getUnreviewedWinCommentList',
+      method: 'get',
+      params:params
+    })
+  }
+  //中奖评论审核
+export function shWinComment(type,cid) {
+    return request.infos({
+      url: '/information/shWinComment',
+      method: 'get',
+      params: {
+          type,
+          cid
+      }
+    })
+  }
+  

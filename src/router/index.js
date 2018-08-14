@@ -149,7 +149,26 @@ export const constantRouterMap = [{
         meta: {
           title: '站内信'
         }
+      },
+      {
+        path: 'commentModeration',
+        name: '评论审核',
+        component: () =>
+          import ('@/views/newsBulletin/commentModeration'),
+        meta: {
+          title: '评论审核'
+        }
+      },
+      {
+        path: 'winningComments',
+        name: '中奖评论审核',
+        component: () =>
+          import ('@/views/newsBulletin/winningComments'),
+        meta: {
+          title: '中奖评论审核'
+        }
       }
+      
     ]
   },
   // 轮播墙
