@@ -104,9 +104,9 @@ export default {
 			total: 0, //总页数
 			tableData: [], //表格数据
 			multipleSelection: [], //选中的数据
-			number: [],
 			arr: [],
-			pageShow: false
+            pageShow: false,
+            ids:'',   //存储被选中的id
 		}
 	},
 	created() {
@@ -175,10 +175,10 @@ export default {
 
 		},
 		cofirm() {
-			this.number = []
-			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-				this.number.push(e.id)
+            this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
+                this.ids += e.id + ','
             });
+            console.log(this.ids)
 			this.dialogVisible = true
 		},
         //评论审核
@@ -187,8 +187,9 @@ export default {
 			let myObj = {}
 			console.log(arr)
 			let type = val
-			let cid = this.number
-				shComment(type,JSON.stringify(cid)).then(res => {
+			let cid = this.ids
+				// shComment(type,JSON.stringify(cid)).then(res => {
+				shComment(type,cid).then(res => {
 					console.log(res)
 					if (res.data.error_code = 200) {
 						Message.success(res.data.message)

@@ -106,12 +106,11 @@ export default {
 			total: 0, //总页数
 			tableData: [], //表格数据
 			multipleSelection: [], //选中的数据
-            number: [],
-            newNumber: "",
 			arr: [],
             pageShow: false,
             status: "",  //审核的状态
             colorType: "", //颜色类型
+            ids:'',   //存储被选中的id
 		}
 	},
 	created() {
@@ -141,6 +140,7 @@ export default {
         filterTag(value, row) {
             if(row.status === 0){
                 return row.status = '正在审核'
+                // this.getData(1, this.sjname, 0)
             }
             else if(row.status === 1){
                 return row.status = '审核通过'
@@ -158,11 +158,12 @@ export default {
             
         // },
         //获取评论列表
-		getData(curr, a) {
+		getData(curr, a,b) {
 			let obj = {
                 pageSize : 20,
 				offset: curr,
                 id: a, //  不传 查询全部
+                type: b
 			}
 			getUnreviewedWinCommentList(obj).then(res => {
 				console.log(res)
@@ -189,12 +190,10 @@ export default {
 
 		},
 		cofirm() {
-            this.number = []
 			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-                this.number.push(e.id)
-                this.newNumber = this.number.join(',')
-                console.log(this.newNumber)
+                this.ids += e.id + ','
             });
+             console.log(this.ids)
 			this.dialogVisible = true
 		},
         //评论审核
@@ -203,8 +202,8 @@ export default {
 			let myObj = {}
 			console.log(arr)
 			let type = val
-			let cid = Number(this.newNumber)
-				shWinComment(type,JSON.stringify(cid)).then(res => {
+			let cid = this.ids
+				shWinComment(type,cid).then(res => {
 					console.log(res)
 					if (res.data.error_code = 200) {
 						Message.success(res.data.message)
