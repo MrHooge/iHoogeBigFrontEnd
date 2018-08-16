@@ -27,6 +27,7 @@
             <el-table-column
                 prop="content"
                 label="内容" align="center">
+                
             </el-table-column>
             <el-table-column
                 label="创建时间" align="center">

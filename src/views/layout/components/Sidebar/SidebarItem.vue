@@ -1,5 +1,7 @@
 <template>
   <div class="menu-wrapper">
+        <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
+                text-color="#bfcbd9" active-text-color="#20a0ff">
     <template v-for="item in routes">
       <el-submenu :index="item.modelNme" :key="item.modelNme">
         <template slot="title">
@@ -7,7 +9,7 @@
         </template>
         <template v-for="child in item.childList">
           <router-link :to="child.model_url" :key="child.model_name">
-            <el-menu-item :index="child.model_name">
+            <el-menu-item :index="child.model_name" style="background-color:red;">
               <span v-if="child.model_name" slot="title">{{child.model_name}}</span>
             </el-menu-item>
           </router-link>
@@ -39,6 +41,7 @@
         </template>
       </el-submenu> -->
     </template>
+    </el-menu>
   </div>
 </template>
 

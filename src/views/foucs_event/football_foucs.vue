@@ -14,26 +14,26 @@
                              align="center"
                              label="让球">
             </el-table-column>
-            <el-table-column prop="drawAward"
+            <!-- <el-table-column prop="drawAward"
                              align="center"
                              label="平sp">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="guestTeam"
                              align="center"
                              label="客队">
             </el-table-column>
-            <el-table-column prop="guestWinAward"
+            <!-- <el-table-column prop="guestWinAward"
                              align="center"
                              label="客胜ps">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="homeTeam"
                              align="center"
                              label="主队">
             </el-table-column>
-            <el-table-column prop="homeWinAward"
+            <!-- <el-table-column prop="homeWinAward"
                              align="center"
                              label="主胜sp">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="matchId"
                              align="center"
                              label="id">
@@ -48,7 +48,7 @@
                     {{scope.row.matchTime.time | setimes}}
                 </template>
             </el-table-column>
-            <el-table-column prop="rq_drawAward"
+            <!-- <el-table-column prop="rq_drawAward"
                              align="center"
                              label="让球平sp">
             </el-table-column>
@@ -59,11 +59,7 @@
             <el-table-column prop="rq_homeWinAward"
                              align="center"
                              label="让球主胜sp">
-            </el-table-column>
-            <el-table-column prop="showNum"
-                             align="center"
-                             label="停开售">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column label="截止日期"
                              align="center">
                 <template slot-scope="scope">

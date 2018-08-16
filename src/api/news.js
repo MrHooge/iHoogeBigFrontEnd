@@ -52,6 +52,14 @@ export function createNews(userinfos) {
     params:userinfos
   })
 }
+//获取类别或标签列表
+export function getTypes(userinfos) {
+  return request.infos({
+    url: '/information/getTypes',
+    method: 'get',
+    params:userinfos
+  })
+}
 //上传图片
 export function uploadImage(userinfos) {
   return request.infos({

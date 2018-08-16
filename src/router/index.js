@@ -133,15 +133,6 @@ export const constantRouterMap = [{
         }
       },
       {
-        path: 'lotteryDaily',
-        name: '竞彩日报',
-        component: () =>
-          import ('@/views/newsBulletin/lottery_daily'),
-        meta: {
-          title: '竞彩日报'
-        }
-      },
-      {
         path: 'websiteLettery',
         name: '站内信',
         component: () =>
@@ -1000,6 +991,15 @@ export const constantRouterMap = [{
         meta: { title: '寻票列表' }
       },
       
+      {
+        path: 'lotteryDaily',
+        name: '竞彩日报',
+        component: () =>
+          import ('@/views/operations/lottery_daily'),
+        meta: {
+          title: '竞彩日报'
+        }
+      },
       {
         path: 'ytick',
         name: '运营寻票操作',

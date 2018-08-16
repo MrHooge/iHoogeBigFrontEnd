@@ -10,7 +10,10 @@
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
+						   	<el-button type="primary"
+			           @click="cofirm" v-show="isShow">确 定</el-button>
 			</div>
+		
 			<div class="main">
 				<el-table :data="tableData"
 				          border
@@ -53,14 +56,19 @@
 				</el-table>
 			</div>
 		</div>
-		<div slot="footer"
-		     class="dialog-footer"
-		     v-show="isShow"
-		     style="padding:30px 0">
-			<el-button type="primary"
-			           style="width:100%"
-			           @click="cofirm">确 定</el-button>
-		</div>
+		<el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            style="margin-top:40px"
+            >
+            </el-pagination>
 		<!-- <div class="page"
 		     v-show="pageShow"
 		     style="padding:30px 0">

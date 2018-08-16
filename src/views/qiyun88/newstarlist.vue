@@ -52,16 +52,6 @@
             label="中奖率"
             align="center">
         </el-table-column>
-        <el-table-column
-            align="center"
-            label="操作">
-            <template slot-scope="scope">
-                <el-button
-                size="mini"
-                type="primary"
-                @click="handleEdit(scope.row)">编辑</el-button>
-            </template>
-        </el-table-column>
         </el-table>
    </div>
 </template>

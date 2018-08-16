@@ -1,7 +1,15 @@
  //覆盖一些element-ui样式
-
+body{
+  font-weight: 700
+}
+.cell {
+  overflow: hidden;
+}
+.el-breadcrumb__inner a{
+  color: #5e96d1
+}
  .el-breadcrumb__inner, .el-breadcrumb__inner a{
-  font-weight: 400!important;
+  font-weight: 700!important;
 }
 
  .el-upload {
@@ -9,7 +17,16 @@
      display: none !important;
    }
  }
-
+.el-menu-item span{
+  color: #ffffff
+}
+.el-submenu__title{
+  background-color:#02ABD8 !important;
+}
+.el-submenu__title span{
+  color: #ffffff;
+  font-weight: 700
+}
  .el-upload__input {
    display: none;
  }

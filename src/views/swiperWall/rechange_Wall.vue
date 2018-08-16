@@ -15,9 +15,9 @@
 			<el-table :data="tableData"
 			          border
 			          style="width: 100%">
-				<el-table-column prop="account"
+				<!-- <el-table-column prop="account"
 				                 label="会员账号">
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="username"
 				                 label="会员昵称">
 				</el-table-column>
@@ -29,9 +29,9 @@
 				<el-table-column prop="rechargeType"
 				                 label="类型">
 				</el-table-column>
-				<el-table-column prop="agentAccount"
+				<!-- <el-table-column prop="agentAccount"
 				                 label="代理账号">
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="agentnName"
 				                 label="代理昵称">
 				</el-table-column>

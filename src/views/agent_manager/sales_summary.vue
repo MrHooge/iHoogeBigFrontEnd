@@ -8,8 +8,8 @@
                 v-model="account"
                 style="width: 200px;margin-right:50px;"></el-input>
       <el-date-picker v-model="datetime"
-                      value-format="yyyy-MM-dd HH:mm:ss"
-                      type="datetimerange"
+                      value-format="yyyy-MM-dd"
+                      type="daterange"
                       range-separator="至"
                       start-placeholder="开始日期"
                       end-placeholder="结束日期">
@@ -133,6 +133,7 @@ export default {
     },
     handleSizeChange(val) {
       this.pages = val
+      this.getTableList()
     },
     handleCurrentChange(val) {
       this.pageCurr = val

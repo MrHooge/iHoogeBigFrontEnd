@@ -9,7 +9,11 @@
 						          placeholder="请输入查询的账号"
 						          @input="onInput"></el-input>
 					</div>
-
+					<!-- <div class="grid-content bg-purple">
+						<el-input v-model="id"
+						          placeholder="请输入查询的流水号"
+						          @input="onInput"></el-input>
+					</div> -->
 				</el-col>
 				<el-col :span="12">
 					<div class="block"
@@ -58,12 +62,12 @@
 					{{ scope.row.username }}
 				</template>
 			</el-table-column>
-			<el-table-column label="用户ID"
+			<!-- <el-table-column label="用户ID"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.member_id }}
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column label="金额"
 			                 align="center">
 				<template slot-scope="scope">
