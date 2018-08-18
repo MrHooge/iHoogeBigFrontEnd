@@ -1,5 +1,7 @@
 <template>
 	<div class="app-container">
+		<el-input v-model="account" placeholder="请输入昵称" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+		<el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%">
@@ -44,6 +46,19 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		<el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            style="margin-top:40px"
+            >
+            </el-pagination>
 		<!-- 弹窗事件 -->
 		<el-dialog title="提示"
 		           :visible.sync="dialogVisible"
@@ -71,6 +86,7 @@ export default {
 	components: { treeTable },
 	data() {
 		return {
+			account:'',
 			username:'',
 			tableData: [], //表格数据
 			sjname: '',//模糊搜索
@@ -78,6 +94,8 @@ export default {
 			tableData3: [], // 弹窗的表格数据
 			multipleSelection: [], //选中的数据
 			onePeople: {}, // 存选择的某一条数据
+			page:1,
+			pageSize:20
 		}
 	},
 	filters: {
@@ -102,10 +120,33 @@ export default {
 		this.getTable()
 	},
 	methods: {
+		inquire(){
+			if(this.account == ''){
+				this.$message('请输入昵称')
+			}else{
+				//account = this.account
+				this.getTable()
+			}
+		},
+			//翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getTable()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getTable()
+        },
 		getTable() {
-			findAllAgentAndQD().then(res => {  //  获取渠道列表
+			let obj = {
+				page:this.page,
+				pageSize:this.pageSize,
+				account:this.account
+			}
+			findAllAgentAndQD(obj).then(res => {  //  获取渠道列表
 				if(res.status == 200) {
-					this.tableData = res.data.data
+					this.tableData = res.data.data.list
 				}
 			})
 		},

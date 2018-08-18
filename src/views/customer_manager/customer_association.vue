@@ -51,6 +51,18 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
     </div>
 </template>
 
@@ -63,6 +75,8 @@ export default {
             account:'',
             datetime:'',
             end:'',
+            page:1,
+            pageSize:20,
             is_erview:'',
             start:'',
             tableData:[],
@@ -119,6 +133,16 @@ export default {
         this.gettabledata();
     },
     methods:{
+           //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.gettabledata()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.gettabledata()
+        },
         //搜索回调
         getone(){
             if(!this.account){
@@ -134,10 +158,12 @@ export default {
             let obj = {
                 agentName:this.account,
                 endDate:this.end,
-                startDate:this.start
+                startDate:this.start,
+                page:this.page,
+                pageSize:this.pageSize
             }
             findMemberAssociation(obj).then(res => {
-                this.tableData = res.data.data
+                this.tableData = res.data.data.list
 
             }).catch(error => {
                 Message.error(error)

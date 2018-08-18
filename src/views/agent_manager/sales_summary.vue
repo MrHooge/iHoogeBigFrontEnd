@@ -51,36 +51,36 @@
                        prop="payNum"
                        align="center">
       </el-table-column>
-      <el-table-column label="北单(金额)"
-                       prop="beidan"
+      <el-table-column label="自购(金额)"
+                       prop="selfBuy"
                        align="center">
-      </el-table-column>
-      <el-table-column label="佣金(金额)"
-                       prop="sumCommision"
-                       align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.sumCommision | sumCommision }}</span>
-        </template>
       </el-table-column>
       <el-table-column label="跟单(金额)"
                        prop="followBuy"
+                       align="center">
+      </el-table-column>
+            <el-table-column label="北单(金额)"
+                       prop="beidan"
                        align="center">
       </el-table-column>
       <el-table-column label="老足彩(金额)"
                        prop="laozucai"
                        align="center">
       </el-table-column>
-      <el-table-column label="扣减(金额)"
-                       prop="koujian"
-                       align="center">
-      </el-table-column>
-      <el-table-column label="自购(金额)"
-                       prop="selfBuy"
-                       align="center">
-      </el-table-column>
       <el-table-column label="数字(金额)"
                        prop="shuzi"
                        align="center">
+      </el-table-column>
+            <el-table-column label="扣减(金额)"
+                       prop="koujian"
+                       align="center">
+      </el-table-column>
+            <el-table-column label="佣金(金额)"
+                       prop="sumCommision"
+                       align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.sumCommision | sumCommision }}</span>
+        </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -127,6 +127,7 @@ export default {
   methods: {
     getone() {
       console.log(this.datetime)
+      this.agentName = this.account
       this.start_time = this.datetime[0]
       this.end_date = this.datetime[1]
       this.getTableList()

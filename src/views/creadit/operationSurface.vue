@@ -49,6 +49,19 @@
             </el-table-column>
         </el-table>
         <!-- 分页 -->
+         <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            style="margin-top:40px"
+            >
+            </el-pagination>
         	<!-- <div class="page">
 						<el-pagination background
 						               :page-size=10
@@ -72,12 +85,13 @@ export default {
       input1: "",
       total: 0, //分页数
       dialogVisible: false, //控制弹窗隐藏
-      input1: "",
-      tableData: [] //表格数据
+      tableData: [], //表格数据
+      page:1,
+      pageSize:20
     };
   },
   created() {
-    this.getData(1,'');
+    this.getData('');
   },
   // 按照会员名称进行筛选
   computed:{
@@ -88,9 +102,19 @@ export default {
     }
   },
   methods: {
+      //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getData('')
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getData('')
+        },
     search() {
       // console.log(this.input1);
-      this.getData(1, this.input1);
+      this.getData(this.input1);
     },
     // 点击授信额度弹窗
     layer() {
@@ -105,10 +129,10 @@ export default {
       }
     },
 		// 调接口数据
-		getData(curr,a){
+		getData(a){
 				let obj = {
-				page: curr,
-				pageSize: 10,
+				page: this.page,
+				pageSize: this.pageSize,
 				loginAccount: getCookies('name'),
 				account:a,
 			};

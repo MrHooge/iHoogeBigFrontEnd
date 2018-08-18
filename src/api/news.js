@@ -76,3 +76,19 @@ export function setNewsPicetur(userinfos) {
     params:userinfos
   })
 }
+//添加站内信
+export function addMail(userinfos) {
+  return request.infos({
+    url: '/information/addMail',
+    method: 'post',
+    params:userinfos
+  })
+}
+//获取站内信列表数据
+export function getMailList(userinfos) {
+  return request.infos({
+    url: '/information/getMailList',
+    method: 'get',
+    params:userinfos
+  })
+}

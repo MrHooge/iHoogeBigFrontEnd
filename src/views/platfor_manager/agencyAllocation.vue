@@ -3,7 +3,7 @@
 	<div class="backend app-container">
 		<div class="layerbody">
 			<div class="search">
-				<el-input v-model="sjname"
+				<el-input v-model="account"
 				          placeholder="请输入渠道账号查询名下代理"
 				          style="width:50%;"
 									@input="onInput"></el-input>
@@ -107,6 +107,7 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
+			account:'',
 			input: '', //  转移后
 			dialogVisible: false, //确认弹框
 			isShow: false,
@@ -116,6 +117,8 @@ export default {
 			multipleSelection: [], //选中的数据
 			number: [],
 			arr: [],
+			page:1,
+			pageSize:20
 		}
 	},
 	filters: {
@@ -129,29 +132,40 @@ export default {
 	},
 
 	methods: {
+		//翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getData()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getData()
+        },
 		onInput(){
 				if(this.sjname==''){
 					this.getData()
 				}
 		},
-		search() {
-			let obj = {
-				QDAccount: this.sjname
+		//查询
+		search(){
+			if(this.account == ''){
+				this.$message('请输入昵称')
+			}else{
+				//account = this.account
+				this.getData()
 			}
-			findAgentByQDAccount(obj).then(res => {
-				console.log(res)
-				if (res.data.error_code == 200) {
-					this.tableData = res.data.data
-				} else {
-					Message.success(res.data.message)
-				}
-			})
 		},
 		getData() {   //  获取 所有代理和渠道
-			findAllAgentAndQD().then(res => {
+			let obj = {
+				page:this.page,
+				pageSize:this.pageSize,
+				account:this.account
+			}
+			findAllAgentAndQD(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
-					this.tableData = res.data.data
+					this.tableData = res.data.data.list
 				} else {
 					Message.success(res.data.message)
 				}

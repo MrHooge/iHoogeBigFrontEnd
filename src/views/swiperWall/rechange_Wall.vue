@@ -26,9 +26,9 @@
 				                 label="金额">
 
 				</el-table-column>
-				<el-table-column prop="rechargeType"
+				<!-- <el-table-column prop="rechargeType"
 				                 label="类型">
-				</el-table-column>
+				</el-table-column> -->
 				<!-- <el-table-column prop="agentAccount"
 				                 label="代理账号">
 				</el-table-column> -->
@@ -37,6 +37,18 @@
 				</el-table-column>
 
 			</el-table>
+			 <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
 		</div>
 	</div>
 </template>
@@ -54,13 +66,25 @@ export default {
 		return {
 			activeName2: 'first',
 			tableData: [], //  存储充值消费数据
+			page:1,
+			pageSize:20
 		}
 	},
 	created() {
 		this.getTableData(1)
 	},
 	methods: {
-		handleClick(tab, event) {
+		//翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.handleClick(tab, event)
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.handleClick(tab, event)
+        },
+		handleClick() {
 			// console.log(tab)
 			if (this.activeName2 == 'first') {
 				this.getTableData(1)
@@ -74,7 +98,9 @@ export default {
 		getTableData(a) { //  获取充值消费数据
 			let obj = {
 				isConsumer: a,
-				loginAccount: getCookies('name')
+				loginAccount: getCookies('name'),
+				page:this.page,
+				pageSize:this.pageSize
 			}
 			findRechargeAndConsumerWall(obj).then(res => {
 				console.log(res)

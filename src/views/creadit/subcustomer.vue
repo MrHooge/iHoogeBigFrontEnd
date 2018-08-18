@@ -5,7 +5,29 @@
     <div class="search">
       <el-input v-model="input1"
                 placeholder="请输入会员名进行查询"
-                style="width:60%;"></el-input>
+                style="width:20%;"></el-input>
+      <el-input v-model="memberAccount"
+                placeholder="客户昵称"
+                style="width:20%;"></el-input>
+        开始时间：<el-date-picker
+            v-model="stime"
+            type="date"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
+            placeholder="请选择开始日期"
+            value-format="yyyy-MM-dd">
+            </el-date-picker>
+            
+            结束时间：<el-date-picker
+            v-model="etime"
+            align="right"
+            value-format="yyyy-MM-dd"
+            type="date"
+            style="margin-left:10px;
+            width:200px
+            margin-bottom:40px;"
+            placeholder="请选择结束日期"
+            >
+            </el-date-picker>
       <el-button type="primary"
                  icon="el-icon-search"
                  @click="search">搜索</el-button>
@@ -17,14 +39,19 @@
     <el-table :data="memberfilter"
               border
               style="width: 100%;">
-      <el-table-column prop="account"
-                       label="会员名"
-                       align="center">
-      </el-table-column>
       <el-table-column prop="username"
                        label="会员昵称"
                        align="center">
       </el-table-column>
+             <el-table-column prop="createTime"
+                       align="center"
+                       label="时间">
+      </el-table-column>
+      <el-table-column prop="account"
+                       label="被加款人昵称"
+                       align="center">
+      </el-table-column>
+
       <el-table-column prop="amount"
                        label="金额"
                        align="center">
@@ -50,26 +77,25 @@
 
       </el-table-column>
 
-      <el-table-column prop="createTime"
-                       align="center"
-                       label="时间">
-      </el-table-column>
 
-      <el-table-column align="center"
+      <!-- <el-table-column align="center"
                        prop="agentAccount"
                        label="操作人">
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <!-- 分页 -->
-    <div class="page">
-            <el-pagination
-                background
-                :page-size='pages'
-                layout="prev, pager, next"
-                @current-change="currentPage"
-                :total="total">
+    <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
             </el-pagination>
-        </div>
   </div>
 </template>
 
@@ -87,12 +113,16 @@ export default {
       total: 0, //分页数
       pages: 20,
       dialogVisible: false, //控制弹窗隐藏
-      input1: "",
-      tableData: [] //表格数据
-    };
+      page:1,
+      pageSize:20,
+      memberAccount:'',
+      tableData: [], //表格数据
+      stime:'',
+      etime:'' 
+ };
   },
   created() {
-    this.getData(1);
+    this.getData('');
   },
   // 按照会员名称进行筛选
   computed: {
@@ -103,9 +133,19 @@ export default {
     }
   },
   methods: {
+     //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getData()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getData()
+        },
     search() {
       // console.log(this.input1);
-      this.getData(1,this.input1);
+      this.getData(this.input1);
     },
     // 点击授信额度弹窗
     layer() {
@@ -113,11 +153,14 @@ export default {
     },
 
     // 调接口数据、
-    getData(curr,name) {
+    getData(name) {
       let obj = {
-        page:curr,
-        pageSize:20,
+        page:this.page,
+        pageSize:this.pageSize,
         account: name,
+        memberAccount:this.memberAccount,
+        start_time:this.stime,
+        end_time:this.etime,
         loginAccount: getCookies('name')
       };
       getAgentChargeLine(obj).then(res => {

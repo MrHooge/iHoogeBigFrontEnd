@@ -24,7 +24,6 @@
             </el-table-column>
 
             <el-table-column
-                prop="create_time"
                 align="center"
                 label="创建时间">
                   <template slot-scope="scope">
@@ -60,6 +59,18 @@
                 </template>
             </el-table-column>
         </el-table>
+         <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
     </div>
 </template>
 
@@ -77,6 +88,8 @@ export default {
             tableData:[],
             agentName:'',
             memeberName:'',
+            page:1,
+            pageSize:10,
             moveAgent:'',
             pickerOptions2: {
             shortcuts: [
@@ -124,6 +137,16 @@ export default {
         this.gettabledata();
     },
     methods:{
+         //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.gettabledata()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.gettabledata()
+        },
         //搜索回调
         getone(){
             if(!this.account){
@@ -139,12 +162,14 @@ export default {
             let obj = {
                 agentName:this.account,
                 endDate:this.end,
-                startDate:this.start
+                startDate:this.start,
+                 page:this.page,
+                pageSize:this.pageSize
             }
             findMemberMove(obj).then(res => {
                 console.log(123)
                 console.log(res.data)
-                this.tableData = res.data.data
+                this.tableData = res.data.data.list
 
             }).catch(error => {
                 Message.error(error)

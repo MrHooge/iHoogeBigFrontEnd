@@ -180,10 +180,11 @@ export function setOrUpdateQDtoUser(is_del, member_account, user_account, ) {
   })
 }
 // 获取代理和渠道列表
-export function findAllAgentAndQD() {
+export function findAllAgentAndQD(userInfos) {
   return request.member({
-    url: '/user/findAllAgentAndQD',
+    url: 'http://192.168.7.40:8081/user/findAllAgentAndQD',
     method: 'get',
+    params:userInfos
   })
 }
 // 通过渠道账号查询名下代理
@@ -280,13 +281,11 @@ export function addBanner(params) {
 }
 // 开户轮播墙
 
-export function openAccountWall(loginAccount) {
+export function openAccountWall(userInfos) {
   return request.member({
     url: '/userCount/findAccountWall',
     method: 'get',
-    params: {
-      loginAccount
-    }
+    params:userInfos
   })
 }
 // 激活轮播墙

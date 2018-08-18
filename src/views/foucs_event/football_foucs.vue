@@ -10,14 +10,22 @@
                              align="center"
                              label="赛事名称">
             </el-table-column>
-            <el-table-column prop="concede"
+             <el-table-column prop="matchIds"
+                             align="center"
+                             label="场次号">
+            </el-table-column>
+            <!-- <el-table-column prop="concede"
                              align="center"
                              label="让球">
-            </el-table-column>
+            </el-table-column> -->
             <!-- <el-table-column prop="drawAward"
                              align="center"
                              label="平sp">
             </el-table-column> -->
+             <el-table-column prop="homeTeam"
+                             align="center"
+                             label="主队">
+            </el-table-column>
             <el-table-column prop="guestTeam"
                              align="center"
                              label="客队">
@@ -26,22 +34,14 @@
                              align="center"
                              label="客胜ps">
             </el-table-column> -->
-            <el-table-column prop="homeTeam"
-                             align="center"
-                             label="主队">
-            </el-table-column>
             <!-- <el-table-column prop="homeWinAward"
                              align="center"
                              label="主胜sp">
             </el-table-column> -->
-            <el-table-column prop="matchId"
+            <!-- <el-table-column prop="matchId"
                              align="center"
                              label="id">
-            </el-table-column>
-            <el-table-column prop="matchIds"
-                             align="center"
-                             label="场次号">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column align="center"
                              label="比赛时间">
                 <template slot-scope="scope">

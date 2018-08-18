@@ -444,6 +444,15 @@ export const constantRouterMap = [{
         }
       },
       {
+        path: 'giftcardSearch',
+        name: '彩金卡查询',
+        component: () =>
+          import ('@/views/activity_manager/giftcard_search'),
+        meta: {
+          title: '彩金卡查询'
+        }
+      },
+      {
         path: 'activityGiftcard',
         name: '充值送礼金卡',
         component: () =>

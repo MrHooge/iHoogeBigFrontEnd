@@ -7,7 +7,13 @@
 					<div class="grid-content bg-purple">
 						<el-input v-model="name"
 						          placeholder="请输入查询的账号"
-						          @input="onInput"></el-input>
+						          @input="onInput"
+								  style="width:40%"></el-input>
+								  <el-input v-model="id"
+						          placeholder="请输入查询的流水号"
+						          @input="onInput"
+								  style="width:50%"></el-input>
+
 					</div>
 					<!-- <div class="grid-content bg-purple">
 						<el-input v-model="id"
@@ -36,8 +42,8 @@
 						</el-date-picker>
 					</div>
 				</el-col>
-
 				<el-col :span="2">
+					
 					<div class="grid-content bg-purple"
 					     @click="search">
 						<el-button type="primary"

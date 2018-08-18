@@ -94,16 +94,41 @@
                      align="center">
                      
                </el-table-column>
+                <el-table-column
+                     label="昵称"
+                     prop="username"
+                     align="center">
+               </el-table-column> 
+                  <el-table-column
+                     label="真实姓名"
+                     prop="name"
+                     align="center">
+               </el-table-column>
+                <el-table-column
+                     label="注册时间"
+                     prop="registerDateTime"
+                     align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.registerDateTime | time}}
+                     </template>
+               </el-table-column>    
+                 <el-table-column
+                     label="最后登陆时间"
+                     align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.lastLoginDateTime | time}}
+                </template>
+               </el-table-column>
                <el-table-column
                      label="名片"
                      prop="card"
                      align="center">
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="证件号"
                      prop="certNo"
                      align="center"> 
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
                      label="证件类型"
                      align="center">
@@ -128,23 +153,11 @@
                          {{scope.row.isWhitelist | white}}
                          </template>
                </el-table-column>
-               <el-table-column
-                     label="最后登陆时间"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.lastLoginDateTime | time}}
-                </template>
-               </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="手机"
                      prop="mobile"
                      align="center">
-               </el-table-column>
-               <el-table-column
-                     label="真实姓名"
-                     prop="name"
-                     align="center">
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
                      label="头像·"
                      prop="picture"
@@ -153,14 +166,6 @@
                          <img :src="scope.row.picture" >
                      </template>
                </el-table-column>
-               <el-table-column
-                     label="注册时间"
-                     prop="registerDateTime"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.registerDateTime | time}}
-                     </template>
-               </el-table-column>    
                <el-table-column
                      label="状态"
                      align="center">
@@ -175,11 +180,6 @@
                          {{scope.row.type |status }}
                          </template>
                </el-table-column>  
-               <el-table-column
-                     label="昵称"
-                     prop="username"
-                     align="center">
-               </el-table-column> 
                <el-table-column
                      label="操作"
                      align="center">

@@ -4,9 +4,13 @@
     :data="tableData"
     border
     style="width: 100%">
-    <el-table-column
+    <!-- <el-table-column
       prop="account"
       label="代理账号">
+    </el-table-column> -->
+		    <el-table-column
+      prop="username"
+      label="代理名字">
     </el-table-column>
     <el-table-column
       prop="countNum"
@@ -16,10 +20,7 @@
       prop="grouping"
       label="分组">
     </el-table-column>
-    <el-table-column
-      prop="username"
-      label="代理名字">
-    </el-table-column>
+
   </el-table>
 	</div>
 </template>
