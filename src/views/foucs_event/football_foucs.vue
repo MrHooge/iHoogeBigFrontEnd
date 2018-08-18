@@ -15,24 +15,9 @@
                 label="赛事名称">
             </el-table-column>
             <el-table-column
-                prop="concede"
+                prop="matchIds"
                 align="center"
-                label="让球">
-            </el-table-column>
-            <el-table-column
-                prop="drawAward"
-                align="center"
-                label="平sp">
-            </el-table-column>
-            <el-table-column
-                prop="guestTeam"
-                align="center"
-                label="客队">
-            </el-table-column>
-            <el-table-column
-                prop="guestWinAward"
-                align="center"
-                label="客胜ps">
+                label="赛事场次">
             </el-table-column>
             <el-table-column
                 prop="homeTeam"
@@ -40,52 +25,32 @@
                 label="主队">
             </el-table-column>
             <el-table-column
-                prop="homeWinAward"
+                prop="guestTeam"
                 align="center"
-                label="主胜sp">
-            </el-table-column>
-            <el-table-column
-                prop="matchId"
-                align="center"
-                label="id">
-            </el-table-column>
-            <el-table-column
-                prop="matchIds"
-                align="center"
-                label="场次号">
+                label="客队">
             </el-table-column>
            <el-table-column
-                prop="matchTime"
                 align="center"
                 label="比赛时间">
-            </el-table-column>
-            <el-table-column
-                prop="rq_drawAward"
-                align="center"
-                label="让球平sp">
-            </el-table-column>
-            <el-table-column
-                prop="rq_guestWinAward"
-                align="center"
-                label="让球客胜sp">
-            </el-table-column>
-            <el-table-column
-                prop="rq_homeWinAward"
-                align="center"
-                label="让球主胜sp">
+                 <template slot-scope="scope">
+                    {{scope.row.matchTime.time|times}}
+                </template>
             </el-table-column>
             <el-table-column
                 prop="showNum"
                 align="center"
                 label="停开售">
+                 <template slot-scope="scope">
+                    {{scope.row.showNum | sells}}
+                </template>
             </el-table-column>
             <el-table-column
-                prop="MatchDealTime"
                 label="截止日期"
                 align="center">
-               
+                 <template slot-scope="scope">
+                    {{scope.row.MatchDealTime.time|times}}
+                </template>
             </el-table-column>
-
             <el-table-column
                 align="center"
                 label="操作">
@@ -101,7 +66,6 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
@@ -121,13 +85,37 @@ export default {
         return {
             tableData: [],
             page:1,
-            pageSize:10
+            pageSize:50,
+            totalList: 0
         }
     },
     filters: {
-        // times(a) {
-        //     return settime(a)
-        // }
+        times(a) {
+             let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        },
+        sells(arr){
+            let temp = []
+            arr.forEach((element, index) => {
+                if(element){
+                    temp.push('开')
+                } else {
+                    temp.push('停')
+                }
+            });
+            return temp.join(',')
+        }
     },
     created() {
         this.getTable()
@@ -144,12 +132,13 @@ export default {
             findFootballMixureInfo(obj)
             .then(res => {
                 console.log(res.data.data.list)
-                this.tableData = res.data.data.list
+                this.tableData = res.data.data
+                this.totalList = res.data.tota
             })
             
         },
         handleEdit(a) {
-            let id = a.id;     
+            let id = a.matchId;     
             updateFbFocusMatchStatus(id)
             .then(res => {
                 if(res.data.error_code == 200){
