@@ -32,16 +32,18 @@
             >
             </el-table-column>
             <el-table-column
-                prop="matchTime"
                 label="开赛日期"
                 align="center">
-                
+                 <template slot-scope="scope">
+					{{scope.row.matchTime.time | setimes}}
+				</template>
             </el-table-column>
             <el-table-column
-                prop="matchDealTime"
                 label="截止日期"
                 align="center">
-               
+                <template slot-scope="scope">
+					{{scope.row.matchDealTime.time | setimes}}
+				</template>
             </el-table-column>
 
             <el-table-column
@@ -59,6 +61,7 @@
 </template>
 
 <script>
+import setimes from '@/utils/time.js'
 import api from '@/api/Api'
 import { updateBbFocusMatchStatus,getBasketBallMatch } from '@/api/events'
 // import settime from './index.js'
@@ -69,9 +72,9 @@ export default {
         }
     },
     filters: {
-        // times(a) {
-        //     return settime(a)
-        // }
+         setimes(a) {
+            return setimes(a)
+        },
     },
     created() {
         this.getTable()

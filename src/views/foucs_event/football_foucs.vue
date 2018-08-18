@@ -55,10 +55,9 @@
                 align="center"
                 label="操作">
                 <template slot-scope="scope">
-                    <el-button
-                    size="mini"
-                    type="primary"
-                    @click="handleEdit(scope.row)">取消篮球焦点赛事</el-button>
+                    <el-button size="mini"
+                               type="primary"
+                               @click="handleEdit(scope.row)">取消篮球焦点赛事</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -77,8 +76,9 @@
 </template>
 
 <script>
+import setimes from '@/utils/time.js'
 import api from '@/api/Api'
-import { findFootballMixureInfo,updateFbFocusMatchStatus } from '@/api/events'
+import { findFootballMixureInfo, updateFbFocusMatchStatus } from '@/api/events'
 // import settime from './index.js'
 export default {
     data() {
@@ -126,8 +126,8 @@ export default {
             let obj = {
                 isFocus: 1,
                 type: 2,
-                page:this.page,
-                pageSize:this.pageSize
+                page: this.page,
+                pageSize: this.pageSize
             }
             findFootballMixureInfo(obj)
             .then(res => {
@@ -140,20 +140,20 @@ export default {
         handleEdit(a) {
             let id = a.matchId;     
             updateFbFocusMatchStatus(id)
-            .then(res => {
-                if(res.data.error_code == 200){
-                    this.$message(res.data.message)
-                }else{
-                    this.$message(res.data.message)
-                }
-            })
+                .then(res => {
+                    if (res.data.error_code == 200) {
+                        this.$message(res.data.message)
+                    } else {
+                        this.$message(res.data.message)
+                    }
+                })
         },
-        handleCurrentChange(num){
+        handleCurrentChange(num) {
             this.page = num;
             this.getTable()
         },
         //改变页面大小
-        handleSizeChange(num){
+        handleSizeChange(num) {
             this.pageSize = num;
             this.getTable()
         },
@@ -162,13 +162,13 @@ export default {
 </script>
 
 <style scoped>
-.effectiveagent{
-    padding: 10px 25px
+.effectiveagent {
+  padding: 10px 25px;
 }
 div.page {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 div.bens {
-    padding: 0 0 20px 0;
+  padding: 0 0 20px 0;
 }
 </style>

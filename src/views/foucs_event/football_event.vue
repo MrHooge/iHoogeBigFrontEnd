@@ -1,36 +1,44 @@
 <template>
-   <div class="effectiveagent">
-      <!-- 1 2代理及底下会员黑名单 3代理白名单 4代理及底下会员白名单 -->
-      <div class="bens">
-         <el-button type="primary" @click="setingGames">设置足球焦点赛事</el-button>
-         <el-button type="danger" @click="editTime">修改赛事时间</el-button>
-         <el-button type="warning" @click="openclose()">开关投注</el-button>
-      </div>
-      <!-- 时间弹窗 -->
-        <el-dialog
-            title="修改时间"
-            :visible.sync="dialogVisible"
-            width="500px"
-            >
+    <div class="effectiveagent">
+        <!-- 1 2代理及底下会员黑名单 3代理白名单 4代理及底下会员白名单 -->
+        <div class="bens">
+            <el-button type="primary"
+                       @click="setingGames">设置足球焦点赛事</el-button>
+            <el-button type="danger"
+                       @click="editTime">修改赛事时间</el-button>
+            <el-button type="warning"
+                       @click="openclose()">开关投注</el-button>
+        </div>
+        <!-- 时间弹窗 -->
+        <el-dialog title="修改时间"
+                   :visible.sync="dialogVisible"
+                   width="500px">
             <el-row>
-                <el-col :span="4"><div class="grid-content bg-purple">
-                    分钟数
-                </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="val" placeholder="分钟" type="number" min="0"></el-input>
-                </div></el-col>
+                <el-col :span="4">
+                    <div class="grid-content bg-purple">
+                        分钟数
+                    </div>
+                </el-col>
+                <el-col :span="12">
+                    <div class="grid-content bg-purple-light">
+                        <el-input v-model="val"
+                                  placeholder="分钟"
+                                  type="number"
+                                  min="0"></el-input>
+                    </div>
+                </el-col>
             </el-row>
-            <span slot="footer" class="dialog-footer">
+            <span slot="footer"
+                  class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="sure">确 定</el-button>
+                <el-button type="primary"
+                           @click="sure">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 开关投注弹窗 -->
-        <el-dialog
-            title="投注开关设置"
-            :visible.sync="dialogTou"
-            width="500px"
-            >
+        <el-dialog title="投注开关设置"
+                   :visible.sync="dialogTou"
+                   width="500px">
             <el-row>
                 <el-col :span="4">
                     <div class="grid-content bg-purple">
@@ -39,10 +47,9 @@
                 </el-col>
                 <el-col :span="12">
                     <div class="grid-content bg-purple-light">
-                        <el-switch
-                            v-model="isopenSwitch"
-                            active-text="开售"
-                            inactive-text="停售">
+                        <el-switch v-model="isopenSwitch"
+                                   active-text="开售"
+                                   inactive-text="停售">
                         </el-switch>
                         <span style="color:#f00;">
                             (注:默认为开)
@@ -54,38 +61,36 @@
             <el-row>
                 <el-col :span="4">
                     <div class="grid-content bg-purple">
-                    时间
+                        时间
                     </div>
                 </el-col>
                 <el-col :span="12">
                     <div class="grid-content bg-purple-light">
-                        <el-date-picker
-                            v-model="time"
-                            type="datetime"
-                            value-format='yyyy-MM-dd HH:mm:ss'
-                            placeholder="请选择日期时间">
+                        <el-date-picker v-model="time"
+                                        type="datetime"
+                                        value-format='yyyy-MM-dd HH:mm:ss'
+                                        placeholder="请选择日期时间">
                         </el-date-picker>
                     </div>
                 </el-col>
             </el-row>
-            <span slot="footer" class="dialog-footer">
+            <span slot="footer"
+                  class="dialog-footer">
                 <el-button @click="dialogTou = false">取 消</el-button>
-                <el-button type="primary" @click="btnsure">确 定</el-button>
+                <el-button type="primary"
+                           @click="btnsure">确 定</el-button>
             </span>
         </el-dialog>
-          <el-table
-            :data="tableData"
-            border
-            style="width: 100%"
-            @selection-change="handleSelectionChange">
-            <el-table-column
-               type="selection"
-               width="55">
+        <el-table :data="tableData"
+                  border
+                  style="width: 100%"
+                  @selection-change="handleSelectionChange">
+            <el-table-column type="selection"
+                             width="55">
             </el-table-column>
-            <el-table-column
-                prop="GAME_SHORT_NAME"
-                align="center"
-                label="赛事名称">
+            <el-table-column prop="GAME_SHORT_NAME"
+                             align="center"
+                             label="赛事名称">
             </el-table-column>
             <el-table-column
                 prop="matchIds"
@@ -111,14 +116,14 @@
                 label="开赛日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.matchTime.time|type}}
+                    {{scope.row.matchTime.time|times}}
                 </template>
             </el-table-column>
             <el-table-column
                 label="截止日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.MatchDealTime.time|type}}
+                    {{scope.row.MatchDealTime.time|times}}
                 </template>
             </el-table-column>
          </el-table>
@@ -137,7 +142,8 @@
 </template>
 
 <script>
-import { findFootballMixureInfo,setFbFocusMatch,updateMatchDealTime,updateDGByStatus } from '@/api/events'
+import setimes from '@/utils/time.js'
+import { findFootballMixureInfo, setFbFocusMatch, updateMatchDealTime, updateDGByStatus } from '@/api/events'
 export default {
     data() {
         return {
@@ -154,8 +160,8 @@ export default {
         }
     },
     filters: {
-        type(a){
-            let date = new Date(a);
+        times(a) {
+             let date = new Date(a);
             let y = date.getFullYear();
             let MM = date.getMonth() + 1;
             MM = MM < 10 ? ('0' + MM) : MM;
@@ -168,7 +174,6 @@ export default {
             let s = date.getSeconds();
             s = s < 10 ? ('0' + s) : s;
             return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
         },
     },
     created() {
@@ -180,8 +185,8 @@ export default {
             let obj = {
                 isFocus: 0,
                 type: 2,
-                page:this.page,
-                pageSize:this.pageSize
+                // page: this.page,
+                // pageSize: this.pageSize
             }
             findFootballMixureInfo(obj)
             .then(res => {
@@ -194,19 +199,19 @@ export default {
             this.dialogTou = true
         },
         // 弹窗的确定回调
-        btnsure(){
-            if(!this.time){
+        btnsure() {
+            if (!this.time) {
                 this.$message('时间不能为空!')
-            }else{
+            } else {
                 let status; //定义变量存状态值
-                if(this.isopenSwitch){
+                if (this.isopenSwitch) {
                     status = 1
-                }else{
+                } else {
                     status = 0
                 }
                 let obj = {
                     status:status,
-                    time:this.time.replace(/-/g, '').replace(/:/g, '').replace(/\s/g, '')
+                    time:this.time
                 }
                 console.log(obj)
                 updateDGByStatus(obj)
@@ -221,7 +226,7 @@ export default {
                 })
 
             }
-            
+
         },
         // 编辑赛事时间
         editTime() {
@@ -273,12 +278,12 @@ export default {
             this.selections = selection
         },
         //分页
-        handleCurrentChange(num){
+        handleCurrentChange(num) {
             this.page = num;
             this.getTable()
         },
         //改变页面大小
-        handleSizeChange(num){
+        handleSizeChange(num) {
             this.pageSize = num;
             this.getTable()
         },
@@ -287,13 +292,13 @@ export default {
 </script>
 
 <style scoped>
-.effectiveagent{
-    padding: 10px 20px
+.effectiveagent {
+  padding: 10px 20px;
 }
 div.page {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 div.bens {
-    padding: 0 0 20px 0;
+  padding: 0 0 20px 0;
 }
 </style>
