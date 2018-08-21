@@ -475,6 +475,37 @@ export const constantRouterMap = [{
   },
 
 
+
+   //冠亚军投注
+   {
+    path: '/chanpiom',
+    component: Layout,
+    redirect: '/chanpiom/saishi',
+    name: '冠亚军投注',
+    meta: {
+      title: '冠亚军投注'
+    },
+    children: [{
+        path: 'saishi',
+        name: '冠军赛事列表',
+        component: () =>
+          import ('@/views/chanpiom/saishi'),
+        meta: {
+          title: '冠军赛事列表'
+        }
+      },
+      {
+        path: 'guanyajun',
+        name: '冠亚军赛事列表',
+        component: () =>
+          import ('@/views/chanpiom/guanyajun'),
+        meta: {
+          title: '冠亚军赛事列表'
+        }
+      },
+    ]
+  },
+
   // 代理管理
   {
     path: '/agentManager',

@@ -83,11 +83,11 @@
                align="center"
                label="编号">
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="id"
                      prop="id"
                      align="center">
-               </el-table-column>  
+               </el-table-column>   -->
                <el-table-column
                      label="账号"
                      prop="account"
@@ -136,11 +136,11 @@
                     {{scope.row.certType | type}}
                 </template>
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="邮箱"
                      prop="email"
                      align="center">
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
                      label="是否充值"
                      prop="isCharge"
@@ -158,14 +158,14 @@
                      prop="mobile"
                      align="center">
                </el-table-column> -->
-               <el-table-column
+               <!-- <el-table-column
                      label="头像·"
                      prop="picture"
                      align="center">
                      <template slot-scope="scope">
                          <img :src="scope.row.picture" >
                      </template>
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
                      label="状态"
                      align="center">

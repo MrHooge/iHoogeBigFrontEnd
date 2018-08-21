@@ -56,14 +56,6 @@
                 label="		金额">
             </el-table-column>
             <el-table-column
-                align="center"
-                label="	发单时间">
-                <template slot-scope="scope">
-                    {{scope.row.createTime | time}}
-                </template>
-            </el-table-column>
-
-            <el-table-column
                 prop="lotteryType"
                 align="center"
                 label="	彩种">
@@ -78,13 +70,13 @@
                 align="center"
                 label="方案状态">
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
                 align="center"
                 label="发单宣言">
                 <template slot-scope="scope">
                      {{scope.row.planDesc |type}}
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
                 prop="playType"
                 align="center"
@@ -101,6 +93,14 @@
                 label="	彩期">
                
             </el-table-column>
+            <el-table-column
+                align="center"
+                label="	发单时间">
+                <template slot-scope="scope">
+                    {{scope.row.createTime | time}}
+                </template>
+            </el-table-column>
+
             <el-table-column
                 prop="winStatus"
                 align="center"

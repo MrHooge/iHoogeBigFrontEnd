@@ -152,7 +152,7 @@ export default {
       }
       findSaleInfo(paramsObj)
         .then(res => {
-          this.tableData = res.data.data.list
+          this.tableData = res.data.data
           this.total = res.data.data.total
         })
         .catch(error => {

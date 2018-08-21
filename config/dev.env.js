@@ -9,7 +9,7 @@ const QYAPI = {
   infos: "'https://infos.api.qiyun88.cn'",
   //infos:"'http://192.168.6.61:8081'",
    pay: "'https://pay.api.qiyun88.cn'",
-  //  pay: "'http://192.168.7.40:8087'",
+    //pay: "'http://192.168.7.40:8087'",
   ticket: "'https://ticket.api.qiyun88.cn'",
   lottery: "'https://lottery.api.qiyun88.cn'"
   // lottery: "'http://47.97.192.124:10090'"

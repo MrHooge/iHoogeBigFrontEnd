@@ -1,6 +1,6 @@
 <template>
   <div class="menu-wrapper">
-        <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
+        <el-menu class="sidebar-el-menu" :default-openeds="onRoutes" :collapse="collapse" background-color="#324157"
                 text-color="#bfcbd9" active-text-color="#20a0ff">
     <template v-for="item in routes">
       <el-submenu :index="item.modelNme" :key="item.modelNme">

@@ -5,6 +5,12 @@ body{
 .cell {
   overflow: hidden;
 }
+.el-dialog--center{
+  height: 60%;
+}
+.el-dialog__body{
+  height: 60%;
+}
 .el-breadcrumb__inner a{
   color: #5e96d1
 }
