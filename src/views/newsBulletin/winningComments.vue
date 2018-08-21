@@ -9,6 +9,15 @@
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
+                <el-select v-model="statustype"
+                        placeholder="筛选"
+                        @change="handlestatus">
+                    <el-option v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
 			</div>
             <div slot="footer"
                 class="dialog-footer"
@@ -51,8 +60,6 @@
                     <el-table-column label="审核状态"
 					                 prop="status"
 					                 align="center"
-                                     :filters="[{ text: '正在审核', value: '正在审核' }, { text: '审核通过', value: '审核通过' },{ text: '审核不通过', value: '审核不通过' }]"
-                                     :filter-method="filterTag"
                                      filter-placement="bottom-end">
                                      <template slot-scope="scope">
                                         <el-tag
@@ -111,6 +118,22 @@ export default {
             status: "",  //审核的状态
             colorType: "", //颜色类型
             ids:'',   //存储被选中的id
+
+            statustype: '', //状态类型
+            options: [
+				{
+					value: '0',
+					label: '正在审核'
+				},
+				{
+					value: '1',
+					label: '审核通过'
+                },
+                {
+					value: '2',
+					label: '审核不通过'
+				}
+			],
 		}
 	},
 	created() {
@@ -137,26 +160,10 @@ export default {
 		search() {
 			this.getData(1, this.sjname)
         },
-        filterTag(value, row) {
-            if(row.status === 0){
-                return row.status = '正在审核'
-                // this.getData(1, this.sjname, 0)
-            }
-            else if(row.status === 1){
-                return row.status = '审核通过'
-            }
-            else if(row.status === 2){
-                return row.status = '审核不通过'
-            }
-
-            return row.status === value;
+        //状态筛选的回调
+        handlestatus(){
+            this.getData(1, this.sjname,this.statustype)
         },
-        // changeColor(row){
-        //     if(row.status === 0){
-        //         this.colorType = 'success';
-        //     }
-            
-        // },
         //获取评论列表
 		getData(curr, a,b) {
 			let obj = {
@@ -235,8 +242,8 @@ export default {
     background: #e25550;
     color: #fff;
 }
-/* .backend >>> .el-tag{
+.backend >>> .el-tag{
     background: #31b0d5;
     color: #fff;
-} */
+}
 </style>
