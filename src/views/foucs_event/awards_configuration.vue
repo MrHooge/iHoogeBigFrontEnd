@@ -229,7 +229,7 @@ export default {
          checkedPlays: [], // 选中的玩法
          playgames: cityOptions,
          page:1,
-         pageSize:10
+         pageSize:20
       }
    },
    created() {

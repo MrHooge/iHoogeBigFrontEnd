@@ -82,6 +82,10 @@
           <span>{{ scope.row.sumCommision | sumCommision }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="渠道"
+                       prop="qdName"
+                       align="center">
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <el-pagination style="margin:20px auto"
@@ -100,13 +104,14 @@
 <script>
 import { Message, MessageBox } from 'element-ui'
 import { findAgentInfoByAccount,  exportExcle, findSaleInfo } from '@/api/sys_user'
+import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
   data() {
     return {
       tableData: [],
       account: '', // 用户名
       agentName: '',
-      loginAccount: localStorage.getItem('adminUser'),
+      loginAccount: getCookies('name'),
       pageCurr: 1,
       pages: 10,
       start_time: '',
@@ -126,8 +131,6 @@ export default {
   },
   methods: {
     getone() {
-      console.log(this.datetime)
-      this.agentName = this.account
       this.start_time = this.datetime[0]
       this.end_date = this.datetime[1]
       this.getTableList()

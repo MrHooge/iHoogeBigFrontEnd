@@ -111,7 +111,7 @@ export default {
       },
       formLabelWidth: '120px',
       page: 1,
-      pageSize: 10,
+      pageSize: 20,
       totalPages: 0,
       totalList: 0,
       allRoles: []

@@ -350,7 +350,7 @@ export default {
             startTerm:''||null,
             endTerm:''||null,
             page:1,
-            pagesize:10,
+            pagesize:20,
             type:''||null
         }
     },

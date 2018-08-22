@@ -145,7 +145,7 @@ export default {
 		getData(currpage) {   //  获取线下支付审核列表
 			let obj = {
 				page: currpage,
-				pageSize: 10,
+				pageSize: 20,
 			};
 			getPayApplyList(obj).then(res => {
 				console.log(res)

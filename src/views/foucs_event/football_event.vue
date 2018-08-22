@@ -92,42 +92,53 @@
                              align="center"
                              label="赛事名称">
             </el-table-column>
-            <el-table-column prop="matchId"
-                             align="center"
-                             label="场次号">
+            <el-table-column
+                prop="matchIds"
+                align="center"
+                label="场次">
             </el-table-column>
-            <el-table-column prop="guestTeam"
-                             label="客队名称"
-                             align="center">
+            <el-table-column
+                prop="lineid"
+                align="center"
+                label="场次ID">
             </el-table-column>
-            <el-table-column prop="homeTeam"
-                             align="center"
-                             label="主队名称">
+            <el-table-column
+            prop="homeTeam"
+            align="center"
+            label="主队名称">
             </el-table-column>
-            <el-table-column label="开赛日期"
-                             align="center">
-                <template slot-scope="scope">
-                    {{scope.row.matchTime.time | setimes}}
+            <el-table-column
+            prop="guestTeam"
+            label="客队名称"
+            align="center">
+            </el-table-column>
+            <el-table-column
+                label="开赛日期"
+                align="center">
+                 <template slot-scope="scope">
+                    {{scope.row.matchTime.time|times}}
                 </template>
             </el-table-column>
-            <el-table-column label="截止日期"
-                             align="center">
-                <template slot-scope="scope">
-                    {{scope.row.matchDealTime.time | setimes}}
+            <el-table-column
+                label="截止日期"
+                align="center">
+                 <template slot-scope="scope">
+                    {{scope.row.MatchDealTime.time|times}}
                 </template>
             </el-table-column>
-        </el-table>
-        <!-- <el-pagination background
-                       @size-change="handleSizeChange"
-                       @current-change="handleCurrentChange"
-                       :page-count="totalPages"
-                       :current-page="page"
-                       :page-sizes="[10, 20, 30, 40, 50]"
-                       :page-size="pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="totalList">
-        </el-pagination> -->
-    </div>
+         </el-table>
+         <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            >
+            </el-pagination>
+   </div>
 </template>
 
 <script>
@@ -141,15 +152,28 @@ export default {
             dialogVisible: false,
             dialogTou: false,
             val: '', // 分钟数
-            isopenSwitch: true,
-            time: '',
-            page: 1,
-            pageSize: 10,
+            isopenSwitch:true,
+            time:'',
+            page:1,
+            pageSize:20,
+            total: 0
         }
     },
     filters: {
-        setimes(a) {
-            return setimes(a)
+        times(a) {
+             let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
         },
     },
     created() {
@@ -165,10 +189,10 @@ export default {
                 // pageSize: this.pageSize
             }
             findFootballMixureInfo(obj)
-                .then(res => {
-                    this.tableData = res.data.data.list
-
-                })
+            .then(res => {
+                this.tableData = res.data.data
+                this.total = res.data.total
+            })
         },
         // 点击进行弹窗
         openclose() {
@@ -186,29 +210,20 @@ export default {
                     status = 0
                 }
                 let obj = {
-                    status: status,
-                    time: this.time
+                    status:status,
+                    time:this.time
                 }
                 console.log(obj)
                 updateDGByStatus(obj)
-                    .then(res => {
-                        console.log(res.data)
-                        if (res.data.error_code == 200) {
-                            this.$message(res.data.message)
-                            this.dialogTou = false
-                        } else {
-                            this.$message(res.data.message)
-                        }
-                    })
-                // this.$ajax.get(api.lottery+'/lottery/updateDGByStatus',obj).then(res => {
-                //     // console.log(res)
-                //     if(res.error_code==200){
-                //         this.$message(res.message)
-                //         this.dialogTou = false
-                //     }else{
-                //         this.$message(res.message)
-                //     }
-                // })
+                .then(res => {
+                    console.log(res.data)
+                    if(res.data.error_code == 200){
+                        this.$message(res.data.message)
+                        this.dialogTou = false
+                    }else{
+                        this.$message(res.data.message)
+                    }
+                })
 
             }
 
@@ -243,21 +258,20 @@ export default {
             } else {
                 let arr = []
                 this.selections.forEach(e => {
-                    arr.push(e.id)
+                    arr.push(e.matchId)
                 })
                 let ids = arr.join(',')
                 setFbFocusMatch(ids)
-                    .then(res => {
-                        console.log(res)
-                        if (res.data.error_code == 200) {
-                            this.$message(res.data.message)
-                        } else {
-                            this.$message(res.data.message)
-                        }
-                    })
-            }
-
-
+                .then(res => {
+                    if(res.data.error_code == 200){
+                        this.$message(res.data.message)
+                    }else{
+                        this.$message(res.data.message)
+                    }
+                })
+                }
+                
+               
         },
         // 选择框全部
         handleSelectionChange(selection) {

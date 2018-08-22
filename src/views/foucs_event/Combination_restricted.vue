@@ -229,7 +229,7 @@ export default {
 		getTable(curr) {   //  获取 组合限售列表
 			let obj = {
 				page: curr,
-				pageSize: 10
+				pageSize: 20
 			}
 			getLotteryLimit(obj).then(res => {  //  
 				// console.log(res)

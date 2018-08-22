@@ -286,7 +286,7 @@ export default {
             telphone:'',
             partner:'',
             page:1,
-            pageSize:10,
+            pageSize:20,
             visible2: false,
             form:{
             bank:'',

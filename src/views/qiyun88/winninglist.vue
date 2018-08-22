@@ -164,7 +164,7 @@ export default {
       total: 0,
       status: '',
       page:1,
-      pageSize:10,
+      pageSize:20,
       options: [
         { value: '', lable: '全部' },
         { value: '0', lable: '隐藏' },

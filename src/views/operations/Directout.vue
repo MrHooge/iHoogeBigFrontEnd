@@ -84,7 +84,7 @@ export default {
         getTables(curr) {   //  获取直接出票会员列表
             let obj = {
                 page: curr,
-                pageSize: 10,
+                pageSize: 20,
             }
             getMemberTicket(obj).then(res => {
                 console.log(res)
