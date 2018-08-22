@@ -122,7 +122,7 @@ export default {
     }
   },
   created() {
-    this.getTableList('', 1)
+    this.getTableList()
   },
   filters: {
     sumCommision(sum) {
@@ -149,8 +149,8 @@ export default {
         loginAccount: this.loginAccount,
         page: this.pageCurr,
         pageSize: this.pages,
-        'start_time': this.start_time,
-        'end_date': this.end_date
+        start_time: this.start_time,
+        end_date: this.end_date
       }
       findSaleInfo(paramsObj)
         .then(res => {
