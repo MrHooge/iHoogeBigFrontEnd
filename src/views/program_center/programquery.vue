@@ -160,7 +160,7 @@ export default {
             stime:'',
             etime:'',
             page:1,
-            pageSize:10,
+            pageSize:20,
             planStatus:'',
             dialogShenVisible:false
         }

@@ -108,7 +108,7 @@ export default {
 		getData(curr,a){
 				let obj = {
 				page: curr,
-				pageSize: 10,
+				pageSize: 20,
 				loginAccount: getCookies('name'),
 				account:a,
 			};

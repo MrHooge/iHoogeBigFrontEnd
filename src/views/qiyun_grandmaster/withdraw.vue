@@ -57,7 +57,7 @@ export default {
         return {
             tableData: [], //表格数据
             page:1,
-            pageSize:10
+            pageSize:20
         }
     },
     created(){

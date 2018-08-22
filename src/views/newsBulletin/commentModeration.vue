@@ -169,7 +169,7 @@ export default {
         //获取评论列表
 		getData(curr, a) {
 			let obj = {
-                pageSize : 10,
+                pageSize : 20,
 				offset: curr,
                 id: a ,//  不传 查询全部
                 type: this.statustype

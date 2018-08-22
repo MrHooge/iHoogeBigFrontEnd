@@ -143,7 +143,7 @@ export default {
                 endTime:'',
                 mobile:'',
                 page:1,
-                pageSize:10,
+                pageSize:20,
                 startTime:'',
                 username:'',
                 type:''

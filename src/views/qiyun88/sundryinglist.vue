@@ -128,7 +128,7 @@ export default {
       status: "",
       total: 0,
       page:1,
-      pageSize:10,
+      pageSize:20,
       dialogShenVisible: false,
       options: [
         { value: "", lable: "全部" },

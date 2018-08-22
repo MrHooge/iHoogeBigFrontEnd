@@ -192,7 +192,7 @@ export default {
 		getData(currpage, name, s) {
 			let obj = {
 				page: currpage,
-				pageSize: 10,
+				pageSize: 20,
 				account: name,
 				status: s,
 				loginAccount: getCookies('name')

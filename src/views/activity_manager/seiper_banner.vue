@@ -368,7 +368,7 @@ export default {
 			let obj = {
 				is_user: a,  //0 当前未使用,1当前使用
 				page: curr,
-				pageSize: 10
+				pageSize: 20
 			}
 			findAllBanner(obj).then(res => {
 				console.log(res)

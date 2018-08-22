@@ -168,7 +168,7 @@ export default {
 		getData(curr) {
 			let obj = {
 				page: curr,
-				pageSize: 10
+				pageSize: 20
 			};
 			getPayMember(obj).then(res => {
 				console.log(res)

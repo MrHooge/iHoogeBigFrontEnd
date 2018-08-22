@@ -14,12 +14,12 @@
     :data="tableData"
     border
     style="width: 100%; margin-top: 20px">
-      <el-table-column
+      <!-- <el-table-column
         prop="id"
         label="权限ID"
         width="80"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="model_name"
         label="权限名称"

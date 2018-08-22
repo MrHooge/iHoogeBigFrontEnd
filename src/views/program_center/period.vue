@@ -212,7 +212,7 @@ export default {
         return{
             tableData:[],
             page:1,
-            pageSize:10,
+            pageSize:20,
             startDateTime:'',
             walletData:[],
             dialogFormVisible:false,

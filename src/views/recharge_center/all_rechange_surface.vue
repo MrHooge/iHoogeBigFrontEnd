@@ -181,7 +181,7 @@ export default {
 			let obj = {
 				loginAccount: getCookies('name'),
 				page: curr,
-				pageSize: 10,
+				pageSize: 20,
 				start_time: b,
 				end_time: c,
 				type: 2,
