@@ -52,6 +52,11 @@
 
 			</el-table-column>
 			<el-table-column align="center"
+			                 label="位置"
+			                 prop="weights">
+
+			</el-table-column>
+			<el-table-column align="center"
 			                 width="220px;"
 			                 label="操作">
 				<template slot-scope="scope">
@@ -84,6 +89,10 @@
 				<el-table-column label="跳转地址"
 				                 align="center">
 					<template slot-scope="scope">{{ scope.row.render_url}}</template>
+				</el-table-column>
+				<el-table-column label="位置"
+				                 align="center">
+					<template slot-scope="scope">{{ scope.row.weights}}</template>
 				</el-table-column>
 			</el-table>
 			<!--   修改轮播图 -->
@@ -134,6 +143,14 @@
 
 									</template>
 								</el-table-column>
+									<el-table-column label="位置"
+								                 align="center">
+									<template slot-scope="scope">
+										<el-input v-model="weightsout"
+										          placeholder="请输入位置数值"></el-input>
+
+									</template>
+								</el-table-column>
 							</el-table>
 						</div>
 					</el-collapse-item>
@@ -165,6 +182,11 @@
 						           inactive-text="关"
 						           @change="switchChange">
 						</el-switch>
+					</el-form-item>
+						<el-form-item label="位置"
+					              prop="weights">
+					<el-input v-model="ruleForm.weights" placeholder="请输入位置数值" style="width:5%;"></el-input><br />
+					<span style="color:red">注释：‘1’代表第一位，‘2’代表第二位，以此类推</span>
 					</el-form-item>
 					<el-form-item label="跳转地址"
 					              prop="upUrle">
@@ -219,7 +241,7 @@ import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
 	data() {
 		return {
-
+			weightsout:'',
 			pageShow: true,
 			tableData: [],
 			total: 0,
@@ -238,6 +260,7 @@ export default {
 			dialogVisible2: false,
 			imageUrl: '',
 			ruleForm: {
+				weights:'',
 				name: "",
 				is_user: "",
 				picture: "",
@@ -317,6 +340,7 @@ export default {
 			}
 			let obj = {
 				id: '',
+				weights:this.ruleForm.weights,
 				is_user: this.ruleForm.is_user,  //  是否使用
 				picture: this.ruleForm.picture,  //  图片地址
 				render_url: this.ruleForm.upUrle, //  跳转地址
@@ -399,6 +423,7 @@ export default {
 			}
 			let obj = {
 				id: this.onePeople.id,
+				weights:this.weightsout,// 图片位置
 				is_user: this.is_user,
 				picture: this.fileUrl, //  图片地址
 				render_url: this.input, // 图片跳转地址

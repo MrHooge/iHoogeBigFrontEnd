@@ -21,6 +21,9 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
+            <el-radio v-model="type" label="41" border>发红包</el-radio>
+            <el-radio v-model="type" label="42" border>抢红包</el-radio>
+            <el-radio v-model="type" label="43" border>退还红包</el-radio>
             <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
         <div class="tablelist">
@@ -117,6 +120,7 @@ import { Message, MessageBox } from 'element-ui'
 export default {
     data(){
         return {
+            type:'',
             isIndeterminate: true,
             tableData:[],
             account:'',
@@ -143,7 +147,7 @@ export default {
                 loginAccount:'manager',
                 page:this.page,
                 pageSize:this.pageSize,
-                type:''
+                child_type:this.type
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
                 console.log(res.data.data.list)
@@ -163,7 +167,7 @@ export default {
                 loginAccount:'manager',
                 page:this.page,
                 pageSize:this.pageSize,
-                child_type:'',
+                child_type:this.type,
                 type:''
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
