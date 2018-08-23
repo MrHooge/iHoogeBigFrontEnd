@@ -14,6 +14,12 @@ body{
 .el-breadcrumb__inner a{
   color: #5e96d1
 }
+.el-table--enable-row-hover .el-table__body tr:hover>td {
+  background-color: #ADADAD;
+}
+.el-table__row{
+  height: 40px;
+}
  .el-breadcrumb__inner, .el-breadcrumb__inner a{
   font-weight: 700!important;
 }
@@ -27,7 +33,7 @@ body{
 //   color: #ffffff
 // }
 .el-submenu__title{
-  background-color:#02ABD8 !important;
+  background-color:#417bb5 !important;
 }
 .el-submenu__title span{
   color: #ffffff;
