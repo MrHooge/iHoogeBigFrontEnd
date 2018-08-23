@@ -133,15 +133,6 @@ export const constantRouterMap = [{
         }
       },
       {
-        path: 'lotteryDaily',
-        name: '竞彩日报',
-        component: () =>
-          import ('@/views/newsBulletin/lottery_daily'),
-        meta: {
-          title: '竞彩日报'
-        }
-      },
-      {
         path: 'websiteLettery',
         name: '站内信',
         component: () =>
@@ -149,7 +140,26 @@ export const constantRouterMap = [{
         meta: {
           title: '站内信'
         }
+      },
+      {
+        path: 'commentModeration',
+        name: '评论审核',
+        component: () =>
+          import ('@/views/newsBulletin/commentModeration'),
+        meta: {
+          title: '评论审核'
+        }
+      },
+      {
+        path: 'winningComments',
+        name: '中奖评论审核',
+        component: () =>
+          import ('@/views/newsBulletin/winningComments'),
+        meta: {
+          title: '中奖评论审核'
+        }
       }
+      
     ]
   },
   // 轮播墙
@@ -453,6 +463,15 @@ export const constantRouterMap = [{
         }
       },
       {
+        path: 'giftcardSearch',
+        name: '彩金卡查询',
+        component: () =>
+          import ('@/views/activity_manager/giftcard_search'),
+        meta: {
+          title: '彩金卡查询'
+        }
+      },
+      {
         path: 'activityGiftcard',
         name: '充值送礼金卡',
         component: () =>
@@ -474,6 +493,37 @@ export const constantRouterMap = [{
     ]
   },
 
+
+
+   //冠亚军投注
+   {
+    path: '/chanpiom',
+    component: Layout,
+    redirect: '/chanpiom/saishi',
+    name: '冠亚军投注',
+    meta: {
+      title: '冠亚军投注'
+    },
+    children: [{
+        path: 'saishi',
+        name: '冠军赛事列表',
+        component: () =>
+          import ('@/views/chanpiom/saishi'),
+        meta: {
+          title: '冠军赛事列表'
+        }
+      },
+      {
+        path: 'guanyajun',
+        name: '冠亚军赛事列表',
+        component: () =>
+          import ('@/views/chanpiom/guanyajun'),
+        meta: {
+          title: '冠亚军赛事列表'
+        }
+      },
+    ]
+  },
 
   // 代理管理
   {
@@ -1000,6 +1050,15 @@ export const constantRouterMap = [{
         meta: { title: '寻票列表' }
       },
       
+      {
+        path: 'lotteryDaily',
+        name: '竞彩日报',
+        component: () =>
+          import ('@/views/operations/lottery_daily'),
+        meta: {
+          title: '竞彩日报'
+        }
+      },
       {
         path: 'ytick',
         name: '运营寻票操作',

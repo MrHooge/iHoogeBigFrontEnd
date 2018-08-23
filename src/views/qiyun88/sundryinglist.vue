@@ -31,20 +31,14 @@
                 prop="account"
                 label="用户名" align="center">
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
                 prop="author"
                 label="作者"
                 align="center">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
                 prop="title"
                 label="内容" align="center">
-            </el-table-column>
-            <el-table-column
-                label="创建时间" align="center">
-                <template slot-scope="scope">
-                    {{scope.row.createDateTime}}
-                </template>    
             </el-table-column>
             <el-table-column
                 label="点赞数" align="center">
@@ -68,6 +62,12 @@
                 label="类别" align="center">
                 <template slot-scope="scope">
                     {{scope.row.type| stype}}
+                </template>    
+            </el-table-column>
+             <el-table-column
+                label="创建时间" align="center">
+                <template slot-scope="scope">
+                    {{scope.row.createDateTime}}
                 </template>    
             </el-table-column>
             <el-table-column
@@ -128,7 +128,7 @@ export default {
       status: "",
       total: 0,
       page:1,
-      pageSize:10,
+      pageSize:20,
       dialogShenVisible: false,
       options: [
         { value: "", lable: "全部" },

@@ -8,8 +8,8 @@
                 v-model="account"
                 style="width: 200px;margin-right:50px;"></el-input>
       <el-date-picker v-model="datetime"
-                      value-format="yyyy-MM-dd HH:mm:ss"
-                      type="datetimerange"
+                      value-format="yyyy-MM-dd"
+                      type="daterange"
                       range-separator="至"
                       start-placeholder="开始日期"
                       end-placeholder="结束日期">
@@ -51,35 +51,39 @@
                        prop="payNum"
                        align="center">
       </el-table-column>
-      <el-table-column label="北单(金额)"
-                       prop="beidan"
+      <el-table-column label="自购(金额)"
+                       prop="selfBuy"
                        align="center">
-      </el-table-column>
-      <el-table-column label="佣金(金额)"
-                       prop="sumCommision"
-                       align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.sumCommision | sumCommision }}</span>
-        </template>
       </el-table-column>
       <el-table-column label="跟单(金额)"
                        prop="followBuy"
+                       align="center">
+      </el-table-column>
+            <el-table-column label="北单(金额)"
+                       prop="beidan"
                        align="center">
       </el-table-column>
       <el-table-column label="老足彩(金额)"
                        prop="laozucai"
                        align="center">
       </el-table-column>
-      <el-table-column label="扣减(金额)"
+      <el-table-column label="数字(金额)"
+                       prop="shuzi"
+                       align="center">
+      </el-table-column>
+            <el-table-column label="扣减(金额)"
                        prop="koujian"
                        align="center">
       </el-table-column>
-      <el-table-column label="自购(金额)"
-                       prop="selfBuy"
+            <el-table-column label="佣金(金额)"
+                       prop="sumCommision"
                        align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.sumCommision | sumCommision }}</span>
+        </template>
       </el-table-column>
-      <el-table-column label="数字(金额)"
-                       prop="shuzi"
+      <el-table-column label="渠道"
+                       prop="qdName"
                        align="center">
       </el-table-column>
     </el-table>
@@ -100,13 +104,14 @@
 <script>
 import { Message, MessageBox } from 'element-ui'
 import { findAgentInfoByAccount,  exportExcle, findSaleInfo } from '@/api/sys_user'
+import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
   data() {
     return {
       tableData: [],
       account: '', // 用户名
       agentName: '',
-      loginAccount: localStorage.getItem('adminUser'),
+      loginAccount: getCookies('name'),
       pageCurr: 1,
       pages: 10,
       start_time: '',
@@ -126,13 +131,13 @@ export default {
   },
   methods: {
     getone() {
-      console.log(this.datetime)
       this.start_time = this.datetime[0]
       this.end_date = this.datetime[1]
       this.getTableList()
     },
     handleSizeChange(val) {
       this.pages = val
+      this.getTableList()
     },
     handleCurrentChange(val) {
       this.pageCurr = val
@@ -150,7 +155,7 @@ export default {
       }
       findSaleInfo(paramsObj)
         .then(res => {
-          this.tableData = res.data.data.list
+          this.tableData = res.data.data
           this.total = res.data.data.total
         })
         .catch(error => {

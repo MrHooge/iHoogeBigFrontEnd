@@ -83,27 +83,52 @@
                align="center"
                label="编号">
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="id"
                      prop="id"
                      align="center">
-               </el-table-column>  
+               </el-table-column>   -->
                <el-table-column
                      label="账号"
                      prop="account"
                      align="center">
                      
                </el-table-column>
+                <el-table-column
+                     label="昵称"
+                     prop="username"
+                     align="center">
+               </el-table-column> 
+                  <el-table-column
+                     label="真实姓名"
+                     prop="name"
+                     align="center">
+               </el-table-column>
+                <el-table-column
+                     label="注册时间"
+                     prop="registerDateTime"
+                     align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.registerDateTime | time}}
+                     </template>
+               </el-table-column>    
+                 <el-table-column
+                     label="最后登陆时间"
+                     align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.lastLoginDateTime | time}}
+                </template>
+               </el-table-column>
                <el-table-column
                      label="名片"
                      prop="card"
                      align="center">
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="证件号"
                      prop="certNo"
                      align="center"> 
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
                      label="证件类型"
                      align="center">
@@ -111,11 +136,11 @@
                     {{scope.row.certType | type}}
                 </template>
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="邮箱"
                      prop="email"
                      align="center">
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
                      label="是否充值"
                      prop="isCharge"
@@ -128,39 +153,19 @@
                          {{scope.row.isWhitelist | white}}
                          </template>
                </el-table-column>
-               <el-table-column
-                     label="最后登陆时间"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.lastLoginDateTime | time}}
-                </template>
-               </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="手机"
                      prop="mobile"
                      align="center">
-               </el-table-column>
-               <el-table-column
-                     label="真实姓名"
-                     prop="name"
-                     align="center">
-               </el-table-column>
-               <el-table-column
+               </el-table-column> -->
+               <!-- <el-table-column
                      label="头像·"
                      prop="picture"
                      align="center">
                      <template slot-scope="scope">
                          <img :src="scope.row.picture" >
                      </template>
-               </el-table-column>
-               <el-table-column
-                     label="注册时间"
-                     prop="registerDateTime"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.registerDateTime | time}}
-                     </template>
-               </el-table-column>    
+               </el-table-column> -->
                <el-table-column
                      label="状态"
                      align="center">
@@ -176,11 +181,6 @@
                          </template>
                </el-table-column>  
                <el-table-column
-                     label="昵称"
-                     prop="username"
-                     align="center">
-               </el-table-column> 
-               <el-table-column
                      label="操作"
                      align="center">
 
@@ -193,9 +193,37 @@
                                placement="right"
                                width="400"
                                trigger="click">
-                               <el-table :data="gridData">
-                                   </el-table>
-                                   <el-button slot="reference">修改</el-button>
+                              <el-form :model="form">
+                                   <el-form-item label="账号" prop="account" :label-width="formLabelWidth">
+                                        <el-input v-model="account" auto-complete="off" style="width:60%"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="真实姓名" prop="bankPart" :label-width="formLabelWidth">
+                                         <el-input v-model="account" auto-complete="off" style="width:60%"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="邮箱" prop="zfbAccount" :label-width="formLabelWidth">
+                                         <el-input v-model="account" auto-complete="off" style="width:60%"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="联系电话" prop="account" :label-width="formLabelWidth">
+                                        <el-input v-model="account" auto-complete="off" style="width:60%"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="身份证" prop="bankPart" :label-width="formLabelWidth">
+                                         <el-input v-model="account" auto-complete="off" style="width:60%"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="上级用户名" prop="zfbAccount" :label-width="formLabelWidth">
+                                         <el-input v-model="account" auto-complete="off" style="width:60%"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="会员类型" prop="zfbAccount" :label-width="formLabelWidth">
+                                         <el-input v-model="account" auto-complete="off" style="width:60%"></el-input>
+                                    </el-form-item>
+                                    <!-- <el-form-item label="提款方式" prop="bank_type" :label-width="formLabelWidth">
+                                        <el-radio-group v-model="bank_type">
+                                        <el-radio label="银行提款"></el-radio>
+                                        <el-radio label="支付宝"></el-radio>
+                                        </el-radio-group>
+                                    </el-form-item> -->
+                                        <el-button type="primary" @click="updatesure">确 定</el-button>
+                                    </el-form>
+                                   <el-button slot="reference" @click="updatemessage">修改</el-button>
                                    </el-popover>
                                    <el-popover
                                placement="right"
@@ -207,7 +235,7 @@
                                    <el-table-column width="150" property="freezeBalance" label="冻结金额"></el-table-column>  
                                    <el-table-column width="150" property="heapBalance" label="历史消费金额"></el-table-column>                                    
                                    <el-table-column width="150" property="heapPrize" label="历史中奖金额"></el-table-column>  
-                                   <el-table-column width="150" property="memberId" label="	会员id"></el-table-column>
+                                   <!-- <el-table-column width="150" property="memberId" label="	会员id"></el-table-column> -->
                                    <el-table-column width="150" property="prizeBalance" label="	奖金账户"></el-table-column>
                                    <el-table-column width="150" property="takeCashQuota" label="提现配额"></el-table-column>
                                    <el-table-column width="150" property="walletType" label="钱包类型"></el-table-column>  
@@ -258,7 +286,7 @@ export default {
             telphone:'',
             partner:'',
             page:1,
-            pageSize:10,
+            pageSize:20,
             visible2: false,
             form:{
             bank:'',

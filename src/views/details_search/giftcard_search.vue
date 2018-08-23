@@ -38,10 +38,11 @@
                 label="	账号">
             </el-table-column>
             <el-table-column
-                prop="CREATE_DATE_TIME"
                 align="center"
                 label="	发生时间">
-               
+                <template slot-scope="scope">
+                    {{scope.row.CREATE_DATE_TIME | time}}
+                </template>
             </el-table-column>
 
             <el-table-column
@@ -125,7 +126,25 @@ export default {
             qdAccount:'',
             dlAccount:'',
             page:1,
-            pageSize:10
+            pageSize:20
+        }
+    },
+    filters:{
+         time(a){
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+
         }
     },
     created(){

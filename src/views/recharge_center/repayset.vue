@@ -12,12 +12,12 @@
 					{{ scope.row.account }}
 				</template>
 			</el-table-column>
-			<el-table-column label="id"
+			<!-- <el-table-column label="id"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.id }}
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column label="姓名"
 			                 align="center">
 				<template slot-scope="scope">
@@ -42,12 +42,12 @@
 					{{ scope.row.sourceId }}
 				</template>
 			</el-table-column>
-			<el-table-column label="来源类型"
+			<!-- <el-table-column label="来源类型"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.sourceType | sourcetype }}
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column label="类型">
 				<template slot-scope="scope">
 					{{ scope.row.type | type}}
@@ -168,7 +168,7 @@ export default {
 		getData(curr) {
 			let obj = {
 				page: curr,
-				pageSize: 10
+				pageSize: 20
 			};
 			getPayMember(obj).then(res => {
 				console.log(res)

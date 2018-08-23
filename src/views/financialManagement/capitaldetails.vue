@@ -24,12 +24,6 @@
 			                 type="index"
 			                 align="center">
 			</el-table-column>
-			<el-table-column label="日期"
-			                 align="center">
-				<template slot-scope="scope">
-					<span>{{ scope.row.date }}</span>
-				</template>
-			</el-table-column>
 			<el-table-column label="线上充值"
 			                 prop="allOnLineMoney"
 			                 align="center">
@@ -99,6 +93,12 @@
 			                 align="center">
 				<template slot-scope="scope">
 					<span>{{ scope.row.platformCommissionMoney | commissionUse }}</span>
+				</template>
+			</el-table-column>
+						<el-table-column label="日期"
+			                 align="center">
+				<template slot-scope="scope">
+					<span>{{ scope.row.date }}</span>
 				</template>
 			</el-table-column>
 		</el-table>

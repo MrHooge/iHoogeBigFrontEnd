@@ -15,12 +15,13 @@ export function addActivity(userInfos){
     })
 }
 //保存彩金卡
-export function addGoldCard(params){
+export function addGoldCard(params,loginAccount){
     return request.member({
-        url:'/userManage/addGoldCard',
+        url:'http://192.168.7.40:8081/userManage/addGoldCard',
         method:'get',
         params:{
-            params
+            params,
+            loginAccount
         }
     })
 }
@@ -43,6 +44,14 @@ export function putRedRacketList2(params){
 export function addRedRacketForPlatform(params){
     return request.pay({
         url:'/redPacket/addRedRacketForPlatform',
+        method:'get',
+        params:params
+    })
+}
+//查询彩金卡
+export function findGoldCard(params){
+    return request.member({
+        url:'/userManage/findGoldCard',
         method:'get',
         params:params
     })

@@ -138,7 +138,7 @@ export default {
     getTbale(curr) {
       let obj = {
         offset: curr,
-        pageSize: 10
+        pageSize: 20
       };
      getMasterList(obj)
         .then(res => {

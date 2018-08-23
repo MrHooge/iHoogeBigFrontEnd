@@ -40,6 +40,7 @@
             >
             </el-date-picker>
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+            <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button>
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
@@ -56,14 +57,6 @@
                 label="		金额">
             </el-table-column>
             <el-table-column
-                align="center"
-                label="	发单时间">
-                <template slot-scope="scope">
-                    {{scope.row.createTime | time}}
-                </template>
-            </el-table-column>
-
-            <el-table-column
                 prop="lotteryType"
                 align="center"
                 label="	彩种">
@@ -78,13 +71,13 @@
                 align="center"
                 label="方案状态">
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
                 align="center"
                 label="发单宣言">
                 <template slot-scope="scope">
                      {{scope.row.planDesc |type}}
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
                 prop="playType"
                 align="center"
@@ -102,6 +95,14 @@
                
             </el-table-column>
             <el-table-column
+                align="center"
+                label="	发单时间">
+                <template slot-scope="scope">
+                    {{scope.row.createTime | time}}
+                </template>
+            </el-table-column>
+
+            <el-table-column
                 prop="winStatus"
                 align="center"
                 label="	中奖状态">
@@ -111,9 +112,21 @@
             <el-table-column
                 align="center"
                 label="	操作">
-                <template slot-scope="scope">
-               <el-button type="primary" @click="inquire(scope.row,'modify')">修改</el-button>
-                </template>
+               <template slot-scope="scope">
+                       <el-dropdown>
+                           <el-button type="primary" style="width:70px">操作</el-button>
+                           <el-dropdown-menu slot="dropdown">
+                                   <el-popover
+                                    placement="right"
+                                    width="1300"
+                                    trigger="click">
+                                   <el-button type="warning" slot="reference" @click="wallet(scope.row,'modify')">明细</el-button>&nbsp;
+                                   </el-popover>
+                                   &nbsp;&nbsp;<el-button type="warning" @click="Chargeback(scope.row,'modify')">退单</el-button>
+                                   <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button>
+                                </el-dropdown-menu>
+                                </el-dropdown> 
+                   </template>
             </el-table-column>
         </el-table>
          <el-dialog title="修改" :visible.sync="dialogShenVisible" width="500px" top="30vh">
@@ -143,7 +156,7 @@
 </template>
 
 <script>
-import { selectLotteryPlan,updatePlanDesc } from '@/api/period'
+import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan } from '@/api/period'
 export default {
     data(){
         return{
@@ -160,7 +173,7 @@ export default {
             stime:'',
             etime:'',
             page:1,
-            pageSize:10,
+            pageSize:20,
             planStatus:'',
             dialogShenVisible:false
         }
@@ -190,6 +203,19 @@ export default {
         this.gettable()
     },
     methods:{
+        FokusEreignis(){
+            let Schema = {
+                planNo:this.planNo
+            }
+            getIsFocusPlan(Schema)
+            .then(res => {
+                if(res.data == 'true'){
+                    this.$message('是')
+                }else{
+                    this.$message('否')
+                }
+            })
+        },
         //获取数据
         gettable(){
             let obj = {
@@ -212,6 +238,21 @@ export default {
                 console.log(res.data.data)
                 this.tableData = res.data.data
             })
+        },
+        //退单
+        Chargeback(data){
+        // console.log(data)
+        let subject = {
+            planNo:data.planNo
+        }
+        planBack(subject)
+        .then(res => {
+            if(res.data.error_code == 200){
+                this.$message('退单成功')
+            }else{
+                this.$message(res.data.message)
+            }
+        })
         },
         //查询
         search(){

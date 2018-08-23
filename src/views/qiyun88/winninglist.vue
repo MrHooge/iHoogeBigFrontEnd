@@ -25,8 +25,22 @@
                 label="标题" align="center">
             </el-table-column>
             <el-table-column
-                prop="content"
                 label="内容" align="center">
+                <template slot-scope="scope">
+                     <!-- <el-button type="text" @click="open">点击打开 Message Box</el-button> -->
+                     <el-collapse>
+                     <el-collapse-item title="查看详细内容" name="2">
+                        {{scope.row.content}} 
+                    </el-collapse-item>
+                     </el-collapse>
+                      <!-- <el-dialog
+                    :visible.sync="centerDialogVisible"
+                    width="30%"
+                    style="height:500px"
+                    center>
+                       
+                    </el-dialog> -->
+                </template>  
             </el-table-column>
             <el-table-column
                 label="创建时间" align="center">
@@ -138,10 +152,11 @@ export default {
           title: '你好啊',
           content: '我是一直与',
           createTime: '2018-5-14',
-          status: 1
+          status: 1,
         }
       ], // 表格数据
       dialogShenVisible: false,
+       centerDialogVisible:false,
       dialogVisible: false,
       useracount: '', // 选中的用户名
       titles: '', // 中奖标题
@@ -149,7 +164,7 @@ export default {
       total: 0,
       status: '',
       page:1,
-      pageSize:10,
+      pageSize:20,
       options: [
         { value: '', lable: '全部' },
         { value: '0', lable: '隐藏' },
@@ -169,6 +184,10 @@ export default {
     this.getTable()
   },
   methods: {
+      open(){
+          this.centerDialogVisible = true
+          console.log(123)
+      },
     // 发起中奖宣传
     publicity(a) {
       this.dialogVisible = true

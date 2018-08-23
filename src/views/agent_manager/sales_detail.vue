@@ -3,7 +3,7 @@
   <div class="sales_detail" style="padding:0 20px">
     <!-- 搜索 -->
     <div class="row">
-    <el-input placeholder="请输入用户名" v-model="account" style="width: 300px;margin-right:100px;"></el-input>
+    <el-input placeholder="请输入昵称" v-model="account" style="width: 300px;margin-right:100px;"></el-input>
      <el-select v-model="isMOuth" placeholder="请选择时间段" style="margin-right:100px;">
            <el-option
             v-for="item in options"
@@ -24,10 +24,10 @@
                border
                show-summary
                style="width: 100%;">
-               <el-table-column
-               type="index"
-               align="center"
-               label="编号">
+                <el-table-column
+                     label="日期"
+                     prop="date"
+                     align="center">
                </el-table-column>
                <el-table-column
                      label="开户数"
@@ -40,14 +40,24 @@
                      prop="activeNum"
                      align="center">
                </el-table-column>
+             <el-table-column
+                     label="消费数(个)"
+                     prop="allPayNum"
+                     align="center">
+               </el-table-column>
                <el-table-column
                      label="竞彩"
                      prop="allBuy"
                      align="center"> 
                </el-table-column>
-               <el-table-column
-                     label="消费数(个)"
-                     prop="allPayNum"
+                 <el-table-column
+                     label="自购(金额)"
+                     prop="selfBuy"
+                     align="center">
+               </el-table-column>
+                <el-table-column
+                     label="跟单(金额)"
+                     prop="fllowBuy"
                      align="center">
                </el-table-column>
                <el-table-column
@@ -55,6 +65,21 @@
                      prop="beidan"
                      align="center">
                </el-table-column>
+                <el-table-column
+                     label="老足彩(金额)"
+                     prop="laozhucai"
+                     align="center">
+               </el-table-column>
+               <el-table-column
+                     label="数字(金额)"
+                     prop="shuzi"
+                     align="center">
+               </el-table-column>
+                   <el-table-column
+                     label="扣减(金额)"
+                     prop="offer"
+                     align="center">
+               </el-table-column>  
                <el-table-column
                      label="佣金(金额)"
                      prop="commision"
@@ -63,36 +88,7 @@
                         <span >{{ scope.row.sumCommision | sumCommision }}</span>
                      </template>
                </el-table-column>
-               <el-table-column
-                     label="日期"
-                     prop="date"
-                     align="center">
-               </el-table-column>
-               <el-table-column
-                     label="跟单(金额)"
-                     prop="fllowBuy"
-                     align="center">
-               </el-table-column>
-               <el-table-column
-                     label="老足彩(金额)"
-                     prop="laozhucai"
-                     align="center">
-               </el-table-column>
-               <el-table-column
-                     label="扣减(金额)"
-                     prop="offer"
-                     align="center">
-               </el-table-column>  
-               <el-table-column
-                     label="自购(金额)"
-                     prop="selfBuy"
-                     align="center">
-               </el-table-column>
-               <el-table-column
-                     label="数字(金额)"
-                     prop="shuzi"
-                     align="center">
-               </el-table-column>              
+                        
                
             </el-table>
   </div>

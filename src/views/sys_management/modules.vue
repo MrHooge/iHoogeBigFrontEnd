@@ -6,12 +6,12 @@
     :data="tableData"
     border
     style="width: 100%; margin-top: 20px">
-      <el-table-column
+      <!-- <el-table-column
         prop="id"
         label="模块ID"
         width="100"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="name"
         label="模块名称"

@@ -113,3 +113,19 @@ export function updateLotteryTypeIsSale(lotteryType,status){
         }  
     })
 }
+//退单
+export function planBack(userinfos){
+    return request.lottery({
+        url:'/lottery/planBack',
+        method:'get',
+        params:userinfos
+    })
+}
+//是否焦点赛事方案
+export function getIsFocusPlan(userinfos){
+    return request.lottery({
+        url:'/lottery/getIsFocusPlan',
+        method:'get',
+        params:userinfos
+    })
+}

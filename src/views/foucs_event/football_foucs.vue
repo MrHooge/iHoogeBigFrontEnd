@@ -85,7 +85,7 @@ export default {
         return {
             tableData: [],
             page:1,
-            pageSize:50,
+            pageSize:20,
             totalList: 0
         }
     },

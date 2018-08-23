@@ -267,7 +267,7 @@ export default {
 		getRepayList(curr) {
 			let obj = {
 				page: curr,
-				pageSize: 10
+				pageSize: 20
 			};
 			getPayChannelList(obj).then(res => {
 				console.log(res)

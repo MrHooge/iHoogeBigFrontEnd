@@ -52,6 +52,14 @@ export function createNews(userinfos) {
     params:userinfos
   })
 }
+//获取类别或标签列表
+export function getTypes(userinfos) {
+  return request.infos({
+    url: '/information/getTypes',
+    method: 'get',
+    params:userinfos
+  })
+}
 //上传图片
 export function uploadImage(userinfos) {
   return request.infos({
@@ -68,3 +76,60 @@ export function setNewsPicetur(userinfos) {
     params:userinfos
   })
 }
+//添加站内信
+export function addMail(userinfos) {
+  return request.infos({
+    url: '/information/addMail',
+    method: 'post',
+    params:userinfos
+  })
+}
+//获取站内信列表数据
+export function getMailList(userinfos) {
+  return request.infos({
+    url: '/information/getMailList',
+    method: 'get',
+    params:userinfos
+  })
+}
+
+//评论列表
+export function getUnreviewedCommentList(params) {
+    return request.infos({
+      url: '/information/getUnreviewedCommentList',
+      method: 'get',
+      params:params
+    })
+  }
+  //评论审核
+export function shComment(type,cid) {
+    return request.infos({
+      url: '/information/shComment',
+      method: 'get',
+      params: {
+          type,
+          cid
+      }
+    })
+  }
+
+  //中奖评论列表
+export function getUnreviewedWinCommentList(params) {
+    return request.infos({
+      url: '/information/getUnreviewedWinCommentList',
+      method: 'get',
+      params:params
+    })
+  }
+  //中奖评论审核
+export function shWinComment(type,cid) {
+    return request.infos({
+      url: '/information/shWinComment',
+      method: 'get',
+      params: {
+          type,
+          cid
+      }
+    })
+  }
+  

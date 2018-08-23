@@ -55,6 +55,7 @@
 <script>
 import { addGoldCard } from '@/api/activity'
 import { Message, MessageBox } from 'element-ui'
+import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
          data() { 
               return {
@@ -115,9 +116,10 @@ export default {
                        require_type: 2
                      }
                      arr.push(obj);
-                    let newobj = JSON.stringify(arr)
+                    let params = JSON.stringify(arr)
+                    let loginAccount = getCookies('name')
                     //console.log(newobj);
-                    addGoldCard(newobj).then(res => {
+                    addGoldCard(params,loginAccount).then(res => {
                       if(res.data.error_code === 200){
                           this.$message(res.data.message)
                         //Message.success(res.message);

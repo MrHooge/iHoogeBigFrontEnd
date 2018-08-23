@@ -31,10 +31,6 @@
             border
             style="width: 100%">
             <el-table-column
-                prop="ableBalance"
-                label="可用余额" align="center">
-            </el-table-column>
-            <el-table-column
                 prop="account"
                 label="	账户"
                 align="center">
@@ -43,9 +39,9 @@
                 prop="clouds"
                 label="云朵流水数量" align="center">
             </el-table-column>
-            <el-table-column
-                prop="createDateTime"
-                label="充值时间" align="center">
+              <el-table-column
+                prop="ableBalance"
+                label="可用余额" align="center">
             </el-table-column>
              <el-table-column
                 prop="freezeBalance"
@@ -57,11 +53,11 @@
                 label="		消费金额"
                 align="center">
             </el-table-column>
-             <el-table-column
+             <!-- <el-table-column
                 prop="memberId"
                 label="账户ID"
                 align="center">
-            </el-table-column>
+            </el-table-column> -->
              <el-table-column
                 prop="operLineNo"
                 label="流水编号"
@@ -86,6 +82,10 @@
                 prop="transType"
                 label="	流水类型"
                 align="center">
+            </el-table-column>
+              <el-table-column
+                prop="createDateTime"
+                label="充值时间" align="center">
             </el-table-column>
             <el-table-column
                 label="	流水ID" align="center"
@@ -121,7 +121,7 @@ export default {
       stime:'',
       etime:'',
       page:1,
-      pageSize:10
+      pageSize:20
     }
   },
   filters: {

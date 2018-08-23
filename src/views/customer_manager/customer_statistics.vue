@@ -18,28 +18,64 @@
                align="center"
                label="编号">
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="id"
                      prop="id"
                      align="center">
-               </el-table-column>  
+               </el-table-column>   -->
                <el-table-column
                      label="账号"
                      prop="account"
                      align="center">
                      
                </el-table-column>
-               <el-table-column
+                <el-table-column
+                     label="昵称"
+                     prop="username"
+                     align="center">
+               </el-table-column>
+                <el-table-column
+                     label="真实姓名"
+                     prop="name"
+                     align="center">
+               </el-table-column>
+               <!-- <el-table-column
                      label="名片"
                      prop="card"
                      align="center">
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
                      label="证件号"
                      prop="certNo"
                      align="center"> 
                </el-table-column>
-               <el-table-column
+                   <el-table-column
+                     label="手机"
+                     prop="mobile"
+                     align="center">
+               </el-table-column>
+                <el-table-column
+                     label="注册时间"
+                     align="center">
+                       <template slot-scope="scope">
+                    {{scope.row.registerDateTime | time}}
+                     </template>
+               </el-table-column>  
+                 <el-table-column
+                     label="最后登陆时间"
+                     align="center">
+                      <template slot-scope="scope">
+                    {{scope.row.lastLoginDateTime | time}}
+                     </template>
+               </el-table-column>  
+                  <el-table-column
+                     label="是否充值"
+                     align="center">
+                      <template slot-scope="scope">
+                            {{scope.row.isCharge | port}}
+                     </template>
+               </el-table-column>
+               <!-- <el-table-column
                      label="证件类型"
                      prop="certType"
                      align="center">
@@ -48,50 +84,23 @@
                      label="邮箱"
                      prop="email"
                      align="center">
-               </el-table-column>
-               <el-table-column
-                     label="是否充值"
-                     prop="isCharge"
-                     align="center">
-               </el-table-column>
+               </el-table-column> -->
                <el-table-column
                      label="是否白名单"
-                     prop="isWhitelist"
                      align="center">
-               </el-table-column>
-               <el-table-column
-                     label="最后登陆时间"
-                     align="center">
-                      <template slot-scope="scope">
-                    {{scope.row.lastLoginDateTime | time}}
+                     <template slot-scope="scope">
+                            {{scope.row.isWhitelist | mtype}}
                      </template>
                </el-table-column>
-               <el-table-column
-                     label="手机"
-                     prop="mobile"
-                     align="center">
-               </el-table-column>
-               <el-table-column
-                     label="真实姓名"
-                     prop="name"
-                     align="center">
-               </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="头像·"
                      prop="picture"
                      align="center">
                      <template slot-scope="scope">
                          <img :src="scope.row.picture" >
                      </template>
-               </el-table-column>
-               <el-table-column
-                     label="注册时间"
-                     align="center">
-                       <template slot-scope="scope">
-                    {{scope.row.registerDateTime | time}}
-                     </template>
-               </el-table-column>    
-               <el-table-column
+               </el-table-column> -->
+               <!-- <el-table-column
                      label="状态"
                      prop="status"
                      align="center">
@@ -100,12 +109,7 @@
                      label="类型"
                      prop="type"
                      align="center">
-               </el-table-column>  
-               <el-table-column
-                     label="昵称"
-                     prop="username"
-                     align="center">
-               </el-table-column>
+               </el-table-column>   -->
                <el-table-column
                      label="操作"
                      align="center">
@@ -143,7 +147,7 @@ export default {
                 endTime:'',
                 mobile:'',
                 page:1,
-                pageSize:10,
+                pageSize:20,
                 startTime:'',
                 username:'',
                 type:''
@@ -166,6 +170,12 @@ export default {
             s = s < 10 ? ('0' + s) : s;
             return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
 
+        },
+        mtype(a){
+              return a == 1 ?"否" :  "是"
+        },
+        port(m){
+              return m == 1 ?"未充值" : "充值"
         }
     },
     created(){

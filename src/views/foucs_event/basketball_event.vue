@@ -136,7 +136,7 @@
 
 <script>
 import setimes from '@/utils/time.js'
-import { getBasketBallMatch,setBbFocusMatch,updateDGByStatus } from '@/api/events'
+import { getBasketBallMatch,setBbFocusMatch,updateDGByStatus,updateMatchDealTime } from '@/api/events'
 export default {
     data() {
         return {
@@ -216,24 +216,16 @@ export default {
         // 编辑赛事时间
         editTime() {
             this.dialogVisible = true
-            this.$ajax
-                .get(api.lottery + '/lottery/getMatchDealTime')
-                .then(res => {
-                    if (res.error_code == 200) {
-                        this.val = res.data
-                    }
-                })
         },
         sure() {
             let obj = {
                 dealTime: this.val
             }
-            this.$ajax
-                .get(api.lottery + '/lottery/updateMatchDealTime', obj)
+            updateMatchDealTime(obj)
                 .then(res => {
-                    if (res.error_code == 200) {
+                    if (res.data.error_code == 200) {
                         this.dialogVisible = false
-                        this.$message(res.message)
+                        this.$message(res.data.message)
                     }
                 })
         },

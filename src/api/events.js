@@ -121,3 +121,11 @@ export function getAddPrizeBlack(userinfos){
         params:userinfos
     })
 }
+//修改赛事截止时间
+export function updateMatchDealTime(userinfos){
+    return request.lottery({
+        url:'/lottery/updateMatchDealTime',
+        method:'get',
+        params:userinfos
+    })
+}
