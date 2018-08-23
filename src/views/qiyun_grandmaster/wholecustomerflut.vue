@@ -23,6 +23,7 @@
             </el-date-picker>
            
             <el-button type="primary" style="margin-left:30px;" @click="cloud">搜索</el-button>
+            <el-button type="primary" style="margin-left:30px;" @click="exportSome">导出</el-button>
 
         </div>
         <!-- 表格数据 -->
@@ -97,7 +98,8 @@
 </template>
 
 <script>
-import { getCloundSummaryList } from '@/api/grandmaster'
+import {exportExcle} from '@/api/sys_user';
+import { getCloundSummaryList } from '@/api/grandmaster';
 export default {
   data() {
     return {
@@ -106,7 +108,8 @@ export default {
       stime:''||null,
       etime:''||null,
       page:1,
-      pageSize:20
+      pageSize:20,
+      newarr: [],
     }
   },
   filters: {
@@ -173,6 +176,43 @@ export default {
             this.tablelist = res.data.data            
           }
         });
+    },
+    formatJson(filterVal, jsonData) {
+　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
+　　},
+    // 导出
+    exportSome() {
+        let newobj
+        this.tablelist.forEach((e, index) => {
+            newobj = {
+                    account: e.account,
+                    buyRecommend: e.buyRecommend,
+                    clound: e.clound.toFixed(2),
+                    quickReviw: e.quickReviw,
+                    recharge: e.recharge,
+                    recommendIncome: e.recommendIncome,
+                    recommendRefund: e.recommendRefund,
+                    reward: e.reward,
+                    rewardIncome: e.rewardIncome,
+                    withdraw: e.withdraw,
+            }
+            this.newarr.push(newobj)
+        })
+        let model = {
+            listParams: JSON.stringify(this.newarr),
+            title: '会员充值流水'
+        }
+        console.log(model)
+        exportExcle(model.listParams, model.title)
+            .then(res => {})
+        require.ensure([], () => {
+            const { export_json_to_excel } = require('../../vendor/Export2Excel');
+            const tHeader = ['用户账户', '购买推荐云朵', '当前云朵', '快速审核扣款云朵', '充值云朵', '被购加款云朵', '不中退款云朵','打赏云朵','被打赏云朵','提现云朵']; //对应表格输出的title
+            const filterVal = ['account','buyRecommend','clound','quickReviw','recharge','recommendIncome', 'recommendRefund','reward','rewardIncome','withdraw']; // 对应表格输出的数据
+            const list = this.tablelist;
+            const data = this.formatJson(filterVal, list);
+            export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+        })
     }
   }
 };

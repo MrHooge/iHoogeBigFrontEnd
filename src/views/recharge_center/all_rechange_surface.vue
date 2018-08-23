@@ -61,6 +61,12 @@
 						           icon="el-icon-search">搜索</el-button>
 					</div>
 				</el-col>
+                <el-col :span="2">
+					<div class="grid-content bg-purple"
+					     @click="exportSome">
+						<el-button type="primary">导出</el-button>
+					</div>
+				</el-col>
 			</el-row>
 		</div>
 		 <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
@@ -116,12 +122,12 @@
 				</template>
 			</el-table-column>
 
-			<el-table-column label="类型说明"
+			<!-- <el-table-column label="类型说明"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.TRANS_TYPE_NAME }}
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column label="可用金额"
 			                 align="center">
 				<template slot-scope="scope">
@@ -149,7 +155,7 @@
 </template>
 
 <script>
-import { findMemberWalletLineByAccount } from "@/api/sys_user";
+import { findMemberWalletLineByAccount, exportExcle } from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
@@ -180,13 +186,13 @@ export default {
           label: '渠道'
         }],
         value: '1',
+        newarr: [],
 
 
 		};
 	},
 	created() {
-		// this.search(1)
-		this.getData(1, this.name, this.value1, this.value2)
+        this.getData(1, this.name, this.value1, this.value2)
 	},
 	methods: {
 		typechange(){
@@ -196,7 +202,6 @@ export default {
 			if (this.name == '') {
 				this.getData(1, this.name, this.value1, this.value2)
 			}
-			console.log(this.name)
 		},
 		search() {
 			this.getData(1, this.name, this.value1, this.value2)
@@ -217,12 +222,10 @@ export default {
 			}
 
 			if (this.value == '1') {
-				console.log('value11111111')
 				obj.account= this.name
 				obj.dlAccount = ''
 				obj.qdAccount = ''
 			} else if (this.value == '2') {
-				console.log('2222222222222')
 				obj.account = ''
 				obj.dlAccount = this.name
 				obj.qdAccount = ''
@@ -231,20 +234,62 @@ export default {
 				obj.dlAccount = ''
 				obj.qdAccount = this.name
 			}
-			console.log(obj)
 			findMemberWalletLineByAccount(obj).then(res => {
 				if (res.data.error_code == 200) {
-					console.log(res)
 					this.tableData = res.data.data.list
 					this.total = res.data.data.total
 				}else {
-					console.log(res)
 					Message.success(res.data.message)
 				}
 			})
 		},
 		changepage(val) {
 			this.getData(val, this.name, this.value1, this.value2)
+        },
+        formatJson(filterVal, jsonData) {
+    　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
+　　　　},
+        // changeDate(timestamp) {
+		// 	var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+		// 	let Y = date.getFullYear() + '-';
+		// 	let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+		// 	let D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+		// 	let h = date.getHours() + ':';
+		// 	let m = date.getMinutes();
+		// 	// let s = date.getSeconds();
+		// 	return Y + M + D + h + m;
+		// },
+        // 导出
+		exportSome() {
+			let newobj
+			this.tableData.forEach((e, index) => {
+				newobj = {
+                        ACCOUNT: e.ACCOUNT,
+                        username: e.username,
+						PLAN_NO: e.PLAN_NO,
+						wallet_Line_No: e.wallet_Line_No,
+						REMARK: e.REMARK,
+						ABLE_BALANCE: e.ABLE_BALANCE.toFixed(2),
+						CREATE_DATE_TIME: e.CREATE_DATE_TIME
+                }
+				this.newarr.push(newobj)
+			})
+			let model = {
+				listParams: JSON.stringify(this.newarr),
+				title: '会员充值流水'
+			}
+			console.log(model)
+			exportExcle(model.listParams, model.title)
+				.then(res => {})
+			require.ensure([], () => {
+				const { export_json_to_excel } = require('../../vendor/Export2Excel');
+				const tHeader = ['账号', '用户名', '方案号', '流水号', '流水描述', '可用金额', '发生时间']; //对应表格输出的title
+				const filterVal = ['ACCOUNT','username','PLAN_NO','wallet_Line_No','REMARK','ABLE_BALANCE', 'CREATE_DATE_TIME']; // 对应表格输出的数据
+				const list = this.tableData;
+				console.log(this.tableData);
+				const data = this.formatJson(filterVal, list);
+				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+			})
 		}
 	},
 	filters: {

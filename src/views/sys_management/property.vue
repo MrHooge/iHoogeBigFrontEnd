@@ -124,7 +124,7 @@ export default {
     }
   },
   created() {
-    this.getAllChildModel('', 1, 10)
+    this.getAllChildModel('', 1, 20)
   },
   directives: {
     waves
