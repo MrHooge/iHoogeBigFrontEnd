@@ -1,5 +1,7 @@
 <template>
 	<div class="app-container">
+		<el-input v-model="account" placeholder="请输入昵称" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+		<el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
 		<el-table :data="memberfilter"
 		          border
 		          style="width: 100%">
@@ -7,6 +9,14 @@
 			                 align="center"
 			                 type="index"
 			                 width="180">
+			</el-table-column>
+			<el-table-column prop="username"
+			                 align="center"
+			                 label="昵称">
+			</el-table-column>
+			<el-table-column prop="name"
+			                 align="center"
+			                 label="姓名">
 			</el-table-column>
 			<el-table-column label="类型"
 			                 align="center">
@@ -18,22 +28,14 @@
 			                 align="center"
 			                 label="用户名">
 			</el-table-column>
-			<el-table-column prop="username"
-			                 align="center"
-			                 label="昵称">
-			</el-table-column>
-			<el-table-column prop="name"
-			                 align="center"
-			                 label="姓名">
-			</el-table-column>
-			<el-table-column prop="upName"
+			<!-- <el-table-column prop="upName"
 			                 align="center"
 			                 label="上级">
-			</el-table-column>
-			<el-table-column prop="grouping"
+			</el-table-column> -->
+			<!-- <el-table-column prop="grouping"
 			                 align="center"
 			                 label="分组">
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column align="center"
 			                 width="240px;"
 			                 label="操作">
@@ -44,6 +46,19 @@
 				</template>
 			</el-table-column>
 		</el-table>
+			<el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            style="margin-top:40px"
+            >
+            </el-pagination>
 		<!-- 弹窗事件 -->
 		<el-dialog title="给渠道绑代理"
 		           :visible.sync="dialogVisible"
@@ -79,6 +94,7 @@
 						<template slot-scope="scope">{{ scope.row.username }}</template>
 					</el-table-column>
 				</el-table>
+				
 			</div>
 			<span slot="footer"
 			      class="dialog-footer">
@@ -99,12 +115,15 @@ export default {
 	components: { treeTable },
 	data() {
 		return {
+			account:'',
 			tableData: [], //表格数据
 			sjname: '',//模糊搜索
 			dialogVisible: false,
 			tableData3: [], // 弹窗的表格数据
 			multipleSelection: [], //选中的数据
 			onePeople: {}, // 存选择的某一条数据
+			page:1,
+			pageSize:20
 		}
 	},
 	filters: {
@@ -129,12 +148,36 @@ export default {
 		this.getTable()
 	},
 	methods: {
+			//查询
+		inquire(){
+			if(this.account == ''){
+				this.$message('请输入昵称')
+			}else{
+				//account = this.account
+				this.getTable()
+			}
+		},
+				//翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getTable()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getTable()
+        },
 		getTable() {
-			findAllAgentAndQD().then(res => {  //  获取渠道数据
-				this.tableData = res.data.data.filter((e, index) => {
+			let obj = {
+				page:this.page,
+				pageSize:this.pageSize,
+				account:this.account
+			}
+			findAllAgentAndQD(obj).then(res => {  //  获取渠道数据
+				this.tableData = res.data.data.list.filter((e, index) => {
 					return e.AGENT_TYPE == 0
 				})
-				this.tableData3 = res.data.data.filter((e, index) => {   //  获取代理数据
+				this.tableData3 = res.data.data.list.filter((e, index) => {   //  获取代理数据
 					return e.AGENT_TYPE == 1
 				})
 				// console.log(res)

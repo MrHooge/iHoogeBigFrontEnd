@@ -8,7 +8,7 @@
         <span class="username">{{name}}</span>
         <i class="el-icon-caret-bottom"></i>
       </div>
-      <el-dropdown-menu class="user-dropdown" slot="dropdown">
+      <el-dropdown-menu class="user-dropdown" slot="dropdown" style="background-color: rgb(238, 241, 246)">
         <router-link class="inlineBlock" to="/">
           <el-dropdown-item>
             Home

@@ -49,6 +49,9 @@
 						                value-format="yyyy-MM-dd">
 						</el-date-picker>
 					</div>
+					<el-button type="primary"
+						           icon="el-icon-search"
+								   @click="typechange">选择类型</el-button>
 				</el-col>
 
 				<el-col :span="2">
@@ -60,6 +63,23 @@
 				</el-col>
 			</el-row>
 		</div>
+		 <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+			  类型：<el-radio v-model="child_type" label="0" border>隐藏</el-radio>
+					<el-radio v-model="child_type" label="1" border>显示</el-radio>
+					<el-radio v-model="child_type" label="1" border>所有人可见</el-radio><br />
+					<el-radio v-model="child_type" label="2" border>白名单可见</el-radio>
+					<el-radio v-model="child_type" label="3" border>指定人可见</el-radio>
+					<el-radio v-model="child_type" label="0" border>隐藏</el-radio><br />
+					<el-radio v-model="child_type" label="1" border>显示</el-radio>
+					<el-radio v-model="child_type" label="1" border>所有人可见</el-radio>
+					<el-radio v-model="child_type" label="2" border>白名单可见</el-radio>
+					<el-radio v-model="child_type" label="3" border>指定人可见</el-radio><br />
+					<el-radio v-model="child_type" label="3" border>指定人可见</el-radio>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitInfos">确 定</el-button>
+      </div>
+    </el-dialog>
 		<!-- 表格数据  -->
 		<el-table :data="tableData"
 		          border
@@ -138,6 +158,7 @@ export default {
 	data() {
 		return {
 			pageShow: true,
+			dialogFormVisible:false,
 			name: "", // 用户名
 			number: "", // 充值的金额
 			total: 0, // 总页数
@@ -146,6 +167,7 @@ export default {
 			username: '',
 			money: '',
 			value1: '',
+			child_type:'',
 			value2: '',
 			options: [{
           value: '1',
@@ -167,6 +189,9 @@ export default {
 		this.getData(1, this.name, this.value1, this.value2)
 	},
 	methods: {
+		typechange(){
+			this.dialogFormVisible = true
+		},
 		onInput() {
 			if (this.name == '') {
 				this.getData(1, this.name, this.value1, this.value2)
@@ -185,6 +210,7 @@ export default {
 				start_time: b,
 				end_time: c,
 				type: 2,
+				child_type:this.child_type,
 				account:a,
 				dlAccount:a,
 				qdAccount:a

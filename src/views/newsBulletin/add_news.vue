@@ -3,7 +3,20 @@
   <div class="sendnews">
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
   <el-form-item label="新闻类别">
-    <el-input v-model="form.type" style="width:200px" placeholder="必填"></el-input>
+    <!-- <el-input v-model="form.type" style="width:200px" placeholder="必填"> -->
+      <el-dropdown @command="handleCommand">
+      <span class="el-dropdown-link">
+        {{command}}<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="足球板块">足球板块</el-dropdown-item>
+        <el-dropdown-item command="篮球板块">篮球板块</el-dropdown-item>
+        <el-dropdown-item command="数字板块">数字板块</el-dropdown-item>
+        <el-dropdown-item command="购彩板块">购彩板块</el-dropdown-item>
+        <el-dropdown-item command="资讯板块">资讯板块</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+    <!-- </el-input> -->
   </el-form-item>
   <el-form-item label="标题">
     <el-input v-model="form.title" style="width:300px" placeholder="必填"></el-input>
@@ -126,7 +139,7 @@
 </template>
 
 <script>
-import { createNews,uploadImage,setNewsPicetur } from '@/api/news'
+import { createNews,uploadImage,setNewsPicetur,getTypes } from '@/api/news'
 import api from '../../../config/dev.env'
 export default {
   data() {
@@ -136,6 +149,7 @@ export default {
       file:'',
       id:'',
       imgurl:'',
+      command:'',
        form: {
           click:'',
           createDateTime:'',
@@ -165,6 +179,9 @@ export default {
   },
 
   methods: {
+     handleCommand(command) {
+        this.command = command;
+      },
     //上传图片成功回调
     handleAvatarSuccess(res){
       // this.imgurl = 'https://infos.api.qiyun88.cn/information/uploadImage'

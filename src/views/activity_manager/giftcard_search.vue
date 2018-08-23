@@ -1,0 +1,180 @@
+<template>
+    <div class="gift">
+        <div>
+         账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+          开始时间：<el-date-picker
+            v-model="stime"
+            type="date"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
+            placeholder="请选择开始日期"
+            value-format="yyyy-MM-dd">
+            </el-date-picker>
+            
+            结束时间：<el-date-picker
+            v-model="etime"
+            align="right"
+            value-format="yyyy-MM-dd"
+            type="date"
+            style="margin-left:10px;
+            width:200px
+            margin-bottom:40px;"
+            placeholder="请选择结束日期"
+            >
+            </el-date-picker>
+             <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+        </div>
+        <div>
+            <el-table
+               :data="tableData"
+               border
+               style="width: 100%;">
+               <el-table-column
+               type="index"
+               align="center"
+               label="编号">
+               </el-table-column>
+               <el-table-column
+                     label="	用户账号"
+                     prop="account"
+                     align="center">    
+               </el-table-column>
+                <el-table-column
+                     label="彩金卡名字"
+                     prop="card_name"
+                     align="center">
+               </el-table-column> 
+                  <el-table-column
+                     label="获得时间"
+                     align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.create_time | time}}
+                     </template>
+               </el-table-column>
+                <el-table-column
+                     label="截止时间"
+                     align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.deadline_time | time}}
+                     </template>
+               </el-table-column>    
+                 <el-table-column
+                     label="满额度使用"
+                     align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.full_amount | time}}
+                </template>
+               </el-table-column>
+               <el-table-column
+                     label="金额"
+                     prop="money"
+                     align="center">
+               </el-table-column>
+               <el-table-column
+                     label="获得渠道"
+                     align="center">
+                      <template slot-scope="scope">
+                    {{scope.row.require_type | type}}
+                </template>
+               </el-table-column> 
+               <el-table-column
+                     label="状态"
+                     align="status">
+                     <template slot-scope="scope">
+                    {{scope.row.status | studio}}
+                </template>
+               </el-table-column>
+               <el-table-column
+                     label="使用时间"
+                     align="center">
+                     <template slot-scope="scope">
+                    {{scope.row.use_time | time}}
+                     </template>
+               </el-table-column>
+            </el-table>
+        </div>
+    </div>
+</template>
+
+<script>
+import { findGoldCard } from '@/api/activity'
+export default {
+    data(){
+        return{
+            tableData:[],
+            account:'',
+            etime:'',
+            stime:''
+        }
+    },
+    filters:{
+         time(a){
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+
+        },
+        type(m){
+            if(m == 0){
+                return "抽奖获得"
+            }else if(m == 1){
+                return "线下充值大礼包"
+            }else{
+                return "运营后台赠送"
+            }
+        },
+         studio(s){
+            if(s == 0){
+                return "未使用"
+            }else if(s == 1){
+                return "已使用"
+            }else{
+                return "已过期	"
+            }
+        }
+    },
+    created(){
+        this.getTdable()
+    },
+    methods:{
+        inquire(){
+            if(this.account == ''){
+                this.$message('请输入账号')
+            }else if(this.stime == ''){
+                this.$message('请输入开始时间')
+            }else if(this.etime == ''){
+                this.$message('请输入结束时间')
+            }else{
+                this.getTdable()
+            }
+        },
+        getTdable(){
+            let obj = {
+                account:this.account,
+                endTime:this.etime,
+                startTime:this.stime
+            }
+            findGoldCard(obj)
+            .then(res => {
+                // console.log(res.data.data)
+                this.tableData = res.data.data
+            })
+        }
+    }
+}
+</script>
+
+<style>
+.gift{
+    padding: 10px 20px
+}
+</style>

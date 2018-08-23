@@ -3,7 +3,28 @@
 		<div class="search">
 			<el-input v-model="username"
 			          placeholder="请输入会员名进行查询"
-			          style="width:60%;" @input="onInput"></el-input>
+			          style="width:12%;" @input="onInput"></el-input>
+			<el-input v-model="operator"
+			          placeholder="请输入操作人进行查询"
+			          style="width:12%;"></el-input>
+            <el-date-picker
+            v-model="stime"
+            type="date"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
+            placeholder="请选择开始日期"
+            value-format="yyyy-MM-dd">
+            </el-date-picker>          
+            <el-date-picker
+            v-model="etime"
+            align="right"
+            value-format="yyyy-MM-dd"
+            type="date"
+            style="margin-left:10px;
+            width:200px
+            margin-bottom:40px;"
+            placeholder="请选择结束日期"
+            >
+            </el-date-picker>		  
 			<el-button type="primary"
 			           icon="el-icon-search"
 			           @click="search">搜索</el-button>
@@ -21,26 +42,22 @@
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%;">
-			<el-table-column prop="account"
+			<!-- <el-table-column prop="account"
 			                 label="会员名"
 			                 align="center">
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column prop="username"
 			                 label="昵称"
 			                 align="center">
 			</el-table-column>
-			<el-table-column prop="mobile"
-			                 label="手机号"
-			                 align="center">
-			</el-table-column>
-
+			
 			<el-table-column prop="name"
 			                 label="真实姓名"
 			                 align="center">
 			</el-table-column>
 
-			<el-table-column prop="amount"
-			                 label="金额"
+			<el-table-column prop="mobile"
+			                 label="手机号"
 			                 align="center">
 			</el-table-column>
 
@@ -50,6 +67,11 @@
 					<span>{{ scope.row.createTime }}</span>
 				</template>
 			</el-table-column>
+
+			<el-table-column prop="amount"
+			                 label="金额"
+			                 align="center">
+			 </el-table-column>
 
 			<el-table-column align="center"
 			                 label="状态">
@@ -121,6 +143,18 @@
 				           @click="sure()">确 定</el-button>
 			</span>
 		</el-dialog>
+		 <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
 	</div>
 </template>
 
@@ -138,6 +172,10 @@ export default {
 			dialogVisible: false,
 			dialogVisible1: false,
 			total: 0,
+			stime:'',
+			etime:'',
+			page:1,
+			pageSize:20,
 			a: "",
 			b: "",
 			c: "",
@@ -154,19 +192,29 @@ export default {
 	},
 	created() {
 		//   调接口返回数据
-		this.getData(1, '', '');
+		this.getData(this.username, this.value,this.operator);
 	},
 	methods: {
+		 //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getData(this.username, this.value,this.operator);
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getData(this.username, this.value,this.operator);
+        },
 		onInput(){
 			if(this.username==''){
-				this.getData(1, this.username, this.value);
+				this.getData(this.username, this.value,this.operator);
 			}
 		},
 		//   下拉选择框的筛选
 		getval() {
 			// console.log(this.value);
 
-			this.getData(1, this.username, this.value);
+			this.getData(this.username, this.value,this.operator);
 		},
 		//   搜索查询
 		search() {
@@ -175,7 +223,7 @@ export default {
 				this.value == ''
 			}
 			// console.log(this.value)
-			this.getData(1, this.username, this.value);
+			this.getData(this.username, this.value,this.operator);
 		},
 		//   接口返回数据数字转换成汉字
 		getStr(num) {
@@ -189,11 +237,14 @@ export default {
 		},
 
 		// 获取接口数据
-		getData(currpage, name, s) {
+		getData(name, s,m) {
 			let obj = {
-				page: currpage,
-				pageSize: 20,
+				page: this.page,
+				pageSize: this.pageSize,
 				account: name,
+				operator:m,
+				startTime:this.stime,
+				endTime:this.etime,
 				status: s,
 				loginAccount: getCookies('name')
 			};

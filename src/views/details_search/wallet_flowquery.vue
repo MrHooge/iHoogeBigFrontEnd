@@ -25,13 +25,18 @@
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
-            <el-table-column
-                prop="ABLE_BALANCE"
-                label="可用金额"
+             <el-table-column
+                prop="wallet_Line_No"
                 align="center"
-                width="180">
+                label="	流水号">
+               
             </el-table-column>
-
+              <el-table-column
+                prop="username"
+                align="center"
+                label="	用户名">
+               
+            </el-table-column>
             <el-table-column
                 prop="ACCOUNT"
                 align="center"
@@ -43,11 +48,15 @@
                 label="	发生时间">
                
             </el-table-column>
-
             <el-table-column
-                prop="HEAP_BALANCE"
+                prop="REMARK"
                 align="center"
-                label="	历史消费">
+                label="流水描述">           
+            </el-table-column>
+              <el-table-column
+                prop="PLAN_NO"
+                align="center"
+                label="	方案号">           
             </el-table-column>
             <el-table-column
                 prop="HEAP_BALANCE"
@@ -59,15 +68,11 @@
                 align="center"
                 label="方案类型说明">
             </el-table-column>
-            <el-table-column
-                prop="PLAN_NO"
+             <el-table-column
+                prop="ABLE_BALANCE"
+                label="可用金额"
                 align="center"
-                label="	方案号">           
-            </el-table-column>
-            <el-table-column
-                prop="REMARK"
-                align="center"
-                label="流水描述">           
+                width="180">
             </el-table-column>
             <el-table-column
                 prop="TRANS_TYPE"
@@ -75,24 +80,17 @@
                 label="	发生类型">
                
             </el-table-column>
-            <el-table-column
+              <el-table-column
+                prop="HEAP_BALANCE"
+                align="center"
+                label="	历史消费">
+            </el-table-column>
+            <!-- <el-table-column
                 prop="TRANS_TYPE"
                 align="center"
                 label="	发生类型说明">
                
-            </el-table-column>
-            <el-table-column
-                prop="username"
-                align="center"
-                label="	用户名">
-               
-            </el-table-column>
-            <el-table-column
-                prop="wallet_Line_No"
-                align="center"
-                label="	流水号">
-               
-            </el-table-column>
+            </el-table-column> -->
         </el-table>
         </div>
         <el-pagination
@@ -125,7 +123,8 @@ export default {
             qdAccount:'',
             dlAccount:'',
             page:1,
-            pageSize:20
+            pageSize:10,
+            child_type:-1001
         }
     },
     created(){
@@ -137,7 +136,7 @@ export default {
                 account:'',
                 end_time:'',
                 start_time:'',
-                child_type:'',
+                child_type:this.child_type,
                 qdAccount:'',
                 dlAccount:'',
                 loginAccount:'manager',
@@ -162,7 +161,7 @@ export default {
                 loginAccount:'manager',
                 page:this.page,
                 pageSize:this.pageSize,
-                child_type:'',
+                child_type:this.child_type,
                 type:''
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {

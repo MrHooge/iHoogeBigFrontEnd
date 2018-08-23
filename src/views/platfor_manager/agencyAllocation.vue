@@ -3,14 +3,17 @@
 	<div class="backend app-container">
 		<div class="layerbody">
 			<div class="search">
-				<el-input v-model="sjname"
+				<el-input v-model="account"
 				          placeholder="请输入渠道账号查询名下代理"
 				          style="width:50%;"
 									@input="onInput"></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
+						   	<el-button type="primary"
+			           @click="cofirm" v-show="isShow">确 定</el-button>
 			</div>
+		
 			<div class="main">
 				<el-table :data="tableData"
 				          border
@@ -53,14 +56,19 @@
 				</el-table>
 			</div>
 		</div>
-		<div slot="footer"
-		     class="dialog-footer"
-		     v-show="isShow"
-		     style="padding:30px 0">
-			<el-button type="primary"
-			           style="width:100%"
-			           @click="cofirm">确 定</el-button>
-		</div>
+		<el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-count="totalPages"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            style="margin-top:40px"
+            >
+            </el-pagination>
 		<!-- <div class="page"
 		     v-show="pageShow"
 		     style="padding:30px 0">
@@ -99,6 +107,7 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
+			account:'',
 			input: '', //  转移后
 			dialogVisible: false, //确认弹框
 			isShow: false,
@@ -108,6 +117,8 @@ export default {
 			multipleSelection: [], //选中的数据
 			number: [],
 			arr: [],
+			page:1,
+			pageSize:20
 		}
 	},
 	filters: {
@@ -121,29 +132,40 @@ export default {
 	},
 
 	methods: {
+		//翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getData()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getData()
+        },
 		onInput(){
 				if(this.sjname==''){
 					this.getData()
 				}
 		},
-		search() {
-			let obj = {
-				QDAccount: this.sjname
+		//查询
+		search(){
+			if(this.account == ''){
+				this.$message('请输入昵称')
+			}else{
+				//account = this.account
+				this.getData()
 			}
-			findAgentByQDAccount(obj).then(res => {
-				console.log(res)
-				if (res.data.error_code == 200) {
-					this.tableData = res.data.data
-				} else {
-					Message.success(res.data.message)
-				}
-			})
 		},
 		getData() {   //  获取 所有代理和渠道
-			findAllAgentAndQD().then(res => {
+			let obj = {
+				page:this.page,
+				pageSize:this.pageSize,
+				account:this.account
+			}
+			findAllAgentAndQD(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
-					this.tableData = res.data.data
+					this.tableData = res.data.data.list
 				} else {
 					Message.success(res.data.message)
 				}

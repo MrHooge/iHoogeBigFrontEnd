@@ -74,7 +74,43 @@
 					{{ scope.row.account }}
 				</template>
 			</el-table-column>
-			<el-table-column label="财务审核时间"
+			<el-table-column label="创建时间"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.create_Date_Time}}
+				</template>
+			</el-table-column>
+			<el-table-column label="金额"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.amount }}
+				</template>
+			</el-table-column>
+			<el-table-column label="状态"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.STATUS}}
+				</template>
+			</el-table-column>
+			<el-table-column label="开户支行"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.part_bank}}
+				</template>
+			</el-table-column>
+			<el-table-column label="声明人"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.name}}
+				</template>
+			</el-table-column>
+				<el-table-column label="汇款时间"
+			                 align="center">
+				<template slot-scope="scope">
+					{{ scope.row.send_date_time}}
+				</template>
+			</el-table-column>
+			<!-- <el-table-column label="财务审核时间"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.FINANCE_DEAL_DATE_TIME }}
@@ -87,12 +123,7 @@
 				</template>
 			</el-table-column>
 
-			<el-table-column label="金额"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.amount }}
-				</template>
-			</el-table-column>
+			
 
 			<el-table-column label="个人手续费"
 			                 align="center">
@@ -118,54 +149,22 @@
 					{{ scope.row.show_drawing_Fee}}
 				</template>
 			</el-table-column>
-			<el-table-column label="汇款时间"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.send_date_time}}
-				</template>
-			</el-table-column>
-			<el-table-column label="汇款时间"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.send_date_time}}
-				</template>
-			</el-table-column>
 			<el-table-column label="交易到账时间"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.confirm_date_time}}
 				</template>
-			</el-table-column>
-			<el-table-column label="创建时间"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.create_Date_Time}}
-				</template>
-			</el-table-column>
-			<el-table-column label="声明人"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.name}}
-				</template>
-			</el-table-column>
-			<el-table-column label="状态"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.STATUS}}
-				</template>
-			</el-table-column>
-			<el-table-column label="提款类型平台"
+			</el-table-column> -->
+			
+			
+			
+			<!-- <el-table-column label="提款类型平台"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.PLATFORM}}
 				</template>
-			</el-table-column>
-			<el-table-column label="开户支行"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.part_bank}}
-				</template>
-			</el-table-column>
+			</el-table-column> -->
+			
 			<el-table-column label="操作"
 			                 align="center">
 				<template slot-scope="scope">
