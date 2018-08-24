@@ -150,8 +150,8 @@
                                     placement="right"
                                     width="1300"
                                     trigger="click">
-                                   <el-button type="warning" slot="reference" @click="wallet(scope.row,'modify')">明细</el-button>&nbsp;
                                    </el-popover>
+                                   <el-button type="warning" @click="Szczegol(scope.row)">明细</el-button>&nbsp;
                                    &nbsp;&nbsp;<el-button type="warning" @click="Chargeback(scope.row,'modify')">退单</el-button>
                                    <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button>
                                 </el-dropdown-menu>
@@ -259,11 +259,17 @@ export default {
         this.gettable()
     },
     methods:{
+        //点击账号跳转会员管理页面
         getupnewweb(a){
             // console.log(111111111111111111)
             // console.log(a)
 
              this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
+        },
+        //明细页面跳转
+        Szczegol(parse){
+         let routeData = this.$router.resolve({ path: '/programCenter/Detail', query: {  planNo: parse.planNo } });
+            window.open(routeData.href, '_blank');
         },
         getval(){
             console.log(this.planStatus)

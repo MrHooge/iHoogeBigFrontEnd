@@ -129,3 +129,11 @@ export function getIsFocusPlan(userinfos){
         params:userinfos
     })
 }
+//方案明细
+export function getPlanDetailForManager(userinfos){
+    return request.lottery({
+        url:'/lottery/getPlanDetailForManager',
+        method:'get',
+        params:userinfos
+    })
+}

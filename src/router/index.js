@@ -738,6 +738,12 @@ export const constantRouterMap = [{
         meta: { title: '彩期显示' }
       },
       {
+        path: 'Detail',
+        name: '方案查询明细',
+        component: () => import ('@/views/program_center/Detail'),
+        meta: { title: '方案查询明细' }
+      },
+      {
         path: 'lotteryprize',
         name: '开奖派奖',
         component: () => import ('@/views/program_center/lotteryprize'),

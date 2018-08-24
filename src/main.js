@@ -17,8 +17,10 @@ import store from './store'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import qs from 'qs'
 import axios from 'axios'
 Vue.prototype.$http = axios
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 
 Vue.use(ElementUI, { locale })
