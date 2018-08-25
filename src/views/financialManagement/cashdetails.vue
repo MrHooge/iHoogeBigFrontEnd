@@ -1,7 +1,7 @@
 <template>
 	<div class="app-container">
 		<div class="row">
-			<el-select v-model="datetype"
+			<!-- <el-select v-model="datetype"
 			           placeholder="请选择时间段"
 			           @change="handledate">
 				<el-option v-for="item in options"
@@ -9,7 +9,25 @@
 				           :label="item.label"
 				           :value="item.value">
 				</el-option>
-			</el-select>
+			</el-select> -->
+			<el-date-picker
+            v-model="stime"
+            type="date"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
+            placeholder="请选择开始日期"
+            value-format="yyyy-MM-dd">
+            </el-date-picker>            
+            <el-date-picker
+            v-model="etime"
+            align="right"
+            value-format="yyyy-MM-dd"
+            type="date"
+            style="margin-left:10px;
+            width:200px
+            margin-bottom:40px;"
+            placeholder="请选择结束日期"
+            >
+            </el-date-picker>
 			<el-button type="primary"
 			           style="margin-left:10%"
 			           @click="exportSome">导出</el-button>
@@ -114,6 +132,8 @@ export default {
 		return {
 			tableData: [], //表格数据
 			username: '', // 用户名
+			stime:'',
+			etime:'',
 			options: [
 				{
 					value: '1',
@@ -203,18 +223,18 @@ export default {
 			let newobj
 			this.tableData.forEach((e, index) => {
 				newobj = {
-					"编号": index + 1,
-					"日期": e.date,
-					"线下代理授信加款": e.officeUnderLineAdd.toFixed(2),
-					"线下运营加款": e.operationsUnderLineAdd.toFixed(2),
-					"线下客服加款": e.cusServiceUnderLineAdd.toFixed(2),
-					"线下财务加款": e.financialUnderLineAdd.toFixed(2),
-					"易宝": e.yibao.toFixed(2),
-					"联动": e.liandong.toFixed(2),
-					"支付宝": e.zifubao.toFixed(2),
-					"合计": e.allMoney.toFixed(2),
-					"当日提款": e.withdrawal.toFixed(2),
-					"当日赠送": e.sendMoney.toFixed(2)
+						index: index,
+						date: e.date,
+						officeUnderLineAdd: e.officeUnderLineAdd.toFixed(2),
+						operationsUnderLineAdd: e.operationsUnderLineAdd.toFixed(2),
+						cusServiceUnderLineAdd: e.cusServiceUnderLineAdd.toFixed(2),
+						financialUnderLineAdd: e.financialUnderLineAdd.toFixed(2),
+						yibao: e.yibao.toFixed(2),
+						liandong: e.liandong.toFixed(2),
+						zifubao: e.zifubao.toFixed(2),
+						allMoney: e.allMoney.toFixed(2),
+						withdrawal: e.withdrawal.toFixed(2),
+						sendMoney: e.sendMoney.toFixed(2)
 				}
 				this.newarr.push(newobj)
 			})
@@ -227,12 +247,13 @@ export default {
 				.then(res => {
 					//window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
 				})
-			console.log(this.newarr)
 			require.ensure([], () => {
 				const { export_json_to_excel } = require('../../vendor/Export2Excel');
 				const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title
-				const filterVal = this.newarr; // 对应表格输出的数据
+				const filterVal = ['index','date','officeUnderLineAdd','operationsUnderLineAdd','cusServiceUnderLineAdd','financialUnderLineAdd', 'yibao', 'liandong', 'zifubao','allMoney','withdrawal','sendMoney']; // 对应表格输出的数据
 				const list = this.tableData;
+				console.log(123456789)
+				console.log(this.tableData);
 				const data = this.formatJson(filterVal, list);
 				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
 			})

@@ -122,7 +122,7 @@ export default {
     }
   },
   created() {
-    this.getTableList('', 1)
+    this.getTableList()
   },
   filters: {
     sumCommision(sum) {
@@ -155,7 +155,9 @@ export default {
       }
       findSaleInfo(paramsObj)
         .then(res => {
-          this.tableData = res.data.data
+          this.tableData = res.data.list
+          console.log(this.tableData)
+          console.log(12345665)
           this.total = res.data.data.total
         })
         .catch(error => {

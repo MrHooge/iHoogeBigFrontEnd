@@ -162,11 +162,7 @@ export default {
     },
     methods:{
         inquire(){
-            if(this.label ||this.title ||this.type){
-                this.gettablelist()
-            }else {
-                this.$message('请输入相关信息')
-            }
+                this.gettablelist()  
         },
         //获取表格数据
         gettablelist(){

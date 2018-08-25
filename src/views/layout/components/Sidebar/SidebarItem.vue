@@ -9,7 +9,7 @@
         </template>
         <template v-for="child in item.childList">
           <router-link :to="child.model_url" :key="child.model_name">
-            <el-menu-item :index="child.model_name" style="background-color:blue;">
+            <el-menu-item :index="child.model_name" style="background-color:red;">
               <span v-if="child.model_name" slot="title">{{child.model_name}}</span>
             </el-menu-item>
           </router-link>
