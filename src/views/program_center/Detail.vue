@@ -102,27 +102,27 @@
             </div>
             <div class="lei">
                 <div class="left">操作：</div>
-                <div class="right"></div>
-            </div>
-            </div>
-            <div class="Enthalt">
-            <div class="hang" style="width:100%">
-                <div class="left" style="width:24%">出票详情：</div>
-                <div class="right" style="width:75%">{{ ticketDetail }}</div>
+                <div class="right" style="border:none"><el-button type="primary"
+                 @click="getone"
+                 @keyup.13="getone" size="medium" style="border-radius:0">撤销</el-button></div>
             </div>
             </div>
             <!-- 方案内容 -->
             <div class="title">方案内容</div>
-
+            <div class="title" v-for="item in ticketDetail" :key="item.index">
+                <div class="title" style="border:none">{{item}}}</div>
+            </div>
         </div>
         <!-- 方案详情 -->
         <div class="Lento">
-            <el-table :data="messagedata" border style="width: 100%;">
+            <el-table :data="messagedata" border style="width: 20%;float:left">
             <el-table-column
                 prop="matchId"
                 align="center"
                 label="场次号">     
             </el-table-column>
+            </el-table>
+            <el-table :data="tablethis" border style="width: 80%;float:left">
             <el-table-column
                 prop="winStatus"
                 align="center"
@@ -149,13 +149,14 @@
 </template>
 
 <script>
-import { getPlanDetailForManager } from '@/api/period'
+import { getPlanDetailForManager,planBack } from '@/api/period'
 export default {
     data(){
         return {
             number:'',
             tableData:[],
             messagedata:[],
+            tablethis:[],
             lotteryType:'',//彩种
             planStatus:'',//方案状态
             term:'',//彩期
@@ -182,16 +183,34 @@ export default {
         this.gettable()
     },
     methods:{
+        //撤销
+        getone(){
+            let newobj = {
+                planNo:this.$route.query.planNo
+            }
+            planBack(newobj).then(res => {
+                if(res.data.error_code == 200){
+                    this.$message(res.data.message)
+                }
+            })
+        },
         //获取数据
         gettable(){
             let obj = {
                 planNo:this.number
             }
+            let arr = [];
+            let obje = {
+                matchId:''
+            }
             getPlanDetailForManager(obj).then(res => {
-                console.log(111111111111)
-                console.log(res.data)
-                this.messagedata = res.data.matchDetail
-                this.tableData.push(res.data);
+                let rest = res.data.matchDetail;
+                rest.forEach(e => {
+                    arr.push(e.options);
+                });
+                console.log(arr)
+                this.messagedata = res.data.matchDetail;
+                this.tablethis = res.data.matchDetail.options;
                 this.lotteryType = res.data.lotteryType;
                 this.planStatus = res.data.planStatus;
                 this.term = res.data.term;

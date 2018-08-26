@@ -4,8 +4,7 @@
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             方案编号:<el-input v-model="planNo" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             发单金额:<el-input v-model="startAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
-            税后奖金（起始）:<el-input v-model="startReturnAmount" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            税后奖金（截止）:<el-input v-model="endReturnAmount" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input><br />
+            税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             方案状态：<el-select v-model="planStatus"
 			           placeholder="请选择状态筛选数据"
 			           @change="getval"
@@ -27,7 +26,7 @@
 				           :value="item.winStatus">
 				</el-option>
                
-			</el-select>
+			</el-select><br />
             玩法：<el-select v-model="playType"
 			           placeholder="请选择状态筛选数据"
 			           @change="getval"

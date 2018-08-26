@@ -254,15 +254,16 @@ export default {
       }
       var params =new URLSearchParams();
       params.append('value',JSON.stringify(obj));
-      console.log(1654165131)
-      console.log(JSON.stringify(obj))
       axios.post('https://member.api.qiyun88.cn/user/addRoleBondPermission', JSON.stringify(obj),{
         headers: {
             'Content-Type': 'application/json;charset=UTF-8'
         }
       }).then(res=>{
         console.log(res)
-      })
+        console.log(123456)
+      }).catch(function (error) {
+        console.log(error);
+        });
 
 
       // addRoleBondPermission(JSON.stringify(obj)).then(res => {
