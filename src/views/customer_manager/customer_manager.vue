@@ -109,14 +109,14 @@
                      prop="registerDateTime"
                      align="center">
                      <template slot-scope="scope">
-                    {{scope.row.registerDateTime | time}}
+                    {{scope.row.registerDateTime}}
                      </template>
                </el-table-column>    
                  <el-table-column
                      label="最后登陆时间"
                      align="center">
                      <template slot-scope="scope">
-                    {{scope.row.lastLoginDateTime | time}}
+                    {{scope.row.lastLoginDateTime}}
                 </template>
                </el-table-column>
                <el-table-column
