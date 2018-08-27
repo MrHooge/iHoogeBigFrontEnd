@@ -54,7 +54,6 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[ 20, 30, 40, 50]"
             :page-size="pageSize"
@@ -108,7 +107,8 @@ export default {
 			multipleSelection: [], //选中的数据
 			onePeople: {}, // 存选择的某一条数据
 			page:1,
-			pageSize:20
+            pageSize:20,
+            totalList: 0,
 		}
 	},
 	filters: {
@@ -149,8 +149,10 @@ export default {
 				account:this.account
 			}
 			findAllAgentAndQD(obj).then(res => {  //  获取渠道数据
-				this.tableData = res.data.data.list
-				// console.log(res)
+                this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
+                console.log(res)
+                console.log('111')
 			})
 		},
 
@@ -202,8 +204,6 @@ export default {
 				this.isShow = true
 
 			} else {
-			
-				
 				this.isShow = false
 			}
 

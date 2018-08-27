@@ -45,7 +45,8 @@ export default {
 	data() {
 		return {
 			planNo: '', //  方案编号
-			dialogVisible: false,
+            dialogVisible: false,
+            message: '',
 		};
 	},
 	methods: {
@@ -72,7 +73,8 @@ export default {
 				type: 2, // 1代理列表 2后台列表
 			}
 			findTicke2(obj).then(res => {
-				console.log(res)
+                console.log(res)
+                console.log('111')
 				if (res.status == 200) {
 					this.dialogVisible = true
 					this.message = res.data.message

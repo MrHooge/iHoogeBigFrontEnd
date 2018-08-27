@@ -68,6 +68,10 @@
         prop="status"
         label="	状态"
         align="center">
+        <template slot-scope="scope">
+            <el-tag
+            disable-transitions>{{scope.row.status | changeType}}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         label="	操作"
@@ -130,6 +134,20 @@ export default {
     created(){
             this.gettable()
         },
+    filters: {
+        changeType(val){
+            val = Number(val)
+            if(val === 0){
+                return '在售'
+            }
+            else if(val === 1){
+                return '截止'
+            }
+            else if(val === 2){
+                return '取消'
+            }
+        }
+    },
     methods:{
         //查询
         gettable(){

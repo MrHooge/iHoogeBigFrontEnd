@@ -42,14 +42,14 @@
 				<el-table-column label="发起时间"
 				                 align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.createDateTime | changeTime}}</span>
+						<span style="margin-left: 10px">{{ scope.row.createDateTime}}</span>
 					</template>
 				</el-table-column>
 
 				<el-table-column label="寻票时间"
 				                 align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.findTime | changeTime}}</span>
+						<span style="margin-left: 10px">{{ scope.row.findTime}}</span>
 					</template>
 				</el-table-column>
 

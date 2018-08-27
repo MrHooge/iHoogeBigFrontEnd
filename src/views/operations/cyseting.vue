@@ -240,9 +240,10 @@ export default {
 			};
 			getMember(obj).then(res => {
 				console.log(res)
-				if (res.statsu == 200) {
+				if (res.status == 200) {
 					this.totalNum = res.data.totalCount;
-					this.tabledata = res.data.data.data;
+                    this.tabledata = res.data.data;
+                    
 				}
 			})
 		},

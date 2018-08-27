@@ -114,7 +114,6 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
@@ -151,6 +150,7 @@ export default {
             shortTitle:'',
             sort:'',
             summary:'',
+            totalList: 0,
         }
     },
     filters:{
@@ -178,6 +178,7 @@ export default {
            getNewsList(obj)
            .then(res => {
              this.tableData = res.data.data.list
+             this.totalList = res.data.data.total
            })
         },
         //翻页
