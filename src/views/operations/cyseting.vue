@@ -73,7 +73,7 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column prop="username"
+				<el-table-column prop="name"
 				                 align="center"
 				                 label="昵称">
 				</el-table-column>
@@ -242,7 +242,7 @@ export default {
 				console.log(res)
 				if (res.statsu == 200) {
 					this.totalNum = res.data.totalCount;
-					this.tabledata = res.data.data;
+					this.tabledata = res.data.data.data;
 				}
 			})
 		},

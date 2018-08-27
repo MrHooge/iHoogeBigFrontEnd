@@ -2,28 +2,46 @@
     <div class="program">
         <div class="search">
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            发单金额（起始）:<el-input v-model="startAmount" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            发单金额（截止）:<el-input v-model="endAmount" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            税后奖金（起始）:<el-input v-model="startReturnAmount" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            税后奖金（截止）:<el-input v-model="endReturnAmount" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            方案编号:<el-input v-model="planNo" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input><br />
-            方案状态：<el-radio v-model="planStatus" label="1" border style="margin:5px;" size="mini">未支付</el-radio>
-                    <el-radio v-model="planStatus" label="3" border style="margin:5px;" size="mini">出票中 </el-radio>
-                    <el-radio v-model="planStatus" label="4" border style="margin:5px;" size="mini">已出票</el-radio>
-                    <el-radio v-model="planStatus" label="9" border style="margin:5px;" size="mini">未出票作废</el-radio>
-            中奖状态：<el-radio v-model="winStatus" label="1" border style="margin:5px;" size="mini">未开奖</el-radio>
-                    <el-radio v-model="winStatus" label="2" border style="margin:5px;" size="mini">未中奖 </el-radio>
-                    <el-radio v-model="winStatus" label="3" border style="margin:5px;" size="mini">已中奖</el-radio>
-                    <el-radio v-model="winStatus" label="4" border style="margin:5px;" size="mini">已派奖</el-radio>
-                    <el-radio v-model="winStatus" label="11" border style="margin:5px;" size="mini">未出票作废</el-radio>
-            玩法：<el-radio v-model="playType" label="1" border style="margin:5px;" size="mini">未支付</el-radio>
-                    <el-radio v-model="playType" label="3" border style="margin:5px;" size="mini">出票中 </el-radio>
-                    <el-radio v-model="playType" label="4" border style="margin:5px;" size="mini">已出票</el-radio>
-                    <el-radio v-model="playType" label="9" border style="margin:5px;" size="mini">未出票作废</el-radio><br />
+            方案编号:<el-input v-model="planNo" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            发单金额:<el-input v-model="startAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
+            税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            方案状态：<el-select v-model="planStatus"
+			           placeholder="请选择状态筛选数据"
+			           @change="getval"
+                       style="width:7%">
+				<el-option v-for="item in options"
+				           :key="item.planStatus"
+				           :label="item.label"
+				           :value="item.planStatus">
+				</el-option>
+               
+			</el-select>
+            中奖状态：<el-select v-model="winStatus"
+			           placeholder="请选择状态筛选数据"
+			           @change="getval"
+                       style="width:7%">
+				<el-option v-for="item in sections"
+				           :key="item.winStatus"
+				           :label="item.label"
+				           :value="item.winStatus">
+				</el-option>
+               
+			</el-select><br />
+            玩法：<el-select v-model="playType"
+			           placeholder="请选择状态筛选数据"
+			           @change="getval"
+                       style="width:5%">
+				<el-option v-for="item in directions"
+				           :key="item.playType"
+				           :label="item.label"
+				           :value="item.playType">
+				</el-option>
+               
+			</el-select>
             发单时间（起始）：<el-date-picker
             v-model="stime"
             type="date"
-            style="margin-bottom:40px;margin-right:20px;width:200px"
+            style="margin-bottom:40px;margin-right:20px;width:180px"
             placeholder="请选择开始日期"
             value-format="yyyy-MM-dd">
             </el-date-picker>
@@ -34,7 +52,7 @@
             value-format="yyyy-MM-dd"
             type="date"
             style="margin-left:10px;
-            width:200px
+            width:180px
             margin-bottom:40px;"
             placeholder="请选择结束日期"
             >
@@ -44,62 +62,53 @@
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
+                        <el-table-column
+                prop="planNo"
+                align="center"
+                label="	方案编号">
+            </el-table-column>
             <el-table-column
-                prop="account"
                 label="用户名"
                 align="center"
                 width="180">
+                <template slot-scope="scope">
+                    <span @click="getupnewweb(scope.row.account)">
+                    {{scope.row.account}}
+                    </span>
+                </template>
             </el-table-column>
-
+                        <el-table-column
+                align="center"
+                label="	发单时间">
+                <template slot-scope="scope">
+                    {{scope.row.createTime | time}}
+                </template>
+            </el-table-column>
             <el-table-column
                 prop="amount"
                 align="center"
                 label="		金额">
             </el-table-column>
             <el-table-column
-                prop="lotteryType"
-                align="center"
-                label="	彩种">
-            </el-table-column>
-            <el-table-column
-                prop="planNo"
-                align="center"
-                label="	方案编号">
-            </el-table-column>
-            <el-table-column
                 prop="planStatus"
                 align="center"
                 label="方案状态">
             </el-table-column>
-            <!-- <el-table-column
-                align="center"
-                label="发单宣言">
-                <template slot-scope="scope">
-                     {{scope.row.planDesc |type}}
-                </template>
-            </el-table-column> -->
             <el-table-column
-                prop="playType"
+                prop="lotteryType"
                 align="center"
-                label="	玩法">           
+                label="	彩种">
             </el-table-column>
-            <el-table-column
-                prop="posttaxPrize"
-                align="center"
-                label="税后奖金">           
-            </el-table-column>
-            <el-table-column
+                        <el-table-column
                 prop="term"
                 align="center"
                 label="	彩期">
                
             </el-table-column>
             <el-table-column
+                prop="playType"
                 align="center"
-                label="	发单时间">
-                <template slot-scope="scope">
-                    {{scope.row.createTime | time}}
-                </template>
+                label="	玩法">           
             </el-table-column>
 
             <el-table-column
@@ -108,7 +117,26 @@
                 label="	中奖状态">
                
             </el-table-column>
-           
+                       <el-table-column
+                prop="posttaxPrize"
+                align="center"
+                label="税后奖金">           
+            </el-table-column>
+            <el-table-column
+                align="center"
+                label="发单宣言">
+                <template slot-scope="scope">
+                    <el-popover
+                        placement="top-start"
+                        width="200"
+                        trigger="hover"
+                        :content="fadan">
+                        <el-button slot="reference">详细内容</el-button>
+                    </el-popover>
+
+                     <!-- {{scope.row.planDesc |type}} -->
+                </template>
+            </el-table-column>
             <el-table-column
                 align="center"
                 label="	操作">
@@ -116,12 +144,13 @@
                        <el-dropdown>
                            <el-button type="primary" style="width:70px">操作</el-button>
                            <el-dropdown-menu slot="dropdown">
+                               <el-button type="warning" @click="wallet(scope.row,'modify')">修改宣言</el-button>
                                    <el-popover
                                     placement="right"
                                     width="1300"
                                     trigger="click">
-                                   <el-button type="warning" slot="reference" @click="wallet(scope.row,'modify')">明细</el-button>&nbsp;
                                    </el-popover>
+                                   <el-button type="warning" @click="Szczegol(scope.row)">明细</el-button>&nbsp;
                                    &nbsp;&nbsp;<el-button type="warning" @click="Chargeback(scope.row,'modify')">退单</el-button>
                                    <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button>
                                 </el-dropdown-menu>
@@ -154,7 +183,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan } from '@/api/period'
 export default {
@@ -175,7 +203,34 @@ export default {
             page:1,
             pageSize:20,
             planStatus:'',
-            dialogShenVisible:false
+            dialogShenVisible:false,
+            fadan:'',
+            options: [
+				{ planStatus: "", label: "全部" },
+				{ planStatus: "1", label: "未支付" },
+				{ planStatus: "3", label: "出票中" },
+                { planStatus: "4", label: "已出票" },
+                { planStatus: "9", label: "未出票作废" }
+            ],
+            sections: [
+				{ winStatus: "", label: "全部" },
+				{ winStatus: "1", label: "未开奖" },
+				{ winStatus: "2", label: "未中奖" },
+                { winStatus: "3", label: "已中奖" },
+                { winStatus: "4", label: "已派奖" },
+                { winStatus: "11", label: "未出票作废" }
+            ],
+            directions: [
+				{ playType: "", label: "全部" },
+				{ playType: "117", label: "单关" },
+				{ playType: "118", label: "2串1" },
+                { playType: "119", label: "3串1" },
+                { playType: "120", label: "4串1" },
+                { playType: "121", label: "5串1" },
+                { playType: "122", label: "6串1" },
+                { playType: "123", label: "7串1" },
+                { playType: "124", label: "8串1" },
+            ]
         }
     },
     filters:{
@@ -195,7 +250,7 @@ export default {
             m = m < 10 ? ('0' + m) : m;
             let s = date.getSeconds();
             s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
 
         },
     },
@@ -203,6 +258,22 @@ export default {
         this.gettable()
     },
     methods:{
+        //点击账号跳转会员管理页面
+        getupnewweb(a){
+            // console.log(111111111111111111)
+            // console.log(a)
+
+             this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
+        },
+        //明细页面跳转
+        Szczegol(parse){
+         let routeData = this.$router.resolve({ path: '/programCenter/Detail', query: {  planNo: parse.planNo } });
+            window.open(routeData.href, '_blank');
+        },
+        getval(){
+            console.log(this.planStatus)
+            this.gettable()
+        },
         FokusEreignis(){
             let Schema = {
                 planNo:this.planNo
@@ -235,8 +306,13 @@ export default {
                 desc:''
             }
             selectLotteryPlan(obj).then(res =>{
-                console.log(res.data.data)
                 this.tableData = res.data.data
+                this.fadan = res.data.data.planStatus
+                this.tableData.forEach((e,index) => {
+                    console.log(1324654879)
+                    console.log(e)
+                    this.fadan = e.planDesc
+                })
             })
         },
         //退单

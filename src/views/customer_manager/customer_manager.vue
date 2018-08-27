@@ -355,6 +355,7 @@ export default {
         }
     },
     created(){
+        this.account = this.$route.query.account||'';
         this.gettablelist();
         
         // console.log(this.routes)
@@ -364,11 +365,9 @@ export default {
     },
     methods:{
         inquire(){
-            if(this.account ||this.name ||this.idcard ||this.telphone ||this.stime){
+            
                 this.gettablelist()
-            }else {
-                this.$message('请输入相关信息')
-            }
+           
         },
         //获取表格数据
         gettablelist(){

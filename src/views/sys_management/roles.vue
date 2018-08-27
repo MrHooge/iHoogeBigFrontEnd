@@ -84,6 +84,8 @@ import { findAllRole, addRole, findRoleAndPermission, findAllChildModel, addRole
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
+import api from '../../../config/dev.env'
+import axios from 'axios'
 export default {
   components: { treeTable },
   data() {
@@ -243,14 +245,26 @@ export default {
         })
         permissions += '@'
       })
-      const obj = {
+      let obj = {
         role_name: this.form.role_name,
         role_desc: this.form.role_desc,
         role_id: this.form.role_id,
         permissions: permissions.substring(0, permissions.length - 1),
         child_premission: child_premission
       }
-      addRoleBondPermission(JSON.stringify(obj)).then(res => {
+      // var params =new URLSearchParams();
+      // params.append('value',JSON.stringify(obj));
+      // axios.post('https://member.api.qiyun88.cn/user/addRoleBondPermission', JSON.stringify(obj),{
+      //   headers: {
+      //       'Content-Type': 'application/json;charset=UTF-8'
+      //   }
+      // }).then(res=>{
+      //   console.log(res)
+      //   console.log(123456)
+      // }).catch(function (error) {
+      //   console.log(error);
+      //   });
+      addRoleBondPermission(obj).then(res => {
         if (res.data.error_code === 200) {
           Message.success('权限配置成功！')
         } else {

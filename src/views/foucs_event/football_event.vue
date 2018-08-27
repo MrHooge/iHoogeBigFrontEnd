@@ -68,7 +68,7 @@
                     <div class="grid-content bg-purple-light">
                         <el-date-picker v-model="time"
                                         type="datetime"
-                                        value-format='yyyy-MM-dd HH:mm:ss'
+                                        value-format='yyyyMMddHHmmss'
                                         placeholder="请选择日期时间">
                         </el-date-picker>
                     </div>
@@ -231,24 +231,16 @@ export default {
         // 编辑赛事时间
         editTime() {
             this.dialogVisible = true
-            this.$ajax
-                .get(api.lottery + '/lottery/getMatchDealTime')
-                .then(res => {
-                    if (res.error_code == 200) {
-                        this.val = res.data
-                    }
-                })
         },
         sure() {
             let obj = {
                 dealTime: this.val
             }
-            this.$ajax
-                .get(api.lottery + '/lottery/updateMatchDealTime', obj)
+            updateMatchDealTime(obj)
                 .then(res => {
-                    if (res.error_code == 200) {
+                    if (res.data.error_code == 200) {
+                        this.$message(res.data.message)
                         this.dialogVisible = false
-                        this.$message(res.message)
                     }
                 })
         },

@@ -134,13 +134,16 @@ export function updateParentModel(modelInfo) {
 }
 
 // 给角色 配置权限
-export function addRoleBondPermission(params) {
+export function addRoleBondPermission(userInfos) {
+  var params =new URLSearchParams();
+  params.append('value',JSON.stringify(userInfos));
   return request.member({
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+  },
     url: '/user/addRoleBondPermission',
     method: 'post',
-    params: {
-      params
-    }
+    data:JSON.stringify(userInfos)
   })
 }
 
