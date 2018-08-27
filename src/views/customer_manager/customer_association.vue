@@ -27,7 +27,7 @@
                 align="center"
                 label="创建时间">
                 <template slot-scope="scope">
-                    {{scope.row.create_time | time}}
+                    {{scope.row.create_time}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -112,22 +112,22 @@ export default {
              type(a){
                  return a == 1?"未实名":"已实名"
              },
-               time(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        //        time(a){
+        //     let date = new Date(a);
+        //     let y = date.getFullYear();
+        //     let MM = date.getMonth() + 1;
+        //     MM = MM < 10 ? ('0' + MM) : MM;
+        //     let d = date.getDate();
+        //     d = d < 10 ? ('0' + d) : d;
+        //     let h = date.getHours();
+        //     h = h < 10 ? ('0' + h) : h;
+        //     let m = date.getMinutes();
+        //     m = m < 10 ? ('0' + m) : m;
+        //     let s = date.getSeconds();
+        //     s = s < 10 ? ('0' + s) : s;
+        //     return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
 
-        }
+        // }
          },
     created(){
         this.gettabledata();

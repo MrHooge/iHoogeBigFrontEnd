@@ -244,9 +244,7 @@ export default {
 			}
 			console.log(model)
 			exportExcle(model.listParams, model.title)
-				.then(res => {
-					//window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
-				})
+				.then(res => {})
 			require.ensure([], () => {
 				const { export_json_to_excel } = require('../../vendor/Export2Excel');
 				const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title
