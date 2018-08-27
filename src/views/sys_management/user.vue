@@ -7,12 +7,12 @@
     :data="tableData"
     border
     style="width: 100%; margin-top: 20px">
-      <el-table-column
+      <!-- <el-table-column
         prop="ID"
         label="ID"
         width="80"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="ACCOUNT"
         label="用户名"

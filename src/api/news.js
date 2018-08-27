@@ -44,6 +44,14 @@ export function getNewsList(userinfos) {
     params:userinfos
   })
 }
+//根据id获取资讯
+export function getNew(userinfos) {
+  return request.infos({
+    url: '/information/getNew',
+    method: 'get',
+    params:userinfos
+  })
+}
 //发布或修改资讯
 export function createNews(userinfos) {
   return request.infos({
@@ -77,11 +85,11 @@ export function setNewsPicetur(userinfos) {
   })
 }
 //添加站内信
-export function addMail(userinfos) {
+export function addMail(maill) {
   return request.infos({
     url: '/information/addMail',
     method: 'post',
-    params:userinfos
+    params:{maill}
   })
 }
 //获取站内信列表数据
@@ -132,4 +140,4 @@ export function shWinComment(type,cid) {
       }
     })
   }
-  
+

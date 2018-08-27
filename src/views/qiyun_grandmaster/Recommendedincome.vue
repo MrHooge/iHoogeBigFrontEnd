@@ -142,7 +142,7 @@ export default {
     }
   },
   created() {
-    this.getTable();//默认显示充值流水
+    this.Reward();//默认显示充值流水
   },
   methods: {
     //翻页
@@ -189,23 +189,23 @@ export default {
           }
         });
     },
-    //获取列表数据
-    getTable() {
-      let model = {
-        account: this.account || "",
-        offset: this.page,
-        pageSize: this.pageSize,
-        endTime:this.etime,
-        startTime:this.stime
-      };
-      getRechargeList(model)
-        .then(res => {
-            // console.log(res.status);
-          if (res.status == 200) {
-            this.tablelist = res.data.data            
-          }
-        });
-    }
+    // //获取列表数据
+    // getTable() {
+    //   let model = {
+    //     account: this.account || "",
+    //     offset: this.page,
+    //     pageSize: this.pageSize,
+    //     endTime:this.etime,
+    //     startTime:this.stime
+    //   };
+    //   getRechargeList(model)
+    //     .then(res => {
+    //         // console.log(res.status);
+    //       if (res.status == 200) {
+    //         this.tablelist = res.data.data            
+    //       }
+    //     });
+    // }
   }
 };
 </script>

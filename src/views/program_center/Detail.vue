@@ -48,7 +48,7 @@
             <div class="Enthalt">
             <div class="hang">
                 <div class="left">支付状态：</div>
-                <div class="right">{{ posttaxPrize }}</div>
+                <div class="right"></div>
             </div>
            <div class="lei">
                 <div class="left">税前金额：</div>
@@ -68,7 +68,7 @@
             <div class="Enthalt">
              <div class="hang">
                 <div class="left">发起时间：</div>
-                <div class="right">{{ createDateTime }}</div>
+                <div class="right">{{ createDateTime | time }}</div>
             </div>
             <div class="lei">
                 <div class="left">提成：</div>
@@ -78,7 +78,7 @@
             <div class="Enthalt">
                 <div class="hang">
                 <div class="left">方案截止时间：</div>
-                <div class="right">{{ dealDateTime }}</div>
+                <div class="right">{{ dealDateTime | time }}</div>
             </div>
             <div class="lei">
                 <div class="left">平台：</div>
@@ -88,7 +88,7 @@
             <div class="Enthalt">
                 <div class="hang">
                 <div class="left">方案打票时间：</div>
-                <div class="right">{{ printTicketDateTime }}</div>
+                <div class="right">{{ printTicketDateTime | time }}</div>
             </div>
             <div class="lei">
                 <div class="left">退款日期：</div>
@@ -98,7 +98,7 @@
             <div class="Enthalt">
               <div class="hang">
                 <div class="left">开奖时间：</div>
-                <div class="right">{{ openResultTime }}</div>
+                <div class="right">{{ openResultTime | time }}</div>
             </div>
             <div class="lei">
                 <div class="left">操作：</div>
@@ -122,28 +122,52 @@
                 label="场次号">     
             </el-table-column>
             </el-table>
-            <el-table :data="tablethis" border style="width: 80%;float:left">
+            <div class="newobj">
+                <div class="something" style="border-bottom:none">对阵</div>
+                <div class="something" style="height:60px"></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="newobj">
+                <div class="something" style="border-bottom:none">对阵</div>
+                <div class="something" style="height:60px"></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="newobj">
+                <div class="something" style="border-bottom:none">对阵</div>
+                <div class="something" style="height:60px"></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="newobj">
+                <div class="something" style="border-bottom:none">对阵</div>
+                <div class="something" style="height:60px"></div>
+                <div></div>
+                <div></div>
+            </div>
+            <!-- <el-table :data="tablethis" border style="width: 80%;float:left">
             <el-table-column
                 prop="winStatus"
                 align="center"
-                label="	对阵">     
+                label="	对阵">
             </el-table-column>
             <el-table-column
                 prop="playType"
                 align="center"
-                label="	玩法">     
+                label="	玩法">   
             </el-table-column>
              <el-table-column
                 prop="option"
                 align="center"
-                label="选项">           
+                label="选项">       
             </el-table-column>
             <el-table-column
                 align="center"
                 prop="result"
                 label="	赛果">
             </el-table-column>
-        </el-table>
+        </el-table> -->
         </div>
     </div>
 </template>
@@ -177,7 +201,23 @@ export default {
             posttaxPrize:'',
         }
     },
-    filters:{},
+    filters:{
+         time(a){
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        },
+    },
     created(){
         this.number = this.$route.query.planNo;
         this.gettable()
@@ -236,6 +276,20 @@ export default {
 </script>
 
 <style scoped>
+.newobj{
+    width: 120px;
+    height: 150px;
+    float: left;
+    
+}
+.something{
+    width: 100%;
+    height: 50px;
+    border: 1px solid #cccccc;
+    text-align: center;
+    line-height: 50px;
+    color: #909399
+}
 .details{
     padding: 10px 20px 
 }
