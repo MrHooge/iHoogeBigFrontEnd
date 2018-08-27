@@ -744,6 +744,12 @@ export const constantRouterMap = [{
         meta: { title: '方案查询明细' }
       },
       {
+        path: 'Declaraciondefacturacon',
+        name: '修改发单宣言',
+        component: () => import ('@/views/program_center/Declaraciondefacturacon'),
+        meta: { title: '修改发单宣言' }
+      },
+      {
         path: 'lotteryprize',
         name: '开奖派奖',
         component: () => import ('@/views/program_center/lotteryprize'),

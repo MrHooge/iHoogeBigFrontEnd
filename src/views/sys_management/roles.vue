@@ -252,29 +252,28 @@ export default {
         permissions: permissions.substring(0, permissions.length - 1),
         child_premission: child_premission
       }
-      var params =new URLSearchParams();
-      params.append('value',JSON.stringify(obj));
-      console.log(1654165131)
-      console.log(JSON.stringify(obj))
-      axios.post('https://member.api.qiyun88.cn/user/addRoleBondPermission', JSON.stringify(obj),{
-        headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-        }
-      }).then(res=>{
-        console.log(res)
-      })
-
-
-      // addRoleBondPermission(JSON.stringify(obj)).then(res => {
-      //   if (res.data.error_code === 200) {
-      //     Message.success('权限配置成功！')
-      //   } else {
-      //     Message.error(res.data.message)
+      // var params =new URLSearchParams();
+      // params.append('value',JSON.stringify(obj));
+      // axios.post('https://member.api.qiyun88.cn/user/addRoleBondPermission', JSON.stringify(obj),{
+      //   headers: {
+      //       'Content-Type': 'application/json;charset=UTF-8'
       //   }
-      //   this.viewFormVisible = false
-      // }).catch(error => {
-      //   Message.error(error)
-      // })
+      // }).then(res=>{
+      //   console.log(res)
+      //   console.log(123456)
+      // }).catch(function (error) {
+      //   console.log(error);
+      //   });
+      addRoleBondPermission(obj).then(res => {
+        if (res.data.error_code === 200) {
+          Message.success('权限配置成功！')
+        } else {
+          Message.error(res.data.message)
+        }
+        this.viewFormVisible = false
+      }).catch(error => {
+        Message.error(error)
+      })
     },
     handleCheckChange(data, checked, indeterminate) {
       console.log(data, checked, indeterminate)

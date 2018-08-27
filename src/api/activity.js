@@ -17,7 +17,7 @@ export function addActivity(userInfos){
 //保存彩金卡
 export function addGoldCard(params,loginAccount){
     return request.member({
-        url:'http://192.168.7.40:8081/userManage/addGoldCard',
+        url:'/userManage/addGoldCard',
         method:'get',
         params:{
             params,

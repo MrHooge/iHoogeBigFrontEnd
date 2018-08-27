@@ -134,13 +134,16 @@ export function updateParentModel(modelInfo) {
 }
 
 // 给角色 配置权限
-export function addRoleBondPermission(params) {
+export function addRoleBondPermission(userInfos) {
+  var params =new URLSearchParams();
+  params.append('value',JSON.stringify(userInfos));
   return request.member({
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+  },
     url: '/user/addRoleBondPermission',
     method: 'post',
-    params: {
-      params
-    }
+    data:JSON.stringify(userInfos)
   })
 }
 
@@ -182,7 +185,7 @@ export function setOrUpdateQDtoUser(is_del, member_account, user_account, ) {
 // 获取代理和渠道列表
 export function findAllAgentAndQD(userInfos) {
   return request.member({
-    url: 'http://192.168.7.40:8081/user/findAllAgentAndQD',
+    url: '/user/findAllAgentAndQD',
     method: 'get',
     params:userInfos
   })
