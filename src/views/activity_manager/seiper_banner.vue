@@ -423,13 +423,22 @@ export default {
 				this.is_user = 1;
 			} else {
 				this.is_user = 0;
-			}
+            }
+            if(this.weightsout == ''){
+                this.weightsout = this.onePeople.weights
+            }
+            if(this.fileUrl == ''){
+                this.fileUrl = this.onePeople.picture
+            }
+            if(this.input == ''){
+                this.input = this.onePeople.render_url
+            }
 			let obj = {
 				id: this.onePeople.id,
-				weights:this.onePeople.weightsout,// 图片位置
-				is_user: this.onePeople.is_user,
-				picture: this.onePeople.fileUrl, //  图片地址
-				render_url: this.onePeople.render_url, // 图片跳转地址
+				weights: this.weightsout,// 图片位置
+				is_user: this.is_user,
+				picture: this.fileUrl, //  图片地址
+				render_url: this.input, // 图片跳转地址
 			}
 			addBanner(obj).then(res => {
 				console.log(res)
