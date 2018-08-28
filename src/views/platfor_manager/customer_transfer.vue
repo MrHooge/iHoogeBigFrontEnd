@@ -105,8 +105,11 @@ export default {
             }
         },
 		search() {
-			this.getData(1, this.sjname)
-
+            if(this.sjname === ''){
+                this.$message('请输入您要搜索的会员名！')
+            }else{
+                this.getData(1, this.sjname)
+            }
 		},
 		getData(curr, a) {
 			let obj = {

@@ -80,7 +80,10 @@ export default {
 		canuse(a) {
 			return a.toFixed(2)
 		}
-	},
+    },
+    created(){
+        
+    },
 	methods: {
 		search() {
 			if (!this.number) {

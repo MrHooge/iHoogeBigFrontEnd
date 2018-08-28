@@ -56,7 +56,7 @@
                    </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+    <el-dialog :visible.sync="dialogFormVisible">
     标题：<el-input v-model="title"
                 placeholder="请输入标题"
                 style="width:40%;margin-bottom:30px"></el-input><br />
@@ -140,7 +140,9 @@ export default {
         }
    },
   components: {},
-
+  created(){
+      this.getdate()
+  },
   methods: {
     addmessage(){
       this.dialogFormVisible = true

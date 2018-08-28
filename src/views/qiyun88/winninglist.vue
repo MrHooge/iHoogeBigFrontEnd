@@ -127,12 +127,10 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="totalList"
             >
             </el-pagination>
         </div>

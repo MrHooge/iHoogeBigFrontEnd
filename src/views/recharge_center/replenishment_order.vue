@@ -90,7 +90,7 @@
 			<el-table-column label="支付时间"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.pay_time | changeTime}}
+					{{ scope.row.pay_time}}
 				</template>
 			</el-table-column>
 

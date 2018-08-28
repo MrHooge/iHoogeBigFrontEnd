@@ -177,7 +177,6 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"

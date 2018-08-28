@@ -26,7 +26,6 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
@@ -49,7 +48,8 @@ export default {
 		return {
         tableData:[],
         page:1,
-        pageSize:20
+        pageSize:20,
+        totalList: 0,
 		}
 	},
 	created() {
@@ -72,11 +72,12 @@ export default {
       page:this.page,
       pageSize:this.pageSize
       }
-			console.log()
 			openAccountWall(obj).then(res=>{
 				console.log(res)
-				if(res.data.error_code==200){
-					this.tableData = res.data.data
+				if(res.data.error_code == 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                    console.log(this.tableData)
 				}
 		})
 		}

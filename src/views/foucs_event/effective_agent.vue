@@ -49,7 +49,6 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
@@ -71,7 +70,8 @@ export default {
             pageSize: 20,
             selections:[],
             total: 0,
-            page:1
+            page:1,
+            totalList: 0,
         }
     },
     filters: {},
@@ -89,6 +89,7 @@ export default {
             .then(res => {
                 console.log(res.data.data.list)
                 this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
             })
             
         },

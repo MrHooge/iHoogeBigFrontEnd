@@ -1,7 +1,8 @@
 <!-- 新闻发布 -->
 <template>
   <div class="sendnews">
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <!-- <el-form :inline="true" :model="formInline" class="demo-form-inline"> -->
+    <el-form :inline="true" class="demo-form-inline">
   <el-form-item label="新闻类别">
     <div>
       <el-radio label="0" v-model="Turntable">填写新类别</el-radio>
@@ -95,17 +96,11 @@
       <!-- <el-input type="file" @change="upload"></el-input> -->
       <el-upload
           class="upload-demo"
-          :data="folder"
           action="https://infos.api.qiyun88.cn/information/uploadImage"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
           :before-upload="beforeAvatarUpload"
           :on-success="handleAvatarSuccess"
           multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList">
+          :limit="3">
           <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
   </el-form-item><br />
@@ -116,7 +111,7 @@
 </el-form>
 <div class="quill">
   <h4>编辑内容</h4>
-  <quill-editor v-model="form.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)">
+  <quill-editor v-model="form.content" ref="myQuillEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)">
  </quill-editor>
 </div>
 <el-dialog
@@ -143,7 +138,7 @@
           </div>
           <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="editlayer">确 定</el-button>
+            <el-button type="primary">确 定</el-button>
           </span>
         </el-dialog>
   </div>
@@ -189,6 +184,7 @@ export default {
           type:'',
           isShow:0
         }
+      
     }
   },
 

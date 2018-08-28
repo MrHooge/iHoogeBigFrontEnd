@@ -53,7 +53,6 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
@@ -87,7 +86,8 @@ export default {
       dialogVisible: false, //控制弹窗隐藏
       tableData: [], //表格数据
       page:1,
-      pageSize:20
+      pageSize:20,
+      totalList: 0,
     };
   },
   created() {
@@ -141,6 +141,7 @@ export default {
 					if(res.status==200 ){
 						this.total = res.data.totalCount;
             this.tableData = res.data.data;
+            this.totalList = res.data.data.total
 					}
 			})
 		},

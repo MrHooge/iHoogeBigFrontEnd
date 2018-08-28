@@ -116,14 +116,14 @@
                 label="开赛日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.matchTime.time|times}}
+                    {{scope.row.matchTime.time}}
                 </template>
             </el-table-column>
             <el-table-column
                 label="截止日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.MatchDealTime.time|times}}
+                    {{scope.row.MatchDealTime.time}}
                 </template>
             </el-table-column>
          </el-table>

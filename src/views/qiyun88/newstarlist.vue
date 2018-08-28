@@ -43,8 +43,9 @@
             align="center"
             label="用户头像"
             >
-            <template slot-scope="scope">
-                <img :src="scope.row.pictureUrl" alt="">
+            <template slot-scope="scope"
+            >
+                <img :src="'https://'+scope.row.pictureUrl" alt="" width='50px;'>
             </template>
         </el-table-column>
         <el-table-column

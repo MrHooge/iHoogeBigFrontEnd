@@ -19,6 +19,14 @@
                     </el-option>
                 </el-select>
 			</div>
+            <div slot="footer"
+                class="dialog-footer"
+                v-show="isShow"
+                style="padding:30px 0">
+                <el-button type="primary"
+                        style="width:10%;"
+                        @click="cofirm">确 定</el-button>
+            </div>
 			<div class="main">
 				<el-table :data="tableData"
 				          border
@@ -50,11 +58,11 @@
 					</el-table-column>
                     <el-table-column label="回复内容"
 					                 prop="reply"
-					                 align="center" v-if="reply!= null">
+					                 align="center">
 					</el-table-column>
                     <el-table-column label="回复时间"
 					                 prop="replayTime"
-					                 align="center" v-if="replayTime!= null">
+					                 align="center">
 					</el-table-column>
                     <el-table-column label="审核状态"
 					                 prop="status"
@@ -67,14 +75,6 @@
 					</el-table-column>
 				</el-table>
 			</div>
-		</div>
-		<div slot="footer"
-		     class="dialog-footer"
-		     v-show="isShow"
-		     style="padding:30px 0">
-			<el-button type="primary"
-			           style="width:100%"
-			           @click="cofirm">确 定</el-button>
 		</div>
 		<div class="page"
 		     v-show="pageShow"

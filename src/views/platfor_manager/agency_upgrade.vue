@@ -25,7 +25,7 @@
 			                 align="center"
 			                 label="昵称">
 			</el-table-column>
-			<el-table-column prop="name"
+			<el-table-column prop="NAME"
 			                 align="center"
 			                 label="姓名">
 			</el-table-column>
@@ -51,7 +51,6 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :page-count="totalPages"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
@@ -96,7 +95,8 @@ export default {
 			multipleSelection: [], //选中的数据
 			onePeople: {}, // 存选择的某一条数据
 			page:1,
-			pageSize:20
+            pageSize:20,
+            totalList: 0,
 		}
 	},
 	filters: {
@@ -138,7 +138,8 @@ export default {
 			}
 			findAllAgentAndQD(obj).then(res => {  //  获取渠道列表
 				if (res.status == 200) {
-					this.tableData = res.data.data.list
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
 					// filter((e, index) => {
 					// 	return e.AGENT_TYPE == 1
 					// })
