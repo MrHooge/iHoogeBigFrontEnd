@@ -136,9 +136,11 @@
 
 <script>
 export default {
+    
     data(){
         return{
-            radio:1
+            radio:1,
+           
         }
     },
    

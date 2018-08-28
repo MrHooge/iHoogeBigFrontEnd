@@ -129,19 +129,19 @@
                 <div></div>
             </div>
             <div class="newobj">
-                <div class="something" style="border-bottom:none">对阵</div>
+                <div class="something" style="border-bottom:none">玩法</div>
                 <div class="something" style="height:60px"></div>
                 <div></div>
                 <div></div>
             </div>
             <div class="newobj">
-                <div class="something" style="border-bottom:none">对阵</div>
+                <div class="something" style="border-bottom:none">选项</div>
                 <div class="something" style="height:60px"></div>
                 <div></div>
                 <div></div>
             </div>
             <div class="newobj">
-                <div class="something" style="border-bottom:none">对阵</div>
+                <div class="something" style="border-bottom:none">赛果</div>
                 <div class="something" style="height:60px"></div>
                 <div></div>
                 <div></div>
@@ -169,6 +169,19 @@
             </el-table-column>
         </el-table> -->
         </div>
+        <el-dialog
+          title="撤销"
+          :visible.sync="dialogVisible"
+          width="510px" top="15%">
+          <!-- 弹窗中间展示内容 -->
+          <div class="layercontent">
+           确定撤销吗 
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="editlayer">确 定</el-button>
+          </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -199,6 +212,7 @@ export default {
             planOrderStatus:'',
             ticketDetail:'',
             posttaxPrize:'',
+            dialogVisible:false
         }
     },
     filters:{
@@ -225,12 +239,19 @@ export default {
     methods:{
         //撤销
         getone(){
+            this.dialogVisible = true
+        },
+        editlayer(){
             let newobj = {
                 planNo:this.$route.query.planNo
             }
             planBack(newobj).then(res => {
                 if(res.data.error_code == 200){
                     this.$message(res.data.message)
+                    this.dialogVisible = false
+                }else{
+                    this.$message(res.data.message)
+                    this.dialogVisible = false
                 }
             })
         },

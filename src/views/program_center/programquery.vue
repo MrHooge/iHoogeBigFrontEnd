@@ -304,6 +304,7 @@ export default {
                 endReturnAmount	:this.endReturnAmount,
                 endTime:this.etime,
                 page:this.page,
+                dlAccount:'',
                 pageSize:this.pageSize,	
                 planNo:this.planNo,
                 planStatus:this.planStatus,

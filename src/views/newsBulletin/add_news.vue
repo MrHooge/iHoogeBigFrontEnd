@@ -9,13 +9,14 @@
     </div>
     <!-- 历史类别 -->
     <div v-if="Turntable == 1">
-      <el-button type="primary" @click="history">修改</el-button>
+      <el-button type="primary" @click="history">获取历史类别</el-button>
     <el-select v-model="planStatus"
 			           placeholder="请选择状态筛选数据"
-                style="width:30%">
-      <el-option v-for="item in options"
-				           :key="item.index"
-				           :value="item[0]">
+                style="width:30%"
+                @change="handselect">
+      <el-option v-for="temp in options"
+				           :key="temp.index"
+				           :value="temp">
 				</el-option>
         </el-select>
         <!-- 历史标签 -->
@@ -42,8 +43,8 @@
     <el-input v-model="form.shortTitle" style="width:150px"></el-input>
   </el-form-item><br />
   <el-form-item label="显示隐藏">
-      <el-radio label="0" v-model="form.isShow">显示</el-radio>
-      <el-radio label="1" v-model="form.isShow">隐藏</el-radio>
+      <el-radio label="1" v-model="form.isShow">显示</el-radio>
+      <el-radio label="0" v-model="form.isShow">隐藏</el-radio>
   </el-form-item><br />
   <el-form-item label="链接" v-show="obviously">
     <el-input v-model="form.link" style="width:200px"></el-input>
@@ -76,7 +77,7 @@
  @change="onEditorChange($event)">
  </quill-editor>
   </el-form-item> -->
-  <el-form-item label="创建时间">
+  <!-- <el-form-item label="创建时间">
     <el-col :span="11">
       <el-date-picker type="date" v-model="form.createDateTime" style="width: 150px;"></el-date-picker>
     </el-col>
@@ -85,7 +86,7 @@
     <el-col :span="12">
       <el-date-picker type="date" v-model="form.showDateTime" style="width: 150px;"></el-date-picker>
     </el-col>
-  </el-form-item>
+  </el-form-item> -->
   <br />
    <!-- <el-form-item label="id">
     <el-input v-model="id" style="width:100px" placeholder="必填"></el-input>
@@ -155,12 +156,15 @@ export default {
   data() {
     return {
       dialogVisible:false,
-      folder:'info',
+      folder: {
+				folder: 'info'
+			},
       file:'',
       id:'',
       imgurl:'',
       planStatus:'',
       Turntable:'',
+      temp:'',
       command:'',
       options: [],
       obviously:'',
@@ -176,6 +180,7 @@ export default {
           isShow:'',	
           keyword:'',	
           label:'',	
+          picture:'',
           link:'',	
           shortTitle:'',	
           showDateTime:'',	
@@ -219,22 +224,11 @@ export default {
      handleCommand(command) {
         this.command = command;
       },
+ 
     //上传图片成功回调
-    handleAvatarSuccess(res){
-      // this.imgurl = 'https://infos.api.qiyun88.cn/information/uploadImage'
-      this.file = res;
-      console.log(this.folder)
+    handleAvatarSuccess(res){   
       console.log(res)
-      let obj = {
-        file:this.file,
-        id:this.id
-      }
-      setNewsPicetur(obj)
-      .then(res => {
-        if(res.data.error_code == 200){
-          this.$message(res.data.message)
-        }
-      })
+      this.form.picture = res
     },
      beforeAvatarUpload(file) {
       const JPGArr = ["image/jpg", "image/jpeg", "image/png", "image/gif"]
@@ -249,7 +243,11 @@ export default {
       }
       return isJPG && isLt2M;
     },
-
+//状态选中
+        handselect(value){
+        console.log(value)
+        this.form.type = value
+        },
     update(){
      if(this.form.editor&&this.form.keyword&&this.form.summary&&this.form.title&&this.form.type&&this.form.contentType){
         this.form.cz = 2;
@@ -284,7 +282,8 @@ export default {
       }
       getTypes(obj)
       .then(res => {
-        this.options = res.data
+        // console.log(res.data.data)
+        this.options = res.data.data
       })
     },
     //获取修改资讯数据

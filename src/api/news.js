@@ -89,7 +89,7 @@ export function addMail(maill) {
   return request.infos({
     url: '/information/addMail',
     method: 'post',
-    params:{maill}
+    params:maill
   })
 }
 //获取站内信列表数据

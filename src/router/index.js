@@ -732,6 +732,12 @@ export const constantRouterMap = [{
         meta: { title: '彩期管理' }
       },
       {
+        path: 'Manuallottery',
+        name: '手动开奖',
+        component: () => import ('@/views/program_center/Manuallottery'),
+        meta: { title: '手动开奖' }
+      },
+      {
         path: 'period',
         name: '彩期显示',
         component: () => import ('@/views/program_center/period'),
