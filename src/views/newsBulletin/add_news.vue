@@ -110,7 +110,7 @@
 </el-form>
 <div class="quill">
   <h4>编辑内容</h4>
-  <quill-editor v-model="form.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)">
+  <quill-editor v-model="form.content" ref="myQuillEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)">
  </quill-editor>
 </div>
 <el-dialog

@@ -33,7 +33,7 @@
                 align="center"
                 label="比赛时间">
                  <template slot-scope="scope">
-                    {{scope.row.matchTime.time|times}}
+                    {{scope.row.matchTime.time}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -48,7 +48,7 @@
                 label="截止日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.MatchDealTime.time|times}}
+                    {{scope.row.MatchDealTime.time}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -131,9 +131,9 @@ export default {
             }
             findFootballMixureInfo(obj)
             .then(res => {
-                console.log(res.data.data.list)
+                // console.log(res.data.data.list)
                 this.tableData = res.data.data
-                this.totalList = res.data.tota
+                this.totalList = res.data.total
             })
             
         },

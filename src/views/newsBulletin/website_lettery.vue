@@ -140,7 +140,9 @@ export default {
         }
    },
   components: {},
-
+  created(){
+      this.getdate()
+  },
   methods: {
     addmessage(){
       this.dialogFormVisible = true

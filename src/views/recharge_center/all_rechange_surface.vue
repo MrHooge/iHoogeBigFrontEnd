@@ -69,7 +69,7 @@
 				</el-col>
 			</el-row>
 		</div>
-		 <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+		 <el-dialog :visible.sync="dialogFormVisible">
 			  类型：<el-radio v-model="child_type" label="0" border>隐藏</el-radio>
 					<el-radio v-model="child_type" label="1" border>显示</el-radio>
 					<el-radio v-model="child_type" label="1" border>所有人可见</el-radio><br />
@@ -83,7 +83,9 @@
 					<el-radio v-model="child_type" label="3" border>指定人可见</el-radio>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitInfos">确 定</el-button>
+        <!-- <el-button type="primary" @click="submitInfos">确 定</el-button> -->
+        <el-button type="primary">确 定</el-button>
+
       </div>
     </el-dialog>
 		<!-- 表格数据  -->
@@ -137,7 +139,7 @@
 			<el-table-column label="发生时间"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.CREATE_DATE_TIME | changeTime}}
+					{{ scope.row.CREATE_DATE_TIME}}
 				</template>
 			</el-table-column>
 

@@ -128,7 +128,8 @@ export default {
             qdAccount:'',
             dlAccount:'',
             page:1,
-            pageSize:20
+            pageSize:20,
+            totalList: 0,
         }
     },
     created(){
@@ -151,6 +152,7 @@ export default {
             findMemberWalletLineByAccount(wallerdata).then(res => {
                 console.log(res.data.data.list)
                  this.tableData = res.data.data.list
+                 this.totalList = res.data.data.total
             }).catch(error => {
                  Message.error(error)
             })

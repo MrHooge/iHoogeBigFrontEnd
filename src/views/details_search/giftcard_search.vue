@@ -41,7 +41,7 @@
                 align="center"
                 label="	发生时间">
                 <template slot-scope="scope">
-                    {{scope.row.CREATE_DATE_TIME | time}}
+                    {{scope.row.CREATE_DATE_TIME}}
                 </template>
             </el-table-column>
 
@@ -125,7 +125,8 @@ export default {
             qdAccount:'',
             dlAccount:'',
             page:1,
-            pageSize:20
+            pageSize:20,
+            totalList: 0,
         }
     },
     filters:{
@@ -185,6 +186,7 @@ export default {
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
                 this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
             }).catch(error => {
                  Message.error(error)
             })

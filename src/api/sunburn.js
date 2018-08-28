@@ -68,6 +68,14 @@ export function updateWinPromotionStatus(userinfos){
         params:userinfos
     })
 }
+//添加名人
+export function addCelebrity(userinfos){
+    return request.member({
+        url:'user/addCelebrity',
+        method:'get',
+        params:userinfos
+    })
+}
 //添加站内信
 export function addMail(userinfos){
     return request.infos({

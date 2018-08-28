@@ -105,7 +105,7 @@ export default {
 			findRechargeAndConsumerWall(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
-                    this.tableData = res.data.data
+                    this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
 				}
 			})

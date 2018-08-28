@@ -40,7 +40,7 @@
                </el-table-column>            
                <el-table-column
                      label="类型"
-                     prop="contentType"
+                     prop="type"
                      align="center">
                </el-table-column>
                <el-table-column

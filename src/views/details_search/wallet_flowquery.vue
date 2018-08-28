@@ -123,7 +123,8 @@ export default {
             dlAccount:'',
             page:1,
             pageSize:10,
-            child_type:-1001
+            child_type:-1001,
+            totalList: 0,
         }
     },
     created(){
@@ -165,6 +166,7 @@ export default {
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
                 this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
             }).catch(error => {
                  Message.error(error)
             })
