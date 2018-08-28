@@ -4,21 +4,35 @@
     <!-- <el-form :inline="true" :model="formInline" class="demo-form-inline"> -->
     <el-form :inline="true" class="demo-form-inline">
   <el-form-item label="新闻类别">
-    <!-- <el-input v-model="form.type" style="width:200px" placeholder="必填"> -->
-      <el-dropdown @command="handleCommand">
-      <span class="el-dropdown-link">
-        {{command}}<i class="el-icon-arrow-down el-icon--right"></i>
-      </span>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="足球板块">足球板块</el-dropdown-item>
-        <el-dropdown-item command="篮球板块">篮球板块</el-dropdown-item>
-        <el-dropdown-item command="数字板块">数字板块</el-dropdown-item>
-        <el-dropdown-item command="购彩板块">购彩板块</el-dropdown-item>
-        <el-dropdown-item command="资讯板块">资讯板块</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
+    <div>
+      <el-radio label="0" v-model="Turntable">填写新类别</el-radio>
+      <el-radio label="1" v-model="Turntable">选择历史类别或标签</el-radio>
+    </div>
+    <!-- 历史类别 -->
+    <div v-if="Turntable == 1">
+      <el-button type="primary" @click="history">修改</el-button>
+    <el-select v-model="planStatus"
+			           placeholder="请选择状态筛选数据"
+                style="width:30%">
+      <el-option v-for="item in options"
+				           :key="item.index"
+				           :value="item[0]">
+				</el-option>
+        </el-select>
+        <!-- 历史标签 -->
+         <el-select v-model="planStatus"
+			           placeholder="请选择状态筛选数据"
+                       style="width:7%">
+        <el-option v-for="item in sections"
+				           :key="item.planStatus"
+				           :label="item.label"
+				           :value="item.planStatus">
+				</el-option>
+        </el-select>
+    </div>
+      <el-input v-model="form.type" style="width:120px" placeholder="填写新类别" v-else></el-input>
     <!-- </el-input> -->
-  </el-form-item>
+  </el-form-item><br />
   <el-form-item label="标题">
     <el-input v-model="form.title" style="width:300px" placeholder="必填"></el-input>
   </el-form-item><br />
@@ -32,7 +46,7 @@
       <el-radio label="0" v-model="form.isShow">显示</el-radio>
       <el-radio label="1" v-model="form.isShow">隐藏</el-radio>
   </el-form-item><br />
-  <el-form-item label="链接">
+  <el-form-item label="链接" v-show="obviously">
     <el-input v-model="form.link" style="width:200px"></el-input>
   </el-form-item>
   <el-form-item label="标签">
@@ -48,8 +62,8 @@
     <el-input v-model="form.editor" style="width:100px" placeholder="必填"></el-input>
   </el-form-item><br />
   <el-form-item label="内容类别">
-      <el-radio label="0" v-model="form.contentType">编辑</el-radio>
-      <el-radio label="1" v-model="form.contentType">链接</el-radio>
+      <el-radio label="0" v-model="form.contentType" @change="getchange(label)">编辑</el-radio>
+      <el-radio label="1" v-model="form.contentType" @change="getchange(label)">链接</el-radio>
   </el-form-item><br />
   <el-form-item label="点击数">
     <el-input v-model="form.click" style="width:100px" placeholder="必填"></el-input>
@@ -74,9 +88,9 @@
     </el-col>
   </el-form-item>
   <br />
-   <el-form-item label="id">
+   <!-- <el-form-item label="id">
     <el-input v-model="id" style="width:100px" placeholder="必填"></el-input>
-  </el-form-item>
+  </el-form-item> -->
   <el-form-item label="上传图片" style="border:none">
       <!-- <el-input type="file" @change="upload"></el-input> -->
       <el-upload
@@ -91,18 +105,14 @@
   </el-form-item><br />
   <el-form-item>
     <el-button type="primary" @click="update">修改</el-button>
-    <el-button type="sendnews" @click="update">发布</el-button>
+    <el-button type="sendnews" @click="sendnews">发布</el-button>
   </el-form-item>
 </el-form>
 <div class="quill">
   <h4>编辑内容</h4>
-  <quill-editor v-model="form.content" ref="myQuillEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
- @change="onEditorChange($event)">
+  <quill-editor v-model="form.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)">
  </quill-editor>
 </div>
-<!-- <quill-editor v-model="content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
- @change="onEditorChange($event)">
- </quill-editor> -->
 <el-dialog
           title="编辑"
           :visible.sync="dialogVisible"
@@ -134,7 +144,7 @@
 </template>
 
 <script>
-import { createNews,uploadImage,setNewsPicetur,getTypes } from '@/api/news'
+import { createNews,uploadImage,setNewsPicetur,getTypes,getNew } from '@/api/news'
 import api from '../../../config/dev.env'
 export default {
   data() {
@@ -143,11 +153,15 @@ export default {
       file:'',
       id:'',
       imgurl:'',
+      planStatus:'',
+      Turntable:'',
       command:'',
-      form: {
+      options: [],
+      obviously:'',
+       form: {
           click:'',
           createDateTime:'',
-           content:'',
+          content:'',
           showDateTime:'',	
           cz:'',	
           editor:'',	
@@ -169,11 +183,34 @@ export default {
   },
 
   components: {},
+  created(){
+    this.id = this.$route.query.id
+    this.getupdatedata()
+  },
+  updated(){
+    this.id = ''
+  },
   mounted(){
     this.imgurl = 'https://infos.api.qiyun88.cn/information/uploadImage'
   },
 
   methods: {
+   //链接显示隐藏
+   getchange(date){
+     console.log(this.form.contentType)
+     if(this.form.contentType == 1){
+       this.obviously = true
+     }else{
+       this.obviously = false
+     }
+   },
+    // Showhidden(){
+    //   if(this.form.contentType == 1){
+    //     this.obviously = true
+    //   }else{
+    //     this.obviously =false
+    //   }
+    // },
      handleCommand(command) {
         this.command = command;
       },
@@ -208,7 +245,7 @@ export default {
     },
 
     update(){
-     if(this.form.click&&this.form.editor&&this.form.keyword&&this.form.summary&&this.form.title&&this.form.type&&this.form.id){
+     if(this.form.editor&&this.form.keyword&&this.form.summary&&this.form.title&&this.form.type&&this.form.contentType){
         this.form.cz = 2;
       createNews(this.form)
       .then(res => {
@@ -219,7 +256,7 @@ export default {
       }
     },
     sendnews(){
-      if(this.form.click&&this.form.editor&&this.form.keyword&&this.form.summary&&this.form.title&&this.form.type){
+      if(this.form.click&&this.form.editor&&this.form.keyword&&this.form.summary&&this.form.title&&this.form.type&&this.form.contentType){
         this.form.cz = 1;
       createNews(this.form)
       .then(res => {
@@ -233,7 +270,48 @@ export default {
     pictureurl(){
       this.dialogVisible = true
     },
-    
+    //获取新闻类别
+    history(){
+      console.log(456516516545)
+      let obj = {
+        type:1
+      }
+      getTypes(obj)
+      .then(res => {
+        this.options = res.data
+      })
+    },
+    //获取修改资讯数据
+    getupdatedata(){
+      let newobject= {
+        id:this.id
+      }
+      getNew(newobject).then(res => {
+        console.log(res.data.data)
+        this.form.click = res.data.data.click
+        this.form.content = res.data.data.content
+        this.form.contentType = res.data.data.contentType
+        this.form.editor = res.data.data.editor
+        this.form.id = res.data.data.id
+        this.form.keyword = res.data.data.keyword
+        this.form.label = res.data.data.label
+        this.form.type = res.data.data.type
+        this.form.title = res.data.data.title
+        this.form.summary = res.data.data.summary
+        this.form.showDateTime = res.data.data.showDateTime
+        this.form.sort = res.data.data.sort
+        this.form.link = res.data.data.link
+        this.form.shortTitle = res.data.data.shortTitle
+
+      })
+    },
+    //刷新页面
+    flashwebsite(){
+      window.onload = function(){
+        this.$route.query.id = '';
+        console.log(1111111111111111111111111)
+      }
+    }
   }
 }
 </script>

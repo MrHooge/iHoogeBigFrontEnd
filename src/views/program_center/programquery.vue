@@ -52,11 +52,14 @@
             value-format="yyyy-MM-dd"
             type="date"
             style="margin-left:10px;
+            margin-right:60px
             width:180px
             margin-bottom:40px;"
             placeholder="请选择结束日期"
             >
             </el-date-picker>
+             预测奖金：<el-input v-model="minBonus" placeholder="请输入奖金最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至
+             <el-input v-model="maxBonus" placeholder="请输入奖金最大值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
             <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button>
         </div>
@@ -117,25 +120,20 @@
                 label="	中奖状态">
                
             </el-table-column>
-                       <el-table-column
+            <el-table-column
                 prop="posttaxPrize"
                 align="center"
                 label="税后奖金">           
             </el-table-column>
             <el-table-column
+                prop="maxBonus"
                 align="center"
-                label="发单宣言">
-                <template slot-scope="scope">
-                    <el-popover
-                        placement="top-start"
-                        width="200"
-                        trigger="hover"
-                        :content="fadan">
-                        <el-button slot="reference">详细内容</el-button>
-                    </el-popover>
-
-                     <!-- {{scope.row.planDesc |type}} -->
-                </template>
+                label="预测奖金（最大）">           
+            </el-table-column>
+            <el-table-column
+                prop="minBonus"
+                align="center"
+                label="预测奖金（最小）">           
             </el-table-column>
             <el-table-column
                 align="center"
@@ -144,7 +142,6 @@
                        <el-dropdown>
                            <el-button type="primary" style="width:70px">操作</el-button>
                            <el-dropdown-menu slot="dropdown">
-                               <el-button type="warning" @click="wallet(scope.row,'modify')">修改宣言</el-button>
                                    <el-popover
                                     placement="right"
                                     width="1300"
@@ -158,6 +155,15 @@
                    </template>
             </el-table-column>
         </el-table>
+        <el-dialog title="退单" :visible.sync="Declarationofwithdrawal" width="500px" top="30vh">
+            <div class="body">
+              确认退单吗
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogShenVisible = false">取 消</el-button>
+                <el-button type="primary" @click="want">确定</el-button>
+            </div>
+        </el-dialog>
          <el-dialog title="修改" :visible.sync="dialogShenVisible" width="500px" top="30vh">
             <div class="body">
               请输入罚单宣言：<el-input v-model="desc"></el-input>
@@ -189,6 +195,8 @@ export default {
         return{
             tableData:[],
             account:'',
+            minBonus:'',
+            maxBonus:'',
             startAmount:'',
             endAmount:'',
             startReturnAmount:'',
@@ -203,6 +211,7 @@ export default {
             pageSize:20,
             planStatus:'',
             dialogShenVisible:false,
+            Declarationofwithdrawal:false,
             fadan:'',
             options: [
 				{ planStatus: "", label: "全部" },
@@ -301,6 +310,8 @@ export default {
                 startAmount	:this.startAmount,
                 startReturnAmount:this.startReturnAmount,
                 startTime:this.stime,
+                maxBonus:this.maxBonus,
+                minBonus:this.minBonus,
                 winStatus:this.winStatus,
                 desc:''
             }
@@ -316,14 +327,20 @@ export default {
         },
         //退单
         Chargeback(data){
+            this.Declarationofwithdrawal = true;
         // console.log(data)
-        let subject = {
-            planNo:data.planNo
+        this.planNo = data.planNo
+        },
+        want(){
+            let subject = {
+            planNo:this.planNo
         }
         planBack(subject)
         .then(res => {
             if(res.data.error_code == 200){
                 this.$message('退单成功')
+                this.Declarationofwithdrawal = false
+                this.planNo = ''
             }else{
                 this.$message(res.data.message)
             }

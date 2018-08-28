@@ -107,7 +107,14 @@
                      prop="click"
                      align="center">
                </el-table-column>  
-              
+              <el-table-column
+                     label="操作"
+                     align="center">
+                <template slot-scope="scope">
+                   <el-button type="success" @click="update(scope.row,'modify')" style="width:70px;height:30px;line-height:10px;margin-bottom:5px">修改</el-button><br />
+                   <el-button type="primary" @click="type(scope.row,'modify')" style="width:70px;height:30px;line-height:10px;padding-left:10px">状态</el-button>
+                </template>
+               </el-table-column>  
             </el-table>         
             <div class="page">
             <el-pagination
@@ -161,6 +168,10 @@ export default {
 
     },
     methods:{
+        //修改
+        update(date){
+            this.$router.push({ path: '/newsBulletin/addNews', query: { id: date.id } })
+        },
         inquire(){
                 this.gettablelist()  
         },
