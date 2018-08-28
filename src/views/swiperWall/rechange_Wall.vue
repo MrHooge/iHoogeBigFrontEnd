@@ -66,7 +66,8 @@ export default {
 			activeName2: 'first',
 			tableData: [], //  存储充值消费数据
 			page:1,
-			pageSize:20
+            pageSize:20,
+            totalList: 0,
 		}
 	},
 	created() {
@@ -104,7 +105,8 @@ export default {
 			findRechargeAndConsumerWall(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
-					this.tableData = res.data.data
+                    this.tableData = res.data.data
+                    this.totalList = res.data.data.total
 				}
 			})
 		}

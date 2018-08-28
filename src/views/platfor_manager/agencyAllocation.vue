@@ -24,10 +24,10 @@
 					                 align="center">
 					</el-table-column>
 
-					<el-table-column label="ID"
+					<!-- <el-table-column label="ID"
 					                 prop="member_id"
 					                 align="center">
-					</el-table-column>
+					</el-table-column> -->
 
 					<el-table-column label="会员名"
 					                 prop="ACCOUNT"
@@ -117,7 +117,8 @@ export default {
 			number: [],
 			arr: [],
 			page:1,
-			pageSize:20
+            pageSize:20,
+            totalList: 0,
 		}
 	},
 	filters: {
@@ -162,9 +163,9 @@ export default {
 				account:this.account
 			}
 			findAllAgentAndQD(obj).then(res => {
-				console.log(res)
 				if (res.data.error_code == 200) {
-					this.tableData = res.data.data.list
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
 				} else {
 					Message.success(res.data.message)
 				}

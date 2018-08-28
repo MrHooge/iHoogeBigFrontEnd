@@ -17,11 +17,11 @@
 			                 type="index"
 			                 width="120px">
 			</el-table-column>
-			<el-table-column prop="account"
+			<el-table-column prop="ACCOUNT"
 			                 align="center"
 			                 label="用户名">
 			</el-table-column>
-			<el-table-column prop="name"
+			<el-table-column prop="NAME"
 			                 align="center"
 			                 label="姓名">
 			</el-table-column>
@@ -29,7 +29,7 @@
 			                 align="center"
 			                 label="昵称">
 			</el-table-column>
-			<el-table-column prop="mobile"
+			<el-table-column prop="MOBILE"
 			                 align="center"
 			                 label="手机号">
 			</el-table-column>

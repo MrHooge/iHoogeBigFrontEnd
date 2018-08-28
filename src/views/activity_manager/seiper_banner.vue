@@ -40,10 +40,13 @@
 				</template>
 			</el-table-column>
 			<el-table-column align="center"
-			                 label="图片">
+			                 label="图片"
+                             >
 				<template slot-scope="scope">
 					<img :src="scope.row.picture"
-					     alt="">
+                            
+					     alt=""
+                         width="100%">
 				</template>
 			</el-table-column>
 			<el-table-column align="center"
@@ -140,15 +143,15 @@
 									<template slot-scope="scope">
 										<el-input v-model="input"
 										          placeholder="请输入跳转地址"></el-input>
-
+                                                  <!-- {{scope.row.id}} -->
 									</template>
 								</el-table-column>
 									<el-table-column label="位置"
 								                 align="center">
 									<template slot-scope="scope">
 										<el-input v-model="weightsout"
-										          placeholder="请输入位置数值"></el-input>
-
+										          placeholder="请输入位置数值">{{scope.row.id}}</el-input>
+                                        
 									</template>
 								</el-table-column>
 							</el-table>
@@ -423,10 +426,10 @@ export default {
 			}
 			let obj = {
 				id: this.onePeople.id,
-				weights:this.weightsout,// 图片位置
-				is_user: this.is_user,
-				picture: this.fileUrl, //  图片地址
-				render_url: this.input, // 图片跳转地址
+				weights:this.onePeople.weightsout,// 图片位置
+				is_user: this.onePeople.is_user,
+				picture: this.onePeople.fileUrl, //  图片地址
+				render_url: this.onePeople.render_url, // 图片跳转地址
 			}
 			addBanner(obj).then(res => {
 				console.log(res)
@@ -491,8 +494,9 @@ export default {
   display: block;
 }
 img {
-  width: 50px;
+  width: 100%;
   height: 50px;
+  /* height: 50px; */
 }
 </style>
 
