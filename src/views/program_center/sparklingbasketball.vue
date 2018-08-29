@@ -5,7 +5,7 @@
             type="date"
             style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            value-format="yyyyMMdd">
             </el-date-picker>
             <el-button type="primary" @click="searchlist" style="margin-top:15px">查询 </el-button>
         <el-table
@@ -80,11 +80,13 @@ export default {
     data(){
         return{
             tableData:[],
-            startTime: new Date()||''
+            startTime:'',
         }
     },
+    // filters:{
+    // },
     created(){
-            console.log(this.startTime)
+            this.gettable()
         },
     methods:{
         //查询
