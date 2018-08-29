@@ -289,20 +289,23 @@ export default {
       }
       getNew(newobject).then(res => {
         console.log(res.data.data)
-        this.form.click = res.data.data.click
-        this.form.content = res.data.data.content
-        this.form.contentType = res.data.data.contentType
-        this.form.editor = res.data.data.editor
-        this.form.id = res.data.data.id
-        this.form.keyword = res.data.data.keyword
-        this.form.label = res.data.data.label
-        this.form.type = res.data.data.type
-        this.form.title = res.data.data.title
-        this.form.summary = res.data.data.summary
-        this.form.showDateTime = res.data.data.showDateTime
-        this.form.sort = res.data.data.sort
-        this.form.link = res.data.data.link
-        this.form.shortTitle = res.data.data.shortTitle
+        if(res.data.error_code == 200){
+            this.form.click = res.data.data.click
+            this.form.content = res.data.data.content
+            this.form.contentType = res.data.data.contentType
+            this.form.editor = res.data.data.editor
+            this.form.id = res.data.data.id
+            this.form.keyword = res.data.data.keyword
+            this.form.label = res.data.data.label
+            this.form.type = res.data.data.type
+            this.form.title = res.data.data.title
+            this.form.summary = res.data.data.summary
+            this.form.showDateTime = res.data.data.showDateTime
+            this.form.sort = res.data.data.sort
+            this.form.link = res.data.data.link
+            this.form.shortTitle = res.data.data.shortTitle
+        }
+        
 
       })
     },

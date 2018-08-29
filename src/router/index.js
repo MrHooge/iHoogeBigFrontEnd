@@ -873,13 +873,13 @@ export const constantRouterMap = [{
           import ('@/views/ticketing_center/searchticketing'),
         meta: { title: '票务查询' }
       },
-      {
-        path: 'ticketlist',
-        name: '票务查询列表',
-        component: () =>
-          import ('@/views/ticketing_center/ticketlist'),
-        meta: { title: '票务查询列表' }
-      },
+    //   {
+    //     path: 'ticketlist',
+    //     name: '票务查询列表',
+    //     component: () =>
+    //       import ('@/views/ticketing_center/ticketlist'),
+    //     meta: { title: '票务查询列表' }
+    //   },
       
     ]
   },
