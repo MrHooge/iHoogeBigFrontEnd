@@ -1,6 +1,7 @@
 <template>
   <div class="menu-wrapper">
-        <el-menu class="sidebar-el-menu" :collapse="collapse" background-color="#324157"
+        <!-- <el-menu class="sidebar-el-menu" :collapse="collapse" background-color="#324157" -->
+        <el-menu class="sidebar-el-menu" background-color="#324157"
                 text-color="#bfcbd9" active-text-color="#fff">
     <template v-for="item in routes">
       <el-submenu :index="item.modelNme" :key="item.modelNme">

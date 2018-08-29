@@ -96,13 +96,6 @@
 					<span>{{ scope.row.zifubao }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="合计"
-			                 prop="allMoney"
-			                 align="center">
-				<template slot-scope="scope">
-					<span>{{ scope.row.allMoney | commissionUse }}</span>
-				</template>
-			</el-table-column>
 			<el-table-column label="当日提款"
 			                 prop="withdrawal"
 			                 align="center">
@@ -115,6 +108,13 @@
 			                 align="center">
 				<template slot-scope="scope">
 					<span>{{ scope.row.sendMoney }}</span>
+				</template>
+			</el-table-column>
+            <el-table-column label="合计"
+			                 prop="allMoney"
+			                 align="center">
+				<template slot-scope="scope">
+					<span>{{ scope.row.allMoney | commissionUse }}</span>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -145,7 +145,8 @@ export default {
 				}
 			],
 			datetype: '1',
-			newarr: []
+            newarr: [],
+            y: '',
 		}
 	},
 	created() {
@@ -199,8 +200,8 @@ export default {
 						const value = Number(curr)
 						if (!isNaN(value)) {
 							let numsum = prev + curr
-							let y = numsum.toFixed(2)
-							return Number(y)
+							this.y = numsum.toFixed(2)
+							return Number(this.y)
 						} else {
 							return prev
 						}
@@ -214,10 +215,10 @@ export default {
 		},
 				export2Excel() {
 
-		　　　　},
-		　　　formatJson(filterVal, jsonData) {
-			　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
-		　　　　},
+        　　　　},
+        formatJson(filterVal, jsonData) {
+        　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
+    　　　　},
 		// 导出
 		exportSome() {
 			let newobj
@@ -234,7 +235,9 @@ export default {
 						zifubao: e.zifubao.toFixed(2),
 						allMoney: e.allMoney.toFixed(2),
 						withdrawal: e.withdrawal.toFixed(2),
-						sendMoney: e.sendMoney.toFixed(2)
+                        sendMoney: e.sendMoney.toFixed(2),
+                        allMoney: e.allMoney.toFixed(2),
+                        // total: this.y
 				}
 				this.newarr.push(newobj)
 			})
@@ -247,8 +250,8 @@ export default {
 				.then(res => {})
 			require.ensure([], () => {
 				const { export_json_to_excel } = require('../../vendor/Export2Excel');
-				const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title
-				const filterVal = ['index','date','officeUnderLineAdd','operationsUnderLineAdd','cusServiceUnderLineAdd','financialUnderLineAdd', 'yibao', 'liandong', 'zifubao','allMoney','withdrawal','sendMoney']; // 对应表格输出的数据
+				const tHeader = ['编号', '日期', '线下代理授信加款', '线下运营加款', '线下客服加款', '线下财务加款', '易宝', '联动', '支付宝', '当日提款', '当日赠送', '合计']; //对应表格输出的title
+				const filterVal = ['index','date','officeUnderLineAdd','operationsUnderLineAdd','cusServiceUnderLineAdd','financialUnderLineAdd', 'yibao', 'liandong', 'zifubao','withdrawal','sendMoney','allMoney']; // 对应表格输出的数据
 				const list = this.tableData;
 				console.log(123456789)
 				console.log(this.tableData);

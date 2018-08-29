@@ -686,15 +686,15 @@ export const constantRouterMap = [{
           title: '财务资金明细'
         }
       },
-      {
-        path: 'cashdetails',
-        name: '财务现金明细',
-        component: () =>
-          import ('@/views/financialManagement/cashdetails'),
-        meta: {
-          title: '财务现金明细'
-        }
-      },
+    //   {
+    //     path: 'cashdetails',
+    //     name: '财务现金明细',
+    //     component: () =>
+    //       import ('@/views/financialManagement/cashdetails'),
+    //     meta: {
+    //       title: '财务现金明细'
+    //     }
+    //   },
       {
         path: 'handsel_give',
         name: '彩金赠送',
@@ -985,13 +985,13 @@ export const constantRouterMap = [{
           import ('@/views/qiyun88/Addcelebrity'),
         meta: { title: '发单名人添加' }
       },
-      {
-        path: 'Stationletter',
-        name: '站内信',
-        component: () =>
-          import ('@/views/qiyun88/Stationletter'),
-        meta: { title: '站内信' }
-      }
+    //   {
+    //     path: 'Stationletter',
+    //     name: '站内信',
+    //     component: () =>
+    //       import ('@/views/qiyun88/Stationletter'),
+    //     meta: { title: '站内信' }
+    //   }
     ]
   },
 

@@ -137,30 +137,22 @@ export default {
         }
     },
     created() {
-        
     },
     methods:{
         onSubmit() {
+            let arr = []
             for(var i in this.redman) {
-                this.accounts += this.redman[i]+','
+                
+                if(this.redman[i] != ''){
+                    arr.push(this.redman[i])
+                }
             }
-            console.log( this.accounts )
+            this.accounts = arr.join(',')
             let obj = {
                 accounts: this.accounts,
             }
-            console.log(obj)
             addCelebrity(obj)
                 .then(res => {
-                    console.log(res)
-                // if (res.status == 200) {
-                //     if (res.data.error_code == 200) {
-                //     this.$message(res.data.message)
-                //     this.dialogShenVisible = false
-                //     this.getTable()
-                //     } else {
-                //     this.$message(res.data.message)
-                //     }
-                // }
             })
         }
     },

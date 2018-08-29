@@ -9,7 +9,8 @@
 						          placeholder="请输入查询的账号"
 						          @input="onInput"
 								  style="width:40%"></el-input>
-								  <el-input v-model="id"
+								  <!-- <el-input v-model="id" -->
+                                  <el-input
 						          placeholder="请输入查询的流水号"
 						          @input="onInput"
 								  style="width:50%"></el-input>

@@ -24,6 +24,12 @@
 			                 type="index"
 			                 align="center">
 			</el-table-column>
+            <el-table-column label="日期"
+			                 align="center">
+				<template slot-scope="scope">
+					<span>{{ scope.row.date }}</span>
+				</template>
+			</el-table-column>
 			<el-table-column label="线上充值"
 			                 prop="allOnLineMoney"
 			                 align="center">
@@ -63,11 +69,11 @@
 					<span>{{ scope.row.todaySend | commissionUse }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="红包嘉奖奖金使用"
+			<el-table-column label="红包嘉奖彩金使用"
 			                 prop="lotteryCard"
 			                 align="center">
 			</el-table-column>
-			<el-table-column label="彩卡金使用"
+			<el-table-column label="彩金卡使用"
 			                 prop="lotteryCardUse"
 			                 align="center">
 				<template slot-scope="scope">
@@ -95,12 +101,7 @@
 					<span>{{ scope.row.platformCommissionMoney | commissionUse }}</span>
 				</template>
 			</el-table-column>
-						<el-table-column label="日期"
-			                 align="center">
-				<template slot-scope="scope">
-					<span>{{ scope.row.date }}</span>
-				</template>
-			</el-table-column>
+						
 		</el-table>
 	</div>
 </template>
@@ -199,23 +200,75 @@ export default {
 		　　　　},
 		　　　formatJson(filterVal, jsonData) {
 			　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
-		　　　　},
+        　　　　},
+		// // 导出
+		// exportSome() {
+		// 	let newobj
+		// 	this.tableData.forEach((e, index) => {
+		// 		newobj = {
+		// 				index: index,
+		// 				date: e.date,
+		// 				officeUnderLineAdd: e.officeUnderLineAdd.toFixed(2),
+		// 				operationsUnderLineAdd: e.operationsUnderLineAdd.toFixed(2),
+		// 				cusServiceUnderLineAdd: e.cusServiceUnderLineAdd.toFixed(2),
+		// 				financialUnderLineAdd: e.financialUnderLineAdd.toFixed(2),
+		// 				yibao: e.yibao.toFixed(2),
+		// 				liandong: e.liandong.toFixed(2),
+		// 				zifubao: e.zifubao.toFixed(2),
+		// 				allMoney: e.allMoney.toFixed(2),
+		// 				withdrawal: e.withdrawal.toFixed(2),
+		// 				sendMoney: e.sendMoney.toFixed(2)
+		// 		}
+		// 		this.newarr.push(newobj)
+		// 	})
+		// 	let model = {
+		// 		listParams: JSON.stringify(this.newarr),
+		// 		title: '财务现金明细'
+		// 	}
+		// 	console.log(model)
+		// 	exportExcle(model.listParams, model.title)
+		// 		.then(res => {})
+		// 	require.ensure([], () => {
+		// 		const { export_json_to_excel } = require('../../vendor/Export2Excel');
+		// 		const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title
+		// 		const filterVal = ['index','date','officeUnderLineAdd','operationsUnderLineAdd','cusServiceUnderLineAdd','financialUnderLineAdd', 'yibao', 'liandong', 'zifubao','allMoney','withdrawal','sendMoney']; // 对应表格输出的数据
+		// 		const list = this.tableData;
+		// 		console.log(123456789)
+		// 		console.log(this.tableData);
+		// 		const data = this.formatJson(filterVal, list);
+		// 		export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+		// 	})
+        // },
+        // 导出
 		exportSome() {
 			let newobj
 			this.tableData.forEach((e, index) => {
 				newobj = {
-					"编号": index + 1,
-					"日期": e.date,
-					"线下充值": e.allUnderLineMoney.toFixed(2),
-					"提款": e.commissionUse.toFixed(2),
-					"消费": e.allconsumMoney.toFixed(2),
-					"税后奖金": e.posttaxPrize.toFixed(2),
-					"当日赠送": e.todaySend.toFixed(2),
-					"红包嘉奖奖金使用": e.lotteryCard.toFixed(2),
-					"彩卡金使用": e.lotteryCardUse.toFixed(2),
-					"佣金使用": e.commissionUse.toFixed(2),
-					"销售佣金": e.saleCommissionMoney.toFixed(2),
-					"平台收佣": e.platformCommissionMoney.toFixed(2)
+                    // index: index,
+                    // date: e.date,
+                    // allUnderLineMoney: e.officeUnderLineAdd.toFixed(2),
+                    // commissionUse: e.operationsUnderLineAdd.toFixed(2),
+                    // allconsumMoney: e.cusServiceUnderLineAdd.toFixed(2),
+                    // posttaxPrize: e.financialUnderLineAdd.toFixed(2),
+                    // todaySend: e.yibao.toFixed(2),
+                    // lotteryCard: e.liandong.toFixed(2),
+                    // lotteryCardUse: e.zifubao.toFixed(2),
+                    // commissionUse: e.allMoney.toFixed(2),
+                    // saleCommissionMoney: e.withdrawal.toFixed(2),
+                    // sendMoney: e.sendMoney.toFixed(2),
+					index: index,
+                    date: e.date,
+					allUnderLineMoney: e.allUnderLineMoney.toFixed(2),
+					commissionUse: e.commissionUse.toFixed(2),
+					allconsumMoney: e.allconsumMoney.toFixed(2),
+					posttaxPrize: e.posttaxPrize.toFixed(2),
+					todaySend: e.todaySend.toFixed(2),
+					lotteryCard: e.lotteryCard.toFixed(2),
+					lotteryCardUse: e.lotteryCardUse.toFixed(2),
+					commissionUse: e.commissionUse.toFixed(2),
+					saleCommissionMoney: e.saleCommissionMoney.toFixed(2),
+                    platformCommissionMoney: e.platformCommissionMoney.toFixed(2),
+                    
 				}
 				this.newarr.push(newobj)
 			})
@@ -225,14 +278,13 @@ export default {
 			};
 			console.log(model)
 			exportExcle(model.listParams, model.title)
-				.then(res => {
-					//window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
-				})
+				.then(res => {})
 			console.log(this.newarr)
 			require.ensure([], () => {
 				const { export_json_to_excel } = require('../../vendor/Export2Excel');
 				const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title
-				const filterVal = this.newarr; // 对应表格输出的数据
+                // const filterVal = this.newarr; // 对应表格输出的数据
+                const filterVal = ['index','date','allUnderLineMoney','commissionUse','allconsumMoney','posttaxPrize', 'todaySend', 'lotteryCard', 'lotteryCardUse','commissionUse','saleCommissionMoney','platformCommissionMoney'];
 				const list = this.tableData;
 				const data = this.formatJson(filterVal, list);
 				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
