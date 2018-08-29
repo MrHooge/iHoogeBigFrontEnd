@@ -166,7 +166,7 @@ export default {
             findGoldCard(obj)
             .then(res => {
                 // console.log(res.data.data)
-                this.tableData = res.data.data
+                this.tableData = res.data.data.list
             })
         }
     }

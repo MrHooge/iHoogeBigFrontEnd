@@ -16,6 +16,10 @@
       prop="countNum"
       label="激活人数">
     </el-table-column>
+		<el-table-column
+      prop="countNum"
+      label="注册人数">
+    </el-table-column>
     <el-table-column
       prop="grouping"
       label="分组">

@@ -43,6 +43,14 @@
                        prop="allBuyNum"
                        align="center">
       </el-table-column>
+      <el-table-column label="自购数(个)"
+                       prop="CountSelfBuyNum"
+                       align="center">
+      </el-table-column>
+            <el-table-column label="跟单数(个)"
+                       prop="CountFllowBuyNum"
+                       align="center">
+      </el-table-column>
       <el-table-column label="竞彩"
                        prop="allBuyMoney"
                        align="center">
@@ -51,16 +59,8 @@
                        prop="selfBuy"
                        align="center">
       </el-table-column>
-          <el-table-column label="自购数(金额)"
-                       prop="CountSelfBuyNum"
-                       align="center">
-      </el-table-column>
       <el-table-column label="跟单(金额)"
                        prop="fllowBuy"
-                       align="center">
-      </el-table-column>
-      <el-table-column label="跟单数(金额)"
-                       prop="CountFllowBuyNum"
                        align="center">
       </el-table-column>
             <el-table-column label="北单(金额)"

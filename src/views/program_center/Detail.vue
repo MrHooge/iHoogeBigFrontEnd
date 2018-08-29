@@ -115,7 +115,7 @@
         </div>
         <!-- 方案详情 -->
         <div class="Lento">
-            <el-table :data="messagedata" border style="width: 80%;float:left">
+            <el-table :data="messagedata" border style="width: 100%;float:left">
             <el-table-column
                 prop="matchId"
                 align="center"
@@ -151,13 +151,22 @@
                 align="center"
                 label="	对阵">
                 <template slot-scope="scope">
-                     {{scope.row.homeTeam}} : {{scope.row.guestTeam}}
+                    <div v-if="scope.row.type=='足球'">
+                        <p>{{scope.row.homeTeam}}</p >
+                        <p>{{scope.row.homeScore}}:{{scope.row.guestScore}}</p >
+                        <p>{{scope.row.guestTeam}}</p >
+                        </div>
+                        <div v-else>
+                        <p>{{scope.row.guestTeam}}</p >
+                        <p>{{scope.row.guestScore}}:{{scope.row.homeScore}}</p >
+                        <p>{{scope.row.homeTeam}}</p >
+                        </div>
+                     <!-- {{scope.row.homeTeam}} : {{scope.row.guestTeam}} -->
                 </template>
             </el-table-column>
             <el-table-column 
                 align="center"
-                label="	玩法"
-                style="width:30%"> 
+                label="	玩法"> 
                 <template slot-scope="scope">
                     <div v-for="(option,index) in scope.row.options" :key="index">
                         {{option.playType}}
@@ -167,8 +176,7 @@
             </el-table-column>
              <el-table-column
                 align="center"
-                label="选项"
-                style="width:10%">  
+                label="选项">  
                       <template slot-scope="scope">
                     <div v-for="(option,index) in scope.row.options" :key="index">
                         {{option.option}}

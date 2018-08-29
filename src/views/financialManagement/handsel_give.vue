@@ -11,7 +11,7 @@
 				           @click="search">搜索</el-button>
 			</div>
 			<div class="main">
-				<el-table :data="tableData"
+				<!-- <el-table :data="tableData"
 				          border
 				          tooltip-effect="dark"
 				          style="width: 100%"
@@ -19,22 +19,64 @@
 					<el-table-column type="selection"
 					                 align="center">
 					</el-table-column>
-					<el-table-column label="会员账号"
-					                 prop="account"
-					                 align="center">
-					</el-table-column>
-					<el-table-column label="昵称"
-					                 prop="name"
-					                 align="center">
-					</el-table-column>
-					<el-table-column label="姓名"
-					                 prop="name"
-					                 align="center">
-					</el-table-column>
-				</el-table>
+					<el-table-column
+                     label="账号"
+                     prop="ACCOUNT"
+                     align="center">
+                     
+               </el-table-column>
+                <el-table-column
+                     label="昵称"
+                     prop="username"
+                     align="center">
+               </el-table-column>
+                <el-table-column
+                     label="真实姓名"
+                     prop="NAME"
+                     align="center">
+               </el-table-column>
+               <el-table-column
+                     label="证件号"
+                     prop="CERT_NO"
+                     align="center"> 
+               </el-table-column>
+                   <el-table-column
+                     label="手机"
+                     prop="MOBILE"
+                     align="center">
+               </el-table-column>
+                <el-table-column
+                     label="注册时间"
+                     align="center">
+                       <template slot-scope="scope">
+                    {{scope.row.registerDateTime}}
+                     </template>
+               </el-table-column>  
+                 <el-table-column
+                     label="最后登陆时间"
+                     align="center">
+                      <template slot-scope="scope">
+                    {{scope.row.LAST_LOGIN_DATE_TIME}}
+                     </template>
+               </el-table-column>  
+                  <el-table-column
+                     label="是否充值"
+                     align="center">
+                      <template slot-scope="scope">
+                            {{scope.row.isCharge | port}}
+                     </template>
+               </el-table-column>
+               <el-table-column
+                     label="是否白名单"
+                     align="center">
+                     <template slot-scope="scope">
+                            {{scope.row.isWhitelist | mtype}}
+                     </template>
+               </el-table-column>
+				</el-table> -->
 			</div>
 		</div>
-		<div slot="footer"
+		<!-- <div slot="footer"
 		     class="dialog-footer"
 		     v-show="isShow"
 		     style="padding:30px 0">
@@ -51,7 +93,7 @@
 			               layout="prev, pager, next"
 			               :total="total">
 			</el-pagination>
-		</div>
+		</div> -->
 		<!-- 弹窗事件 -->
 		<el-dialog title="确认赠送"
 		           :visible.sync="dialogVisible"
@@ -92,6 +134,30 @@ export default {
 			pageShow: false
 		}
 	},
+	filters:{
+		time(a){
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+
+        },
+        mtype(a){
+              return a == 1 ?"否" :  "是"
+        },
+        port(m){
+              return m == 1 ?"未充值" : "充值"
+        }
+	},
 	created() {
 		this.getData(1, this.sjname)
 	},
@@ -124,6 +190,7 @@ export default {
 		// 选择框的回调
 		handleSelectionChange(val) {
 			this.multipleSelection = val
+			console.log(val)
 			if (val.length > 0) {
 				this.isShow = true
 
@@ -136,7 +203,7 @@ export default {
 			this.number = []
 
 			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-				this.number.push(e.account)
+				this.number.push(e.ACCOUNT)
 			});
 			this.dialogVisible = true
 		},
@@ -179,6 +246,9 @@ export default {
 
 <style scoped>
 .main {
-  padding-top: 30px;
+  margin-top: 30px;
+  width:700px;
+  height: 600px;
+  border: 1px solid #cccccc
 }
 </style>

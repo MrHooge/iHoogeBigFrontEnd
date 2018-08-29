@@ -88,12 +88,12 @@
                      prop="id"
                      align="center">
                </el-table-column>   -->
-               <el-table-column
+               <!-- <el-table-column
                      label="账号"
                      prop="account"
                      align="center">
                      
-               </el-table-column>
+               </el-table-column> -->
                 <el-table-column
                      label="昵称"
                      prop="username"
@@ -101,7 +101,7 @@
                </el-table-column> 
                   <el-table-column
                      label="真实姓名"
-                     prop="name"
+                     prop="NAME"
                      align="center">
                </el-table-column>
                 <el-table-column
@@ -121,7 +121,7 @@
                </el-table-column>
                <el-table-column
                      label="名片"
-                     prop="card"
+                     prop="CARD"
                      align="center">
                </el-table-column>
                <!-- <el-table-column
@@ -133,7 +133,7 @@
                      label="证件类型"
                      align="center">
                      <template slot-scope="scope">
-                    {{scope.row.certType | type}}
+                    {{scope.row.CERT_TYPE | type}}
                 </template>
                </el-table-column>
                <!-- <el-table-column
@@ -143,7 +143,7 @@
                </el-table-column> -->
                <el-table-column
                      label="是否充值"
-                     prop="isCharge"
+                     prop="IS_CHARGE"
                      align="center">
                </el-table-column>
                <el-table-column
@@ -170,7 +170,7 @@
                      label="状态"
                      align="center">
                      <template slot-scope="scope">
-                         {{scope.row.status |use }}
+                         {{scope.row.STATUS |use }}
                          </template>
                </el-table-column>          
                <el-table-column

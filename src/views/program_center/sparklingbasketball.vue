@@ -14,10 +14,15 @@
       style="width: 100%; margin-top: 20px"
       @selection-change="handleSelectionChange">
       <el-table-column
-        prop="bigOrSmall"
         label="	大小分"
+        prop="bigOrSmall"
         width="100"
         align="center">
+        <!-- <template slot-scope="scope">
+                    <div v-for="(item,index) in scope.row" :key="index">
+                        {{item.bigOrSmall}}
+                    </div>
+                </template>   -->
       </el-table-column>
       <el-table-column
         prop="gameName"
@@ -66,9 +71,11 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="status"
         label="	状态"
         align="center">
+         <template slot-scope="scope">
+                    {{scope.row.status | type}}
+                </template>
       </el-table-column>
     </el-table>
     </div>
@@ -83,8 +90,17 @@ export default {
             startTime:'',
         }
     },
-    // filters:{
-    // },
+    filters:{
+      type(a){
+        if(a == 0){
+          return "进行中"
+        }else if(a == 1){
+          return "已结束"
+        }else{
+          return "取消"
+        }
+      }
+    },
     created(){
             this.gettable()
         },
@@ -93,7 +109,7 @@ export default {
         gettable(){
             let time = this.startTime;
             getBasketBallAdmin(time).then(res => {
-               console.log(res)
+              this.tableData = res.data.data
            })
         },
         searchlist(){
