@@ -13,22 +13,21 @@
                type="selection"
                width="55">
             </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                type="index"
                align="center"
                label="编号">
-               </el-table-column>
+               </el-table-column> -->
                <!-- <el-table-column
                      label="id"
                      prop="id"
                      align="center">
                </el-table-column>   -->
-               <el-table-column
+               <!-- <el-table-column
                      label="账号"
                      prop="account"
                      align="center">
-                     
-               </el-table-column>
+               </el-table-column> -->
                 <el-table-column
                      label="昵称"
                      prop="username"
@@ -36,7 +35,7 @@
                </el-table-column>
                 <el-table-column
                      label="真实姓名"
-                     prop="name"
+                     prop="NAME"
                      align="center">
                </el-table-column>
                <!-- <el-table-column
@@ -46,12 +45,12 @@
                </el-table-column> -->
                <el-table-column
                      label="证件号"
-                     prop="certNo"
+                     prop="CERT_NO"
                      align="center"> 
                </el-table-column>
                    <el-table-column
                      label="手机"
-                     prop="mobile"
+                     prop="MOBILE"
                      align="center">
                </el-table-column>
                 <el-table-column

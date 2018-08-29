@@ -5,7 +5,7 @@
             type="date"
             style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            value-format="yyyyMMdd">
             </el-date-picker>
             <el-button type="primary" @click="searchlist" style="margin-top:15px">查询 </el-button>
         <el-table
@@ -14,10 +14,15 @@
       style="width: 100%; margin-top: 20px"
       @selection-change="handleSelectionChange">
       <el-table-column
-        prop="bigOrSmall"
         label="	大小分"
+        prop="bigOrSmall"
         width="100"
         align="center">
+        <!-- <template slot-scope="scope">
+                    <div v-for="(item,index) in scope.row" :key="index">
+                        {{item.bigOrSmall}}
+                    </div>
+                </template>   -->
       </el-table-column>
       <el-table-column
         prop="gameName"
@@ -66,9 +71,11 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="status"
         label="	状态"
         align="center">
+         <template slot-scope="scope">
+                    {{scope.row.status | type}}
+                </template>
       </el-table-column>
     </el-table>
     </div>
@@ -80,18 +87,29 @@ export default {
     data(){
         return{
             tableData:[],
-            startTime: new Date()||''
+            startTime:'',
         }
     },
+    filters:{
+      type(a){
+        if(a == 0){
+          return "进行中"
+        }else if(a == 1){
+          return "已结束"
+        }else{
+          return "取消"
+        }
+      }
+    },
     created(){
-            console.log(this.startTime)
+            this.gettable()
         },
     methods:{
         //查询
         gettable(){
             let time = this.startTime;
             getBasketBallAdmin(time).then(res => {
-               console.log(res)
+              this.tableData = res.data.data
            })
         },
         searchlist(){

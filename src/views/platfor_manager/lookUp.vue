@@ -1,6 +1,6 @@
 <template>
 	<div class="app-container">
-		<el-input v-model="account" placeholder="请输入昵称" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+		<el-input v-model="account" placeholder="请输入昵称" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px" @input="newVal"></el-input>
 		<el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
 		<el-table :data="memberfilter"
 		          border
@@ -148,6 +148,11 @@ export default {
 		this.getTable()
 	},
 	methods: {
+		newVal(){
+			if(this.account=='') {
+				this.getTable()
+			}
+		},
 			//查询
 		inquire(){
 			if(this.account == ''){
@@ -160,20 +165,21 @@ export default {
 				//翻页
         handleCurrentChange(num){
             this.page = num;
-            this.getTable()
+            this.getTable(this.page,this.pageSize)
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
-            this.getTable()
+            this.getTable(this.page,this.pageSize)
         },
-		getTable() {
+		getTable(a,b) {
 			let obj = {
-				page:this.page,
-				pageSize:this.pageSize,
+				page:a,
+				pageSize:b,
 				account:this.account
 			}
 			findAllAgentAndQD(obj).then(res => {  //  获取渠道数据
+				this.totalList = res.data.data.total
 				this.tableData = res.data.data.list.filter((e, index) => {
 					return e.AGENT_TYPE == 0
                 })

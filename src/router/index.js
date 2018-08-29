@@ -473,11 +473,11 @@ export const constantRouterMap = [{
       },
       {
         path: 'activityGiftcard',
-        name: '充值送礼金卡',
+        name: '人工送彩金卡',
         component: () =>
           import ('@/views/activity_manager/activity_giftcard'),
         meta: {
-          title: '充值送礼金卡'
+          title: '人工送彩金卡'
         }
       },
       {

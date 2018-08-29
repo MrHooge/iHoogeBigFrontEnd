@@ -115,59 +115,85 @@
         </div>
         <!-- 方案详情 -->
         <div class="Lento">
-            <el-table :data="messagedata" border style="width: 20%;float:left">
+            <el-table :data="messagedata" border style="width: 100%;float:left">
             <el-table-column
                 prop="matchId"
                 align="center"
                 label="场次号">     
             </el-table-column>
-            </el-table>
-            <div class="newobj">
+           
+            <!-- <div class="newobj">
                 <div class="something" style="border-bottom:none">对阵</div>
-                <div class="something" style="height:60px"></div>
-                <div></div>
-                <div></div>
+                <div v-for="item in newarr[0]" :key="item.index">
+                <div class="something" style="height:49px">{{item.isWin}}</div>
+                </div>
             </div>
-            <div class="newobj">
+            <div class="newobj" style="width:150px">
                 <div class="something" style="border-bottom:none">玩法</div>
-                <div class="something" style="height:60px"></div>
-                <div></div>
-                <div></div>
+                <div v-for="item in newarr[0]" :key="item.index">
+                <div class="something" style="height:49px">{{item.playType}}</div>
+                </div>
             </div>
-            <div class="newobj">
+            <div class="newobj" style="width:80px">
                 <div class="something" style="border-bottom:none">选项</div>
-                <div class="something" style="height:60px"></div>
-                <div></div>
-                <div></div>
+                <div v-for="item in newarr[0]" :key="item.index">
+                <div class="something" style="height:49px">{{item.option}}</div>
+                </div>
             </div>
             <div class="newobj">
                 <div class="something" style="border-bottom:none">赛果</div>
-                <div class="something" style="height:60px"></div>
-                <div></div>
-                <div></div>
-            </div>
-            <!-- <el-table :data="tablethis" border style="width: 80%;float:left">
+                <div v-for="item in newarr[0]" :key="item.index">
+                <div class="something" style="height:49px">{{item.result}}</div>
+                </div>
+            </div> -->
+            <!-- <el-table :data="tablethis" border style="width: 80%;float:left"> -->
             <el-table-column
-                prop="winStatus"
                 align="center"
                 label="	对阵">
+                <template slot-scope="scope">
+                    <div v-if="scope.row.type=='足球'">
+                        <p>{{scope.row.homeTeam}}</p >
+                        <p>{{scope.row.homeScore}}:{{scope.row.guestScore}}</p >
+                        <p>{{scope.row.guestTeam}}</p >
+                        </div>
+                        <div v-else>
+                        <p>{{scope.row.guestTeam}}</p >
+                        <p>{{scope.row.guestScore}}:{{scope.row.homeScore}}</p >
+                        <p>{{scope.row.homeTeam}}</p >
+                        </div>
+                     <!-- {{scope.row.homeTeam}} : {{scope.row.guestTeam}} -->
+                </template>
             </el-table-column>
-            <el-table-column
-                prop="playType"
+            <el-table-column 
                 align="center"
-                label="	玩法">   
+                label="	玩法"> 
+                <template slot-scope="scope">
+                    <div v-for="(option,index) in scope.row.options" :key="index">
+                        {{option.playType}}
+                    </div>
+                    
+                </template>   
             </el-table-column>
              <el-table-column
-                prop="option"
                 align="center"
-                label="选项">       
+                label="选项">  
+                      <template slot-scope="scope">
+                    <div v-for="(option,index) in scope.row.options" :key="index">
+                        {{option.option}}
+                    </div>
+                    
+                </template>  
             </el-table-column>
             <el-table-column
                 align="center"
-                prop="result"
                 label="	赛果">
+                 <template slot-scope="scope">
+                    <div v-for="(option,index) in scope.row.options" :key="index">
+                        {{option.result}}
+                    </div>
+                    </template> 
             </el-table-column>
-        </el-table> -->
+        </el-table>
         </div>
         <el-dialog
           title="撤销"
@@ -193,6 +219,7 @@ export default {
             number:'',
             tableData:[],
             messagedata:[],
+            newarr:[],
             tablethis:[],
             lotteryType:'',//彩种
             planStatus:'',//方案状态
@@ -260,16 +287,17 @@ export default {
             let obj = {
                 planNo:this.number
             }
-            let arr = [];
+            this.newarr = [];
             let obje = {
                 matchId:''
             }
             getPlanDetailForManager(obj).then(res => {
                 let rest = res.data.matchDetail;
                 rest.forEach(e => {
-                    arr.push(e.options);
+                    this.newarr.push(e.options);
                 });
-                console.log(arr)
+                console.log(123456789)
+                console.log(this.newarr)
                 this.messagedata = res.data.matchDetail;
                 this.tablethis = res.data.matchDetail.options;
                 this.lotteryType = res.data.lotteryType;
@@ -304,8 +332,9 @@ export default {
     
 }
 .something{
+    font-size: 14px;
     width: 100%;
-    height: 50px;
+    height: 48px;
     border: 1px solid #cccccc;
     text-align: center;
     line-height: 50px;
