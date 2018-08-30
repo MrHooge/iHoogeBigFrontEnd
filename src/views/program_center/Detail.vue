@@ -179,7 +179,7 @@
                 label="选项">  
                       <template slot-scope="scope">
                     <div v-for="(option,index) in scope.row.options" :key="index">
-                        {{option.option}}
+                        {{option.option}}[{{option.award}}]
                     </div>
                     
                 </template>  

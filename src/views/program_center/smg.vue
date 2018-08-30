@@ -101,9 +101,9 @@
           <el-input v-model="form.rq" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="状态" :label-width="formLabelWidth">
-          <el-radio v-model="form.radio" label="0" border>进行中</el-radio>
-            <el-radio v-model="form.radio" label="1" border>已结束</el-radio>
-            <el-radio v-model="form.radio" label="2" border>取消</el-radio>
+          <el-radio v-model="form.status" label="0" border>进行中</el-radio>
+            <el-radio v-model="form.status" label="1" border>已结束</el-radio>
+            <el-radio v-model="form.status" label="2" border>取消</el-radio>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
