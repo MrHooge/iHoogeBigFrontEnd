@@ -4,14 +4,14 @@
 			<div class="search">
 				<el-input v-model="sjname"
 				          placeholder="请输入查询账号"
-				          style="width:50%;"
+				          style="width:100%;"
 				          @input="onInput"></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
 			</div>
 			<div class="main">
-				<!-- <el-table :data="tableData"
+				<el-table :data="tableData"
 				          border
 				          tooltip-effect="dark"
 				          style="width: 100%"
@@ -73,10 +73,10 @@
                             {{scope.row.isWhitelist | mtype}}
                      </template>
                </el-table-column>
-				</el-table> -->
+				</el-table>
 			</div>
 		</div>
-		<!-- <div slot="footer"
+		<div slot="footer"
 		     class="dialog-footer"
 		     v-show="isShow"
 		     style="padding:30px 0">
@@ -93,7 +93,7 @@
 			               layout="prev, pager, next"
 			               :total="total">
 			</el-pagination>
-		</div> -->
+		</div>
 		<!-- 弹窗事件 -->
 		<el-dialog title="确认赠送"
 		           :visible.sync="dialogVisible"
@@ -247,8 +247,5 @@ export default {
 <style scoped>
 .main {
   margin-top: 30px;
-  width:700px;
-  height: 600px;
-  border: 1px solid #cccccc
 }
 </style>
