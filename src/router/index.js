@@ -379,20 +379,20 @@ export const constantRouterMap = [{
       },
       {
         path: 'replenishment_order',
-        name: '充值补单',
+        name: '线上充值补单',
         component: () =>
           import ('@/views/recharge_center/replenishment_order'),
         meta: {
-          title: '充值补单'
+          title: '线上充值补单'
         }
       },
       {
         path: 'fundReversal',
-        name: '资金冲正',
+        name: '资金扣款',
         component: () =>
           import ('@/views/recharge_center/fundReversal'),
         meta: {
-          title: '资金冲正'
+          title: '资金扣款'
         }
       },
       {
@@ -455,11 +455,11 @@ export const constantRouterMap = [{
     },
     children: [{
         path: 'activitySetting',
-        name: '活动配置',
+        name: '彩金卡配置',
         component: () =>
           import ('@/views/activity_manager/activity_setting'),
         meta: {
-          title: '活动配置'
+          title: '彩金卡配置'
         }
       },
       {
@@ -525,14 +525,14 @@ export const constantRouterMap = [{
     ]
   },
 
-  // 代理管理
+  // 市场管理
   {
     path: '/agentManager',
     component: Layout,
     redirect: '/agentManager/agentManager',
-    name: '代理管理',
+    name: '市场管理',
     meta: {
-      title: '代理管理'
+      title: '市场管理'
     },
     children: [{
         path: 'agentManager',
@@ -670,11 +670,11 @@ export const constantRouterMap = [{
     children: [
       {
         path: 'Rechange',
-        name: '充值',
+        name: '充值加款',
         component: () =>
           import ('@/views/financialManagement/Rechange'),
         meta: {
-          title: '充值'
+          title: '充值加款'
         }
       },
       {
@@ -794,13 +794,13 @@ export const constantRouterMap = [{
     ]
   },
 
-  //客户详情查询
+  //流水查询
   {
     path: '/detailsSearch',
     component: Layout,
     redirect: '/detailsSearch/fluwQuery',
-    name: '客户详情查询',
-    meta: { title: '客户详情查询' },
+    name: '流水查询',
+    meta: { title: '流水查询' },
     children:[
       {
         path: 'fluwQuery',
@@ -810,9 +810,9 @@ export const constantRouterMap = [{
       },
       {
         path: 'giftcardSearch',
-        name: '彩金卡查询',
+        name: '彩金卡流水查询',
         component: () => import('@/views/details_search/giftcard_search'),
-        meta: { title: '彩金卡查询' }
+        meta: { title: '彩金卡流水查询' }
       },
       {
         path: 'redpackageSearch',
