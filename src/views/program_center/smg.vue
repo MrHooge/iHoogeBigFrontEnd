@@ -13,15 +13,20 @@
       border
       style="width: 100%; margin-top: 20px"
       @selection-change="handleSelectionChange">
+       <el-table-column
+        prop="matchId"
+        label="场次号"
+        align="center">
+      </el-table-column>
       <el-table-column
         prop="gameName"
         label="	赛事名称"
         width="100"
         align="center">
       </el-table-column>
-      <el-table-column
-        prop="guestScore"
-        label="客队分"
+       <el-table-column
+        prop="homeTeam"
+        label="主队"
         align="center">
       </el-table-column>
       <el-table-column
@@ -29,9 +34,9 @@
         label="客队"
         align="center">
       </el-table-column>
-      <el-table-column
-        prop="halfGuestScore"
-        label="	半场客队进球"
+       <el-table-column
+        prop="rq"
+        label="让球数"
         align="center">
       </el-table-column>
       <el-table-column
@@ -39,19 +44,19 @@
         label="	主队半场进球"
         align="center">
       </el-table-column>
+      <el-table-column
+        prop="halfGuestScore"
+        label="	客队半场进球"
+        align="center">
+      </el-table-column>
        <el-table-column
         prop="homeScore"
-        label="主队分	"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="homeTeam"
-        label="主队"
+        label="主队总进球	"
         align="center">
       </el-table-column>
        <el-table-column
-        prop="matchId"
-        label="场次号"
+        prop="guestScore"
+        label="客队总进球"
         align="center">
       </el-table-column>
       <el-table-column
@@ -60,11 +65,6 @@
          <template slot-scope="scope">
                     {{scope.row.matchTime | time}}
                 </template>
-      </el-table-column>
-       <el-table-column
-        prop="rq"
-        label="让球数"
-        align="center">
       </el-table-column>
       <el-table-column
         prop="status"

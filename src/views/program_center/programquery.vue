@@ -43,13 +43,13 @@
             type="date"
             style="margin-bottom:40px;margin-right:20px;width:180px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            value-format="yyyyMMdd">
             </el-date-picker>
             
             发单时间（截止）：<el-date-picker
             v-model="etime"
             align="right"
-            value-format="yyyy-MM-dd"
+            value-format="yyyyMMdd"
             type="date"
             style="margin-left:10px;
             margin-right:60px
@@ -238,7 +238,7 @@ export default {
 				{ winStatus: "2", label: "未中奖" },
                 { winStatus: "3", label: "已中奖" },
                 { winStatus: "4", label: "已派奖" },
-                { winStatus: "11", label: "未出票作废" }
+                { winStatus: "11", label: "已退款" }
             ],
             directions: [
 				{ playType: "", label: "全部" },
