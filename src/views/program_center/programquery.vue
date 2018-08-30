@@ -43,13 +43,13 @@
             type="date"
             style="margin-bottom:40px;margin-right:20px;width:180px"
             placeholder="请选择开始日期"
-            value-format="yyyyMMdd">
+            value-format="yyyy-MM-dd">
             </el-date-picker>
             
             发单时间（截止）：<el-date-picker
             v-model="etime"
             align="right"
-            value-format="yyyyMMdd"
+            value-format="yyyy-MM-dd"
             type="date"
             style="margin-left:10px;
             margin-right:60px
