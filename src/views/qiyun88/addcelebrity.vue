@@ -104,12 +104,32 @@
         <el-form-item>
             <el-button type="primary" @click="onSubmit">增加</el-button>
         </el-form-item>
+        
+        
     </el-form>
+    <p style="padding-left:200px;">备注：没有添加红人的位置会为空，需要每一个都添加一遍！</p>
+    <div style="text-align:center;">
+        <p>当前的红人列表</p>
+        <el-table
+            :data="navLi"
+            border
+            style="width:50%;text-align:center;margin:0 auto;">
+            <el-table-column
+            prop="account"
+            label="账号">
+            </el-table-column>
+            <el-table-column
+            prop="username"
+            label="昵称">
+            </el-table-column>
+        </el-table>
+    </div>
+    
  </div>
     
 </template>
 <script>
-import { addCelebrity} from '@/api/sunburn'
+import { addCelebrity,getSuperMan} from '@/api/sunburn'
 export default {
     data(){
         return{
@@ -134,9 +154,11 @@ export default {
                 red07: '',
                 red08: '',
             },
+            navLi: [],
         }
     },
     created() {
+        this.getList()
     },
     methods:{
         onSubmit() {
@@ -154,7 +176,33 @@ export default {
             addCelebrity(obj)
                 .then(res => {
             })
-        }
+        },
+        getList () {
+			//  超级大神列表
+			// this.$axios.get(api.member + '/user/getSuperMan').then(res => {
+			// 	console.log(res)
+			// 	if (res.data.data.length > 0) {
+			// 		this.navLi = this.removeEmptyArrayEle(res.data.data)
+			// 	} else {
+			// 		this.hren = true
+			// 	}
+            // })
+
+            getSuperMan().then(res =>{
+                console.log(res)
+                this.navLi = this.removeEmptyArrayEle(res.data.data)
+            })
+        },
+        removeEmptyArrayEle (arr) {
+			for (var i = 0; i < arr.length; i++) {
+				if (arr[i] == undefined) {
+					arr.splice(i, 1)
+					i = i - 1 // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
+					// 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
+				}
+			}
+			return arr
+		},
     },
 }
 </script>
@@ -168,5 +216,8 @@ export default {
 .main >>> .el-input__inner{
     display: block;
     margin-bottom: 20px;
+}
+.main >>> .is-leaf{
+    text-align: center;
 }
 </style>
