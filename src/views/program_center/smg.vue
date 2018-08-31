@@ -233,6 +233,11 @@ export default {
                  this.$message(res.data.message)
                  this.gettable()
                  this.dialogFormVisible = false
+                 this.form.guestScore = ''
+                  this.form.halfGuestScore = ''
+                  this.form.halfHomeScore = ''
+                  this.form.homeScore = ''
+                
                }else{
                  this.$message(res.data.message)
                  this.dialogFormVisible = false

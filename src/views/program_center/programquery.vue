@@ -77,8 +77,11 @@
                 align="center"
                 width="180">
                 <template slot-scope="scope">
-                    <span @click="getupnewweb(scope.row.account)">
-                    {{scope.row.account}}
+                    <span @click="getupnewweb(scope.row.account)" v-if="scope.row.username">
+                    {{scope.row.username}}
+                    </span>
+                     <span @click="getupnewweb(scope.row.account)" v-else>
+                    {{ scope.row.account}}
                     </span>
                 </template>
             </el-table-column>
