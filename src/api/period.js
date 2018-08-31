@@ -35,6 +35,16 @@ export function returnPrize(plans){
         }
     })
 }   
+//设置票成功
+export function updatePlanStatus(planNo){
+    return request.lottery({
+        url:'/lottery/updatePlanStatus',
+        method:'get',
+        params:{
+            planNo
+        }
+    })
+}   
 //查询中奖方案
 export function getWinPlanByType(lotteryTypes){
     return request.lottery({

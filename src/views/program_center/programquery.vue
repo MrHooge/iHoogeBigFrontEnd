@@ -162,6 +162,7 @@
                                    <el-button type="warning" @click="Szczegol(scope.row)">明细</el-button>&nbsp;
                                    &nbsp;&nbsp;<el-button type="warning" @click="Chargeback(scope.row,'modify')">退单</el-button>
                                    <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button>
+                                   <el-button type="warning" @click="outticket(scope.row,'modify')">设置出票</el-button>
                                 </el-dropdown-menu>
                                 </el-dropdown> 
                    </template>
@@ -201,7 +202,7 @@
     </div>
 </template>
 <script>
-import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan } from '@/api/period'
+import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus } from '@/api/period'
 export default {
     data(){
         return{
@@ -340,6 +341,19 @@ export default {
                     console.log(e)
                     this.fadan = e.planDesc
                 })
+            })
+        },
+        //出票
+        outticket(data){
+           
+            this.planNo = data.planNo
+            console.log(this.planNo)
+            updatePlanStatus(this.planNo).then(res => {
+                if(res.data.error_code == 200){
+                    this.$message('出票成功')
+                }else{
+                     this.$message(res.data.message)
+                }
             })
         },
         //退单
