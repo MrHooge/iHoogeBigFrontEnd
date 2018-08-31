@@ -1,5 +1,16 @@
 <template>
 	<div class="app-container">
+        <el-tabs v-model="activeName2"
+		         type="card"
+		         @tab-click="handleClick">
+			<el-tab-pane label="开户轮播墙"
+			             name="first">
+				<!-- <v-rechange></v-rechange> -->
+			</el-tab-pane>
+			<el-tab-pane label="激活轮播墙"
+			             name="second"></el-tab-pane>
+
+		</el-tabs>
 		<el-table
     :data="tableData"
     border
@@ -37,7 +48,7 @@
 </template>
 
 <script>
-import { openAccountWall } from '@/api/sys_user'
+import { openAccountWall,findAccountActiveWall } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -50,6 +61,7 @@ export default {
         page:1,
         pageSize:20,
         totalList: 0,
+        activeName2: 'first',
 		}
 	},
 	created() {
@@ -60,26 +72,49 @@ export default {
         handleCurrentChange(num){
             this.page = num;
             this.getmasage()
+            this.handleClick(tab, event)
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
             this.getmasage()
+            this.handleClick(tab, event)
         },
+        handleClick() {
+			// console.log(tab)
+			if (this.activeName2 == 'first') {
+				this.getmasage()
+				console.log('11111111111')
+			} else {
+				this.getTableData()
+				console.log('22222222222')
+			}
+
+		},
 		getmasage(){
-      let obj = { 
-      loginAccount:getCookies('name'),
-      page:this.page,
-      pageSize:this.pageSize
-      }
-			openAccountWall(obj).then(res=>{
-				console.log(res)
-				if(res.data.error_code == 200){
+            let obj = { 
+                loginAccount:getCookies('name'),
+                page:this.page,
+                pageSize:this.pageSize
+            }
+            openAccountWall(obj).then(res=>{
+                console.log(res)
+                if(res.data.error_code == 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
                     console.log(this.tableData)
+                }
+            })
+        },
+        getTableData(){
+			let loginAccount = getCookies('name')
+			console.log()
+			findAccountActiveWall(loginAccount).then(res=>{
+				console.log(res)
+				if(res.data.error_code==200){
+					this.tableData = res.data.data.list
 				}
-		})
+		    })
 		}
 	}
 }
