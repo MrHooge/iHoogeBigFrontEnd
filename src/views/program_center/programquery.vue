@@ -177,6 +177,15 @@
                 <el-button type="primary" @click="want">确定</el-button>
             </div>
         </el-dialog>
+        <el-dialog title="出票" :visible.sync="undesirabledesabel" width="500px" top="30vh">
+            <div class="body">
+              确认出票吗
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogShenVisible = false">取 消</el-button>
+                <el-button type="primary" @click="getfromyicket">确定</el-button>
+            </div>
+        </el-dialog>
          <el-dialog title="修改" :visible.sync="dialogShenVisible" width="500px" top="30vh">
             <div class="body">
               请输入罚单宣言：<el-input v-model="desc"></el-input>
@@ -225,6 +234,7 @@ export default {
             planStatus:'',
             dialogShenVisible:false,
             Declarationofwithdrawal:false,
+            undesirabledesabel:false,
             fadan:'',
             options: [
 				{ planStatus: "", label: "全部" },
@@ -345,12 +355,16 @@ export default {
         },
         //出票
         outticket(data){
-           
+           this.undesirabledesabel = true
             this.planNo = data.planNo
-            console.log(this.planNo)
+            
+        },
+        //确认出票
+        getfromyicket(){
             updatePlanStatus(this.planNo).then(res => {
                 if(res.data.error_code == 200){
                     this.$message('出票成功')
+                    this.undesirabledesabel = false
                 }else{
                      this.$message(res.data.message)
                 }
@@ -361,6 +375,7 @@ export default {
             this.Declarationofwithdrawal = true;
         // console.log(data)
         this.planNo = data.planNo
+         this.planNo = ''
         },
         want(){
             let subject = {
@@ -396,7 +411,8 @@ export default {
         inquire(data){
             this.dialogShenVisible = true;
             this.planNo = data.planNo;
-            this.desc = data.planDesc
+            this.desc = data.planDesc;
+             this.planNo = '';
         },
         //确认
         sure(){

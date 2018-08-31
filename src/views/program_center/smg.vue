@@ -78,7 +78,7 @@
                     {{scope.row.matchTime | time}}
                 </template>
       </el-table-column>
-      <!-- <el-table-column
+      <el-table-column
         prop="status"
         label="	状态"
         align="center">
@@ -86,7 +86,7 @@
             <el-tag
             disable-transitions>{{scope.row.status | changeType}}</el-tag>
         </template>
-      </el-table-column> -->
+      </el-table-column>
       <el-table-column
         label="	操作"
         align="center">
@@ -143,7 +143,7 @@
         </el-form-item>
         <el-form-item label="状态" :label-width="formLabelWidth">
           <el-radio v-model="form.status" label="0" border>进行中</el-radio>
-            <el-radio v-model="form.status" label="1" border>已结束</el-radio>
+            <el-radio v-model="form.status" label="1" border>截止</el-radio>
             <el-radio v-model="form.status" label="2" border>取消</el-radio>
         </el-form-item>
       </el-form>
@@ -169,7 +169,7 @@ export default {
                 halfHomeScore:'',	
                 homeScore:'',		
                 rq:'',
-                status:'',
+                status:1,
                 id:''	
             }
         }
@@ -181,7 +181,7 @@ export default {
         changeType(val){
             val = Number(val)
             if(val === 0){
-                return '在售'
+                return '进行中'
             }
             else if(val === 1){
                 return '截止'
@@ -222,12 +222,16 @@ export default {
         modify(data){
             this.dialogFormVisible = true;
             this.form.id = data.id
+            this.form.rq = data.rq
+            this.form.status = data.status
+            console.log(data.status)
         },
         //确认修改
         submitInfos(){
             updateFootBallAdmin(this.form).then(res => {
                if(res.data.error_code == 200){
                  this.$message(res.data.message)
+                 this.gettable()
                  this.dialogFormVisible = false
                }else{
                  this.$message(res.data.message)

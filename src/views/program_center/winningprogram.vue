@@ -43,7 +43,8 @@
         </div>
   </el-collapse-item>
                 </el-collapse>
-                <el-button type="primary" @click="searchlist" style="margin-top:15px">查询 </el-button>
+                <el-button type="primary" @click="searchlist" style="margin-top:15px">查询中奖方案 </el-button>
+                <el-button type="primary" @click="paiaward" style="margin-top:15px">派奖 </el-button>
          <el-table
       :data="tableData"
       border
@@ -93,12 +94,13 @@
 </template>
 
 <script>
-import { getWinPlanByType } from '@/api/period'
+import { getWinPlanByType,returnPrize } from '@/api/period'
 export default {
     data(){
         return{
            tableData:[],
-           radio:1
+           radio:1,
+           selections:[]
         }
     },
     
@@ -113,7 +115,33 @@ export default {
        searchlist(){
            //console.log(lotteryTypes)
            this.gettable()
-       }
+       },
+       //派奖
+       paiaward(){
+           if(this.selections == 0){
+              this.$message('至少选择一个中奖方案')
+        }else{
+             let newarr = [];
+              this.selections.forEach(e => {
+                    //console.log(e.account);
+                    newarr.push(e.planNo)
+              });
+              this.plans = newarr.join(',');
+              returnPrize(this.plans).then(res => {
+                    if (res.data.error_code === 200) {
+                     this.$message('派奖成功')
+                     this.gettable()
+                     } else {
+                         this.$message(res.data.message)
+                         }
+              })
+        }
+       },
+       // 选择框全部
+        handleSelectionChange(selection) {
+            this.selections = selection;
+            
+        }
     }
 }
 </script>
