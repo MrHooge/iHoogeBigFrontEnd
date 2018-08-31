@@ -140,8 +140,10 @@
             <el-radio v-model="status" label="3" border style="margin:5px;" size="mini">未确认</el-radio>
             <el-radio v-model="status" label="4" border style="margin:5px;" size="mini">出票成功</el-radio>
             <el-radio v-model="status" label="5" border style="margin:5px;" size="mini">出票失败</el-radio>
-    是否真实出票:<el-radio v-model="radio" label="0" border style="margin:5px;" size="mini">是</el-radio>
-                <el-radio v-model="radio" label="1" border style="margin:5px;" size="mini">否</el-radio><br />
+    <!-- 是否真实出票:<el-radio v-model="radio" label="0" border style="margin:5px;" size="mini">是</el-radio>
+                <el-radio v-model="radio" label="1" border style="margin:5px;" size="mini">否</el-radio><br /> -->
+    是否真实出票:<el-radio label="0" border style="margin:5px;" size="mini">是</el-radio>
+                <el-radio label="1" border style="margin:5px;" size="mini">否</el-radio><br />
     </div>
     <div class="search-footer">
     生成票时间&nbsp;开始：<el-date-picker
@@ -317,7 +319,6 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="totalList"
             >
             </el-pagination>
 </div>
@@ -349,7 +350,7 @@ export default {
             startTerm:''||null,
             endTerm:''||null,
             page:1,
-            pagesize:20,
+            pageSize:20,
             type:''||null
         }
     },
@@ -433,7 +434,7 @@ export default {
             startTerm:this.startTerm,//彩期开始
             endTerm:this.endTerm,//彩期结束
             offset:this.page,//页数
-            pagesize:this.pagesize
+            pageSize:this.pageSize
             }
             searchTicket(obj).then(res => {
                  console.log(1)

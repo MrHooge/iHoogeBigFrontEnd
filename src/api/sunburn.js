@@ -76,6 +76,14 @@ export function addCelebrity(userinfos){
         params:userinfos
     })
 }
+//获取名人列表
+export function getSuperMan(userinfos){
+    return request.member({
+        url:'/user/getSuperMan',
+        method:'get',
+        params:userinfos
+    })
+}
 //添加站内信
 export function addMail(userinfos){
     return request.infos({

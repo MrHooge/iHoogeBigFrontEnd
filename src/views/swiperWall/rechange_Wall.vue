@@ -107,7 +107,9 @@ export default {
 				if (res.data.error_code == 200) {
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
-				}
+				}else{
+                    this.tableData = []
+                }
 			})
 		}
 	}

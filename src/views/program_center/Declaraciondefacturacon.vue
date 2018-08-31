@@ -32,11 +32,11 @@
                 label="	方案编号">
             </el-table-column>
             <el-table-column
-                label="用户名"
+                label="昵称"
                 align="center"
                 width="180">
                 <template slot-scope="scope">
-                    {{scope.row.account}}
+                    {{scope.row.username}}
                 </template>
             </el-table-column>
                         <el-table-column

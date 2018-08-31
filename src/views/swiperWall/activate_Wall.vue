@@ -54,7 +54,7 @@ export default {
 				if(res.data.error_code==200){
 					this.tableData = res.data.data.list
 				}
-		})
+		    })
 		}
 	}
 }
