@@ -74,6 +74,15 @@ export function updateFootBallAdmin(userinfos){
         
     })
 }
+//竞彩篮球修改
+export function updateBasketBallAdmin(userinfos){
+    return request.lottery({
+        url:'/lottery/updateFootBallAdmin',
+        method:'get',
+        params:userinfos
+        
+    })
+}
 //方案查询
 export function selectLotteryPlan(userinfos){
     return request.lottery({

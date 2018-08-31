@@ -8,7 +8,33 @@
             value-format="yyyyMMdd">
             </el-date-picker>
             <el-button type="primary" @click="searchlist" style="margin-top:15px">查询 </el-button>
-        <el-table
+            <!-- 表格二 -->
+            <div>
+            <div class="table-top">
+                  <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+                   <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+                   <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+                   <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+                   <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+              </div>
+            <div v-for="(item,index) in tableData" :key="index" class="table-down">
+              <div class="testfirst">
+                
+                <div v-for="val in item.selectStatus" :key="val.index" class="testsecond">{{val}}</div>
+              </div>
+              
+              <!-- <div>
+                {{index}} 
+                <span v-for="val in v.selectStatus" :key="val.index">{{val}}</span>
+              </div> -->
+            </div>
+            </div>
+        <!-- <el-table
       :data="tableData"
       border
       style="width: 100%; margin-top: 20px"
@@ -82,7 +108,7 @@
         <el-button type="primary" @click="modify(scope.row,'modify')">修改</el-button>
         </template>
       </el-table-column>
-    </el-table>
+    </el-table> -->
      <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="客队总进球" :label-width="formLabelWidth">
@@ -201,5 +227,32 @@ export default {
 <style>
 .basketball{
     padding: 10px 20px
+}
+.testfirst{
+  width:800px;
+  height: 40px;
+  border: 1px solid #cccccc
+}
+.testsecond{
+  width: 40px;
+  height: 20px;
+  float: left;
+  background: red
+}
+.listnum{
+  width: 80px;
+  height: 71px;
+  border: 1px solid #cccccc;
+  text-align: center;
+  line-height: 71px;
+  float: left;
+}
+.table-top{
+  width: 800px;
+  height: 71px;
+  background: green
+}
+.table-down{
+  margin-top: 50px
 }
 </style>
