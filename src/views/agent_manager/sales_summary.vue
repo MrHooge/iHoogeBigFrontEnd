@@ -196,9 +196,7 @@ export default {
         title: "单个代理的销量详情"
       };
       exportExcle(model.listParmas, model.title)
-        .then(res => {
-          //window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
-        })
+        .then(res => {})
       console.log(this.newarr)
       require.ensure([], () => {　　　　　　　　
         const {

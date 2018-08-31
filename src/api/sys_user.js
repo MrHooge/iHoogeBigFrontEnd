@@ -72,6 +72,16 @@ export function delUser(user_id) {
     }
   })
 }
+//添加打票人员
+export function addTicketUser(account) {
+    return request.ticket({
+      url: '/ticketSystem/addTicketUser',
+      method: 'get',
+      params: {
+        account
+      }
+    })
+  }
 
 // 查询所有父模块
 export function findAllParentModel(id) {

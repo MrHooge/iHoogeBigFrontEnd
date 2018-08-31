@@ -201,61 +201,11 @@ export default {
 		　　　formatJson(filterVal, jsonData) {
 			　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
         　　　　},
-		// // 导出
-		// exportSome() {
-		// 	let newobj
-		// 	this.tableData.forEach((e, index) => {
-		// 		newobj = {
-		// 				index: index,
-		// 				date: e.date,
-		// 				officeUnderLineAdd: e.officeUnderLineAdd.toFixed(2),
-		// 				operationsUnderLineAdd: e.operationsUnderLineAdd.toFixed(2),
-		// 				cusServiceUnderLineAdd: e.cusServiceUnderLineAdd.toFixed(2),
-		// 				financialUnderLineAdd: e.financialUnderLineAdd.toFixed(2),
-		// 				yibao: e.yibao.toFixed(2),
-		// 				liandong: e.liandong.toFixed(2),
-		// 				zifubao: e.zifubao.toFixed(2),
-		// 				allMoney: e.allMoney.toFixed(2),
-		// 				withdrawal: e.withdrawal.toFixed(2),
-		// 				sendMoney: e.sendMoney.toFixed(2)
-		// 		}
-		// 		this.newarr.push(newobj)
-		// 	})
-		// 	let model = {
-		// 		listParams: JSON.stringify(this.newarr),
-		// 		title: '财务现金明细'
-		// 	}
-		// 	console.log(model)
-		// 	exportExcle(model.listParams, model.title)
-		// 		.then(res => {})
-		// 	require.ensure([], () => {
-		// 		const { export_json_to_excel } = require('../../vendor/Export2Excel');
-		// 		const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title
-		// 		const filterVal = ['index','date','officeUnderLineAdd','operationsUnderLineAdd','cusServiceUnderLineAdd','financialUnderLineAdd', 'yibao', 'liandong', 'zifubao','allMoney','withdrawal','sendMoney']; // 对应表格输出的数据
-		// 		const list = this.tableData;
-		// 		console.log(123456789)
-		// 		console.log(this.tableData);
-		// 		const data = this.formatJson(filterVal, list);
-		// 		export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
-		// 	})
-        // },
         // 导出
 		exportSome() {
 			let newobj
 			this.tableData.forEach((e, index) => {
 				newobj = {
-                    // index: index,
-                    // date: e.date,
-                    // allUnderLineMoney: e.officeUnderLineAdd.toFixed(2),
-                    // commissionUse: e.operationsUnderLineAdd.toFixed(2),
-                    // allconsumMoney: e.cusServiceUnderLineAdd.toFixed(2),
-                    // posttaxPrize: e.financialUnderLineAdd.toFixed(2),
-                    // todaySend: e.yibao.toFixed(2),
-                    // lotteryCard: e.liandong.toFixed(2),
-                    // lotteryCardUse: e.zifubao.toFixed(2),
-                    // commissionUse: e.allMoney.toFixed(2),
-                    // saleCommissionMoney: e.withdrawal.toFixed(2),
-                    // sendMoney: e.sendMoney.toFixed(2),
 					index: index,
                     date: e.date,
 					allUnderLineMoney: e.allUnderLineMoney.toFixed(2),
@@ -268,7 +218,6 @@ export default {
 					commissionUse: e.commissionUse.toFixed(2),
 					saleCommissionMoney: e.saleCommissionMoney.toFixed(2),
                     platformCommissionMoney: e.platformCommissionMoney.toFixed(2),
-                    
 				}
 				this.newarr.push(newobj)
 			})

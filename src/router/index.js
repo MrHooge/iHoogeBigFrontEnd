@@ -84,6 +84,15 @@ export const constantRouterMap = [{
         }
       },
       {
+        path: 'bookTicket',
+        name: '打票管理',
+        component: () =>
+          import ('@/views/sys_management/bookTicket'),
+        meta: {
+          title: '打票管理'
+        }
+      },
+      {
         path: 'modules',
         name: '模块管理',
         component: () =>
