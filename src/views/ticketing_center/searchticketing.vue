@@ -236,7 +236,7 @@
                      label="送票日期"
                      align="center">
                       <template slot-scope="scope">
-                    {{scope.row.sendDateTime|type}}
+                    {{scope.row.sendDateTime|time}}
                 </template>  
                </el-table-column>  
                <el-table-column
@@ -369,6 +369,17 @@ export default {
             let s = date.getSeconds();
             s = s < 10 ? ('0' + s) : s;
             return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+
+        },
+          time(a){
+           var date = new Date(a);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			let Y = date.getFullYear() + '-';
+			let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+			let D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+			let h = date.getHours() + ':';
+			let m = date.getMinutes();
+			// let s = date.getSeconds();
+			return Y + M + D + h + m;
 
         },
         come(a){

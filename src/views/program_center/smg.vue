@@ -8,20 +8,29 @@
             value-format="yyyyMMdd">
             </el-date-picker>
             <el-button type="primary" @click="searchlist" style="margin-top:15px">查询 </el-button>
+            <!-- 表格二 -->
+            <div class="alltable">
+            <!-- 表格一 -->
+            <div class="tablefirst">
         <el-table
       :data="tableData"
       border
-      style="width: 100%; margin-top: 20px"
+      style="width:100%;"
       @selection-change="handleSelectionChange">
+       <el-table-column
+        prop="matchId"
+        label="场次号"
+        align="center">
+      </el-table-column>
       <el-table-column
         prop="gameName"
         label="	赛事名称"
         width="100"
         align="center">
       </el-table-column>
-      <el-table-column
-        prop="guestScore"
-        label="客队分"
+       <el-table-column
+        prop="homeTeam"
+        label="主队"
         align="center">
       </el-table-column>
       <el-table-column
@@ -29,9 +38,9 @@
         label="客队"
         align="center">
       </el-table-column>
-      <el-table-column
-        prop="halfGuestScore"
-        label="	半场客队进球"
+       <el-table-column
+        prop="rq"
+        label="让球数"
         align="center">
       </el-table-column>
       <el-table-column
@@ -39,21 +48,29 @@
         label="	主队半场进球"
         align="center">
       </el-table-column>
+      <el-table-column
+        prop="halfGuestScore"
+        label="	客队半场进球"
+        align="center">
+      </el-table-column>
        <el-table-column
         prop="homeScore"
-        label="主队分	"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="homeTeam"
-        label="主队"
+        label="主队总进球	"
         align="center">
       </el-table-column>
        <el-table-column
-        prop="matchId"
-        label="场次号"
+        prop="guestScore"
+        label="客队总进球"
         align="center">
       </el-table-column>
+       <!-- <el-table-column
+        label="状态"
+        align="center"
+        style="width:150px">
+        <template slot-scope="scope">
+                    <div v-for="(item,index) in scope.row.selectStatus" :key="index" class="Built-inmodule"><el-checkbox name="type"></el-checkbox></div>
+                </template>
+      </el-table-column> -->
       <el-table-column
         label="	比赛时间"
         align="center">
@@ -61,12 +78,7 @@
                     {{scope.row.matchTime | time}}
                 </template>
       </el-table-column>
-       <el-table-column
-        prop="rq"
-        label="让球数"
-        align="center">
-      </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="status"
         label="	状态"
         align="center">
@@ -74,7 +86,7 @@
             <el-tag
             disable-transitions>{{scope.row.status | changeType}}</el-tag>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         label="	操作"
         align="center">
@@ -83,6 +95,35 @@
         </template>
       </el-table-column>
     </el-table>
+            </div>
+
+
+            <!-- <div class="tablesecond">
+            <div class="table-top">
+                  <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+                   <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+                   <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+                   <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+                   <div class="listnum">过关</div>
+                  <div class="listnum">过关</div>
+              </div>
+            <div v-for="(item,index) in tableData" :key="index" class="table-down">
+              <div class="testfirst">
+                
+                <div v-for="val in item.selectStatus" :key="val.index" class="testsecond"> <el-checkbox name="type"></el-checkbox></div>
+              </div>
+              
+              <div>
+                {{index}} 
+                <span v-for="val in v.selectStatus" :key="val.index">{{val}}</span>
+              </div>
+            </div>
+            </div> -->
+            </div>
      <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="客队总进球" :label-width="formLabelWidth">
@@ -101,9 +142,9 @@
           <el-input v-model="form.rq" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="状态" :label-width="formLabelWidth">
-          <el-radio v-model="form.radio" label="0" border>进行中</el-radio>
-            <el-radio v-model="form.radio" label="1" border>已结束</el-radio>
-            <el-radio v-model="form.radio" label="2" border>取消</el-radio>
+          <el-radio v-model="form.status" label="0" border>进行中</el-radio>
+            <el-radio v-model="form.status" label="1" border>已结束</el-radio>
+            <el-radio v-model="form.status" label="2" border>取消</el-radio>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -201,5 +242,47 @@ export default {
 <style>
 .basketball{
     padding: 10px 20px
+}
+/* .tablefirst{
+  float: left;
+}
+.tablesecond{
+  float: left;
+} */
+.testfirst{
+  width:780px;
+  height: 71px;
+  border: 1px solid #cccccc
+}
+.testsecond{
+  text-align: center;
+  width: 78px;
+  height: 71px;
+  line-height: 71px;
+  border-right: 1px solid #cccccc;
+  float: left;
+}
+.listnum{
+  width: 78px;
+  height: 71px;
+  border: 1px solid #cccccc;
+  text-align: center;
+  line-height: 71px;
+  float: left;
+}
+.table-top{
+  width: 780px;
+  height: 71px;
+  background: green
+}
+.table-down{
+  margin-top: 0px
+}
+
+.Built-inmodule{
+  float: left;
+}
+.el-table_1_column_10{
+  width: 150px
 }
 </style>

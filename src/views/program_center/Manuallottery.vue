@@ -103,12 +103,18 @@
         </div> -->
   </el-collapse-item>
             </el-collapse>
-            <el-button type="primary" @click="addjqr" style="margin:20px 800px">开奖 </el-button><br />
+            <el-button type="primary" @click="addjqr" style="margin-left:800px">开奖 </el-button>
+            <el-button type="primary" @click="Award" style="margin:20px 0 0 0">派奖 </el-button><br />
             <div>
                <el-table
                :data="tabledata"
                border
-               style="width: 100%;">
+               style="width: 100%;"
+               @selection-change="handleSelectionChange">
+               <el-table-column
+               type="selection"
+               width="55">
+            </el-table-column>
                 <el-table-column
                      label="用户名"
                      prop="account"
@@ -147,12 +153,13 @@
 </template>
 
 <script>
-import { openResult } from '@/api/period'
+import { openResult,returnPrize } from '@/api/period'
 export default {
     data(){
         return {
             selections:[],
             lotteryTypes:'',
+            plans:'',
             basketballData:[
                 {radio:"304",lottery:"竞彩篮球单关投注"},
                 {radio:"30",lottery:"竞彩篮球胜负"},
@@ -228,6 +235,26 @@ export default {
                     if (res.data.error_code === 200) {
                      console.log(res)
                      this.tabledata = res.data.data
+                     } else {
+                         this.$message(res.data.message)
+                         }
+              })
+        }
+        },
+        //派奖
+        Award(){
+             if(this.selections == 0){
+              this.$message('至少选择一个用户')
+        }else{
+            let newarr = [];
+              this.selections.forEach(e => {
+                    //console.log(e.account);
+                    newarr.push(e.planNo)
+              });
+              this.plans = newarr.join(',');
+              returnPrize(this.plans).then(res => {
+                    if (res.data.error_code === 200) {
+                     this.$message('派奖成功')
                      } else {
                          this.$message(res.data.message)
                          }

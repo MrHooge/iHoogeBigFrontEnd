@@ -39,7 +39,7 @@
                      align="center">
                </el-table-column>            
                <el-table-column
-                     label="类型"
+                     label="新闻类别"
                      prop="type"
                      align="center">
                </el-table-column>
@@ -107,12 +107,19 @@
                      prop="click"
                      align="center">
                </el-table-column>  
+               <el-table-column
+                     label="状态"
+                     prop="isShow"
+                     align="center">
+                      <template slot-scope="scope">
+                   {{scope.row.isShow | status}}
+                </template>
+               </el-table-column>  
               <el-table-column
                      label="操作"
                      align="center">
                 <template slot-scope="scope">
-                   <el-button type="success" @click="update(scope.row,'modify')" style="width:70px;height:30px;line-height:10px;margin-bottom:5px">修改</el-button><br />
-                   <el-button type="primary" @click="type(scope.row,'modify')" style="width:70px;height:30px;line-height:10px;padding-left:10px">状态</el-button>
+                   <el-button type="success" @click="update(scope.row,'modify')" style="width:70px;">修改</el-button>
                 </template>
                </el-table-column>  
             </el-table>         
@@ -161,7 +168,13 @@ export default {
         }
     },
     filters:{
-        
+        status(a) {
+            if(a == 0){
+                return "隐藏"
+            }else{
+                return "显示"
+            }
+        }
     },
     created(){
         this.gettablelist();

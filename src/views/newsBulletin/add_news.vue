@@ -95,6 +95,7 @@
   <el-form-item label="上传图片" style="border:none">
       <!-- <el-input type="file" @change="upload"></el-input> -->
       <el-upload
+         :data="folder"
           class="upload-demo"
           action="https://infos.api.qiyun88.cn/information/uploadImage"
           :before-upload="beforeAvatarUpload"
@@ -171,7 +172,7 @@ export default {
           cz:'',	
           editor:'',	
           contentType:'',
-          id:'',	
+          id:null,	
           isShow:'',	
           keyword:'',	
           label:'',	

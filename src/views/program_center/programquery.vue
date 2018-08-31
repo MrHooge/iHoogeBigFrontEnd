@@ -66,9 +66,11 @@
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
                         <el-table-column
-                prop="planNo"
                 align="center"
                 label="	方案编号">
+                <template slot-scope="scope">
+                    {{scope.row.planNo}}<span style="color:red">{{scope.row.isFocus | shape}}</span>
+                </template>
             </el-table-column>
             <el-table-column
                 label="用户名"
@@ -79,6 +81,16 @@
                     {{scope.row.account}}
                     </span>
                 </template>
+            </el-table-column>
+            <el-table-column
+                prop="dlAccount"
+                align="center"
+                label="	代理用户名">
+            </el-table-column>
+             <el-table-column
+                prop="qdAccount"
+                align="center"
+                label="	渠道用户名">
             </el-table-column>
                         <el-table-column
                 align="center"
@@ -150,6 +162,7 @@
                                    <el-button type="warning" @click="Szczegol(scope.row)">明细</el-button>&nbsp;
                                    &nbsp;&nbsp;<el-button type="warning" @click="Chargeback(scope.row,'modify')">退单</el-button>
                                    <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button>
+                                   <el-button type="warning" @click="outticket(scope.row,'modify')">设置出票</el-button>
                                 </el-dropdown-menu>
                                 </el-dropdown> 
                    </template>
@@ -189,7 +202,7 @@
     </div>
 </template>
 <script>
-import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan } from '@/api/period'
+import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus } from '@/api/period'
 export default {
     data(){
         return{
@@ -226,7 +239,7 @@ export default {
 				{ winStatus: "2", label: "未中奖" },
                 { winStatus: "3", label: "已中奖" },
                 { winStatus: "4", label: "已派奖" },
-                { winStatus: "11", label: "未出票作废" }
+                { winStatus: "11", label: "已退款" }
             ],
             directions: [
 				{ playType: "", label: "全部" },
@@ -242,6 +255,10 @@ export default {
         }
     },
     filters:{
+        //是否嘉奖
+        shape(s){
+            return s == true ? "嘉" : ""
+        },
         type(b){
             return b == '' ? '' : b
         },
@@ -326,6 +343,19 @@ export default {
                 })
             })
         },
+        //出票
+        outticket(data){
+           
+            this.planNo = data.planNo
+            console.log(this.planNo)
+            updatePlanStatus(this.planNo).then(res => {
+                if(res.data.error_code == 200){
+                    this.$message('出票成功')
+                }else{
+                     this.$message(res.data.message)
+                }
+            })
+        },
         //退单
         Chargeback(data){
             this.Declarationofwithdrawal = true;
@@ -342,6 +372,7 @@ export default {
                 this.$message('退单成功')
                 this.Declarationofwithdrawal = false
                 this.planNo = ''
+                this.gettable()
             }else{
                 this.$message(res.data.message)
             }
@@ -386,5 +417,11 @@ export default {
 <style>
 .program{
     padding: 10px 20px
+}
+.jiajiang{
+    border: 1px solid yellow;
+    width: 25px;
+    height: 25px;
+
 }
 </style>
