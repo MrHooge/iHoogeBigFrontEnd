@@ -686,15 +686,15 @@ export const constantRouterMap = [{
           title: '财务资金明细'
         }
       },
-    //   {
-    //     path: 'cashdetails',
-    //     name: '财务现金明细',
-    //     component: () =>
-    //       import ('@/views/financialManagement/cashdetails'),
-    //     meta: {
-    //       title: '财务现金明细'
-    //     }
-    //   },
+      {
+        path: 'cashdetails',
+        name: '财务现金明细',
+        component: () =>
+          import ('@/views/financialManagement/cashdetails'),
+        meta: {
+          title: '财务现金明细'
+        }
+      },
       {
         path: 'handsel_give',
         name: '彩金赠送',
