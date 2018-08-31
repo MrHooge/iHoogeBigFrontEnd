@@ -176,18 +176,28 @@ export default {
       this.tableData.forEach((e, index) => {
         console.log(e)
         let newobj = {
-          num: index + 1,
-          "开户数": e.regist,
-          "激活数": e.active,
-          "消费数": Number(e.payNum).toFixed(2),
-          "北单": Number(e.beidan).toFixed(2),
-          "佣金": (e.sumCommision ? e.sumCommision : 0).toFixed(2),
-          "日期": e.date,
-          "跟单": Number(e.followBuy).toFixed(2),
-          "老足彩": Number(e.laozucai).toFixed(2),
-          "扣减": Number(e.koujian).toFixed(2),
-          "自购": Number(e.selfBuy).toFixed(2),
-          "数字": Number(e.shuzi).toFixed(2)
+          index: index,
+          agentName: e.agentName,
+          allBuyNum: e.allBuyNum,
+          CountSelfBuyNum: e.CountSelfBuyNum,
+          CountFllowBuyNum: e.CountFllowBuyNum,
+          allBuyMoney: e.allBuyMoney,
+          selfBuy: e.selfBuy,
+          fllowBuy: e.fllowBuy,
+          beidan: e.beidan,
+          laozucai: e.laozucai,
+          shuzi: e.shuzi,
+          koujian: e.koujian,
+          sumCommision: e.sumCommision
+        //   payNum: Number(e.payNum).toFixed(2),
+        //   beidan: Number(e.beidan).toFixed(2),
+        //   sumCommision: (e.sumCommision ? e.sumCommision : 0).toFixed(2),
+        //   date: e.date,
+        //   followBuy: Number(e.followBuy).toFixed(2),
+        //   laozucai: Number(e.laozucai).toFixed(2),
+        //   koujian: Number(e.koujian).toFixed(2),
+        //   selfBuy: Number(e.selfBuy).toFixed(2),
+        //   shuzi: Number(e.shuzi).toFixed(2)
         }
         this.newarr.push(newobj)
       })
@@ -196,9 +206,7 @@ export default {
         title: "单个代理的销量详情"
       };
       exportExcle(model.listParmas, model.title)
-        .then(res => {
-          //window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
-        })
+        .then(res => {})
       console.log(this.newarr)
       require.ensure([], () => {
         const {

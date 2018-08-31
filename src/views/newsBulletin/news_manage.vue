@@ -45,7 +45,7 @@
                </el-table-column>
                <el-table-column
                      label="创建时间"
-                     prop="createDateTime"
+                     prop="createTime"
                      align="center"> 
                </el-table-column>
                <el-table-column

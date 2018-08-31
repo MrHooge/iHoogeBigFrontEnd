@@ -11,8 +11,8 @@
         <el-table
       :data="tableData"
       border
-      style="width: 100%; margin-top: 20px"
-      @selection-change="handleSelectionChange">
+      style="width: 100%; margin-top: 20px">
+
       <el-table-column
         label="	大小分"
         prop="bigOrSmall"
@@ -88,21 +88,21 @@
       </el-table-column>
     </el-table>
     <!-- 弹框 -->
-     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+     <el-dialog :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="大小分基准" :label-width="formLabelWidth">
+        <el-form-item label="大小分基准">
           <el-input v-model="form.baseBigOrSmall" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="客队总进球" :label-width="formLabelWidth">
+        <el-form-item label="客队总进球">
           <el-input v-model="form.guestScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="主队总进球" :label-width="formLabelWidth">
+        <el-form-item label="主队总进球">
           <el-input v-model="form.homeScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="让分" :label-width="formLabelWidth">
+        <el-form-item label="让分">
           <el-input v-model="form.rf" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="状态" :label-width="formLabelWidth">
+        <el-form-item label="状态">
           <el-radio v-model="form.status" label="0" border>进行中</el-radio>
             <el-radio v-model="form.status" label="1" border>已结束</el-radio>
             <el-radio v-model="form.status" label="2" border>取消</el-radio>

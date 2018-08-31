@@ -30,7 +30,7 @@
 			<el-table-column align="center"
 			                 label="创建时间">
 				<template slot-scope="scope">
-					{{scope.row.create_time | changeTime}}
+					{{scope.row.create_time}}
 				</template>
 			</el-table-column>
 			<el-table-column label="状态"
