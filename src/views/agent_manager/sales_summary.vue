@@ -177,17 +177,17 @@ export default {
         console.log(e)
         let newobj = {
           num: index + 1,
-          "开户数": e.regist,
-          "激活数": e.active,
-          "消费数": Number(e.payNum).toFixed(2),
-          "北单": Number(e.beidan).toFixed(2),
-          "佣金": (e.sumCommision ? e.sumCommision : 0).toFixed(2),
-          "日期": e.date,
-          "跟单": Number(e.followBuy).toFixed(2),
-          "老足彩": Number(e.laozucai).toFixed(2),
-          "扣减": Number(e.koujian).toFixed(2),
-          "自购": Number(e.selfBuy).toFixed(2),
-          "数字": Number(e.shuzi).toFixed(2)
+          agentName: e.agentName,
+          allBuyNum: e.allBuyNum.toFixed(2),
+          allBuyMoney:e.allBuyMoney,
+          CountSelfBuyNum: Number(e.CountSelfBuyNum).toFixed(2),
+          beidan: Number(e.beidan).toFixed(2),
+          sumCommision: (e.sumCommision ? e.sumCommision : 0).toFixed(2),
+          fllowBuy: Number(e.followBuy).toFixed(2),
+          laozucai: Number(e.laozucai).toFixed(2),
+          koujian: Number(e.koujian).toFixed(2),
+          selfBuy: Number(e.selfBuy).toFixed(2),
+          shuzi: Number(e.shuzi).toFixed(2)
         }
         this.newarr.push(newobj)
       })
@@ -200,16 +200,16 @@ export default {
           //window.location.href = "https://member.api.qiyun88.cn/user/exportExcle?listParmas="+model.listParmas+"&title="+model.title
         })
       console.log(this.newarr)
-      require.ensure([], () => {
+      require.ensure([], () => {　　　　　　　　
         const {
           export_json_to_excel
-        } = require('../../vendor/Export2Excel');
-        const tHeader = ['编号', '开户数', '激活数', '消费数', '北单', '佣金', '日期', '跟单', '老足彩', '扣减', '自购', '数字']; //对应表格输出的title
-
+        } = require('../../vendor/Export2Excel');　　　　　　　　
+        const tHeader = ['编号', '开户数', '激活数', '消费数', '北单', '佣金', '跟单', '老足彩', '扣减', '自购', '数字']; //对应表格输出的title
+        　　　　　　　　
         const filterVal = this.newarr; // 对应表格输出的数据
-
-        const list = this.tableData;
-        const data = this.formatJson(filterVal, list);
+        　　　　　　　　
+        const list = this.tableData;　　　　　　　　
+        const data = this.formatJson(filterVal, list);　　　　　　　　
         export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字　　　　
       })
     }
