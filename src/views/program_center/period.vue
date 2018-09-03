@@ -310,6 +310,9 @@ export default {
                if(res.data.error_code == 200){
                    this.$message(res.data.message)
                    this.dialogFormVisible = false
+               }else{
+                    this.$message(res.data.message)
+                    this.dialogFormVisible = false
                }
            })
            
