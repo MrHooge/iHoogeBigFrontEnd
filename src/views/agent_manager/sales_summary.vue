@@ -88,7 +88,8 @@
       </el-table-column>
       <el-table-column label="渠道"
                        prop="qdName"
-                       align="center">
+                       align="center"
+                       v-if="qudaoShow">
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -122,11 +123,20 @@ export default {
       end_date: '',
       datetime: '', // 获取的日期和时间
       newarr: [],
-      total: 0
+      total: 0,
+      roleId: getCookies('roleId'),
+      qudaoShow: true,
     }
   },
   created() {
+      console.log(this.roleId)
     this.getTableList()
+    if(this.roleId === '10000181' ){
+        this.qudaoShow = false
+    }else{
+        this.qudaoShow = true
+    }
+    console.log(this.qudaoShow)
   },
   filters: {
     sumCommision(sum) {

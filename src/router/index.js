@@ -836,6 +836,18 @@ export const constantRouterMap = [{
         meta: { title: '积分查询' }
       },
       {
+        path: 'documentary',
+        name: '跟单佣金',
+        component: () => import('@/views/details_search/documentary'),
+        meta: { title: '跟单佣金' }
+      },
+      {
+        path: 'platform_collector',
+        name: '平台收佣',
+        component: () => import('@/views/details_search/platform_collector'),
+        meta: { title: '平台收佣' }
+      },
+      {
         path: 'lotterySearch',
         name: '彩金查询',
         component: () => import('@/views/details_search/lottery_search'),
