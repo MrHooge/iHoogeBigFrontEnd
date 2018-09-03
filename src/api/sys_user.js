@@ -303,13 +303,14 @@ export function openAccountWall(userInfos) {
 }
 // 激活轮播墙
 
-export function findAccountActiveWall(loginAccount) {
+export function findAccountActiveWall(userInfos) {
   return request.member({
     url: '/userCount/findAccountActiveWall',
     method: 'get',
-    params: {
-      loginAccount
-    }
+    // params: {
+    //   loginAccount
+    // }
+    params:userInfos
   })
 }
 // 充值消费轮播墙

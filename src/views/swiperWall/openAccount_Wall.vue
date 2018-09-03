@@ -1,5 +1,6 @@
 <template>
 	<div class="app-container">
+       
         <el-tabs v-model="activeName2"
 		         type="card"
 		         @tab-click="handleClick">
@@ -11,6 +12,34 @@
 			             name="second"></el-tab-pane>
 
 		</el-tabs>
+         <el-col :span="12">
+            <div class="block"
+                    style="display: inline-block;">
+                <el-date-picker v-model="value1"
+                                type="date"
+                                placeholder="选择日期"
+                                format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd">
+                </el-date-picker>
+            </div>
+            <div style="display: inline-block;">至</div>
+            <div class="block"
+                    style="display: inline-block;">
+                <el-date-picker v-model="value2"
+                                type="date"
+                                placeholder="选择日期"
+                                format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd">
+                </el-date-picker>
+            </div>
+        </el-col>
+        <el-col :span="2">
+            <div class="grid-content bg-purple"
+                    @click="search">
+                <el-button type="primary"
+                            icon="el-icon-search">搜索</el-button>
+            </div>
+        </el-col>
 		<el-table
     :data="tableData"
     border
@@ -57,17 +86,23 @@ export default {
 	components: { treeTable },
 	data() {
 		return {
-        tableData:[],
-        page:1,
-        pageSize:20,
-        totalList: 0,
-        activeName2: 'first',
+            tableData:[],
+            page:1,
+            pageSize:20,
+            totalList: 0,
+            activeName2: 'first',
+            value1: '',
+            value2: ''
 		}
 	},
 	created() {
 		this.getmasage()
 	},
 	methods: {
+        search() {
+            // this.getmasage()
+            this.handleClick()
+        },
     	//翻页
         handleCurrentChange(num){
             this.page = num;
@@ -95,8 +130,11 @@ export default {
             let obj = { 
                 loginAccount:getCookies('name'),
                 page:this.page,
-                pageSize:this.pageSize
+                pageSize:this.pageSize,
+                startTime: this.value1,
+                endTime: this.value2,
             }
+            //开户墙
             openAccountWall(obj).then(res=>{
                 console.log(res)
                 if(res.data.error_code == 200){
@@ -107,12 +145,20 @@ export default {
             })
         },
         getTableData(){
-			let loginAccount = getCookies('name')
+            let obj = { 
+                loginAccount: getCookies('name'),
+                page:this.page,
+                pageSize:this.pageSize,
+                startTime: this.value1,
+                endTime: this.value2,
+            }
+			// let loginAccount = getCookies('name')
 			console.log()
-			findAccountActiveWall(loginAccount).then(res=>{
+			findAccountActiveWall(obj).then(res=>{
 				console.log(res)
 				if(res.data.error_code==200){
-					this.tableData = res.data.data.list
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
 				}
 		    })
 		}

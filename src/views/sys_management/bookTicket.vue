@@ -136,9 +136,10 @@ export default {
       addTicket(data){
           let account = data
           addTicketUser(account).then(res=>{
-              if(res.data.error_code === 200){
-                  this.$message(res.data.message)
-              }
+            //   if(res.data.error_code === 200){
+            //       this.$message(res.data.message)
+            //   }
+              this.$message(res.data.message)
           })
       },
     // 获取用户列表

@@ -11,6 +11,34 @@
 			             name="second"></el-tab-pane>
 
 		</el-tabs>
+        <el-col :span="12">
+            <div class="block"
+                    style="display: inline-block;">
+                <el-date-picker v-model="value1"
+                                type="date"
+                                placeholder="选择日期"
+                                format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd">
+                </el-date-picker>
+            </div>
+            <div style="display: inline-block;">至</div>
+            <div class="block"
+                    style="display: inline-block;">
+                <el-date-picker v-model="value2"
+                                type="date"
+                                placeholder="选择日期"
+                                format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd">
+                </el-date-picker>
+            </div>
+        </el-col>
+        <el-col :span="2">
+            <div class="grid-content bg-purple"
+                    @click="search">
+                <el-button type="primary"
+                            icon="el-icon-search">搜索</el-button>
+            </div>
+        </el-col>
 		<div>
 			<el-table :data="tableData"
 			          border
@@ -68,12 +96,17 @@ export default {
 			page:1,
             pageSize:20,
             totalList: 0,
+            value1: '',
+            value2: ''
 		}
 	},
 	created() {
 		this.getTableData(1)
 	},
 	methods: {
+        search() {
+            this.handleClick()
+        },
 		//翻页
         handleCurrentChange(num){
             this.page = num;
@@ -100,7 +133,9 @@ export default {
 				isConsumer: a,
 				loginAccount: getCookies('name'),
 				page:this.page,
-				pageSize:this.pageSize
+                pageSize:this.pageSize,
+                startTime: this.value1,
+                endTime: this.value2
 			}
 			findRechargeAndConsumerWall(obj).then(res => {
 				console.log(res)
