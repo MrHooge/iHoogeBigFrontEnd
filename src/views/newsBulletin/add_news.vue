@@ -97,7 +97,8 @@
       <el-upload
           :data="folder"
           class="upload-demo"
-          action="https://infos.api.qiyun88.cn/information/uploadImage"
+          :action="picurl"
+          :on-change="getpicture"
           :before-upload="beforeAvatarUpload"
           :on-success="handleAvatarSuccess"
           multiple
@@ -158,6 +159,7 @@ export default {
       file:'',
       id:'',
       imgurl:'',
+      picurl:api.BASE_API.infos+'/information/uploadImage',
       planStatus:'',
       Turntable:'',
       temp:'',
@@ -193,6 +195,7 @@ export default {
   created(){
     this.id = this.$route.query.id
     this.getupdatedata()
+    console.log(api.BASE_API.infos)
   },
   updated(){
     this.id = ''
@@ -224,7 +227,7 @@ export default {
  
     //上传图片成功回调
     handleAvatarSuccess(res){   
-      console.log(res)
+      //console.log(res)
       this.form.picture = res
     },
      beforeAvatarUpload(file) {
@@ -240,9 +243,15 @@ export default {
       }
       return isJPG && isLt2M;
     },
+          //文件上传时的回调
+          getpicture(file,list){
+            //console.log(file);
+            file = "https://infos.api.qiyun88.cn/information/uploadImage"
+            //this.picurl = "https://infos.api.qiyun88.cn/information/uploadImage"
+          },
 //状态选中
         handselect(value){
-        console.log(value)
+        //console.log(value)
         this.form.type = value
         },
     update(){
@@ -261,7 +270,11 @@ export default {
         this.form.cz = 1;
       createNews(this.form)
       .then(res => {
-        console.log(res)
+        if(res.data.error_code == 200){
+          this.$message(res.data.message)
+        }else{
+          this.$message(res.data.message)
+        }
       })
       }else{
         this.$message('缺少输入参数')

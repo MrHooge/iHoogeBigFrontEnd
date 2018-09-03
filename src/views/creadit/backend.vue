@@ -144,7 +144,7 @@ export default {
 			credit(creadit).then(res => {
 				console.log(res)
 				if (res.data.success == false) {
-					Message.success(res.data.message)
+					Message.success(res.data.msg)
 					return;
 				} else {
 					Message.success('授信成功！')

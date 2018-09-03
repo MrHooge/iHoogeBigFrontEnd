@@ -54,11 +54,13 @@
                      align="center">
                     
                </el-table-column>
-               <el-table-column
+               <!-- <el-table-column
                      label="图片地址"
-                     prop="picture"
                      align="center">
-               </el-table-column>
+                     <template slot-scope="scope">
+                         <img :src="scope.row.picture" style="width:100px;height:60px" />
+                     </template>
+               </el-table-column> -->
                <el-table-column
                      label="标签"
                      prop="label"
