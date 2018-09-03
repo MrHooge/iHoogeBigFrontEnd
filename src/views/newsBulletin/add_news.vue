@@ -97,7 +97,7 @@
       <el-upload
           :data="folder"
           class="upload-demo"
-          :action="picurl"
+          action="https://infos.api.qiyun88.cn/information/uploadImage"
           :on-change="getpicture"
           :before-upload="beforeAvatarUpload"
           :on-success="handleAvatarSuccess"
@@ -159,7 +159,6 @@ export default {
       file:'',
       id:'',
       imgurl:'',
-      picurl:api.BASE_API.infos+'/information/uploadImage',
       planStatus:'',
       Turntable:'',
       temp:'',
@@ -195,7 +194,7 @@ export default {
   created(){
     this.id = this.$route.query.id
     this.getupdatedata()
-    console.log(api.BASE_API.infos)
+    console.log(this.picurl.slice(23))
   },
   updated(){
     this.id = ''
