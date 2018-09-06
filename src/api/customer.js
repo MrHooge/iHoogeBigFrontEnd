@@ -19,6 +19,14 @@ export function findAllMember(userinfos){
         params:userinfos
     })
 }
+//会员资料修改
+export function updateMemberInfoBack(userinfos){
+    return request.member({
+        url:'/user/updateMemberInfoBack',
+        method:'get',
+        params: userinfos
+    })
+}
 //会员加白
 export function memberToWrite(account,type){
     return request.member({
@@ -85,6 +93,7 @@ export function MemberMoveAudit(userinfos){
         params:userinfos
     })
 }
+
 //通过id查询钱包
 export function getMemberWalletByMemberId(memberId){
     return request.member({

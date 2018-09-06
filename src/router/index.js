@@ -1062,6 +1062,22 @@ export const constantRouterMap = [{
       },
     ]
   },
+  //打票管理
+  {
+    path: '/bookTicket',
+    component: Layout,
+    redirect: '/book_ticket/ticket_main',
+    name: '打票管理',
+    meta: { title: '打票管理' },
+    children: [
+        {
+            path: 'ticket_main',
+            name: '打票列表',
+            component: () => import('@/views/book_ticket/ticket_main'),
+            meta: { title: '打票列表'}
+        }
+    ]
+  },
   //运营管理
   {
     path: '/operations',
