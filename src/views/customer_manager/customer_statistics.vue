@@ -263,7 +263,8 @@ export default {
               memberToWrite(this.account,this.type).then(res => {
                     if (res.data.error_code === 200) {
                         Message.success('取消加白成功')
-                        this.gettablelist()
+                        this.account = ''
+                         this.gettablelist()
                      } else {
                         Message.error(res.data.message)
                     }
