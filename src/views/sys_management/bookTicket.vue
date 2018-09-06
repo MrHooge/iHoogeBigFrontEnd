@@ -1,4 +1,3 @@
-<!--  -->
 <template>
   <div class="app-container">
     <el-button v-waves type="primary" @click="showDailag">添加用户</el-button>
@@ -136,10 +135,10 @@ export default {
       addTicket(data){
           let account = data
           addTicketUser(account).then(res=>{
+              this.$message(res.data.message)
             //   if(res.data.error_code === 200){
             //       this.$message(res.data.message)
             //   }
-              this.$message(res.data.message)
           })
       },
     // 获取用户列表
@@ -181,22 +180,22 @@ export default {
       this.dialogFormVisible = true
     },
     // 删除用户信息
-    deleteUser(data) {
-      const _this = this
-      MessageBox.confirm('您确认永久删除该用户?', '删除用户', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(() => {
-        delUser(data).then(res => {
-          if (res.data.error_code === 200) {
-            Message.success('删除用户信息成功')
-          } else {
-            Message.error(res.data.message)
-          }
-          setTimeout(() => {
-            _this.getUserList('', this.page, this.pageSize)
-          }, 800)
-        })
-      })
-      console.log(data)
-    },
+    // deleteUser(data) {
+    //   const _this = this
+    //   MessageBox.confirm('您确认永久删除该用户?', '删除用户', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(() => {
+    //     delUser(data).then(res => {
+    //       if (res.data.error_code === 200) {
+    //         Message.success('删除用户信息成功')
+    //       } else {
+    //         Message.error(res.data.message)
+    //       }
+    //       setTimeout(() => {
+    //         _this.getUserList('', this.page, this.pageSize)
+    //       }, 800)
+    //     })
+    //   })
+    //   console.log(data)
+    // },
     // 提交数据
     submitInfos() {
       if (this.form.status) {

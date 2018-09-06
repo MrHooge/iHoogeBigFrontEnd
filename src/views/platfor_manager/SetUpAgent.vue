@@ -54,19 +54,19 @@
 			</el-pagination>
 		</div>
 		<!-- 修改角色信息 -->
-		<el-dialog title="修改角色信息"
+		<el-dialog title="设置代理或渠道"
 		           :visible.sync="viewFormVisible">
 			<el-form :model="form">
-				<el-form-item label="角色名称"
+				<!-- <el-form-item label="角色名称"
 				              :label-width="formLabelWidth">
 					<el-input v-model="form.role_name"
 					          auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="角色描述"
+				</el-form-item> -->
+				<!-- <el-form-item label="角色描述"
 				              :label-width="formLabelWidth">
 					<el-input v-model="form.role_ID"
 					          auto-complete="off"></el-input>
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item label="权限配置"
 				              :label-width="formLabelWidth">
 					<el-radio v-model="radio"
@@ -148,11 +148,11 @@ export default {
 			this.viewFormType = type
 			this.form = {
 				role_ID: data.id,
-				role_name: data.account
+				role_name: data.ACCOUNT
 			}
 			this.viewFormVisible = true
 			// this.getFindRoleAndPermission(data.NAME)
-			this.account = data.account
+			this.account = data.ACCOUNT
 			this.member_id = data.id
 		},
 

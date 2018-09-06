@@ -13,23 +13,13 @@
       <el-button type="primary" @click="history">获取历史类别</el-button>
     <el-select v-model="planStatus"
 			           placeholder="请选择状态筛选数据"
-                style="width:30%"
+                style="width:60%"
                 @change="handselect">
       <el-option v-for="temp in options"
 				           :key="temp.index"
 				           :value="temp">
 				</el-option>
-        </el-select>
-        <!-- 历史标签 -->
-         <el-select v-model="planStatus"
-			           placeholder="请选择状态筛选数据"
-                       style="width:7%">
-        <el-option v-for="item in sections"
-				           :key="item.planStatus"
-				           :label="item.label"
-				           :value="item.planStatus">
-				</el-option>
-        </el-select>
+    </el-select>
     </div>
       <el-input v-model="form.type" style="width:120px" placeholder="填写新类别" v-else></el-input>
     <!-- </el-input> -->
@@ -301,22 +291,23 @@ export default {
         id:this.id
       }
       getNew(newobject).then(res => {
-        console.log(res.data.data)
-        this.form.click = res.data.data.click
-        this.form.content = res.data.data.content
-        this.form.contentType = res.data.data.contentType
-        this.form.editor = res.data.data.editor
-        this.form.id = res.data.data.id
-        this.form.keyword = res.data.data.keyword
-        this.form.label = res.data.data.label
-        this.form.type = res.data.data.type
-        this.form.title = res.data.data.title
-        this.form.summary = res.data.data.summary
-        this.form.showDateTime = res.data.data.showDateTime
-        this.form.sort = res.data.data.sort
-        this.form.link = res.data.data.link
-        this.form.shortTitle = res.data.data.shortTitle
-
+        console.log(res.data.error_code)
+        if(res.data.error_code ===200){
+            this.form.click = res.data.data.click
+            this.form.content = res.data.data.content
+            this.form.contentType = res.data.data.contentType
+            this.form.editor = res.data.data.editor
+            this.form.id = res.data.data.id
+            this.form.keyword = res.data.data.keyword
+            this.form.label = res.data.data.label
+            this.form.type = res.data.data.type
+            this.form.title = res.data.data.title
+            this.form.summary = res.data.data.summary
+            this.form.showDateTime = res.data.data.showDateTime
+            this.form.sort = res.data.data.sort
+            this.form.link = res.data.data.link
+            this.form.shortTitle = res.data.data.shortTitle
+        }
       })
     },
     //刷新页面

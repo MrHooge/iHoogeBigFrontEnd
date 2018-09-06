@@ -46,7 +46,7 @@
 				</template>
 			</el-table-column>
 		</el-table>
-			<el-pagination
+			<!-- <el-pagination
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -57,7 +57,7 @@
             :total="totalList"
             style="margin-top:40px"
             >
-            </el-pagination>
+            </el-pagination> -->
 		<!-- 弹窗事件 -->
 		<el-dialog title="给渠道绑代理"
 		           :visible.sync="dialogVisible"
@@ -122,7 +122,7 @@ export default {
 			multipleSelection: [], //选中的数据
 			onePeople: {}, // 存选择的某一条数据
 			page:1,
-            pageSize:20,
+            pageSize:1000,
             totalList: 0,
 		}
 	},
@@ -165,17 +165,17 @@ export default {
 				//翻页
         handleCurrentChange(num){
             this.page = num;
-            this.getTable(this.page,this.pageSize)
+            this.getTable(this.page)
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
-            this.getTable(this.page,this.pageSize)
+            this.getTable(this.page)
         },
-		getTable(a,b) {
+		getTable(a) {
 			let obj = {
 				page:a,
-				pageSize:b,
+				pageSize:1000,
 				account:this.account
 			}
 			findAllAgentAndQD(obj).then(res => {  //  获取渠道数据

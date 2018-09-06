@@ -215,6 +215,7 @@
 </template>
 <script>
 import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus } from '@/api/period'
+import { ticketPrintSearch } from '@/api/ticket'
 export default {
     data(){
         return{
@@ -234,12 +235,12 @@ export default {
             etime:'',
             page:1,
             pageSize:20,
-            desc: '',
             planStatus:'',
             dialogShenVisible:false,
             Declarationofwithdrawal:false,
             undesirabledesabel:false,
             fadan:'',
+            desc: '',
             options: [
 				{ planStatus: "", label: "全部" },
 				{ planStatus: "1", label: "未支付" },
@@ -266,7 +267,32 @@ export default {
                 { playType: "123", label: "7串1" },
                 { playType: "124", label: "8串1" },
             ],
-            totalList: 0,
+
+
+            dlAccount: '',      //代理用户名
+            endAmount: '',   //本金
+            endBonus: '',     //预测奖金
+            endCount: '',    //张数
+            endCreateTime: '',  //发起时间
+            endDealTime: '',    //截止时间
+            endMultiple: '',   //倍数
+            endResidueCount: '',  //剩余张数
+            id: '',
+            lotteryType: '',  //彩种	
+            page: 1,
+            pageSize: 20,	
+            playType: '',   //过关方式
+            planNo: '',   //方案编号
+            qdAccount: '',    //渠道用户名	
+            startAmount: '',
+            startBonus: '',
+            startCount: '',
+            startCreateTime: '',
+            startDealTime: '',
+            startMultiple: '',
+            startResidueCount: '',
+            status: '',
+            totalList: '',
         }
     },
     filters:{
@@ -311,7 +337,7 @@ export default {
             window.open(routeData.href, '_blank');
         },
         getval(){
-            console.log(this.planStatus)
+            // console.log(this.planStatus)
             this.gettable()
         },
         FokusEreignis(){
@@ -330,33 +356,68 @@ export default {
         //获取数据
         gettable(){
             let obj = {
-                account:this.account,
-                endAmount:this.endAmount,
-                endReturnAmount	:this.endReturnAmount,
-                endTime:this.etime,
-                page:this.page,
-                dlAccount:'',
-                pageSize:this.pageSize,	
-                planNo:this.planNo,
-                planStatus:this.planStatus,
-                playType:this.playType,
-                startAmount	:this.startAmount,
-                startReturnAmount:this.startReturnAmount,
-                startTime:this.stime,
-                maxBonus:this.maxBonus,
-                minBonus:this.minBonus,
-                winStatus:this.winStatus,
-                desc:this.desc
+
+                dlAccount: this.dlAccount,      //代理用户名
+                endAmount: this.endAmount,   //本金
+                endBonus: this.endBonus,     //预测奖金
+                endCount: this.endCount,    //张数
+                endCreateTime: this.endCreateTime,  //发起时间
+                endDealTime: this.endDealTime,    //截止时间
+                endMultiple: this.endMultiple,   //倍数
+                endResidueCount: this.endResidueCount,  //剩余张数
+                id: this.id,
+                lotteryType: this.lotteryType,  //彩种	
+                page: this.page,
+                pageSize: this.pageSize,	
+                playType: this.playType,   //过关方式
+                planNo: this.planNo,   //方案编号
+                qdAccount: this.qdAccount,    //渠道用户名	
+                startAmount: this.startAmount,
+                startBonus: this.startBonus,
+                startCount: this.startCount,
+                startCreateTime: this.startCreateTime,
+                startDealTime: this.startDealTime,
+                startMultiple: this.startMultiple,
+                startResidueCount: this.startResidueCount,
+                status: this.status,
+
+                // account:this.account,
+                
+                // endReturnAmount	:this.endReturnAmount,
+                // endTime:this.etime,
+                // page:this.page,
+                // pageSize:this.pageSize,	
+                // planNo:this.planNo,
+                // planStatus:this.planStatus,
+                // playType:this.playType,
+                // startAmount	:this.startAmount,
+                // startReturnAmount:this.startReturnAmount,
+                // startTime:this.stime,
+                // maxBonus:this.maxBonus,
+                // minBonus:this.minBonus,
+                // winStatus:this.winStatus,
+                // desc:''
             }
-            selectLotteryPlan(obj).then(res =>{
+            // selectLotteryPlan(obj).then(res =>{
+            //     this.tableData = res.data.data
+            //     this.fadan = res.data.data.planStatus
+            //     this.tableData.forEach((e,index) => {
+            //         console.log(1324654879)
+            //         console.log(e)
+            //         this.fadan = e.planDesc
+            //     })
+            // })
+            console.log('1111')
+            ticketPrintSearch(obj).then(res =>{
+                console.log(res)
                 this.tableData = res.data.data
-                this.totalList = res.data.totalCount
-                this.fadan = res.data.data.planStatus
-                this.tableData.forEach((e,index) => {
-                    // console.log(1324654879)
-                    // console.log(e)
-                    this.fadan = e.planDesc
-                })
+                this.totalList = res.daata.totalCount
+                // this.fadan = res.data.data.planStatus
+                // this.tableData.forEach((e,index) => {
+                //     console.log(1324654879)
+                //     console.log(e)
+                //     this.fadan = e.planDesc
+                // })
             })
         },
         //出票

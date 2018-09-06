@@ -3,7 +3,7 @@
   <div class="sales_detail" style="padding:0 20px">
     <!-- 搜索 -->
     <div class="row">
-    <el-input placeholder="请输入昵称" v-model="account" style="width: 300px;margin-right:100px;"></el-input>
+    <el-input placeholder="请输入账号" v-model="account" style="width: 300px;margin-right:100px;"></el-input>
      <el-select v-model="isMOuth" placeholder="请选择时间段" style="margin-right:100px;">
            <el-option
             v-for="item in options"
@@ -15,7 +15,7 @@
     <el-button type="primary" @click="getone" @keyup.13="getone" style="margin-left:100px;">搜索</el-button>
     <el-button type="success" @click="exportSome" style="margin-left:50px;">导出</el-button>
     <p class="taost">
-      注:金额默认是消费金额
+      注:老销售使用sj查询，新销售使用昵称查询，本表格只支持查询单个代理人员七天或当月的数据
       </p>
       <!-- 上下页 -->
         </div>
@@ -138,6 +138,7 @@ export default {
                     this.$message("请输入时间段")
               }else{
                      this.getTableList(this.account,this.isMOuth)
+                     this.$message("搜索成功")
 
               }
         },
@@ -146,6 +147,7 @@ export default {
       findAgentInfoByAccount(account,isMOuth)
       .then(res => {
             this.tableData = res.data.data
+            
       })
       .catch(error => {
             Message.error(error)
