@@ -229,8 +229,8 @@ export default {
                      this.account = ''
                      this.gettablelist()
                      } else {
-                         Message.error(res.data.message)
-                         }
+                        Message.error(res.data.message)
+                     }
               })
         },
         //取消加白
@@ -244,6 +244,7 @@ export default {
                      this.gettablelist()
                      } else {
                          Message.error(res.data.message)
+                         
                          }
               })
         },
@@ -262,7 +263,8 @@ export default {
               this.type = 2;
               memberToWrite(this.account,this.type).then(res => {
                     if (res.data.error_code === 200) {
-                        Message.success('取消加白成功')
+                        Message.success('批量取消加白成功')
+                        this.account = ''
                         this.gettablelist()
                      } else {
                         Message.error(res.data.message)
