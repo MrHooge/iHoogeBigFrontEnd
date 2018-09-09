@@ -148,53 +148,57 @@
     <div class="search-footer">
     生成票时间&nbsp;开始：<el-date-picker
             v-model="createDateTimeStart"
-            type="date"
+            type="datetime"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini"
             >
             </el-date-picker> 
             结束：<el-date-picker
             v-model="createDateTimeEnd"
-            type="date"
+            type="datetime"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            default-time="23:59:59"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            
             size="mini">
             </el-date-picker><br />
      打印票时间&nbsp;开始：<el-date-picker
             v-model="printDateTimeStart"
-            type="date"
+            type="datetime"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini"
             >
             </el-date-picker> 
             结束：<el-date-picker
             v-model="printDateTimeEnd"
-            type="date"
+            type="datetime"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
             size="mini">
             </el-date-picker><br />
     送票时间&nbsp;&nbsp;&nbsp;&nbsp;开始：&nbsp;<el-date-picker
             v-model="sendTicketDateTimeStart"
-            type="date"
+            type="datetime"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini"
             >
             </el-date-picker> 
             结束：<el-date-picker
             v-model="sendTicketDateTimeEnd"
-            type="date"
+            type="datetime"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
             size="mini">
             </el-date-picker><br /> 
     彩期&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始：&nbsp;<el-date-picker
@@ -202,7 +206,7 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
             size="mini"
             >
             </el-date-picker> 
@@ -211,7 +215,8 @@
             type="date"
             style="margin-bottom:10px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
             size="mini">
             </el-date-picker><br />
              <el-button type="primary" @click="openprize" style="margin-left:26%;margin-bottom:20px">查询 </el-button>
@@ -223,44 +228,44 @@
                border
                style="width: 100%;margin-top:20px">
                <el-table-column
+                     label="票号"
+                     prop="id"
+                     align="center">
+               </el-table-column>
+               <el-table-column
+                     label="账号"
+                     prop="account"
+                     align="center">
+               </el-table-column>
+               <el-table-column
                      label="彩期"
                      prop="term"
                      align="center">
-               </el-table-column>    
+               </el-table-column> 
+                <el-table-column
+                     label="彩种"
+                     prop="lotteryType"
+                     align="center">
+                     <template slot-scope="scope">
+                        {{scope.row.lotteryType | changeType}}
+                     </template>
+               </el-table-column>
+               <el-table-column
+                     label="玩法"
+                     prop="fhPlayType"
+                     align="center">
+               </el-table-column>  
+                <el-table-column
+                     label="倍数"
+                     prop="multiple"
+                     align="center">
+               </el-table-column>
                 <el-table-column
                      label="出票金额"
                      prop="amount"
                      align="center">
                </el-table-column>  
-                <el-table-column
-                     label="送票日期"
-                     align="center">
-                      <template slot-scope="scope">
-                    {{scope.row.sendDateTime|time}}
-                </template>  
-               </el-table-column>  
-               <el-table-column
-                     label="中奖金额"
-                     prop="bingoAmount"
-                     align="center">  
-               </el-table-column>
-               <el-table-column
-                     label="名片"
-                     prop="bingoContent"
-                     align="center">
-               </el-table-column>
-               <!-- <el-table-column
-                     label="证件号"
-                     prop="content"
-                     align="center"> 
-               </el-table-column> -->
-               <el-table-column
-                     label="出票日期"
-                     align="center">
-                       <template slot-scope="scope">
-                    {{scope.row.createDateTime|type}}
-                </template>  
-               </el-table-column>
+                
                <el-table-column
                      label="中奖状态"
                      align="center">
@@ -269,45 +274,53 @@
                          </template>
                </el-table-column>
                <el-table-column
-                     label="票号"
-                     prop="id"
+                     label="中奖金额"
+                     prop="bingoAmount"
+                     align="center">  
+               </el-table-column>
+               <!-- <el-table-column
+                     label="名片"
+                     prop="bingoContent"
                      align="center">
+               </el-table-column> -->
+               <!-- <el-table-column
+                     label="证件号"
+                     prop="content"
+                     align="center"> 
+               </el-table-column> -->
+               <el-table-column
+                     label="送票日期"
+                     align="center">
+                      <template slot-scope="scope">
+                    {{scope.row.sendDateTime | type}}
+                </template>  
                </el-table-column>
                <el-table-column
-                     label="	彩种"
-                     prop=" lotteryType"
+                     label="出票日期"
                      align="center">
-               </el-table-column>
-               <el-table-column
-                     label="倍数"
-                     prop="multiple"
-                     align="center">
-               </el-table-column>
-               <el-table-column
-                     label="玩法"
-                     prop="fhPlayType"
-                     align="center">
-                   
+                       <template slot-scope="scope">
+                    {{scope.row.createDateTime | type}}
+                </template>  
                </el-table-column>
                <el-table-column
                      label="打票日期"
                      align="center">
                      <template slot-scope="scope">
-                    {{scope.row.printDateTime|type}}
+                    {{scope.row.printDateTime | type}}
                 </template>   
                </el-table-column>    
                <el-table-column
-                     label="	出票状态"
+                     label="出票状态"
                      align="center">
                      <template slot-scope="scope">
-                         {{scope.row.status |use }}
+                         {{scope.row.status | use }}
                          </template>
                </el-table-column> 
                <el-table-column
                      label="提供商"
                      align="center">
                      <template slot-scope="scope">
-                         {{scope.row.provider |come }}
+                         {{scope.row.provider | come }}
                          </template>
                </el-table-column>  
             </el-table>   
@@ -318,6 +331,7 @@
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
+            :total="totalList"
             layout="total, sizes, prev, pager, next, jumper"
             >
             </el-pagination>
@@ -351,36 +365,71 @@ export default {
             endTerm:''||null,
             page:1,
             pageSize:20,
-            type:''||null
+            type:''||null,
+            totalList: 0,
         }
     },
     filters:{
          type(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
+             if(a != null){
+                 let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+             }
         },
-          time(a){
-           var date = new Date(a);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-			let Y = date.getFullYear() + '-';
-			let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-			let D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
-			let h = date.getHours() + ':';
-			let m = date.getMinutes();
-			// let s = date.getSeconds();
-			return Y + M + D + h + m;
-
+        changeType(b){
+            if(b === 30){
+                return '竞彩篮球胜负'
+            }
+            else if(b === 31){
+                return '竞彩篮球让分胜负'
+            }
+            else if(b === 32){
+                return '竞彩篮球胜分差'
+            }
+            else if(b === 33){
+                return '竞彩篮球大小分'
+            }
+            else if(b === 34){
+                return '竞彩足球让球胜平负'
+            }
+            else if(b === 35){
+                return '竞彩足球比分'
+            }
+            else if(b === 36){
+                return '竞彩足球进球数'
+            }
+            else if(b === 37){
+                return '竞彩足球半全场'
+            }
+            else if(b === 41){
+                return '竞彩足球胜平负'
+            }
+            else if(b === 42){
+                return '竞彩足球混合过关'
+            }
+            else if(b === 43){
+                return '竞彩篮球混合过关'
+            }
+            else if(b === 49){
+                return '竞彩足球胜平负/让球'
+            }
+            else if(b === 303){
+                return '竞彩足球单关投注'
+            }
+            else if(b === 304){
+                return '竞彩篮球单关投注'
+            }
         },
         come(a){
             if(a == -1){
@@ -443,6 +492,7 @@ export default {
                 this.tableData = res.data.data;
                 this.whole = res.data.amount;
                 this.wholeget = res.data.bingoAmount
+                this.totalList = res.data.count
               })
            this.$store.dispatch('Sendtime',obj);
            console.log(this.$store.getters)

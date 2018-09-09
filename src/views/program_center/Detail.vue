@@ -110,7 +110,7 @@
             <!-- 方案内容 -->
             <div class="title">方案内容</div>
             <div class="title" v-for="item in ticketDetail" :key="item.index">
-                <div class="title" style="border:none">{{item}}}</div>
+                <div class="title" style="border:none;">{{item}}}</div>
             </div>
         </div>
         <!-- 方案详情 -->
@@ -357,7 +357,6 @@ export default {
 .title{
     text-align: center;
     width: 95%;
-    height: 40px;
     line-height: 40px;
     border: 1px  solid #cccccc
 }

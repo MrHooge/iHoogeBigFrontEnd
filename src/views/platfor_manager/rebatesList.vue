@@ -17,6 +17,10 @@
 			                 align="center"
 			                 label="会员账号">
 			</el-table-column>
+            <el-table-column prop="FD_DG_RATE"
+			                 align="center"
+			                 label="代购返点">
+			</el-table-column>
 			<el-table-column label="类型"
 			                 align="center">
 				<!-- <template slot-scope="scope">

@@ -12,7 +12,8 @@
 				<el-option v-for="item in options"
 				           :key="item.planStatus"
 				           :label="item.label"
-				           :value="item.planStatus">
+				           :value="item.planStatus"
+                           >
 				</el-option>
                
 			</el-select>
@@ -40,22 +41,21 @@
 			</el-select>
             发单时间（起始）：<el-date-picker
             v-model="stime"
-            type="date"
+            type="datetime"
             style="margin-bottom:40px;margin-right:20px;width:180px"
-            placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            placeholder="请选择开始日期">
             </el-date-picker>
             
             发单时间（截止）：<el-date-picker
             v-model="etime"
             align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
+            type="datetime"
             style="margin-left:10px;
             margin-right:60px
             width:180px
             margin-bottom:40px;"
             placeholder="请选择结束日期"
+            default-time="23:59:59"
             >
             </el-date-picker>
              预测奖金：<el-input v-model="minBonus" placeholder="请输入奖金最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至
@@ -111,6 +111,11 @@
                 prop="planStatus"
                 align="center"
                 label="方案状态">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.planStatus === '未支付' || scope.row.planStatus === '未出票作废'" style="color: #409eff;">{{scope.row.planStatus}}</span>
+                    <span v-else-if="scope.row.planStatus === '出票中'" style="color: #ff0134;">{{scope.row.planStatus}}</span>
+                    <span v-else>{{scope.row.planStatus}}</span>
+                </template>
             </el-table-column>
             <el-table-column
                 prop="lotteryType"
@@ -133,7 +138,11 @@
                 prop="winStatus"
                 align="center"
                 label="	中奖状态">
-               
+               <template slot-scope="scope">
+                    <span v-if="scope.row.winStatus === '已派奖'" style="color: #409eff;">{{scope.row.winStatus}}</span>
+                    <span v-else-if="scope.row.winStatus === '已中奖'" style="color: #ff0134;">{{scope.row.winStatus}}</span>
+                    <span v-else>{{scope.row.winStatus}}</span>
+                </template>
             </el-table-column>
             <el-table-column
                 prop="posttaxPrize"
@@ -154,7 +163,7 @@
                 align="center"
                 label="	操作">
                <template slot-scope="scope">
-                       <el-dropdown>
+                       <el-dropdown trigger="click">
                            <el-button type="primary" style="width:70px">操作</el-button>
                            <el-dropdown-menu slot="dropdown">
                                    <el-popover
@@ -176,7 +185,7 @@
               确认退单吗
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogShenVisible = false">取 消</el-button>
+                <el-button @click="Declarationofwithdrawal = false">取 消</el-button>
                 <el-button type="primary" @click="want">确定</el-button>
             </div>
         </el-dialog>
@@ -185,7 +194,7 @@
               确认出票吗
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogShenVisible = false">取 消</el-button>
+                <el-button @click="undesirabledesabel = false">取 消</el-button>
                 <el-button type="primary" @click="getfromyicket">确定</el-button>
             </div>
         </el-dialog>
@@ -291,18 +300,31 @@ export default {
             let s = date.getSeconds();
             s = s < 10 ? ('0' + s) : s;
             return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
         },
     },
     created(){
         this.gettable()
     },
     methods:{
+        //将中国标准时间转换为日期
+        changeTime(date){
+            if(date != ''){
+                let y = date.getFullYear();
+                let m = date.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let minute = date.getMinutes();
+                minute = minute < 10 ? ('0' + minute) : minute;
+                let seconds = date.getSeconds();
+                seconds = seconds < 10 ? ('0' + seconds) : seconds;
+                return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
+            }
+        },
         //点击账号跳转会员管理页面
         getupnewweb(a){
-            // console.log(111111111111111111)
-            // console.log(a)
-
              this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
         },
         //明细页面跳转
@@ -333,7 +355,7 @@ export default {
                 account:this.account,
                 endAmount:this.endAmount,
                 endReturnAmount	:this.endReturnAmount,
-                endTime:this.etime,
+                endTime:this.changeTime(this.etime),
                 page:this.page,
                 dlAccount:'',
                 pageSize:this.pageSize,	
@@ -342,7 +364,7 @@ export default {
                 playType:this.playType,
                 startAmount	:this.startAmount,
                 startReturnAmount:this.startReturnAmount,
-                startTime:this.stime,
+                startTime:this.changeTime(this.stime),
                 maxBonus:this.maxBonus,
                 minBonus:this.minBonus,
                 winStatus:this.winStatus,
@@ -353,8 +375,6 @@ export default {
                 this.totalList = res.data.totalCount
                 this.fadan = res.data.data.planStatus
                 this.tableData.forEach((e,index) => {
-                    // console.log(1324654879)
-                    // console.log(e)
                     this.fadan = e.planDesc
                 })
             })
@@ -401,6 +421,7 @@ export default {
         },
         //查询
         search(){
+            this.page = 1
             this.gettable()
         },
          //翻页

@@ -404,22 +404,23 @@ export default {
             this.form.agentAccount = a.agentAccount || ''
         },
         xiugai(b){
-            if(b.ACCOUNT == '' || this.form.certNo == '' || this.form.name == '' || this.form.mobile == '' || this.form.agentAccount == ''){
-                this.$message('不能为空！')
-            }else{
+            // if(b.ACCOUNT === ''){
+            //     this.$message('账号不能为空！')
+            // }else{
                 let obj = {
                     account: b.ACCOUNT,
                     email: this.form.email,
-                    identifyId: this.form.certNo,
-                    realName: this.form.name,
-                    tel: this.form.mobile,
-                    upAccount: this.form.agentAccount
+                    identifyId: this.form.certNo || '',
+                    realName: this.form.name || '',
+                    tel: this.form.mobile || '',
+                    upAccount: this.form.agentAccount || ''
                 }
                 updateMemberInfoBack(obj).then(res => {
-                    this.$message('修改成功！')
+                    if(res.data.error_code === 200){
+                        this.$message('修改成功！')
+                    }
                 })
-            }
-            
+            // }
         },
         inquire(){
             this.page = 1

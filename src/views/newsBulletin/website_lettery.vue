@@ -32,7 +32,7 @@
                        label="创建时间"
                        align="center">
                     <template slot-scope="scope">
-                    {{scope.row.createDate}}
+                    {{scope.row.createDate | time}}
                      </template>
       </el-table-column>
             <el-table-column prop="id"

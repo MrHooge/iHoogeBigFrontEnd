@@ -741,6 +741,12 @@ export const constantRouterMap = [{
         meta: { title: '彩期管理' }
       },
       {
+        path: 'updateSP',
+        name: 'SP修改',
+        component: () => import ('@/views/program_center/updateSP'),
+        meta: { title: 'SP修改' }
+      },
+      {
         path: 'Manuallottery',
         name: '手动开奖',
         component: () => import ('@/views/program_center/Manuallottery'),
@@ -1095,11 +1101,11 @@ export const constantRouterMap = [{
       
       {
         path: 'lotteryDaily',
-        name: '竞彩日报',
+        name: '专家推荐',
         component: () =>
           import ('@/views/operations/lottery_daily'),
         meta: {
-          title: '竞彩日报'
+          title: '专家推荐'
         }
       },
       {

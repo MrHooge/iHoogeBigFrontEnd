@@ -8,17 +8,19 @@
             <el-date-picker
             v-model="startCreateTime"
             type="datetime"
-            style="margin-right:5px;width:160px"
+            style="margin-right:5px;width:200px"
             placeholder="请选择开始日期"
-            default-time="12:00:00">
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00">
             </el-date-picker>
             至
             <el-date-picker
             v-model="endCreateTime"
             type="datetime"
-            style="width:160px;margin-right:40px;margin-left:5px;"
+            style="width:200px;margin-right:40px;margin-left:5px;"
             placeholder="请选择开始日期"
-            default-time="12:00:00">
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59">
             </el-date-picker>
             玩法：
             <el-select v-model="lotteryType"
@@ -35,7 +37,7 @@
             <el-select v-model="passType"
 			           placeholder="请选择状态筛选数据"
 			           @change="getval"
-                       style="width:5%;margin-right:260px;">
+                       style="width:5%;margin-right:180px;">
 				<el-option v-for="item in directions2"
 				           :key="item.passType"
 				           :label="item.label"
@@ -52,16 +54,18 @@
             <el-date-picker
             v-model="startDealTime"
             type="datetime"
-            style="margin-right:5px;width:160px"
+            style="margin-right:5px;width:200px"
             placeholder="请选择开始日期"
-            default-time="12:00:00">
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="00:00:00">
             </el-date-picker>至
             <el-date-picker
             v-model="endDealTime"
             type="datetime"
-            style="width:160px;margin-right:60px;margin-left:5px;"
+            style="width:200px;margin-right:220px;margin-left:5px;"
             placeholder="请选择开始日期"
-            default-time="12:00:00">
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59">
             </el-date-picker>
             处理结果：
             <el-select v-model="status"
@@ -74,19 +78,18 @@
 				           :value="item.status">
 				</el-option>
 			</el-select>
-            <el-button type="primary" @click="search" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+            
             <el-button type="primary" @click="firstPush" style="margin-left:100px;margin-bottom:40px;margin-top:40px">优先推送</el-button>
-            <el-button type="primary" @click="updateTicketStatus(3)" style="margin-left:100px;margin-bottom:40px;margin-top:40px">撤销</el-button>
-            <el-button type="primary" @click="updateTicketStatus(1)" style="margin-left:100px;margin-bottom:40px;margin-top:40px">成功</el-button>
-            <el-button type="primary" @click="updateChaiPiaoCount" style="margin-left:100px;margin-bottom:40px;margin-top:40px">修改拆包票数</el-button>
-
-            <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
+            <el-button type="danger" @click="updateTicketStatus(3)" style="margin-left:100px;margin-bottom:40px;margin-top:40px">撤销</el-button>
+            <el-button type="success" @click="updateTicketStatus(1)" style="margin-left:100px;margin-bottom:40px;margin-top:40px">成功</el-button>
+            <el-button type="primary" @click="updateChaiPiaoCount" style="margin-left:100px;margin-bottom:40px;margin-top:40px;margin-right:400px">修改拆包票数</el-button>
+            <el-button type="primary" @click="search" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
         <div class="tablelist">
             <el-table :data="tableData" border style="width: 100%;" @selection-change="handleSelectionChange">
                 <el-table-column
                     type="selection"
-                    width="55">
+                    width="40">
                 </el-table-column>
                 <el-table-column
                     prop="planNo"
@@ -96,13 +99,27 @@
                 <el-table-column
                     prop="id"
                     align="center"
-                    label="方案拆包号">
+                    label="拆包号">
                 </el-table-column>
                 <el-table-column
                     align="center"
                     label="发起时间">
                     <template slot-scope="scope">
                         {{scope.row.createTime | time}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    align="center"
+                    label="截止时间">
+                    <template slot-scope="scope">
+                        {{scope.row.dealTime | time}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    align="center"
+                    label="推送时间">
+                    <template slot-scope="scope">
+                        {{scope.row.pushTime | time}}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -130,18 +147,13 @@
                     align="center"
                     label="预测奖金">
                 </el-table-column>
-                <el-table-column
-                    align="center"
-                    label="截止时间">
-                    <template slot-scope="scope">
-                        {{scope.row.dealTime | time}}
-                    </template>
-                </el-table-column>
+                
                 <el-table-column
                     align="center"
                     label="处理结果">
                     <template slot-scope="scope">
-                        {{scope.row.status | changeStatus}}
+                        <span v-if="scope.row.status === 0" style="color:red">{{scope.row.status | changeStatus}}</span>
+                        <span v-else>{{scope.row.status | changeStatus}}</span>
                     </template>
                 </el-table-column>
                 <!-- <el-table-column
@@ -188,11 +200,13 @@
                     align="center"
                     label="渠道">
                 </el-table-column>
+                
                 <el-table-column
                     align="center"
-                    label="推送时间">
+                    label="方案详情"
+                    width="120px;">
                     <template slot-scope="scope">
-                        {{scope.row.pushTime | time}}
+                        <el-button type="primary" style="width:100px">点击展开</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -285,21 +299,6 @@ export default {
             undesirabledesabel:false,
             fadan:'',
             desc: '',
-            // options: [
-			// 	{ planStatus: "", label: "全部" },
-			// 	{ planStatus: "1", label: "未支付" },
-			// 	{ planStatus: "3", label: "出票中" },
-            //     { planStatus: "4", label: "已出票" },
-            //     { planStatus: "9", label: "未出票作废" }
-            // ],
-            // sections: [
-			// 	{ winStatus: "", label: "全部" },
-			// 	{ winStatus: "1", label: "未开奖" },
-			// 	{ winStatus: "2", label: "未中奖" },
-            //     { winStatus: "3", label: "已中奖" },
-            //     { winStatus: "4", label: "已派奖" },
-            //     { winStatus: "11", label: "已退款" }
-            // ],
             //玩法
             directions1: [
                 { lotteryType: "", label: "全部" },
@@ -312,6 +311,7 @@ export default {
                 { lotteryType: "35", label: "竞彩足球比分" },
                 { lotteryType: "36", label: "竞彩足球进球数" },
                 { lotteryType: "37", label: "竞彩足球半全场" },
+                { lotteryType: "41", label: "竞彩足球胜平负" },
                 { lotteryType: "42", label: "竞彩足球混合过关" },
                 { lotteryType: "43", label: "竞彩篮球混合过关" },
                 { lotteryType: "49", label: "竞彩足球胜平负/让球" },
@@ -340,7 +340,6 @@ export default {
                 { status: "3", label: "撤销" },
 
             ],
-
             dlAccount: '',      //代理用户名
             startAmount: '',  //最低的本金
             endAmount: '',   //最高的本金
@@ -374,13 +373,6 @@ export default {
         }
     },
     filters:{
-        //是否嘉奖
-        // shape(s){
-        //     return s == true ? "嘉" : ""
-        // },
-        // type(b){
-        //     return b == '' ? '' : b
-        // },
         //时间戳转换为日期
         time(a){
             let date = new Date(a);
@@ -416,6 +408,7 @@ export default {
     },
     created(){
         this.gettable()
+        // this.getTodayDate()
     },
     methods:{
         //优先推送
@@ -449,7 +442,7 @@ export default {
         //修改票状态（成功和撤销）
         updateTicketStatus(a){
             if(this.selections.length != 1){
-              this.$message('只能选择一个！')
+              this.$message('请选择一个选项！')
             }else{
                 console.log(this.selections)
                 let obj = {
@@ -478,29 +471,33 @@ export default {
                     this.val = res.data.data
                 }
             })
-            
-            // this.adddioalog = true
         },
          // 选择框全部
         handleSelectionChange(selection) {
             this.selections = selection;
         },
-        //将日期转换为时间戳
-        changeTime(date){
-            if(date != ''){
-                let y = date.getFullYear();
-                let m = date.getMonth() + 1;
-                m = m < 10 ? ('0' + m) : m;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                let minute = date.getMinutes();
-                minute = minute < 10 ? ('0' + minute) : minute;
-                let seconds = date.getSeconds();
-                seconds = seconds < 10 ? ('0' + seconds) : seconds;
-                return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
-            }
-        },
+        //将中国标准时间转换为日期
+        // changeTime(date){
+        //     if(date != ''){
+        //         let y = date.getFullYear();
+        //         let m = date.getMonth() + 1;
+        //         m = m < 10 ? ('0' + m) : m;
+        //         let d = date.getDate();
+        //         d = d < 10 ? ('0' + d) : d;
+        //         let h = date.getHours();
+        //         h = h < 10 ? ('0' + h) : h;
+        //         let minute = date.getMinutes();
+        //         minute = minute < 10 ? ('0' + minute) : minute;
+        //         let seconds = date.getSeconds();
+        //         seconds = seconds < 10 ? ('0' + seconds) : seconds;
+        //         return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
+        //     }
+        // },
+        // getTodayDate(){
+        //         let date = new Date()
+        //         console.log(date)
+        //         this.startCreateTime = date
+        // },
         //点击账号跳转会员管理页面
         getupnewweb(a){
              this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
@@ -514,20 +511,6 @@ export default {
             // console.log(this.planStatus)
             this.gettable()
         },
-        //是否焦点赛事内购买
-        // FokusEreignis(){
-        //     let Schema = {
-        //         planNo:this.planNo
-        //     }
-        //     getIsFocusPlan(Schema)
-        //     .then(res => {
-        //         if(res.data == 'true'){
-        //             this.$message('是')
-        //         }else{
-        //             this.$message('否')
-        //         }
-        //     })
-        // },
         //获取数据
         gettable(){
             let obj = {
@@ -543,11 +526,11 @@ export default {
                 startCount: this.startCount,
                 endCount: this.endCount,    //张数
 
-                startCreateTime: this.changeTime(this.startCreateTime),
-                endCreateTime: this.changeTime(this.endCreateTime),  //发起时间
+                startCreateTime: this.startCreateTime,
+                endCreateTime: this.endCreateTime,  //发起时间
 
-                startDealTime: this.changeTime(this.startDealTime),  
-                endDealTime: this.changeTime(this.endDealTime),    //截止时间
+                startDealTime: this.startDealTime,  
+                endDealTime: this.endDealTime,    //截止时间
 
                 startMultiple: this.startMultiple,
                 endMultiple: this.endMultiple,   //倍数

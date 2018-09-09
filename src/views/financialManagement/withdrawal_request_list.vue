@@ -77,7 +77,7 @@
 			<el-table-column label="创建时间"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.create_Date_Time}}
+					{{ scope.row.create_Date_Time | changeTime}}
 				</template>
 			</el-table-column>
 			<el-table-column label="金额"
@@ -89,7 +89,7 @@
 			<el-table-column label="状态"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.STATUS}}
+					{{ scope.row.STATUS | changeStatus}}
 				</template>
 			</el-table-column>
 			<el-table-column label="开户支行"
@@ -98,7 +98,12 @@
 					{{ scope.row.part_bank}}
 				</template>
 			</el-table-column>
-			<el-table-column label="声明人"
+            <el-table-column label="银行卡"
+                             prop="bank_card"
+                             width="200px;"
+			                 align="center">
+			</el-table-column>
+			<el-table-column label="提款人"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.name}}
@@ -107,7 +112,7 @@
 				<el-table-column label="汇款时间"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.send_date_time}}
+					{{ scope.row.send_date_time.substring(5)}}
 				</template>
 			</el-table-column>
 			<!-- <el-table-column label="财务审核时间"
@@ -170,13 +175,15 @@
 				<template slot-scope="scope">
 					<div style="padding:5px 0">
 						<el-button size="mini"
-						           type="primary"
-						           @click="examine(scope.row)">通过</el-button>
+						    type="primary"
+						    @click="examine(scope.row)">通过
+                        </el-button>
 					</div>
 					<div>
 						<el-button size="mini"
-						           type="danger"
-						           @click="reject(scope.row)">驳回</el-button>
+						    type="danger"
+						    @click="reject(scope.row)">驳回
+                        </el-button>
 					</div>
 				</template>
 			</el-table-column>
@@ -296,9 +303,9 @@ export default {
 		this.getData(1)
 	},
 	methods: {
+        
 		search() {
 			this.getData(1)
-
 		},
 		getData(curr) { // a 账号， b 开始时间，
 			let obj = {
@@ -382,19 +389,50 @@ export default {
 			this.getData(val)
 		}
 	},
-	// filters: {
-	// 	changeTime(timestamp) {
-	// 		var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-	// 		let Y = date.getFullYear() + '-';
-	// 		let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-	// 		let D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
-	// 		let h = date.getHours() + ':';
-	// 		let m = date.getMinutes();
-	// 		// let s = date.getSeconds();
-	// 		return Y + M + D + h + m;
-	// 	}
+	filters: {
+        //改变时间
+		changeTime(timestamp) {
+			var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			let Y = date.getFullYear() + '-';
+			let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+			let D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+			let h = date.getHours() + ':';
+			let m = date.getMinutes();
+			// let s = date.getSeconds();
+			return M + D + h + m;
+        },
+        //改变状态
+        changeStatus(val){
+            if(val === 0){
+                return '已汇出'
+            }
+            else if(val === 1){
+                return '客服待审核'
+            }
+            else if(val === 2){
+                return '客服驳回'
+            }
+            else if(val === 3){
+                return '待汇款'
+            }
+            else if(val === 4){
+                return '银行退单'
+            }
+            else if(val === 5){
+                return '汇款驳回'
+            }
+            else if(val === 6){
+                return '已到账'
+            }
+            else if(val === 7){
+                return '财务待审核'
+            }
+            else if(val === 8){
+                return '财务驳回'
+            }
+        }
 
-	// }
+	}
 };
 </script>
 
