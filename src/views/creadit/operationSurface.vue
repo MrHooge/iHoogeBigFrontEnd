@@ -2,7 +2,8 @@
     <div class="backend">
 			<!--  代理给客户加款流水 -->
         <div class="search">
-            <el-input v-model="input1" placeholder="请输入会员名进行查询" style="width:60%;"></el-input>
+            <el-input v-model="input1" placeholder="请输入会员名进行查询" style="width:30%;"></el-input>
+            <el-input v-model="username" placeholder="请输入昵称查询" style="width:30%;"></el-input>
             <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
         </div>
         <div class="warning">
@@ -10,6 +11,12 @@
           <span>支持当前页数据模糊搜索,输入会员名全称进行精确查找</span>
         </div>
         <el-table :data="memberfilter" border style="width: 100%;">
+            <el-table-column type="index" align="center" label="编号"></el-table-column>
+            <el-table-column
+            prop="updateTime"
+            align="center"
+            label="时间">
+            </el-table-column>
             <el-table-column
             prop="account"
             label="会员名"
@@ -35,11 +42,7 @@
             </template>
             </el-table-column>
 
-            <el-table-column
-            prop="updateTime"
-            align="center"
-            label="时间">
-            </el-table-column>
+            
 
             <el-table-column
               align="center"
@@ -74,6 +77,7 @@
 
 <script>
 import { getCreditLimitLine } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -88,6 +92,7 @@ export default {
       page:1,
       pageSize:20,
       totalList: 0,
+      username: "",   //输入查询的昵称
     };
   },
   created() {
@@ -96,25 +101,46 @@ export default {
   // 按照会员名称进行筛选
   computed:{
     memberfilter:function(){
-      return this.tableData.filter((name) =>{
-          return name.account.match(this.input1)
-      })
+        if(this.tableData){
+            return this.tableData.filter((name) =>{
+                return name.account.match(this.input1)
+            })
+        }
     }
   },
   methods: {
-      //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.getData('')
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.getData('')
-        },
+      
+    //翻页
+    handleCurrentChange(num){
+        this.page = num;
+        this.getData('')
+    },
+    //改变页面大小
+    handleSizeChange(num){
+        this.pageSize = num;
+        this.getData('')
+    },
     search() {
-      // console.log(this.input1);
-      this.getData(this.input1);
+      if (!this.input1 && !this.username) {
+            this.$message("请输入您要查询的账号或昵称！")
+        } else {
+            if(this.input1 === ''){
+                this.getAccount()
+            }else{
+                this.getData(this.input1);
+            }
+        }
+    },
+    //用昵称查询账号
+    getAccount(){
+        let obj = {
+            username: this.username
+        }
+        findAllMember(obj).then(res => {
+            console.log(res.data.data.list[0].ACCOUNT)
+            this.input1 = res.data.data.list[0].ACCOUNT
+            this.getData(this.input1);
+        })
     },
     // 点击授信额度弹窗
     layer() {
@@ -137,12 +163,12 @@ export default {
 				account:a,
 			};
 			getCreditLimitLine(obj).then(res=>{
-					console.log(res)
-					if(res.status==200 ){
-						this.total = res.data.totalCount;
-            this.tableData = res.data.data;
-            this.totalList = res.data.data.total
-					}
+                console.log(res)
+                if(res.data.data != null){
+                    this.total = res.data.totalCount;
+                    this.tableData = res.data.data;
+                    this.totalList = res.data.data.total
+                }
 			})
 		},
     // 获取当前的点击页码

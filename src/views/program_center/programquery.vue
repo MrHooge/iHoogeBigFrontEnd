@@ -2,13 +2,14 @@
     <div class="program">
         <div class="search">
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             方案编号:<el-input v-model="planNo" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             发单金额:<el-input v-model="startAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
             税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             方案状态：<el-select v-model="planStatus"
 			           placeholder="请选择状态筛选数据"
 			           @change="getval"
-                       style="width:7%">
+                       style="width:11%">
 				<el-option v-for="item in options"
 				           :key="item.planStatus"
 				           :label="item.label"
@@ -224,6 +225,7 @@
 </template>
 <script>
 import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus } from '@/api/period'
+import { findAllMember} from '@/api/customer'
 export default {
     data(){
         return{
@@ -276,6 +278,8 @@ export default {
                 { playType: "124", label: "8串1" },
             ],
             totalList: 0,
+
+            username: "",   //输入查询的昵称
         }
     },
     filters:{
@@ -420,9 +424,32 @@ export default {
         })
         },
         //查询
-        search(){
-            this.page = 1
-            this.gettable()
+        // search(){
+        //     this.page = 1
+        //     this.gettable()
+        // },
+        search() {
+			if (!this.account && !this.username) {
+				this.$message("请输入您要查询的账号或昵称！")
+			} else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.gettable()
+                }
+			}
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.gettable()
+            })
         },
          //翻页
         handleCurrentChange(num){

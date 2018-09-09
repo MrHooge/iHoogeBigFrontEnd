@@ -2,6 +2,7 @@
     <div class="wallet">
         <div class="search">
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -21,7 +22,7 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
-            <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+            <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
@@ -110,6 +111,7 @@
 
 <script>
 import { findMemberWalletLineByAccount } from '@/api/customerDetails'
+import { findAllMember} from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
     data(){
@@ -125,32 +127,33 @@ export default {
             pageSize:10,
             child_type:-1001,
             totalList: 0,
+            username: "",   //输入查询的昵称
         }
     },
     created(){
-        this.getfluwwallet()
+        this.inquire()
     },
     methods:{
-        getfluwwallet(){
-            let wallerdata = {
-                account:'',
-                end_time:'',
-                start_time:'',
-                child_type:this.child_type,
-                qdAccount:'',
-                dlAccount:'',
-                loginAccount:'manager',
-                page:this.page,
-                pageSize:this.pageSize,
-                type:''
-            }
-            findMemberWalletLineByAccount(wallerdata).then(res => {
-                 this.tableData = res.data.data.list
-            }).catch(error => {
-                 Message.error(error)
-            })
-        },
-         //查询
+        // getfluwwallet(){
+        //     let wallerdata = {
+        //         account:'',
+        //         end_time:'',
+        //         start_time:'',
+        //         child_type:this.child_type,
+        //         qdAccount:'',
+        //         dlAccount:'',
+        //         loginAccount:'manager',
+        //         page:this.page,
+        //         pageSize:this.pageSize,
+        //         type:''
+        //     }
+        //     findMemberWalletLineByAccount(wallerdata).then(res => {
+        //          this.tableData = res.data.data.list
+        //     }).catch(error => {
+        //          Message.error(error)
+        //     })
+        // },
+        
         inquire(){
             let wallerdata = {
                 account:this.account,
@@ -165,10 +168,38 @@ export default {
                 type:''
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
-                this.tableData = res.data.data.list
-                this.totalList = res.data.data.total
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
             }).catch(error => {
-                 Message.error(error)
+                Message.error(error)
+            })
+        },
+        //查询
+        search() {
+			if (!this.account && !this.username) {
+				this.$message("请输入您要查询的账号或昵称！")
+			} else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    this.inquire()
+                }
+			}
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.inquire()
             })
         },
         //翻页

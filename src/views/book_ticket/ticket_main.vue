@@ -407,8 +407,8 @@ export default {
         }
     },
     created(){
-        this.gettable()
-        // this.getTodayDate()
+        // this.gettable()
+        this.getTodayDate()
     },
     methods:{
         //优先推送
@@ -493,11 +493,20 @@ export default {
         //         return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
         //     }
         // },
-        // getTodayDate(){
-        //         let date = new Date()
-        //         console.log(date)
-        //         this.startCreateTime = date
-        // },
+        getTodayDate(){
+                let date = new Date()
+                console.log(date)
+                let y = date.getFullYear();
+                let m = date.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                this.startCreateTime =  y + '-' + m + '-' + d +' '+ '00:00:00';
+                console.log(this.startCreateTime)
+                this.endCreateTime = y + '-' + m + '-' + d +' '+ '23:59:59';
+                console.log(this.endCreateTime)
+                this.gettable()
+        },
         //点击账号跳转会员管理页面
         getupnewweb(a){
              this.$router.push({path:'/customerManager/customerManager',query:{account:a}})

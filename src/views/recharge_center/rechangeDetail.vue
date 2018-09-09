@@ -3,13 +3,23 @@
         <!-- 顶部筛选 -->
         <div class="topten">
             <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :span="3">
                     <div class="grid-content bg-purple">
-                        <el-input v-model="name"
-                                  placeholder="请输入查询的账号"
-                                  @input="onInput"></el-input>
+                        <el-input
+                            v-model="name"
+                            placeholder="请输入查询的账号"
+                            @input="onInput">
+                        </el-input>
                     </div>
-
+                </el-col>
+                <el-col :span="3">
+                    <div class="grid-content bg-purple">
+                        <el-input
+                            v-model="user"
+                            placeholder="请输入查询的昵称"
+                            @input="onInput">
+                        </el-input>
+                    </div>
                 </el-col>
                 <el-col :span="12">
                         <div class="block"
@@ -134,6 +144,7 @@
 
 <script>
 import { findRechargeUnderLine, xxCharge } from "@/api/sys_user";
+import { findAllMember} from '@/api/customer'
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
@@ -149,8 +160,8 @@ export default {
             username: '',
             money: '',
             value1: '',
-            value2: ''
-
+            value2: '',
+            user: '',   //搜索的用户的昵称
 
         };
     },
@@ -160,15 +171,16 @@ export default {
     },
     methods: {
         onInput() {   //  input 事件
-            if (this.name == '') {
+            if (this.name === ''&& this.user === '') {
                 this.getData(this.name, this.value1, this.value2)
             }
-            console.log(this.name)
         },
         search() {
-            console.log(this.value1)
-            console.log(this.value2)
-            this.getData(this.name, this.value1, this.value2)
+            if(this.name === ''){
+                this.getAccount()
+            }else{
+                this.getData(this.name, this.value1, this.value2)
+            }
         },
         getData(a, b, c) {   //  获取数据列表
             let obj = {
@@ -184,6 +196,17 @@ export default {
                     this.tableData = res.data.data
                     this.total = res.data.totalCount
                 }
+            })
+        },
+        getAccount(){
+            let obj = {
+                username: this.user
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.name = res.data.data.list[0].ACCOUNT
+                // this.accountSearch()
+                this.getData(this.name, this.value1, this.value2)
             })
         },
 

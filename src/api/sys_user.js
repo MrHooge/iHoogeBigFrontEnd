@@ -220,7 +220,7 @@ export function setAgentToGroup(params) {
 }
 
 // 获取所有会员列表
-export function findAllMember(page, account) {
+export function findAllMember(page, account , username) {
   return request.member({
     url: '/user/findAllMember',
     method: 'get',
@@ -228,6 +228,7 @@ export function findAllMember(page, account) {
       page,
       pageSize: 20,
       account,
+      username
 
     }
   })
