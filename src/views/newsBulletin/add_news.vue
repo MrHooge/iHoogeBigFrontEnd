@@ -157,7 +157,6 @@ export default {
   created(){
     this.id = this.$route.query.id
     this.getupdatedata()
-    console.log(this.picurl.slice(23))
   },
   updated(){
     this.id = ''
