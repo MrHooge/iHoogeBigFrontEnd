@@ -1,11 +1,13 @@
 <template>
 	<div class="app-container">
-		<div class="search">
-			<el-input v-model="username"
+		<div>
+			<el-input v-model="account"
 			          style="width:300px;"
-			          placeholder="请输入用户账号进行筛选"></el-input>
+			          placeholder="请输入用户账号进行筛选">
+            </el-input>
+            <el-button type="primary" @click="search">查询</el-button>
 		</div>
-		<el-table :data="memberfilter"
+		<el-table :data="tableData"
 		          border
 		          style="width: 100%; margin-top: 20px">
 			<el-table-column label="编号"
@@ -245,7 +247,9 @@ export default {
 			value1: '',
 			value2: '',
 			ACCOUNT:'',
-			LOTTERY_TYPE:'',
+            LOTTERY_TYPE:'',
+            account: "",   //查询的账号
+            page: 1,
 		};
 	},
 	filters: {
@@ -256,16 +260,16 @@ export default {
 	},
 
 	computed: {
-		memberfilter: function () {
-			if (this.username == "") {
-				this.pageShow = true;
-			} else {
-				this.pageShow = false;
-			}
-			return this.tableData.filter(name => {
-				return name.ACCOUNT.match(this.username);
-			});
-		}
+		// memberfilter: function () {
+		// 	if (this.username == "") {
+		// 		this.pageShow = true;
+		// 	} else {
+		// 		this.pageShow = false;
+		// 	}
+		// 	return this.tableData.filter(name => {
+		// 		return name.ACCOUNT.match(this.username);
+		// 	});
+		// }
 		// tableDatalayer() {
 		// 	return this.tableData3.filter(name => {
 		// 		return name.ACCOUNT.match(this.sjname)
@@ -273,18 +277,36 @@ export default {
 		// }
 	},
 	created() {
-		this.getTable(1, 20);
+		this.getTable();
 	},
 	methods: {
+        //查询
+        search(){
+            if(this.account === ''){
+                this.$message.error('请输入你要查询的账号！')
+            }else{
+                this.getTable()
+            }
+        },
 		handleChange(val) {
 			console.log(val);
-		},
-		getTable(page, pageSize) {
-			//   获取所有会员列表
-			findAllRate(page, pageSize).then(res => {
-				console.log(res);
-				this.tableData = res.data.data.list;
-				this.total = res.data.data.total;
+        },
+        //   获取所有会员列表
+		getTable() {
+            let obj = {
+               page: this.page,
+               pageSize: 20,
+               account: this.account
+            }
+			findAllRate(obj).then(res => {
+                console.log(res);
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list;
+				    this.total = res.data.data.total;
+                }
+                else{
+                    this.$message.error(res.data.message)
+                }
 			});
 		},
 		// getData(page) {
@@ -356,7 +378,8 @@ export default {
 		},
 		// 分页的回调
 		changepage(val) {
-			this.getTable(val);
+            this.page = val
+			this.getTable();
 		},
 
 	}

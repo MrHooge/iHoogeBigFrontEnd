@@ -255,7 +255,7 @@
                                    </el-table>
                                    <el-button slot="reference" @click="wallet(scope.row,'modify')">钱包</el-button>
                                    </el-popover>
-                               <el-button type="warning" @click="runningwater">流水</el-button>
+                               <el-button type="warning" @click="runningwater(scope.row)">流水</el-button>
                                     <el-button type="warning" @click="showdiage">绑定银行</el-button>
                                 </el-dropdown-menu>
                                 </el-dropdown> 
@@ -510,9 +510,14 @@ export default {
             })
         },
         //点击按钮跳到流水查询页面
-        runningwater(){
-           
-           this.$router.push('/detailsSearch/walletFlowquery')
+        runningwater(a){
+            console.log(a)
+           this.$router.push({
+               path: '/detailsSearch/walletFlowquery',
+                query: {
+                    account: a.ACCOUNT
+                }
+           })
         }
        
     }

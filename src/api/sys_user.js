@@ -323,15 +323,11 @@ export function findRechargeAndConsumerWall(params) {
   })
 }
 // 会员返点列表
-export function findAllRate(page, pageSize) {
+export function findAllRate(userInfos) {
   return request.member({
     url: '/userManage/findAllRate',
     method: 'get',
-    params: {
-      page,
-      pageSize: 20,
-      account: ''
-    }
+    params: userInfos
   })
 }
 // 会员返点修改

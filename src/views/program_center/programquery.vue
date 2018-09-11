@@ -52,15 +52,15 @@
             align="right"
             type="datetime"
             style="margin-left:10px;
-            margin-right:60px
+            margin-right:30px
             width:180px
             margin-bottom:40px;"
             placeholder="请选择结束日期"
             default-time="23:59:59"
             >
             </el-date-picker>
-             预测奖金：<el-input v-model="minBonus" placeholder="请输入奖金最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至
-             <el-input v-model="maxBonus" placeholder="请输入奖金最大值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>
+             预测奖金：<el-input v-model="minBonus" placeholder="请输入奖金最小值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至
+             <el-input v-model="maxBonus" placeholder="请输入奖金最大值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
             <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button>
         </div>
@@ -430,7 +430,8 @@ export default {
         // },
         search() {
 			if (!this.account && !this.username) {
-				this.$message("请输入您要查询的账号或昵称！")
+                // this.$message("请输入您要查询的账号或昵称！")
+                this.gettable()
 			} else {
                 if(this.account === ''){
                     this.getAccount()
