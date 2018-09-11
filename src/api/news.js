@@ -49,17 +49,25 @@ export function getNew(userinfos) {
   return request.infos({
     url: '/information/getNew',
     method: 'get',
-    params:userinfos
+    params: userinfos
   })
 }
-//发布或修改资讯
+//发布新闻
 export function createNews(userinfos) {
   return request.infos({
     url: '/information/createNews',
     method: 'post',
-    params:userinfos
+    data: userinfos
   })
 }
+//修改新闻
+export function reviseNews(userinfos) {
+    return request.infos({
+      url: '/information/reviseNews',
+      method: 'post',
+      data: userinfos
+    })
+  }
 //获取类别或标签列表
 export function getTypes(userinfos) {
   return request.infos({

@@ -77,11 +77,11 @@
             <el-button type="sendnews" @click="sendnews">发布</el-button>
         </el-form-item>
     </el-form>
-    <div class="quill">
+    <!-- <div class="quill">
         <h4>编辑内容</h4>
         <quill-editor v-model="form.content" ref="myQuillEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)">
         </quill-editor>
-    </div>
+    </div> -->
     <el-dialog
         title="编辑"
         :visible.sync="dialogVisible"
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { createNews,uploadImage,setNewsPicetur,getTypes,getNew } from '@/api/news'
+import { createNews,uploadImage,setNewsPicetur,getTypes,getNew,reviseNews } from '@/api/news'
 import api from '../../../config/dev.env'
 export default {
   data() {
@@ -135,8 +135,7 @@ export default {
           click:'',
           createDateTime:'',
           content:'',
-          showDateTime:'',	
-          cz:'',	
+          showDateTime:'',
           editor:'',	
           contentType:'',
           id:'',	
@@ -208,37 +207,38 @@ export default {
     },
 //状态选中
         handselect(value){
-        console.log(value)
-        this.form.type = value
+            console.log(value)
+            this.form.type = value
         },
-    update(){
-        if(this.form.editor && this.form.keyword && this.form.summary && this.form.title && this.form.type && this.form.contentType){
-            this.form.cz = 2;
-            createNews(this.form).then(res => {
-                if(res.data.error_code === 200){
-                    this.$message.success(res.data.message)
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            })
-        }else{
-            this.$message('缺少输入参数')
-        }
-    },
-    sendnews(){
-        if(this.form.click && this.form.editor && this.form.keyword && this.form.summary && this.form.title && this.form.type && this.form.contentType){
-            this.form.cz = 1;
-            createNews(this.form).then(res => {
-                if(res.data.error_code === 200){
-                    this.$message.success(res.data.message)
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            })
-        }else{
-            this.$message('缺少输入参数')
-        }
-    },
+        //修改新闻
+        update(){
+            if(this.form.editor && this.form.keyword && this.form.summary && this.form.title && this.form.type && this.form.contentType){
+                reviseNews(this.form).then(res => {
+                    console.log(res)
+                    if(res.data.error_code == 200){
+                        this.$message.success(res.data.message)
+                    }else{
+                        this.$message.error(res.data.message)
+                    }
+                })
+            }else{
+                this.$message.error('缺少输入参数')
+            }
+        },
+        //发布新闻
+        sendnews(){
+            if(this.form.click && this.form.editor && this.form.keyword && this.form.summary && this.form.title && this.form.type && this.form.contentType){
+                createNews(this.form).then(res => {
+                    if(res.data.error_code == 200){
+                        this.$message.success(res.data.message)
+                    }else{
+                        this.$message.error(res.data.message)
+                    }
+                })
+            }else{
+                this.$message.error('缺少输入参数')
+            }
+        },
     pictureurl(){
       this.dialogVisible = true
     },
@@ -259,7 +259,6 @@ export default {
         id: this.id
       }
       getNew(newobject).then(res => {
-        console.log(res.data.data.isShow)
         if(res.data.error_code ===200){
             this.form.click = res.data.data.click
             this.form.content = res.data.data.content

@@ -129,7 +129,7 @@
     
 </template>
 <script>
-import { addCelebrity,getSuperMan} from '@/api/sunburn'
+import { addCelebrity,getSuperMan,} from '@/api/sunburn'
 export default {
     data(){
         return{
@@ -164,7 +164,6 @@ export default {
         onSubmit() {
             let arr = []
             for(var i in this.redman) {
-                
                 if(this.redman[i] != ''){
                     arr.push(this.redman[i])
                 }
@@ -173,8 +172,18 @@ export default {
             let obj = {
                 accounts: this.accounts,
             }
-            addCelebrity(obj)
-                .then(res => {
+            addCelebrity(obj).then(res => {
+                if(this.accounts === ''){
+                    this.$message.error('请输入你要添加的红人账号！')
+                }
+                else{
+                    if(res.data.error_code == 200){
+                        this.$message.success(res.data.message)
+                    }else{
+                        this.$message.error(res.data.message)
+                    }
+                }
+                
             })
         },
         getList () {
