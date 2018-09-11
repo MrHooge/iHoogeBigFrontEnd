@@ -87,7 +87,7 @@
 						<el-table-column label="彩种"
 						                 align="center">
 							<template slot-scope="scope">
-								<el-select v-model="value"
+								<!-- <el-select v-model="value"
 								           placeholder="请选择"
 													 @change="changeStatus">
 									<el-option v-for="item in options"
@@ -95,7 +95,12 @@
 									           :label="item.label"
 									           :value="item.value">
 									</el-option>
-								</el-select>
+								</el-select> -->
+                                <el-checkbox-group v-model="checkList">
+                                    <el-checkbox :label="item.label" v-for="item in options" :key="item.index"></el-checkbox>
+                                    <!-- <el-checkbox label="复选框 A"></el-checkbox>
+                                    <el-checkbox label="复选框 B"></el-checkbox> -->
+                                </el-checkbox-group>
 							</template>
 						</el-table-column>
 						<el-table-column label="点位开始时间"
@@ -103,10 +108,14 @@
 						                 width="210px">
 							<template slot-scope="scope">
 								<div class="block">
-									<el-date-picker v-model="value1"
+									<!-- <el-date-picker v-model="value1"
 									                type="datetime"
 									                format="yyyy-MM-dd hh:mm:ss"
 									                value-format="yyyy-MM-dd hh:mm:ss">
+									</el-date-picker> -->
+                                    <el-date-picker v-model="value1"
+									                type="datetime"
+									                value-format="yyyy-MM-dd HH:mm:ss">
 									</el-date-picker>
 								</div>
 							</template>
@@ -118,8 +127,7 @@
 								<div class="block">
 									<el-date-picker v-model="value2"
 									                type="datetime"
-									                format="yyyy-MM-dd hh:mm:ss"
-									                value-format="yyyy-MM-dd hh:mm:ss">
+									                value-format="yyyy-MM-dd HH:mm:ss">
 									</el-date-picker>
 								</div>
 							</template>
@@ -169,7 +177,7 @@ export default {
 			onePeople: {}, // 存选择的某一条数据
 			username: '',
 			total: 0,
-			account: '',
+			// account: '',
 			member_id: '',
 			gd_rate: '', //  代购返点
 			hm_rate: '', // 合买返点
@@ -177,8 +185,8 @@ export default {
 			endDate: '',  // 返点结束
 			remark: '',  //  返点类型
 			lotteryType: '', //  彩种
-			value1: '',
-			value2: '',
+			value1: '',   //存储点位开始时间
+			value2: '',   //存储点位结束时间
 			options: [{
 				value: '38',
 				label: '竞彩足球'
@@ -186,8 +194,7 @@ export default {
 				value: '39',
 				label: '竞彩篮球'
 			}],
-			value: '',
-
+			value: '',   //存储需要修改的彩种
 			options2: [{
 				value: '0',
 				label: '非返点'
@@ -202,8 +209,8 @@ export default {
 				label: '返点加奖'
 			}],
 			valueType: '',
-			rateParams: []
-
+            rateParams: [],
+            checkList: [],
 		}
 	},
 	created() {
@@ -211,16 +218,13 @@ export default {
 	},
 	methods: {
 		onInput(){   //  搜索框 为空时
-				this.getTable(1,this.sjname)
+			this.getTable(1,this.sjname)
 		},
 		search(){  //  搜索按钮
-				this.getTable(1,this.sjname)
+			this.getTable(1,this.sjname)
 		},
 		changeStatus(val){
-		return this.value = val
-		},
-		handleChange(val) {
-			console.log(val);
+		    return this.value = val
 		},
 		getTable(page, a) { //   获取所有会员列表
 			findAllMember(page, a).then(res => {
@@ -230,20 +234,27 @@ export default {
 			})
 		},
 		showDailag(data, type) {
-			console.log(data)
 			this.viewFormType = type
 			this.viewFormVisible = true
 			this.tableData3 = []
 			this.tableData3.push(data);
 			this.onePeople = data
 		},
-
 		clearForm() { //取消按钮
 			this.viewFormVisible = false
-
 		},
 		submitInfos() {  // 确定按钮
-			// console.log(this.value)
+            // console.log(this.value)
+            let arr =  []
+            
+            if(this.checkList.length > 1){
+                this.checkList.forEach(e => {
+                    arr.push(e) 
+                });
+                this.value = arr.join(',')    //当选择多个时
+            }else{
+                this.value = this.checkList[0]  //当只选择一个时
+            }
 			let obj = {
 				lotteryType: this.value,
 				dg_rate: this.gd_rate, //  代购返点
@@ -252,25 +263,20 @@ export default {
 				startDate: this.value1,// 返点开始
 				endDate: this.value2,// 返点结束
 			}
-
 			this.rateParams.push(obj)
-			console.log(this.rateParams)
-			let account = this.onePeople.account
+			let account = this.onePeople.ACCOUNT
 			setRate(account, JSON.stringify(this.rateParams)).then(res => {
 				if(res.data.error_code==200) {
 					Message.success(res.data.message)
 					this.viewFormVisible = false
 					this.tableData3 = []
 				}else {
-					Message.success(res.data.message)
+					Message.error(res.data.message)
 					this.viewFormVisible = false
 					this.tableData3 = []
-					
 				}
-				console.log(res)
 			})
 		},
-
 		// 分页的回调
 		changepage(val) {
 			this.getTable(val,this.sjname)

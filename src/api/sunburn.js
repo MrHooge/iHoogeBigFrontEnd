@@ -92,3 +92,21 @@ export function addMail(userinfos){
         params:userinfos
     })
 }
+
+//修改SP抓取源
+export function reviseSpSourse(userinfos){
+    return request.infos({
+        url:'/information/reviseSpSourse',
+        method:'get',
+        params:userinfos
+    })
+}
+
+//获取当前竞彩足球SP抓取来源
+export function getSpSourse(userinfos){
+    return request.infos({
+        url:'/information/getSpSourse',
+        method:'get',
+        params:userinfos
+    })
+}

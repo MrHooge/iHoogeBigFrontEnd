@@ -46,6 +46,7 @@
 			                 label="会员名"
 			                 align="center">
 			</el-table-column> -->
+            <el-table-column type="index" align="center" label="编号"></el-table-column>
 			<el-table-column prop="username"
 			                 label="昵称"
 			                 align="center">

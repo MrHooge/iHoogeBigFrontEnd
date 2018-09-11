@@ -55,9 +55,7 @@ export function getSmsCode(mobile){
     return request.member({
         url:'/user/getSmsCode',
         method:'get',
-        params:{
-            mobile
-        }
+        params: mobile
     })
 }
 

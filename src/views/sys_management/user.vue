@@ -122,7 +122,7 @@ export default {
   },
   filters: {
     status(a) {
-      return a ? '可用' : '不可用'
+      return a === 1 ? '可用' : '不可用'
     }
   },
   created() {
@@ -158,7 +158,11 @@ export default {
         this.dialogType = 'modify'
         this.form.account = data.ACCOUNT
         this.form.name = data.NAME
-        this.form.status = data.STATUS
+        if(data.STATUS === 1){
+            this.form.status = true
+        }else{
+            this.form.status = false
+        }
         this.dialogType = type
       } else {
         this.dialogTitle = '添加用户'

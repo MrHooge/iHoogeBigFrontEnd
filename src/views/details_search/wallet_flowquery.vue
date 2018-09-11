@@ -2,6 +2,7 @@
     <div class="wallet">
         <div class="search">
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -21,7 +22,7 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
-            <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+            <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
@@ -43,42 +44,48 @@
                 label="	账号">
             </el-table-column>
             <el-table-column
-                prop="CREATE_DATE_TIME"
                 align="center"
                 label="	发生时间">
-               
+                <template slot-scope="scope">
+                    {{scope.row.CREATE_DATE_TIME | time}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="PLAN_NO"
+                align="center"
+                label="	方案号">           
+            </el-table-column>
+            <!-- <el-table-column
+                prop="LOTTERY_TYPE"
+                align="center"
+                label="方案类型">
+            </el-table-column> -->
+            <el-table-column
+                prop="LOTTERY_TYPE_NAME"
+                align="center"
+                label="方案类型说明">
             </el-table-column>
             <el-table-column
                 prop="REMARK"
                 align="center"
                 label="流水描述">           
             </el-table-column>
-              <el-table-column
-                prop="PLAN_NO"
+            <el-table-column
+                prop="AMOUNT"
+                label="发生金额"
                 align="center"
-                label="	方案号">           
+                width="180">
             </el-table-column>
             <el-table-column
-                prop="HEAP_BALANCE"
-                align="center"
-                label="方案类型">
-            </el-table-column>
-            <el-table-column
-                prop="HEAP_BALANCE"
-                align="center"
-                label="方案类型说明">
-            </el-table-column>
-             <el-table-column
                 prop="ABLE_BALANCE"
                 label="可用金额"
                 align="center"
                 width="180">
             </el-table-column>
             <el-table-column
-                prop="TRANS_TYPE"
+                prop="TRANS_TYPE_NAME"
                 align="center"
                 label="	发生类型">
-               
             </el-table-column>
               <el-table-column
                 prop="HEAP_BALANCE"
@@ -110,6 +117,7 @@
 
 <script>
 import { findMemberWalletLineByAccount } from '@/api/customerDetails'
+import { findAllMember} from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
     data(){
@@ -123,34 +131,37 @@ export default {
             dlAccount:'',
             page:1,
             pageSize:10,
-            child_type:-1001,
+            child_type: '',  //具体类型
             totalList: 0,
+            username: '',   //输入查询的昵称
+            type: '',   //显示类型
         }
     },
     created(){
-        this.getfluwwallet()
+        if(this.$route.query.account){
+            this.account = this.$route.query.account
+        }
+        this.inquire()
     },
-    methods:{
-        getfluwwallet(){
-            let wallerdata = {
-                account:'',
-                end_time:'',
-                start_time:'',
-                child_type:this.child_type,
-                qdAccount:'',
-                dlAccount:'',
-                loginAccount:'manager',
-                page:this.page,
-                pageSize:this.pageSize,
-                type:''
-            }
-            findMemberWalletLineByAccount(wallerdata).then(res => {
-                 this.tableData = res.data.data.list
-            }).catch(error => {
-                 Message.error(error)
-            })
+    filters:{
+       time(a){
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? ('0' + MM) : MM;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            let h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            let m = date.getMinutes();
+            m = m < 10 ? ('0' + m) : m;
+            let s = date.getSeconds();
+            s = s < 10 ? ('0' + s) : s;
+            return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
         },
-         //查询
+  },
+    methods:{
+        //获取数据
         inquire(){
             let wallerdata = {
                 account:this.account,
@@ -162,24 +173,53 @@ export default {
                 page:this.page,
                 pageSize:this.pageSize,
                 child_type:this.child_type,
-                type:''
+                type: this.type
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
-                this.tableData = res.data.data.list
-                this.totalList = res.data.data.total
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
             }).catch(error => {
-                 Message.error(error)
+                Message.error(error)
+            })
+        },
+        //查询
+        search() {
+			if (!this.account && !this.username) {
+                // this.$message("请输入您要查询的账号或昵称！")
+                this.inquire()
+			} else {
+                if(this.account == ''){
+                    this.getAccount()
+                }else{
+                    this.inquire()
+                }
+			}
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.inquire()
             })
         },
         //翻页
         handleCurrentChange(num){
             this.page = num;
-            this.getfluwwallet()
+            this.inquire()
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
-            this.getfluwwallet()
+            this.inquire()
         },
     }
 }

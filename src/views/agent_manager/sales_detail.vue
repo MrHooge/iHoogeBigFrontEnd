@@ -101,25 +101,25 @@ import { findAgentInfoByAccount, exportExcle } from '@/api/sys_user'
 export default {
   data() {
     return {
-       tableData: [],
-       account: '', // 用户名
-         options: [
+        tableData: [],
+        account: '', // 用户名
+        options: [
             {
-               value: '1',
-               label: '七天'
+                value: '1',
+                label: '七天'
             },
             {
-               value: '0',
-               label: '当前月'
+                value: '0',
+                label: '当前月'
             }
-         ],
-         isMOuth:'',
-       pageCurr:1,
-       pages:20,
-       stime:'',
-       etime:'',
-       datetime: '', // 获取的日期和时间
-       newarr: [],
+        ],
+        isMOuth:'1',
+        pageCurr:1,
+        pages:20,
+        stime:'',
+        etime:'',
+        datetime: '', // 获取的日期和时间
+        newarr: [],
     }
   },
   created(){
@@ -147,7 +147,6 @@ export default {
       findAgentInfoByAccount(account,isMOuth)
       .then(res => {
             this.tableData = res.data.data
-            
       })
       .catch(error => {
             Message.error(error)

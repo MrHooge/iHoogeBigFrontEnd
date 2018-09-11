@@ -7,21 +7,20 @@
             类型：<el-input v-model="type" placeholder="请输入类型" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input><br />
             开始时间：<el-date-picker
             v-model="startTime"
-            type="date"
+            type="datetime"
             style="margin-bottom:40px;margin-right:20px;width:200px"
-            placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            placeholder="请选择开始日期">
             </el-date-picker>
             
             结束时间：<el-date-picker
             v-model="endTime"
             align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
+            type="datetime"
             style="margin-left:10px;
             width:200px
             margin-bottom:40px;"
             placeholder="请选择结束日期"
+            default-time="23:59:59"
             >
             </el-date-picker>
             <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
@@ -113,9 +112,9 @@
                      label="状态"
                      prop="isShow"
                      align="center">
-                      <template slot-scope="scope">
-                   {{scope.row.isShow | status}}
-                </template>
+                    <template slot-scope="scope">
+                        {{scope.row.isShow | status}}
+                    </template>
                </el-table-column>  
               <el-table-column
                      label="操作"
@@ -180,15 +179,32 @@ export default {
     },
     created(){
         this.gettablelist();
-
     },
     methods:{
+        //将中国标准时间转换为日期
+        changeTime(date){
+            console.log(date)
+            if(date != '' && date != null){
+                let y = date.getFullYear();
+                let m = date.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let minute = date.getMinutes();
+                minute = minute < 10 ? ('0' + minute) : minute;
+                let seconds = date.getSeconds();
+                seconds = seconds < 10 ? ('0' + seconds) : seconds;
+                return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
+            }
+        },
         //修改
         update(date){
             this.$router.push({ path: '/newsBulletin/addNews', query: { id: date.id } })
         },
         inquire(){
-                this.gettablelist()  
+            this.gettablelist()  
         },
         //获取表格数据
         gettablelist(){
@@ -196,8 +212,8 @@ export default {
              type:this.type,
              title:this.title,
              label:this.label,
-             endTime:this.endTime,
-             startTime:this.startTime,
+             endTime:this.changeTime(this.endTime),
+             startTime:this.changeTime(this.startTime),
              offset:this.page,
              pageSize:this.pageSize
            }

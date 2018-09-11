@@ -43,7 +43,7 @@
             <!-- <el-button type="primary" @click="showDailag(scope.row, 'modify')" icon="el-icon-edit"></el-button> -->
             <!-- <el-button type="danger" @click="deleteUser(scope.row.ID)" icon="el-icon-delete"></el-button> -->
 
-            <el-button type="primary" @click="addTicket(scope.row.ACCOUNT)" icon="el-icon-edit"></el-button>
+            <el-button type="primary" @click="addTicket(scope.row.ACCOUNT)">设置</el-button>
           </div>
         </template>
       </el-table-column>

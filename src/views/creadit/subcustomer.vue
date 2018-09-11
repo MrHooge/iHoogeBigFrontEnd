@@ -39,6 +39,7 @@
     <el-table :data="memberfilter"
               border
               style="width: 100%;">
+        <el-table-column type="index" align="center" label="编号"></el-table-column>
       <el-table-column prop="username"
                        label="会员昵称"
                        align="center">

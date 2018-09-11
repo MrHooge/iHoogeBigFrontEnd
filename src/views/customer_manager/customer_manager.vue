@@ -255,7 +255,7 @@
                                    </el-table>
                                    <el-button slot="reference" @click="wallet(scope.row,'modify')">钱包</el-button>
                                    </el-popover>
-                               <el-button type="warning" @click="runningwater">流水</el-button>
+                               <el-button type="warning" @click="runningwater(scope.row)">流水</el-button>
                                     <el-button type="warning" @click="showdiage">绑定银行</el-button>
                                 </el-dropdown-menu>
                                 </el-dropdown> 
@@ -404,22 +404,23 @@ export default {
             this.form.agentAccount = a.agentAccount || ''
         },
         xiugai(b){
-            if(b.ACCOUNT == '' || this.form.certNo == '' || this.form.name == '' || this.form.mobile == '' || this.form.agentAccount == ''){
-                this.$message('不能为空！')
-            }else{
+            // if(b.ACCOUNT === ''){
+            //     this.$message('账号不能为空！')
+            // }else{
                 let obj = {
                     account: b.ACCOUNT,
                     email: this.form.email,
-                    identifyId: this.form.certNo,
-                    realName: this.form.name,
-                    tel: this.form.mobile,
-                    upAccount: this.form.agentAccount
+                    identifyId: this.form.certNo || '',
+                    realName: this.form.name || '',
+                    tel: this.form.mobile || '',
+                    upAccount: this.form.agentAccount || ''
                 }
                 updateMemberInfoBack(obj).then(res => {
-                    this.$message('修改成功！')
+                    if(res.data.error_code === 200){
+                        this.$message('修改成功！')
+                    }
                 })
-            }
-            
+            // }
         },
         inquire(){
             this.page = 1
@@ -509,9 +510,14 @@ export default {
             })
         },
         //点击按钮跳到流水查询页面
-        runningwater(){
-           
-           this.$router.push('/detailsSearch/walletFlowquery')
+        runningwater(a){
+            console.log(a)
+           this.$router.push({
+               path: '/detailsSearch/walletFlowquery',
+                query: {
+                    account: a.ACCOUNT
+                }
+           })
         }
        
     }

@@ -41,7 +41,7 @@
                 align="center"
                 label="	发生时间">
                 <template slot-scope="scope">
-                    {{scope.row.CREATE_DATE_TIME}}
+                    {{scope.row.CREATE_DATE_TIME | time}}
                 </template>
             </el-table-column>
 
