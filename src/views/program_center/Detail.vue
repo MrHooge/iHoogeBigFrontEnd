@@ -91,7 +91,7 @@
                 <div class="right">{{ printTicketDateTime | time }}</div>
             </div>
             <div class="lei">
-                <div class="left">退款日期：</div>
+                <div class="left">退款或派奖日期：</div>
                 <div class="right"></div>
             </div>
             </div>
