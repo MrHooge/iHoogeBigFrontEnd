@@ -44,22 +44,20 @@
                        label="会员昵称"
                        align="center">
       </el-table-column>
-             <el-table-column prop="createTime"
-                       align="center"
-                       label="时间">
-      </el-table-column>
+      
+      
       <el-table-column prop="account"
-                       label="被加款人昵称"
+                       label="客户昵称"
                        align="center">
       </el-table-column>
 
       <el-table-column prop="amount"
-                       label="金额"
+                       label="加款金额"
                        align="center">
       </el-table-column>
 
       <el-table-column align="center"
-                       label="授信额度">
+                       label="代理总额度">
         <template slot-scope="scope">
           <div slot="reference"
                class="name-wrapper">
@@ -69,20 +67,22 @@
       </el-table-column>
       <el-table-column align="center"
                        prop="ableCreditBalance"
-                       label="可用授信额度">
+                       label="可用额度">
 
       </el-table-column>
       <el-table-column align="center"
                        prop="freezeCreditBalance"
-                       label="冻结授信额度">
+                       label="冻结还款">
 
       </el-table-column>
-
-
-      <!-- <el-table-column align="center"
-                       prop="agentAccount"
-                       label="操作人">
-      </el-table-column> -->
+      <el-table-column prop="agentAccount"
+                       label="加款人"
+                       align="center">
+      </el-table-column>
+      <el-table-column prop="createTime"
+                       align="center"
+                       label="时间">
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <el-pagination
@@ -93,6 +93,7 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
             >
             </el-pagination>
   </div>
@@ -109,7 +110,7 @@ export default {
   data() {
     return {
       input1: "",
-      total: 0, //分页数
+    //   total: 0, //分页数
       pages: 20,
       dialogVisible: false, //控制弹窗隐藏
       page:1,
@@ -118,6 +119,7 @@ export default {
       tableData: [], //表格数据
       stime:'',
       etime:'',
+      totalList: 0
  };
   },
   created() {
@@ -166,7 +168,9 @@ export default {
         console.log(res)
         if (res.status = 200) {
           this.tableData = res.data.data;
-          this.total = res.data.totalCount
+        //   this.total = res.data.totalCount
+          this.totalList = res.data.totalCount
+          console.log(this.totalList)
         }
       })
     },

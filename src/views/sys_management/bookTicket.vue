@@ -135,7 +135,11 @@ export default {
       addTicket(data){
           let account = data
           addTicketUser(account).then(res=>{
-              this.$message(res.data.message)
+              if(res.data.error_code === 200){
+                this.$message.success(res.data.message)
+              }else{
+                this.$message.error(res.data.message)
+              }
             //   if(res.data.error_code === 200){
             //       this.$message(res.data.message)
             //   }

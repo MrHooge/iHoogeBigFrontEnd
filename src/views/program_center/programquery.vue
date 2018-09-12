@@ -342,6 +342,7 @@ export default {
          let routeData = this.$router.resolve({ path: '/programCenter/Detail', query: {  planNo: parse.planNo } });
             window.open(routeData.href, '_blank');
         },
+        
         getval(){
             console.log(this.planStatus)
             this.gettable()

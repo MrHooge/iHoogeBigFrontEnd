@@ -299,7 +299,7 @@ export default {
             //     this.gd_rate1 = '0'
             // }
             // let arr =  []
-            console.log(this.checkList)
+            // console.log(this.checkList)
             if(this.checkList.length < 2){
                 this.$message.error('请选择两个！')
             }else{
@@ -309,9 +309,14 @@ export default {
                 // });
                 // this.value1 = arr[0]
                 // this.value2 = arr[1]
-                this.setRate()
+                if(this.gd_rate1 === '' || this.valueType1 === '' || this.startvalue1 === '' || this.endvalue1 === '' || this.gd_rate2 === '' || this.valueType2 === '' || this.endvalue2 === ''){
+                    console.log('dfdsfd')
+                    this.$message.error('请填完整！')
+                }
+                else{
+                    this.setRate()
+                }
             }
-            
         },
 
         //设置返点
