@@ -73,15 +73,15 @@
             </el-upload>
         </el-form-item><br />
         <el-form-item>
-            <el-button type="primary" @click="update">修改</el-button>
-            <el-button type="sendnews" @click="sendnews">发布</el-button>
+            <el-button type="primary" @click="update" v-show="xiugai">修改</el-button>
+            <el-button type="sendnews" @click="sendnews" v-show="fabu">发布</el-button>
         </el-form-item>
     </el-form>
-    <!-- <div class="quill">
+    <div class="quill">
         <h4>编辑内容</h4>
-        <quill-editor v-model="form.content" ref="myQuillEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)">
+        <quill-editor v-model="form.content" ref="myQuillEditor">
         </quill-editor>
-    </div> -->
+    </div>
     <el-dialog
         title="编辑"
         :visible.sync="dialogVisible"
@@ -97,9 +97,7 @@
                 </div>
             </el-col>
             <el-col :span="12">
-                <div class="grid-content bg-purple">
-                    
-                </div>
+                <div class="grid-content bg-purple"></div>
             </el-col>
             </el-row>
         </div>          
@@ -149,13 +147,18 @@ export default {
           summary:'',	
           title	:'',	
           type:'',
-        }
+        },
+        fabu: true,
+        xiugai: false,
     }
   },
-
   components: {},
   created(){
-    this.id = this.$route.query.id
+      if(this.$route.query.id){
+          this.xiugai = true
+          this.fabu = false
+          this.id = this.$route.query.id
+      }
     this.getupdatedata()
   },
   updated(){
