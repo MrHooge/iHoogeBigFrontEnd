@@ -144,7 +144,6 @@ export default {
             let s = date.getSeconds();
             s = s < 10 ? ('0' + s) : s;
             return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
         }
     },
     created(){

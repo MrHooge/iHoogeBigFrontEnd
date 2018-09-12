@@ -464,6 +464,7 @@ export default {
         wallet(data){
             let memberId = data.id;
             getMemberWalletByMemberId(memberId).then(res => {
+                console.log(res)
                  if (res.data.error_code === 200) {
                      Message.success('已显示')
                      } else {
@@ -471,7 +472,6 @@ export default {
                          }
             });
             this.getWallet()
-            
         },
         //获取钱包信息
         getWallet(){

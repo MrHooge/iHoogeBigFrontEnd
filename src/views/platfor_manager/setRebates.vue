@@ -59,11 +59,11 @@
 		           width='70%'
 		           :visible.sync="viewFormVisible">
 			<div style="display: flex;">
-				<span style="flex:1;">会员账号：{{onePeople.account}}</span>
+				<span style="flex:1;">会员账号：{{onePeople.ACCOUNT}}</span>
+                <span style="color:red;">注：竞彩足球和竞彩篮球一并勾选</span>
 			</div>
 			<!--   修改返点 -->
 			<div class="pierce">
-
 				<div>
 					<el-table :data="tableData3"
 					          border
@@ -72,7 +72,9 @@
 						<el-table-column label="代购返点"
 						                 align="center">
 							<template slot-scope="scope">
-								<el-input v-model="gd_rate"
+								<el-input v-model="gd_rate1"
+								          placeholder="请输入" style="margin-bottom:20px;"></el-input>
+                                <el-input v-model="gd_rate2"
 								          placeholder="请输入"></el-input>
 							</template>
 						</el-table-column>
@@ -81,7 +83,7 @@
 							<template slot-scope="scope">
 								<!-- <el-input v-model="hm_rate"
 								          placeholder="请输入"></el-input> -->
-													0
+												<span style="margin-bottom:20px;">0</span><br>0
 							</template>
 						</el-table-column>
 						<el-table-column label="彩种"
@@ -97,9 +99,8 @@
 									</el-option>
 								</el-select> -->
                                 <el-checkbox-group v-model="checkList">
-                                    <el-checkbox :label="item.label" v-for="item in options" :key="item.index"></el-checkbox>
-                                    <!-- <el-checkbox label="复选框 A"></el-checkbox>
-                                    <el-checkbox label="复选框 B"></el-checkbox> -->
+                                    <el-checkbox label="38" value="竞彩足球" style="margin-bottom:20px;">竞彩足球</el-checkbox><br>
+                                    <el-checkbox label="39" value="竞彩篮球">竞彩篮球</el-checkbox>
                                 </el-checkbox-group>
 							</template>
 						</el-table-column>
@@ -108,14 +109,15 @@
 						                 width="210px">
 							<template slot-scope="scope">
 								<div class="block">
-									<!-- <el-date-picker v-model="value1"
+                                    <el-date-picker v-model="startvalue1"
 									                type="datetime"
-									                format="yyyy-MM-dd hh:mm:ss"
-									                value-format="yyyy-MM-dd hh:mm:ss">
-									</el-date-picker> -->
-                                    <el-date-picker v-model="value1"
+									                value-format="yyyy-MM-dd HH:mm:ss"
+                                                    style="margin-bottom:20px;">
+									</el-date-picker>
+                                    <el-date-picker v-model="startvalue2"
 									                type="datetime"
-									                value-format="yyyy-MM-dd HH:mm:ss">
+									                value-format="yyyy-MM-dd HH:mm:ss"
+                                                    >
 									</el-date-picker>
 								</div>
 							</template>
@@ -125,7 +127,14 @@
 						                 width="210px">
 							<template slot-scope="scope">
 								<div class="block">
-									<el-date-picker v-model="value2"
+                                    <!-- 竞彩足球 -->
+									<el-date-picker v-model="endvalue1"
+									                type="datetime"
+									                value-format="yyyy-MM-dd HH:mm:ss"
+                                                    style="margin-bottom:20px;">
+									</el-date-picker>
+                                    <!-- 竞彩篮球 -->
+                                    <el-date-picker v-model="endvalue2"
 									                type="datetime"
 									                value-format="yyyy-MM-dd HH:mm:ss">
 									</el-date-picker>
@@ -135,7 +144,16 @@
 						<el-table-column label="返点类型"
 						                 align="center">
 							<template slot-scope="scope">
-								<el-select v-model="valueType"
+								<el-select v-model="valueType1"
+								           placeholder="请选择"
+                                           style="margin-bottom:20px;">
+									<el-option v-for="item in options2"
+									           :key="item.value"
+									           :label="item.label"
+									           :value="item.value">
+									</el-option>
+								</el-select>
+                                <el-select v-model="valueType2"
 								           placeholder="请选择">
 									<el-option v-for="item in options2"
 									           :key="item.value"
@@ -146,15 +164,14 @@
 							</template>
 						</el-table-column>
 					</el-table>
+                    
 				</div>
 			</div>
 			<div slot="footer"
 			     class="dialog-footer">
 				<el-button @click="clearForm">取 消</el-button>
-				<el-button type="primary"
-				           @click="submitInfos">设置返点</el-button>
+				<el-button type="primary" @click="submitInfos">设置返点</el-button>
 			</div>
-
 		</el-dialog>
 	</div>
 </template>
@@ -179,22 +196,26 @@ export default {
 			total: 0,
 			// account: '',
 			member_id: '',
-			gd_rate: '', //  代购返点
+            gd_rate1: '', //  竞彩足球的代购返点
+			gd_rate2: '', //  竞彩篮球代购返点
 			hm_rate: '', // 合买返点
 			startDate: '',  // 返点开始
 			endDate: '',  // 返点结束
 			remark: '',  //  返点类型
 			lotteryType: '', //  彩种
-			value1: '',   //存储点位开始时间
-			value2: '',   //存储点位结束时间
-			options: [{
-				value: '38',
-				label: '竞彩足球'
-			}, {
-				value: '39',
-				label: '竞彩篮球'
-			}],
-			value: '',   //存储需要修改的彩种
+            startvalue1: '',   //存储竞彩足球的点位开始时间
+            startvalue2: '',   //存储竞彩篮球的点位开始时间
+			endvalue1: '',   //存储竞彩足球点位结束时间
+			endvalue2: '',   //存储竞彩篮球点位结束时间
+			// options: [{
+			// 	value: '38',
+			// 	label: '竞彩足球'
+			// }, {
+			// 	value: '39',
+			// 	label: '竞彩篮球'
+			// }],
+            value1: '',   //存储需要修改的竞彩足球的彩种
+            value2: '',   //存储需要修改的竞彩篮球的彩种
 			options2: [{
 				value: '0',
 				label: '非返点'
@@ -208,7 +229,8 @@ export default {
 				value: '3',
 				label: '返点加奖'
 			}],
-			valueType: '',
+            valueType1: '',  //竞彩足球的返点类型
+			valueType2: '',  //竞彩篮球的返点类型
             rateParams: [],
             checkList: [],
 		}
@@ -245,25 +267,80 @@ export default {
 		},
 		submitInfos() {  // 确定按钮
             // console.log(this.value)
-            let arr =  []
+            // let arr =  []
             
-            if(this.checkList.length > 1){
-                this.checkList.forEach(e => {
-                    arr.push(e) 
-                });
-                this.value = arr.join(',')    //当选择多个时
+            // if(this.checkList.length > 1){
+            //     this.checkList.forEach(e => {
+            //         arr.push(e) 
+            //     });
+            //     this.value = arr.join(',')    //当选择多个时
+            // }else{
+            //     this.value = this.checkList[0]  //当只选择一个时
+            // }
+            // let arr =  []
+            // console.log(this.checkList)
+            // if(this.checkList.length > 1){
+            //     this.checkList.forEach(e => {
+            //         arr.push(e)
+            //         console.log(e)
+            //     });
+            //     this.value1 = arr[0]
+            //     this.value2 = arr[1]
+            //     // this.value = arr.join(',')    //当选择多个时
+            // }else if(this.checkList[0] === '38'){
+            //     console.log('111')
+            //     this.value1 = this.checkList[0]  //当只选择一个时(竞彩足球)
+            //     this.value2 = '39'
+            //     this.gd_rate2 = '0'
+            // }else if(this.checkList[0] === '39'){
+            //     console.log('222')
+            //     this.value1 = '38'
+            //     this.value2 = this.checkList[0]  //当只选择一个时(竞彩篮球)
+            //     this.gd_rate1 = '0'
+            // }
+            // let arr =  []
+            // console.log(this.checkList)
+            if(this.checkList.length < 2){
+                this.$message.error('请选择两个！')
             }else{
-                this.value = this.checkList[0]  //当只选择一个时
+                // this.checkList.forEach(e => {
+                //     arr.push(e)
+                //     console.log(e)
+                // });
+                // this.value1 = arr[0]
+                // this.value2 = arr[1]
+                if(this.gd_rate1 === '' || this.valueType1 === '' || this.startvalue1 === '' || this.endvalue1 === '' || this.gd_rate2 === '' || this.valueType2 === '' || this.endvalue2 === ''){
+                    console.log('dfdsfd')
+                    this.$message.error('请填完整！')
+                }
+                else{
+                    this.setRate()
+                }
             }
-			let obj = {
-				lotteryType: this.value,
-				dg_rate: this.gd_rate, //  代购返点
+        },
+
+        //设置返点
+        setRate(){
+            //竞彩足球
+			let obj1 = {
+				lotteryType: '38',
+				dg_rate: this.gd_rate1, //  代购返点
 				hm_rate: '0', // 合买返点  
-				remark: this.valueType,  //  返点类型
-				startDate: this.value1,// 返点开始
-				endDate: this.value2,// 返点结束
-			}
-			this.rateParams.push(obj)
+				remark: this.valueType1,  //  返点类型
+				startDate: this.startvalue1,// 返点开始
+				endDate: this.endvalue1,// 返点结束
+            }
+            // 竞彩篮球
+            let obj2 = {
+				lotteryType: '39',
+				dg_rate: this.gd_rate2, //  代购返点
+				hm_rate: '0', // 合买返点  
+				remark: this.valueType2,  //  返点类型
+				startDate: this.startvalue2,// 返点开始
+				endDate: this.endvalue2,// 返点结束
+            }
+            this.rateParams.push(obj1)
+            this.rateParams.push(obj2)
 			let account = this.onePeople.ACCOUNT
 			setRate(account, JSON.stringify(this.rateParams)).then(res => {
 				if(res.data.error_code==200) {
@@ -276,7 +353,8 @@ export default {
 					this.tableData3 = []
 				}
 			})
-		},
+        },
+        
 		// 分页的回调
 		changepage(val) {
 			this.getTable(val,this.sjname)

@@ -2,6 +2,7 @@
     <div class="gift">
         <div>
          账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+         昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
           开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -34,7 +35,7 @@
                label="编号">
                </el-table-column>
                <el-table-column
-                     label="	用户账号"
+                     label="用户账号"
                      prop="account"
                      align="center">    
                </el-table-column>
@@ -57,12 +58,10 @@
                     {{scope.row.deadline_time | time}}
                      </template>
                </el-table-column>    
-                 <el-table-column
-                     label="满额度使用"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.full_amount | time}}
-                </template>
+                <el-table-column
+                    prop="full_amount"
+                    label="满额度使用"
+                    align="center">
                </el-table-column>
                <el-table-column
                      label="金额"
@@ -78,7 +77,7 @@
                </el-table-column> 
                <el-table-column
                      label="状态"
-                     align="status">
+                     align="center">
                      <template slot-scope="scope">
                     {{scope.row.status | studio}}
                 </template>
@@ -92,18 +91,35 @@
                </el-table-column>
             </el-table>
         </div>
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            style="margin-top:40px"
+            >
+            </el-pagination>
     </div>
 </template>
 
 <script>
 import { findGoldCard } from '@/api/activity'
+import { findAllMember} from '@/api/customer'
 export default {
     data(){
         return{
             tableData:[],
             account:'',
             etime:'',
-            stime:''
+            stime:'',
+            page: 1,
+            pageSize: 20,
+            totalList: 0,
+            username: "",   //查询输入的昵称
         }
     },
     filters:{
@@ -146,29 +162,67 @@ export default {
         this.getTdable()
     },
     methods:{
+        //点击查询按钮调用
         inquire(){
-            if(this.account == ''){
-                this.$message('请输入账号')
-            }else if(this.stime == ''){
-                this.$message('请输入开始时间')
-            }else if(this.etime == ''){
-                this.$message('请输入结束时间')
-            }else{
+            // if(this.account == ''){
+            //     this.$message('请输入账号')
+            // }else if(this.stime == ''){
+            //     this.$message('请输入开始时间')
+            // }else if(this.etime == ''){
+            //     this.$message('请输入结束时间')
+            // }else{
+            //     this.getTdable()
+            // }
+            if (!this.account && !this.username) {
+                // this.$message("请输入您要查询的账号或昵称！")
                 this.getTdable()
+			} else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    this.getTdable()
+                }
+			}
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
             }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.getTdable()
+            })
         },
         getTdable(){
             let obj = {
-                account:this.account,
-                endTime:this.etime,
-                startTime:this.stime
+                account: this.account,
+                endTime: this.etime,
+                startTime: this.stime,
+                page: this.page,
+                pageSize: this.pageSize,
             }
             findGoldCard(obj)
             .then(res => {
-                // console.log(res.data.data)
-                this.tableData = res.data.data.list
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message(res.data.message)
+                }
             })
-        }
+        },
+        //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.inquire()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.inquire()
+        },
     }
 }
 </script>

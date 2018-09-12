@@ -3,7 +3,7 @@
         <div class="search">
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            方案编号:<el-input v-model="planNo" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            方案编号:<el-input v-model="planNo" placeholder="请输入方案编号" style="width: 130px;margin-right:30px;margin-bottom:20px;margin-top:40px"></el-input>
             发单金额:<el-input v-model="startAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
             税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             方案状态：<el-select v-model="planStatus"
@@ -62,7 +62,7 @@
              预测奖金：<el-input v-model="minBonus" placeholder="请输入奖金最小值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至
              <el-input v-model="maxBonus" placeholder="请输入奖金最大值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
-            <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button>
+            <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
@@ -115,6 +115,7 @@
                 <template slot-scope="scope">
                     <span v-if="scope.row.planStatus === '未支付' || scope.row.planStatus === '未出票作废'" style="color: #409eff;">{{scope.row.planStatus}}</span>
                     <span v-else-if="scope.row.planStatus === '出票中'" style="color: #ff0134;">{{scope.row.planStatus}}</span>
+                    <span v-else-if="scope.row.planStatus === '已出票'" style="color: green;">{{scope.row.planStatus}}</span>
                     <span v-else>{{scope.row.planStatus}}</span>
                 </template>
             </el-table-column>
@@ -134,7 +135,12 @@
                 align="center"
                 label="	玩法">           
             </el-table-column>
-
+            
+            <el-table-column
+                prop="addPrize"
+                align="center"
+                label="	嘉奖">           
+            </el-table-column>
             <el-table-column
                 prop="winStatus"
                 align="center"
@@ -336,6 +342,7 @@ export default {
          let routeData = this.$router.resolve({ path: '/programCenter/Detail', query: {  planNo: parse.planNo } });
             window.open(routeData.href, '_blank');
         },
+        
         getval(){
             console.log(this.planStatus)
             this.gettable()
