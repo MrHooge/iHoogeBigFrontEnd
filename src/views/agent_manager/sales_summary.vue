@@ -124,14 +124,8 @@ export default {
       end_date: '',
       datetime: '', // 获取的日期和时间
       newarr: [],
-<<<<<<< HEAD
-      total: 0,
-      roleId: getCookies('roleId'),
-      qudaoShow: true,
-=======
       totalList: 0,
       istrue: false,
->>>>>>> robin03
     }
   },
   created() {
