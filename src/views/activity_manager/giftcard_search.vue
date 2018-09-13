@@ -3,6 +3,7 @@
         <div>
          账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
          昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+         
           开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -22,6 +23,18 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
+            <el-select v-model="status"
+			           placeholder="请选择状态筛选数据"
+			           @change="filter"
+                       style="width:11%">
+				<el-option v-for="item in options"
+				           :key="item.status"
+				           :label="item.label"
+				           :value="item.status"
+                           >
+				</el-option>
+               
+			</el-select>
              <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
         <div>
@@ -120,6 +133,12 @@ export default {
             pageSize: 20,
             totalList: 0,
             username: "",   //查询输入的昵称
+            status: "",   //彩金卡状态
+            options: [
+				{ status: "0", label: "未使用" },
+				{ status: "1", label: "已使用" },
+                { status: "2", label: "已过期" },
+            ],
         }
     },
     filters:{
@@ -149,11 +168,11 @@ export default {
             }
         },
          studio(s){
-            if(s == 0){
+            if(s === 0){
                 return "未使用"
-            }else if(s == 1){
+            }else if(s === 1){
                 return "已使用"
-            }else{
+            }else if(s === 2){
                 return "已过期	"
             }
         }
@@ -162,6 +181,10 @@ export default {
         this.getTdable()
     },
     methods:{
+        filter(){
+            this.page = 1
+            this.inquire()
+        },
         //点击查询按钮调用
         inquire(){
             // if(this.account == ''){
@@ -202,6 +225,7 @@ export default {
                 startTime: this.stime,
                 page: this.page,
                 pageSize: this.pageSize,
+                status: this.status
             }
             findGoldCard(obj)
             .then(res => {

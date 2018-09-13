@@ -498,6 +498,24 @@ export const constantRouterMap = [{
           title: '轮播图管理'
         }
       },
+      {
+        path: 'redpackage',
+        name: '红包记录',
+        component: () =>
+          import ('@/views/activity_manager/redpackage'),
+        meta: {
+          title: '红包记录'
+        }
+      },
+      {
+        path: 'pushRed',
+        name: '平台发红包',
+        component: () =>
+          import ('@/views/activity_manager/pushRed'),
+        meta: {
+          title: '平台发红包'
+        }
+      },
 
     ]
   },

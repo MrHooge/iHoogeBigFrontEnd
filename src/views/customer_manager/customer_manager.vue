@@ -33,35 +33,35 @@
 
         </div>
         <!-- 绑定银行卡信息 -->
-        <template>
+        <!-- <template>
              <el-dialog :visible.sync="dialogFormVisible">
-                <el-form :model="form">
+                <el-form :model="bankInfos">
                     <el-form-item label="账号" prop="account">
-                        <el-input v-model="form.account" auto-complete="off"></el-input>
+                        <el-input v-model="bankInfos.account" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="银行" prop="bank">
-                        <el-input v-model="form.bank" auto-complete="off"></el-input>
+                        <el-input v-model="bankInfos.bank" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="卡号" prop="bankCard">
-                        <el-input v-model="form.bankCard" auto-complete="off"></el-input>
+                        <el-input v-model="bankInfos.bankCard" auto-complete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="支行" prop="bankPart">
-                        <el-input v-model="form.bankPart" auto-complete="off"></el-input>
+                    <el-form-item label="开户地区" prop="bankPart">
+                        <el-input v-model="bankInfos.bankPart" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="身份证号" prop="certNo">
-                        <el-input v-model="form.certNo" auto-complete="off"></el-input>
+                        <el-input v-model="bankInfos.certNo" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="开户城市" prop="city">
-                        <el-input v-model="form.city" auto-complete="off"></el-input>
+                        <el-input v-model="bankInfos.city" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="开户省份" prop="province">
-                        <el-input v-model="form.province" auto-complete="off"></el-input>
+                        <el-input v-model="bankInfos.province" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="真实姓名" prop="name">
-                        <el-input v-model="form.name" auto-complete="off"></el-input>
+                        <el-input v-model="bankInfos.name" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="支付宝账号" prop="zfbAccount">
-                        <el-input v-model="form.zfbAccount" auto-complete="off"></el-input>
+                        <el-input v-model="bankInfos.zfbAccount" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="提款方式" prop="bank_type">
                         <el-radio-group v-model="bank_type">
@@ -75,7 +75,7 @@
                     <el-button type="primary" @click="bankbinding">确 定</el-button>
                 </div>
             </el-dialog>
-        </template>
+        </template> -->
         <div class="show_data">
             <el-table
                :data="tableData"
@@ -86,17 +86,6 @@
                align="center"
                label="编号">
                </el-table-column>
-               <!-- <el-table-column
-                     label="id"
-                     prop="id"
-                     align="center">
-               </el-table-column>   -->
-               <!-- <el-table-column
-                     label="账号"
-                     prop="account"
-                     align="center">
-                     
-               </el-table-column> -->
                 <el-table-column
                      label="昵称"
                      align="center">
@@ -125,28 +114,6 @@
                     {{scope.row.lastLoginDateTime}}
                 </template>
                 </el-table-column>
-                <!-- <el-table-column
-                     label="名片"
-                     prop="CARD"
-                     align="center">
-                </el-table-column> -->
-               <!-- <el-table-column
-                     label="证件号"
-                     prop="certNo"
-                     align="center"> 
-               </el-table-column> -->
-                <!-- <el-table-column
-                     label="证件类型"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.CERT_TYPE | type}}
-                </template>
-                </el-table-column> -->
-               <!-- <el-table-column
-                     label="邮箱"
-                     prop="email"
-                     align="center">
-               </el-table-column> -->
                 <el-table-column
                      label="是否充值"
                      align="center">
@@ -161,19 +128,6 @@
                          {{scope.row.isWhitelist | white}}
                     </template>
                 </el-table-column>
-               <!-- <el-table-column
-                     label="手机"
-                     prop="mobile"
-                     align="center">
-               </el-table-column> -->
-               <!-- <el-table-column
-                     label="头像·"
-                     prop="picture"
-                     align="center">
-                     <template slot-scope="scope">
-                         <img :src="scope.row.picture" >
-                     </template>
-               </el-table-column> -->
                <el-table-column
                      label="状态"
                      align="center">
@@ -191,75 +145,89 @@
                <el-table-column
                      label="操作"
                      align="center">
-
-                   <template slot-scope="scope">
-                       <el-dropdown trigger="click">
-                           <el-button type="primary" style="width:70px">操作<i class="el-icon-arrow-down el-icon--right"></i>
-                           </el-button>
-                           <el-dropdown-menu slot="dropdown">
-                               <el-popover
-                               placement="right"
-                               width="400"
-                               trigger="click">
-                              <el-form :model="form">
-                                   <!-- <el-form-item label="昵称">
-                                        <el-input v-model="form.username" auto-complete="off" style="width:60%">                                        
-                                                {{scope.row.username}}
-                                        </el-input>
-                                    </el-form-item> -->
-                                    <el-form-item label="真实姓名">
-                                         <el-input v-model="form.name" auto-complete="off" style="width:60%"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="邮箱">
-                                         <el-input v-model="form.email" auto-complete="off" style="width:60%"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="联系电话">
-                                        <el-input v-model="form.mobile" auto-complete="off" style="width:60%"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="身份证">
-                                         <el-input v-model="form.certNo" auto-complete="off" style="width:60%"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="上级用户名">
-                                         <el-input v-model="form.agentAccount" auto-complete="off" style="width:60%"></el-input>
-                                    </el-form-item>
-                                    <!-- <el-form-item label="会员类型">
-                                         <el-input v-model="form.type" auto-complete="off" style="width:60%"></el-input>
-                                    </el-form-item> -->
-                                    <!-- <el-form-item label="提款方式" prop="bank_type">
-                                        <el-radio-group v-model="bank_type">
-                                        <el-radio label="银行提款"></el-radio>
-                                        <el-radio label="支付宝"></el-radio>
-                                        </el-radio-group>
-                                    </el-form-item> -->
-                                        <!-- <el-button type="primary" @click="updatesure">确 定</el-button> -->
+                    <template slot-scope="scope">
+                        <el-dropdown trigger="click">
+                            <el-button type="primary" style="width:70px">操作<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-popover
+                                placement="right"
+                                width="400"
+                                trigger="click">
+                                    <el-form :model="form">
+                                        <el-form-item label="真实姓名">
+                                                <el-input v-model="form.name" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="邮箱">
+                                                <el-input v-model="form.email" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="联系电话">
+                                            <el-input v-model="form.mobile" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="身份证">
+                                                <el-input v-model="form.certNo" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="上级用户名">
+                                                <el-input v-model="form.agentAccount" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
                                         <el-button type="primary" @click="xiugai(scope.row)">确 定</el-button>
-
                                     </el-form>
-                                   <!-- <el-button slot="reference" @click="updatemessage">修改</el-button> -->
-                                        <el-button slot="reference" @click="xiugaiKuang(scope.row)">修改</el-button>
-                                   </el-popover>
-                                   <el-popover
-                               placement="right"
-                               width="1300"
-                               trigger="click">
-                               <el-table :data="walletData">
-                                   <el-table-column width="150" property="ableBalance" label="可用金额"></el-table-column>
-                                   <el-table-column width="150" property="account" label="用户名"></el-table-column>  
-                                   <el-table-column width="150" property="freezeBalance" label="冻结金额"></el-table-column>  
-                                   <el-table-column width="150" property="heapBalance" label="历史消费金额"></el-table-column>                                    
-                                   <el-table-column width="150" property="heapPrize" label="历史中奖金额"></el-table-column>  
-                                   <!-- <el-table-column width="150" property="memberId" label="	会员id"></el-table-column> -->
-                                   <el-table-column width="150" property="prizeBalance" label="	奖金账户"></el-table-column>
-                                   <el-table-column width="150" property="takeCashQuota" label="提现配额"></el-table-column>
-                                   <el-table-column width="150" property="walletType" label="钱包类型"></el-table-column>  
-                                   </el-table>
-                                   <el-button slot="reference" @click="wallet(scope.row,'modify')">钱包</el-button>
-                                   </el-popover>
-                               <el-button type="warning" @click="runningwater(scope.row)">流水</el-button>
-                                    <el-button type="warning" @click="showdiage">绑定银行</el-button>
-                                </el-dropdown-menu>
-                                </el-dropdown> 
-                   </template>
+                                <el-button slot="reference" @click="xiugaiKuang(scope.row)">修改</el-button>
+                                </el-popover>
+                                <el-popover
+                                placement="right"
+                                width="1300"
+                                trigger="click">
+                                <el-form :v-model="walletData">
+                                    <el-form-item label="可用金额">
+                                            <el-input v-model="walletData.ableBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="用户名">
+                                            <el-input v-model="walletData.account" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="冻结金额">
+                                            <el-input v-model="walletData.freezeBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="历史消费金额">
+                                            <el-input v-model="walletData.heapBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="历史中奖金额">
+                                            <el-input v-model="walletData.heapPrize" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="奖金账户">
+                                            <el-input v-model="walletData.prizeBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="可提现额度">
+                                            <el-input v-model="walletData.takeCashQuota" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                </el-form>
+                                <el-button slot="reference" @click="wallet(scope.row)">钱包</el-button>
+                                </el-popover>
+                                <el-popover
+                                placement="right"
+                                width="1300"
+                                trigger="click">
+                                <el-form :v-model="bankInfos">
+                                    <el-form-item label="账号">
+                                            <el-input v-model="bankInfos.account" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="银行">
+                                            <el-input v-model="bankInfos.bank" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="银行卡号">
+                                            <el-input v-model="bankInfos.bankCard" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="开户地区">
+                                            <el-input v-model="bankInfos.bankPart" auto-complete="off" style="width:60%"></el-input>
+                                        </el-form-item>
+                                </el-form>
+                                <el-button type="warning" @click="bank(scope.row)" slot="reference">绑定银行</el-button>
+                                </el-popover>
+                                
+                                <el-button type="warning" @click="runningwater(scope.row)">流水</el-button>
+                                <!-- <el-button type="warning" @click="bank(scope.row)">绑定银行</el-button> -->
+                            </el-dropdown-menu>
+                        </el-dropdown> 
+                    </template>
                </el-table-column> 
             </el-table>
             <div class="page">
@@ -281,14 +249,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { findAllMember,memberToWrite,getMemberWalletByMemberId,getMemberWallet,bind,updateMemberInfoBack} from '@/api/customer'
+import { findAllMember,memberToWrite,getMemberWalletByMemberId,getMemberInfoBack,getMemberWallet,bind,updateMemberInfoBack} from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 import { getCookies } from '@/utils/cookies'
 export default {
     data(){
         return {
             tableData:[],
-            walletData:[],
+            walletData:[],   //存储钱包数据信息
+            bankInfos: [],  //存储银行数据信息
             dialogFormVisible: false,
             account:'',
             name:'',
@@ -300,15 +269,15 @@ export default {
             visible2: false,
             //操作里的数据
             form:{
-                bank:'',
-                bankCard:'',
-                bankPart:'',
-                certNo:'',
-                city:'',
-                province:'',
-                zfbAccount:'',
+                // bank:'',
+                // bankCard:'',
+                // bankPart:'',
+                // certNo:'',
+                // city:'',
+                // province:'',
+                // zfbAccount:'',
 
-                //操作的修改
+                //操作的修改框中的数据
                 username: '',   //昵称
                 name: '',     //真实姓名
                 email: '',    //邮箱
@@ -328,6 +297,7 @@ export default {
             pageSize: 20,
             start_time: '',  //开始时间
             username: '',   //昵称
+            zhanghao: '',   //通过这个账号查询银行信息
         }
     },
 //     props: {
@@ -350,18 +320,18 @@ export default {
             return a === 0 ? '是' : '否'
         },
         type(cert){
-            return cert == 1? "身份证" : ""
+            return cert === 1? "身份证" : ""
         },
         white(whitest){
-            return whitest ==1?"否" : "是"
+            return whitest === 1? "否" : "是"
         },
         use(a){
-            return a == 0 ? "可用"  : ""
+            return a === 0 ? "可用"  : ""
         },
         status(studio){
-            if(studio==0){
+            if(studio === 0){
                 return "普通会员"
-            }else if(studio==1){
+            }else if(studio === 1){
                 return "彩妍人员"
             }else{
                 return "机器人"
@@ -404,23 +374,19 @@ export default {
             this.form.agentAccount = a.agentAccount || ''
         },
         xiugai(b){
-            // if(b.ACCOUNT === ''){
-            //     this.$message('账号不能为空！')
-            // }else{
-                let obj = {
-                    account: b.ACCOUNT,
-                    email: this.form.email,
-                    identifyId: this.form.certNo || '',
-                    realName: this.form.name || '',
-                    tel: this.form.mobile || '',
-                    upAccount: this.form.agentAccount || ''
+            let obj = {
+                account: b.ACCOUNT,
+                email: this.form.email,
+                identifyId: this.form.certNo || '',
+                realName: this.form.name || '',
+                tel: this.form.mobile || '',
+                upAccount: this.form.agentAccount || ''
+            }
+            updateMemberInfoBack(obj).then(res => {
+                if(res.data.error_code === 200){
+                    this.$message('修改成功！')
                 }
-                updateMemberInfoBack(obj).then(res => {
-                    if(res.data.error_code === 200){
-                        this.$message('修改成功！')
-                    }
-                })
-            // }
+            })
         },
         inquire(){
             this.page = 1
@@ -441,11 +407,12 @@ export default {
                 identifyId: this.idcard,
             }
             findAllMember(obj).then(res => {
-                console.log(res)
-                this.tableData = res.data.data.list
-                this.totalList = res.data.data.total
-                console.log(this.totalList)
-                
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    Message.error(res.data.message)
+                }
             }).catch(error => {
                 Message.error(error)
             })
@@ -460,33 +427,46 @@ export default {
             this.pageSize = num;
             this.gettablelist()
         },
-        //钱包
+        //通过id获取钱包信息
         wallet(data){
             let memberId = data.id;
             getMemberWalletByMemberId(memberId).then(res => {
-                console.log(res)
-                 if (res.data.error_code === 200) {
-                     Message.success('已显示')
-                     } else {
-                         Message.error(res.data.message)
-                         }
+                if (res.status === 200) {
+                    this.walletData = res.data.data
+                    console.log(this.walletData)
+                }
             });
-            this.getWallet()
         },
+        //点击打开银行信息展示框
+        // showdiage(data){
+        //     this.zhanghao = data.ACCOUNT
+        //     console.log(data)
+        //     this.dialogFormVisible = true
+        //     console.log(this.zhanghao)
+        //     this.bank()
+        // },
+        //通过账号获取绑定银行信息
+        bank(data){
+            console.log(data)
+            this.zhanghao = data.ACCOUNT
+            getMemberInfoBack(this.zhanghao).then(res => {
+                console.log(res.data.data)
+                this.bankInfos = res.data.data
+            });
+        },
+        
         //获取钱包信息
-        getWallet(){
-            let token = getCookies('token');
-            getMemberWallet(token).then(res => {
-                console.log(123);
-                console.log(res.data);
-                this.walletData = res.data.data
-            }).catch(error => {
-                Message.error(error)
-            })
-        },
-        showdiage(){
-            this.dialogFormVisible = true
-        },
+        // getWallet(){
+        //     let token = getCookies('token');
+        //     getMemberWallet(token).then(res => {
+        //         console.log(123);
+        //         console.log(res.data);
+        //         this.walletData = res.data.data
+        //     }).catch(error => {
+        //         Message.error(error)
+        //     })
+        // },
+        
         //绑定银行确认
         bankbinding(){
             let bankfrom = {

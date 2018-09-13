@@ -102,6 +102,16 @@ export function getMemberWalletByMemberId(memberId){
         }
     })
 }
+//通过账号查询银行信息
+export function getMemberInfoBack(account){
+    return request.member({
+        url:'/user/getMemberInfoBack',
+        method:'get',
+        params:{
+            account
+        }
+    })
+}
 //获取钱包信息
 export function getMemberWallet(token){
     return request.member({

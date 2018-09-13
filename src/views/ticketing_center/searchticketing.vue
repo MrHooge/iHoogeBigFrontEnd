@@ -265,12 +265,18 @@
                      prop="amount"
                      align="center">
                </el-table-column>  
-                
-               <el-table-column
+                <el-table-column
                      label="中奖状态"
                      align="center">
                      <template slot-scope="scope">
-                         {{scope.row.isBingo | white}}
+                         {{scope.row.isBingo | isBingo}}
+                         </template>
+               </el-table-column>
+               <el-table-column
+                     label="方案状态"
+                     align="center">
+                     <template slot-scope="scope">
+                         {{scope.row.winStatus | white}}
                          </template>
                </el-table-column>
                <el-table-column
@@ -438,11 +444,33 @@ export default {
                 return "其他"
             }
         },
+        isBingo(isBingo){
+            return isBingo === 1 ? '未中奖' : '已中奖'
+        },
         white(status){
-            if(status == 1){
+            if(status === 1){
+                return "未开奖"
+            }
+            else if(status === 2){
                 return "未中奖"
-            }else{
-                return "中奖"
+            }
+            else if(status === 3){
+                return "已中奖"
+            }
+            else if(status === 4){
+                return "已派奖"
+            }
+            else if(status === 5){
+                return "部分未中"
+            }
+            else if(status === 6){
+                return "部分已中"
+            }
+            else if(status === 7){
+                return "部分派奖"
+            }
+            else if(status === 11){
+                return "已退款"
             }
         },
         use(studio){

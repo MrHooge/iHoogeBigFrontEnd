@@ -83,7 +83,7 @@
         label="操作"
         align="center">
          <template slot-scope="scope">
-            <el-button type="primary" @click="modify(scope.row,'modify')">修改</el-button>
+            <el-button type="primary" @click="modify(scope.row)">修改</el-button>
           </template>
       </el-table-column>
     </el-table>
@@ -178,6 +178,11 @@ export default {
         modify(data){
             this.dialogFormVisible = true;
             this.form.id = data.id
+            this.form.baseBigOrSmall = data.bigOrSmall
+            this.form.guestScore = data.guestScore
+            this.form.homeScore = data.homeScore
+            this.form.rf = data.rf
+            this.form.status = data.status.toString()
         },
         //确认修改
         submitInfos(){

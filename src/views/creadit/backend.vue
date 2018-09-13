@@ -136,19 +136,22 @@ export default {
 			getCreditMember(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					this.tableData = res.data.data.list
-					this.total = res.data.data.total;
-					let total = 0;
-					let free = 0;
-					this.tableData.forEach(e => {
-						// 全部可用金额
-						total += e.ableCreditBalance
-						// 全部冻结金额
-						free += e.freezeCreditBalance
-						this.totalMoney = total
-						this.totalFree = free
-						// console.log(e)
-					})
+                    if(res.data.data.list){
+                        this.tableData = res.data.data.list
+                        this.total = res.data.data.total;
+                        let total = 0;
+                        let free = 0;
+                        this.tableData.forEach(e => {
+                            // 全部可用金额
+                            total += e.ableCreditBalance
+                            // 全部冻结金额
+                            free += e.freezeCreditBalance
+                            this.totalMoney = total
+                            this.totalFree = free
+                            // console.log(e)
+                        })
+                    }
+					
 				}
 			})
 		},

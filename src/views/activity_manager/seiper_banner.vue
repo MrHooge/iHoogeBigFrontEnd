@@ -415,7 +415,7 @@ export default {
 			}
 			findAllBanner(obj).then(res => {
 				console.log(res)
-				if (res.data.error_code == 200) {
+				if (res.data.error_code === 200) {
 					this.tableData = res.data.data.list;
 					this.total = res.data.data.total
 				}
