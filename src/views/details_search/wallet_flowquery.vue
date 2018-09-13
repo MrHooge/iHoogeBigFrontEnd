@@ -22,8 +22,9 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
+            
             <el-select v-model="child_type"
-			           placeholder="请选择状态筛选数据"
+			           placeholder="请选择筛选数据"
 			           @change="filter"
                        style="width:11%">
 				<el-option v-for="item in options1"
@@ -34,7 +35,79 @@
 				</el-option>
                
 			</el-select>
-            <el-select v-model="type"
+            <el-select v-model="child_type"
+			           placeholder="请选择筛选数据"
+			           @change="filter"
+                       style="width:11%">
+				<el-option v-for="item in options2"
+				           :key="item.child_type"
+				           :label="item.label"
+				           :value="item.child_type"
+                           >
+				</el-option>
+               
+			</el-select>
+            <el-select v-model="child_type"
+			           placeholder="请选择筛选数据"
+			           @change="filter"
+                       style="width:11%">
+				<el-option v-for="item in options3"
+				           :key="item.child_type"
+				           :label="item.label"
+				           :value="item.child_type"
+                           >
+				</el-option>
+               
+			</el-select>
+            <el-select v-model="child_type"
+			           placeholder="请选择筛选数据"
+			           @change="filter"
+                       style="width:11%">
+				<el-option v-for="item in options4"
+				           :key="item.child_type"
+				           :label="item.label"
+				           :value="item.child_type"
+                           >
+				</el-option>
+               
+			</el-select>
+            <el-select v-model="child_type"
+			           placeholder="请选择筛选数据"
+			           @change="filter"
+                       style="width:11%">
+				<el-option v-for="item in options5"
+				           :key="item.child_type"
+				           :label="item.label"
+				           :value="item.child_type"
+                           >
+				</el-option>
+               
+			</el-select>
+            <el-select v-model="child_type"
+			           placeholder="请选择筛选数据"
+			           @change="filter"
+                       style="width:11%">
+				<el-option v-for="item in options6"
+				           :key="item.child_type"
+				           :label="item.label"
+				           :value="item.child_type"
+                           >
+				</el-option>
+               
+			</el-select>
+            <el-select v-model="child_type"
+			           placeholder="请选择筛选数据"
+			           @change="filter"
+                       style="width:18%">
+				<el-option v-for="item in options7"
+				           :key="item.child_type"
+				           :label="item.label"
+				           :value="item.child_type"
+                           >
+				</el-option>
+               
+			</el-select>
+            <!-- <el-select v-model="type"
 			           placeholder="请选择状态筛选数据"
 			           @change="filter"
                        style="width:11%">
@@ -45,10 +118,7 @@
                            >
 				</el-option>
                
-			</el-select>
-            <!-- <el-radio v-model="child_type" label="41" border>发红包</el-radio>
-            <el-radio v-model="child_type" label="42" border>抢红包</el-radio>
-            <el-radio v-model="child_type" label="43" border>退还红包</el-radio> -->
+			</el-select> -->
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
         <div class="tablelist">
@@ -162,29 +232,93 @@ export default {
             totalList: 0,
             username: '',   //输入查询的昵称
             type: '',   //显示类型
-
             options1: [
+				{ child_type: "1", label: "赠送" },
+				{ child_type: "-1001", label: "彩金扣除" },
+                { child_type: "1001", label: "注册赠送" },
+                { child_type: "1002", label: "充值赠送" },
+                { child_type: "1003", label: "彩金卡赠送" },
+                { child_type: "1004", label: "消费赠送" },
+                { child_type: "1010", label: "合买发单赠送" },
+                { child_type: "1015", label: "加奖赠送" },
+                { child_type: "1020", label: "优惠赠送" },
+            ],  
+            options2: [
 				{ child_type: "41", label: "发红包" },
 				{ child_type: "42", label: "抢红包" },
                 { child_type: "43", label: "退还红包" },
-                { child_type: "1056", label: "返点佣金" },
-                { child_type: "2059", label: "发单佣金" },
-                { child_type: "2060", label: "跟单佣金" },
+                // { child_type: "1056", label: "返点佣金" },
+                // { child_type: "2059", label: "发单佣金" },
+                // { child_type: "2060", label: "跟单佣金" },
             ],
 
-            options2: [
-				{ type: "0", label: "全部" },
-				{ type: "1", label: "支出" },
-                { type: "2", label: "充值类型" },
-                { type: "3", label: "消费类型" },
-                { type: "4", label: "退款类型" },
-                { type: "5", label: "奖金类型" },
-                { type: "6", label: "赠送类型" },
-                { type: "7", label: "提款" },
-                { type: "8", label: "提款退单" },
-                { type: "9", label: "其他" },
-                { type: "10", label: "可提现" },
+            options3: [
+				{ child_type: "2061", label: "复制跟单" },
+				{ child_type: "30", label: "消费" },
+                { child_type: "31", label: "冻结" },
+                { child_type: "32", label: "解冻" },
+                { child_type: "34", label: "退款" },
+                { child_type: "35", label: "返奖" },
+                { child_type: "36", label: "提款" },
+                { child_type: "37", label: "银行退单" },
+                { child_type: "1056", label: "佣金" },
+                { child_type: "2059", label: "收佣" },
+                { child_type: "2060", label: "付佣" },
             ],
+            options4: [
+				{ child_type: "0", label: "网上充值" },
+				{ child_type: "1000", label: "现金充值" },
+                { child_type: "-1000", label: "冲正" },
+                { child_type: "1017", label: "公司账号充值" },
+                { child_type: "1018", label: "奖金补发" },
+                { child_type: "2062", label: "授信充值" },
+                { child_type: "2058", label: "线下充值" },
+            ],
+
+            options5: [
+				{ child_type: "2001", label: "基金款转入" },
+				{ child_type: "2002", label: "基金款转出" },
+                { child_type: "2003", label: "基金清算" },
+                { child_type: "1031", label: "单挑王" },
+                { child_type: "2053", label: "彩金兑积分" },
+                { child_type: "2054", label: "购买靓胆" },
+                { child_type: "2055", label: "靓胆推荐" },
+                { child_type: "2056", label: "靓胆支出" },
+                { child_type: "2057", label: "靓胆收入" },
+
+            ],
+            options6: [
+				{ child_type: "1011", label: "积分兑换" },
+				{ child_type: "1009", label: "基金赠送" },
+                { child_type: "1014", label: "追号套餐赠送" },
+                { child_type: "3001", label: "话费充值" },
+            ],
+            options7: [
+				{ child_type: "2063", label: "QQ扫码充值//信付宝QQ扫码" },
+				{ child_type: "2064", label: "QQH5充值//信付宝QQH5" },
+                { child_type: "2065", label: "快捷支付充值//信付宝快捷支付" },
+                { child_type: "2066", label: "网银充值//信付宝网银" },
+                { child_type: "2067", label: "快捷支付充值//易宝快捷支付" },
+                { child_type: "2068", label: "支付宝充值//易宝支付宝" },
+                { child_type: "2069", label: "微信充值//易宝微信" },
+                { child_type: "2070", label: "支付宝充值//unPay支付宝" },
+                { child_type: "2071", label: "微信充值//兴业微信" },
+                { child_type: "2072", label: "快捷支付充值//连连快捷" },
+            ],
+            
+            // options2: [
+			// 	{ type: "0", label: "全部" },
+			// 	{ type: "1", label: "支出" },
+            //     { type: "2", label: "充值类型" },
+            //     { type: "3", label: "消费类型" },
+            //     { type: "4", label: "退款类型" },
+            //     { type: "5", label: "奖金类型" },
+            //     { type: "6", label: "赠送类型" },
+            //     { type: "7", label: "提款" },
+            //     { type: "8", label: "提款退单" },
+            //     { type: "9", label: "其他" },
+            //     { type: "10", label: "可提现" },
+            // ],
         }
     },
     created(){
@@ -213,6 +347,7 @@ export default {
     methods:{
         //筛选查询
         filter(){
+            this.page = 1
             this.inquire()
         },
         //获取数据

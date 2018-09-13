@@ -3,11 +3,12 @@
 
     <!--  代理给客户充值记录 -->
     <div class="search">
-      <el-input v-model="input1"
-                placeholder="请输入会员名进行查询"
+      <el-input v-model="account"
+                placeholder="请输入代理账号"
                 style="width:20%;"></el-input>
+        
       <el-input v-model="memberAccount"
-                placeholder="客户昵称"
+                placeholder="请输入会员账号"
                 style="width:20%;"></el-input>
         开始时间：<el-date-picker
             v-model="stime"
@@ -31,31 +32,36 @@
       <el-button type="primary"
                  icon="el-icon-search"
                  @click="search">搜索</el-button>
+        <el-input v-model="ACCOUNT"
+                placeholder="请输入你要搜索的账号"
+                style="width:20%;"></el-input>
+        <el-button type="primary" @click="getUsername">账号搜索昵称</el-button>
+        <span>{{user}}</span>
     </div>
-    <div class="warning">
+    <!-- <div class="warning">
       <i class="el-icon-star-on"></i>
       <span>支持当前页数据模糊搜索,输入会员名全称进行精确查找</span>
-    </div>
-    <el-table :data="memberfilter"
+    </div> -->
+    <el-table :data="tableData"
               border
               style="width: 100%;">
         <el-table-column type="index" align="center" label="编号"></el-table-column>
-      <el-table-column prop="username"
-                       label="会员昵称"
+        <el-table-column prop="agentAccount"
+                       label="代理账号"
                        align="center">
       </el-table-column>
-      
-      
       <el-table-column prop="account"
+                       label="客户账号"
+                       align="center">
+      </el-table-column>
+      <el-table-column prop="username"
                        label="客户昵称"
                        align="center">
       </el-table-column>
-
       <el-table-column prop="amount"
                        label="加款金额"
                        align="center">
       </el-table-column>
-
       <el-table-column align="center"
                        label="代理总额度">
         <template slot-scope="scope">
@@ -75,10 +81,10 @@
                        label="冻结还款">
 
       </el-table-column>
-      <el-table-column prop="agentAccount"
+      <!-- <el-table-column prop="agentAccount"
                        label="加款人"
                        align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="createTime"
                        align="center"
                        label="时间">
@@ -101,6 +107,7 @@
 
 <script>
 import { getAgentChargeLine } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -109,7 +116,7 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
   data() {
     return {
-      input1: "",
+      account: "",
     //   total: 0, //分页数
       pages: 20,
       dialogVisible: false, //控制弹窗隐藏
@@ -119,21 +126,33 @@ export default {
       tableData: [], //表格数据
       stime:'',
       etime:'',
-      totalList: 0
+      totalList: 0,
+      ACCOUNT: '', //需要搜索的账号
+      user: '',  //利用账号搜索出来的昵称
  };
   },
   created() {
-    this.getData('');
+    this.getData();
   },
   // 按照会员名称进行筛选
   computed: {
-    memberfilter: function () {
-      return this.tableData.filter((name) => {
-        return name.account.match(this.input1)
-      })
-    }
+    //模糊查询
+    // memberfilter: function () {
+    //   return this.tableData.filter((name) => {
+    //     return name.account.match(this.account)
+    //   })
+    // }
   },
   methods: {
+    //用账号查询昵称
+    getUsername(){
+        let obj = {
+            account: this.ACCOUNT
+        }
+        findAllMember(obj).then(res => {
+            this.user = res.data.data.list[0].username
+        })
+    },
      //翻页
         handleCurrentChange(num){
             this.page = num;
@@ -145,8 +164,8 @@ export default {
             this.getData()
         },
     search() {
-      // console.log(this.input1);
-      this.getData(this.input1);
+        this.page = 1
+        this.getData();
     },
     // 点击授信额度弹窗
     layer() {
@@ -154,27 +173,26 @@ export default {
     },
 
     // 调接口数据、
-    getData(name) {
+    getData() {
       let obj = {
         page:this.page,
         pageSize:this.pageSize,
-        account: name,
+        account: this.account,
         memberAccount:this.memberAccount,
         start_time:this.stime,
         end_time:this.etime,
         loginAccount: getCookies('name')
       };
       getAgentChargeLine(obj).then(res => {
-        console.log(res)
-        if (res.status = 200) {
-          this.tableData = res.data.data;
-        //   this.total = res.data.totalCount
-          this.totalList = res.data.totalCount
-          console.log(this.totalList)
+          console.log(res)
+        if(res.status === 200){
+            this.tableData = res.data.data.list;
+            this.totalList = res.data.data.total
+        }else{
+            this.$message.error('失败！')
         }
       })
     },
-
     // getData(curr, name) {
     //   let obj = { page: curr, pageSize: 20, account: name ,loginAccount:localStorage.getItem('account')};
     //   this.$http

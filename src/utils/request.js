@@ -9,7 +9,7 @@ console.log('BASE_API', process.env.NODE_ENV)
 const service = {
   member: axios.create({
     baseURL: BASE_API.member, // api的base_url
-    timeout: 5000 // 请求超时时间
+    timeout: 120000 // 请求超时时间
   }),
   infos: axios.create({
     baseURL: BASE_API.infos, // api的base_url

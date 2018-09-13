@@ -17,7 +17,8 @@
       <el-button type="primary"
                  @click="getone"
                  @keyup.13="getone"
-                 style="margin-left:50px;">搜索</el-button>
+                 style="margin-left:50px;"
+                 :loading="istrue">搜索</el-button>
       <el-button type="success"
                  @click="exportSome"
                  style="margin-left:50px;">导出</el-button>
@@ -100,7 +101,7 @@
                    :page-sizes="[10, 20, 50, 100]"
                    :page-size="10"
                    layout="total, sizes, prev, pager, next, jumper"
-                   :total="total">
+                   :total="totalList">
     </el-pagination>
   </div>
 </template>
@@ -122,7 +123,8 @@ export default {
       end_date: '',
       datetime: '', // 获取的日期和时间
       newarr: [],
-      total: 0
+      totalList: 0,
+      istrue: false,
     }
   },
   created() {
@@ -135,9 +137,10 @@ export default {
   },
   methods: {
     getone() {
-      this.start_time = this.datetime[0]
-      this.end_date = this.datetime[1]
-      this.getTableList()
+        this.istrue = true
+        this.start_time = this.datetime[0]
+        this.end_date = this.datetime[1]
+        this.getTableList()
     },
     handleSizeChange(val) {
       this.pages = val
@@ -159,10 +162,12 @@ export default {
       }
       findSaleInfo(paramsObj)
         .then(res => {
-          this.tableData = res.data.data.list
-          console.log(this.tableData)
-          console.log(12345665)
-          this.total = res.data.data.total
+            if(res.data.error_code === 200){
+                this.istrue = false
+                this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
+            }
+          
         })
         .catch(error => {
           Message.error(error)

@@ -160,13 +160,12 @@ export default {
 				page: this.page,
 				pageSize: this.pageSize,
 				loginAccount: getCookies('name'),
-				account:a,
+				account: a,
 			};
 			getCreditLimitLine(obj).then(res=>{
-                console.log(res)
                 if(res.data.data != null){
                     this.total = res.data.totalCount;
-                    this.tableData = res.data.data;
+                    this.tableData = res.data.data.list;
                     this.totalList = res.data.data.total
                 }
 			})

@@ -103,15 +103,6 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<!-- 分页 -->
-		<div class="page">
-			<el-pagination background
-			               :page-size=10
-			               @current-change="changepage"
-			               layout="prev, pager, next"
-			               :total="total">
-			</el-pagination>
-		</div>
 		<!-- 审核弹窗 -->
 		<el-dialog title="您确定要通过以下会员的审核吗？"
 		           :visible.sync="dialogVisible"
@@ -152,6 +143,7 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
             >
             </el-pagination>
 	</div>
@@ -188,6 +180,7 @@ export default {
 			],
             value: '',
             operator: '',
+            totalList: 0,
 		};
 	},
 	created() {
@@ -251,8 +244,8 @@ export default {
 			getCreditRefund(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					this.total = res.data.totalCount;
-					this.tableData = res.data.data;
+					this.totalList = res.data.data.total;
+					this.tableData = res.data.data.list;
 				}
 			})
 		},
