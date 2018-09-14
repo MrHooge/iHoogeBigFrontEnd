@@ -206,7 +206,7 @@
                     label="方案详情"
                     width="120px;">
                     <template slot-scope="scope">
-                        <el-button type="primary" style="width:100px">点击展开</el-button>
+                        <el-button type="primary" style="width:100px" @click="details(scope.row)">点击展开</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -411,6 +411,13 @@ export default {
         this.getTodayDate()
     },
     methods:{
+        //点击跳转到打票详情页
+        details(d){
+            // let routeData = this.$router.resolve({ path: '/bookTicket/ticket_details', query: {  id: parse.id } });
+            let routeData = this.$router.resolve({ path: '/bookTicket/ticket_details', query: {  id: d.id }  });
+
+            window.open(routeData.href, '_blank');
+        },
         //优先推送
         firstPush(){
             console.log(this.selections)
@@ -469,6 +476,8 @@ export default {
                 if(res.data.error_code == 200){    
                     this.adddioalog = true
                     this.val = res.data.data
+                }else{
+                    this.$message.error(res.data.data)
                 }
             })
         },
@@ -508,16 +517,17 @@ export default {
                 this.gettable()
         },
         //点击账号跳转会员管理页面
-        getupnewweb(a){
-             this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
-        },
+        // getupnewweb(a){
+        //      this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
+        // },
         //明细页面跳转
-        Szczegol(parse){
-         let routeData = this.$router.resolve({ path: '/programCenter/Detail', query: {  planNo: parse.planNo } });
-            window.open(routeData.href, '_blank');
-        },
+        // Szczegol(parse){
+        //  let routeData = this.$router.resolve({ path: '/programCenter/Detail', query: {  planNo: parse.planNo } });
+        //     window.open(routeData.href, '_blank');
+        // },
         getval(){
             // console.log(this.planStatus)
+            this.page = 1
             this.gettable()
         },
         //获取数据
@@ -606,6 +616,7 @@ export default {
         // },
         //查询
         search(){
+            this.page = 1
             this.gettable()
         },
          //翻页

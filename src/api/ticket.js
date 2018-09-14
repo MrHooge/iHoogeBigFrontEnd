@@ -56,13 +56,11 @@ export function getChaiPiaoCount(userinfos) {
         params: userinfos
     })
 }
-
-// //修改单个拆包票数
-// export function updateChaiPiaoCount(userinfos) {
-//     return request.ticket({
-//         url: '/ticketSystem/updateChaiPiaoCount',
-//         method: 'get',
-//         params: userinfos
-//     })
-// }
-
+//获取打票详情数据
+export function ticketPrintDetail(userinfos) {
+    return request.ticket({
+      url: '/ticketSystem/ticketPrintDetail',
+      method: 'get',
+      params: userinfos
+    })
+  }

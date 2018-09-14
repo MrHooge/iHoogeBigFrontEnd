@@ -75,7 +75,7 @@
             </div>
         </el-dialog>
         <!-- 中奖宣传的弹窗 -->
-        <el-dialog title="中奖宣传" :visible.sync="dialogVisible" width="500px" top="30vh">
+        <el-dialog title="中奖宣传" :visible.sync="dialogVisible" width="610px" top="30vh" class="win">
             <div class="body">
                 <el-row>
                     <el-col :span="4">
@@ -93,7 +93,7 @@
                 <el-row>
                     <el-col :span="4">
                         <div class="grid-content bg-purple-dark">
-                            <label for="">中奖标题</label>
+                            <label for="">宣传标题</label>
                         </div>
                     </el-col>
                     <el-col :span="17">
@@ -106,7 +106,7 @@
                 <el-row>
                     <el-col :span="4">
                         <div class="grid-content bg-purple-dark">
-                            <label for="">中奖内容</label>
+                            <label for="">宣传内容</label>
                         </div>
                     </el-col>
                     <el-col :span="17">
@@ -275,6 +275,9 @@ export default {
 </script>
 
 <style scoped>
+.win >>> .el-textarea__inner{
+    height: 250px;
+}
 .Sunburn{
     padding: 10px 20px
 }

@@ -79,6 +79,9 @@ export default {
 </script>
 
 <style scoped>
+.layerbody >>> .el-textarea__inner{
+    min-height: 40px !important;
+}
 .main {
   margin-top: 30px;
 }
