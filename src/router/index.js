@@ -1111,16 +1111,22 @@ export const constantRouterMap = [{
             name: '打票列表',
             component: () => import('@/views/book_ticket/ticket_main'),
             meta: { title: '打票列表'}
+        },
+        {
+            path: 'ticket_details',
+            name: '打票详情',
+            component: () => import('@/views/book_ticket/ticket_details'),
+            meta: { title: '打票详情'}
         }
     ]
   },
-  //运营管理
+  //运营设置
   {
     path: '/operations',
     component: Layout,
     redirect: '/operations/seekingtick',
-    name: '运营管理',
-    meta: { title: '运营管理' },
+    name: '运营设置',
+    meta: { title: '运营设置' },
     children: [
       {
         path: 'seekingtick',

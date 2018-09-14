@@ -344,12 +344,14 @@ export default {
     padding: 10px 20px 
 }
 .Informationen{
+    min-width: 1000px;
     width:60%;
     margin-top: 20px;
     color: #909399;
     float: left;
 }
 .Lento{
+    min-width: 100px;
     width: 40%;
     margin-top: 20px;
     float: left;

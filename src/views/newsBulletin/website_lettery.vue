@@ -17,45 +17,51 @@
     </div>
     <!-- 表格数据 -->
     <div>
-       <el-table :data="date"
-              border
-              style="width: 100%;">
-      <el-table-column prop="author"
-                       label="作者"
-                       align="center">
-      </el-table-column>
-            <el-table-column prop="content"
-                       label="内容"
-                       align="center">
-      </el-table-column>
+        <el-table :data="date"
+            border
+            style="width: 100%;">
             <el-table-column
-                       label="创建时间"
-                       align="center">
-                    <template slot-scope="scope">
-                    {{scope.row.createDate | time}}
-                     </template>
-      </el-table-column>
+                type="index"
+                align="center"
+                label="编号">
+            </el-table-column>
             <el-table-column prop="id"
-                       label="	id"
-                       align="center">
-      </el-table-column>
-      <el-table-column align="center"
-                       label="状态 ">
-        <template slot-scope="scope">
-            {{ scope.row.status | start }}
-        </template>
-      </el-table-column>
-             <el-table-column prop="title"
-                       align="center"
-                       label="标题">
-      </el-table-column>
-      <el-table-column align="center"
-                       label="类型">
+                label="id"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                label="创建时间"
+                align="center">
+                <template slot-scope="scope">
+                    {{scope.row.createDate | time}}
+                </template>
+            </el-table-column>
+            
+            <el-table-column prop="content"
+                label="内容"
+                align="center">
+            </el-table-column>
+            <el-table-column align="center"
+                label="状态 ">
+                <template slot-scope="scope">
+                    {{ scope.row.status | start }}
+                </template>
+            </el-table-column>
+            <el-table-column prop="title"
+                align="center"
+                label="标题">
+            </el-table-column>
+            <el-table-column align="center"
+                label="类型">
                 <template slot-scope="scope">
                     {{scope.row.type | type}}
-                   </template>
-      </el-table-column>
-    </el-table>
+                </template>
+            </el-table-column>
+            <el-table-column prop="author"
+                label="作者"
+                align="center">
+            </el-table-column>
+        </el-table>
     <el-dialog :visible.sync="dialogFormVisible">
     标题：<el-input v-model="title"
                 placeholder="请输入标题"

@@ -69,9 +69,9 @@
 				</el-form-item> -->
 				<el-form-item label="权限配置"
 				              :label-width="formLabelWidth">
-					<el-radio v-model="radio"
+					<el-radio v-model="form.radio"
 					          label="1">设为渠道</el-radio>
-					<el-radio v-model="radio"
+					<el-radio v-model="form.radio"
 					          label="2">设为代理</el-radio>
 				</el-form-item>
 			</el-form>
@@ -115,7 +115,8 @@ export default {
 			form: {
 				role_ID: '',
 				role_name: '',
-				type: [],
+                type: [],
+                radio: '',
 			},
 			account: '',
 			member_id: '',
@@ -148,8 +149,10 @@ export default {
 			this.viewFormType = type
 			this.form = {
 				role_ID: data.id,
-				role_name: data.ACCOUNT
-			}
+                role_name: data.ACCOUNT,
+                radio: data.radio
+            }
+            console.log(data)
 			this.viewFormVisible = true
 			// this.getFindRoleAndPermission(data.NAME)
 			this.account = data.ACCOUNT
