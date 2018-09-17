@@ -64,7 +64,7 @@
             <el-upload
                 :data="folder"
                 class="upload-demo"
-                action="https://infos.api.qiyun88.cn/information/uploadImage"
+                action="https://infos.api.qyun88.com/information/uploadImage"
                 :before-upload="beforeAvatarUpload"
                 :on-success="handleAvatarSuccess"
                 multiple
@@ -165,7 +165,7 @@ export default {
     this.id = ''
   },
   mounted(){
-    this.imgurl = 'https://infos.api.qiyun88.cn/information/uploadImage'
+    this.imgurl = 'https://infos.api.qyun88.com/information/uploadImage'
   },
 
   methods: {

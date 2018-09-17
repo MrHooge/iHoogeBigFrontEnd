@@ -24,7 +24,7 @@ import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
-export default {
+export default {    
 	data() {
 		return {
 			textarea:'',
