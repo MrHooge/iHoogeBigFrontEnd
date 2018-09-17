@@ -324,7 +324,7 @@ export default {
 	},
 	mounted() {
 		// this.uploadUrl = api.member + '/userCount/uploadFile'
-		this.uploadUrl = 'https://infos.api.qiyun88.cn/information/uploadImage'
+		this.uploadUrl = 'https://infos.api.qyun88.com/information/uploadImage'
 	},
 
 	methods: {
