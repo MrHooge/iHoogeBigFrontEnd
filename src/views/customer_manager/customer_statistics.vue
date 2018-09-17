@@ -11,8 +11,7 @@
                style="width: 100%;"
                @selection-change="handleSelectionChange">
                <el-table-column
-               type="selection"
-               width="55">
+               type="selection">
             </el-table-column>
                <!-- <el-table-column
                type="index"
@@ -33,8 +32,8 @@
                      label="昵称"
                      align="center">
                      <template slot-scope="scope">
-                        <span v-if="scope.row.username">{{scope.row.username}}</span>
-                        <span v-else>{{scope.row.ACCOUNT}}</span>
+                        <span v-if="scope.row.username" @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.username}}</span>
+                        <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
                      </template>
                </el-table-column>
                 <el-table-column
@@ -188,6 +187,10 @@ export default {
         // }
     },
     methods:{
+        //点击账号跳转会员管理页面
+        getupnewweb(a){
+             this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
+        },
         //获取表格数据
         gettablelist(){
             let obj = {

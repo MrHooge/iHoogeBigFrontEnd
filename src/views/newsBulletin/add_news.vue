@@ -13,7 +13,7 @@
             <el-button type="primary" @click="history">获取历史类别</el-button>
             <el-select v-model="planStatus"
                             placeholder="请选择状态筛选数据"
-                        style="width:60%"
+                        style="width:55%"
                         @change="handselect">
             <el-option v-for="temp in options"
                                 :key="temp.index"

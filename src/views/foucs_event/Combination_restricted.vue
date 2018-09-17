@@ -32,6 +32,12 @@
 					{{ scope.row.status | changeType}}
 				</template>
 			</el-table-column>
+            <el-table-column align="center"
+			                 label="内容">
+				<template slot-scope="scope">
+					{{ scope.row.content}}
+				</template>
+            </el-table-column>
 			<el-table-column align="center"
 			                 label="限售时间">
 				<template slot-scope="scope">
@@ -62,14 +68,17 @@
 				<el-row :gutter="20">
 					<div class="grid-content bg-purple leftbox">
 						组合规则:
-						<p>竞彩足球胜平负组合格式：【20180804_001_胜~20180804_002_负~20180804_002_平】</p>
-						<p>竞彩足球让球胜平负组合格式：【20180804_001_让球胜~20180804_002_让球负~20180804_002_让球平】</p>
-						<p>竞彩篮球组合格式：【20180804_001_胜~20180804_002_负~20180804_002_平】</p>
-						<p>竞彩足球组合格式：【20180804_001_胜~20180804_002_负~20180804_002_平】</p>
-						<p>竞彩足球比分组合格式：【20180804_001_胜其他~20180804_002_负其他~20180804_002_平其他】</p>
-						<p>竞彩足球半全场组合格式：【20180804_001_平~20180804_002_平】</p>
-						<p>竞彩篮球让分胜负组合格式：【20180804_001_让分主胜~20180804_002_让分客胜】</p>
+						<p>竞彩足球胜平负组合格式：【20180804_1_胜~20180804_2_负~20180804_2_平】</p>
+						<p>竞彩足球让球胜平负组合格式：【20180804_1_让球胜~20180804_2_让球负~20180804_2_让球平】</p>
+						<p>竞彩篮球组合格式：【20180804_1_胜~20180804_2_负~20180804_2_平】</p>
+						<p>竞彩足球组合格式：【20180804_1_胜~20180804_2_负~20180804_2_平】</p>
+						<p>竞彩足球比分组合格式：【20180804_1_胜其他~20180804_2_负其他~20180804_2_平其他】</p>
+						<p>竞彩足球半全场组合格式：【20180804_1_平~20180804_2_平】</p>
+						<p>竞彩篮球让分胜负组合格式：【20180804_1_让分主胜~20180804_2_让分客胜】</p>
 					</div>
+                    <div>
+                        <img src="../../assets/404_images/rule.png" alt="">
+                    </div>
 					<el-col :span="4">
 						<div class="grid-content bg-purple leftbox">
 							组合:
@@ -239,13 +248,15 @@ export default {
 					this.tableData.forEach(e => {
 						// console.log(e)
 						this.numPlay = e.passType.split(',')
-					});
+                    });
+                    let arr = []
 					this.numPlay.forEach(x => {
 						cityOptions.forEach(v => {
 							if (x == v.value) {
 								// this.plays.push(v.name)
-								this.plays += v.name + ','
-
+                                // this.plays += v.name + ','
+                                arr.push(v.name)
+                                this.plays = arr.join(',')
 							}
 						});
 					});
@@ -262,22 +273,28 @@ export default {
 		handleCheckedCitiesChange(value) {
 			this.checkedCities = value
 			console.log(this.checkedCities)
-
+            
 
 		},
 		selfbuy() {   //  添加组合限售
-			let arr = '';
-			this.checkedCities.forEach(e => {
-				arr += e.value + ','
-			});
-			console.log(arr)
+            let arr = [];
+            let newArr = ''
+            // if(this.checkedCities.length > 1){
+            //    arr = this.checkedCities.join(',')
+                this.checkedCities.forEach(e => {
+                    arr.push(e.value)
+                });
+                newArr = arr.join(',')
+                console.log(newArr)
+            // }else{
+            //     arr = this.checkedCities[0]
+            // }
 			let obj = {
 				lotteryType: this.radio, //  彩种
-				passType: arr, //  串法
+				passType: newArr, //  串法
 				content: this.textarea,  //  串法
 			}
 			addLotteryLimit(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					this.dialogVisible = false
 					Message.success(res.data.message)
@@ -287,7 +304,8 @@ export default {
 		},
 		handleEdit(val) {
 			this.dialogVisible2 = true
-			this.onePeople = val
+            this.onePeople = val
+            this.radio2 = val.status.toString()
 		},
 		makersure() {  //  修改 组合限售的状态
 			let obj = {

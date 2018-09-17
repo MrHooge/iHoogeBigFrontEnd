@@ -15,8 +15,7 @@
 		          style="width: 100%"
 		          @selection-change="handleSelectionChange">
 			<el-table-column type="selection"
-			                 align="center"
-			                 width="55">
+			                 align="center">
 				<template>
 					全选
 				</template>

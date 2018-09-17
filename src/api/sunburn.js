@@ -63,7 +63,7 @@ export function addWinPromotion(userinfos){
 //修改中奖宣传状态
 export function updateWinPromotionStatus(userinfos){
     return request.lottery({
-        url:'/lottery/addWinPromotion',
+        url:'/lottery/updateWinPromotionStatus',
         method:'get',
         params:userinfos
     })
