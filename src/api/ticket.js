@@ -63,4 +63,13 @@ export function ticketPrintDetail(userinfos) {
       method: 'get',
       params: userinfos
     })
-  }
+}
+//添加打票机
+export function addApparatus(userinfos) {
+    return request.ticket({
+        url: '/ticketSystem/addApparatus',
+        method: 'get',
+        params: userinfos
+    })
+}
+  

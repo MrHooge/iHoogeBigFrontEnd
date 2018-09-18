@@ -124,11 +124,12 @@
   </el-collapse-item>
 </el-collapse>
 <div class="search">
-    生成彩期数量:<el-input v-model="account" style="width: 150px;margin-right:10px;margin-bottom:20px;margin-top:40px"></el-input>
-    <el-button type="primary" @click="addjqr">生成期数 </el-button><br />
+    <!-- 生成彩期数量:<el-input v-model="account" style="width: 150px;margin-right:10px;margin-bottom:20px;margin-top:40px"></el-input> -->
+    生成彩期数量:<el-input style="width: 150px;margin-right:10px;margin-bottom:20px;margin-top:40px"></el-input>
+    <el-button type="primary">生成期数 </el-button><br />
     <el-button type="primary" @click="showperiodlist">查看彩期列表 </el-button>
-    <el-button type="primary" @click="addjqr">抓取数据 </el-button>
-    <el-button type="primary" @click="addjqr">编辑 </el-button>
+    <el-button type="primary">抓取数据 </el-button>
+    <el-button type="primary">编辑 </el-button>
     <el-button type="primary" @click="openprize">开奖 </el-button>
 </div>
     </div>

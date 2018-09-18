@@ -107,6 +107,12 @@
                               placeholder="充值金额"></el-input>
                 </template>
             </el-table-column>
+            <el-table-column label="创建时间"
+                             align="center">
+                <template slot-scope="scope">
+                    {{ scope.row.CREATE_DATE_TIME | time }}
+                </template>
+            </el-table-column>
 
             <el-table-column label="操作"
                              align="center">
@@ -168,6 +174,25 @@ export default {
     created() {
         // this.search(1)
         this.getData(this.name, this.value1, this.value2)
+    },
+    filter:{
+        time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+        }
     },
     methods: {
         onInput() {   //  input 事件
