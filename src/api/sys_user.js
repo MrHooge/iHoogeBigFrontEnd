@@ -234,7 +234,7 @@ export function findAllMember(page, account , username) {
   })
 }
 // 会员设置渠道
-export function handleEdit(params) {
+export function updateMemberToQD(params) {
   return request.member({
     url: '/user/updateMemberToQD',
     method: 'get',
@@ -292,6 +292,22 @@ export function addBanner(params) {
     method: 'get',
     params: params
   })
+}
+//自动加白设置
+export function jiabai(params) {
+    return request.member({
+        url: '/userManage/updateAutoToWrite',
+        method: 'get',
+        params: params
+    })
+}
+//查询加白设置
+export function currentjiabai(params) {
+    return request.member({
+        url: '/user/isWhite',
+        method: 'get',
+        params: params
+    })
 }
 // 开户轮播墙
 

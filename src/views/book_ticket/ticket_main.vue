@@ -88,8 +88,7 @@
         <div class="tablelist">
             <el-table :data="tableData" border style="width: 100%;" @selection-change="handleSelectionChange">
                 <el-table-column
-                    type="selection"
-                    width="40">
+                    type="selection">
                 </el-table-column>
                 <el-table-column
                     prop="planNo"
@@ -200,7 +199,13 @@
                     align="center"
                     label="渠道">
                 </el-table-column>
-                
+                <el-table-column
+                    align="center"
+                    label="是否优先">
+                    <template slot-scope="scope">
+                        {{scope.row.isFirst | isFirst}}
+                    </template>
+                </el-table-column>
                 <el-table-column
                     align="center"
                     label="方案详情"
@@ -210,7 +215,6 @@
                     </template>
                 </el-table-column>
             </el-table>
-
         <!-- 弹窗 -->
         <el-dialog
             title="修改拆包票数"
@@ -388,6 +392,9 @@ export default {
             let s = date.getSeconds();
             s = s < 10 ? ('0' + s) : s;
             return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        },
+        isFirst(a){
+            return a === 1? '是':'否'
         },
         
         //处理结果状态

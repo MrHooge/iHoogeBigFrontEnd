@@ -88,7 +88,7 @@
 <script>
 import {
 	findAllMember,
-	handleEdit,
+	updateMemberToQD,
 	setMemberToAgent
 } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
@@ -120,7 +120,7 @@ export default {
 			},
 			account: '',
 			member_id: '',
-			radio: '1', //  设置渠道或者代理
+			// radio: '1', //  设置渠道或者代理
 
 		}
 	},
@@ -149,8 +149,7 @@ export default {
 			this.viewFormType = type
 			this.form = {
 				role_ID: data.id,
-                role_name: data.ACCOUNT,
-                radio: data.radio
+                role_name: data.ACCOUNT
             }
             console.log(data)
 			this.viewFormVisible = true
@@ -165,17 +164,19 @@ export default {
 
 		},
 		submitInfos() { // 确定按钮
-			if (this.radio == '1') {
+			if (this.form.radio == '1') {
 				let obj = {
 					account: this.account,
 					member_id: this.member_id
-				}
-				handleEdit(obj).then(res => {
+                }
+                //设置为渠道
+				updateMemberToQD(obj).then(res => {
 					console.log(res)
 					if (res.data.error_code == 200) {
 						this.viewFormVisible = false
 						Message.success(res.data.message)
 					} else {
+                        this.viewFormVisible = false
 						Message.success(res.data.message)
 					}
 
@@ -184,17 +185,18 @@ export default {
 				let obj = {
 					QDAccount: '',
 					account: this.account
-				}
+                }
+                //设置为代理
 				setMemberToAgent(obj).then(res => {
 					console.log(res)
 					if (res.data.error_code == 200) {
 						this.viewFormVisible = false
 						Message.success(res.data.message)
 					} else {
+                        this.viewFormVisible = false
 						Message.success(res.data.message)
 					}
 				})
-				console.log('设置代理')
 			}
 		},
 		handleCheckChange() {},

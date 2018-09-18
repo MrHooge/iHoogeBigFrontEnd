@@ -4,6 +4,7 @@
     <!-- 搜索 -->
     <div class="row">
     <el-input placeholder="请输入账号" v-model="account" style="width: 300px;margin-right:100px;"></el-input>
+    <el-input placeholder="请输入昵称" v-model="username" style="width: 300px;margin-right:100px;"></el-input>
      <el-select v-model="isMOuth" placeholder="请选择时间段" style="margin-right:100px;">
            <el-option
             v-for="item in options"
@@ -120,6 +121,7 @@ export default {
         etime:'',
         datetime: '', // 获取的日期和时间
         newarr: [],
+        username: '',   //输入想搜索的昵称
     }
   },
   created(){
