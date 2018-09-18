@@ -114,7 +114,7 @@ export const constantRouterMap = [{
     ]
   },
 
-  // 新闻公告
+  // 运营管理
   {
     path: '/newsBulletin',
     component: Layout,
@@ -164,6 +164,15 @@ export const constantRouterMap = [{
         name: '中奖评论审核',
         component: () =>
           import ('@/views/newsBulletin/winningComments'),
+        meta: {
+          title: '中奖评论审核'
+        }
+      },
+      {
+        path: 'jiabai',
+        name: '加白设置',
+        component: () =>
+          import ('@/views/operations/jiabai'),
         meta: {
           title: '中奖评论审核'
         }

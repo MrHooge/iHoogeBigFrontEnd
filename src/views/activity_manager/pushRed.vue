@@ -40,8 +40,7 @@
             border
             @selection-change="handleSelectionChange">
             <el-table-column
-                type="selection"
-                width="55">
+                type="selection">
                 </el-table-column>
             <el-table-column
                 prop="account"

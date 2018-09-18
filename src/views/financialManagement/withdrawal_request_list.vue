@@ -19,7 +19,8 @@
 				</el-col>
 				<el-col :span="3">
 					<el-select v-model="value"
-					           placeholder="请选择">
+					           placeholder="请选择"
+                               style="width:120px;">
 						<el-option v-for="item in options"
 						           :key="item.value"
 						           :label="item.label"
@@ -89,7 +90,8 @@
 			<el-table-column label="状态"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.STATUS | changeStatus}}
+					<span v-if="scope.row.STATUS === 6" style="color:green">{{ scope.row.STATUS | changeStatus}}</span>
+                    <span v-if="scope.row.STATUS === 7" style="color:red">{{ scope.row.STATUS | changeStatus}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column label="开户支行"
@@ -174,16 +176,19 @@
 			                 align="center">
 				<template slot-scope="scope">
 					<div style="padding:5px 0">
-						<el-button size="mini"
+						<el-button
 						    type="primary"
-						    @click="examine(scope.row)">通过
+						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6">通过
                         </el-button>
 					</div>
 					<div>
-						<el-button size="mini"
+						<el-button
 						    type="danger"
-						    @click="reject(scope.row)">驳回
+						    @click="reject(scope.row)" v-if="scope.row.STATUS != 6">驳回
                         </el-button>
+					</div>
+                    <div v-if="scope.row.STATUS === 6">
+						<el-button type="success">已到账</el-button>
 					</div>
 				</template>
 			</el-table-column>

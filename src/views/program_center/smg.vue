@@ -15,8 +15,7 @@
         <el-table
       :data="tableData"
       border
-      style="width:100%;"
-      @selection-change="handleSelectionChange">
+      style="width:100%;">
        <el-table-column
         prop="matchId"
         label="场次号"
@@ -124,24 +123,24 @@
             </div>
             </div> -->
             </div>
-     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+     <el-dialog :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="客队总进球" :label-width="formLabelWidth">
+        <el-form-item label="客队总进球">
           <el-input v-model="form.guestScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="客队半场进球" :label-width="formLabelWidth">
+        <el-form-item label="客队半场进球">
           <el-input v-model="form.halfGuestScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="主队半场进球" :label-width="formLabelWidth">
+        <el-form-item label="主队半场进球">
           <el-input v-model="form.halfHomeScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="主队总进球" :label-width="formLabelWidth">
+        <el-form-item label="主队总进球">
           <el-input v-model="form.homeScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="让球" :label-width="formLabelWidth">
+        <el-form-item label="让球">
           <el-input v-model="form.rq" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="状态" :label-width="formLabelWidth">
+        <el-form-item label="状态">
           <el-radio v-model="form.status" label="0" border>进行中</el-radio>
             <el-radio v-model="form.status" label="1" border>截止</el-radio>
             <el-radio v-model="form.status" label="2" border>取消</el-radio>
@@ -220,27 +219,31 @@ export default {
             this.gettable()
         },
         modify(data){
+            console.log(data)
             this.dialogFormVisible = true;
             this.form.id = data.id
+            this.form.guestScore = data.guestScore
+            this.form.halfGuestScore = data.halfGuestScore
+            this.form.halfHomeScore = data.halfHomeScore
+            this.form.homeScore = data.homeScore
             this.form.rq = data.rq
-            this.form.status = data.status
-            console.log(data.status)
+            this.form.status = data.status.toString()
         },
         //确认修改
         submitInfos(){
             updateFootBallAdmin(this.form).then(res => {
                if(res.data.error_code == 200){
-                 this.$message(res.data.message)
-                 this.gettable()
-                 this.dialogFormVisible = false
-                 this.form.guestScore = ''
-                  this.form.halfGuestScore = ''
-                  this.form.halfHomeScore = ''
-                  this.form.homeScore = ''
+                    this.$message(res.data.message)
+                    this.dialogFormVisible = false
+                    this.form.guestScore = ''
+                    this.form.halfGuestScore = ''
+                    this.form.halfHomeScore = ''
+                    this.form.homeScore = ''
+                    this.gettable()
                 
                }else{
-                 this.$message(res.data.message)
-                 this.dialogFormVisible = false
+                    this.$message(res.data.message)
+                    this.dialogFormVisible = false
                }
             })
         }

@@ -166,11 +166,13 @@ export default {
 				pageSize:1000,
 				account:this.account
 			}
-			findAllAgentAndQD(obj).then(res => {  //  获取渠道数据
-                this.tableData = res.data.data.list.filter(e=>{
-                    return e.AGENT_TYPE == 0
-                })
-                this.totalList = res.data.data.total
+            findAllAgentAndQD(obj).then(res => {  //  获取渠道数据
+                if(res.data.data.list){
+                    this.tableData = res.data.data.list.filter(e=>{
+                        return e.AGENT_TYPE == 0
+                    })
+                    this.totalList = res.data.data.total
+                }
 
             })
         },

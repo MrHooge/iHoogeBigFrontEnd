@@ -10,6 +10,7 @@
                 <p>方案编号：{{oldPlan.planNo}}</p>
                 <p>方案金额：{{oldPlan.amount}}</p>
                 <p>过关方式：{{oldPlan.passType}}</p>
+                <p>倍数：{{oldPlan.multiple}}</p>
                 <p>总拆包数：{{oldPlan.ticketCount}}</p>
             </div>
             <el-table
@@ -54,10 +55,12 @@
         <div style="text-align:center;width:40%;display:inline-block;vertical-align:top;">
             <p>拆包详情</p>
             <div style="text-align:left;padding-left:60px;">
-                
+                <p>拆包号：{{chaibao.id}}</p>
                 <p>发起时间：{{chaibao.createTime | time}}</p>
                 <p>截止时间：{{chaibao.dealTime | time}}</p>
                 <p>发单人昵称：{{chaibao.account}}</p>
+                <p>过关方式：{{chaibao.passType}}</p>
+                <p>倍数：{{chaibao.multiple}}</p>
                 <p>方案金额：{{chaibao.amount}}</p>
                 <p>代理人昵称：{{chaibao.dlAccount}}</p>
                 <p>完成打票时间：{{chaibao.finishTime}}</p>

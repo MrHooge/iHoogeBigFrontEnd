@@ -9,8 +9,7 @@
                style="width: 50%;float:left"
                @selection-change="handleSelectionChange">
                <el-table-column
-               type="selection"
-               width="55">
+               type="selection">
             </el-table-column>
                 <el-table-column
                      label="竞篮"
@@ -35,8 +34,7 @@
                style="width: 50%;float:left"
                @selection-change="handleSelectionChange">
                <el-table-column
-               type="selection"
-               width="55">
+               type="selection">
             </el-table-column>
                 <el-table-column
                      label="竞足"
@@ -112,8 +110,7 @@
                style="width: 100%;"
                @selection-change="handleSelectionChange">
                <el-table-column
-               type="selection"
-               width="55">
+               type="selection">
             </el-table-column>
                 <el-table-column
                      label="用户名"

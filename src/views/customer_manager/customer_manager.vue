@@ -202,6 +202,7 @@
                                 </el-form>
                                 <el-button slot="reference" @click="wallet(scope.row)">钱包</el-button>
                                 </el-popover>
+                                <!-- 绑定银行卡信息 -->
                                 <el-popover
                                 placement="right"
                                 width="1300"
@@ -450,6 +451,9 @@ export default {
             console.log(data)
             this.zhanghao = data.ACCOUNT
             getMemberInfoBack(this.zhanghao).then(res => {
+                // if(res.data){
+
+                // }
                 console.log(res.data.data)
                 this.bankInfos = res.data.data
             });
