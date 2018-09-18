@@ -3,11 +3,11 @@ import user from '../store/modules/user';
 
 //竞彩日报
 //每日两单一
-export function createDayOneDan1(dayOneDan2DTO) {
+export function createDayOneDan1(userinfos) {
   return request.infos({
     url: '/information/createDayOneDan1',
     method: 'post',
-    params:{dayOneDan2DTO}
+    data:userinfos
   })
 }
 //每日两单二
@@ -15,7 +15,7 @@ export function createDayOneDan2(userinfos) {
   return request.infos({
     url: '/information/createDayOneDan2',
     method: 'post',
-    params:userinfos
+    data:userinfos
   })
 }
 //实战二串一（一）
@@ -24,7 +24,7 @@ export function createSZ2C11(userinfos) {
     headers:{"Content-Type":"application/json"},
     url: '/information/createSZ2C11',
     method: 'post',
-    params:userinfos
+    data:userinfos
   })
 }
 //实战二串一（二）
@@ -33,7 +33,7 @@ export function createSZ2C12(userinfos) {
     headers:{"Content-Type":"application/json"},
     url: '/information/createSZ2C12',
     method: 'post',
-    params:userinfos
+    data:userinfos
   })
 }
 //获取新闻资讯
