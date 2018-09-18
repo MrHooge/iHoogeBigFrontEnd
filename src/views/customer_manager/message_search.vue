@@ -50,7 +50,8 @@ export default {
     };
   },
   filters:{
-       time(a){
+    time(a){
+        if(a != null){
             let date = new Date(a);
             let y = date.getFullYear();
             let MM = date.getMonth() + 1;
@@ -65,6 +66,7 @@ export default {
             s = s < 10 ? ('0' + s) : s;
             return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
         }
+    },
   },
   methods: {
     search() {
@@ -75,7 +77,10 @@ export default {
                 mobile:this.mobile
             }
             getSmsCode(obj).then(res => {
-                this.tableData = res.data.data
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.tableData.push(res.data.data)
+                }
             }).catch(error => {
                 Message.error(error)
             })

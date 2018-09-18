@@ -14,11 +14,13 @@
 				<el-form-item label="金额"
 				              prop="amount">
 					<el-input v-model="ruleForm.amount"></el-input>
+                    <span>只能输入正数！！！</span>
 				</el-form-item>
 				<el-form-item label="描述"
 				              prop="des">
 					<el-input type="textarea"
 					          v-model="ruleForm.des"></el-input>
+                              
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary"
@@ -62,35 +64,40 @@ export default {
 	},
 	methods: {
 		submitForm(formName) {
-			this.disable = true
-			let obj = {
-				account: this.ruleForm.accountID,
-				amount: this.ruleForm.amount,
-				des: this.ruleForm.des,
-			}
-			this.$refs[formName].validate((valid) => {
-				if (valid) {
-					console.log(obj)
-					chargeRight(obj).then(res => {
-						console.log(res)
-						if (res.data.error_code == 200) {
-							Message.success(res.data.message)
-							this.resetForm(formName)
-							setTimeout(() => {
-								this.disable = false
-							}, 1200);
-						} else {
-							Message.success(res.data.message)
-							setTimeout(() => {
-								this.disable = false
-							}, 1200);
-						}
-					})
-				} else {
-					console.log('error submit!!');
-					return false;
-				}
-			});
+            this.disable = true
+            if(this.ruleForm.amount < 0){
+                this.$message('请输入正数！')
+            }else{
+                let obj = {
+                    account: this.ruleForm.accountID,
+                    amount: this.ruleForm.amount,
+                    des: this.ruleForm.des,
+                }
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log(obj)
+                        chargeRight(obj).then(res => {
+                            console.log(res)
+                            if (res.data.error_code == 200) {
+                                Message.success(res.data.message)
+                                this.resetForm(formName)
+                                setTimeout(() => {
+                                    this.disable = false
+                                }, 1200);
+                            } else {
+                                Message.success(res.data.message)
+                                setTimeout(() => {
+                                    this.disable = false
+                                }, 1200);
+                            }
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            }
+			
 		},
 		resetForm(formName) {
 			this.$refs[formName].resetFields();

@@ -5,8 +5,7 @@
             :data="tableData"
             tooltip-effect="dark"
             style="width: 100%"
-            border
-            @selection-change="handleSelectionChange">
+            border>
             <el-table-column
                 prop="id"
                 align="center"
@@ -218,7 +217,8 @@ export default {
             status:'',
             radio:'',
             lotteryTypeValue:'',
-            term:''
+            term:'',
+            totalList: 0,
         }
     },
     filters:{
@@ -267,6 +267,7 @@ export default {
             findTerm(obj)
             .then(res => {
                 this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
             })
         },
         //翻页

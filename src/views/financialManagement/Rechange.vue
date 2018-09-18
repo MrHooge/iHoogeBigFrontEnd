@@ -61,6 +61,8 @@
 				<template slot-scope="scope">
 					<el-button size="mini"
 					           :disabled="disabled"
+                               
+                               type="primary"
 					           @click="handleEdit(scope.row)">充值</el-button>
 				</template>
 			</el-table-column>
@@ -79,7 +81,7 @@ export default {
 		return {
 			disabled: false,
 			number: "", // 输入的账号
-			chje: '',
+			chje: '',    //充值的金额
             tableData: [], //表格的数据
             username: "",   //输入查询的昵称
  		};
@@ -140,7 +142,8 @@ export default {
 					this.$message.success("充值成功！")
 					setTimeout(() => {
 						this.disabled = false
-					}, 1200);
+                    }, 1200);
+                    this.chje = ''
 				} else {
                     this.$message.error("充值失败！")
 					setTimeout(() => {
