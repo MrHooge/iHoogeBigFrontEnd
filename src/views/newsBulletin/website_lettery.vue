@@ -36,7 +36,6 @@
                     {{scope.row.createDate | time}}
                 </template>
             </el-table-column>
-            
             <el-table-column prop="content"
                 label="内容"
                 align="center">
@@ -66,24 +65,30 @@
     标题：<el-input v-model="title"
                 placeholder="请输入标题"
                 style="width:40%;margin-bottom:30px"></el-input><br />
-          内容:&nbsp;&nbsp;<el-input
-        type="textarea"
-        :rows="3"
-        placeholder="请输入内容"
-        v-model="content"
-        style="width:40%;">
-</el-input><br />
-    指定人列表：<el-input v-model="target"
-                placeholder="请输入"
-                style="width:40%;margin-bottom:30px;margin-top:30px" type=""></el-input><br />
+          内容:&nbsp;&nbsp;
+            <el-input
+                type="textarea"
+                :rows="3"
+                placeholder="请输入内容"
+                v-model="content"
+                style="width:40%;">
+            </el-input><br />
+            <div style="height:100px" v-if="!isShow"></div>
+            <div v-if="isShow">
+                指定人列表：
+                <el-input v-model="target"
+                        placeholder="请输入"
+                        style="width:40%;margin-bottom:30px;margin-top:30px" type="">
+                </el-input><br />
+            </div>
                 <div style="margin-bottom:30px">
        状态：<el-radio v-model="status" label="0" border>隐藏</el-radio>
               <el-radio v-model="status" label="1" border>显示</el-radio><br />
                 </div>
                 <div style="margin-bottom:30px">
-        类型：<el-radio v-model="type" label="1" border>所有人可见</el-radio>
-              <el-radio v-model="type" label="2" border>白名单可见</el-radio>
-              <el-radio v-model="type" label="3" border>指定人可见</el-radio><br />
+        类型：<el-radio v-model="type" label="1" border @change="showTarget(0)">所有人可见</el-radio>
+              <el-radio v-model="type" label="2" border @change="showTarget(1)">白名单可见</el-radio>
+              <el-radio v-model="type" label="3" border @change="showTarget(2)">指定人可见</el-radio><br />
                 </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -108,7 +113,8 @@ export default {
      status:'',
      type:'',
      typelist:'',
-     statuslist:''
+     statuslist:'',
+     isShow: false,   //默认不展示指定列表输入框
     }
   },
    filters:{
@@ -151,21 +157,29 @@ export default {
       this.getdate()
   },
   methods: {
+    showTarget(a){
+        if(a === 2){
+            this.isShow = true
+        }else{
+            this.isShow = false
+        }
+        
+    },
     addmessage(){
       this.dialogFormVisible = true
     },
     submitInfos(){
-      if(this.title == '' ||this.content == '' ||this.target =='' ||this.status == '' || this.type == ''){
+      if(this.title == '' ||this.content == '' ||this.status == '' || this.type == ''){
         this.$message('请输入相关数据')
       }else{
-      let obj = {
+        let obj = {
         author:getCookies('name'),
-        title:this.title,
+        title:this.title,   //标题
         content:this.content,
         target:this.target,
         status:this.status,
         type:this.type
-      }
+        }
       addMail(obj)
       .then(res => {
         console.log(res)
