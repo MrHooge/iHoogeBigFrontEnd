@@ -11,8 +11,6 @@ function Api(baseUrl) {
         // 开发环境
         QY = {
             member: "https://member.api.qiyun88.cn",
-           // member: "http://192.168.42.71:8010",
-
             infos: "http://infos.api.qiyun88.cn",
             pay: "http://pay.api.qiyun88.cn",
             ticket: "http://ticket.api.qiyun88.cn",

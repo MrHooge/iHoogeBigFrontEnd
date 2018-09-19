@@ -168,8 +168,13 @@ export default {
       }
       addMail(obj)
       .then(res => {
+        console.log(res)
         if(res.data.error_code == 200){
-          this.$message('添加成功')
+          this.$message.success(res.data.message)
+          this.dialogFormVisible = false
+        }else{
+            this.$message.error(res.data.data)
+            this.dialogFormVisible = false
         }
       })
       }
@@ -186,6 +191,7 @@ export default {
       }
       getMailList(newobj)
       .then(res => {
+          console.log(res)
         this.date = res.data.data
       })
     }
