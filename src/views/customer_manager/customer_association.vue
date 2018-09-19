@@ -82,6 +82,7 @@ export default {
             agentName:'',
             memeberName:'',
             moveAgent:'',
+            totalList: 0,
             pickerOptions2: {
             shortcuts: [
                {
@@ -148,9 +149,15 @@ export default {
             if(!this.account){
                 this.$message('请输入账户名')
             }else{
-               this.end = this.datetime[1];
-               this.start = this.datetime[0];
-               this.gettabledata();
+                console.log(this.datetime === '')
+                if(this.datetime === ''){
+                    this.end = ''
+                    this.start = ''
+                }else{
+                    this.end = this.datetime[1];
+                    this.start = this.datetime[0];
+                }
+                this.gettabledata();
             }
         },
         //获取表单数据
@@ -163,8 +170,12 @@ export default {
                 pageSize:this.pageSize
             }
             findMemberAssociation(obj).then(res => {
-                this.tableData = res.data.data.list
-
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
             }).catch(error => {
                 Message.error(error)
             })

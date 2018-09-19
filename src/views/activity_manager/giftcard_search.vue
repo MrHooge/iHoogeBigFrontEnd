@@ -203,22 +203,14 @@ export default {
         },
         //点击查询按钮调用
         inquire(){
-            // if(this.account == ''){
-            //     this.$message('请输入账号')
-            // }else if(this.stime == ''){
-            //     this.$message('请输入开始时间')
-            // }else if(this.etime == ''){
-            //     this.$message('请输入结束时间')
-            // }else{
-            //     this.getTdable()
-            // }
             if (!this.account && !this.username) {
-                // this.$message("请输入您要查询的账号或昵称！")
+                this.page = 1
                 this.getTdable()
 			} else {
                 if(this.account === ''){
                     this.getAccount()
                 }else{
+                    this.page = 1
                     this.getTdable()
                 }
 			}
@@ -231,38 +223,39 @@ export default {
             findAllMember(obj).then(res => {
                 console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
                 this.getTdable()
             })
         },
         getTdable(){
             let obj = {
                 account: this.account,
-                endTime: this.etime,
-                startTime: this.stime,
+                endTime: this.etime || '',
+                startTime: this.stime || '',
                 page: this.page,
                 pageSize: this.pageSize,
                 status: this.status
             }
-            findGoldCard(obj)
-            .then(res => {
+            console.log(obj)
+            findGoldCard(obj).then(res => {
                 console.log(res)
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
                 }else{
-                    this.$message(res.data.data)
+                    this.$message(res.data.message)
                 }
             })
         },
         //翻页
         handleCurrentChange(num){
             this.page = num;
-            this.inquire()
+            this.getTdable()
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
-            this.inquire()
+            this.getTdable()
         },
     }
 }

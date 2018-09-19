@@ -219,6 +219,7 @@
                                         </el-form-item>
                                         <el-form-item label="开户地区">
                                             <el-input v-model="bankInfos.bankPart" auto-complete="off" style="width:60%"></el-input>
+                                            <span style="color:red;">格式：开户省份|开户城市|支行</span>
                                         </el-form-item>
                                         <el-button type="primary" @click="bankbinding(scope.row)">确 定</el-button>
                                 </el-form>
