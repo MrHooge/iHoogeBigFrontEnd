@@ -404,7 +404,7 @@ export default {
 			memberDrawingReview(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					Message.success("审核成功！")
+					Message.success(res.data.message)
 					this.getData(1);
 					this.dialogVisible = false;
 				}
