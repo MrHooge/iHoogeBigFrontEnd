@@ -129,24 +129,40 @@
     彩期:<el-input v-model="term" style="width: 150px;margin-right:10px;margin-top:40px" size="mini"></el-input>
     票号:<el-input v-model="id" style="width: 150px;margin-right:10px;margin-top:40px" size="mini"></el-input>
     方案编号:<el-input v-model="planNo" style="width: 150px;margin-right:10px;mmargin-top:40px" size="mini"></el-input>
-    玩法:<el-input v-model="playType" style="width: 150px;margin-right:10px;margin-top:40px" size="mini"></el-input><br />
-    </div>
+    玩法:<el-input v-model="playType" style="width: 150px;margin-right:10px;margin-top:40px" size="mini"></el-input>
+    
     <div class="search-midder">
-    中奖状态:<el-radio v-model="isBingo" label="-1" border style="margin:5px;" size="mini">全部</el-radio>
+    <!-- 中奖状态:<el-radio v-model="isBingo" label="-1" border style="margin:5px;" size="mini">全部</el-radio>
             <el-radio v-model="isBingo" label="0" border style="margin:5px;" size="mini">中奖</el-radio>
             <el-radio v-model="isBingo" label="1" border style="margin:5px;" size="mini">未中奖</el-radio>            
     出票状态:<el-radio v-model="status" label="-1" border style="margin:5px;" size="mini">全部</el-radio>
             <el-radio v-model="status" label="1" border style="margin:5px;" size="mini">未送票</el-radio>
             <el-radio v-model="status" label="3" border style="margin:5px;" size="mini">未确认</el-radio>
             <el-radio v-model="status" label="4" border style="margin:5px;" size="mini">出票成功</el-radio>
-            <el-radio v-model="status" label="5" border style="margin:5px;" size="mini">出票失败</el-radio>
+            <el-radio v-model="status" label="5" border style="margin:5px;" size="mini">出票失败</el-radio> -->
+        中奖状态:
+        <el-select v-model="isBingo" placeholder="请选择">
+            <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+            </el-option>
+        </el-select>
+        出票状态:
+        <el-select v-model="status" placeholder="请选择">
+            <el-option
+            v-for="item in options01"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+            </el-option>
+        </el-select>
+
     <!-- 是否真实出票:<el-radio v-model="radio" label="0" border style="margin:5px;" size="mini">是</el-radio>
                 <el-radio v-model="radio" label="1" border style="margin:5px;" size="mini">否</el-radio><br /> -->
-    是否真实出票:<el-radio label="0" border style="margin:5px;" size="mini">是</el-radio>
-                <el-radio label="1" border style="margin:5px;" size="mini">否</el-radio><br />
     </div>
-    <div class="search-footer">
-    生成票时间&nbsp;开始：<el-date-picker
+    <div class="search-footer">生成票时间&nbsp;开始：<el-date-picker
             v-model="createDateTimeStart"
             type="datetime"
             style="margin-bottom:10px;margin-right:20px;width:200px;"
@@ -162,7 +178,6 @@
             placeholder="请选择开始日期"
             default-time="23:59:59"
             value-format="yyyy-MM-dd HH:mm:ss"
-            
             size="mini">
             </el-date-picker><br />
      打印票时间&nbsp;开始：<el-date-picker
@@ -221,8 +236,9 @@
             </el-date-picker><br />
              <el-button type="primary" @click="openprize" style="margin-left:26%;margin-bottom:20px">查询 </el-button>
     </div>  
+    </div>
     <!-- 列表 -->
-    <span>出票总金额：{{whole}}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wholeget}}元</span>&nbsp;
+    <!-- <span>出票总金额：{{whole}}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wholeget}}元</span>&nbsp; -->
     <el-table
                :data="tableData"
                border
@@ -373,6 +389,35 @@ export default {
             pageSize:20,
             type:''||null,
             totalList: 0,
+
+            options: [{
+            value: '选项1',
+            label: '全部'
+            }, {
+            value: '选项2',
+            label: '中奖'
+            }, {
+            value: '选项3',
+            label: '未中奖'
+            }],
+
+            
+            options01: [{
+            value: '选项1',
+            label: '全部'
+            }, {
+            value: '选项2',
+            label: '未送票'
+            }, {
+            value: '选项3',
+            label: '未确认'
+            }, {
+            value: '选项4',
+            label: '出票成功'
+            }, {
+            value: '选项5',
+            label: '出票失败'
+            }],
         }
     },
     filters:{
@@ -541,14 +586,17 @@ export default {
 </script>
 
 <style scoped>
+.el-select{
+    width: 120px;
+}
 .search-top{
-    margin-left:400px
+    margin-left:100px
 }
 .search-midder{
-    margin-left:300px
+    /* margin-left:300px */
 }
 .search-footer{
-    margin-left: 500px
+    /* margin-left: 500px */
 }
 /* .search{
     margin-left: 400px

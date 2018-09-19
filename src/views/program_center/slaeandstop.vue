@@ -54,7 +54,7 @@ export default {
         gettable(){
             getLotteryTypeIsSale().then(res => {
                 console.log(res)
-                this.tableData = res.data
+                this.tableData.push(res.data.data)
             })
         },
         //修改

@@ -44,7 +44,7 @@
             v-model="stime"
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
-            style="margin-bottom:40px;margin-right:20px;width:180px"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期">
             </el-date-picker>
             
@@ -54,8 +54,8 @@
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="margin-left:10px;
-            margin-right:30px
-            width:180px
+            margin-right:30px;
+            width:200px;
             margin-bottom:40px;"
             placeholder="请选择结束日期"
             default-time="23:59:59"
@@ -137,7 +137,13 @@
                     align="center"
                     label="玩法">           
                 </el-table-column>
-                
+                <el-table-column
+                    align="center"
+                    label="来源">
+                    <template slot-scope="scope">
+                        {{scope.row.platForm | platForm}}
+                    </template>          
+                </el-table-column>
                 <el-table-column
                     prop="addPrize"
                     align="center"
@@ -292,6 +298,21 @@ export default {
         }
     },
     filters:{
+        platForm(a){
+            a = Number(a)
+            if(a === 1){
+                return 'ios'
+            }
+            else if(a === 2){
+                return '安卓'
+            }
+            else if(a === 3){
+                return 'm端'
+            }
+            else if(a === 4){
+                return 'pc端'
+            }
+        },
         //是否嘉奖
         shape(s){
             return s == true ? "嘉" : ""
@@ -459,6 +480,7 @@ export default {
         search() {
 			if (!this.account && !this.username) {
                 // this.$message("请输入您要查询的账号或昵称！")
+                this.page = 1
                 this.gettable()
 			} else {
                 if(this.account === ''){
@@ -477,6 +499,7 @@ export default {
             findAllMember(obj).then(res => {
                 console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
                 this.gettable()
             })
         },

@@ -127,6 +127,7 @@ export default {
             if(this.input1 === ''){
                 this.getAccount()
             }else{
+                this.page = 1
                 this.getData(this.input1);
             }
         }
@@ -139,6 +140,7 @@ export default {
         findAllMember(obj).then(res => {
             console.log(res.data.data.list[0].ACCOUNT)
             this.input1 = res.data.data.list[0].ACCOUNT
+            this.page = 1
             this.getData(this.input1);
         })
     },

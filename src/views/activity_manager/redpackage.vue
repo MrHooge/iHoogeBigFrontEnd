@@ -2,7 +2,8 @@
     <div class="robot">
         <div class="btn">
              <el-input v-model="account" placeholder="请输入用户名" style="width: 180px;margin-right:20px"></el-input>
-             <!-- <el-button type="primary" @click="search">查询</el-button> -->
+             <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+             <el-button type="primary" @click="search">用昵称查询账号</el-button>
              <el-date-picker
             v-model="stime"
             type="date"
@@ -211,6 +212,7 @@
 
 <script>
 import { grabRedRacketList2,putRedRacketList2,addRedRacketForPlatform } from '@/api/activity'
+import { findAllMember} from '@/api/customer'
 export default {
     data() {
         return {
@@ -229,6 +231,7 @@ export default {
             pageName:'', // 红包名字
             amount:'',  //红包总金额
             totalList: 0,  //总页数
+            username: '',   //昵称
 
         }
     },
@@ -272,11 +275,23 @@ export default {
         }
     },
     methods: {
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+            })
+        },
         //查询
-        // search(){
-        //     this.page = 1
-        //     this.getTable()
-        // },
+        search() {
+            console.log(this.account)
+            if(this.account === null){
+                this.getAccount()
+            }
+        },
         getTable() {
             let obj = {
                 account: this.account,

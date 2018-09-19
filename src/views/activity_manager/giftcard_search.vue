@@ -179,9 +179,24 @@ export default {
         }
     },
     created(){
-        this.getTdable()
+        this.getTodayDate()
     },
     methods:{
+        // 默认当天
+        getTodayDate(){
+            let date = new Date()
+            console.log(date)
+            let y = date.getFullYear();
+            let m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            this.stime =  y + '-' + m + '-' + d +' '+ '00:00:00';
+            console.log(this.stime)
+            this.etime = y + '-' + m + '-' + d +' '+ '23:59:59';
+            console.log(this.etime)
+            this.getTdable()
+        },
         filter(){
             this.page = 1
             this.inquire()
