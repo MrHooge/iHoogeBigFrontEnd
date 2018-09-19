@@ -293,13 +293,14 @@ export default {
 
  <style scoped>
  .quill{
-   position: absolute;
+   /* position: absolute;
    top: 40px;
-   right:80px
+   right:80px */
  }
  .quill-editor {
  height: 425px;
- width: 1000px
+ width: 1000px;
+ min-width: 1000px;
 }
   .ql-container {
  height: 380px;
@@ -325,6 +326,11 @@ export default {
     height: 250px
 }
 .sendnews{
-  padding: 10px 20px
+    width: 100%;
+    min-width: 1200px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-start;
+
 }
 </style>

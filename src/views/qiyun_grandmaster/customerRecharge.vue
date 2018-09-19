@@ -1,7 +1,7 @@
 <template>
     <div class="Sunburn">
         <div class="box">
-            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;" @input="search"></el-input>
+            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;"></el-input>
              开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -105,7 +105,6 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="totalList"
             >
             </el-pagination>
         </div>
@@ -122,7 +121,8 @@ export default {
       stime:'',
       etime:'',
       page:1,
-      pageSize:20
+      pageSize:20,
+      // totalList: 0,
     }
   },
   filters: {
@@ -141,9 +141,11 @@ export default {
         return "被驳回";
       }
     },
-    time(a){
-        if(a != null){
-            let date = new Date(a);
+      time(a){
+        if(a==null){
+          return ' '
+        }else{
+          let date = new Date(a);
             let y = date.getFullYear();
             let MM = date.getMonth() + 1;
             MM = MM < 10 ? ('0' + MM) : MM;
@@ -157,6 +159,8 @@ export default {
             s = s < 10 ? ('0' + s) : s;
             return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
         }
+            
+
         }
   },
   created() {
@@ -184,9 +188,11 @@ export default {
       };
       getRechargeList(model)
         .then(res => {
-            // console.log(res.status);
+            console.log(res.status);
           if (res.status == 200) {
-            this.tablelist = res.data.data            
+            console.log(res)
+            this.tablelist = res.data.data
+            // this.totalList = res.data.total          
           }
         });
     },
@@ -218,9 +224,10 @@ export default {
       };
       getRechargeList(model)
         .then(res => {
+          console.log(res)
             // console.log(res.status);
           if (res.status == 200) {
-            this.tablelist = res.data.data            
+            this.tablelist = res.data.data.list           
           }
         });
     }
