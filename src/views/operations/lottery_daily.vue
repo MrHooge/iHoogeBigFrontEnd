@@ -6,61 +6,61 @@
    <p>每日两单（一）</p>
         <el-form ref="form" :model="form" label-width="80px" size="500px" key="dayOneDan2DTO">
           <el-form-item label="玩法" style="width:400px">
-    <el-input v-model="form.playType"></el-input>
-  </el-form-item>
-  <el-form-item label="场次" style="width:400px">
-    <el-input v-model="form.matchId"></el-input>
-  </el-form-item>
-  <el-form-item label="主队" style="width:400px">
-    <el-input v-model="form.homeTeam"></el-input>
-  </el-form-item>
-   <el-form-item label="客队" style="width:400px">
-    <el-input v-model="form.guestTeam"></el-input>
-  </el-form-item>
-   <el-form-item label="推荐" style="width:400px">
-    <el-input v-model="form.recommend"></el-input>
-  </el-form-item>
-   <el-form-item label="sp值" style="width:400px">
-    <el-input v-model="form.sp"></el-input>
-  </el-form-item>
-  <el-form-item label="分析" style="width:400px;">
-    <el-input type="textarea" v-model="form.analyze"></el-input>
-  </el-form-item>
-    <el-form-item>
-    <el-button type="primary" @click="onSubmitfirst">提交</el-button>
-    <el-button>取消</el-button>
-  </el-form-item>
-</el-form>
+          <el-input v-model="form.playType"></el-input>
+        </el-form-item>
+        <el-form-item label="场次" style="width:400px">
+          <el-input v-model="form.matchId"></el-input>
+        </el-form-item>
+        <el-form-item label="主队" style="width:400px">
+          <el-input v-model="form.homeTeam"></el-input>
+        </el-form-item>
+        <el-form-item label="客队" style="width:400px">
+          <el-input v-model="form.guestTeam"></el-input>
+        </el-form-item>
+        <el-form-item label="推荐" style="width:400px">
+          <el-input v-model="form.recommend"></el-input>
+        </el-form-item>
+        <el-form-item label="sp值" style="width:400px">
+          <el-input v-model="form.sp"></el-input>
+        </el-form-item>
+        <el-form-item label="分析" style="width:400px;">
+          <el-input type="textarea" v-model="form.analyze"></el-input>
+        </el-form-item>
+          <el-form-item>
+          <el-button type="primary" @click="onSubmitfirst">提交</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
   </div>
   <div class="right">
    <p>每日两单（二）</p>
         <el-form ref="form" :model="formsecond" label-width="80px" size="500px">
          <el-form-item label="玩法" style="width:400px">
-    <el-input v-model="formsecond.playType"></el-input>
-  </el-form-item>
-  <el-form-item label="场次" style="width:400px">
-    <el-input v-model="formsecond.matchId"></el-input>
-  </el-form-item>
-  <el-form-item label="主队" style="width:400px">
-    <el-input v-model="formsecond.homeTeam"></el-input>
-  </el-form-item>
-   <el-form-item label="客队" style="width:400px">
-    <el-input v-model="formsecond.guestTeam"></el-input>
-  </el-form-item>
-   <el-form-item label="推荐" style="width:400px">
-    <el-input v-model="formsecond.recommend"></el-input>
-  </el-form-item>
-   <el-form-item label="sp值" style="width:400px">
-    <el-input v-model="formsecond.sp"></el-input>
-  </el-form-item>
-  <el-form-item label="分析" style="width:400px;">
-    <el-input type="textarea" v-model="formsecond.analyze"></el-input>
-  </el-form-item>
-    <el-form-item>
-    <el-button type="primary" @click="onSubmitsecond">提交</el-button>
-    <el-button>取消</el-button>
-  </el-form-item>
-</el-form>
+            <el-input v-model="formsecond.playType"></el-input>
+            </el-form-item>
+            <el-form-item label="场次" style="width:400px">
+              <el-input v-model="formsecond.matchId"></el-input>
+            </el-form-item>
+            <el-form-item label="主队" style="width:400px">
+              <el-input v-model="formsecond.homeTeam"></el-input>
+            </el-form-item>
+            <el-form-item label="客队" style="width:400px">
+              <el-input v-model="formsecond.guestTeam"></el-input>
+            </el-form-item>
+            <el-form-item label="推荐" style="width:400px">
+              <el-input v-model="formsecond.recommend"></el-input>
+            </el-form-item>
+            <el-form-item label="sp值" style="width:400px">
+              <el-input v-model="formsecond.sp"></el-input>
+            </el-form-item>
+            <el-form-item label="分析" style="width:400px;">
+              <el-input type="textarea" v-model="formsecond.analyze"></el-input>
+            </el-form-item>
+              <el-form-item>
+              <el-button type="primary" @click="onSubmitsecond">提交</el-button>
+              <el-button>取消</el-button>
+          </el-form-item>
+    </el-form>
   </div>
   </div>
 <!-- <el-dialog title="确认提交吗" :visible.sync="dialogVisible" width="500px" top="30vh">
@@ -71,7 +71,7 @@
         </el-dialog> -->
         <div class="chuan">
           <div class="no">
-   <p>实战二串一（一）</p>
+    <p>实战二串一（一）</p>
         <el-form :inline="true" :model="formthird" class="demo-form-inline">
         <el-form-item label="场次">
           <el-input v-model="formthird.amount"></el-input>
@@ -396,17 +396,25 @@ export default {
 .el-textarea__inner{
     height: 250px;
 }
+.right >>> .el-form-item{
+  width: 400px
+}
 .right{
-  float: left;
-  margin-left: 400px;
+  /* float: left; */
+  width: 500px;
+  margin-left: 100px;
   overflow: hidden
 }
 .left{
   width: 500px;
-  float: left;
+  /* float: left; */
 }
 .addstationletter{
+  min-width: 1200px;
+    width: 100%;
     padding: 10px 20px;
     overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
 }
 </style>
