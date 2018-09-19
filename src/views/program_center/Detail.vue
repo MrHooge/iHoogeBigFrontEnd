@@ -60,6 +60,7 @@
                 <div class="left">方案状态：</div>
                 <div class="right">{{ planStatus }}</div>
             </div>
+            
             <div class="lei">
                 <div class="left">税后金额：</div>
                 <div class="right">{{ posttaxPrize }}</div>
@@ -71,8 +72,8 @@
                 <div class="right">{{ createDateTime | time }}</div>
             </div>
             <div class="lei">
-                <div class="left">提成：</div>
-                <div class="right"></div>
+                <div class="left">过关方式</div>
+                <div class="right">{{playType}}</div>
             </div>
             </div>
             <div class="Enthalt">
@@ -92,7 +93,7 @@
             </div>
             <div class="lei">
                 <div class="left">退款或派奖日期：</div>
-                <div class="right"></div>
+                <div class="right">{{arrivalTime | time}}</div>
             </div>
             </div>
             <div class="Enthalt">
@@ -223,10 +224,12 @@ export default {
             tablethis:[],
             lotteryType:'',//彩种
             planStatus:'',//方案状态
+            playType: '', //过关方式
             term:'',//彩期
             account:'',
             createDateTime:'',
             dealDateTime:'',
+            arrivalTime: '',
             isSuper:'',
             amount:'',
             multiple:'',
@@ -304,6 +307,7 @@ export default {
                 this.tablethis = res.data.matchDetail.options;
                 this.lotteryType = res.data.lotteryType;
                 this.planStatus = res.data.planStatus;
+                this.playType = res.data.playType;
                 this.term = res.data.term;
                 this.account = res.data.account;
                 this.createDateTime = res.data.createDateTime;
@@ -316,6 +320,7 @@ export default {
                 this.pretaxPrize = res.data.pretaxPrize;
                 this.posttaxPrize = res.data.posttaxPrize;
                 this.printTicketDateTime = res.data.printTicketDateTime;
+                this.arrivalTime = res.data.arrivalTime
                 this.ticketDetail = res.data.ticketDetail;
                 this.planOrderStatus = res.data.planOrderStatus;
                 this.openResultTime = res.data.openResultTime;
