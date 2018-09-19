@@ -84,14 +84,14 @@
                      label="注册时间"
                      align="center">
                        <template slot-scope="scope">
-                    {{scope.row.registerDateTime}}
+                    {{scope.row.registerDateTime | time}}
                      </template>
                </el-table-column>  
                  <el-table-column
                      label="最后登陆时间"
                      align="center">
                       <template slot-scope="scope">
-                    {{scope.row.lastLoginDateTime}}
+                    {{scope.row.lastLoginDateTime | time}}
                      </template>
                </el-table-column>  
                   <el-table-column
@@ -244,14 +244,9 @@ export default {
         },
         //搜索
         search_customer(){
-            // if(!this.account && !this.username){
-            //     this.$message("请输入用户名或者昵称")
-            // }else{
-                this.page = 1
-                this.pageSize = 20
-                this.gettablelist();
-
-            // }
+            this.page = 1
+            this.pageSize = 20
+            this.gettablelist();
         },
         //加白
         addwhite(data){
@@ -283,27 +278,27 @@ export default {
         },
         //批量取消加白
         moredeletewhite(){
-              if(this.selections === 0){
-              this.$message('至少选择一个用户')
-        }else{
-              let newarr = [];
-              this.selections.forEach(e => {
-                //   console.log(e)
-                    newarr.push(e.ACCOUNT)
-              });
-              let newaccount = newarr.join(',');
-              this.account = newaccount;
-              this.type = 2;
-              memberToWrite(this.account,this.type).then(res => {
-                    if (res.data.error_code === 200) {
-                        Message.success('取消加白成功')
-                        this.account = ''
-                         this.gettablelist()
-                     } else {
-                        Message.error(res.data.message)
-                    }
-              })
-        }
+            if(this.selections.length === 0){
+                this.$message('至少选择一个用户')
+            }else{
+                let newarr = [];
+                this.selections.forEach(e => {
+                    //   console.log(e)
+                        newarr.push(e.ACCOUNT)
+                });
+                let newaccount = newarr.join(',');
+                this.account = newaccount;
+                this.type = 2;
+                memberToWrite(this.account,this.type).then(res => {
+                        if (res.data.error_code === 200) {
+                            Message.success('取消加白成功')
+                            this.account = ''
+                            this.gettablelist()
+                        } else {
+                            Message.error(res.data.message)
+                        }
+                })
+            }
         },
          //翻页
         handleCurrentChange(num){
@@ -319,12 +314,18 @@ export default {
         },
         //显示一个月以上未登录用户
         longtime(){
-              getHistoryClient(this.page, this.pageSize).then(res => {
-
+            this.page = 1
+            getHistoryClient(this.page, this.pageSize).then(res => {
+                console.log(res)
+                if(res.data.error_code === 200){
                     this.tableData = res.data.data
-              }).catch(error => {
-                    Message.error(error)
-              })
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }).catch(error => {
+                Message.error(error)
+            })
         },
         // 选择框全部
         handleSelectionChange(selection) {

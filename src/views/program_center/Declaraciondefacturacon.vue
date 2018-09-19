@@ -180,6 +180,7 @@ export default {
         },
         //查询
         search(){
+            this.page = 1
             this.gettable()
         },
          //翻页

@@ -33,7 +33,7 @@
                 align="center"
                 label="比赛时间">
                  <template slot-scope="scope">
-                    {{scope.row.matchTime.time}}
+                    {{scope.row.matchTime.time | time}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -48,7 +48,7 @@
                 label="截止日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.MatchDealTime.time}}
+                    {{scope.row.MatchDealTime.time | time}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -90,20 +90,23 @@ export default {
         }
     },
     filters: {
-        times(a) {
-             let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        time(a) {
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+            
         },
         sells(arr){
             let temp = []

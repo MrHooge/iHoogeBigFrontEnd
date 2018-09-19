@@ -220,6 +220,7 @@
                                         <el-form-item label="开户地区">
                                             <el-input v-model="bankInfos.bankPart" auto-complete="off" style="width:60%"></el-input>
                                         </el-form-item>
+                                        <el-button type="primary" @click="bankbinding(scope.row)">确 定</el-button>
                                 </el-form>
                                 <el-button type="warning" @click="bank(scope.row)" slot="reference">绑定银行</el-button>
                                 </el-popover>
@@ -259,14 +260,9 @@ export default {
             tableData:[],
             walletData:[],   //存储钱包数据信息
             bankInfos: [],  //存储银行数据信息
-            dialogFormVisible: false,
-            account:'',
-            name:'',
-            idcard:'',
+            dialogFormVisible: false,  
             email:'',
-            
-            partner:'',
-            
+            partner:'',       
             visible2: false,
             //操作里的数据
             form:{
@@ -286,6 +282,7 @@ export default {
                 certNo: '',   //身份证
                 agentAccount: '',//上级用户名
                 type: '',//会员类型
+                
             },
             
             bank_type:'',
@@ -299,20 +296,18 @@ export default {
             start_time: '',  //开始时间
             username: '',   //昵称
             zhanghao: '',   //通过这个账号查询银行信息
+            name:'',
+            idcard:'',
+            zh: '',    //支行
+            city: '',   //开户城市
+            province: '',   //开户省份
         }
     },
-//     props: {
-//     routes: {
-//       type: Array
-//     }
-//   },
    computed: {
     ...mapGetters([
       'roles'
     ]),
     routes() {
-        //console.log(this.$router.options.routes)
-        //console.log(123456)
       return this.$router.options.routes
     },
   },
@@ -368,6 +363,7 @@ export default {
     methods:{
         //点击修改按钮 跳出修改框
         xiugaiKuang(a){
+            console.log(a)
             this.form.username = a.username 
             this.form.email = a.EMAIL || ''
             this.form.name = a.NAME
@@ -386,8 +382,11 @@ export default {
                 upAccount: this.form.agentAccount || ''
             }
             updateMemberInfoBack(obj).then(res => {
+                console.log(res)
                 if(res.data.error_code === 200){
-                    this.$message('修改成功！')
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.error(res.data.message)
                 }
             })
         },
@@ -411,6 +410,7 @@ export default {
             }
             findAllMember(obj).then(res => {
                 if(res.data.error_code === 200){
+                    
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
                 }else{
@@ -450,14 +450,34 @@ export default {
         // },
         //通过账号获取绑定银行信息
         bank(data){
-            console.log(data)
-            this.zhanghao = data.ACCOUNT
+            this.zhanghao = data.ACCOUNT 
             getMemberInfoBack(this.zhanghao).then(res => {
-                // if(res.data){
-
-                // }
-                console.log(res.data.data)
                 this.bankInfos = res.data.data
+                // 拿到开户银行信息
+                let bankPart = this.bankInfos.bankPart;
+                // 定义一个变量接收  截取分割后的字符串数组
+                let arr = bankPart.split('|')
+                arr.map((k,v)=>{
+                    console.log(typeof k)
+                })
+                if(arr[2]!="null"){
+                    this.zh = arr[2]
+                }else{
+                    this.zh  = ''
+                }
+                if(arr[1]!="null"){
+                    this.city = arr[1]
+                }else{
+                    this.city  = ''
+                }
+                if(arr[0]!="null"){
+                    this.province = arr[0]
+                }else{
+                    this.province  = ''
+                }
+
+              
+
             });
         },
         
@@ -472,22 +492,20 @@ export default {
         //         Message.error(error)
         //     })
         // },
-        
         //绑定银行确认
         bankbinding(){
+            console.log(this.bankInfos);
+            let arr = this.bankInfos.bankPart.split('|')
+            
             let bankfrom = {
-                account:this.account,
-                realName:this.name,
-                is_back:0,
-                token:getCookies('token'),
-                bank:this.form.bank,
-                bankCard:this.form.bankCard,
-                bankPart:this.form.bankPart,
-                certNo:this.form.certNo,
-                city:this.form.city,
-                province:this.form.province,
-                zfbAccount:this.form.zfbAccount,
-                bank_type:1||2
+                account:this.zhanghao,
+                bank: this.bankInfos.bank,
+                is_back: 0,
+                bankCard: this.bankInfos.bankCard, 
+                bankPart: this.bankInfos.bankPart.split('|')[2],   //支行
+                city: this.bankInfos.bankPart.split('|')[1],    //开户城市	
+                province: this.bankInfos.bankPart.split('|')[0],   //开户省份
+                bank_type: 1
             }
             bind(bankfrom).then(res => {
                 console.log(res.data.msg)

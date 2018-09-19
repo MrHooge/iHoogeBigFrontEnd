@@ -58,7 +58,6 @@
         :page-sizes="[10, 20, 30, 40, 50]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="totalList"
         >
       </el-pagination>
     </div>
@@ -112,7 +111,7 @@ export default {
       },
       formLabelWidth: '120px',
       page: 1,
-      pageSize: 20,
+      pageSize: 100,
       totalPages: 0,
       totalList: 0,
       allRoles: []

@@ -1,11 +1,39 @@
 <template>
 	<div class="app-container">
 		<!-- 设置会员返点 -->
-					<div class="search">
-				<el-input v-model="sjname"
+			<div class="search">
+				<!-- <el-input v-model="account"
 				          placeholder="请输入查询账号"
-				          style="width:50%;"
-									@input="onInput"></el-input>
+				          style="width:50%;"></el-input>
+                <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input> -->
+                账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
+                昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
+                姓名：<el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
+                身份证：<el-input v-model="idcard" placeholder="请输入身份证号" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
+                <!-- 邮箱：<el-input v-model="email" placeholder="请输入邮箱" style="width: 150px;margin-right:240px;margin-top:20px"></el-input> -->
+                电话：<el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:250px;margin-top:20px"></el-input>
+                <!-- 合作商：<el-input v-model="partner" placeholder="请输入合作商" style="width: 150px;margin-right:100px;margin-top:20px"></el-input><br /> -->
+                开始时间：
+                <el-date-picker
+                v-model="start_time"
+                type="date"
+                style="margin-bottom:40px;margin-right:20px;width:200px"
+                placeholder="请选择开始日期"
+                value-format="yyyy-MM-dd">
+                </el-date-picker>
+                
+                结束时间：
+                <el-date-picker
+                v-model="end_time"
+                align="right"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="margin-left:10px;
+                width:200px
+                margin-bottom:40px;"
+                placeholder="请选择结束日期"
+                >
+                </el-date-picker>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
@@ -47,12 +75,23 @@
 			</el-table-column>
 		</el-table>
 		<div class="page">
-			<el-pagination background
+			<!-- <el-pagination background
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
-			               :total="total">
-			</el-pagination>
+			               :total="totalList">
+			</el-pagination> -->
+            <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+            </el-pagination>
 		</div>
 		<!-- 修改角色信息 -->
 		<el-dialog title="返点信息"
@@ -177,7 +216,9 @@
 </template>
 
 <script>
-import { findAllMember, setRate } from '@/api/sys_user'
+// import { findAllMember, setRate } from '@/api/sys_user'
+import { setRate } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message, Checkbox } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -185,15 +226,15 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
-			sjname:'',  //  搜索值
+			// sjname:'',  //  搜索值
 			viewFormVisible: false,
 			viewFormType: 'view',
 			formLabelWidth: '120px',
 			tableData: [], //表格数据
 			tableData3: [], //点击数据
 			onePeople: {}, // 存选择的某一条数据
-			username: '',
-			total: 0,
+			// username: '',
+			totalList: 0,
 			// account: '',
 			member_id: '',
             gd_rate1: '', //  竞彩足球的代购返点
@@ -233,28 +274,65 @@ export default {
 			valueType2: '',  //竞彩篮球的返点类型
             rateParams: [],
             checkList: [],
+
+            account: '',   //账号
+            end_time: '',    //结束时间
+            mobile: '',  //手机号
+            page: 1,
+            pageSize: 20,
+            start_time: '',  //开始时间
+            username: '',   //昵称
+            name:'',
+            idcard:'',
 		}
 	},
 	created() {
-		this.getTable(1,this.sjname)
+		this.getTable()
 	},
 	methods: {
-		onInput(){   //  搜索框 为空时
-			this.getTable(1,this.sjname)
-		},
-		search(){  //  搜索按钮
-			this.getTable(1,this.sjname)
-		},
+        search(){  //  搜索按钮
+            this.page = 1
+            this.pageSize = 20
+			this.getTable()
+        },       
 		changeStatus(val){
 		    return this.value = val
-		},
-		getTable(page, a) { //   获取所有会员列表
-			findAllMember(page, a).then(res => {
-				console.log(res)
-				this.tableData = res.data.data.list
-				this.total = res.data.data.total
-			})
-		},
+        },
+        //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getTable()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getTable()
+        },
+        
+        //获取表格数据
+        getTable(){
+            let obj = {
+                account: this.account,
+                end_time: this.end_time,
+                mobile: this.mobile,
+                page: this.page,
+                pageSize: this.pageSize,
+                start_time: this.start_time,
+                username: this.username,
+                realName: this.name,
+                identifyId: this.idcard,
+            }
+            findAllMember(obj).then(res => {
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    Message.error(res.data.message)
+                }
+            }).catch(error => {
+                Message.error(error)
+            })
+        },        
 		showDailag(data, type) {
 			this.viewFormType = type
 			this.viewFormVisible = true

@@ -90,6 +90,7 @@ export default {
             page:1,
             pageSize:10,
             moveAgent:'',
+            totalList: 0,
             pickerOptions2: {
             shortcuts: [
                {
@@ -152,9 +153,15 @@ export default {
             if(!this.account){
                 this.$message('请输入账户名')
             }else{
-               this.end = this.datetime[1];
-               this.start = this.datetime[0];
-               this.gettabledata();
+                console.log(this.datetime === '')
+                if(this.datetime === ''){
+                    this.end = ''
+                    this.start = ''
+                }else{
+                    this.end = this.datetime[1];
+                    this.start = this.datetime[0];
+                }
+                this.gettabledata();
             }
         },
         //获取表单数据
@@ -163,13 +170,14 @@ export default {
                 agentName:this.account,
                 endDate:this.end,
                 startDate:this.start,
-                 page:this.page,
+                page:this.page,
                 pageSize:this.pageSize
             }
             findMemberMove(obj).then(res => {
                 console.log(123)
                 console.log(res.data)
                 this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
 
             }).catch(error => {
                 Message.error(error)

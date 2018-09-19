@@ -215,7 +215,8 @@ export default {
 				console.log('111111')
 				this.value == ''
 			}
-			// console.log(this.value)
+            // console.log(this.value)
+            this.page = 1
 			this.getData(this.username, this.value,this.operator);
 		},
 		//   接口返回数据数字转换成汉字

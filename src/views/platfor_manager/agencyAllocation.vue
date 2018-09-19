@@ -152,7 +152,8 @@ export default {
 			if(this.account == ''){
 				this.$message('请输入昵称')
 			}else{
-				//account = this.account
+                //account = this.account
+                this.page = 1
 				this.getData()
 			}
 		},
@@ -185,8 +186,9 @@ export default {
 		},
 		cofirm() {
 			this.number = []
-			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-				this.number.push(e.account)
+            this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
+                console.log(e)
+				this.number.push(e.ACCOUNT)
 			});
 			this.dialogVisible = true
 		},
@@ -194,6 +196,7 @@ export default {
 			let arr = []
 			let myObj = {}
 			this.number.forEach(e => {
+                console.log(e)
 				myObj[e] = this.input
 				// arr.push(myObj)
 

@@ -5,6 +5,7 @@
 			          style="width:300px;"
 			          placeholder="请输入用户账号进行筛选">
             </el-input>
+            <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             <el-button type="primary" @click="search">查询</el-button>
 		</div>
 		<el-table :data="tableData"
@@ -224,6 +225,7 @@
 
 <script>
 import { findAllRate, updateRateByAccount, delRateByAccount } from "@/api/sys_user";
+import { findAllMember} from '@/api/customer'
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
@@ -281,12 +283,39 @@ export default {
 	},
 	methods: {
         //查询
-        search(){
-            if(this.account === ''){
-                this.$message.error('请输入你要查询的账号！')
-            }else{
+        // search(){
+        //     if(this.account === ''){
+        //         this.$message.error('请输入你要查询的账号！')
+        //     }else{
+        //         this.getTable()
+        //     }
+        // },
+        //查询
+        search() {
+			if (!this.account && !this.username) {
+                // this.$message("请输入您要查询的账号或昵称！")
+                this.page = 1
                 this.getTable()
+			} else {
+                if(this.account == ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.getTable()
+                }
+			}
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
             }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.getTable()
+            })
         },
 		handleChange(val) {
 			console.log(val);

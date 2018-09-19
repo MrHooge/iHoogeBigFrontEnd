@@ -15,6 +15,14 @@ export function updateTerm(userinfos){
         params:userinfos
     })
 }
+//添加彩期
+export function addTerm(userinfos){
+    return request.lottery({
+        url:'/lottery/addTerm',
+        method:'get',
+        params:userinfos
+    })
+}
 //开奖
 export function openResult(lotteryTypes){
     return request.lottery({

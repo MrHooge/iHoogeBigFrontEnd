@@ -9,7 +9,7 @@
                 <p>截止时间：{{oldPlan.dealDateTime | time}}</p>
                 <p>方案编号：{{oldPlan.planNo}}</p>
                 <p>方案金额：{{oldPlan.amount}}</p>
-                <p>过关方式：{{oldPlan.passType}}</p>
+                <p>过关方式：{{oldPlan.playType}}</p>
                 <p>倍数：{{oldPlan.multiple}}</p>
                 <p>总拆包数：{{oldPlan.ticketCount}}</p>
             </div>
