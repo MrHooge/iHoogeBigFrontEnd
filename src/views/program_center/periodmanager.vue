@@ -59,11 +59,11 @@
      <el-radio v-model="radio" label="152" border style="margin:5px;" size="mini">广东快乐十分</el-radio> 
         </div>
 
-         <div class="ten">
+         <!-- <div class="ten">
             <h3>时时彩</h3>
     <el-radio v-model="radio" label="150" border style="margin:5px;" size="mini">重庆时时</el-radio>
      <el-radio v-model="radio" label="153" border style="margin:5px;" size="mini">江西时时</el-radio>
-        </div>
+        </div> -->
   </el-collapse-item>
   <el-collapse-item title="低频彩">
    <div class="ten">
@@ -125,8 +125,8 @@
 </el-collapse>
 <div class="search">
     <!-- 生成彩期数量:<el-input v-model="account" style="width: 150px;margin-right:10px;margin-bottom:20px;margin-top:40px"></el-input> -->
-    生成彩期数量:<el-input style="width: 150px;margin-right:10px;margin-bottom:20px;margin-top:40px"></el-input>
-    <el-button type="primary">生成期数 </el-button><br />
+    生成彩期数量:<el-input style="width: 150px;margin-right:10px;margin-bottom:20px;margin-top:40px" v-model="buildCount"></el-input>
+    <el-button type="primary" @click="addTerm">生成期数 </el-button><br />
     <el-button type="primary" @click="showperiodlist">查看彩期列表 </el-button>
     <el-button type="primary">抓取数据 </el-button>
     <el-button type="primary">编辑 </el-button>
@@ -136,24 +136,56 @@
 </template>
 
 <script>
+import {addTerm} from '@/api/period'
 export default {
     
     data(){
         return{
-            radio:1,
-           
+            radio: '',
+            buildCount: '',  //彩期数量
+            // lotteryTypeValue: '',  //选中的彩期
         }
     },
    
     methods:{
+        //生成彩期
+        addTerm(){
+            console.log(this.radio)
+            if(this.radio === ''){
+                this.$message('请选择彩期！')
+            }else if(this.buildCount === ''){
+                this.$message('请选择彩期数量！')
+            }else{
+                let obj = {
+                    buildCount: this.buildCount,
+                    lotteryTypeValue: this.radio
+                }
+                addTerm(obj).then(res=>{
+                    console.log(res)
+                    if(res.data.error_code === 200){
+                        this.radio = ''
+                        this.buildCount = ''
+                        this.$message.success(res.data.message)
+                    }else{
+                        this.$message.error(res.data.message)
+                    }
+                })
+            }
+        },
         //显示列表
         showperiodlist(){
-            this.$router.push({path:'/programCenter/period',query:{radio:this.radio}})
+            if(this.radio === ''){
+                this.$message('请选择彩期！')
+            }else{
+                this.$router.push({path:'/programCenter/period',query:{radio:this.radio}})
+            }
         },
         //开奖显示
         openprize(){
             this.$router.push({path:'/programCenter/lotteryprize',query:{radio:this.radio}})
-        }
+        },
+        
+
     }
 
 }

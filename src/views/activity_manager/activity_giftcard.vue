@@ -121,9 +121,11 @@ export default {
                     //console.log(newobj);
                     addGoldCard(params,loginAccount).then(res => {
                       if(res.data.error_code === 200){
-                          this.$message(res.data.message)
+                          this.$message.success(res.data.message)
                         //Message.success(res.message);
                         this.dialogVisible = false
+                      }else{
+                          this.$message.error(res.data.message)
                       }
                     })
 

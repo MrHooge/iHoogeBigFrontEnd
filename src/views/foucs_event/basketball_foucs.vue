@@ -42,7 +42,7 @@
                 label="截止日期"
                 align="center">
                 <template slot-scope="scope">
-					{{scope.row.matchDealTime.time | setimes}}
+					{{scope.row.MatchDealTime.time | setimes}}
 				</template>
             </el-table-column>
 
@@ -88,8 +88,10 @@ export default {
             }
             getBasketBallMatch(obj)
             .then(res => {
-                //console.log(res.data)
-                this.tableData.push(res.data.data[0])
+                console.log(res.data.data.length)
+                if(res.data.data.length > 0){
+                    this.tableData.push(res.data.data[0])
+                }
             })
             
         },

@@ -240,11 +240,13 @@ export default {
     },
     // 筛选回调
     search() {
-      this.getTable();
+        this.page = 1
+        this.getTable();
     },
     // 类型选中后的回调
     changetype() {
-      this.getTable(1);
+        this.page = 1
+        this.getTable();
     },
     // 状态选中的回调
     changestatus() {

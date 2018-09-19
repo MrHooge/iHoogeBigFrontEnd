@@ -182,7 +182,7 @@
             <el-table-column
                 prop="TRANS_TYPE_NAME"
                 align="center"
-                label="	发生类型">
+                label="发生类型">
             </el-table-column>
               <el-table-column
                 prop="HEAP_BALANCE"
@@ -382,11 +382,13 @@ export default {
         search() {
 			if (!this.account && !this.username) {
                 // this.$message("请输入您要查询的账号或昵称！")
+                this.page = 1
                 this.inquire()
 			} else {
                 if(this.account == ''){
                     this.getAccount()
                 }else{
+                    this.page = 1
                     this.inquire()
                 }
 			}
@@ -399,6 +401,7 @@ export default {
             findAllMember(obj).then(res => {
                 console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
                 this.inquire()
             })
         },

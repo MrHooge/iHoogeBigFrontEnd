@@ -209,13 +209,42 @@ export default {
         modify(data){
             console.log(data)
             this.dialogFormVisible = true;
-            this.form.id = data.id.toString()
-            this.form.guestScore = data.guestScore.toString()
-            this.form.halfGuestScore = data.halfGuestScore.toString()
-            this.form.halfHomeScore = data.halfHomeScore.toString()
-            this.form.homeScore = data.homeScore.toString()
-            this.form.rq = data.rq.toString()
-            this.form.status = data.status.toString()
+            this.form.id = data.id
+            if(data.guestScore != null){
+                this.form.guestScore = data.guestScore.toString()
+            }else{
+                this.form.guestScore = ''
+            }
+            if(data.halfGuestScore != null){
+                this.form.halfGuestScore = data.halfGuestScore.toString()
+            }
+            else{
+                this.form.halfGuestScore = ''
+            }
+            if(data.halfHomeScore != null){
+                this.form.halfHomeScore = data.halfHomeScore.toString()
+            }
+            else{
+                this.form.halfHomeScore = ''
+            }
+            if(data.homeScore != null){
+                this.form.homeScore = data.homeScore.toString()
+            }
+            else{
+                this.form.homeScore = ''
+            }
+            if(data.rq != null){
+                this.form.rq = data.rq.toString()
+            }
+            else{
+                this.form.rq = ''
+            }
+            if(data.status != null){
+                this.form.status = data.status.toString()
+            }
+            else{
+                this.form.status = ''
+            }
         },
         //确认修改
         submitInfos(){
