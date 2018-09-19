@@ -1,7 +1,31 @@
 <template>
     <div class="statistics">
-         <el-input placeholder="请输入用户名" v-model="account" style="width: 300px;margin-right:100px;margin-bottom:30px"></el-input>
-         <el-input placeholder="请输入昵称" v-model="username" style="width: 300px;margin-right:100px;margin-bottom:30px"></el-input>
+         <el-input placeholder="请输入用户名" v-model="account" style="width: 130px;margin-right:50px;margin-bottom:30px"></el-input>
+         <el-input placeholder="请输入昵称" v-model="username" style="width: 130px;margin-right:50px;margin-bottom:30px"></el-input>
+        <el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:50px;margin-top:40px"></el-input>
+        <el-input v-model="idcard" placeholder="请输入身份证号" style="width: 200px;margin-right:50px;margin-top:40px"></el-input>
+        <el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:50px;margin-top:20px"></el-input>
+        开始时间：
+         <el-date-picker
+            v-model="startTime"
+            type="date"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
+            placeholder="请选择开始日期"
+            value-format="yyyy-MM-dd">
+            </el-date-picker>
+        结束时间：
+            <el-date-picker
+            v-model="endTime"
+            align="right"
+            value-format="yyyy-MM-dd"
+            type="date"
+            style="margin-left:10px;
+            width:200px
+            margin-bottom:40px;"
+            placeholder="请选择结束日期"
+            >
+            </el-date-picker>
+
          <el-button type="primary" @click="search_customer" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">搜索</el-button>
          <el-button type="primary" @click="longtime" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">一个月以上未登录用户</el-button>
           <el-button type="primary" @click="moredeletewhite">批量取消加白</el-button>
@@ -144,6 +168,9 @@ export default {
             tableData:[],
             selections:[],
             account:'',
+            name:'',
+            idcard: '',
+            mobile: '',
             endTime:'',
             mobile:'',
             page: 1,
@@ -157,21 +184,22 @@ export default {
         }
     },
     filters:{
-                 time(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
+        time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
         },
         mtype(a){
               return a == 1 ?"否" :  "是"
@@ -195,13 +223,16 @@ export default {
         gettablelist(){
             let obj = {
                 account: this.account,
-                endTime: this.endTime,
+                end_time: this.endTime,
                 mobile: this.mobile,
                 page: this.page,
                 pageSize: this.pageSize,
-                startTime: this.startTime,
+                start_time: this.startTime,
                 username: this.username,
-                type: this.type
+                realName: this.name,
+                type: this.type,
+                identifyId: this.idcard,
+                mobile: this.mobile,
             }
             findAllMember(obj).then(res => {
                 this.tableData = res.data.data.list
@@ -213,14 +244,14 @@ export default {
         },
         //搜索
         search_customer(){
-            if(!this.account && !this.username){
-                this.$message("请输入用户名或者昵称")
-            }else{
+            // if(!this.account && !this.username){
+            //     this.$message("请输入用户名或者昵称")
+            // }else{
                 this.page = 1
                 this.pageSize = 20
                 this.gettablelist();
 
-            }
+            // }
         },
         //加白
         addwhite(data){

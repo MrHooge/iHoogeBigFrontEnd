@@ -2,17 +2,13 @@
 const merge = require('webpack-merge')
 const prodEnv = require('./prod.env')
 const QYAPI = {
-  member: "'https://member.api.qiyun88.cn'",
-   //member: "'http://192.168.7.40:8081'",
-  user: "'https://user.api.qiyun88.cn'",
-  //user: "'https://192.168.7.40:8081'",
-  infos: "'https://infos.api.qiyun88.cn'",
-  //infos:"'http://192.168.6.61:8081'",
-   pay: "'https://pay.api.qiyun88.cn'",
-    //pay: "'http://192.168.7.40:8087'",
-  ticket: "'https://ticket.api.qiyun88.cn'",
-  lottery: "'https://lottery.api.qiyun88.cn'"
-  // lottery: "'http://47.97.192.124:10090'"
+    member: "'https://member.api.qiyun88.cn'",
+    user: "'https://user.api.qiyun88.cn'",
+    infos: "'https://infos.api.qiyun88.cn'",
+    // infos: "'http://192.168.6.61:10030'",
+    pay: "'https://pay.api.qiyun88.cn'",
+    ticket: "'https://ticket.api.qiyun88.cn'",
+    lottery: "'https://lottery.api.qiyun88.cn'"
 }
 
 module.exports = merge(prodEnv, {

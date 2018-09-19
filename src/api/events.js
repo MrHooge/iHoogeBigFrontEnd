@@ -16,6 +16,14 @@ export function setAddPrize(userinfos){
         params:userinfos
     })
 }
+//修改嘉奖
+export function updateAddPirzeConfig(userinfos){
+    return request.lottery({
+        url:'/lottery/updateAddPirzeConfig',
+        method:'get',
+        params:userinfos
+    })
+}
 //获取当日最高嘉奖上限
 export function getMaxAddPrize(){
     return request.lottery({

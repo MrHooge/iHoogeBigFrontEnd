@@ -17,17 +17,32 @@
 						          placeholder="请输入查询流水ID"></el-input>
 					</div>
 				</el-col>
-				<el-col :span="3">
+				<el-col :span="2">
 					<el-select v-model="value"
 					           placeholder="请选择"
                                style="width:120px;">
-						<el-option v-for="item in options"
+						<el-option v-for="item in options1"
 						           :key="item.value"
 						           :label="item.label"
 						           :value="item.value">
 						</el-option>
 					</el-select>
+                    
 				</el-col>
+                <el-col :span="2">
+                    <el-select v-model="status"
+                            placeholder="请选择筛选数据"
+                            @change="filter">
+                        <el-option v-for="item in options2"
+                                :key="item.status"
+                                :label="item.label"
+                                :value="item.status"
+                                >
+                        </el-option>
+                    
+                    </el-select>
+                </el-col>
+
 				<el-col :span="12">
 					<div class="block"
 					     style="display: inline-block;">
@@ -91,7 +106,8 @@
 			                 align="center">
 				<template slot-scope="scope">
 					<span v-if="scope.row.STATUS === 6" style="color:green">{{ scope.row.STATUS | changeStatus}}</span>
-                    <span v-if="scope.row.STATUS === 7" style="color:red">{{ scope.row.STATUS | changeStatus}}</span>
+                    <span v-else-if="scope.row.STATUS === 7" style="color:red">{{ scope.row.STATUS | changeStatus}}</span>
+                    <span v-else>{{ scope.row.STATUS | changeStatus}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column label="开户支行"
@@ -178,17 +194,23 @@
 					<div style="padding:5px 0">
 						<el-button
 						    type="primary"
-						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6">通过
+						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">通过
                         </el-button>
 					</div>
 					<div>
 						<el-button
 						    type="danger"
-						    @click="reject(scope.row)" v-if="scope.row.STATUS != 6">驳回
+						    @click="reject(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">驳回
                         </el-button>
 					</div>
                     <div v-if="scope.row.STATUS === 6">
 						<el-button type="success">已到账</el-button>
+					</div>
+                    <div v-if="scope.row.STATUS === 5">
+						<el-button type="success">汇款驳回</el-button>
+					</div>
+                    <div v-if="scope.row.STATUS === 8">
+						<el-button type="success">财务驳回</el-button>
 					</div>
 				</template>
 			</el-table-column>
@@ -273,7 +295,7 @@ export default {
 			money: '',
 			value1: '',
 			value2: '',
-			options: [{
+			options1: [{
 				value: '0',
 				label: '申请时间'
 			}, {
@@ -299,8 +321,24 @@ export default {
 				valueList: '2',
 				label: '出票失败'
 			}],
-			valueList: '-1'
-
+            valueList: '-1',
+            status: '',   //状态筛选
+            options2: [
+				{ status: "", label: "全部" },
+				{ status: "-2", label: "待审核" },
+                { status: "-3", label: "审核驳回" },
+                { status: "-4", label: "所有失败记录" },
+                { status: "-5", label: "所有进行中" },
+                // { status: "1", label: "客服待审核" },
+                // { status: "2", label: "客服驳回" },
+                { status: "7", label: "财务待审核" },
+                { status: "8", label: "财务驳回" },
+                { status: "3", label: "待汇款" },
+                { status: "5", label: "汇款驳回" },
+                // { status: "0", label: "已汇出" },
+                // { status: "4", label: "银行退单" },
+                { status: "6", label: "已到账" },
+            ],
 		};
 	},
 	created() {
@@ -308,7 +346,10 @@ export default {
 		this.getData(1)
 	},
 	methods: {
-        
+        //筛选查询
+        filter(){
+            this.getData(1)
+        },
 		search() {
 			this.getData(1)
 		},
@@ -321,15 +362,21 @@ export default {
 				end_time: this.value2,
 				account: this.name,  //  账号
 				flow_num: this.flow_num, //  流水 ID
-				is_drawing_time: this.value, // 0 申请时间,1汇款时间
+                is_drawing_time: this.value, // 0 申请时间,1汇款时间
+                status: this.status
 			}
 			console.log(obj)
 			findMemberDrawingList(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					console.log(res)
-					this.tableData = res.data.data.list
-					this.total = res.data.data.total
+                    console.log(res)
+                    if(res.data.msg === '数据获取成功'){
+                        this.tableData = res.data.data.list
+					    this.total = res.data.data.total
+                    }
+                    else{
+                        this.$message.error(res.data.msg)
+                    }
 				} else {
 					console.log(res)
 					Message.success(res.data.message)
@@ -357,7 +404,7 @@ export default {
 			memberDrawingReview(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					Message.success("审核成功！")
+					Message.success(res.data.message)
 					this.getData(1);
 					this.dialogVisible = false;
 				}
@@ -395,6 +442,7 @@ export default {
 		}
 	},
 	filters: {
+        
         //改变时间
 		changeTime(timestamp) {
 			var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -408,10 +456,10 @@ export default {
         },
         //改变状态
         changeStatus(val){
-            if(val === 0){
-                return '已汇出'
-            }
-            else if(val === 1){
+            // if(val === 0){
+            //     return '已汇出'
+            // }
+            if(val === 1){
                 return '客服待审核'
             }
             else if(val === 2){
@@ -420,9 +468,9 @@ export default {
             else if(val === 3){
                 return '待汇款'
             }
-            else if(val === 4){
-                return '银行退单'
-            }
+            // else if(val === 4){
+            //     return '银行退单'
+            // }
             else if(val === 5){
                 return '汇款驳回'
             }

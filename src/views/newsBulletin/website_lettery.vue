@@ -112,21 +112,22 @@ export default {
     }
   },
    filters:{
-      time(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
+       time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
         },
         type(a){
           if(a == 1){
@@ -167,8 +168,13 @@ export default {
       }
       addMail(obj)
       .then(res => {
+        console.log(res)
         if(res.data.error_code == 200){
-          this.$message('添加成功')
+          this.$message.success(res.data.message)
+          this.dialogFormVisible = false
+        }else{
+            this.$message.error(res.data.data)
+            this.dialogFormVisible = false
         }
       })
       }
@@ -185,6 +191,7 @@ export default {
       }
       getMailList(newobj)
       .then(res => {
+          console.log(res)
         this.date = res.data.data
       })
     }

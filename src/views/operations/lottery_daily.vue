@@ -168,14 +168,14 @@ export default {
   data() {
     return {
       form:{
-      analyze:''||null,	
-      author:''||null,
-      guestTeam	:''||null,	
-      homeTeam:''||null,
-      matchId:''||null,
-      playType:''||null,
-      recommend:''||null,
-      sp:''||null
+        analyze:''||null,	
+        author:''||null,
+        guestTeam	:''||null,	
+        homeTeam:''||null,
+        matchId:''||null,
+        playType:''||null,
+        recommend:''||null,
+        sp:''||null
       },
       formsecond:{
        analyze:''||null,	
@@ -238,7 +238,6 @@ export default {
         this.$message('请输入分析')
       }else{
         let obj = {
- 
           analyze:this.form.analyze,	
           author:'manager',
           guestTeam	:this.form.guestTeam,	
@@ -248,12 +247,15 @@ export default {
           recommend:this.form.recommend,
           sp:this.form.sp
         }
-        createDayOneDan1(JSON.stringify(obj)).then(res => {
-         if(res.error_code == 200){
-           thi.$message(res.message)
-         }
+        createDayOneDan1(obj).then(res => {
+            console.log(res)
+            if(res.data.error_code == 200){
+                this.$message.success(res.data.message)
+            }else{
+                this.$message.error(res.data.data)
+            }
         })
-       }
+      }
     },
     onSubmitsecond(){
       if(!this.formsecond.playType){
@@ -281,105 +283,114 @@ export default {
           recommend:this.formsecond.recommend,
           sp:this.formsecond.sp
         }
-      createDayOneDan2(obj).then(res => {
-         if(res.error_code == 200){
-           thi.$message(res.message)
-         }
-      })
+        createDayOneDan2(obj).then(res => {
+            console.log(res)
+            if(res.data.error_code == 200){
+                this.$message.success(res.data.message)
+            }else{
+                this.$message.error(res.data.data)
+            }
+        })
       }
     },
     onSubmitthird(){
-       if(!this.formthird.amount){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.author){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.bonus){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.guestTeam1){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.guestTeam2){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.homeTeam1){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.homeTeam2){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.matchId1){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.matchId2){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.multiple){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.recommend1){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.recommend2){
-        this.$message('请输入完整数据')
-      }else{
-        let obj = {
-          amount:this.formthird.amount,	
-          author:'manager',
-          bonus	:this.formthird.bonus,	
-          guestTeam1:this.formthird.guestTeam1,
-          guestTeam2:this.formthird.guestTeam2,
-          homeTeam1:this.formthird.homeTeam1,
-          homeTeam2:this.formthird.homeTeam2,
-          matchId1:this.formthird.matchId1,
-          matchId2:this.formthird.matchId2,
-          multiple:this.formthird.multiple,
-          recommend1:this.formthird.recommend1,
-          recommend2:this.formthird.recommend2
-        }
-      createSZ2C11(obj).then(res => {
-         if(res.error_code == 200){
-           thi.$message(res.message)
-         }
-      })
+        if(!this.formthird.amount){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.author){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.bonus){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.guestTeam1){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.guestTeam2){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.homeTeam1){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.homeTeam2){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.matchId1){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.matchId2){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.multiple){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.recommend1){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.recommend2){
+            this.$message('请输入完整数据')
+        }else{
+            let obj = {
+                amount:this.formthird.amount,	
+                author:'manager',
+                bonus	:this.formthird.bonus,	
+                guestTeam1:this.formthird.guestTeam1,
+                guestTeam2:this.formthird.guestTeam2,
+                homeTeam1:this.formthird.homeTeam1,
+                homeTeam2:this.formthird.homeTeam2,
+                matchId1:this.formthird.matchId1,
+                matchId2:this.formthird.matchId2,
+                multiple:this.formthird.multiple,
+                recommend1:this.formthird.recommend1,
+                recommend2:this.formthird.recommend2
+            }
+            createSZ2C11(obj).then(res => {
+                console.log(res)
+                if(res.data.error_code == 200){
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.error(res.data.data)
+                }
+            })
       }
     },
     onSubmitforth(){
-      if(!this.formforth.amount){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.author){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.bonus){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.guestTeam1){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.guestTeam2){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.homeTeam1){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.homeTeam2){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.matchId1){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.matchId2){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.multiple){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.recommend1){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.recommend2){
-        this.$message('请输入完整数据')
-      }else{
-        let obj = {
-          amount:this.formthird.amount,	
-          author:'manager',
-          bonus	:this.formthird.bonus,	
-          guestTeam1:this.formthird.guestTeam1,
-          guestTeam2:this.formthird.guestTeam2,
-          homeTeam1:this.formthird.homeTeam1,
-          homeTeam2:this.formthird.homeTeam2,
-          matchId1:this.formthird.matchId1,
-          matchId2:this.formthird.matchId2,
-          multiple:this.formthird.multiple,
-          recommend1:this.formthird.recommend1,
-          recommend2:this.formthird.recommend2
-        }
-      createSZ2C12(obj).then(res => {
-         if(res.error_code == 200){
-           thi.$message(res.message)
-         }
-      })
+        if(!this.formforth.amount){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.author){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.bonus){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.guestTeam1){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.guestTeam2){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.homeTeam1){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.homeTeam2){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.matchId1){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.matchId2){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.multiple){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.recommend1){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.recommend2){
+            this.$message('请输入完整数据')
+        }else{
+            let obj = {
+                amount:this.formthird.amount,	
+                author:'manager',
+                bonus	:this.formthird.bonus,	
+                guestTeam1:this.formthird.guestTeam1,
+                guestTeam2:this.formthird.guestTeam2,
+                homeTeam1:this.formthird.homeTeam1,
+                homeTeam2:this.formthird.homeTeam2,
+                matchId1:this.formthird.matchId1,
+                matchId2:this.formthird.matchId2,
+                multiple:this.formthird.multiple,
+                recommend1:this.formthird.recommend1,
+                recommend2:this.formthird.recommend2
+            }
+            createSZ2C12(obj).then(res => {
+                console.log(res)
+                if(res.data.error_code == 200){
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.error(res.data.data)
+                }
+            })
       }
     }
   }

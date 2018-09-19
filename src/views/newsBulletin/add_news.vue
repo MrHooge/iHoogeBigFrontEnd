@@ -74,7 +74,7 @@
         </el-form-item><br />
         <el-form-item>
             <el-button type="primary" @click="update" v-show="xiugai">修改</el-button>
-            <el-button type="sendnews" @click="sendnews" v-show="fabu">发布</el-button>
+            <el-button type="primary" @click="sendnews" v-show="fabu">发布</el-button>
         </el-form-item>
     </el-form>
     <div class="quill">
@@ -195,20 +195,19 @@ export default {
       console.log(res)
       this.form.picture = res
     },
-     beforeAvatarUpload(file) {
-      const JPGArr = ["image/jpg", "image/jpeg", "image/png", "image/gif"]
-      const isJPG = JPGArr.indexOf(file.type) > -1;
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传图片只能是 JPG/PNG/GIF 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
-    },
-//状态选中
+    beforeAvatarUpload(file) {
+        const JPGArr = ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+        const isJPG = JPGArr.indexOf(file.type) > -1;
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isJPG) {
+            this.$message.error("上传图片只能是 JPG/PNG/GIF 格式!");
+        }
+        if (!isLt2M) {
+            this.$message.error("上传图片大小不能超过 2MB!");
+        }
+        return isJPG && isLt2M;
+    },
+        //状态选中
         handselect(value){
             console.log(value)
             this.form.type = value

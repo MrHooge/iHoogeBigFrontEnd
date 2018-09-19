@@ -1114,6 +1114,12 @@ export const constantRouterMap = [{
             name: '打票详情',
             component: () => import('@/views/book_ticket/ticket_details'),
             meta: { title: '打票详情'}
+        },
+        {
+            path: 'addApparatus',
+            name: '添加打票机',
+            component: () => import('@/views/book_ticket/addApparatus'),
+            meta: { title: '添加打票机'}  
         }
     ]
   },
