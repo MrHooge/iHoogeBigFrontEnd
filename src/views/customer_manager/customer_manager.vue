@@ -206,7 +206,9 @@
                                 <el-popover
                                 placement="right"
                                 width="1300"
-                                trigger="click">
+                                trigger="click"
+                                
+                                >
                                 <el-form :v-model="bankInfos">
                                     <el-form-item label="账号">
                                             <el-input v-model="bankInfos.account" auto-complete="off" style="width:60%"></el-input>
@@ -265,6 +267,7 @@ export default {
             email:'',
             partner:'',       
             visible2: false,
+            isshow: false,
             //操作里的数据
             form:{
                 // bank:'',
@@ -451,34 +454,44 @@ export default {
         // },
         //通过账号获取绑定银行信息
         bank(data){
-            this.zhanghao = data.ACCOUNT 
+            this.isshow = true
+            console.log(this.isshow)
+            console.log(data)
+            this.zhanghao = data.ACCOUNT
+            console.log(this.zhanghao)
             getMemberInfoBack(this.zhanghao).then(res => {
-                this.bankInfos = res.data.data
-                // 拿到开户银行信息
-                let bankPart = this.bankInfos.bankPart;
-                // 定义一个变量接收  截取分割后的字符串数组
-                let arr = bankPart.split('|')
-                arr.map((k,v)=>{
-                    console.log(typeof k)
-                })
-                if(arr[2]!="null"){
-                    this.zh = arr[2]
+                console.log(res)
+                if(res.data.data){
+                    this.bankInfos = res.data.data
+                    // 拿到开户银行信息
+                    if(this.bankInfos.bankPart != null){
+                        let bankPart = this.bankInfos.bankPart;
+                        // 定义一个变量接收  截取分割后的字符串数组
+                        let arr = bankPart.split('|')
+                        arr.map((k,v)=>{
+                            console.log(typeof k)
+                        })
+                        if(arr[2]!="null"){
+                            this.zh = arr[2]
+                        }else{
+                            this.zh  = ''
+                        }
+                        if(arr[1]!="null"){
+                            this.city = arr[1]
+                        }else{
+                            this.city  = ''
+                        }
+                        if(arr[0]!="null"){
+                            this.province = arr[0]
+                        }else{
+                            this.province  = ''
+                        }
+                    }
+                    
                 }else{
-                    this.zh  = ''
+                    this.$message.success('失败')
                 }
-                if(arr[1]!="null"){
-                    this.city = arr[1]
-                }else{
-                    this.city  = ''
-                }
-                if(arr[0]!="null"){
-                    this.province = arr[0]
-                }else{
-                    this.province  = ''
-                }
-
-              
-
+                
             });
         },
         
@@ -495,6 +508,8 @@ export default {
         // },
         //绑定银行确认
         bankbinding(){
+            this.isshow = false
+            console.log(this.isshow)
             console.log(this.bankInfos);
             let arr = this.bankInfos.bankPart.split('|')
             
