@@ -37,64 +37,81 @@
             <el-table-column
             type="selection">
             </el-table-column>
-               <!-- <el-table-column
-               type="index"
-               align="center"
-               label="编号">
-               </el-table-column> -->
-               <!-- <el-table-column
-                     label="id"
-                     prop="id"
-                     align="center">
-               </el-table-column>   -->
             <el-table-column
                     label="昵称"
-                    align="center">
+                    align="center"
+                    v-if="!isBeforMonth">
                     <template slot-scope="scope">
-                    <span v-if="scope.row.username" @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.username}}</span>
-                    <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
+                        <span v-if="scope.row.username" @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.username}}</span>
+                        <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
                     </template>
             </el-table-column>
-            <!-- <el-table-column
-                    label="用户名"
-                    prop="ACCOUNT"
-                    align="center">
-            </el-table-column> -->
+
+            <el-table-column
+                    label="昵称"
+                    align="center"
+                    v-if="isBeforMonth">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.username" @click="getupnewweb(scope.row.account)">{{scope.row.username}}</span>
+                        <span v-else @click="getupnewweb(scope.row.account)">{{scope.row.account}}</span>
+                    </template>
+            </el-table-column>
+            
+            <el-table-column
+                    label="真实姓名"
+                    prop="name"
+                    align="center"
+                    v-if="isBeforMonth">
+            </el-table-column>
             <el-table-column
                     label="真实姓名"
                     prop="NAME"
-                    align="center">
+                    align="center"
+                    v-if="!isBeforMonth">
             </el-table-column>
-            <!-- <el-table-column
-                    label="名片"
-                    prop="card"
-                    align="center">
-            </el-table-column> -->
+
+            <el-table-column
+                    label="证件号"
+                    prop="certNo"
+                    align="center"
+                    v-if="isBeforMonth"> 
+            </el-table-column>
             <el-table-column
                     label="证件号"
                     prop="CERT_NO"
-                    align="center"> 
+                    align="center"
+                    v-if="!isBeforMonth"> 
             </el-table-column>
-                <el-table-column
+            <el-table-column
+                    label="手机"
+                    prop="mobile"
+                    align="center"
+                    v-if="isBeforMonth">
+            </el-table-column>
+            <el-table-column
                     label="手机"
                     prop="MOBILE"
-                    align="center">
+                    align="center"
+                    v-if="!isBeforMonth">
             </el-table-column>
+
             <el-table-column
                     label="注册时间"
                     align="center">
                     <template slot-scope="scope">
-                {{scope.row.registerDateTime | time}}
+                        {{scope.row.registerDateTime | time}}
                     </template>
-            </el-table-column>  
-                <el-table-column
+            </el-table-column>
+
+            <el-table-column
                     label="最后登陆时间"
                     align="center">
                     <template slot-scope="scope">
-                {{scope.row.lastLoginDateTime | time}}
+                        {{scope.row.lastLoginDateTime | time}}
                     </template>
-            </el-table-column>  
-                <el-table-column
+            </el-table-column>
+
+            <el-table-column
                     label="是否充值"
                     align="center">
                     <template slot-scope="scope">
@@ -113,7 +130,17 @@
             </el-table-column> -->
             <el-table-column
                     label="是否白名单"
-                    align="center">
+                    align="center"
+                    v-if="isBeforMonth">
+                    <template slot-scope="scope">
+                        {{scope.row.isWhitelist | mtype}}
+                    </template>
+            </el-table-column>
+
+            <el-table-column
+                    label="是否白名单"
+                    align="center"
+                    v-if="!isBeforMonth">
                     <template slot-scope="scope">
                         {{scope.row.IS_WHITELIST | mtype}}
                     </template>
@@ -138,12 +165,23 @@
             </el-table-column>   -->
             <el-table-column
                 label="操作"
-                align="center">
+                align="center"
+                v-if="isBeforMonth">
+                <template slot-scope="scope">
+                    <el-button type="success" @click="addwhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;"  v-if="scope.row.isWhitelist === 1">加白</el-button>
+                    <el-button type="primary" @click="deletewhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;padding-left:10px;" v-if="scope.row.isWhitelist === 0">设为非白</el-button>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                label="操作"
+                align="center"
+                v-if="!isBeforMonth">
                 <template slot-scope="scope">
                     <el-button type="success" @click="addwhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;"  v-if="scope.row.IS_WHITELIST === 1">加白</el-button>
                     <el-button type="primary" @click="deletewhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;padding-left:10px;" v-if="scope.row.IS_WHITELIST === 0">设为非白</el-button>
                 </template>
-            </el-table-column>    
+            </el-table-column>  
         </el-table>
         
         <el-pagination
@@ -212,9 +250,6 @@ export default {
     },
     created(){
         this.gettablelist()
-        // if(){
-
-        // }
     },
     methods:{
         //点击账号跳转会员管理页面
@@ -248,32 +283,55 @@ export default {
         search_customer(){
             this.page = 1
             this.pageSize = 20
-            this.isBeforMonth = false
-            this.gettablelist();
+            // this.isBeforMonth = false
+            this.gettablelist()
+            // this.isBeforMonth = false
+            // if(this.isBeforMonth){
+            //     this.longtime()
+            // }else{
+            //     this.gettablelist();
+            // }
+            
         },
         //加白
         addwhite(data){
-              this.account = data.ACCOUNT;
-              this.type = 1
-              memberToWrite(this.account,this.type).then(res => {
-                    if (res.data.error_code === 200) {
-                        Message.success('加白成功')
-                        this.account = ''
+            if(this.isBeforMonth){
+                this.account = data.account
+            }else{
+                this.account = data.ACCOUNT;
+            }
+            this.type = 1
+            memberToWrite(this.account,this.type).then(res => {
+                if (res.data.error_code === 200) {
+                    Message.success('加白成功')
+                    this.account = ''
+                    if(this.isBeforMonth){
+                        this.longtime()
+                    }else{
                         this.gettablelist()
-                    } else {
-                        Message.error(res.data.message)
                     }
-              })
+                } else {
+                    Message.error(res.data.message)
+                }
+            })
         },
         //取消加白
         deletewhite(data){
-            this.account = data.ACCOUNT;
+            if(this.isBeforMonth){
+                this.account = data.account
+            }else{
+                this.account = data.ACCOUNT;
+            }
             this.type = 2
             memberToWrite(this.account,this.type).then(res => {
                 if (res.data.error_code === 200) {
                     Message.success('取消加白成功')
                     this.account = ''
-                    this.gettablelist()
+                    if(this.isBeforMonth){
+                        this.longtime()
+                    }else{
+                        this.gettablelist()
+                    }
                 } else {
                     Message.error(res.data.message)
                 }
@@ -286,7 +344,6 @@ export default {
             }else{
                 let newarr = [];
                 this.selections.forEach(e => {
-                    //   console.log(e)
                     if(this.isBeforMonth){
                         newarr.push(e.account)
                     } else {
@@ -300,7 +357,11 @@ export default {
                     if (res.data.error_code === 200) {
                         Message.success('取消加白成功')
                         this.account = ''
-                        this.gettablelist()
+                        if(this.isBeforMonth){
+                            this.longtime()
+                        }else{
+                            this.gettablelist()
+                        }
                     } else {
                         Message.error(res.data.message)
                     }
@@ -310,18 +371,24 @@ export default {
          //翻页
         handleCurrentChange(num){
             this.page = num;
-            this.gettablelist();
-            // this.longtime()
+            if(this.isBeforMonth){
+                this.longtime()
+            }else{
+                this.gettablelist();
+            }
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
-            this.gettablelist();
-            this.longtime()
+            if(this.isBeforMonth){
+                this.longtime()
+            }else{
+                this.gettablelist();
+            }
         },
         //显示一个月以上未登录用户
         longtime(){
-            this.page = 1
+            // this.page = 1
             this.isBeforMonth = true
             getHistoryClient(this.page, this.pageSize).then(res => {
                 console.log(res)

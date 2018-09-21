@@ -57,13 +57,13 @@
                 align="center"
                 label="	操作">
                <template slot-scope="scope">
-                      <el-button @click="Modificar(scope.row)">修改发单宣言</el-button>
+                      <el-button @click="Modificar(scope.row)" type="primary">修改发单宣言</el-button>
                    </template>
             </el-table-column>
         </el-table>
          <el-dialog title="修改" :visible.sync="dialogShenVisible" width="500px" top="30vh">
             <div class="body">
-              请输入罚单宣言：<el-input v-model="desc"></el-input>
+              请输入发单宣言：<el-input v-model="desc"></el-input>
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogShenVisible = false">取 消</el-button>
@@ -108,6 +108,7 @@ export default {
             planStatus:'',
             dialogShenVisible:false,
             fadan:'',
+            totalList: 0,    //
         }
     },
     filters:{
@@ -155,8 +156,14 @@ export default {
                 desc:''
             }
             selectLotteryPlan(obj).then(res =>{
-                this.tableData = res.data.data
-                this.fadan = res.data.data.planStatus
+                console.log(res.data.error_code)
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data
+                    this.fadan = res.data.data.planStatus
+                    this.totalList = res.data.totalCount
+                }else{
+                    this.$message.error(res.data.message)
+                }
             })
         },
         //修改发单宣言
