@@ -1,7 +1,7 @@
 <template>
     <div class="Sunburn">
         <div class="box">
-            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;" @input="search"></el-input>
+            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;"></el-input>
              开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -120,7 +120,8 @@ export default {
       stime:'',
       etime:'',
       page:1,
-      pageSize:20
+      pageSize:20,
+      totalList: 0,
     }
   },
   filters: {
@@ -160,15 +161,17 @@ export default {
         account: this.account || "",
         offset: this.page,
         pageSize: this.pageSize,
-        endTime:this.etime,
-        startTime:this.stime
+        endTime: this.etime,
+        startTime: this.stime
       };
       getRewardList(model)
         .then(res => {
-            // console.log(res.status);
-          if (res.status == 200) {
-            this.tablelist = res.data.data            
-          }
+          if (res.data.error_code === 200) {
+                this.tablelist = res.data.data.list
+                this.totalList = res.data.data.total 
+            }else{
+                this.$message.error(res.data.message)
+            }
         });
     },
     //获取列表数据
@@ -182,10 +185,12 @@ export default {
       };
       getRewardList(model)
         .then(res => {
-            // console.log(res.status);
-          if (res.status == 200) {
-            this.tablelist = res.data.data            
-          }
+          if (res.data.error_code === 200) {
+                this.tablelist = res.data.data.list
+                this.totalList = res.data.data.total 
+            }else{
+                this.$message.error(res.data.message)
+            }
         });
     }
   }
