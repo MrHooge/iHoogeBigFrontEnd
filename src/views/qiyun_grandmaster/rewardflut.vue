@@ -166,7 +166,7 @@ export default {
       };
       getRewardList(model)
         .then(res => {
-          if (res.data.error_code === 200) {
+            if (res.data.error_code === 200) {
                 this.tablelist = res.data.data.list
                 this.totalList = res.data.data.total 
             }else{
