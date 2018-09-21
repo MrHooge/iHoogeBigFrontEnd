@@ -272,7 +272,7 @@ export default {
 			this.b = a.amount;
 			this.c = a.mobile;
 			this.dialogVisible = true;
-			this.ob = a;
+            this.ob = a;
 		},
 		// 确定的回调
 		confirm() {
@@ -285,9 +285,11 @@ export default {
 				console.log(res)
 				if (res.status == 200) {
 					Message.success("审核成功！")
-					this.getData(1, this.username, this.value);
+					this.getData(this.username, this.value,this.operator);
 					this.dialogVisible = false;
-				}
+				}else{
+                    this.$message.error(res.data.msg)
+                }
 			})
 		},
 		// 驳回弹窗
