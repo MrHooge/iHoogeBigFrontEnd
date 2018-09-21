@@ -26,16 +26,16 @@
             >
             </el-date-picker>
 
-         <el-button type="primary" @click="search_customer" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">搜索</el-button>
-         <el-button type="primary" @click="longtime" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">一个月以上未登录用户</el-button>
-          <el-button type="primary" @click="moredeletewhite">批量取消加白</el-button>
+        <el-button type="primary" @click="search_customer" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">搜索</el-button>
+        <el-button type="primary" @click="longtime" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">一个月以上未登录用户</el-button>
+        <el-button type="primary" @click="moredeletewhite">批量取消加白</el-button>
         <el-table
-               :data="tableData"
-               border
-               style="width: 100%;"
-               @selection-change="handleSelectionChange">
-               <el-table-column
-               type="selection">
+            :data="tableData"
+            border
+            style="width: 100%;"
+            @selection-change="handleSelectionChange">
+            <el-table-column
+            type="selection">
             </el-table-column>
                <!-- <el-table-column
                type="index"
@@ -47,115 +47,116 @@
                      prop="id"
                      align="center">
                </el-table-column>   -->
-               <!-- <el-table-column
-                     label="账号"
-                     prop="account"
-                     align="center">
-               </el-table-column> -->
-                <el-table-column
-                     label="昵称"
-                     align="center">
-                     <template slot-scope="scope">
-                        <span v-if="scope.row.username" @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.username}}</span>
-                        <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
-                     </template>
-               </el-table-column>
-                <el-table-column
-                     label="真实姓名"
-                     prop="NAME"
-                     align="center">
-               </el-table-column>
-               <!-- <el-table-column
-                     label="名片"
-                     prop="card"
-                     align="center">
-               </el-table-column> -->
-               <el-table-column
-                     label="证件号"
-                     prop="CERT_NO"
-                     align="center"> 
-               </el-table-column>
-                   <el-table-column
-                     label="手机"
-                     prop="MOBILE"
-                     align="center">
-               </el-table-column>
-                <el-table-column
-                     label="注册时间"
-                     align="center">
-                       <template slot-scope="scope">
-                    {{scope.row.registerDateTime | time}}
-                     </template>
-               </el-table-column>  
-                 <el-table-column
-                     label="最后登陆时间"
-                     align="center">
-                      <template slot-scope="scope">
-                    {{scope.row.lastLoginDateTime | time}}
-                     </template>
-               </el-table-column>  
-                  <el-table-column
-                     label="是否充值"
-                     align="center">
-                      <template slot-scope="scope">
-                            {{scope.row.isCharge | port}}
-                     </template>
-               </el-table-column>
-               <!-- <el-table-column
-                     label="证件类型"
-                     prop="certType"
-                     align="center">
-               </el-table-column>
-               <el-table-column
-                     label="邮箱"
-                     prop="email"
-                     align="center">
-               </el-table-column> -->
-               <el-table-column
-                     label="是否白名单"
-                     align="center">
-                     <template slot-scope="scope">
-                            {{scope.row.IS_WHITELIST | mtype}}
-                     </template>
-               </el-table-column>
-               <!-- <el-table-column
-                     label="头像·"
-                     prop="picture"
-                     align="center">
-                     <template slot-scope="scope">
-                         <img :src="scope.row.picture" >
-                     </template>
-               </el-table-column> -->
-               <!-- <el-table-column
-                     label="状态"
-                     prop="status"
-                     align="center">
-               </el-table-column>          
-               <el-table-column
-                     label="类型"
-                     prop="type"
-                     align="center">
-               </el-table-column>   -->
-               <el-table-column
-                     label="操作"
-                     align="center">
-                     <template slot-scope="scope">
-                           <el-button type="success" @click="addwhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;"  v-if="scope.row.IS_WHITELIST === 1">加白</el-button>
-                           <el-button type="primary" @click="deletewhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;padding-left:10px;" v-if="scope.row.IS_WHITELIST === 0">取消加白</el-button>
+            <el-table-column
+                    label="昵称"
+                    align="center">
+                    <template slot-scope="scope">
+                    <span v-if="scope.row.username" @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.username}}</span>
+                    <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
                     </template>
-               </el-table-column>    
-            </el-table>
-            <el-pagination
-                background
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                :page-sizes="[10, 20, 30, 40, 50]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="totalList"
-                >
-            </el-pagination>
+            </el-table-column>
+            <!-- <el-table-column
+                    label="用户名"
+                    prop="ACCOUNT"
+                    align="center">
+            </el-table-column> -->
+            <el-table-column
+                    label="真实姓名"
+                    prop="NAME"
+                    align="center">
+            </el-table-column>
+            <!-- <el-table-column
+                    label="名片"
+                    prop="card"
+                    align="center">
+            </el-table-column> -->
+            <el-table-column
+                    label="证件号"
+                    prop="CERT_NO"
+                    align="center"> 
+            </el-table-column>
+                <el-table-column
+                    label="手机"
+                    prop="MOBILE"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    label="注册时间"
+                    align="center">
+                    <template slot-scope="scope">
+                {{scope.row.registerDateTime | time}}
+                    </template>
+            </el-table-column>  
+                <el-table-column
+                    label="最后登陆时间"
+                    align="center">
+                    <template slot-scope="scope">
+                {{scope.row.lastLoginDateTime | time}}
+                    </template>
+            </el-table-column>  
+                <el-table-column
+                    label="是否充值"
+                    align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.isCharge | port}}
+                    </template>
+            </el-table-column>
+            <!-- <el-table-column
+                    label="证件类型"
+                    prop="certType"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    label="邮箱"
+                    prop="email"
+                    align="center">
+            </el-table-column> -->
+            <el-table-column
+                    label="是否白名单"
+                    align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.IS_WHITELIST | mtype}}
+                    </template>
+            </el-table-column>
+            <!-- <el-table-column
+                    label="头像·"
+                    prop="picture"
+                    align="center">
+                    <template slot-scope="scope">
+                        <img :src="scope.row.picture" >
+                    </template>
+            </el-table-column> -->
+            <!-- <el-table-column
+                    label="状态"
+                    prop="status"
+                    align="center">
+            </el-table-column>          
+            <el-table-column
+                    label="类型"
+                    prop="type"
+                    align="center">
+            </el-table-column>   -->
+            <el-table-column
+                label="操作"
+                align="center">
+                <template slot-scope="scope">
+                    <el-button type="success" @click="addwhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;"  v-if="scope.row.IS_WHITELIST === 1">加白</el-button>
+                    <el-button type="primary" @click="deletewhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;padding-left:10px;" v-if="scope.row.IS_WHITELIST === 0">设为非白</el-button>
+                </template>
+            </el-table-column>    
+        </el-table>
+        
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            >
+        </el-pagination>
     </div>
 </template>
 
@@ -181,6 +182,7 @@ export default {
             totalList: 0,
             addBtn: true,
             cancelBtn: true,
+            isBeforMonth: false
         }
     },
     filters:{
@@ -246,6 +248,7 @@ export default {
         search_customer(){
             this.page = 1
             this.pageSize = 20
+            this.isBeforMonth = false
             this.gettablelist();
         },
         //加白
@@ -254,27 +257,27 @@ export default {
               this.type = 1
               memberToWrite(this.account,this.type).then(res => {
                     if (res.data.error_code === 200) {
-                     Message.success('加白成功')
-                     this.account = ''
-                     this.gettablelist()
-                     } else {
-                         Message.error(res.data.message)
-                         }
+                        Message.success('加白成功')
+                        this.account = ''
+                        this.gettablelist()
+                    } else {
+                        Message.error(res.data.message)
+                    }
               })
         },
         //取消加白
         deletewhite(data){
-              this.account = data.ACCOUNT;
-              this.type = 2
-              memberToWrite(this.account,this.type).then(res => {
-                    if (res.data.error_code === 200) {
-                     Message.success('取消加白成功')
-                     this.account = ''
-                     this.gettablelist()
-                     } else {
-                         Message.error(res.data.message)
-                         }
-              })
+            this.account = data.ACCOUNT;
+            this.type = 2
+            memberToWrite(this.account,this.type).then(res => {
+                if (res.data.error_code === 200) {
+                    Message.success('取消加白成功')
+                    this.account = ''
+                    this.gettablelist()
+                } else {
+                    Message.error(res.data.message)
+                }
+            })
         },
         //批量取消加白
         moredeletewhite(){
@@ -284,19 +287,23 @@ export default {
                 let newarr = [];
                 this.selections.forEach(e => {
                     //   console.log(e)
+                    if(this.isBeforMonth){
+                        newarr.push(e.account)
+                    } else {
                         newarr.push(e.ACCOUNT)
+                    }
                 });
                 let newaccount = newarr.join(',');
                 this.account = newaccount;
                 this.type = 2;
                 memberToWrite(this.account,this.type).then(res => {
-                        if (res.data.error_code === 200) {
-                            Message.success('取消加白成功')
-                            this.account = ''
-                            this.gettablelist()
-                        } else {
-                            Message.error(res.data.message)
-                        }
+                    if (res.data.error_code === 200) {
+                        Message.success('取消加白成功')
+                        this.account = ''
+                        this.gettablelist()
+                    } else {
+                        Message.error(res.data.message)
+                    }
                 })
             }
         },
@@ -315,10 +322,11 @@ export default {
         //显示一个月以上未登录用户
         longtime(){
             this.page = 1
+            this.isBeforMonth = true
             getHistoryClient(this.page, this.pageSize).then(res => {
                 console.log(res)
                 if(res.data.error_code === 200){
-                    this.tableData = res.data.data
+                    this.tableData = res.data.data.list
                     this.$message.success(res.data.message)
                 }else{
                     this.$message.error(res.data.message)

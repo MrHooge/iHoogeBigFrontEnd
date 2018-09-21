@@ -3,11 +3,11 @@
 
     <!--  代理给客户充值记录 -->
     <div class="search">
-      <el-input v-model="account"
+        <el-input v-model="account"
                 placeholder="请输入代理账号"
                 style="width:20%;"></el-input>
-        
-      <el-input v-model="memberAccount"
+        <el-input v-model="username" placeholder="请输入昵称查询" style="width:30%;"></el-input>
+        <el-input v-model="memberAccount"
                 placeholder="请输入会员账号"
                 style="width:20%;"></el-input>
         开始时间：<el-date-picker
@@ -38,10 +38,10 @@
         <el-button type="primary" @click="getUsername">账号搜索昵称</el-button>
         <span>{{user}}</span>
     </div>
-    <!-- <div class="warning">
+    <div class="warning">
       <i class="el-icon-star-on"></i>
       <span>支持当前页数据模糊搜索,输入会员名全称进行精确查找</span>
-    </div> -->
+    </div>
     <el-table :data="tableData"
               border
               style="width: 100%;">
@@ -129,21 +129,46 @@ export default {
       totalList: 0,
       ACCOUNT: '', //需要搜索的账号
       user: '',  //利用账号搜索出来的昵称
+      username: '', //利用昵称查询
  };
   },
   created() {
     this.getData();
   },
   // 按照会员名称进行筛选
-  computed: {
-    //模糊查询
-    // memberfilter: function () {
-    //   return this.tableData.filter((name) => {
-    //     return name.account.match(this.account)
-    //   })
-    // }
-  },
+//   computed: {
+//     //模糊查询
+//     memberfilter: function () {
+//       return this.tableData.filter((name) => {
+//         return name.account.match(this.account)
+//       })
+//     }
+//   },
   methods: {
+      //用昵称查询账号
+    getAccount(){
+        let obj = {
+            username: this.username
+        }
+        findAllMember(obj).then(res => {
+            console.log(res.data.data.list[0].ACCOUNT)
+            this.account = res.data.data.list[0].ACCOUNT
+            this.page = 1
+            this.getData();
+        })
+    },
+    search() {
+        if (!this.account && !this.username) {
+            this.getData();
+        } else {
+            if(this.account === ''){
+                this.getAccount()
+            }else{
+                this.page = 1
+                this.getData()
+            }
+        }
+    },
     //用账号查询昵称
     getUsername(){
         let obj = {
@@ -153,20 +178,17 @@ export default {
             this.user = res.data.data.list[0].username
         })
     },
-     //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.getData()
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.getData()
-        },
-    search() {
-        this.page = 1
-        this.getData();
+    //翻页
+    handleCurrentChange(num){
+        this.page = num;
+        this.getData()
     },
+    //改变页面大小
+    handleSizeChange(num){
+        this.pageSize = num;
+        this.getData()
+    },
+    
     // 点击授信额度弹窗
     layer() {
       console.log(1);
