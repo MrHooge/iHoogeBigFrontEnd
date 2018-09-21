@@ -15,9 +15,11 @@
             </el-table-column>
 
             <el-table-column
-                prop="is_success"
                 align="center"
                 label="是否成功">
+                <template slot-scope="scope">
+                    {{scope.row.is_success | issuccess}}
+                </template>
             </el-table-column>
 
             <el-table-column
@@ -54,6 +56,11 @@ export default {
     },
     created(){
         this.gettabledata()
+    },
+    filters:{
+        issuccess(a){
+            return a === 0 ? '成功':'失败'
+        }
     },
     methods:{
         gettabledata(){

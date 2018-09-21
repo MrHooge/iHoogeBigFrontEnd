@@ -42,8 +42,6 @@
             </template>
             </el-table-column>
 
-            
-
             <el-table-column
               align="center"
               width="280"
@@ -52,7 +50,7 @@
             </el-table-column>
         </el-table>
         <!-- 分页 -->
-         <el-pagination
+        <el-pagination
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -63,15 +61,7 @@
             :total="totalList"
             style="margin-top:40px"
             >
-            </el-pagination>
-        	<!-- <div class="page">
-						<el-pagination background
-						               :page-size=10
-						               @current-change="changepage"
-						               layout="prev, pager, next"
-						               :total="total">
-						</el-pagination>
-					</div> -->
+        </el-pagination>
     </div>
 </template>
 
@@ -121,8 +111,9 @@ export default {
         this.getData('')
     },
     search() {
-      if (!this.input1 && !this.username) {
-            this.$message("请输入您要查询的账号或昵称！")
+        if (!this.input1 && !this.username) {
+            // this.$message("请输入您要查询的账号或昵称！")
+            this.getData(this.input1);
         } else {
             if(this.input1 === ''){
                 this.getAccount()
@@ -156,22 +147,26 @@ export default {
         return "代理";
       }
     },
-		// 调接口数据
-		getData(a){
-				let obj = {
-				page: this.page,
-				pageSize: this.pageSize,
-				loginAccount: getCookies('name'),
-				account: a,
-			};
-			getCreditLimitLine(obj).then(res=>{
-                if(res.data.data != null){
-                    this.total = res.data.totalCount;
-                    this.tableData = res.data.data.list;
-                    this.totalList = res.data.data.total
-                }
-			})
-		},
+    // 调接口数据
+    getData(a){
+            let obj = {
+            page: this.page,
+            pageSize: this.pageSize,
+            loginAccount: getCookies('name'),
+            account: a,
+        };
+        getCreditLimitLine(obj).then(res=>{
+            console.log(res.data.msg)
+            if(res.data.success === true){
+                this.total = res.data.totalCount;
+                this.tableData = res.data.data.list;
+                this.totalList = res.data.data.total
+            }else{
+                this.totalList = 0
+                this.$message.error(res.data.msg)
+            }
+        })
+    },
     // 获取当前的点击页码
     changepage(val) {
       this.getData(val);
