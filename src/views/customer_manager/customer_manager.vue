@@ -10,27 +10,24 @@
             <!-- 合作商：<el-input v-model="partner" placeholder="请输入合作商" style="width: 150px;margin-right:100px;margin-top:20px"></el-input><br /> -->
             开始时间：
             <el-date-picker
-            v-model="start_time"
-            type="date"
-            style="margin-bottom:40px;margin-right:20px;width:200px"
-            placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+                v-model="start_time"
+                type="date"
+                style="margin-bottom:40px;margin-right:20px;width:200px"
+                placeholder="请选择开始日期"
+                value-format="yyyy-MM-dd">
             </el-date-picker>
-            
             结束时间：
             <el-date-picker
-            v-model="end_time"
-            align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
-            style="margin-left:10px;
-            width:200px
-            margin-bottom:40px;"
-            placeholder="请选择结束日期"
-            >
+                v-model="end_time"
+                align="right"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="margin-left:10px;
+                width:200px
+                margin-bottom:40px;"
+                placeholder="请选择结束日期">
             </el-date-picker>
             <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
-
         </div>
         <!-- 绑定银行卡信息 -->
         <!-- <template>
@@ -78,162 +75,158 @@
         </template> -->
         <div class="show_data">
             <el-table
-               :data="tableData"
-               border
-               style="width: 100%;">
-               <el-table-column
-               type="index"
-               align="center"
-               label="编号">
-               </el-table-column>
+                :data="tableData"
+                border
+                style="width: 100%;">
                 <el-table-column
-                     label="昵称"
-                     align="center">
-                     <template slot-scope="scope">
-                         <span v-if="scope.row.username">{{scope.row.username}}</span>
-                         <span v-else>{{scope.row.ACCOUNT}}</span>
-                     </template>
+                    type="index"
+                    align="center"
+                    label="编号">
+                </el-table-column>
+                <el-table-column
+                    label="昵称"
+                    align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.username">{{scope.row.username}}</span>
+                        <span v-else>{{scope.row.ACCOUNT}}</span>
+                    </template>
                 </el-table-column> 
                 <el-table-column
-                     label="真实姓名"
-                     prop="NAME"
-                     align="center">
+                    label="真实姓名"
+                    prop="NAME"
+                    align="center">
                 </el-table-column>
                 <el-table-column
-                     label="注册时间"
-                     prop="registerDateTime"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.registerDateTime}}
-                     </template>
-                </el-table-column>    
-                 <el-table-column
-                     label="最后登陆时间"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.lastLoginDateTime}}
-                </template>
-                </el-table-column>
-                <el-table-column
-                     label="是否充值"
-                     align="center">
-                     <template slot-scope="scope">
-                         {{scope.row.IS_CHARGE | isRecharge}}
-                     </template>
-                </el-table-column>
-                <el-table-column
-                     label="是否白名单"
-                     align="center">
+                    label="注册时间"
+                    prop="registerDateTime"
+                    align="center">
                     <template slot-scope="scope">
-                         {{scope.row.isWhitelist | white}}
+                        {{scope.row.registerDateTime}}
+                    </template>
+                </el-table-column>    
+                <el-table-column
+                    label="最后登陆时间"
+                    align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.lastLoginDateTime}}
                     </template>
                 </el-table-column>
-               <el-table-column
-                     label="状态"
-                     align="center">
-                     <template slot-scope="scope">
-                         {{scope.row.STATUS |use }}
-                         </template>
-               </el-table-column>          
-               <el-table-column
-                     label="类型"
-                     align="center">
+                <el-table-column
+                    label="是否充值"
+                    align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.IS_CHARGE | isRecharge}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    label="是否白名单"
+                    align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.isWhitelist | white}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    label="状态"
+                    align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.STATUS |use }}
+                    </template>
+                </el-table-column>          
+                <el-table-column
+                    label="类型"
+                    align="center">
                     <template slot-scope="scope">
                         {{scope.row.type |status }}
                     </template>
-               </el-table-column>  
-               <el-table-column
-                     label="操作"
-                     align="center">
+                </el-table-column>  
+                <el-table-column
+                    label="操作"
+                    align="center">
                     <template slot-scope="scope">
                         <el-dropdown trigger="click">
                             <el-button type="primary" style="width:70px">操作<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                             <el-dropdown-menu slot="dropdown">
                                 <el-popover
-                                placement="right"
-                                width="400"
-                                trigger="click">
-                                    <el-form :model="form">
-                                        <el-form-item label="真实姓名">
-                                                <el-input v-model="form.name" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="邮箱">
-                                                <el-input v-model="form.email" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="联系电话">
-                                            <el-input v-model="form.mobile" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="身份证">
-                                                <el-input v-model="form.certNo" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="上级用户名">
-                                                <el-input v-model="form.agentAccount" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                        <el-button type="primary" @click="xiugai(scope.row)">确 定</el-button>
-                                    </el-form>
-                                <el-button slot="reference" @click="xiugaiKuang(scope.row)">修改</el-button>
+                                    placement="right"
+                                    width="400"
+                                    trigger="click">
+                                        <el-form :model="form">
+                                            <el-form-item label="真实姓名">
+                                                    <el-input v-model="form.name" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="邮箱">
+                                                    <el-input v-model="form.email" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="联系电话">
+                                                <el-input v-model="form.mobile" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="身份证">
+                                                    <el-input v-model="form.certNo" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="上级用户名">
+                                                    <el-input v-model="form.agentAccount" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                            <el-button type="primary" @click="xiugai(scope.row)">确 定</el-button>
+                                        </el-form>
+                                    <el-button slot="reference" @click="xiugaiKuang(scope.row)">修改</el-button>
                                 </el-popover>
                                 <el-popover
-                                placement="right"
-                                width="1300"
-                                trigger="click">
-                                <el-form :v-model="walletData">
-                                    <el-form-item label="可用金额">
-                                            <el-input v-model="walletData.ableBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="用户名">
-                                            <el-input v-model="walletData.account" auto-complete="off" style="width:60%" :disabled="true"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="冻结金额">
-                                            <el-input v-model="walletData.freezeBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="历史消费金额">
-                                            <el-input v-model="walletData.heapBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="历史中奖金额">
-                                            <el-input v-model="walletData.heapPrize" auto-complete="off" style="width:60%" :disabled="true"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="奖金账户">
-                                            <el-input v-model="walletData.prizeBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="可提现额度">
-                                            <el-input v-model="walletData.takeCashQuota" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                </el-form>
-                                <el-button slot="reference" @click="wallet(scope.row)">钱包</el-button>
+                                    placement="right"
+                                    width="1300"
+                                    trigger="click">
+                                    <el-form :v-model="walletData">
+                                        <el-form-item label="可用金额">
+                                                <el-input v-model="walletData.ableBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="用户名">
+                                                <el-input v-model="walletData.account" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="冻结金额">
+                                                <el-input v-model="walletData.freezeBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="历史消费金额">
+                                                <el-input v-model="walletData.heapBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="历史中奖金额">
+                                                <el-input v-model="walletData.heapPrize" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="奖金账户">
+                                                <el-input v-model="walletData.prizeBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="可提现额度">
+                                                <el-input v-model="walletData.takeCashQuota" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                    </el-form>
+                                    <el-button slot="reference" @click="wallet(scope.row)">钱包</el-button>
                                 </el-popover>
                                 <!-- 绑定银行卡信息 -->
                                 <el-popover
-                                placement="right"
-                                width="1300"
-                                trigger="click"
-                                
-                                >
-                                <el-form :v-model="bankInfos">
-                                    <el-form-item label="账号">
-                                            <el-input v-model="bankInfos.account" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="银行">
-                                            <el-input v-model="bankInfos.bank" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="银行卡号">
-                                            <el-input v-model="bankInfos.bankCard" auto-complete="off" style="width:60%"></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="开户地区">
-                                            <el-input v-model="bankInfos.bankPart" auto-complete="off" style="width:60%"></el-input>
-                                            <span style="color:red;">格式：开户省份|开户城市|支行</span>
-                                        </el-form-item>
-                                        <el-button type="primary" @click="bankbinding(scope.row)">确 定</el-button>
-                                </el-form>
-                                <el-button type="warning" @click="bank(scope.row)" slot="reference">绑定银行</el-button>
+                                    placement="right"
+                                    width="1300"
+                                    trigger="click">
+                                    <el-form :v-model="bankInfos">
+                                        <el-form-item label="账号">
+                                                <el-input v-model="bankInfos.account" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="银行">
+                                                <el-input v-model="bankInfos.bank" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="银行卡号">
+                                                <el-input v-model="bankInfos.bankCard" auto-complete="off" style="width:60%"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="开户地区">
+                                                <el-input v-model="bankInfos.bankPart" auto-complete="off" style="width:60%"></el-input>
+                                                <span style="color:red;">格式：开户省份|开户城市|支行</span>
+                                            </el-form-item>
+                                            <el-button type="primary" @click="bankbinding(scope.row)">确 定</el-button>
+                                    </el-form>
+                                    <el-button type="warning" @click="bank(scope.row)" slot="reference">绑定银行</el-button>
                                 </el-popover>
-                                
                                 <el-button type="warning" @click="runningwater(scope.row)">流水</el-button>
-                                <!-- <el-button type="warning" @click="bank(scope.row)">绑定银行</el-button> -->
                             </el-dropdown-menu>
                         </el-dropdown> 
                     </template>
-               </el-table-column> 
+                </el-table-column> 
             </el-table>
             <div class="page">
             <el-pagination
@@ -438,20 +431,17 @@ export default {
         wallet(data){
             let memberId = data.id;
             getMemberWalletByMemberId(memberId).then(res => {
+                console.log(res)
                 if (res.status === 200) {
-                    this.walletData = res.data.data
-                    console.log(this.walletData)
+                    if(res.data.data && res.data.data != null){
+                        this.walletData = res.data.data
+                        console.log(this.walletData)
+                    }else{
+                        this.$message.error(res.data.msg)
+                    }
                 }
             });
         },
-        //点击打开银行信息展示框
-        // showdiage(data){
-        //     this.zhanghao = data.ACCOUNT
-        //     console.log(data)
-        //     this.dialogFormVisible = true
-        //     console.log(this.zhanghao)
-        //     this.bank()
-        // },
         //通过账号获取绑定银行信息
         bank(data){
             this.isshow = true
@@ -461,94 +451,85 @@ export default {
             console.log(this.zhanghao)
             getMemberInfoBack(this.zhanghao).then(res => {
                 console.log(res)
-                if(res.data.data){
+                if(res.data.data && res.data.data != null){
                     this.bankInfos = res.data.data
                     // 拿到开户银行信息
-                    if(this.bankInfos.bankPart != null){
-                        let bankPart = this.bankInfos.bankPart;
-                        // 定义一个变量接收  截取分割后的字符串数组
-                        let arr = bankPart.split('|')
-                        arr.map((k,v)=>{
-                            console.log(typeof k)
-                        })
-                        if(arr[2]!="null"){
-                            this.zh = arr[2]
-                        }else{
-                            this.zh  = ''
-                        }
-                        if(arr[1]!="null"){
-                            this.city = arr[1]
-                        }else{
-                            this.city  = ''
-                        }
-                        if(arr[0]!="null"){
-                            this.province = arr[0]
-                        }else{
-                            this.province  = ''
-                        }
-                    }
+                    // if(this.bankInfos.bankPart != null){
+                    //     let bankPart = this.bankInfos.bankPart;
+                    //     // 定义一个变量接收  截取分割后的字符串数组
+                    //     let arr = bankPart.split('|')
+                    //     arr.map((k,v)=>{
+                    //         console.log(typeof k)
+                    //     })
+                    //     if(arr[2]!="null"){
+                    //         this.zh = arr[2]
+                    //     }else{
+                    //         this.zh  = ''
+                    //     }
+                    //     if(arr[1]!="null"){
+                    //         this.city = arr[1]
+                    //     }else{
+                    //         this.city  = ''
+                    //     }
+                    //     if(arr[0]!="null"){ 
+                    //         this.province = arr[0]
+                    //     }else{
+                    //         this.province  = ''
+                    //     }
+                    // }
                     
                 }else{
-                    this.$message.success('失败')
+                    this.bankInfos = ''
+                    this.$message.error('暂无绑定银行信息！')
                 }
-                
             });
         },
-        
-        //获取钱包信息
-        // getWallet(){
-        //     let token = getCookies('token');
-        //     getMemberWallet(token).then(res => {
-        //         console.log(123);
-        //         console.log(res.data);
-        //         this.walletData = res.data.data
-        //     }).catch(error => {
-        //         Message.error(error)
-        //     })
-        // },
         //绑定银行确认
         bankbinding(){
             this.isshow = false
-            console.log(this.isshow)
             console.log(this.bankInfos);
             let arr = this.bankInfos.bankPart.split('|')
-            
+            this.province = arr[0]  //分割后第一个是省份
+            this.city = arr[1]    //分割后第二个是城市
+            this.zh = arr[2]     //分割后第三个是支行
             let bankfrom = {
                 account:this.zhanghao,
                 bank: this.bankInfos.bank,
                 is_back: 0,
-                bankCard: this.bankInfos.bankCard, 
-                bankPart: this.bankInfos.bankPart.split('|')[2],   //支行
-                city: this.bankInfos.bankPart.split('|')[1],    //开户城市	
-                province: this.bankInfos.bankPart.split('|')[0],   //开户省份
+                bankCard: this.bankInfos.bankCard, //银行卡号
+                bankPart: this.zh,   //支行
+                city: this.city,    //开户城市	
+                province: this.province,   //开户省份
                 bank_type: 1
             }
             bind(bankfrom).then(res => {
-                console.log(res.data.msg)
-                     this.$message(res.data.msg)
-                     this.dialogFormVisible = false
+                console.log(res.data.success)
+                if(res.data.success === true){
+                    this.$message.success(res.data.msg)
+                }else{
+                    this.$message.error(res.data.msg)
+                }
             })
         },
         //点击按钮跳到流水查询页面
         runningwater(a){
             console.log(a)
-           this.$router.push({
-               path: '/detailsSearch/walletFlowquery',
+            this.$router.push({
+                path: '/detailsSearch/walletFlowquery',
                 query: {
                     account: a.ACCOUNT
                 }
-           })
+            })
         }
-       
     }
 }
 </script>
 
 <style scoped>
-.manager{
+.manager {
     padding: 10px 20px
 }
-.walletshow{
+.walletshow {
     width: 80%;
     height: 80%;
     margin: 10% auto;
@@ -558,16 +539,16 @@ export default {
     top:20%;
     left: 15%;
 }
-.page{
+.page {
     margin-top: 30px
 }
 .el-dropdown {
     vertical-align: top;
-  }
-  .el-dropdown + .el-dropdown {
+}
+.el-dropdown + .el-dropdown {
     margin-left: 15px;
-  }
-  .el-icon-arrow-down {
+}
+.el-icon-arrow-down {
     font-size: 12px;
-  }
+}
 </style>

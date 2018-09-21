@@ -78,12 +78,13 @@
 								<el-table-column label="支付名称" align="center">
 									<template slot-scope="scope">
 										<el-input v-model="rechangeName"
-										          placeholder="请输入内容"></el-input>
-
+										          placeholder="请输入内容">
+                                        </el-input>
 									</template>
 								</el-table-column>
-								<el-table-column label="图标"
-								                 align="center">
+								<el-table-column
+                                    label="图标"
+								    align="center">
 									<template slot-scope="scope">
 										<el-upload :action="uploadUrl"
 										           list-type="picture-card"
@@ -96,8 +97,7 @@
 								</el-table-column>
 								<el-table-column label="状态" align="center">
 									<template slot-scope="scope">
-										<el-switch v-model="value3" active-text="开" inactive-text="关" @change="switchChange">
-										</el-switch>
+										<el-switch v-model="value3" active-text="开" inactive-text="关" @change="switchChange"></el-switch>
 									</template>
 								</el-table-column>
 							</el-table>
@@ -107,23 +107,21 @@
 			</div>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="clearForm">取 消</el-button>
-				<el-button type="primary"
-				           @click="submitInfos">修改支付</el-button>
+				<el-button type="primary" @click="submitInfos">修改支付</el-button>
 			</div>
-
 		</el-dialog>
 		<!-- 添加图片弹窗 -->
 		<el-dialog title="添加图片"
 		           :visible.sync="dialogVisible1"
 		           width="70%">
 			<div class="uploadFrom">
-				<el-form :model="ruleForm"
-				         :rules="rules"
-				         ref="ruleForm"
-				         label-width="100px"
-				         class="demo-ruleForm">
-					<el-form-item label="支付名称"
-					              prop="name">
+				<el-form 
+                    :model="ruleForm"
+                    :rules="rules"
+                    ref="ruleForm"
+                    label-width="100px"
+                    class="demo-ruleForm">
+					<el-form-item label="支付名称" prop="name">
 						<el-input v-model="ruleForm.name"></el-input>
 					</el-form-item>
 					<el-form-item label="状态"
@@ -159,7 +157,6 @@
 		</el-dialog>
 	</div>
 </template>
-
 <script>
 import { findPaySwitch, addPaySwitch } from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令

@@ -250,7 +250,7 @@ export default {
         submitInfos(){
             updateFootBallAdmin(this.form).then(res => {
                 if(res.data.error_code == 200){
-                    this.$message(res.data.message)
+                    this.$message.success(res.data.message)
                     this.dialogFormVisible = false
                     this.form.guestScore = ''
                     this.form.halfGuestScore = ''
@@ -259,7 +259,7 @@ export default {
                     this.gettable()
 
                 }else{
-                    this.$message(res.data.message)
+                    this.$message.error(res.data.message)
                     this.dialogFormVisible = false
                 }
             })

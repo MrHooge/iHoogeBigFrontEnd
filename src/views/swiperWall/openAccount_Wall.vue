@@ -107,12 +107,16 @@ export default {
             })
         },
         getTableData(){
-			let loginAccount = getCookies('name')
-			console.log()
-			findAccountActiveWall(loginAccount).then(res=>{
+            let obj = { 
+                loginAccount: getCookies('name'),
+                page:this.page,
+                pageSize:this.pageSize
+            }
+			findAccountActiveWall(obj).then(res=>{
 				console.log(res)
 				if(res.data.error_code==200){
-					this.tableData = res.data.data.list
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
 				}
 		    })
 		}
