@@ -322,7 +322,7 @@ export default {
 
 	computed: {},
 	created() {
-        this.getTable(1, this.value);
+        this.getTable(1, 2);
 	},
 	mounted() {
 		// this.uploadUrl = api.member + '/userCount/uploadFile'
