@@ -148,12 +148,8 @@ export default {
             let obj = { 
                 loginAccount: getCookies('name'),
                 page:this.page,
-                pageSize:this.pageSize,
-                startTime: this.value1,
-                endTime: this.value2,
+                pageSize:this.pageSize
             }
-			// let loginAccount = getCookies('name')
-			console.log()
 			findAccountActiveWall(obj).then(res=>{
 				console.log(res)
 				if(res.data.error_code==200){

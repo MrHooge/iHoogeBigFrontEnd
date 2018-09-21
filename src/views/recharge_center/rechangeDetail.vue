@@ -218,8 +218,12 @@ export default {
             findRechargeUnderLine(obj).then(res => {
                 console.log(res)
                 if (res.status == 200) {
-                    this.tableData = res.data.data
-                    this.total = res.data.totalCount
+                    if(res.data.error_code === 200){
+                        this.tableData = res.data.data
+                        this.total = res.data.totalCount
+                    }else{
+                        this.$message.error(res.data.data)
+                    }
                 }
             })
         },
