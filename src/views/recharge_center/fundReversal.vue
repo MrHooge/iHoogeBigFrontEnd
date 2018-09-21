@@ -27,7 +27,10 @@
 					           :disabled="disable"
 					           @click="submitForm('ruleForm')">确认</el-button>
 					<el-button @click="resetForm('ruleForm')">重置</el-button>
+                    <el-radio v-model="radio" label="1" border style="margin-left:20px;">扣可提现余额</el-radio>
+                    <el-radio v-model="radio" label="2" border>不扣可提现余额</el-radio>
 				</el-form-item>
+                    
 			</el-form>
 		</div>
 	</div>
@@ -41,7 +44,8 @@ import treeTable from '@/components/TreeTable'
 export default {
 	data() {
 		return {
-			disable: false,
+            disable: false,
+            radio: '1',     //选择是否扣可提现余额
 			ruleForm: {
 				accountID: '',  //请输入账户ID
 				des: '', //请输入描述信息
@@ -72,6 +76,7 @@ export default {
                     account: this.ruleForm.accountID,
                     amount: this.ruleForm.amount,
                     des: this.ruleForm.des,
+                    type: this.radio
                 }
                 this.$refs[formName].validate((valid) => {
                     if (valid) {

@@ -1,8 +1,8 @@
 <template>
     <div class="Sunburn">
         <div class="box">
-            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;" @input="search"></el-input>
-             开始时间：<el-date-picker
+            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;"></el-input>
+            开始时间：<el-date-picker
             v-model="stime"
             type="date"
             style="margin-bottom:40px;margin-right:20px;width:200px"
@@ -109,6 +109,7 @@ export default {
       page:1,
       pageSize:20,
       newarr: [],
+      totalList: 0,
     }
   },
   filters: {
@@ -151,29 +152,34 @@ export default {
         endTime:this.etime,
         startTime:this.stime
       };
-      getCloundSummaryList(model)
-        .then(res => {
-            // console.log(res.status);
-          if (res.status == 200) {
-            this.tablelist = res.data.data            
-          }
-        });
+    getCloundSummaryList(model).then(res => {
+        console.log(res.data.error_code)
+        if (res.data.error_code === 200) {
+            this.tablelist = res.data.data.list  
+            this.totalList = res.data.data.total
+            this.$message.success(res.data.message)   
+        }else{
+           this.$message.error(res.data.message) 
+        }
+    });
     },
     //获取列表数据
     getTable() {
-      let model = {
-        account: this.account || "",
-        offset: this.page,
-        pageSize: this.pageSize,
-        endTime:this.etime,
-        startTime:this.stime
-      };
-      getCloundSummaryList(model)
-        .then(res => {
-            // console.log(res.status);
-          if (res.status == 200) {
-            this.tablelist = res.data.data            
-          }
+        let model = {
+            account: this.account || "",
+            offset: this.page,
+            pageSize: this.pageSize,
+            endTime:this.etime,
+            startTime:this.stime
+        };
+        getCloundSummaryList(model).then(res => {
+            console.log(res)
+            if (res.data.error_code === 200) {
+                this.tablelist = res.data.data.list
+                this.totalList = res.data.data.total 
+            }else{
+                this.$message.error(res.data.message)
+            }
         });
     },
     formatJson(filterVal, jsonData) {

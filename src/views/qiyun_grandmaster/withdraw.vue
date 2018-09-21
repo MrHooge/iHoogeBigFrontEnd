@@ -56,7 +56,8 @@ export default {
         return {
             tableData: [], //表格数据
             page:1,
-            pageSize:20
+            pageSize:20,
+            totalList: 0,
         }
     },
     created(){
@@ -81,7 +82,12 @@ export default {
                 }
                 withdrawCashList(obj)
                 .then(res => {
-                    this.tableData = res.data.data.list
+                    if (res.data.error_code === 200) {
+                        this.tablelist = res.data.data.list
+                        this.totalList = res.data.data.total 
+                    }else{
+                        this.$message.error(res.data.message)
+                    }
                 })
             },
             //提款操作
@@ -89,9 +95,11 @@ export default {
                 let account = data.account;
                 withdrawCashConfirm(account)
                 .then(res => {
-                    if(res.data.error_code == 200){
-                        this.$message(res.data.message)
-
+                    if (res.data.error_code === 200) {
+                        this.tablelist = res.data.data.list
+                        this.totalList = res.data.data.total 
+                    }else{
+                        this.$message.error(res.data.message)
                     }
                 })
             }
