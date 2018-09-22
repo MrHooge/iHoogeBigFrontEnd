@@ -5,7 +5,7 @@
             昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
             方案编号:<el-input v-model="planNo" placeholder="请输入方案编号" style="width: 130px;margin-right:30px;margin-bottom:20px;margin-top:40px"></el-input>
             发单金额:<el-input v-model="startAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
-            税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:300px;margin-bottom:20px;margin-top:40px"></el-input>
             方案状态：<el-select v-model="planStatus"
 			           placeholder="请选择状态筛选数据"
 			           @change="getval"
@@ -32,7 +32,7 @@
             玩法：<el-select v-model="playType"
 			           placeholder="请选择状态筛选数据"
 			           @change="getval"
-                       style="width:5%">
+                       style="width:10%">
 				<el-option v-for="item in directions"
 				           :key="item.playType"
 				           :label="item.label"
@@ -187,7 +187,7 @@
                                 </el-popover>
                                 <el-button type="warning" @click="outticket(scope.row,'modify')">设置出票</el-button>&nbsp;
                                 &nbsp;&nbsp;<el-button type="danger" @click="Chargeback(scope.row,'modify')">退单</el-button>
-                                <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button>
+                                <!-- <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button> -->
                                 <el-button type="success" @click="Szczegol(scope.row)">明细</el-button>
                             </el-dropdown-menu>
                             </el-dropdown> 
@@ -440,19 +440,18 @@ export default {
         getfromyicket(){
             updatePlanStatus(this.onePlanNo).then(res => {
                 if(res.data.error_code == 200){
-                    this.$message('出票成功')
+                    this.$message.success('出票成功')
                     this.undesirabledesabel = false
                     this.gettable()
                 }else{
                     this.undesirabledesabel = false
-                     this.$message(res.data.message)
+                     this.$message.error(res.data.message)
                 }
             })
         },
         //退单
         Chargeback(data){
             this.Declarationofwithdrawal = true;
-        // console.log(data)
             this.onePlanNo = data.planNo
         },
         want(){
@@ -462,12 +461,12 @@ export default {
         planBack(subject)
         .then(res => {
             if(res.data.error_code == 200){
-                this.$message('退单成功')
+                this.$message.success('退单成功')
                 this.Declarationofwithdrawal = false
                 this.gettable()
             }else{
                 this.Declarationofwithdrawal = false
-                this.$message(res.data.message)
+                this.$message.error(res.data.message)
                 
             }
         })

@@ -375,7 +375,8 @@ export default {
 					console.log(res)
 					if (res.data.error_code == 200) {
 						Message.success(res.data.message)
-						this.viewFormVisible = false;
+                        this.viewFormVisible = false;
+                        this.getTable()
 					} else {
 						Message.success(res.data.message)
 					}

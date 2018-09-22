@@ -8,7 +8,7 @@
         </div>
         <div class="warning">
           <i class="el-icon-star-on"></i>
-          <span>支持当前页数据模糊搜索,输入会员名全称进行精确查找</span>
+          <span>支持当前页数据模糊搜索,输入会员名全称进行精确查找（注：模糊查询查到后还需要再次点击搜索按钮！！！）</span>
         </div>
         <el-table :data="memberfilter" border style="width: 100%;">
             <el-table-column type="index" align="center" label="编号"></el-table-column>
@@ -120,6 +120,7 @@ export default {
             }else{
                 this.page = 1
                 this.getData(this.input1);
+                this.getUsername()
             }
         }
     },
@@ -133,6 +134,15 @@ export default {
             this.input1 = res.data.data.list[0].ACCOUNT
             this.page = 1
             this.getData(this.input1);
+        })
+    },
+    //用账号查询昵称
+    getUsername(){
+        let obj = {
+            account: this.input1
+        }
+        findAllMember(obj).then(res => {
+            this.username = res.data.data.list[0].username
         })
     },
     // 点击授信额度弹窗

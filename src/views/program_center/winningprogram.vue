@@ -102,7 +102,7 @@ export default {
             getWinPlanByType(this.lotteryTypes).then(res => {
                 console.log(res)
                 if(res.data.error_code === 200) {
-                    this.tabledata = res.data.data
+                    this.tableData = res.data.data
                     this.$message.success(res.data.message)
                 }else{
                     this.$message.error(res.data.message)
@@ -136,7 +136,7 @@ export default {
                         this.$message('派奖成功')
                         this.gettable()
                     }else{
-                        this.$message(res.data.message)
+                        this.$message(res.data.data)
                     }
                 })
             }
@@ -145,7 +145,6 @@ export default {
         handleSelectionChange1(selection) {
             this.selections1 = selection;
         },
-
         //用户的选择框选中
         handleSelectionChange2(selection){
             this.selections2 = selection;

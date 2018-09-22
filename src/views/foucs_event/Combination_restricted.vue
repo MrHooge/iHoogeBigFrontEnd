@@ -171,7 +171,8 @@
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
-			               :total="total">
+			               :total="total"
+                           v-if="tableData != ''">
 			</el-pagination>
 		</div>
 	</div>
@@ -212,7 +213,9 @@ export default {
 			isIndeterminate: true,
 			textarea: '',
 			numPlay: [], //  存储分割的玩法
-			plays: '', //  存储删选的 玩法对应的 name
+            plays: '', //  存储删选的 玩法对应的 name
+            
+            page: 1,
 
 		}
 	},
@@ -232,12 +235,12 @@ export default {
 	},
 	created() {
 
-		this.getTable(1)
+		this.getTable()
 	},
 	methods: {
-		getTable(curr) {   //  获取 组合限售列表
+		getTable() {   //  获取 组合限售列表
 			let obj = {
-				page: curr,
+				page: this.page,
 				pageSize: 20
 			}
 			getLotteryLimit(obj).then(res => {  //  
@@ -271,7 +274,8 @@ export default {
 		handleCheckedCitiesChange(value) {
 			this.checkedCities = value
 			console.log(this.checkedCities)
-		},
+        },
+        
 		selfbuy() {   //  添加组合限售
             let arr = [];
             let newArr = ''
@@ -292,9 +296,16 @@ export default {
 			}
 			addLotteryLimit(obj).then(res => {
 				if (res.status == 200) {
-					this.dialogVisible = false
-					Message.success(res.data.message)
-					this.getTable(1)
+                    console.log(res)
+                    if(res.data.error_code === 200){
+                        this.dialogVisible = false
+                        Message.success(res.data.message)
+                        this.getTable()
+                    }else{
+                        this.dialogVisible = false
+                        Message.error(res.data.message)
+                    }
+					
 				}
 			})
 		},
@@ -313,7 +324,7 @@ export default {
 				if (res.status == 200) {
 					this.dialogVisible2 = false
 					Message.success(res.data.message)
-					this.getTable(1)
+					this.getTable()
 				} else {
 					Message.success(res.data.message)
 				}
@@ -321,7 +332,8 @@ export default {
 		},
 		//  分页回调
 		changepage(val) {
-			this.getTable(val)
+            this.page = val
+			this.getTable()
 		}
 	},
 }

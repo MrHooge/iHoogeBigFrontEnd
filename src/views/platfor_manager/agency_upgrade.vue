@@ -1,8 +1,10 @@
 <template>
 <!-- // 代理升级为渠道 -->
 	<div class="app-container">
-		<el-input v-model="account" placeholder="请输入昵称" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+		<el-input v-model="account" placeholder="请输入账号查询" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+        <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;"></el-input>
 		<el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+        <span>注：用昵称查询时，账号的输入框不能有值！</span>
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%">
@@ -57,6 +59,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
             style="margin-top:40px"
+            v-if="totalList != ''"
             >
             </el-pagination>
 		<!-- 弹窗事件 -->
@@ -79,6 +82,7 @@
 
 <script>
 import { findAllAgentAndQD, upgradeAgentToQD } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -97,6 +101,7 @@ export default {
 			page:1,
             pageSize:20,
             totalList: 0,
+            name: '',   //昵称查询
 		}
 	},
 	filters: {
@@ -112,14 +117,51 @@ export default {
 	},
 	methods: {
 			//查询
-		inquire(){
-			if(this.account == ''){
-				this.$message('请输入昵称')
-			}else{
-				//account = this.account
-				this.getTable()
-			}
-		},
+		// inquire(){
+		// 	if(this.account == ''){
+		// 		this.$message('请输入昵称')
+		// 	}else{
+		// 		//account = this.account
+		// 		this.getTable()
+		// 	}
+        // },
+        inquire() {
+            if (!this.account && !this.name) {
+                this.getTable();
+            } else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.getUsername()
+                    this.getTable()
+                }
+            }
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.name
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.getUsername()
+                this.getTable()
+            })
+        },
+        //用账号查询昵称
+        getUsername(){
+            if(this.account != ''){
+                let obj = {
+                    account: this.account
+                }
+                findAllMember(obj).then(res => {
+                    this.name = res.data.data.list[0].username
+                })
+            }
+        },
 		  //翻页
         handleCurrentChange(num){
             this.page = num;
