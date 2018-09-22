@@ -104,6 +104,7 @@
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
+            :total="totalList"
             layout="total, sizes, prev, pager, next, jumper"
             >
             </el-pagination>
@@ -121,8 +122,8 @@ export default {
       stime:'',
       etime:'',
       page:1,
-      pageSize:20,
-      // totalList: 0,
+      pageSize: 20,
+      totalList: 0,
     }
   },
   filters: {
@@ -192,7 +193,7 @@ export default {
           if (res.status == 200) {
             console.log(res)
             this.tablelist = res.data.data
-            // this.totalList = res.data.total          
+            this.totalList = res.data.data.total          
           }
         });
     },
@@ -207,10 +208,14 @@ export default {
       };
       getWithdrawList(model)
         .then(res => {
-            // console.log(res.status);
-          if (res.status == 200) {
-            this.tablelist = res.data.data            
-          }
+            if (res.status == 200) {
+                if(res.data.error_code === 200){
+                    this.tablelist = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }
         });
     },
     //获取列表数据
@@ -219,16 +224,20 @@ export default {
         account: this.account || "",
         offset: this.page,
         pageSize: this.pageSize,
-        endTime:this.etime,
-        startTime:this.stime
+        endTime: this.etime,
+        startTime: this.stime
       };
       getRechargeList(model)
         .then(res => {
-          console.log(res)
-            // console.log(res.status);
-          if (res.status == 200) {
-            this.tablelist = res.data.data.list           
-          }
+            console.log(res)
+            if (res.status == 200) {
+                if(res.data.error_code === 200){
+                    this.tablelist = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }
         });
     }
   }
