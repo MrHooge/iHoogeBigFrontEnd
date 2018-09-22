@@ -1,11 +1,14 @@
 <template>
 	<div class="app-container">
-		<div class="search">
-			<el-input v-model="username"
+		<div>
+			<el-input v-model="account"
 			          style="width:300px;"
-			          placeholder="请输入用户账号进行筛选"></el-input>
+			          placeholder="请输入用户账号进行筛选">
+            </el-input>
+            <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            <el-button type="primary" @click="search">查询</el-button>
 		</div>
-		<el-table :data="memberfilter"
+		<el-table :data="tableData"
 		          border
 		          style="width: 100%; margin-top: 20px">
 			<el-table-column label="编号"
@@ -16,6 +19,10 @@
 			<el-table-column prop="ACCOUNT"
 			                 align="center"
 			                 label="会员账号">
+			</el-table-column>
+            <el-table-column prop="FD_DG_RATE"
+			                 align="center"
+			                 label="代购返点">
 			</el-table-column>
 			<el-table-column label="类型"
 			                 align="center">
@@ -218,6 +225,7 @@
 
 <script>
 import { findAllRate, updateRateByAccount, delRateByAccount } from "@/api/sys_user";
+import { findAllMember} from '@/api/customer'
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
@@ -241,7 +249,9 @@ export default {
 			value1: '',
 			value2: '',
 			ACCOUNT:'',
-			LOTTERY_TYPE:'',
+            LOTTERY_TYPE:'',
+            account: "",   //查询的账号
+            page: 1,
 		};
 	},
 	filters: {
@@ -252,16 +262,16 @@ export default {
 	},
 
 	computed: {
-		memberfilter: function () {
-			if (this.username == "") {
-				this.pageShow = true;
-			} else {
-				this.pageShow = false;
-			}
-			return this.tableData.filter(name => {
-				return name.ACCOUNT.match(this.username);
-			});
-		}
+		// memberfilter: function () {
+		// 	if (this.username == "") {
+		// 		this.pageShow = true;
+		// 	} else {
+		// 		this.pageShow = false;
+		// 	}
+		// 	return this.tableData.filter(name => {
+		// 		return name.ACCOUNT.match(this.username);
+		// 	});
+		// }
 		// tableDatalayer() {
 		// 	return this.tableData3.filter(name => {
 		// 		return name.ACCOUNT.match(this.sjname)
@@ -269,18 +279,63 @@ export default {
 		// }
 	},
 	created() {
-		this.getTable(1, 20);
+		this.getTable();
 	},
 	methods: {
+        //查询
+        // search(){
+        //     if(this.account === ''){
+        //         this.$message.error('请输入你要查询的账号！')
+        //     }else{
+        //         this.getTable()
+        //     }
+        // },
+        //查询
+        search() {
+			if (!this.account && !this.username) {
+                // this.$message("请输入您要查询的账号或昵称！")
+                this.page = 1
+                this.getTable()
+			} else {
+                if(this.account == ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.getTable()
+                }
+			}
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.getTable()
+            })
+        },
 		handleChange(val) {
 			console.log(val);
-		},
-		getTable(page, pageSize) {
-			//   获取所有会员列表
-			findAllRate(page, pageSize).then(res => {
-				console.log(res);
-				this.tableData = res.data.data.list;
-				this.total = res.data.data.total;
+        },
+        //   获取所有会员列表
+		getTable() {
+            let obj = {
+               page: this.page,
+               pageSize: 20,
+               account: this.account
+            }
+			findAllRate(obj).then(res => {
+                console.log(res);
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list;
+				    this.total = res.data.data.total;
+                }
+                else{
+                    this.$message.error(res.data.message)
+                }
 			});
 		},
 		// getData(page) {
@@ -320,7 +375,8 @@ export default {
 					console.log(res)
 					if (res.data.error_code == 200) {
 						Message.success(res.data.message)
-						this.viewFormVisible = false;
+                        this.viewFormVisible = false;
+                        this.getTable()
 					} else {
 						Message.success(res.data.message)
 					}
@@ -352,7 +408,8 @@ export default {
 		},
 		// 分页的回调
 		changepage(val) {
-			this.getTable(val);
+            this.page = val
+			this.getTable();
 		},
 
 	}

@@ -15,9 +15,11 @@
             </el-table-column>
 
             <el-table-column
-                prop="is_success"
                 align="center"
                 label="是否成功">
+                <template slot-scope="scope">
+                    {{scope.row.is_success | issuccess}}
+                </template>
             </el-table-column>
 
             <el-table-column
@@ -48,22 +50,43 @@ export default {
         return {
             page:1,
             pageSize:20,
-            tableData:[]
+            tableData:[],
+            totalList: 0,  
         }
     },
     created(){
         this.gettabledata()
     },
+    filters:{
+        issuccess(a){
+            return a === 0 ? '成功':'失败'
+        }
+    },
     methods:{
         gettabledata(){
-
             memberMoveLogs(this.page,this.pageSize).then(res => {
-                //console.log(res.data)
-                this.tableData.push(res.data.data.list)
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.data)
+                }
+                
             }).catch(error =>{
                 Message.error(error)
             })
-        }
+        },
+        //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.gettabledata()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.gettabledata()
+        },
     }
 
 }

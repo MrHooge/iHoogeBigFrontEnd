@@ -6,61 +6,61 @@
    <p>每日两单（一）</p>
         <el-form ref="form" :model="form" label-width="80px" size="500px" key="dayOneDan2DTO">
           <el-form-item label="玩法" style="width:400px">
-    <el-input v-model="form.playType"></el-input>
-  </el-form-item>
-  <el-form-item label="场次" style="width:400px">
-    <el-input v-model="form.matchId"></el-input>
-  </el-form-item>
-  <el-form-item label="主队" style="width:400px">
-    <el-input v-model="form.homeTeam"></el-input>
-  </el-form-item>
-   <el-form-item label="客队" style="width:400px">
-    <el-input v-model="form.guestTeam"></el-input>
-  </el-form-item>
-   <el-form-item label="推荐" style="width:400px">
-    <el-input v-model="form.recommend"></el-input>
-  </el-form-item>
-   <el-form-item label="sp值" style="width:400px">
-    <el-input v-model="form.sp"></el-input>
-  </el-form-item>
-  <el-form-item label="分析" style="width:400px;">
-    <el-input type="textarea" v-model="form.analyze"></el-input>
-  </el-form-item>
-    <el-form-item>
-    <el-button type="primary" @click="onSubmitfirst">提交</el-button>
-    <el-button>取消</el-button>
-  </el-form-item>
-</el-form>
+          <el-input v-model="form.playType"></el-input>
+        </el-form-item>
+        <el-form-item label="场次" style="width:400px">
+          <el-input v-model="form.matchId"></el-input>
+        </el-form-item>
+        <el-form-item label="主队" style="width:400px">
+          <el-input v-model="form.homeTeam"></el-input>
+        </el-form-item>
+        <el-form-item label="客队" style="width:400px">
+          <el-input v-model="form.guestTeam"></el-input>
+        </el-form-item>
+        <el-form-item label="推荐" style="width:400px">
+          <el-input v-model="form.recommend"></el-input>
+        </el-form-item>
+        <el-form-item label="sp值" style="width:400px">
+          <el-input v-model="form.sp"></el-input>
+        </el-form-item>
+        <el-form-item label="分析" style="width:400px;">
+          <el-input type="textarea" v-model="form.analyze"></el-input>
+        </el-form-item>
+          <el-form-item>
+          <el-button type="primary" @click="onSubmitfirst">提交</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
   </div>
   <div class="right">
    <p>每日两单（二）</p>
         <el-form ref="form" :model="formsecond" label-width="80px" size="500px">
          <el-form-item label="玩法" style="width:400px">
-    <el-input v-model="formsecond.playType"></el-input>
-  </el-form-item>
-  <el-form-item label="场次" style="width:400px">
-    <el-input v-model="formsecond.matchId"></el-input>
-  </el-form-item>
-  <el-form-item label="主队" style="width:400px">
-    <el-input v-model="formsecond.homeTeam"></el-input>
-  </el-form-item>
-   <el-form-item label="客队" style="width:400px">
-    <el-input v-model="formsecond.guestTeam"></el-input>
-  </el-form-item>
-   <el-form-item label="推荐" style="width:400px">
-    <el-input v-model="formsecond.recommend"></el-input>
-  </el-form-item>
-   <el-form-item label="sp值" style="width:400px">
-    <el-input v-model="formsecond.sp"></el-input>
-  </el-form-item>
-  <el-form-item label="分析" style="width:400px;">
-    <el-input type="textarea" v-model="formsecond.analyze"></el-input>
-  </el-form-item>
-    <el-form-item>
-    <el-button type="primary" @click="onSubmitsecond">提交</el-button>
-    <el-button>取消</el-button>
-  </el-form-item>
-</el-form>
+            <el-input v-model="formsecond.playType"></el-input>
+            </el-form-item>
+            <el-form-item label="场次" style="width:400px">
+              <el-input v-model="formsecond.matchId"></el-input>
+            </el-form-item>
+            <el-form-item label="主队" style="width:400px">
+              <el-input v-model="formsecond.homeTeam"></el-input>
+            </el-form-item>
+            <el-form-item label="客队" style="width:400px">
+              <el-input v-model="formsecond.guestTeam"></el-input>
+            </el-form-item>
+            <el-form-item label="推荐" style="width:400px">
+              <el-input v-model="formsecond.recommend"></el-input>
+            </el-form-item>
+            <el-form-item label="sp值" style="width:400px">
+              <el-input v-model="formsecond.sp"></el-input>
+            </el-form-item>
+            <el-form-item label="分析" style="width:400px;">
+              <el-input type="textarea" v-model="formsecond.analyze"></el-input>
+            </el-form-item>
+              <el-form-item>
+              <el-button type="primary" @click="onSubmitsecond">提交</el-button>
+              <el-button>取消</el-button>
+          </el-form-item>
+    </el-form>
   </div>
   </div>
 <!-- <el-dialog title="确认提交吗" :visible.sync="dialogVisible" width="500px" top="30vh">
@@ -71,7 +71,7 @@
         </el-dialog> -->
         <div class="chuan">
           <div class="no">
-   <p>实战二串一（一）</p>
+    <p>实战二串一（一）</p>
         <el-form :inline="true" :model="formthird" class="demo-form-inline">
         <el-form-item label="场次">
           <el-input v-model="formthird.amount"></el-input>
@@ -168,14 +168,14 @@ export default {
   data() {
     return {
       form:{
-      analyze:''||null,	
-      author:''||null,
-      guestTeam	:''||null,	
-      homeTeam:''||null,
-      matchId:''||null,
-      playType:''||null,
-      recommend:''||null,
-      sp:''||null
+        analyze:''||null,	
+        author:''||null,
+        guestTeam	:''||null,	
+        homeTeam:''||null,
+        matchId:''||null,
+        playType:''||null,
+        recommend:''||null,
+        sp:''||null
       },
       formsecond:{
        analyze:''||null,	
@@ -238,7 +238,6 @@ export default {
         this.$message('请输入分析')
       }else{
         let obj = {
- 
           analyze:this.form.analyze,	
           author:'manager',
           guestTeam	:this.form.guestTeam,	
@@ -248,12 +247,15 @@ export default {
           recommend:this.form.recommend,
           sp:this.form.sp
         }
-        createDayOneDan1(JSON.stringify(obj)).then(res => {
-         if(res.error_code == 200){
-           thi.$message(res.message)
-         }
+        createDayOneDan1(obj).then(res => {
+            console.log(res)
+            if(res.data.error_code == 200){
+                this.$message.success(res.data.message)
+            }else{
+                this.$message.error(res.data.data)
+            }
         })
-       }
+      }
     },
     onSubmitsecond(){
       if(!this.formsecond.playType){
@@ -281,105 +283,114 @@ export default {
           recommend:this.formsecond.recommend,
           sp:this.formsecond.sp
         }
-      createDayOneDan2(obj).then(res => {
-         if(res.error_code == 200){
-           thi.$message(res.message)
-         }
-      })
+        createDayOneDan2(obj).then(res => {
+            console.log(res)
+            if(res.data.error_code == 200){
+                this.$message.success(res.data.message)
+            }else{
+                this.$message.error(res.data.data)
+            }
+        })
       }
     },
     onSubmitthird(){
-       if(!this.formthird.amount){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.author){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.bonus){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.guestTeam1){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.guestTeam2){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.homeTeam1){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.homeTeam2){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.matchId1){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.matchId2){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.multiple){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.recommend1){
-        this.$message('请输入完整数据')
-      }else if(!this.formthird.recommend2){
-        this.$message('请输入完整数据')
-      }else{
-        let obj = {
-          amount:this.formthird.amount,	
-          author:'manager',
-          bonus	:this.formthird.bonus,	
-          guestTeam1:this.formthird.guestTeam1,
-          guestTeam2:this.formthird.guestTeam2,
-          homeTeam1:this.formthird.homeTeam1,
-          homeTeam2:this.formthird.homeTeam2,
-          matchId1:this.formthird.matchId1,
-          matchId2:this.formthird.matchId2,
-          multiple:this.formthird.multiple,
-          recommend1:this.formthird.recommend1,
-          recommend2:this.formthird.recommend2
-        }
-      createSZ2C11(obj).then(res => {
-         if(res.error_code == 200){
-           thi.$message(res.message)
-         }
-      })
+        if(!this.formthird.amount){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.author){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.bonus){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.guestTeam1){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.guestTeam2){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.homeTeam1){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.homeTeam2){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.matchId1){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.matchId2){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.multiple){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.recommend1){
+            this.$message('请输入完整数据')
+        }else if(!this.formthird.recommend2){
+            this.$message('请输入完整数据')
+        }else{
+            let obj = {
+                amount:this.formthird.amount,	
+                author:'manager',
+                bonus	:this.formthird.bonus,	
+                guestTeam1:this.formthird.guestTeam1,
+                guestTeam2:this.formthird.guestTeam2,
+                homeTeam1:this.formthird.homeTeam1,
+                homeTeam2:this.formthird.homeTeam2,
+                matchId1:this.formthird.matchId1,
+                matchId2:this.formthird.matchId2,
+                multiple:this.formthird.multiple,
+                recommend1:this.formthird.recommend1,
+                recommend2:this.formthird.recommend2
+            }
+            createSZ2C11(obj).then(res => {
+                console.log(res)
+                if(res.data.error_code == 200){
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.error(res.data.data)
+                }
+            })
       }
     },
     onSubmitforth(){
-      if(!this.formforth.amount){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.author){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.bonus){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.guestTeam1){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.guestTeam2){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.homeTeam1){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.homeTeam2){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.matchId1){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.matchId2){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.multiple){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.recommend1){
-        this.$message('请输入完整数据')
-      }else if(!this.formforth.recommend2){
-        this.$message('请输入完整数据')
-      }else{
-        let obj = {
-          amount:this.formthird.amount,	
-          author:'manager',
-          bonus	:this.formthird.bonus,	
-          guestTeam1:this.formthird.guestTeam1,
-          guestTeam2:this.formthird.guestTeam2,
-          homeTeam1:this.formthird.homeTeam1,
-          homeTeam2:this.formthird.homeTeam2,
-          matchId1:this.formthird.matchId1,
-          matchId2:this.formthird.matchId2,
-          multiple:this.formthird.multiple,
-          recommend1:this.formthird.recommend1,
-          recommend2:this.formthird.recommend2
-        }
-      createSZ2C12(obj).then(res => {
-         if(res.error_code == 200){
-           thi.$message(res.message)
-         }
-      })
+        if(!this.formforth.amount){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.author){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.bonus){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.guestTeam1){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.guestTeam2){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.homeTeam1){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.homeTeam2){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.matchId1){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.matchId2){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.multiple){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.recommend1){
+            this.$message('请输入完整数据')
+        }else if(!this.formforth.recommend2){
+            this.$message('请输入完整数据')
+        }else{
+            let obj = {
+                amount:this.formthird.amount,	
+                author:'manager',
+                bonus	:this.formthird.bonus,	
+                guestTeam1:this.formthird.guestTeam1,
+                guestTeam2:this.formthird.guestTeam2,
+                homeTeam1:this.formthird.homeTeam1,
+                homeTeam2:this.formthird.homeTeam2,
+                matchId1:this.formthird.matchId1,
+                matchId2:this.formthird.matchId2,
+                multiple:this.formthird.multiple,
+                recommend1:this.formthird.recommend1,
+                recommend2:this.formthird.recommend2
+            }
+            createSZ2C12(obj).then(res => {
+                console.log(res)
+                if(res.data.error_code == 200){
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.error(res.data.data)
+                }
+            })
       }
     }
   }
@@ -396,17 +407,25 @@ export default {
 .el-textarea__inner{
     height: 250px;
 }
+.right >>> .el-form-item{
+  width: 400px
+}
 .right{
-  float: left;
-  margin-left: 400px;
+  /* float: left; */
+  width: 500px;
+  margin-left: 100px;
   overflow: hidden
 }
 .left{
   width: 500px;
-  float: left;
+  /* float: left; */
 }
 .addstationletter{
+  min-width: 1200px;
+    width: 100%;
     padding: 10px 20px;
     overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
 }
 </style>

@@ -63,7 +63,7 @@ export function addWinPromotion(userinfos){
 //修改中奖宣传状态
 export function updateWinPromotionStatus(userinfos){
     return request.lottery({
-        url:'/lottery/addWinPromotion',
+        url:'/lottery/updateWinPromotionStatus',
         method:'get',
         params:userinfos
     })
@@ -88,6 +88,24 @@ export function getSuperMan(userinfos){
 export function addMail(userinfos){
     return request.infos({
         url:'/information/addMail',
+        method:'get',
+        params:userinfos
+    })
+}
+
+//修改SP抓取源
+export function reviseSpSourse(userinfos){
+    return request.infos({
+        url:'/information/reviseSpSourse',
+        method:'get',
+        params:userinfos
+    })
+}
+
+//获取当前竞彩足球SP抓取来源
+export function getSpSourse(userinfos){
+    return request.infos({
+        url:'/information/getSpSourse',
         method:'get',
         params:userinfos
     })

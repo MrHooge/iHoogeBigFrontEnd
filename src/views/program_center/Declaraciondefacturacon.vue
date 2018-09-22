@@ -57,13 +57,13 @@
                 align="center"
                 label="	操作">
                <template slot-scope="scope">
-                      <el-button @click="Modificar(scope.row)">修改发单宣言</el-button>
+                      <el-button @click="Modificar(scope.row)" type="primary">修改发单宣言</el-button>
                    </template>
             </el-table-column>
         </el-table>
          <el-dialog title="修改" :visible.sync="dialogShenVisible" width="500px" top="30vh">
             <div class="body">
-              请输入罚单宣言：<el-input v-model="desc"></el-input>
+              请输入发单宣言：<el-input v-model="desc"></el-input>
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogShenVisible = false">取 消</el-button>
@@ -108,6 +108,7 @@ export default {
             planStatus:'',
             dialogShenVisible:false,
             fadan:'',
+            totalList: 0,    //
         }
     },
     filters:{
@@ -115,21 +116,22 @@ export default {
             return b == '' ? '' : b
         },
         time(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
-        },
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+        }
     },
     created(){
         this.gettable()
@@ -154,31 +156,42 @@ export default {
                 desc:''
             }
             selectLotteryPlan(obj).then(res =>{
-                this.tableData = res.data.data
-                this.fadan = res.data.data.planStatus
+                console.log(res.data.error_code)
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data
+                    this.fadan = res.data.data.planStatus
+                    this.totalList = res.data.totalCount
+                }else{
+                    this.$message.error(res.data.message)
+                }
             })
         },
         //修改发单宣言
-        Modificar(){
-            this.dialogShenVisible = true;
+        Modificar(data){
+            console.log(data)
+            this.dialogShenVisible = true
+            this.planNo = data.planNo
         },
         //确认修改发单宣言
         sure(){
-            let subnewobj ={
-                plamNo:this.planNo,
-                desc:this.desc
+            let subnewobj = {
+                desc: this.desc,
+                planNo: this.planNo,
             }
             updatePlanDesc(subnewobj).then(res => {
                 if(res.data.error_code == 200){
-                    this.$message(res.data.message)
+                    this.$message.success(res.data.message)
                     this.dialogShenVisible = false
+                    this.planNo = '';
+                    this.gettable()
                 }else{
-                    this.$message(res.data.message)
+                    this.$message.error(res.data.message)
                 }
             })
         },
         //查询
         search(){
+            this.page = 1
             this.gettable()
         },
          //翻页
@@ -191,18 +204,6 @@ export default {
             this.pageSize = num;
             this.gettable()
         },
-        //确认
-        sure(){
-            updatePlanDesc(this.desc,this.planNo)
-            .then(res => {
-                if(res.data.error_code == 200){
-                    this.$message(res.data.message);
-                    this.dialogShenVisible = false;
-                    this.planNo = '';
-                     this.gettable()
-                }
-            })
-        }
     }
 }
 </script>

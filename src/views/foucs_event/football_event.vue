@@ -85,8 +85,7 @@
                   border
                   style="width: 100%"
                   @selection-change="handleSelectionChange">
-            <el-table-column type="selection"
-                             width="55">
+            <el-table-column type="selection">
             </el-table-column>
             <el-table-column prop="GAME_SHORT_NAME"
                              align="center"
@@ -116,18 +115,18 @@
                 label="开赛日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.matchTime.time}}
+                    {{scope.row.matchTime.time | time}}
                 </template>
             </el-table-column>
             <el-table-column
                 label="截止日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.MatchDealTime.time}}
+                    {{scope.row.MatchDealTime.time | time}}
                 </template>
             </el-table-column>
          </el-table>
-         <el-pagination
+         <!-- <el-pagination
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -135,9 +134,9 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
+            :total="totalList"
             >
-            </el-pagination>
+            </el-pagination> -->
    </div>
 </template>
 
@@ -156,24 +155,26 @@ export default {
             time:'',
             page:1,
             pageSize:20,
-            total: 0
+            totalList: 0
         }
     },
     filters: {
-        times(a) {
-             let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        time(a) {
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
         },
     },
     created() {
@@ -190,8 +191,8 @@ export default {
             }
             findFootballMixureInfo(obj)
             .then(res => {
+                console.log(res)
                 this.tableData = res.data.data
-                this.total = res.data.total
             })
         },
         // 点击进行弹窗
@@ -270,15 +271,15 @@ export default {
             this.selections = selection
         },
         //分页
-        handleCurrentChange(num) {
-            this.page = num;
-            this.getTable()
-        },
-        //改变页面大小
-        handleSizeChange(num) {
-            this.pageSize = num;
-            this.getTable()
-        },
+        // handleCurrentChange(num) {
+        //     this.page = num;
+        //     this.getTable()
+        // },
+        // //改变页面大小
+        // handleSizeChange(num) {
+        //     this.pageSize = num;
+        //     this.getTable()
+        // },
     }
 }
 </script>

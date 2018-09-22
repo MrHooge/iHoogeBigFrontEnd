@@ -21,23 +21,14 @@
 			          style="width: 100%;">
 				<el-table-column prop="id"
 				                 label="编号">
-					<!-- <template slot-scope="scope">
-                    <span style="margin-left: 10px">{{ scope.row.id }}</span>
-                </template> -->
 				</el-table-column>
 
 				<el-table-column prop="account"
 				                 label="客户昵称">
-					<!-- <template slot-scope="scope">
-                        
-                    </template> -->
 				</el-table-column>
 
 				<el-table-column prop="planNo"
 				                 label="单号">
-					<!-- <template slot-scope="scope">
-                            
-                        </template> -->
 				</el-table-column>
 				<el-table-column label="发起时间"
 				                 align="center">

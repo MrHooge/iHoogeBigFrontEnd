@@ -54,24 +54,24 @@
 			</el-pagination>
 		</div>
 		<!-- 修改角色信息 -->
-		<el-dialog title="修改角色信息"
+		<el-dialog title="设置代理或渠道"
 		           :visible.sync="viewFormVisible">
 			<el-form :model="form">
-				<el-form-item label="角色名称"
+				<!-- <el-form-item label="角色名称"
 				              :label-width="formLabelWidth">
 					<el-input v-model="form.role_name"
 					          auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="角色描述"
+				</el-form-item> -->
+				<!-- <el-form-item label="角色描述"
 				              :label-width="formLabelWidth">
 					<el-input v-model="form.role_ID"
 					          auto-complete="off"></el-input>
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item label="权限配置"
 				              :label-width="formLabelWidth">
-					<el-radio v-model="radio"
+					<el-radio v-model="form.radio"
 					          label="1">设为渠道</el-radio>
-					<el-radio v-model="radio"
+					<el-radio v-model="form.radio"
 					          label="2">设为代理</el-radio>
 				</el-form-item>
 			</el-form>
@@ -88,7 +88,7 @@
 <script>
 import {
 	findAllMember,
-	handleEdit,
+	updateMemberToQD,
 	setMemberToAgent
 } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
@@ -115,11 +115,12 @@ export default {
 			form: {
 				role_ID: '',
 				role_name: '',
-				type: [],
+                type: [],
+                radio: '',
 			},
 			account: '',
 			member_id: '',
-			radio: '1', //  设置渠道或者代理
+			// radio: '1', //  设置渠道或者代理
 
 		}
 	},
@@ -148,11 +149,12 @@ export default {
 			this.viewFormType = type
 			this.form = {
 				role_ID: data.id,
-				role_name: data.account
-			}
+                role_name: data.ACCOUNT
+            }
+            console.log(data)
 			this.viewFormVisible = true
 			// this.getFindRoleAndPermission(data.NAME)
-			this.account = data.account
+			this.account = data.ACCOUNT
 			this.member_id = data.id
 		},
 
@@ -162,17 +164,19 @@ export default {
 
 		},
 		submitInfos() { // 确定按钮
-			if (this.radio == '1') {
+			if (this.form.radio == '1') {
 				let obj = {
 					account: this.account,
 					member_id: this.member_id
-				}
-				handleEdit(obj).then(res => {
+                }
+                //设置为渠道
+				updateMemberToQD(obj).then(res => {
 					console.log(res)
 					if (res.data.error_code == 200) {
 						this.viewFormVisible = false
 						Message.success(res.data.message)
 					} else {
+                        this.viewFormVisible = false
 						Message.success(res.data.message)
 					}
 
@@ -181,17 +185,18 @@ export default {
 				let obj = {
 					QDAccount: '',
 					account: this.account
-				}
+                }
+                //设置为代理
 				setMemberToAgent(obj).then(res => {
 					console.log(res)
 					if (res.data.error_code == 200) {
 						this.viewFormVisible = false
 						Message.success(res.data.message)
 					} else {
+                        this.viewFormVisible = false
 						Message.success(res.data.message)
 					}
 				})
-				console.log('设置代理')
 			}
 		},
 		handleCheckChange() {},

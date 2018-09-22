@@ -19,6 +19,14 @@ export function findAllMember(userinfos){
         params:userinfos
     })
 }
+//会员资料修改
+export function updateMemberInfoBack(userinfos){
+    return request.member({
+        url:'/user/updateMemberInfoBack',
+        method:'get',
+        params: userinfos
+    })
+}
 //会员加白
 export function memberToWrite(account,type){
     return request.member({
@@ -47,9 +55,7 @@ export function getSmsCode(mobile){
     return request.member({
         url:'/user/getSmsCode',
         method:'get',
-        params:{
-            mobile
-        }
+        params: mobile
     })
 }
 
@@ -85,6 +91,7 @@ export function MemberMoveAudit(userinfos){
         params:userinfos
     })
 }
+
 //通过id查询钱包
 export function getMemberWalletByMemberId(memberId){
     return request.member({
@@ -92,6 +99,16 @@ export function getMemberWalletByMemberId(memberId){
         method:'get',
         params:{
             memberId
+        }
+    })
+}
+//通过账号查询银行信息
+export function getMemberInfoBack(account){
+    return request.member({
+        url:'/user/getMemberInfoBack',
+        method:'get',
+        params:{
+            account
         }
     })
 }

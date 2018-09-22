@@ -3,10 +3,16 @@
 		<!-- 顶部筛选 -->
 		<div class="topten">
 			<el-row :gutter="20">
-				<el-col :span="6">
+				<el-col :span="3">
 					<div class="grid-content bg-purple">
 						<el-input v-model="number"
 						          placeholder="请输入需要充值的账号"></el-input>
+					</div>
+				</el-col>
+                <el-col :span="3">
+					<div class="grid-content bg-purple">
+						<el-input v-model="username"
+						          placeholder="请输入需要充值的昵称"></el-input>
 					</div>
 				</el-col>
 				<el-col :span="6">
@@ -55,6 +61,8 @@
 				<template slot-scope="scope">
 					<el-button size="mini"
 					           :disabled="disabled"
+                               
+                               type="primary"
 					           @click="handleEdit(scope.row)">充值</el-button>
 				</template>
 			</el-table-column>
@@ -63,6 +71,7 @@
 </template>
 <script>
 import { getMemberWalletByAccount, xxCharge } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -72,9 +81,10 @@ export default {
 		return {
 			disabled: false,
 			number: "", // 输入的账号
-			chje: '',
-			tableData: [], //表格的数据
-		};
+			chje: '',    //充值的金额
+            tableData: [], //表格的数据
+            username: "",   //输入查询的昵称
+ 		};
 	},
 	filters: {
 		canuse(a) {
@@ -86,24 +96,40 @@ export default {
     },
 	methods: {
 		search() {
-			if (!this.number) {
-				this.$message("请输入您要查询的充值账号")
+			if (!this.number && !this.username) {
+				this.$message("请输入您要查询的充值账号或昵称！")
 			} else {
-				let obj = {
-					account: this.number
-				};
-				getMemberWalletByAccount(obj).then(res => {
-					console.log(res)
-					this.tableData = [];
-					if (res.status == 200) {
-						// this.chje = res.data.data.account
-						this.tableData.push(res.data.data);
-					}
-
-				})
-
+                if(this.number === ''){
+                    this.getAccount()
+                }else{
+                    this.accountSearch()
+                }
 			}
-		},
+        },
+        //用账号搜索
+        accountSearch(){
+            let obj = {
+                account: this.number
+            };
+            getMemberWalletByAccount(obj).then(res => {
+                console.log(res)
+                this.tableData = [];
+                if (res.status == 200) {
+                    this.tableData.push(res.data.data);
+                }
+            })
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.number = res.data.data.list[0].ACCOUNT
+                this.accountSearch()
+            })
+        },
 		handleEdit(a) {
 			this.disabled = true
 			let obj = {
@@ -113,18 +139,21 @@ export default {
 			xxCharge(obj).then(res => {
 				console.log(res)
 				if (res.data.success) {
-					this.$message("充值成功！")
+					this.$message.success("充值成功！")
 					setTimeout(() => {
 						this.disabled = false
-					}, 1200);
+                    }, 1200);
+                    this.chje = ''
 				} else {
+                    this.$message.error("充值失败！")
 					setTimeout(() => {
 						this.disabled = false
 					}, 1200);
 				}
 			})
 
-		}
+        },
+        
 	}
 };
 </script>

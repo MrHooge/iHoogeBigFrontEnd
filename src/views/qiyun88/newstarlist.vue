@@ -1,7 +1,7 @@
 <template>
    <div class="effectiveagent">
        <div class="btn">
-            <el-button type="primary" @click="addNewStar">添加新星榜</el-button>      
+            <el-button type="primary" @click="showAddNewStar">添加新星榜</el-button>      
        </div>
        <!-- 弹窗 -->
         <el-dialog
@@ -17,7 +17,8 @@
                     <el-input v-model="val" placeholder="请输入用户名"></el-input>
                 </div></el-col>
             </el-row>
-            <p class="toasts">注：一次输入多个用户时,请使用逗号隔开</p>
+            <p class="toasts">注：一次输入多个用户时,请使用“英文逗号”隔开</p>
+            <p class="toasts">（例如：香克斯,草小?,你热吗）</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="sure">确 定</el-button>
@@ -81,7 +82,7 @@ export default {
                     this.tableData = res.data.data
                 })
         },
-        addNewStar() {
+        showAddNewStar() {
             this.dialogVisible = true        
         },
         sure(){

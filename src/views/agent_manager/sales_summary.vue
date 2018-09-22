@@ -17,7 +17,8 @@
       <el-button type="primary"
                  @click="getone"
                  @keyup.13="getone"
-                 style="margin-left:50px;">搜索</el-button>
+                 style="margin-left:50px;"
+                 :loading="istrue">搜索</el-button>
       <el-button type="success"
                  @click="exportSome"
                  style="margin-left:50px;">导出</el-button>
@@ -88,7 +89,8 @@
       </el-table-column>
       <el-table-column label="渠道"
                        prop="qdName"
-                       align="center">
+                       align="center"
+                       v-if="qudaoShow">
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -100,7 +102,7 @@
                    :page-sizes="[10, 20, 50, 100]"
                    :page-size="10"
                    layout="total, sizes, prev, pager, next, jumper"
-                   :total="total">
+                   :total="totalList">
     </el-pagination>
   </div>
 </template>
@@ -122,11 +124,19 @@ export default {
       end_date: '',
       datetime: '', // 获取的日期和时间
       newarr: [],
-      total: 0
+      totalList: 0,
+      istrue: false,
     }
   },
   created() {
+      console.log(this.roleId)
     this.getTableList()
+    if(this.roleId === '10000181' ){
+        this.qudaoShow = false
+    }else{
+        this.qudaoShow = true
+    }
+    console.log(this.qudaoShow)
   },
   filters: {
     sumCommision(sum) {
@@ -135,9 +145,10 @@ export default {
   },
   methods: {
     getone() {
-      this.start_time = this.datetime[0]
-      this.end_date = this.datetime[1]
-      this.getTableList()
+        this.istrue = true
+        this.start_time = this.datetime[0]
+        this.end_date = this.datetime[1]
+        this.getTableList()
     },
     handleSizeChange(val) {
       this.pages = val
@@ -159,10 +170,12 @@ export default {
       }
       findSaleInfo(paramsObj)
         .then(res => {
-          this.tableData = res.data.data.list
-          console.log(this.tableData)
-          console.log(12345665)
-          this.total = res.data.data.total
+            if(res.data.error_code === 200){
+                this.istrue = false
+                this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
+            }
+          
         })
         .catch(error => {
           Message.error(error)
@@ -179,15 +192,18 @@ export default {
           num: index + 1,
           agentName: e.agentName,
           allBuyNum: e.allBuyNum.toFixed(2),
-          allBuyMoney:e.allBuyMoney,
           CountSelfBuyNum: Number(e.CountSelfBuyNum).toFixed(2),
-          beidan: Number(e.beidan).toFixed(2),
-          sumCommision: (e.sumCommision ? e.sumCommision : 0).toFixed(2),
-          fllowBuy: Number(e.followBuy).toFixed(2),
-          laozucai: Number(e.laozucai).toFixed(2),
-          koujian: Number(e.koujian).toFixed(2),
+          CountFllowBuyNum:Number(e.CountFllowBuyNum).toFixed(2),
+          allBuyMoney:e.allBuyMoney,
           selfBuy: Number(e.selfBuy).toFixed(2),
-          shuzi: Number(e.shuzi).toFixed(2)
+          fllowBuy: Number(e.followBuy).toFixed(2),
+          beidan: Number(e.beidan).toFixed(2),
+          laozucai: Number(e.laozucai).toFixed(2),
+          shuzi: Number(e.shuzi).toFixed(2),
+          koujian: Number(e.koujian).toFixed(2),
+          sumCommision: (e.sumCommision ? e.sumCommision : 0).toFixed(2),
+          qdName:e.qdName
+          
         }
         this.newarr.push(newobj)
       })
@@ -202,10 +218,9 @@ export default {
         const {
           export_json_to_excel
         } = require('../../vendor/Export2Excel');　　　　　　　　
-        const tHeader = ['编号', '开户数', '激活数', '消费数', '北单', '佣金', '跟单', '老足彩', '扣减', '自购', '数字']; //对应表格输出的title
+        const tHeader = ['编号', '代理名字', '消费数(个)', '自购数(个)', '跟单数(个)', '竞彩', '自购(金额)', '跟单(金额)', '北单(金额)', '老足彩(金额)', '数字(金额)','扣减(金额)','佣金(金额)','渠道']; //对应表格输出的title
         　　　　　　　　
-        const filterVal = this.newarr; // 对应表格输出的数据
-        　　　　　　　　
+         const filterVal = ['num','agentName','allBuyNum','CountSelfBuyNum','CountFllowBuyNum','allBuyMoney', 'selfBuy', 'fllowBuy', 'beidan','laozucai','shuzi','koujian','sumCommision','qdName']; // 对应表格输出的数据　　　　　
         const list = this.tableData;　　　　　　　　
         const data = this.formatJson(filterVal, list);　　　　　　　　
         export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字　　　　

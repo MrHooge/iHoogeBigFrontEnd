@@ -114,7 +114,7 @@ export const constantRouterMap = [{
     ]
   },
 
-  // 新闻公告
+  // 运营管理
   {
     path: '/newsBulletin',
     component: Layout,
@@ -164,6 +164,15 @@ export const constantRouterMap = [{
         name: '中奖评论审核',
         component: () =>
           import ('@/views/newsBulletin/winningComments'),
+        meta: {
+          title: '中奖评论审核'
+        }
+      },
+      {
+        path: 'jiabai',
+        name: '加白设置',
+        component: () =>
+          import ('@/views/operations/jiabai'),
         meta: {
           title: '中奖评论审核'
         }
@@ -498,6 +507,24 @@ export const constantRouterMap = [{
           title: '轮播图管理'
         }
       },
+      {
+        path: 'redpackage',
+        name: '红包记录',
+        component: () =>
+          import ('@/views/activity_manager/redpackage'),
+        meta: {
+          title: '红包记录'
+        }
+      },
+      {
+        path: 'pushRed',
+        name: '平台发红包',
+        component: () =>
+          import ('@/views/activity_manager/pushRed'),
+        meta: {
+          title: '平台发红包'
+        }
+      },
 
     ]
   },
@@ -741,6 +768,12 @@ export const constantRouterMap = [{
         meta: { title: '彩期管理' }
       },
       {
+        path: 'updateSP',
+        name: 'SP修改',
+        component: () => import ('@/views/program_center/updateSP'),
+        meta: { title: 'SP修改' }
+      },
+      {
         path: 'Manuallottery',
         name: '手动开奖',
         component: () => import ('@/views/program_center/Manuallottery'),
@@ -834,6 +867,18 @@ export const constantRouterMap = [{
         name: '积分查询',
         component: () => import('@/views/details_search/integral_search'),
         meta: { title: '积分查询' }
+      },
+      {
+        path: 'documentary',
+        name: '跟单佣金',
+        component: () => import('@/views/details_search/documentary'),
+        meta: { title: '跟单佣金' }
+      },
+      {
+        path: 'platform_collector',
+        name: '平台收佣',
+        component: () => import('@/views/details_search/platform_collector'),
+        meta: { title: '平台收佣' }
       },
       {
         path: 'lotterySearch',
@@ -1062,13 +1107,41 @@ export const constantRouterMap = [{
       },
     ]
   },
-  //运营管理
+  //打票管理
+  {
+    path: '/bookTicket',
+    component: Layout,
+    redirect: '/book_ticket/ticket_main',
+    name: '打票管理',
+    meta: { title: '打票管理' },
+    children: [
+        {
+            path: 'ticket_main',
+            name: '打票列表',
+            component: () => import('@/views/book_ticket/ticket_main'),
+            meta: { title: '打票列表'}
+        },
+        {
+            path: 'ticket_details',
+            name: '打票详情',
+            component: () => import('@/views/book_ticket/ticket_details'),
+            meta: { title: '打票详情'}
+        },
+        {
+            path: 'addApparatus',
+            name: '添加打票机',
+            component: () => import('@/views/book_ticket/addApparatus'),
+            meta: { title: '添加打票机'}  
+        }
+    ]
+  },
+  //运营设置
   {
     path: '/operations',
     component: Layout,
     redirect: '/operations/seekingtick',
-    name: '运营管理',
-    meta: { title: '运营管理' },
+    name: '运营设置',
+    meta: { title: '运营设置' },
     children: [
       {
         path: 'seekingtick',
@@ -1079,11 +1152,11 @@ export const constantRouterMap = [{
       
       {
         path: 'lotteryDaily',
-        name: '竞彩日报',
+        name: '专家推荐',
         component: () =>
           import ('@/views/operations/lottery_daily'),
         meta: {
-          title: '竞彩日报'
+          title: '专家推荐'
         }
       },
       {

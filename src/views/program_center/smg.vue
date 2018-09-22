@@ -1,6 +1,6 @@
 <template>
     <div class="basketball">
-         开始时间：<el-date-picker
+        开始时间：<el-date-picker
             v-model="startTime"
             type="date"
             style="margin-bottom:40px;margin-right:20px;width:200px"
@@ -10,138 +10,124 @@
             <el-button type="primary" @click="searchlist" style="margin-top:15px">查询 </el-button>
             <!-- 表格二 -->
             <div class="alltable">
-            <!-- 表格一 -->
-            <div class="tablefirst">
-        <el-table
-      :data="tableData"
-      border
-      style="width:100%;"
-      @selection-change="handleSelectionChange">
-       <el-table-column
-        prop="matchId"
-        label="场次号"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="gameName"
-        label="	赛事名称"
-        width="100"
-        align="center">
-      </el-table-column>
-       <el-table-column
-        prop="homeTeam"
-        label="主队"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="guestTeam"
-        label="客队"
-        align="center">
-      </el-table-column>
-       <el-table-column
-        prop="rq"
-        label="让球数"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="halfHomeScore"
-        label="	主队半场进球"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="halfGuestScore"
-        label="	客队半场进球"
-        align="center">
-      </el-table-column>
-       <el-table-column
-        prop="homeScore"
-        label="主队总进球	"
-        align="center">
-      </el-table-column>
-       <el-table-column
-        prop="guestScore"
-        label="客队总进球"
-        align="center">
-      </el-table-column>
-       <!-- <el-table-column
-        label="状态"
-        align="center"
-        style="width:150px">
-        <template slot-scope="scope">
-                    <div v-for="(item,index) in scope.row.selectStatus" :key="index" class="Built-inmodule"><el-checkbox name="type"></el-checkbox></div>
-                </template>
-      </el-table-column> -->
-      <el-table-column
-        label="	比赛时间"
-        align="center">
-         <template slot-scope="scope">
-                    {{scope.row.matchTime | time}}
-                </template>
-      </el-table-column>
-      <el-table-column
-        prop="status"
-        label="	状态"
-        align="center">
-        <template slot-scope="scope">
-            <el-tag
-            disable-transitions>{{scope.row.status | changeType}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="	操作"
-        align="center">
-        <template slot-scope="scope">
-        <el-button type="primary" @click="modify(scope.row,'modify')">修改</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-            </div>
-
-
-            <!-- <div class="tablesecond">
-            <div class="table-top">
-                  <div class="listnum">过关</div>
-                  <div class="listnum">过关</div>
-                   <div class="listnum">过关</div>
-                  <div class="listnum">过关</div>
-                   <div class="listnum">过关</div>
-                  <div class="listnum">过关</div>
-                   <div class="listnum">过关</div>
-                  <div class="listnum">过关</div>
-                   <div class="listnum">过关</div>
-                  <div class="listnum">过关</div>
-              </div>
-            <div v-for="(item,index) in tableData" :key="index" class="table-down">
-              <div class="testfirst">
+                <!-- 表格一 -->
+                <div class="tablefirst">
+                    <el-table
+                        :data="tableData"
+                        border>
+                        <el-table-column
+                            prop="matchId"
+                            label="场次号"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="gameName"
+                            label="赛事名称"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="homeTeam"
+                            label="主队"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="guestTeam"
+                            label="客队"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="rq"
+                            label="让球数"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="halfHomeScore"
+                            label="主队半场进球"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="halfGuestScore"
+                            label="客队半场进球"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="homeScore"
+                            label="主队总进球"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="guestScore"
+                            label="客队总进球"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            label="比赛时间"
+                            align="center">
+                            <template slot-scope="scope">
+                                {{scope.row.matchTime | time}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="status"
+                            label="状态"
+                            align="center">
+                            <template slot-scope="scope">
+                                <el-tag disable-transitions>{{scope.row.status | changeType}}</el-tag>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            label="操作"
+                            align="center">
+                            <template slot-scope="scope">
+                                <el-button type="primary" @click="modify(scope.row,'modify')">修改</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+                <!-- <div class="tablesecond">
+                <div class="table-top">
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                    <div class="listnum">过关</div>
+                </div>
+                <div v-for="(item,index) in tableData" :key="index" class="table-down">
+                <div class="testfirst">
+                    
+                    <div v-for="val in item.selectStatus" :key="val.index" class="testsecond"> <el-checkbox name="type"></el-checkbox></div>
+                </div>
                 
-                <div v-for="val in item.selectStatus" :key="val.index" class="testsecond"> <el-checkbox name="type"></el-checkbox></div>
-              </div>
-              
-              <div>
-                {{index}} 
-                <span v-for="val in v.selectStatus" :key="val.index">{{val}}</span>
-              </div>
+                <div>
+                    {{index}} 
+                    <span v-for="val in v.selectStatus" :key="val.index">{{val}}</span>
+                </div>
+                </div>
+                </div> -->
             </div>
-            </div> -->
-            </div>
-     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+     <el-dialog :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="客队总进球" :label-width="formLabelWidth">
+        <el-form-item label="客队总进球">
           <el-input v-model="form.guestScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="客队半场进球" :label-width="formLabelWidth">
+        <el-form-item label="客队半场进球">
           <el-input v-model="form.halfGuestScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="主队半场进球" :label-width="formLabelWidth">
+        <el-form-item label="主队半场进球">
           <el-input v-model="form.halfHomeScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="主队总进球" :label-width="formLabelWidth">
+        <el-form-item label="主队总进球">
           <el-input v-model="form.homeScore" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="让球" :label-width="formLabelWidth">
+        <el-form-item label="让球">
           <el-input v-model="form.rq" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="状态" :label-width="formLabelWidth">
+        <el-form-item label="状态">
           <el-radio v-model="form.status" label="0" border>进行中</el-radio>
             <el-radio v-model="form.status" label="1" border>截止</el-radio>
             <el-radio v-model="form.status" label="2" border>取消</el-radio>
@@ -190,22 +176,23 @@ export default {
                 return '取消'
             }
         },
-         time(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
-        },
+        time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+        }
     },
     methods:{
         //查询
@@ -220,28 +207,61 @@ export default {
             this.gettable()
         },
         modify(data){
+            console.log(data)
             this.dialogFormVisible = true;
             this.form.id = data.id
-            this.form.rq = data.rq
-            this.form.status = data.status
-            console.log(data.status)
+            if(data.guestScore != null){
+                this.form.guestScore = data.guestScore.toString()
+            }else{
+                this.form.guestScore = ''
+            }
+            if(data.halfGuestScore != null){
+                this.form.halfGuestScore = data.halfGuestScore.toString()
+            }
+            else{
+                this.form.halfGuestScore = ''
+            }
+            if(data.halfHomeScore != null){
+                this.form.halfHomeScore = data.halfHomeScore.toString()
+            }
+            else{
+                this.form.halfHomeScore = ''
+            }
+            if(data.homeScore != null){
+                this.form.homeScore = data.homeScore.toString()
+            }
+            else{
+                this.form.homeScore = ''
+            }
+            if(data.rq != null){
+                this.form.rq = data.rq.toString()
+            }
+            else{
+                this.form.rq = ''
+            }
+            if(data.status != null){
+                this.form.status = data.status.toString()
+            }
+            else{
+                this.form.status = ''
+            }
         },
         //确认修改
         submitInfos(){
             updateFootBallAdmin(this.form).then(res => {
-               if(res.data.error_code == 200){
-                 this.$message(res.data.message)
-                 this.gettable()
-                 this.dialogFormVisible = false
-                 this.form.guestScore = ''
-                  this.form.halfGuestScore = ''
-                  this.form.halfHomeScore = ''
-                  this.form.homeScore = ''
-                
-               }else{
-                 this.$message(res.data.message)
-                 this.dialogFormVisible = false
-               }
+                if(res.data.error_code == 200){
+                    this.$message.success(res.data.message)
+                    this.dialogFormVisible = false
+                    this.form.guestScore = ''
+                    this.form.halfGuestScore = ''
+                    this.form.halfHomeScore = ''
+                    this.form.homeScore = ''
+                    this.gettable()
+
+                }else{
+                    this.$message.error(res.data.message)
+                    this.dialogFormVisible = false
+                }
             })
         }
     }

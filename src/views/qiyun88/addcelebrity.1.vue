@@ -51,10 +51,7 @@
                 >
             </el-input>
         </el-form-item>
-        <el-form-item label="昵称">
-            <el-input v-for="v in navLi" :key="v.index" v-model="v.username"></el-input>
-        </el-form-item>
-        <!-- <el-form-item label="内容">
+        <el-form-item label="内容">
             <el-input
                 placeholder="请输入内容"
                 v-model="content01"
@@ -103,13 +100,15 @@
                 clearable
                 >
             </el-input>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit">增加</el-button>
         </el-form-item>
+        
+        
     </el-form>
-    <!-- <p style="padding-left:200px;">备注：没有添加红人的位置会为空！</p> -->
-    <!-- <div style="text-align:center;">
+    <p style="padding-left:200px;">备注：没有添加红人的位置会为空，需要每一个都添加一遍！</p>
+    <div style="text-align:center;">
         <p>当前的红人列表</p>
         <el-table
             :data="navLi"
@@ -124,7 +123,7 @@
             label="昵称">
             </el-table-column>
         </el-table>
-    </div> -->
+    </div>
     
  </div>
     
@@ -179,7 +178,6 @@ export default {
                 }
                 else{
                     if(res.data.error_code == 200){
-                        this.getList()
                         this.$message.success(res.data.message)
                     }else{
                         this.$message.error(res.data.message)
@@ -188,34 +186,20 @@ export default {
                 
             })
         },
-        getList() {
+        getList () {
+			//  超级大神列表
+			// this.$axios.get(api.member + '/user/getSuperMan').then(res => {
+			// 	console.log(res)
+			// 	if (res.data.data.length > 0) {
+			// 		this.navLi = this.removeEmptyArrayEle(res.data.data)
+			// 	} else {
+			// 		this.hren = true
+			// 	}
+            // })
+
             getSuperMan().then(res =>{
                 console.log(res)
                 this.navLi = this.removeEmptyArrayEle(res.data.data)
-                if(this.navLi[0].account){
-                    this.redman.red01 = this.navLi[0].account
-                }
-                if(this.navLi[1].account){
-                    this.redman.red02 = this.navLi[1].account
-                }
-                if(this.navLi[2].account){
-                    this.redman.red03 = this.navLi[2].account
-                }
-                if(this.navLi[3].account){
-                    this.redman.red04 = this.navLi[3].account
-                }
-                if(this.navLi[4].account){
-                    this.redman.red05 = this.navLi[4].account
-                }
-                if(this.navLi[5].account){
-                    this.redman.red06 = this.navLi[5].account
-                }
-                if(this.navLi[6].account){
-                    this.redman.red07 = this.navLi[6].account
-                }
-                if(this.navLi[7].account){
-                    this.redman.red08 = this.navLi[7].account
-                }
             })
         },
         removeEmptyArrayEle (arr) {

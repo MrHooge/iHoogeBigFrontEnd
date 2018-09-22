@@ -111,8 +111,8 @@ $light_gray:#eee;
       color: $light_gray;
       height: 47px;
       &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: #fff !important;
+        //-webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+        -webkit-text-fill-color: #000 !important;
       }
     }
   }

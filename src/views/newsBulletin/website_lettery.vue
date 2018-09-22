@@ -17,67 +17,78 @@
     </div>
     <!-- 表格数据 -->
     <div>
-       <el-table :data="date"
-              border
-              style="width: 100%;">
-      <el-table-column prop="author"
-                       label="作者"
-                       align="center">
-      </el-table-column>
-            <el-table-column prop="content"
-                       label="内容"
-                       align="center">
-      </el-table-column>
+        <el-table :data="date"
+            border
+            style="width: 100%;">
             <el-table-column
-                       label="创建时间"
-                       align="center">
-                    <template slot-scope="scope">
-                    {{scope.row.createDate}}
-                     </template>
-      </el-table-column>
+                type="index"
+                align="center"
+                label="编号">
+            </el-table-column>
             <el-table-column prop="id"
-                       label="	id"
-                       align="center">
-      </el-table-column>
-      <el-table-column align="center"
-                       label="状态 ">
-        <template slot-scope="scope">
-            {{ scope.row.status | start }}
-        </template>
-      </el-table-column>
-             <el-table-column prop="title"
-                       align="center"
-                       label="标题">
-      </el-table-column>
-      <el-table-column align="center"
-                       label="类型">
+                label="id"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                label="创建时间"
+                align="center">
+                <template slot-scope="scope">
+                    {{scope.row.createDate | time}}
+                </template>
+            </el-table-column>
+            <el-table-column prop="content"
+                label="内容"
+                align="center">
+            </el-table-column>
+            <el-table-column align="center"
+                label="状态 ">
+                <template slot-scope="scope">
+                    {{ scope.row.status | start }}
+                </template>
+            </el-table-column>
+            <el-table-column prop="title"
+                align="center"
+                label="标题">
+            </el-table-column>
+            <el-table-column align="center"
+                label="类型">
                 <template slot-scope="scope">
                     {{scope.row.type | type}}
-                   </template>
-      </el-table-column>
-    </el-table>
+                </template>
+            </el-table-column>
+            <el-table-column prop="author"
+                label="作者"
+                align="center">
+            </el-table-column>
+        </el-table>
     <el-dialog :visible.sync="dialogFormVisible">
     标题：<el-input v-model="title"
                 placeholder="请输入标题"
                 style="width:40%;margin-bottom:30px"></el-input><br />
-          内容:&nbsp;&nbsp;<el-input
-        type="textarea"
-        :rows="3"
-        placeholder="请输入内容"
-        v-model="content"
-        style="width:40%;">
-</el-input><br />
-    指定人列表：<el-input v-model="target"
-                placeholder="请输入"
-                style="width:40%;margin-bottom:30px;margin-top:30px" type=""></el-input><br />
+          内容:&nbsp;&nbsp;
+            <el-input
+                type="textarea"
+                :rows="3"
+                placeholder="请输入内容"
+                v-model="content"
+                style="width:40%;">
+            </el-input><br />
+            <div style="height:100px" v-if="!isShow"></div>
+            <div v-if="isShow">
+                指定人列表：
+                <el-input v-model="target"
+                        placeholder="请输入"
+                        style="width:40%;margin-bottom:30px;margin-top:30px" type="">
+                </el-input><br />
+            </div>
                 <div style="margin-bottom:30px">
        状态：<el-radio v-model="status" label="0" border>隐藏</el-radio>
               <el-radio v-model="status" label="1" border>显示</el-radio><br />
                 </div>
                 <div style="margin-bottom:30px">
-        类型：<el-radio v-model="type" label="1" border>所有人可见</el-radio>
-              <el-radio v-model="type" label="2" border>白名单可见</el-radio>
-              <el-radio v-model="type" label="3" border>指定人可见</el-radio><br />
+        类型：<el-radio v-model="type" label="1" border @change="showTarget(0)">所有人可见</el-radio>
+              <el-radio v-model="type" label="2" border @change="showTarget(1)">白名单可见</el-radio>
+              <el-radio v-model="type" label="3" border @change="showTarget(2)">指定人可见</el-radio><br />
                 </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -102,25 +113,27 @@ export default {
      status:'',
      type:'',
      typelist:'',
-     statuslist:''
+     statuslist:'',
+     isShow: false,   //默认不展示指定列表输入框
     }
   },
    filters:{
-      time(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
+       time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
         },
         type(a){
           if(a == 1){
@@ -144,25 +157,38 @@ export default {
       this.getdate()
   },
   methods: {
+    showTarget(a){
+        if(a === 2){
+            this.isShow = true
+        }else{
+            this.isShow = false
+        }
+        
+    },
     addmessage(){
       this.dialogFormVisible = true
     },
     submitInfos(){
-      if(this.title == '' ||this.content == '' ||this.target =='' ||this.status == '' || this.type == ''){
+      if(this.title == '' ||this.content == '' ||this.status == '' || this.type == ''){
         this.$message('请输入相关数据')
       }else{
-      let obj = {
+        let obj = {
         author:getCookies('name'),
-        title:this.title,
+        title:this.title,   //标题
         content:this.content,
         target:this.target,
         status:this.status,
         type:this.type
-      }
+        }
       addMail(obj)
       .then(res => {
+        console.log(res)
         if(res.data.error_code == 200){
-          this.$message('添加成功')
+          this.$message.success(res.data.message)
+          this.dialogFormVisible = false
+        }else{
+            this.$message.error(res.data.data)
+            this.dialogFormVisible = false
         }
       })
       }
@@ -179,6 +205,7 @@ export default {
       }
       getMailList(newobj)
       .then(res => {
+          console.log(res)
         this.date = res.data.data
       })
     }

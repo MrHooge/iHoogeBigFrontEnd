@@ -1,6 +1,6 @@
 <template>
     <div class="association">
-         <el-input v-model="account" placeholder="请输入用户名" style="width: 300px;margin-right:100px;margin-bottom:40px;margin-top:40px"></el-input>
+         <el-input v-model="account" placeholder="请输入用户名" style="width: 300px;margin-right:100px;margin-bottom:40px;margin-top:40px" clearable></el-input>
          <el-date-picker
                      v-model="datetime"
                      type="datetimerange"
@@ -90,6 +90,7 @@ export default {
             page:1,
             pageSize:10,
             moveAgent:'',
+            totalList: 0,
             pickerOptions2: {
             shortcuts: [
                {
@@ -115,22 +116,23 @@ export default {
         }
     },
     filters:{
-        //  time(a){
-        //     let date = new Date(a);
-        //     let y = date.getFullYear();
-        //     let MM = date.getMonth() + 1;
-        //     MM = MM < 10 ? ('0' + MM) : MM;
-        //     let d = date.getDate();
-        //     d = d < 10 ? ('0' + d) : d;
-        //     let h = date.getHours();
-        //     h = h < 10 ? ('0' + h) : h;
-        //     let m = date.getMinutes();
-        //     m = m < 10 ? ('0' + m) : m;
-        //     let s = date.getSeconds();
-        //     s = s < 10 ? ('0' + s) : s;
-        //     return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
-        // }
+        time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+        },
     },
     created(){
         this.gettabledata();
@@ -149,11 +151,18 @@ export default {
         //搜索回调
         getone(){
             if(!this.account){
-                this.$message('请输入账户名')
+                this.page = 1
+                this.gettabledata()
             }else{
-               this.end = this.datetime[1];
-               this.start = this.datetime[0];
-               this.gettabledata();
+                console.log(this.datetime === '')
+                if(this.datetime === ''){
+                    this.end = ''
+                    this.start = ''
+                }else{
+                    this.end = this.datetime[1];
+                    this.start = this.datetime[0];
+                }
+                this.gettabledata();
             }
         },
         //获取表单数据
@@ -162,13 +171,14 @@ export default {
                 agentName:this.account,
                 endDate:this.end,
                 startDate:this.start,
-                 page:this.page,
+                page:this.page,
                 pageSize:this.pageSize
             }
             findMemberMove(obj).then(res => {
                 console.log(123)
                 console.log(res.data)
                 this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
 
             }).catch(error => {
                 Message.error(error)

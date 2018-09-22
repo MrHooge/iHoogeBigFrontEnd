@@ -187,7 +187,6 @@ export default {
 						{label: '冲正', child_type: '-1000'},
 						{label: '赠送', child_type: '1'},
 						{label: '彩金扣除', child_type: '-1001'}, 
-						{label: '注册赠送', child_type: '-1000'},
 						{label: '充值赠送', child_type: '1002'},
 						{label: '彩金卡赠送', child_type: '1003'}, 
 						{label: '消费赠送', child_type: '1004'},

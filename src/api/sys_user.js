@@ -220,7 +220,7 @@ export function setAgentToGroup(params) {
 }
 
 // 获取所有会员列表
-export function findAllMember(page, account) {
+export function findAllMember(page, account , username) {
   return request.member({
     url: '/user/findAllMember',
     method: 'get',
@@ -228,12 +228,13 @@ export function findAllMember(page, account) {
       page,
       pageSize: 20,
       account,
+      username
 
     }
   })
 }
 // 会员设置渠道
-export function handleEdit(params) {
+export function updateMemberToQD(params) {
   return request.member({
     url: '/user/updateMemberToQD',
     method: 'get',
@@ -292,6 +293,22 @@ export function addBanner(params) {
     params: params
   })
 }
+//自动加白设置
+export function jiabai(params) {
+    return request.member({
+        url: '/userManage/updateAutoToWrite',
+        method: 'get',
+        params: params
+    })
+}
+//查询加白设置
+export function currentjiabai(params) {
+    return request.member({
+        url: '/user/isWhite',
+        method: 'get',
+        params: params
+    })
+}
 // 开户轮播墙
 
 export function openAccountWall(userInfos) {
@@ -303,13 +320,14 @@ export function openAccountWall(userInfos) {
 }
 // 激活轮播墙
 
-export function findAccountActiveWall(loginAccount) {
+export function findAccountActiveWall(userInfos) {
   return request.member({
     url: '/userCount/findAccountActiveWall',
     method: 'get',
-    params: {
-      loginAccount
-    }
+    // params: {
+    //   loginAccount
+    // }
+    params:userInfos
   })
 }
 // 充值消费轮播墙
@@ -322,15 +340,11 @@ export function findRechargeAndConsumerWall(params) {
   })
 }
 // 会员返点列表
-export function findAllRate(page, pageSize) {
+export function findAllRate(userInfos) {
   return request.member({
     url: '/userManage/findAllRate',
     method: 'get',
-    params: {
-      page,
-      pageSize: 20,
-      account: ''
-    }
+    params: userInfos
   })
 }
 // 会员返点修改

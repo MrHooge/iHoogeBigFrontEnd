@@ -2,11 +2,12 @@
 	<!-- 代理分组 -->
 	<div class="backend app-container">
 		<div class="layerbody">
+            <p>搜索该渠道账号查询名下的代理</p>
 			<div class="search">
 				<el-input v-model="account"
-				          placeholder="请输入渠道账号查询名下代理"
-				          style="width:50%;"
-									@input="onInput"></el-input>
+				          placeholder="请输入账号查询"
+				          style="width:15%;"></el-input>
+                <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;"></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
@@ -66,6 +67,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
             style="margin-top:40px"
+            v-if="totalList != ''"
             >
             </el-pagination>
 		<!-- <div class="page"
@@ -99,6 +101,7 @@
 
 <script>
 import { findAllAgentAndQD, findAgentByQDAccount, setAgentToGroup } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -119,6 +122,7 @@ export default {
 			page:1,
             pageSize:20,
             totalList: 0,
+            name: '',  //昵称查询
 		}
 	},
 	filters: {
@@ -142,20 +146,58 @@ export default {
             this.pageSize = num;
             this.getData()
         },
-		onInput(){
-				if(this.sjname==''){
-					this.getData()
-				}
-		},
-		//查询
-		search(){
-			if(this.account == ''){
-				this.$message('请输入昵称')
-			}else{
-				//account = this.account
-				this.getData()
-			}
-		},
+		// onInput(){
+		// 		if(this.sjname==''){
+		// 			this.getData()
+		// 		}
+		// },
+		// //查询
+		// search(){
+		// 	if(this.account == ''){
+		// 		this.$message('请输入昵称')
+		// 	}else{
+        //         //account = this.account
+        //         this.page = 1
+		// 		this.getData()
+		// 	}
+        // },
+        search() {
+            if (!this.account && !this.name) {
+                this.getTable();
+            } else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.getUsername()
+                    this.getData()
+                }
+            }
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.name
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.getUsername()
+                this.getData()
+            })
+        },
+        //用账号查询昵称
+        getUsername(){
+            if(this.account != ''){
+                let obj = {
+                    account: this.account
+                }
+                findAllMember(obj).then(res => {
+                    this.name = res.data.data.list[0].username
+                })
+            }
+        },
 		getData() {   //  获取 所有代理和渠道
 			let obj = {
 				page:this.page,
@@ -185,8 +227,9 @@ export default {
 		},
 		cofirm() {
 			this.number = []
-			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-				this.number.push(e.account)
+            this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
+                console.log(e)
+				this.number.push(e.ACCOUNT)
 			});
 			this.dialogVisible = true
 		},
@@ -194,6 +237,7 @@ export default {
 			let arr = []
 			let myObj = {}
 			this.number.forEach(e => {
+                console.log(e)
 				myObj[e] = this.input
 				// arr.push(myObj)
 
@@ -215,7 +259,7 @@ export default {
 						this.dialogVisible = false
 						this.input = ''
 					} else {
-						Message.success(res.data.message)
+						Message.error(res.data.message)
 					}
 				})
 			}

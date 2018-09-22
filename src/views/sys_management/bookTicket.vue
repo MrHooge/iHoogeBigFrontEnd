@@ -1,4 +1,3 @@
-<!--  -->
 <template>
   <div class="app-container">
     <el-button v-waves type="primary" @click="showDailag">添加用户</el-button>
@@ -44,7 +43,7 @@
             <!-- <el-button type="primary" @click="showDailag(scope.row, 'modify')" icon="el-icon-edit"></el-button> -->
             <!-- <el-button type="danger" @click="deleteUser(scope.row.ID)" icon="el-icon-delete"></el-button> -->
 
-            <el-button type="primary" @click="addTicket(scope.row.ACCOUNT)" icon="el-icon-edit"></el-button>
+            <el-button type="primary" @click="addTicket(scope.row.ACCOUNT)">设置</el-button>
           </div>
         </template>
       </el-table-column>
@@ -59,7 +58,6 @@
         :page-sizes="[10, 20, 30, 40, 50]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="totalList"
         >
       </el-pagination>
     </div>
@@ -113,7 +111,7 @@ export default {
       },
       formLabelWidth: '120px',
       page: 1,
-      pageSize: 20,
+      pageSize: 100,
       totalPages: 0,
       totalList: 0,
       allRoles: []
@@ -137,8 +135,13 @@ export default {
           let account = data
           addTicketUser(account).then(res=>{
               if(res.data.error_code === 200){
-                  this.$message(res.data.message)
+                this.$message.success(res.data.message)
+              }else{
+                this.$message.error(res.data.message)
               }
+            //   if(res.data.error_code === 200){
+            //       this.$message(res.data.message)
+            //   }
           })
       },
     // 获取用户列表
@@ -180,22 +183,22 @@ export default {
       this.dialogFormVisible = true
     },
     // 删除用户信息
-    deleteUser(data) {
-      const _this = this
-      MessageBox.confirm('您确认永久删除该用户?', '删除用户', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(() => {
-        delUser(data).then(res => {
-          if (res.data.error_code === 200) {
-            Message.success('删除用户信息成功')
-          } else {
-            Message.error(res.data.message)
-          }
-          setTimeout(() => {
-            _this.getUserList('', this.page, this.pageSize)
-          }, 800)
-        })
-      })
-      console.log(data)
-    },
+    // deleteUser(data) {
+    //   const _this = this
+    //   MessageBox.confirm('您确认永久删除该用户?', '删除用户', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(() => {
+    //     delUser(data).then(res => {
+    //       if (res.data.error_code === 200) {
+    //         Message.success('删除用户信息成功')
+    //       } else {
+    //         Message.error(res.data.message)
+    //       }
+    //       setTimeout(() => {
+    //         _this.getUserList('', this.page, this.pageSize)
+    //       }, 800)
+    //     })
+    //   })
+    //   console.log(data)
+    // },
     // 提交数据
     submitInfos() {
       if (this.form.status) {

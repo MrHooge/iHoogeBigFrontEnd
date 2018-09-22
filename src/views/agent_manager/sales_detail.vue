@@ -3,7 +3,8 @@
   <div class="sales_detail" style="padding:0 20px">
     <!-- 搜索 -->
     <div class="row">
-    <el-input placeholder="请输入昵称" v-model="account" style="width: 300px;margin-right:100px;"></el-input>
+    <el-input placeholder="请输入账号" v-model="account" style="width: 300px;margin-right:100px;"></el-input>
+    <el-input placeholder="请输入昵称" v-model="username" style="width: 300px;margin-right:100px;"></el-input>
      <el-select v-model="isMOuth" placeholder="请选择时间段" style="margin-right:100px;">
            <el-option
             v-for="item in options"
@@ -15,7 +16,7 @@
     <el-button type="primary" @click="getone" @keyup.13="getone" style="margin-left:100px;">搜索</el-button>
     <el-button type="success" @click="exportSome" style="margin-left:50px;">导出</el-button>
     <p class="taost">
-      注:金额默认是消费金额
+      注:老销售使用sj查询，新销售使用昵称查询，本表格只支持查询单个代理人员七天或当月的数据
       </p>
       <!-- 上下页 -->
         </div>
@@ -101,25 +102,26 @@ import { findAgentInfoByAccount, exportExcle } from '@/api/sys_user'
 export default {
   data() {
     return {
-       tableData: [],
-       account: '', // 用户名
-         options: [
+        tableData: [],
+        account: '', // 用户名
+        options: [
             {
-               value: '1',
-               label: '七天'
+                value: '1',
+                label: '七天'
             },
             {
-               value: '0',
-               label: '当前月'
+                value: '0',
+                label: '当前月'
             }
-         ],
-         isMOuth:'',
-       pageCurr:1,
-       pages:20,
-       stime:'',
-       etime:'',
-       datetime: '', // 获取的日期和时间
-       newarr: [],
+        ],
+        isMOuth:'1',
+        pageCurr:1,
+        pages:20,
+        stime:'',
+        etime:'',
+        datetime: '', // 获取的日期和时间
+        newarr: [],
+        username: '',   //输入想搜索的昵称
     }
   },
   created(){
@@ -138,6 +140,7 @@ export default {
                     this.$message("请输入时间段")
               }else{
                      this.getTableList(this.account,this.isMOuth)
+                     this.$message("搜索成功")
 
               }
         },

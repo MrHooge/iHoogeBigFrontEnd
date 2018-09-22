@@ -5,8 +5,7 @@
             :data="tableData"
             tooltip-effect="dark"
             style="width: 100%"
-            border
-            @selection-change="handleSelectionChange">
+            border>
             <el-table-column
                 prop="id"
                 align="center"
@@ -205,7 +204,7 @@
 </template>
 
 <script>
-import { findTerm,updateTerm } from '@/api/period'
+import { findTerm,updateTerm} from '@/api/period'
 export default {
     data(){
         return{
@@ -217,8 +216,9 @@ export default {
             dialogFormVisible:false,
             status:'',
             radio:'',
-            lotteryTypeValue:'',
-            term:''
+            term:'',
+            totalList: 0,
+            lotteryTypeValue: '',  //选中的彩期
         }
     },
     filters:{
@@ -267,8 +267,10 @@ export default {
             findTerm(obj)
             .then(res => {
                 this.tableData = res.data.data.list
+                this.totalList = res.data.data.total
             })
         },
+        
         //翻页
         handleCurrentChange(num){
             this.page = num;
@@ -301,7 +303,7 @@ export default {
         //确认
         getroid(){
            let model ={
-               isAble:this.radio,	
+                isAble:this.radio,	
                 lotteryTypeValue:this.lotteryTypeValue,		
                 status:this.status,	
                 term:this.term
@@ -310,6 +312,9 @@ export default {
                if(res.data.error_code == 200){
                    this.$message(res.data.message)
                    this.dialogFormVisible = false
+               }else{
+                    this.$message(res.data.message)
+                    this.dialogFormVisible = false
                }
            })
            

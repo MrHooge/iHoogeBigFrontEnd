@@ -60,6 +60,7 @@
                 <div class="left">方案状态：</div>
                 <div class="right">{{ planStatus }}</div>
             </div>
+            
             <div class="lei">
                 <div class="left">税后金额：</div>
                 <div class="right">{{ posttaxPrize }}</div>
@@ -71,8 +72,8 @@
                 <div class="right">{{ createDateTime | time }}</div>
             </div>
             <div class="lei">
-                <div class="left">提成：</div>
-                <div class="right"></div>
+                <div class="left">过关方式</div>
+                <div class="right">{{playType}}</div>
             </div>
             </div>
             <div class="Enthalt">
@@ -91,8 +92,8 @@
                 <div class="right">{{ printTicketDateTime | time }}</div>
             </div>
             <div class="lei">
-                <div class="left">退款日期：</div>
-                <div class="right"></div>
+                <div class="left">退款或派奖日期：</div>
+                <div class="right">{{arrivalTime | time}}</div>
             </div>
             </div>
             <div class="Enthalt">
@@ -110,7 +111,7 @@
             <!-- 方案内容 -->
             <div class="title">方案内容</div>
             <div class="title" v-for="item in ticketDetail" :key="item.index">
-                <div class="title" style="border:none">{{item}}}</div>
+                <div class="title" style="border:none;">{{item}}}</div>
             </div>
         </div>
         <!-- 方案详情 -->
@@ -223,10 +224,12 @@ export default {
             tablethis:[],
             lotteryType:'',//彩种
             planStatus:'',//方案状态
+            playType: '', //过关方式
             term:'',//彩期
             account:'',
             createDateTime:'',
             dealDateTime:'',
+            arrivalTime: '',
             isSuper:'',
             amount:'',
             multiple:'',
@@ -243,21 +246,23 @@ export default {
         }
     },
     filters:{
-         time(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-        },
+        time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+        }
     },
     created(){
         this.number = this.$route.query.planNo;
@@ -302,6 +307,7 @@ export default {
                 this.tablethis = res.data.matchDetail.options;
                 this.lotteryType = res.data.lotteryType;
                 this.planStatus = res.data.planStatus;
+                this.playType = res.data.playType;
                 this.term = res.data.term;
                 this.account = res.data.account;
                 this.createDateTime = res.data.createDateTime;
@@ -314,6 +320,7 @@ export default {
                 this.pretaxPrize = res.data.pretaxPrize;
                 this.posttaxPrize = res.data.posttaxPrize;
                 this.printTicketDateTime = res.data.printTicketDateTime;
+                this.arrivalTime = res.data.arrivalTime
                 this.ticketDetail = res.data.ticketDetail;
                 this.planOrderStatus = res.data.planOrderStatus;
                 this.openResultTime = res.data.openResultTime;
@@ -344,12 +351,14 @@ export default {
     padding: 10px 20px 
 }
 .Informationen{
+    min-width: 1000px;
     width:60%;
     margin-top: 20px;
     color: #909399;
     float: left;
 }
 .Lento{
+    min-width: 100px;
     width: 40%;
     margin-top: 20px;
     float: left;
@@ -357,7 +366,6 @@ export default {
 .title{
     text-align: center;
     width: 95%;
-    height: 40px;
     line-height: 40px;
     border: 1px  solid #cccccc
 }

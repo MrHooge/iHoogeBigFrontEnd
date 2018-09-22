@@ -115,6 +115,7 @@
 
 <script>
 import { findMemberWalletLineByAccount } from '@/api/customerDetails'
+import { findAllMember} from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
     data(){

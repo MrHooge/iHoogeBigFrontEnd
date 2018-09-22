@@ -75,7 +75,7 @@
             </div>
         </el-dialog>
         <!-- 中奖宣传的弹窗 -->
-        <el-dialog title="中奖宣传" :visible.sync="dialogVisible" width="500px" top="30vh">
+        <el-dialog title="中奖宣传" :visible.sync="dialogVisible" width="610px" top="30vh" class="win">
             <div class="body">
                 <el-row>
                     <el-col :span="4">
@@ -93,7 +93,7 @@
                 <el-row>
                     <el-col :span="4">
                         <div class="grid-content bg-purple-dark">
-                            <label for="">中奖标题</label>
+                            <label for="">宣传标题</label>
                         </div>
                     </el-col>
                     <el-col :span="17">
@@ -106,7 +106,7 @@
                 <el-row>
                     <el-col :span="4">
                         <div class="grid-content bg-purple-dark">
-                            <label for="">中奖内容</label>
+                            <label for="">宣传内容</label>
                         </div>
                     </el-col>
                     <el-col :span="17">
@@ -131,6 +131,7 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
             >
             </el-pagination>
         </div>
@@ -143,6 +144,7 @@ export default {
   data() {
     return {
       radio: '',
+      totalList: 0,
       tablelist: [
         {
           id: 1,
@@ -159,7 +161,6 @@ export default {
       useracount: '', // 选中的用户名
       titles: '', // 中奖标题
       cont: '', // 中奖内容
-      total: 0,
       status: '',
       page:1,
       pageSize:20,
@@ -266,7 +267,7 @@ export default {
         .then(res => {
           if (res.status == 200) {
             this.tablelist = res.data.data.list
-            this.total = res.data.data.total
+            this.totalList = res.data.data.total
           }
         })
     }
@@ -275,6 +276,9 @@ export default {
 </script>
 
 <style scoped>
+.win >>> .el-textarea__inner{
+    height: 250px;
+}
 .Sunburn{
     padding: 10px 20px
 }

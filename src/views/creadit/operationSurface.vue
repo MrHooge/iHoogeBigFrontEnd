@@ -2,14 +2,21 @@
     <div class="backend">
 			<!--  代理给客户加款流水 -->
         <div class="search">
-            <el-input v-model="input1" placeholder="请输入会员名进行查询" style="width:60%;"></el-input>
+            <el-input v-model="input1" placeholder="请输入会员名进行查询" style="width:30%;"></el-input>
+            <el-input v-model="username" placeholder="请输入昵称查询" style="width:30%;"></el-input>
             <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
         </div>
         <div class="warning">
           <i class="el-icon-star-on"></i>
-          <span>支持当前页数据模糊搜索,输入会员名全称进行精确查找</span>
+          <span>支持当前页数据模糊搜索,输入会员名全称进行精确查找（注：模糊查询查到后还需要再次点击搜索按钮！！！）</span>
         </div>
         <el-table :data="memberfilter" border style="width: 100%;">
+            <el-table-column type="index" align="center" label="编号"></el-table-column>
+            <el-table-column
+            prop="updateTime"
+            align="center"
+            label="时间">
+            </el-table-column>
             <el-table-column
             prop="account"
             label="会员名"
@@ -36,12 +43,6 @@
             </el-table-column>
 
             <el-table-column
-            prop="updateTime"
-            align="center"
-            label="时间">
-            </el-table-column>
-
-            <el-table-column
               align="center"
               width="280"
               prop="operator"
@@ -49,7 +50,7 @@
             </el-table-column>
         </el-table>
         <!-- 分页 -->
-         <el-pagination
+        <el-pagination
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -60,20 +61,13 @@
             :total="totalList"
             style="margin-top:40px"
             >
-            </el-pagination>
-        	<!-- <div class="page">
-						<el-pagination background
-						               :page-size=10
-						               @current-change="changepage"
-						               layout="prev, pager, next"
-						               :total="total">
-						</el-pagination>
-					</div> -->
+        </el-pagination>
     </div>
 </template>
 
 <script>
 import { getCreditLimitLine } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -88,6 +82,7 @@ export default {
       page:1,
       pageSize:20,
       totalList: 0,
+      username: "",   //输入查询的昵称
     };
   },
   created() {
@@ -96,25 +91,59 @@ export default {
   // 按照会员名称进行筛选
   computed:{
     memberfilter:function(){
-      return this.tableData.filter((name) =>{
-          return name.account.match(this.input1)
-      })
+        if(this.tableData){
+            return this.tableData.filter((name) =>{
+                return name.account.match(this.input1)
+            })
+        }
     }
   },
   methods: {
-      //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.getData('')
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.getData('')
-        },
+      
+    //翻页
+    handleCurrentChange(num){
+        this.page = num;
+        this.getData('')
+    },
+    //改变页面大小
+    handleSizeChange(num){
+        this.pageSize = num;
+        this.getData('')
+    },
     search() {
-      // console.log(this.input1);
-      this.getData(this.input1);
+        if (!this.input1 && !this.username) {
+            // this.$message("请输入您要查询的账号或昵称！")
+            this.getData(this.input1);
+        } else {
+            if(this.input1 === ''){
+                this.getAccount()
+            }else{
+                this.page = 1
+                this.getData(this.input1);
+                this.getUsername()
+            }
+        }
+    },
+    //用昵称查询账号
+    getAccount(){
+        let obj = {
+            username: this.username
+        }
+        findAllMember(obj).then(res => {
+            console.log(res.data.data.list[0].ACCOUNT)
+            this.input1 = res.data.data.list[0].ACCOUNT
+            this.page = 1
+            this.getData(this.input1);
+        })
+    },
+    //用账号查询昵称
+    getUsername(){
+        let obj = {
+            account: this.input1
+        }
+        findAllMember(obj).then(res => {
+            this.username = res.data.data.list[0].username
+        })
     },
     // 点击授信额度弹窗
     layer() {
@@ -128,23 +157,26 @@ export default {
         return "代理";
       }
     },
-		// 调接口数据
-		getData(a){
-				let obj = {
-				page: this.page,
-				pageSize: this.pageSize,
-				loginAccount: getCookies('name'),
-				account:a,
-			};
-			getCreditLimitLine(obj).then(res=>{
-					console.log(res)
-					if(res.status==200 ){
-						this.total = res.data.totalCount;
-            this.tableData = res.data.data;
-            this.totalList = res.data.data.total
-					}
-			})
-		},
+    // 调接口数据
+    getData(a){
+            let obj = {
+            page: this.page,
+            pageSize: this.pageSize,
+            loginAccount: getCookies('name'),
+            account: a,
+        };
+        getCreditLimitLine(obj).then(res=>{
+            console.log(res.data.msg)
+            if(res.data.success === true){
+                this.total = res.data.totalCount;
+                this.tableData = res.data.data.list;
+                this.totalList = res.data.data.total
+            }else{
+                this.totalList = 0
+                this.$message.error(res.data.msg)
+            }
+        })
+    },
     // 获取当前的点击页码
     changepage(val) {
       this.getData(val);

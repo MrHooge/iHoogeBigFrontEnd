@@ -1,6 +1,6 @@
 <template>
     <div class="openprize">
-        <el-button type="primary" @click="searchlist">查询中奖方案 </el-button>
+        <el-button type="primary">查询中奖方案 </el-button>
         <el-button type="primary" @click="payprize">多个派奖 </el-button>
         <el-table
       :data="tableData"
@@ -8,8 +8,7 @@
       style="width: 100%; margin-top: 20px"
       @selection-change="handleSelectionChange">
       <el-table-column
-               type="selection"
-               width="55">
+               type="selection">
             </el-table-column>
       <el-table-column
         prop="account"
@@ -86,7 +85,7 @@ export default {
         payprize(){
              if (this.selections.length == 0) {
                 this.$message('请至少选择一条数据')
-            } else {
+            }else{
                 let arr = []
                 this.selections.forEach(e => {
                     arr.push(e.planNo)

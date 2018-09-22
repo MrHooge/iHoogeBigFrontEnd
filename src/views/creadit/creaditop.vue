@@ -46,6 +46,7 @@
 			                 label="会员名"
 			                 align="center">
 			</el-table-column> -->
+            <el-table-column type="index" align="center" label="编号"></el-table-column>
 			<el-table-column prop="username"
 			                 label="昵称"
 			                 align="center">
@@ -102,15 +103,6 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<!-- 分页 -->
-		<div class="page">
-			<el-pagination background
-			               :page-size=10
-			               @current-change="changepage"
-			               layout="prev, pager, next"
-			               :total="total">
-			</el-pagination>
-		</div>
 		<!-- 审核弹窗 -->
 		<el-dialog title="您确定要通过以下会员的审核吗？"
 		           :visible.sync="dialogVisible"
@@ -151,6 +143,7 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
             >
             </el-pagination>
 	</div>
@@ -187,6 +180,7 @@ export default {
 			],
             value: '',
             operator: '',
+            totalList: 0,
 		};
 	},
 	created() {
@@ -221,7 +215,8 @@ export default {
 				console.log('111111')
 				this.value == ''
 			}
-			// console.log(this.value)
+            // console.log(this.value)
+            this.page = 1
 			this.getData(this.username, this.value,this.operator);
 		},
 		//   接口返回数据数字转换成汉字
@@ -250,8 +245,8 @@ export default {
 			getCreditRefund(obj).then(res => {
 				console.log(res)
 				if (res.status == 200) {
-					this.total = res.data.totalCount;
-					this.tableData = res.data.data;
+					this.totalList = res.data.data.total;
+					this.tableData = res.data.data.list;
 				}
 			})
 		},
@@ -277,7 +272,7 @@ export default {
 			this.b = a.amount;
 			this.c = a.mobile;
 			this.dialogVisible = true;
-			this.ob = a;
+            this.ob = a;
 		},
 		// 确定的回调
 		confirm() {
@@ -290,9 +285,11 @@ export default {
 				console.log(res)
 				if (res.status == 200) {
 					Message.success("审核成功！")
-					this.getData(1, this.username, this.value);
+					this.getData(this.username, this.value,this.operator);
 					this.dialogVisible = false;
-				}
+				}else{
+                    this.$message.error(res.data.msg)
+                }
 			})
 		},
 		// 驳回弹窗

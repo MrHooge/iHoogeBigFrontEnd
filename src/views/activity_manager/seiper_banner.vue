@@ -30,7 +30,7 @@
 			<el-table-column align="center"
 			                 label="创建时间">
 				<template slot-scope="scope">
-					{{scope.row.create_time}}
+					{{scope.row.create_time | time}}
 				</template>
 			</el-table-column>
 			<el-table-column label="状态"
@@ -299,16 +299,34 @@ export default {
 		},
 		changeTime(b) {
 			return setTime(b)
-		}
+        },
+        //时间戳转换为日期
+        time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+        },
 	},
 
 	computed: {},
 	created() {
-		this.getTable(1, this.value);
+        this.getTable(1, 2);
 	},
 	mounted() {
 		// this.uploadUrl = api.member + '/userCount/uploadFile'
-		this.uploadUrl = 'https://infos.api.qiyun88.cn/information/uploadImage'
+		this.uploadUrl = 'https://infos.api.qyun88.com/information/uploadImage'
 	},
 
 	methods: {
@@ -399,7 +417,7 @@ export default {
 			}
 			findAllBanner(obj).then(res => {
 				console.log(res)
-				if (res.data.error_code == 200) {
+				if (res.data.error_code === 200) {
 					this.tableData = res.data.data.list;
 					this.total = res.data.data.total
 				}
@@ -410,13 +428,18 @@ export default {
 			this.getTable(1, this.value)
 		},
 		handleEdit(obj) {
-			console.log(obj);
+            console.log(obj);
+
+            console.log(obj.is_use)
+            if(obj.is_use === 1){
+                this.value3 = true
+            }else{
+                this.value3 = false
+            }
 			this.tableData3 = [];
 			this.viewFormVisible = true;
 			this.tableData3.push(obj);
-			//   console.log(this.tableData3);
 			this.onePeople = obj;
-			//   console.log(this.onePeople);
 		},
 		submitInfos() {   //  修改轮播图
 			if (this.value3 == true) {

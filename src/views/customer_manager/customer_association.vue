@@ -82,6 +82,7 @@ export default {
             agentName:'',
             memeberName:'',
             moveAgent:'',
+            totalList: 0,
             pickerOptions2: {
             shortcuts: [
                {
@@ -111,22 +112,23 @@ export default {
              type(a){
                  return a == 1?"未实名":"已实名"
              },
-        //        time(a){
-        //     let date = new Date(a);
-        //     let y = date.getFullYear();
-        //     let MM = date.getMonth() + 1;
-        //     MM = MM < 10 ? ('0' + MM) : MM;
-        //     let d = date.getDate();
-        //     d = d < 10 ? ('0' + d) : d;
-        //     let h = date.getHours();
-        //     h = h < 10 ? ('0' + h) : h;
-        //     let m = date.getMinutes();
-        //     m = m < 10 ? ('0' + m) : m;
-        //     let s = date.getSeconds();
-        //     s = s < 10 ? ('0' + s) : s;
-        //     return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
-        // }
+            time(a){
+                if(a != null){
+                    let date = new Date(a);
+                    let y = date.getFullYear();
+                    let MM = date.getMonth() + 1;
+                    MM = MM < 10 ? ('0' + MM) : MM;
+                    let d = date.getDate();
+                    d = d < 10 ? ('0' + d) : d;
+                    let h = date.getHours();
+                    h = h < 10 ? ('0' + h) : h;
+                    let m = date.getMinutes();
+                    m = m < 10 ? ('0' + m) : m;
+                    let s = date.getSeconds();
+                    s = s < 10 ? ('0' + s) : s;
+                    return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+                }
+            }
          },
     created(){
         this.gettabledata();
@@ -147,9 +149,15 @@ export default {
             if(!this.account){
                 this.$message('请输入账户名')
             }else{
-               this.end = this.datetime[1];
-               this.start = this.datetime[0];
-               this.gettabledata();
+                console.log(this.datetime === '')
+                if(this.datetime === ''){
+                    this.end = ''
+                    this.start = ''
+                }else{
+                    this.end = this.datetime[1];
+                    this.start = this.datetime[0];
+                }
+                this.gettabledata();
             }
         },
         //获取表单数据
@@ -162,8 +170,12 @@ export default {
                 pageSize:this.pageSize
             }
             findMemberAssociation(obj).then(res => {
-                this.tableData = res.data.data.list
-
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
             }).catch(error => {
                 Message.error(error)
             })

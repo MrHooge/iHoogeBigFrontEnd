@@ -2,6 +2,8 @@
     <div class="gift">
         <div>
          账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+         昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+         
           开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -21,6 +23,18 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
+            <el-select v-model="status"
+			           placeholder="请选择状态筛选数据"
+			           @change="filter"
+                       style="width:11%">
+				<el-option v-for="item in options"
+				           :key="item.status"
+				           :label="item.label"
+				           :value="item.status"
+                           >
+				</el-option>
+               
+			</el-select>
              <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
         <div>
@@ -34,7 +48,7 @@
                label="编号">
                </el-table-column>
                <el-table-column
-                     label="	用户账号"
+                     label="用户账号"
                      prop="account"
                      align="center">    
                </el-table-column>
@@ -57,12 +71,10 @@
                     {{scope.row.deadline_time | time}}
                      </template>
                </el-table-column>    
-                 <el-table-column
-                     label="满额度使用"
-                     align="center">
-                     <template slot-scope="scope">
-                    {{scope.row.full_amount | time}}
-                </template>
+                <el-table-column
+                    prop="full_amount"
+                    label="满额度使用"
+                    align="center">
                </el-table-column>
                <el-table-column
                      label="金额"
@@ -78,7 +90,7 @@
                </el-table-column> 
                <el-table-column
                      label="状态"
-                     align="status">
+                     align="center">
                      <template slot-scope="scope">
                     {{scope.row.status | studio}}
                 </template>
@@ -92,36 +104,60 @@
                </el-table-column>
             </el-table>
         </div>
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            style="margin-top:40px"
+            >
+            </el-pagination>
     </div>
 </template>
 
 <script>
 import { findGoldCard } from '@/api/activity'
+import { findAllMember} from '@/api/customer'
 export default {
     data(){
         return{
             tableData:[],
             account:'',
             etime:'',
-            stime:''
+            stime:'',
+            page: 1,
+            pageSize: 20,
+            totalList: 0,
+            username: "",   //查询输入的昵称
+            status: "",   //彩金卡状态
+            options: [
+				{ status: "0", label: "未使用" },
+				{ status: "1", label: "已使用" },
+                { status: "2", label: "已过期" },
+            ],
         }
     },
     filters:{
          time(a){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-
+             if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+             }
         },
         type(m){
             if(m == 0){
@@ -133,42 +169,94 @@ export default {
             }
         },
          studio(s){
-            if(s == 0){
+            if(s === 0){
                 return "未使用"
-            }else if(s == 1){
+            }else if(s === 1){
                 return "已使用"
-            }else{
+            }else if(s === 2){
                 return "已过期	"
             }
         }
     },
     created(){
-        this.getTdable()
+        this.getTodayDate()
     },
     methods:{
+        // 默认当天
+        getTodayDate(){
+            let date = new Date()
+            console.log(date)
+            let y = date.getFullYear();
+            let m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            let d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            this.stime =  y + '-' + m + '-' + d +' '+ '00:00:00';
+            console.log(this.stime)
+            this.etime = y + '-' + m + '-' + d +' '+ '23:59:59';
+            console.log(this.etime)
+            this.getTdable()
+        },
+        filter(){
+            this.page = 1
+            this.inquire()
+        },
+        //点击查询按钮调用
         inquire(){
-            if(this.account == ''){
-                this.$message('请输入账号')
-            }else if(this.stime == ''){
-                this.$message('请输入开始时间')
-            }else if(this.etime == ''){
-                this.$message('请输入结束时间')
-            }else{
+            if (!this.account && !this.username) {
+                this.page = 1
                 this.getTdable()
+			} else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.getTdable()
+                }
+			}
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
             }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.getTdable()
+            })
         },
         getTdable(){
             let obj = {
-                account:this.account,
-                endTime:this.etime,
-                startTime:this.stime
+                account: this.account,
+                endTime: this.etime || '',
+                startTime: this.stime || '',
+                page: this.page,
+                pageSize: this.pageSize,
+                status: this.status
             }
-            findGoldCard(obj)
-            .then(res => {
-                // console.log(res.data.data)
-                this.tableData = res.data.data.list
+            console.log(obj)
+            findGoldCard(obj).then(res => {
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message(res.data.message)
+                }
             })
-        }
+        },
+        //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.getTdable()
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getTdable()
+        },
     }
 }
 </script>
