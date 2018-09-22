@@ -6,7 +6,7 @@
 				          placeholder="请输入查询账号"
 				          style="width:50%;"></el-input>
                 <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input> -->
-                账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
+                账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:100px;margin-top:40px;margin-bottom:20px;"></el-input>
                 昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
                 姓名：<el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
                 身份证：<el-input v-model="idcard" placeholder="请输入身份证号" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
@@ -34,9 +34,11 @@
                 placeholder="请选择结束日期"
                 >
                 </el-date-picker>
-				<el-button type="primary"
-				           icon="el-icon-search"
-				           @click="search">搜索</el-button>
+				<el-button
+                    type="primary"
+                    icon="el-icon-search"
+                    @click="search">搜索
+                </el-button>
 			</div>
 		<el-table :data="tableData"
 		          border
@@ -90,7 +92,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
-            >
+            v-if="tableData!=''">
             </el-pagination>
 		</div>
 		<!-- 修改角色信息 -->

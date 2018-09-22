@@ -5,11 +5,11 @@
     <div class="search">
         <el-input v-model="account"
                 placeholder="请输入代理账号"
-                style="width:20%;"></el-input>
-        <el-input v-model="username" placeholder="请输入昵称查询" style="width:30%;"></el-input>
+                style="width:10%;"></el-input>
+        <el-input v-model="username" placeholder="请输入昵称查询" style="width:10%;"></el-input>
         <el-input v-model="memberAccount"
                 placeholder="请输入会员账号"
-                style="width:20%;"></el-input>
+                style="width:10%;margin-right:10px;"></el-input>
         开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -31,7 +31,7 @@
             </el-date-picker>
       <el-button type="primary"
                  icon="el-icon-search"
-                 @click="search">搜索</el-button>
+                 @click="search" style="margin-right:400px;">搜索</el-button>
         <el-input v-model="ACCOUNT"
                 placeholder="请输入你要搜索的账号"
                 style="width:20%;"></el-input>
@@ -171,12 +171,17 @@ export default {
     },
     //用账号查询昵称
     getUsername(){
-        let obj = {
-            account: this.ACCOUNT
+        if(this.ACCOUNT != ''){
+            let obj = {
+                account: this.ACCOUNT
+            }
+            findAllMember(obj).then(res => {
+                this.user = res.data.data.list[0].username
+            })
+        }else{
+            this.$message.error('请输入你要需要查询的账号！')
         }
-        findAllMember(obj).then(res => {
-            this.user = res.data.data.list[0].username
-        })
+        
     },
     //翻页
     handleCurrentChange(num){

@@ -1,14 +1,17 @@
 <template>
 	<div class="backend app-container">
 		<div class="layerbody">
+            <p>搜索该代理账号查询名下的客户</p>
 			<div class="search">
 				<el-input v-model="sjname"
-				          placeholder="请输入会员名"
-				          style="width:50%;"
-                            @input="onInput"></el-input>
+				          placeholder="请输入账号查询"
+				          style="width:15%;"></el-input>
+                <el-input v-model="username" placeholder="请输入昵称查询" style="width:15%;"></el-input>
+                
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
+                <span>注：用昵称查询时，账号的输入框不能有值！</span>
 			</div>
 			<div class="main">
 				<el-table :data="tableData"
@@ -59,7 +62,7 @@
 			<div>
 				<el-input v-model="input"
 				          placeholder="请输入转入用户名"></el-input>
-
+                <span>注：不是输入昵称！</span>
 			</div>
 			<span slot="footer"
 			      class="dialog-footer">
@@ -73,6 +76,7 @@
 
 <script>
 import { getSubordinateMember, moveMember } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -88,45 +92,75 @@ export default {
 			total: 0, //总页数
 			tableData: [], //表格数据
 			multipleSelection: [], //选中的数据
-			number: [],
+            number: [],
+            username: '',   //搜索的昵称
+            page: 1,
 			
 
 		}
 	},
-	// created(){
-	// 	this.getData()
-	// }
+	created(){
+        // this.getData()
+        if(this.$route.query.account){
+            this.sjname = this.$route.query.account
+            this.search()
+        }
+	},
 
 	methods: {
-        onInput(){
-            if(this.sjname == ""){
-                this.tableData = ""
-                this.pageShow = false
+        search() {
+            if (!this.sjname && !this.username) {
+                this.getData();
+            } else {
+                if(this.sjname === ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.getUsername()
+                    this.getData()
+                }
             }
         },
-		search() {
-            if(this.sjname === ''){
-                this.$message('请输入您要搜索的会员名！')
-            }else{
-                this.getData(1, this.sjname)
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
             }
-		},
-		getData(curr, a) {
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.sjname = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.getUsername()
+                this.getData()
+            })
+        },
+        //用账号查询昵称
+        getUsername(){
+            if(this.sjname != ''){
+                let obj = {
+                    account: this.sjname
+                }
+                findAllMember(obj).then(res => {
+                    this.username = res.data.data.list[0].username
+                })
+            }
+        },
+		getData() {
 			let obj = {
-				account: a,
-				page: curr,
+				account: this.sjname,
+				page: this.page,
 				pageSize: 20
 			}
 			getSubordinateMember(obj).then(res => {
 				console.log(res)
-				if (res.data.error_code == 200) {
+				if (res.data.error_code === 200) {
 					this.tableData = res.data.data.list
 					this.total = res.data.data.total
 					this.pageShow = true
 				} else {
 					this.pageShow = false
 					Message.success(res.data.message)
-                    this.tableData = ""
+                    this.tableData = []
 				}
 			})
 		},
@@ -157,8 +191,6 @@ export default {
 			let oldAccount = this.sjname
 			let newAccount = this.input
 			let moveMemberId = this.num
-			// console.log(obj)
-
 			if (this.input == '') {
 				Message.success('请输入用户名')
 			} else {
@@ -167,7 +199,8 @@ export default {
 					if(res.data.error_code = 200){
 						Message.success(res.data.message)
 						this.dialogVisible = false
-						this.input = ''
+                        // this.input = ''
+                        this.getData()
 					}else {
 						Message.success(res.data.message)
 					}
@@ -175,8 +208,9 @@ export default {
 			}
 		},
 
-		changepage(val) {  //  分页回调
-			this.getData(val.id)
+        changepage(val) {  //  分页回调
+            this.page = val
+			this.getData()
 		}
 	}
 }
