@@ -167,21 +167,25 @@ export default {
             })
         },
         //修改发单宣言
-        Modificar(){
-            this.dialogShenVisible = true;
+        Modificar(data){
+            console.log(data)
+            this.dialogShenVisible = true
+            this.planNo = data.planNo
         },
         //确认修改发单宣言
         sure(){
-            let subnewobj ={
-                plamNo:this.planNo,
-                desc:this.desc
+            let subnewobj = {
+                desc: this.desc,
+                planNo: this.planNo,
             }
             updatePlanDesc(subnewobj).then(res => {
                 if(res.data.error_code == 200){
-                    this.$message(res.data.message)
+                    this.$message.success(res.data.message)
                     this.dialogShenVisible = false
+                    this.planNo = '';
+                    this.gettable()
                 }else{
-                    this.$message(res.data.message)
+                    this.$message.error(res.data.message)
                 }
             })
         },
@@ -200,18 +204,6 @@ export default {
             this.pageSize = num;
             this.gettable()
         },
-        //确认
-        sure(){
-            updatePlanDesc(this.desc,this.planNo)
-            .then(res => {
-                if(res.data.error_code == 200){
-                    this.$message(res.data.message);
-                    this.dialogShenVisible = false;
-                    this.planNo = '';
-                     this.gettable()
-                }
-            })
-        }
     }
 }
 </script>

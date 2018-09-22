@@ -179,14 +179,14 @@
 
 <script>
 const cityOptions = [
-	{ name: '单关', value: 'p1' },
-	{ name: '2串1', value: 'p2_1' },
-	{ name: '3串1', value: 'p3_1' },
-	{ name: '4串1', value: 'p4_1' },
-	{ name: '5串1', value: 'p5_1' },
-	{ name: '6串1', value: 'p6_1' },
-	{ name: '7串1', value: 'p7_1' },
-	{ name: '8串1', value: 'p8_1' }
+	{ name: '单关', value: 'P1' },
+	{ name: '2串1', value: 'P2_1' },
+	{ name: '3串1', value: 'P3_1' },
+	{ name: '4串1', value: 'P4_1' },
+	{ name: '5串1', value: 'P5_1' },
+	{ name: '6串1', value: 'P6_1' },
+	{ name: '7串1', value: 'P7_1' },
+	{ name: '8串1', value: 'P8_1' }
 ]
 import { getLotteryLimit, addLotteryLimit, updateLotteryLimitStatus } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
@@ -253,8 +253,6 @@ export default {
 					this.numPlay.forEach(x => {
 						cityOptions.forEach(v => {
 							if (x == v.value) {
-								// this.plays.push(v.name)
-                                // this.plays += v.name + ','
                                 arr.push(v.name)
                                 this.plays = arr.join(',')
 							}
@@ -273,8 +271,6 @@ export default {
 		handleCheckedCitiesChange(value) {
 			this.checkedCities = value
 			console.log(this.checkedCities)
-            
-
 		},
 		selfbuy() {   //  添加组合限售
             let arr = [];

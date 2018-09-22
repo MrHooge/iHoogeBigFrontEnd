@@ -7,7 +7,8 @@
             placeholder="请选择开始日期"
             value-format="yyyyMMdd">
             </el-date-picker>
-            <el-button type="primary" @click="searchlist" style="margin-top:15px">查询 </el-button>
+            <el-button type="primary" @click="searchlist" style="margin-top:15px">查询</el-button>
+            <el-button type="primary" @click="renew" style="margin-top:15px">更新赛事信息</el-button>
         <el-table
         :data="tableData"
         border
@@ -86,10 +87,10 @@
                 <el-form-item label="大小分基准">
                     <el-input v-model="form.baseBigOrSmall" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="客队总进球">
+                <el-form-item label="客队分">
                     <el-input v-model="form.guestScore" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="主队总进球">
+                <el-form-item label="主队分">
                     <el-input v-model="form.homeScore" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="让分">
@@ -110,7 +111,7 @@
 </template>
 
 <script>
-import { getBasketBallAdmin,updateBasketBallAdmin } from '@/api/period'
+import { getBasketBallAdmin,updateBasketBallAdmin ,updateMatch} from '@/api/period'
 export default {
     data(){
         return{
@@ -159,6 +160,16 @@ export default {
             this.gettable()
         },
     methods:{
+        renew(){
+            updateMatch().then(res=>{
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.success(res.data.data)
+                }
+            })
+        },
         //查询
         gettable(){
             let time = this.startTime;
@@ -172,22 +183,42 @@ export default {
         modify(data){
             console.log(data)
             this.dialogFormVisible = true;
-            // this.form.id = data.id
-            this.form.baseBigOrSmall = data.bigOrSmall.toString()
-            this.form.guestScore = data.guestScore.toString()
-            this.form.homeScore = data.homeScore.toString()
-            this.form.rf = data.rf.toString()
-            this.form.status = data.status.toString()
+            this.form.id = data.id
+            if(data.bigOrSmall != null){
+                this.form.baseBigOrSmall = data.bigOrSmall.toString()
+            }else{
+                this.form.baseBigOrSmall = ''
+            }
+            if(data.guestScore != null){
+                this.form.guestScore = data.guestScore.toString()
+            }else{
+                this.form.guestScore = ''
+            }
+            if(data.homeScore != null){
+                this.form.homeScore = data.homeScore.toString()
+            }else{
+                this.form.homeScore = ''
+            }
+            if(data.rf != null){
+                this.form.rf = data.rf.toString()
+            }else{
+                this.form.rf = ''
+            }
+            if(data.status != null){
+                this.form.status = data.status.toString()
+            }else{
+                this.form.status = ''
+            }
         },
         //确认修改
         submitInfos(){
             updateBasketBallAdmin(this.form).then(res => {
                if(res.data.error_code == 200){
-                 this.$message(res.data.message)
+                 this.$message.success(res.data.message)
                  this.dialogFormVisible = false
                  this.gettable()
                }else{
-                 this.$message(res.data.message)
+                 this.$message.error(res.data.message)
                  this.dialogFormVisible = false
                }
             })
