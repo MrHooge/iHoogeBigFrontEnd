@@ -100,6 +100,14 @@ export function updateBasketBallAdmin(userinfos){
         params:userinfos
     })
 }
+//赛事信息更新
+export function updateMatch(userinfos){
+    return request.lottery({
+        url:'/lottery/updateMatch',
+        method:'get',
+        params:userinfos
+    })
+}
 //方案查询
 export function selectLotteryPlan(userinfos){
     return request.lottery({
@@ -110,14 +118,11 @@ export function selectLotteryPlan(userinfos){
     })
 }
 //方案修改
-export function updatePlanDesc(desc,planNo){
+export function updatePlanDesc(userinfos){
     return request.lottery({
         url:'/lottery/updatePlanDesc',
         method:'get',
-        params:{
-            desc,
-            planNo
-        }
+        params: userinfos
         
     })
 }

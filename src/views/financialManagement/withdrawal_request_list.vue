@@ -296,7 +296,7 @@ export default {
 			value1: '',
 			value2: '',
 			options1: [{
-				value: '0',
+				value: '2',
 				label: '申请时间'
 			}, {
 				value: '1',
@@ -357,7 +357,7 @@ export default {
 			let obj = {
 				loginAccount: '',
 				page: curr,
-				pageSize: 20,
+				pageSize: 2,
 				start_time: this.value1,
 				end_time: this.value2,
 				account: this.name,  //  账号
@@ -405,7 +405,7 @@ export default {
 				console.log(res)
 				if (res.status == 200) {
 					Message.success(res.data.message)
-					this.getData(1);
+					this.getData(this.page);
 					this.dialogVisible = false;
 				}
 			})
@@ -431,7 +431,7 @@ export default {
 				console.log(res)
 				if (res.status == 200) {
 					Message.success("驳回成功！")
-					this.getData(1);
+					this.getData(this.page);
 					this.dialogVisible1 = false;
 				}
 			})
