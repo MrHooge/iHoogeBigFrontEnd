@@ -225,7 +225,7 @@ export default {
     },
     filters:{
         time(a){
-            if(a != null){
+            if(a != null && a != ''){
                 let date = new Date(a);
                 let y = date.getFullYear();
                 let MM = date.getMonth() + 1;
@@ -245,7 +245,7 @@ export default {
               return a == 1 ?"否" :  "是"
         },
         port(m){
-              return m == 1 ?"未充值" : "充值"
+              return m == 1 ? "否" : "是"
         }
     },
     created(){

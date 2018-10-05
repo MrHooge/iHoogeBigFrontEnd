@@ -357,7 +357,7 @@ export default {
 			let obj = {
 				loginAccount: '',
 				page: curr,
-				pageSize: 2,
+				pageSize: 20,
 				start_time: this.value1,
 				end_time: this.value2,
 				account: this.name,  //  账号
