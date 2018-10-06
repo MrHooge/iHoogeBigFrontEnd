@@ -226,73 +226,84 @@ export default {
 
 		},
 		cofirm() {
-			this.number = []
-            this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-                // console.log(e)
-				this.number.push(e.ACCOUNT)
-			});
+			// this.number = []
+			// this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
+			// let obj = {
+			// 	dlAccount:e.ACCOUNT,
+			// 	groupName:1
+			// }
+            //     // console.log(e)
+			// 	this.number.push(obj)
+			// });
+			// console.log(this.number)
 			this.dialogVisible = true
         },
         //将字符串转化为对象的方法
-		StringtoObject(messagetext){
-			const a = arg => arg.split(',');
-			const b = arg => arg.join(':');
-			const c = arg => arg.split(':');			
+		// StringtoObject(messagetext){
+		// 	const a = arg => arg.split(',');
+		// 	const b = arg => arg.join(':');
+		// 	const c = arg => arg.split(':');			
 
-			const d = arg => arg.reduce((prev,val) => {
-				if(prev.length) {
-					const i = prev.length-1;
-					if(prev[i] && ! Object.values(prev[i])
-					[0]){
-						const key = Object.keys(prev[i]).join('');
-						prev[i][key] = val;
+		// 	const d = arg => arg.reduce((prev,val) => {
+		// 		if(prev.length) {
+		// 			const i = prev.length-1;
+		// 			if(prev[i] && ! Object.values(prev[i])
+		// 			[0]){
+		// 				const key = Object.keys(prev[i]).join('');
+		// 				prev[i][key] = val;
 
-					}else prev.push({[val]:void(0)})
-					return prev
-				}
-				prev.push({[val]:void(0)})
-				return prev
-			},[])
-			const h = (...args) => arg => args.reduce((a,b) => (...args) => b(a(arg)))()
-			const fn = h(a,b,c,d);
-			return fn(messagetext)
-		},
+		// 			}else prev.push({[val]:void(0)})
+		// 			return prev
+		// 		}
+		// 		prev.push({[val]:void(0)})
+		// 		return prev
+		// 	},[])
+		// 	const h = (...args) => arg => args.reduce((a,b) => (...args) => b(a(arg)))()
+		// 	const fn = h(a,b,c,d);
+		// 	return fn(messagetext)
+		// },
 		makersure() {
-            
-            let arr = []
-			let myObj = {}
-			this.number.forEach(e => {
+            this.number = []
+			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
+			let obj = {
+				dlAccount:e.ACCOUNT,
+				groupName:this.input
+			}
                 // console.log(e)
-				myObj[e] = this.input
-				// arr.push(myObj)
-            });
+				this.number.push(obj)
+			});
+			console.log(this.number)
+            // let arr = []
+			// let myObj = {}
+			// this.number.forEach(e => {
+            //     // console.log(e)
+			// 	myObj[e] = this.input
+			// 	// arr.push(myObj)
+            // });
             
-            for(var i in myObj){
-                // let key = ""
-                // key = i.toString()
-                // let val = ""
-                // val = myObj[i].toString()
-                arr.push("dlAccount:" + i+", "+ 'groupName:' + myObj[i])
+            // for(var i in myObj){
+            //     // let key = ""
+            //     // key = i.toString()
+            //     // let val = ""
+            //     // val = myObj[i].toString()
+            //     arr.push("dlAccount:" + i+", "+ 'groupName:' + myObj[i])
 
-                // let newArr = ''
-                // newArr = arr.replace('"','')
-                // console.log(newArr)
-            }
-            console.log(arr)
+            //     // let newArr = ''
+            //     // newArr = arr.replace('"','')
+            //     // console.log(newArr)
+            // }
+            // console.log(arr)
 
             //console.log(JSON.stringify(myObj).replace(/"/g,''))
             // let newstr = JSON.stringify(myObj).replace(/"/g,'')
             // let x = newstr.replace(/{/g,'')
             // let y = x.replace(/}/g,'')
             // //console.log(y)
-            // let lastobj = {
-            //     params: this.StringtoObject(y)
+            let lastobj = {
+                params: JSON.stringify(this.number)
                 
-            // }
-
-            // console.log(this.StringtoObject(y))
-            
-
+			}
+			console.log(lastobj)
 			if (this.input == '') {
 				Message.success('请输入分组名')
 				return
