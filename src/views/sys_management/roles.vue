@@ -38,10 +38,10 @@
     <el-dialog title="添加角色" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="添加名称" :label-width="formLabelWidth">
-          <el-input v-model="form.role_name" auto-complete="off"></el-input>
+          <el-input v-model="form.role_name" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="添加描述" :label-width="formLabelWidth">
-          <el-input v-model="form.role_desc" auto-complete="off"></el-input>
+          <el-input v-model="form.role_desc" auto-complete="off" clearable></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -54,10 +54,10 @@
     <el-dialog title="修改角色信息" :visible.sync="viewFormVisible">
       <el-form :model="form">
         <el-form-item label="角色名称" :label-width="formLabelWidth">
-          <el-input v-model="form.role_name" auto-complete="off"></el-input>
+          <el-input v-model="form.role_name" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="角色描述" :label-width="formLabelWidth">
-          <el-input v-model="form.role_desc" auto-complete="off"></el-input>
+          <el-input v-model="form.role_desc" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="权限设置" :label-width="formLabelWidth">
           <el-tree

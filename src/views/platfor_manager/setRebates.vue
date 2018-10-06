@@ -2,17 +2,13 @@
 	<div class="app-container">
 		<!-- 设置会员返点 -->
 			<div class="search">
-				<!-- <el-input v-model="account"
-				          placeholder="请输入查询账号"
-				          style="width:50%;"></el-input>
-                <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input> -->
-                账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:100px;margin-top:40px;margin-bottom:20px;"></el-input>
-                昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
-                姓名：<el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
-                身份证：<el-input v-model="idcard" placeholder="请输入身份证号" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
-                <!-- 邮箱：<el-input v-model="email" placeholder="请输入邮箱" style="width: 150px;margin-right:240px;margin-top:20px"></el-input> -->
-                电话：<el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:250px;margin-top:20px"></el-input>
-                <!-- 合作商：<el-input v-model="partner" placeholder="请输入合作商" style="width: 150px;margin-right:100px;margin-top:20px"></el-input><br /> -->
+                账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:100px;margin-top:40px;margin-bottom:20px;" clearable></el-input>
+                昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:100px;margin-top:40px" clearable></el-input>
+                姓名：<el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:100px;margin-top:40px" clearable></el-input>
+                身份证：<el-input v-model="idcard" placeholder="请输入身份证号" style="width: 150px;margin-right:100px;margin-top:40px" clearable></el-input>
+                <!-- 邮箱：<el-input v-model="email" placeholder="请输入邮箱" style="width: 150px;margin-right:240px;margin-top:20px" clearable></el-input> -->
+                电话：<el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:250px;margin-top:20px" clearable></el-input>
+                <!-- 合作商：<el-input v-model="partner" placeholder="请输入合作商" style="width: 150px;margin-right:100px;margin-top:20px" clearable></el-input><br /> -->
                 开始时间：
                 <el-date-picker
                 v-model="start_time"
@@ -77,22 +73,16 @@
 			</el-table-column>
 		</el-table>
 		<div class="page">
-			<!-- <el-pagination background
-			               :page-size=20
-			               @current-change="changepage"
-			               layout="prev, pager, next"
-			               :total="totalList">
-			</el-pagination> -->
             <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="page"
-            :page-sizes="[10, 20, 30, 40, 50]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalList"
-            v-if="tableData!=''">
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="[10, 20, 30, 40, 50]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="totalList"
+                v-if="tableData!=''">
             </el-pagination>
 		</div>
 		<!-- 修改角色信息 -->
@@ -114,16 +104,16 @@
 						                 align="center">
 							<template slot-scope="scope">
 								<el-input v-model="gd_rate1"
-								          placeholder="请输入" style="margin-bottom:20px;"></el-input>
+								          placeholder="请输入" style="margin-bottom:20px;" clearable></el-input>
                                 <el-input v-model="gd_rate2"
-								          placeholder="请输入"></el-input>
+								          placeholder="请输入" clearable></el-input>
 							</template>
 						</el-table-column>
 						<el-table-column label="合买返点"
 						                 align="center">
 							<template slot-scope="scope">
 								<!-- <el-input v-model="hm_rate"
-								          placeholder="请输入"></el-input> -->
+								          placeholder="请输入" clearable></el-input> -->
 												<span style="margin-bottom:20px;">0</span><br>0
 							</template>
 						</el-table-column>

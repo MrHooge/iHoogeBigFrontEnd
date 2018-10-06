@@ -2,7 +2,7 @@
 	<div class="repayset app-container">
 		<div class="search">
 			<el-input v-model="input"
-			          placeholder="请根据姓名进行筛选"></el-input>
+			          placeholder="请根据姓名进行筛选" clearable></el-input>
 		</div>
 		<el-table :data="tableDataFilter"
 		          border>
@@ -71,7 +71,8 @@
 			<el-pagination background
 			               layout="prev, pager, next"
 			               @current-change="currentPage"
-			               :total="totalNum">
+			               :total="totalNum"
+                           v-if="totalNum != ''">
 			</el-pagination>
 		</div>
 		<!-- 查看详情弹窗 -->

@@ -34,7 +34,8 @@
 			               @current-change="currpage"
 			               :page-size="pages"
 			               layout="prev, pager, next"
-			               :total="total">
+			               :total="total"
+                           v-if="total != ''">
 			</el-pagination>
 		</div>
 		<!-- 添加机器人弹窗 -->
@@ -51,7 +52,7 @@
 					<div class="grid-content bg-purple-light">
 						<el-input v-model="uname"
 						          placeholder="请输入昵称"
-						          min="0"></el-input>
+						          min="0" clearable></el-input>
 					</div>
 				</el-col>
 			</el-row>
@@ -67,7 +68,7 @@
 						<el-input v-model="phonenum"
 						          placeholder="请输入手机号"
 						          type="number"
-						          min="0"></el-input>
+						          min="0" clearable></el-input>
 					</div>
 				</el-col>
 			</el-row>
@@ -82,7 +83,7 @@
 					<div class="grid-content bg-purple-light">
 						<el-input v-model="cardnum"
 						          placeholder="请输入身份证号"
-						          min="0"></el-input>
+						          min="0" clearable></el-input>
 					</div>
 				</el-col>
 			</el-row>

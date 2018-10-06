@@ -14,7 +14,7 @@
                     用户名
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="val" placeholder="请输入用户名"></el-input>
+                    <el-input v-model="val" placeholder="请输入用户名" clearable></el-input>
                 </div></el-col>
             </el-row>
             <p class="toasts">注：一次输入多个用户时,请使用“英文逗号”隔开</p>

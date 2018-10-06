@@ -80,7 +80,7 @@
                         </el-col>
                         <el-col :span="18">
                             <div class="grid-content bg-purple">
-                                <el-input v-model="aname"></el-input>
+                                <el-input v-model="aname" clearable></el-input>
                             </div>
                         </el-col>
                     </el-row>
@@ -110,7 +110,7 @@
                         </el-col>
                         <el-col :span="18">
                             <div class="grid-content bg-purple">
-                                <el-input v-model="description" type="textarea"></el-input>
+                                <el-input v-model="description" type="textarea" clearable></el-input>
                             </div>
                         </el-col>
                     </el-row>

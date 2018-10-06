@@ -1,7 +1,7 @@
 <template>
     <div class="Sunburn">
         <div class="box">
-            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;"></el-input>
+            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;" clearable></el-input>
              开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -105,6 +105,7 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             :total="totalList"
+            v-if="totalList != ''"
             layout="total, sizes, prev, pager, next, jumper"
             >
             </el-pagination>

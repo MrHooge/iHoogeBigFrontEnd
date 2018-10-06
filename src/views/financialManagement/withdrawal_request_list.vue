@@ -8,13 +8,13 @@
 				<el-col :span="3">
 					<div class="grid-content bg-purple">
 						<el-input v-model="name"
-						          placeholder="请输入查询的账号"></el-input>
+						          placeholder="请输入查询的账号" clearable></el-input>
 					</div>
 				</el-col>
 				<el-col :span="3">
 					<div class="grid-content bg-purple">
 						<el-input v-model="flow_num"
-						          placeholder="请输入查询流水ID"></el-input>
+						          placeholder="请输入查询流水ID" clearable></el-input>
 					</div>
 				</el-col>
 				<el-col :span="2">
@@ -255,7 +255,7 @@
 				<el-input type="textarea"
 				          :rows="2"
 				          placeholder="请输入驳回描述"
-				          v-model="textarea">
+				          v-model="textarea" clearable>
 				</el-input>
 
 			</div>

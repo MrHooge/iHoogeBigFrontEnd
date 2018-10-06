@@ -67,7 +67,8 @@
 			               :page-size=10
 			               @current-change="changepage"
 			               layout="prev, pager, next"
-			               :total="total">
+			               :total="total"
+                           v-if="total != ''">
 			</el-pagination>
 		</div>
 		<!-- 审核弹窗 -->

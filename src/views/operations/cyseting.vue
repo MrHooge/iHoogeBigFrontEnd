@@ -7,7 +7,7 @@
 					<div class="grid-content bg-purple">
 						<div style="width:220px;">
 							<el-input v-model="mobile"
-							          placeholder="请输入手机号"></el-input>
+							          placeholder="请输入手机号" clearable></el-input>
 						</div>
 					</div>
 				</el-col>
@@ -15,7 +15,7 @@
 					<div class="grid-content bg-purple">
 						<div style="width:220px;">
 							<el-input v-model="account"
-							          placeholder="请输入用户名"></el-input>
+							          placeholder="请输入用户名" clearable></el-input>
 						</div>
 					</div>
 				</el-col>
@@ -23,7 +23,7 @@
 					<div class="grid-content bg-purple">
 						<div style="width:220px;">
 							<el-input v-model="username"
-							          placeholder="请输入昵称"></el-input>
+							          placeholder="请输入昵称" clearable></el-input>
 						</div>
 					</div>
 				</el-col>
@@ -97,7 +97,8 @@
 				               layout="prev, pager, next"
 				               :page-size="pages"
 				               @current-change="currentPage"
-				               :total="totalNum">
+				               :total="totalNum"
+                               v-if="totalNum != ''">
 				</el-pagination>
 			</div>
 		</div>
@@ -117,7 +118,7 @@
 						<div class="grid-content bg-purple">
 							<div style="width:220px;">
 								<el-input v-model="pname"
-								          disabled></el-input>
+								          disabled clearable></el-input>
 							</div>
 						</div>
 					</el-col>
@@ -133,7 +134,7 @@
 						<div class="grid-content bg-purple">
 							<div style="width:220px;">
 								<el-input v-model="beishu"
-								          placeholder="请输入倍数"></el-input>
+								          placeholder="请输入倍数" clearable></el-input>
 							</div>
 						</div>
 					</el-col>

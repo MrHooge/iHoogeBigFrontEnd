@@ -113,19 +113,19 @@
      <el-dialog :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="客队总进球">
-          <el-input v-model="form.guestScore" auto-complete="off"></el-input>
+          <el-input v-model="form.guestScore" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="客队半场进球">
-          <el-input v-model="form.halfGuestScore" auto-complete="off"></el-input>
+          <el-input v-model="form.halfGuestScore" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="主队半场进球">
-          <el-input v-model="form.halfHomeScore" auto-complete="off"></el-input>
+          <el-input v-model="form.halfHomeScore" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="主队总进球">
-          <el-input v-model="form.homeScore" auto-complete="off"></el-input>
+          <el-input v-model="form.homeScore" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="让球">
-          <el-input v-model="form.rq" auto-complete="off"></el-input>
+          <el-input v-model="form.rq" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="状态">
           <el-radio v-model="form.status" label="0" border>进行中</el-radio>

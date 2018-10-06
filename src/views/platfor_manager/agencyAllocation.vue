@@ -6,8 +6,8 @@
 			<div class="search">
 				<el-input v-model="account"
 				          placeholder="请输入账号查询"
-				          style="width:15%;"></el-input>
-                <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;"></el-input>
+				          style="width:15%;" clearable></el-input>
+                <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;" clearable></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
@@ -70,23 +70,13 @@
             v-if="totalList != ''"
             >
             </el-pagination>
-		<!-- <div class="page"
-		     v-show="pageShow"
-		     style="padding:30px 0">
-			<el-pagination background
-			               :page-size=20
-			               @current-change="changepage"
-			               layout="prev, pager, next"
-			               :total="total">
-			</el-pagination>
-		</div> -->
 		<!-- 弹窗事件 -->
 		<el-dialog title="确认分组"
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
 				<el-input v-model="input"
-				          placeholder="请输入分组名"></el-input>
+				          placeholder="请输入分组名" clearable></el-input>
 
 			</div>
 			<span slot="footer"
@@ -146,21 +136,6 @@ export default {
             this.pageSize = num;
             this.getData()
         },
-		// onInput(){
-		// 		if(this.sjname==''){
-		// 			this.getData()
-		// 		}
-		// },
-		// //查询
-		// search(){
-		// 	if(this.account == ''){
-		// 		this.$message('请输入昵称')
-		// 	}else{
-        //         //account = this.account
-        //         this.page = 1
-		// 		this.getData()
-		// 	}
-        // },
         search() {
             if (!this.account && !this.name) {
                 this.getTable();
@@ -213,7 +188,6 @@ export default {
 				}
 			})
 		},
-
 		// 选择框的回调
 		handleSelectionChange(val) {
 			this.multipleSelection = val
@@ -223,93 +197,29 @@ export default {
 			} else {
 				this.isShow = false
 			}
-
 		},
 		cofirm() {
-			// this.number = []
-			// this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-			// let obj = {
-			// 	dlAccount:e.ACCOUNT,
-			// 	groupName:1
-			// }
-            //     // console.log(e)
-			// 	this.number.push(obj)
-			// });
-			// console.log(this.number)
 			this.dialogVisible = true
         },
-        //将字符串转化为对象的方法
-		// StringtoObject(messagetext){
-		// 	const a = arg => arg.split(',');
-		// 	const b = arg => arg.join(':');
-		// 	const c = arg => arg.split(':');			
-
-		// 	const d = arg => arg.reduce((prev,val) => {
-		// 		if(prev.length) {
-		// 			const i = prev.length-1;
-		// 			if(prev[i] && ! Object.values(prev[i])
-		// 			[0]){
-		// 				const key = Object.keys(prev[i]).join('');
-		// 				prev[i][key] = val;
-
-		// 			}else prev.push({[val]:void(0)})
-		// 			return prev
-		// 		}
-		// 		prev.push({[val]:void(0)})
-		// 		return prev
-		// 	},[])
-		// 	const h = (...args) => arg => args.reduce((a,b) => (...args) => b(a(arg)))()
-		// 	const fn = h(a,b,c,d);
-		// 	return fn(messagetext)
-		// },
 		makersure() {
             this.number = []
 			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-			let obj = {
-				dlAccount:e.ACCOUNT,
-				groupName:this.input
-			}
-                // console.log(e)
+                let obj = {
+                    dlAccount:e.ACCOUNT,
+                    groupName:this.input
+                }
 				this.number.push(obj)
 			});
-			console.log(this.number)
-            // let arr = []
-			// let myObj = {}
-			// this.number.forEach(e => {
-            //     // console.log(e)
-			// 	myObj[e] = this.input
-			// 	// arr.push(myObj)
-            // });
-            
-            // for(var i in myObj){
-            //     // let key = ""
-            //     // key = i.toString()
-            //     // let val = ""
-            //     // val = myObj[i].toString()
-            //     arr.push("dlAccount:" + i+", "+ 'groupName:' + myObj[i])
-
-            //     // let newArr = ''
-            //     // newArr = arr.replace('"','')
-            //     // console.log(newArr)
-            // }
-            // console.log(arr)
-
-            //console.log(JSON.stringify(myObj).replace(/"/g,''))
-            // let newstr = JSON.stringify(myObj).replace(/"/g,'')
-            // let x = newstr.replace(/{/g,'')
-            // let y = x.replace(/}/g,'')
-            // //console.log(y)
+			// console.log(this.number)
             let lastobj = {
                 params: JSON.stringify(this.number)
-                
 			}
-			console.log(lastobj)
+			// console.log(lastobj)
 			if (this.input == '') {
 				Message.success('请输入分组名')
 				return
 			} else {
 				setAgentToGroup(lastobj).then(res => {
-					// console.log(res)
 					if (res.data.error_code = 200) {
 						Message.success(res.data.message)
 						this.dialogVisible = false
@@ -320,10 +230,6 @@ export default {
 				})
 			}
 		},
-
-		// changepage(val) {  //  分页回调
-		// 	this.getData(val.id)
-		// }
 	}
 }
 </script>

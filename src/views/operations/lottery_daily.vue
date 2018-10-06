@@ -6,25 +6,25 @@
    <p>每日两单（一）</p>
         <el-form ref="form" :model="form" label-width="80px" size="500px" key="dayOneDan2DTO">
           <el-form-item label="玩法" style="width:400px">
-          <el-input v-model="form.playType"></el-input>
+          <el-input v-model="form.playType" clearable></el-input>
         </el-form-item>
         <el-form-item label="场次" style="width:400px">
-          <el-input v-model="form.matchId"></el-input>
+          <el-input v-model="form.matchId" clearable></el-input>
         </el-form-item>
         <el-form-item label="主队" style="width:400px">
-          <el-input v-model="form.homeTeam"></el-input>
+          <el-input v-model="form.homeTeam" clearable></el-input>
         </el-form-item>
         <el-form-item label="客队" style="width:400px">
-          <el-input v-model="form.guestTeam"></el-input>
+          <el-input v-model="form.guestTeam" clearable></el-input>
         </el-form-item>
         <el-form-item label="推荐" style="width:400px">
-          <el-input v-model="form.recommend"></el-input>
+          <el-input v-model="form.recommend" clearable></el-input>
         </el-form-item>
         <el-form-item label="sp值" style="width:400px">
-          <el-input v-model="form.sp"></el-input>
+          <el-input v-model="form.sp" clearable></el-input>
         </el-form-item>
         <el-form-item label="分析" style="width:400px;">
-          <el-input type="textarea" v-model="form.analyze"></el-input>
+          <el-input type="textarea" v-model="form.analyze" clearable></el-input>
         </el-form-item>
           <el-form-item>
           <el-button type="primary" @click="onSubmitfirst">提交</el-button>
@@ -36,25 +36,25 @@
    <p>每日两单（二）</p>
         <el-form ref="form" :model="formsecond" label-width="80px" size="500px">
          <el-form-item label="玩法" style="width:400px">
-            <el-input v-model="formsecond.playType"></el-input>
+            <el-input v-model="formsecond.playType" clearable></el-input>
             </el-form-item>
             <el-form-item label="场次" style="width:400px">
-              <el-input v-model="formsecond.matchId"></el-input>
+              <el-input v-model="formsecond.matchId" clearable></el-input>
             </el-form-item>
             <el-form-item label="主队" style="width:400px">
-              <el-input v-model="formsecond.homeTeam"></el-input>
+              <el-input v-model="formsecond.homeTeam" clearable></el-input>
             </el-form-item>
             <el-form-item label="客队" style="width:400px">
-              <el-input v-model="formsecond.guestTeam"></el-input>
+              <el-input v-model="formsecond.guestTeam" clearable></el-input>
             </el-form-item>
             <el-form-item label="推荐" style="width:400px">
-              <el-input v-model="formsecond.recommend"></el-input>
+              <el-input v-model="formsecond.recommend" clearable></el-input>
             </el-form-item>
             <el-form-item label="sp值" style="width:400px">
-              <el-input v-model="formsecond.sp"></el-input>
+              <el-input v-model="formsecond.sp" clearable></el-input>
             </el-form-item>
             <el-form-item label="分析" style="width:400px;">
-              <el-input type="textarea" v-model="formsecond.analyze"></el-input>
+              <el-input type="textarea" v-model="formsecond.analyze" clearable></el-input>
             </el-form-item>
               <el-form-item>
               <el-button type="primary" @click="onSubmitsecond">提交</el-button>
@@ -74,40 +74,40 @@
     <p>实战二串一（一）</p>
         <el-form :inline="true" :model="formthird" class="demo-form-inline">
         <el-form-item label="场次">
-          <el-input v-model="formthird.amount"></el-input>
+          <el-input v-model="formthird.amount" clearable></el-input>
         </el-form-item>
         <el-form-item label="主队">
-          <el-input v-model="formthird.author"></el-input>
+          <el-input v-model="formthird.author" clearable></el-input>
         </el-form-item>
         <el-form-item label="客队">
-          <el-input v-model="formthird.bonus"></el-input>
+          <el-input v-model="formthird.bonus" clearable></el-input>
         </el-form-item>
         <el-form-item label="推荐">
-          <el-input v-model="formthird.guestTeam1"></el-input>
+          <el-input v-model="formthird.guestTeam1" clearable></el-input>
         </el-form-item><br />
         <el-form-item label="场次">
-          <el-input v-model="formthird.guestTeam2"></el-input>
+          <el-input v-model="formthird.guestTeam2" clearable></el-input>
         </el-form-item>
         <el-form-item label="主队">
-          <el-input v-model="formthird.homeTeam1"></el-input>
+          <el-input v-model="formthird.homeTeam1" clearable></el-input>
         </el-form-item>
         <el-form-item label="客队">
-          <el-input v-model="formthird.homeTeam2"></el-input>
+          <el-input v-model="formthird.homeTeam2" clearable></el-input>
         </el-form-item>
         <el-form-item label="推荐">
-          <el-input v-model="formthird.matchId1"></el-input>
+          <el-input v-model="formthird.matchId1" clearable></el-input>
         </el-form-item><br />
         <el-form-item label="方案注数">
-          <el-input v-model="formthird.matchId2"></el-input>
+          <el-input v-model="formthird.matchId2" clearable></el-input>
         </el-form-item>
         <el-form-item label="方案金额">
-          <el-input v-model="formthird.multiple"></el-input>
+          <el-input v-model="formthird.multiple" clearable></el-input>
         </el-form-item>
         <el-form-item label="预测金额">
-          <el-input v-model="formthird.recommend1"></el-input>
+          <el-input v-model="formthird.recommend1" clearable></el-input>
         </el-form-item>
          <el-form-item label="预测金额">
-          <el-input v-model="formthird.recommend2"></el-input>
+          <el-input v-model="formthird.recommend2" clearable></el-input>
         </el-form-item><br />
         <el-form-item>
           <el-button type="primary" @click="onSubmitthird">提交</el-button>
@@ -118,40 +118,40 @@
    <p>实战二串一（二）</p>
         <el-form :inline="true" :model="formforth" class="demo-form-inline">
         <el-form-item label="场次">
-          <el-input v-model="formforth.amount"></el-input>
+          <el-input v-model="formforth.amount" clearable></el-input>
         </el-form-item>
         <el-form-item label="主队">
-          <el-input v-model="formforth.author"></el-input>
+          <el-input v-model="formforth.author" clearable></el-input>
         </el-form-item>
         <el-form-item label="客队">
-          <el-input v-model="formforth.bonus"></el-input>
+          <el-input v-model="formforth.bonus" clearable></el-input>
         </el-form-item>
         <el-form-item label="推荐">
-          <el-input v-model="formforth.guestTeam1"></el-input>
+          <el-input v-model="formforth.guestTeam1" clearable></el-input>
         </el-form-item><br />
         <el-form-item label="场次">
-          <el-input v-model="formforth.guestTeam2"></el-input>
+          <el-input v-model="formforth.guestTeam2" clearable></el-input>
         </el-form-item>
         <el-form-item label="主队">
-          <el-input v-model="formforth.homeTeam1"></el-input>
+          <el-input v-model="formforth.homeTeam1" clearable></el-input>
         </el-form-item>
         <el-form-item label="客队">
-          <el-input v-model="formforth.homeTeam2"></el-input>
+          <el-input v-model="formforth.homeTeam2" clearable></el-input>
         </el-form-item>
         <el-form-item label="推荐">
-          <el-input v-model="formforth.matchId1"></el-input>
+          <el-input v-model="formforth.matchId1" clearable></el-input>
         </el-form-item><br />
         <el-form-item label="方案注数">
-          <el-input v-model="formforth.matchId2"></el-input>
+          <el-input v-model="formforth.matchId2" clearable></el-input>
         </el-form-item>
         <el-form-item label="方案金额">
-          <el-input v-model="formforth.multiple"></el-input>
+          <el-input v-model="formforth.multiple" clearable></el-input>
         </el-form-item>
         <el-form-item label="预测金额">
-          <el-input v-model="formforth.recommend1"></el-input>
+          <el-input v-model="formforth.recommend1" clearable></el-input>
         </el-form-item>
          <el-form-item label="预测金额">
-          <el-input v-model="formforth.recommend2"></el-input>
+          <el-input v-model="formforth.recommend2" clearable></el-input>
         </el-form-item><br />
         <el-form-item>
           <el-button type="primary" @click="onSubmitforth">提交</el-button>

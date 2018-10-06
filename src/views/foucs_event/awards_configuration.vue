@@ -17,7 +17,7 @@
                     加奖上限值
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="val" type="number"></el-input>
+                    <el-input v-model="val" type="number" clearable></el-input>
                 </div></el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
@@ -111,7 +111,7 @@
                         </el-col>
                         <el-col :span="14">
                            <div class="grid-content bg-purple-dark">
-                              <el-input v-model.number="amount" placeholder="请输入最小方案金额" style="width: 215px;" type="number"></el-input>
+                              <el-input v-model.number="amount" placeholder="请输入最小方案金额" style="width: 215px;" type="number" clearable></el-input>
                            </div>
                         </el-col>
                      </el-row>
@@ -145,7 +145,7 @@
                            </el-col>
                            <el-col :span="14">
                               <div class="grid-content bg-purple-dark">
-                                 <el-input v-model.number="num" placeholder="请输入0-1之间的小数" style="width: 215px;" type="number"></el-input>
+                                 <el-input v-model.number="num" placeholder="请输入0-1之间的小数" style="width: 215px;" type="number" clearable></el-input>
                               </div>
                            </el-col>
                         </el-row>
@@ -197,7 +197,7 @@
                         </el-col>
                         <el-col :span="14">
                            <div class="grid-content bg-purple-dark">
-                              <el-input v-model.number="updateform.minAmount" placeholder="请输入最小方案金额" style="width: 215px;" type="number"></el-input>
+                              <el-input v-model.number="updateform.minAmount" placeholder="请输入最小方案金额" style="width: 215px;" type="number" clearable></el-input>
                            </div>
                         </el-col>
                      </el-row>
@@ -231,7 +231,7 @@
                            </el-col>
                            <el-col :span="14">
                               <div class="grid-content bg-purple-dark">
-                                 <el-input v-model.number="updateform.rate" placeholder="请输入0-1之间的小数" style="width: 215px;" type="number"></el-input>
+                                 <el-input v-model.number="updateform.rate" placeholder="请输入0-1之间的小数" style="width: 215px;" type="number" clearable></el-input>
                               </div>
                            </el-col>
                         </el-row>

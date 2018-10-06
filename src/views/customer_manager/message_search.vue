@@ -1,7 +1,7 @@
 <template>
     <div class="backend">
         <div class="search">
-            <el-input v-model="mobile" placeholder="请输入手机号" style="width:260px;"></el-input>
+            <el-input v-model="mobile" placeholder="请输入手机号" style="width:260px;" clearable></el-input>
             <el-button type="primary" icon="el-icon-search" @click="search">查询</el-button>
         </div>
         <el-table :data="tableData" border style="width: 100%;">

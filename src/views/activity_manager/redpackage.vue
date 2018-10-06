@@ -1,8 +1,8 @@
 <template>
     <div class="robot">
         <div class="btn">
-             <el-input v-model="account" placeholder="请输入用户名" style="width: 180px;margin-right:20px"></el-input>
-             <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+             <el-input v-model="account" placeholder="请输入用户名" style="width: 180px;margin-right:20px" clearable></el-input>
+             <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
              <el-button type="primary" @click="search">用昵称查询账号</el-button>
              <el-date-picker
             v-model="stime"
@@ -146,7 +146,7 @@
                     红包金额
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="amount" placeholder="请输入红包金额" type="number" min="0"></el-input>
+                    <el-input v-model="amount" placeholder="请输入红包金额" type="number" min="0" clearable></el-input>
                 </div></el-col>
             </el-row>
             <br>
@@ -155,7 +155,7 @@
                     红包名称
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="pageName" placeholder="请输入红包名称"></el-input>
+                    <el-input v-model="pageName" placeholder="请输入红包名称" clearable></el-input>
                 </div></el-col>
             </el-row>
             <br>            
@@ -164,7 +164,7 @@
                     红包数量
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="pageNum" placeholder="请输入红包个数" type="number" min="0"></el-input>
+                    <el-input v-model="pageNum" placeholder="请输入红包个数" type="number" min="0" clearable></el-input>
                 </div></el-col>
             </el-row>
             <br>
@@ -173,7 +173,7 @@
                     抢夺金额
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="jmoney" placeholder="请输入抢夺的金额" type="number" min="0"></el-input>
+                    <el-input v-model="jmoney" placeholder="请输入抢夺的金额" type="number" min="0" clearable></el-input>
                 </div></el-col>
             </el-row>
             <br>

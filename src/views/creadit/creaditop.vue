@@ -3,10 +3,10 @@
 		<div class="search">
 			<el-input v-model="username"
 			          placeholder="请输入会员名进行查询"
-			          style="width:12%;" @input="onInput"></el-input>
+			          style="width:12%;" @input="onInput" clearable></el-input>
 			<el-input v-model="operator"
 			          placeholder="请输入操作人进行查询"
-			          style="width:12%;"></el-input>
+			          style="width:12%;" clearable></el-input>
             <el-date-picker
             v-model="stime"
             type="date"

@@ -126,10 +126,10 @@
 <div class="search">
     <div class="search-top">
     提供商:<el-radio v-model="provider" label="2" border style="margin:5px;" size="mini">全部</el-radio>
-    彩期:<el-input v-model="term" style="width: 150px;margin-right:10px;margin-top:40px" size="mini"></el-input>
-    票号:<el-input v-model="id" style="width: 150px;margin-right:10px;margin-top:40px" size="mini"></el-input>
-    方案编号:<el-input v-model="planNo" style="width: 150px;margin-right:10px;mmargin-top:40px" size="mini"></el-input>
-    玩法:<el-input v-model="playType" style="width: 150px;margin-right:10px;margin-top:40px" size="mini"></el-input>
+    彩期:<el-input v-model="term" style="width: 150px;margin-right:10px;margin-top:40px" size="mini" clearable></el-input>
+    票号:<el-input v-model="id" style="width: 150px;margin-right:10px;margin-top:40px" size="mini" clearable></el-input>
+    方案编号:<el-input v-model="planNo" style="width: 150px;margin-right:10px;mmargin-top:40px" size="mini" clearable></el-input>
+    玩法:<el-input v-model="playType" style="width: 150px;margin-right:10px;margin-top:40px" size="mini" clearable></el-input>
     
     <div class="search-midder">
     <!-- 中奖状态:<el-radio v-model="isBingo" label="-1" border style="margin:5px;" size="mini">全部</el-radio>
@@ -354,6 +354,7 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             :total="totalList"
+            v-if="totalList != ''"
             layout="total, sizes, prev, pager, next, jumper"
             >
             </el-pagination>

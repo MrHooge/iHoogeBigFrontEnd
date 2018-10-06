@@ -1,12 +1,12 @@
 <template>
     <div class="manager">
         <div class="search">
-            账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
-            昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
-            姓名：<el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
-            身份证：<el-input v-model="idcard" placeholder="请输入身份证号" style="width: 150px;margin-right:100px;margin-top:40px"></el-input>
+            账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:100px;margin-top:40px" clearable></el-input>
+            昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:100px;margin-top:40px" clearable></el-input>
+            姓名：<el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:100px;margin-top:40px" clearable></el-input>
+            身份证：<el-input v-model="idcard" placeholder="请输入身份证号" style="width: 150px;margin-right:100px;margin-top:40px" clearable></el-input>
             <!-- 邮箱：<el-input v-model="email" placeholder="请输入邮箱" style="width: 150px;margin-right:240px;margin-top:20px"></el-input> -->
-            电话：<el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:250px;margin-top:20px"></el-input>
+            电话：<el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:250px;margin-top:20px" clearable></el-input>
             <!-- 合作商：<el-input v-model="partner" placeholder="请输入合作商" style="width: 150px;margin-right:100px;margin-top:20px"></el-input><br /> -->
             开始时间：
             <el-date-picker
@@ -152,19 +152,19 @@
                                     trigger="click">
                                         <el-form :model="form">
                                             <el-form-item label="真实姓名">
-                                                    <el-input v-model="form.name" auto-complete="off" style="width:60%"></el-input>
+                                                    <el-input v-model="form.name" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="邮箱">
-                                                    <el-input v-model="form.email" auto-complete="off" style="width:60%"></el-input>
+                                                    <el-input v-model="form.email" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="联系电话">
-                                                <el-input v-model="form.mobile" auto-complete="off" style="width:60%"></el-input>
+                                                <el-input v-model="form.mobile" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="身份证">
-                                                    <el-input v-model="form.certNo" auto-complete="off" style="width:60%"></el-input>
+                                                    <el-input v-model="form.certNo" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="上级用户名">
-                                                    <el-input v-model="form.agentAccount" auto-complete="off" style="width:60%"></el-input>
+                                                    <el-input v-model="form.agentAccount" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <el-button type="primary" @click="xiugai(scope.row)">确 定</el-button>
                                         </el-form>
@@ -176,25 +176,25 @@
                                     trigger="click">
                                     <el-form :v-model="walletData">
                                         <el-form-item label="可用金额">
-                                                <el-input v-model="walletData.ableBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                                <el-input v-model="walletData.ableBalance" auto-complete="off" style="width:60%" :disabled="true" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="用户名">
-                                                <el-input v-model="walletData.account" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                                <el-input v-model="walletData.account" auto-complete="off" style="width:60%" :disabled="true" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="冻结金额">
-                                                <el-input v-model="walletData.freezeBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                                <el-input v-model="walletData.freezeBalance" auto-complete="off" style="width:60%" :disabled="true" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="历史消费金额">
-                                                <el-input v-model="walletData.heapBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                                <el-input v-model="walletData.heapBalance" auto-complete="off" style="width:60%" :disabled="true" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="历史中奖金额">
-                                                <el-input v-model="walletData.heapPrize" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                                <el-input v-model="walletData.heapPrize" auto-complete="off" style="width:60%" :disabled="true" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="奖金账户">
-                                                <el-input v-model="walletData.prizeBalance" auto-complete="off" style="width:60%" :disabled="true"></el-input>
+                                                <el-input v-model="walletData.prizeBalance" auto-complete="off" style="width:60%" :disabled="true" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="可提现额度">
-                                                <el-input v-model="walletData.takeCashQuota" auto-complete="off" style="width:60%"></el-input>
+                                                <el-input v-model="walletData.takeCashQuota" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                     </el-form>
                                     <el-button slot="reference" @click="wallet(scope.row)">钱包</el-button>
@@ -206,16 +206,16 @@
                                     trigger="click">
                                     <el-form :v-model="bankInfos">
                                         <el-form-item label="账号">
-                                                <el-input v-model="bankInfos.account" auto-complete="off" style="width:60%"></el-input>
+                                                <el-input v-model="bankInfos.account" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="银行">
-                                                <el-input v-model="bankInfos.bank" auto-complete="off" style="width:60%"></el-input>
+                                                <el-input v-model="bankInfos.bank" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="银行卡号">
-                                                <el-input v-model="bankInfos.bankCard" auto-complete="off" style="width:60%"></el-input>
+                                                <el-input v-model="bankInfos.bankCard" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <el-form-item label="开户地区">
-                                                <el-input v-model="bankInfos.bankPart" auto-complete="off" style="width:60%"></el-input>
+                                                <el-input v-model="bankInfos.bankPart" auto-complete="off" style="width:60%" clearable></el-input>
                                                 <span style="color:red;">格式：开户省份|开户城市|支行</span>
                                             </el-form-item>
                                             <el-button type="primary" @click="bankbinding(scope.row)">确 定</el-button>

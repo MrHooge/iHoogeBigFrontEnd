@@ -17,7 +17,7 @@
                     分钟数
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="val" placeholder="分钟" type="number" min="0"></el-input>
+                    <el-input v-model="val" placeholder="分钟" type="number" min="0" clearable></el-input>
                 </div></el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">

@@ -12,7 +12,7 @@
 		<!-- <div class="search">
 			<el-input v-model="username"
 			          style="width:300px;"
-			          placeholder="请输入用户账号进行筛选"></el-input>
+			          placeholder="请输入用户账号进行筛选" clearable></el-input>
 		</div> -->
 		<el-table :data="tableData" border style="width: 100%; margin-top: 20px">
 			<el-table-column label="编号" align="center" type="index" width="120px">
@@ -78,7 +78,7 @@
 								<el-table-column label="支付名称" align="center">
 									<template slot-scope="scope">
 										<el-input v-model="rechangeName"
-										          placeholder="请输入内容">
+										          placeholder="请输入内容" clearable>
                                         </el-input>
 									</template>
 								</el-table-column>
@@ -122,7 +122,7 @@
                     label-width="100px"
                     class="demo-ruleForm">
 					<el-form-item label="支付名称" prop="name">
-						<el-input v-model="ruleForm.name"></el-input>
+						<el-input v-model="ruleForm.name" clearable></el-input>
 					</el-form-item>
 					<el-form-item label="状态"
 					              prop="is_open">

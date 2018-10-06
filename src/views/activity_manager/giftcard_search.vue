@@ -1,8 +1,8 @@
 <template>
     <div class="gift">
         <div>
-         账号：<el-input v-model="account" placeholder="请输入账号" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
-         昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+         账号：<el-input v-model="account" placeholder="请输入账号" clearable style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
+         昵称：<el-input v-model="username" placeholder="请输入昵称" clearable style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
          
           开始时间：<el-date-picker
             v-model="stime"

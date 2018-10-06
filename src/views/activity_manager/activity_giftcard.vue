@@ -16,7 +16,7 @@
                     </el-col>
                     <el-col :span="15">
                         <div class="grid-content bg-purple-light">
-                            <el-input v-model="username" placeholder="请输入用户名"></el-input>
+                            <el-input v-model="username" placeholder="请输入用户名" clearable></el-input>
                         </div>
                     </el-col>
                 </el-row>
@@ -29,7 +29,7 @@
                     </el-col>
                     <el-col :span="15">
                         <div class="grid-content bg-purple-light">
-                            <!-- <el-input v-model="money" placeholder="请输入赠送金额" type="number"></el-input> -->
+                            <!-- <el-input v-model="money" placeholder="请输入赠送金额" type="number" clearable></el-input> -->
                             <el-select v-model="money" placeholder="请选择">
                                 <el-option
                                 v-for="item in options"

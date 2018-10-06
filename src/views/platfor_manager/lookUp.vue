@@ -1,6 +1,6 @@
 <template>
 	<div class="app-container">
-		<el-input v-model="account" placeholder="请输入昵称" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px" @input="newVal"></el-input>
+		<el-input v-model="account" placeholder="请输入昵称" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px" @input="newVal" clearable></el-input>
 		<el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
 		<el-table :data="memberfilter"
 		          border
@@ -66,7 +66,7 @@
 			     style="height: 600px;overflow: auto;">
 				<div style="width：300px; padding: 10px;">
 					<el-input v-model="sjname"
-					          placeholder="请输入用户名进行查询"></el-input>
+					          placeholder="请输入用户名进行查询" clearable></el-input>
 				</div>
 				<el-table ref="multipleTable"
 				          :data="tableDatalayer"

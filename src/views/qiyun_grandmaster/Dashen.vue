@@ -7,10 +7,10 @@
         <el-dialog title="添加名人" :visible.sync="dialogFormVisible" width="500px" top="30vh">
             <el-form :model="form" :rules="rules" ref="ruleForm">
                 <el-form-item label="用户昵称" :label-width="formLabelWidth" prop="username">
-                    <el-input v-model="form.username" style="width:70%"></el-input>
+                    <el-input v-model="form.username" style="width:70%" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="排序权重" :label-width="formLabelWidth" prop="sort">
-                    <el-input v-model="form.sort" style="width:70%" type="number"></el-input>
+                    <el-input v-model="form.sort" style="width:70%" type="number" clearable></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -68,7 +68,7 @@
                     </el-col>
                     <el-col :span="17">
                         <div class="grid-content bg-purple-dark">
-                             <el-input v-model="account" placeholder="请输入用户名" disabled="disabled"></el-input>
+                             <el-input v-model="account" placeholder="请输入用户名" disabled="disabled" clearable></el-input>
                         </div>
                     </el-col>
                 </el-row>
@@ -81,7 +81,7 @@
                     </el-col>
                     <el-col :span="17">
                         <div class="grid-content bg-purple-dark">
-                             <el-input v-model="numbers" placeholder="请输入最多4位数字" type="number"></el-input>
+                             <el-input v-model="numbers" placeholder="请输入最多4位数字" type="number" clearable></el-input>
                         </div>
                     </el-col>
                 </el-row> 
@@ -97,7 +97,8 @@
                 background
                 layout="prev, pager, next"
                 @current-change="currentPage"
-                :total="total">
+                :total="total"
+                v-if="total != ''">
             </el-pagination>
         </div>
     </div>

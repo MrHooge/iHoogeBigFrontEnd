@@ -38,13 +38,13 @@
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="模块ID" :label-width="formLabelWidth" v-if="dialogType=='modify'">
-          <el-input v-model="form.model_id" auto-complete="off"></el-input>
+          <el-input v-model="form.model_id" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="模块名称" :label-width="formLabelWidth">
-          <el-input v-model="form.modelName" auto-complete="off"></el-input>
+          <el-input v-model="form.modelName" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="模块描述" :label-width="formLabelWidth">
-          <el-input v-model="form.desc" auto-complete="off"></el-input>
+          <el-input v-model="form.desc" auto-complete="off" clearable></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -5,11 +5,11 @@
     <div class="search">
         <el-input v-model="account"
                 placeholder="请输入代理账号"
-                style="width:10%;"></el-input>
-        <el-input v-model="username" placeholder="请输入昵称查询" style="width:10%;"></el-input>
+                style="width:10%;" clearable></el-input>
+        <el-input v-model="username" placeholder="请输入昵称查询" style="width:10%;" clearable></el-input>
         <el-input v-model="memberAccount"
                 placeholder="请输入会员账号"
-                style="width:10%;margin-right:10px;"></el-input>
+                style="width:10%;margin-right:10px;" clearable></el-input>
         开始时间：<el-date-picker
             v-model="stime"
             type="date"
@@ -34,7 +34,7 @@
                  @click="search" style="margin-right:400px;">搜索</el-button>
         <el-input v-model="ACCOUNT"
                 placeholder="请输入你要搜索的账号"
-                style="width:20%;"></el-input>
+                style="width:20%;" clearable></el-input>
         <el-button type="primary" @click="getUsername">账号搜索昵称</el-button>
         <span>{{user}}</span>
     </div>

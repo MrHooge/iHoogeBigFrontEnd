@@ -2,13 +2,13 @@
     <div class="addstationletter">
         <el-form ref="form" label-width="80px">
           <el-form-item label="添加人" style="width:50%">
-    <el-input v-model="author"></el-input>
+    <el-input v-model="author" clearable></el-input>
   </el-form-item>
   <el-form-item label="标题" style="width:50%">
-    <el-input v-model="title"></el-input>
+    <el-input v-model="title" clearable></el-input>
   </el-form-item>
   <el-form-item label="内容" style="width:50%;">
-    <el-input type="textarea" v-model="content"></el-input>
+    <el-input type="textarea" v-model="content" clearable></el-input>
   </el-form-item>
   <el-form-item label="状态">
 

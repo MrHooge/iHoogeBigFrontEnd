@@ -89,7 +89,7 @@
 							<el-input type="textarea"
 							          :rows="2"
 							          placeholder="请输入内容"
-							          v-model="textarea">
+							          v-model="textarea" clearable>
 							</el-input>
 						</div>
 					</el-col>

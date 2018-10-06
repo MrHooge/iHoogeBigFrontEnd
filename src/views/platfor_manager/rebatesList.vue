@@ -3,9 +3,9 @@
 		<div>
 			<el-input v-model="account"
 			          style="width:300px;"
-			          placeholder="请输入用户账号进行筛选">
+			          placeholder="请输入用户账号进行筛选" clearable>
             </el-input>
-            <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             <el-button type="primary" @click="search">查询</el-button>
 		</div>
 		<el-table :data="tableData"
@@ -56,7 +56,8 @@
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
-			               :total="total">
+			               :total="total"
+                           v-if="total != ''">
 			</el-pagination>
 		</div>
 		<!-- 查看返点详情 -->
@@ -129,7 +130,7 @@
 									<template slot-scope="scope">
 										<el-input v-model="gd_rate"
 										          class="xx"
-										          placeholder="请输入"></el-input>
+										          placeholder="请输入" clearable></el-input>
 									</template>
 								</el-table-column>
 								<el-table-column label="合买返点"
@@ -137,7 +138,7 @@
 									<template slot-scope="scope">
 										<!-- <el-input v-model="hm_rate"
 										          class="xx"
-										          placeholder="请输入"></el-input> -->
+										          placeholder="请输入" clearable clearable></el-input> -->
 										0
 									</template>
 								</el-table-column>
@@ -282,14 +283,6 @@ export default {
 		this.getTable();
 	},
 	methods: {
-        //查询
-        // search(){
-        //     if(this.account === ''){
-        //         this.$message.error('请输入你要查询的账号！')
-        //     }else{
-        //         this.getTable()
-        //     }
-        // },
         //查询
         search() {
 			if (!this.account && !this.username) {

@@ -2,8 +2,8 @@
     <div class="program">
         <div class="search">
             
-            方案号：<el-input v-model="planNo" placeholder="请输入方案号" style="width: 120px;margin-right:40px;margin-bottom:10px;"></el-input>
-            方案拆包号：<el-input v-model="id" placeholder="请输入方案拆包号" style="width: 150px;margin-right:40px;"></el-input>
+            方案号：<el-input v-model="planNo" placeholder="请输入方案号" style="width: 120px;margin-right:40px;margin-bottom:10px;" clearable></el-input>
+            方案拆包号：<el-input v-model="id" placeholder="请输入方案拆包号" style="width: 150px;margin-right:40px;" clearable></el-input>
             发起时间：
             <el-date-picker
             v-model="startCreateTime"
@@ -45,11 +45,11 @@
 				</el-option>
 			</el-select>
             本金：
-            <el-input v-model="startAmount" placeholder="请输入最低的本金" style="width: 150px;margin-right:5px;"></el-input>至
-            <el-input v-model="endAmount" placeholder="请输入最高的本金" style="width: 150px;margin-right:40px;margin-left:5px"></el-input>
+            <el-input v-model="startAmount" placeholder="请输入最低的本金" style="width: 150px;margin-right:5px;" clearable></el-input>至
+            <el-input v-model="endAmount" placeholder="请输入最高的本金" style="width: 150px;margin-right:40px;margin-left:5px" clearable></el-input>
             预测奖金：
-            <el-input v-model="startBonus" placeholder="请输入最低的预测奖金" style="width: 180px;margin-right:5px;"></el-input>至
-            <el-input v-model="endBonus" placeholder="请输入最高的预测奖金" style="width: 180px;margin-right:40px;margin-left:5px"></el-input>
+            <el-input v-model="startBonus" placeholder="请输入最低的预测奖金" style="width: 180px;margin-right:5px;" clearable></el-input>至
+            <el-input v-model="endBonus" placeholder="请输入最高的预测奖金" style="width: 180px;margin-right:40px;margin-left:5px" clearable></el-input>
             截止时间：
             <el-date-picker
             v-model="startDealTime"
@@ -226,7 +226,7 @@
                     单个拆包票数
                 </div></el-col>
                 <el-col :span="5"><div class="grid-content bg-purple-light">
-                    <el-input v-model="val" type="number"></el-input>
+                    <el-input v-model="val" type="number" clearable></el-input>
                 </div></el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">

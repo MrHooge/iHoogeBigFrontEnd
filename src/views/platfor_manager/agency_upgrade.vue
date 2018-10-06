@@ -1,8 +1,8 @@
 <template>
 <!-- // 代理升级为渠道 -->
 	<div class="app-container">
-		<el-input v-model="account" placeholder="请输入账号查询" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
-        <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;"></el-input>
+		<el-input v-model="account" placeholder="请输入账号查询" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px" clearable></el-input>
+        <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;" clearable></el-input>
 		<el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         <span>注：用昵称查询时，账号的输入框不能有值！</span>
 		<el-table :data="tableData"

@@ -5,7 +5,7 @@
 			<el-col :span="4">
 				<div class="grid-content bg-purple">
 					<el-input v-model="planNo"
-					          placeholder="请输入方案编号"></el-input>
+					          placeholder="请输入方案编号" clearable></el-input>
 				</div>
 			</el-col>
 

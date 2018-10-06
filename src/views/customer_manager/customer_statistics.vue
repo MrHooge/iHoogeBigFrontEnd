@@ -1,10 +1,10 @@
 <template>
     <div class="statistics">
-        <el-input placeholder="请输入用户名" v-model="account" style="width: 130px;margin-right:50px;margin-bottom:30px"></el-input>
-        <el-input placeholder="请输入昵称" v-model="username" style="width: 130px;margin-right:50px;margin-bottom:30px"></el-input>
-        <el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:50px;margin-top:40px"></el-input>
-        <el-input v-model="idcard" placeholder="请输入身份证号" style="width: 200px;margin-right:50px;margin-top:40px"></el-input>
-        <el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:50px;margin-top:20px"></el-input>
+        <el-input placeholder="请输入用户名" v-model="account" style="width: 130px;margin-right:50px;margin-bottom:30px" clearable></el-input>
+        <el-input placeholder="请输入昵称" v-model="username" style="width: 130px;margin-right:50px;margin-bottom:30px" clearable></el-input>
+        <el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:50px;margin-top:40px" clearable></el-input>
+        <el-input v-model="idcard" placeholder="请输入身份证号" style="width: 200px;margin-right:50px;margin-top:40px" clearable></el-input>
+        <el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:50px;margin-top:20px" clearable></el-input>
         开始时间：
             <el-date-picker
                 v-model="startTime"

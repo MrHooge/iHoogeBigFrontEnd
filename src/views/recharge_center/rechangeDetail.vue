@@ -8,7 +8,7 @@
                         <el-input
                             v-model="name"
                             placeholder="请输入查询的账号"
-                            @input="onInput">
+                            @input="onInput" clearable>
                         </el-input>
                     </div>
                 </el-col>
@@ -17,7 +17,7 @@
                         <el-input
                             v-model="user"
                             placeholder="请输入查询的昵称"
-                            @input="onInput">
+                            @input="onInput" clearable>
                         </el-input>
                     </div>
                 </el-col>
@@ -104,7 +104,7 @@
                              align="center">
                 <template slot-scope="scope">
                     <el-input v-model="scope.row.number"
-                              placeholder="充值金额"></el-input>
+                              placeholder="充值金额" clearable></el-input>
                 </template>
             </el-table-column>
             <el-table-column label="创建时间"
