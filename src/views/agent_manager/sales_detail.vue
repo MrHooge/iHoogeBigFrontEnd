@@ -29,7 +29,7 @@
                     prop="date"
                     align="center">
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
                     label="开户数"
                     prop="accountNum"
                     align="center">
@@ -39,7 +39,7 @@
                     label="激活数"
                     prop="activeNum"
                     align="center">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
                     label="消费数(个)"
                     prop="allPayNum"
@@ -60,7 +60,7 @@
                     prop="fllowBuy"
                     align="center">
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
                     label="北单(金额)"
                     prop="beidan"
                     align="center">
@@ -79,26 +79,49 @@
                     label="扣减(金额)"
                     prop="offer"
                     align="center">
-            </el-table-column>  
+            </el-table-column>   -->
             <el-table-column
                     label="佣金(金额)"
-                    prop="commision"
+                    prop="commission"
                     align="center">
                     <template slot-scope="scope">
-                    <span >{{ scope.row.sumCommision | sumCommision }}</span>
+                        <span >{{ scope.row.commission | sumCommision }}</span>
                     </template>
             </el-table-column>
         </el-table>
+        <div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart"></div>
     </div>
+    
 </template>
 <script>
 
 import { Message, MessageBox } from 'element-ui'
 import { findAllMember} from '@/api/customer'
 import { findAgentInfoByAccount, exportExcle } from '@/api/sys_user'
+import echarts from 'echarts'
 export default {
+    props: {
+        className: {
+            type: String,
+            default: 'yourClassName'
+        },
+        id: {
+            type: String,
+            default: 'yourID'
+        },
+        width: {
+            type: String,
+            default: '500px'
+        },
+        height: {
+            type: String,
+            default: '500px'
+        }
+    },
     data() {
         return {
+            chart: null,
+
             tableData: [],
             account: '', // 用户名
             options1: [
@@ -119,10 +142,24 @@ export default {
             datetime: '', // 获取的日期和时间
             newarr: [],
             username: '',   //输入想搜索的昵称
+
+
+            time: [],   //存储日期
+            khs: [],   //存储开户数
         }
     },
+    mounted() {
+        // this.initChart();
+    },
+    beforeDestroy() {
+        if (!this.chart) {
+            return
+        }
+        this.chart.dispose();
+        this.chart = null;
+    },
     created(){
-        this.getTableList(this.account,this.isMOuth)
+        this.getTableList()
     },
     filters: {
         sumCommision(sum){
@@ -130,17 +167,110 @@ export default {
         }
     },
     methods: {
+
+        initChart() {
+            this.chart = echarts.init(this.$refs.myEchart);
+            // 把配置和数据放这里
+            let obj = {
+                account: this.account,
+                isMonth: this.isMOuth
+            }
+            findAgentInfoByAccount(obj)
+            .then(res => {
+                // console.log(res)
+                this.tableData = res.data.data
+                res.data.data.forEach(e => {
+                    this.time.push(e.date)
+                    this.khs.push(e.accountNum)
+                })
+
+                console.log(this.time)
+
+                this.chart.setOption({
+                    color: ['#3398DB'],
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        data: this.time,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }],
+                    yAxis: [{
+                        type: 'value'
+                    }],
+                    series: [{
+                        name: '直接访问',
+                        type: 'bar',
+                        barWidth: '60%',
+                        // data: [10, 52, 200, 334, 390, 330, 220]
+                        data: this.khs
+                    }]
+                })
+                // console.log(this.tableData)
+            })
+            .catch(error => {
+                Message.error(error)
+            })
+            // this.axios.get('/url').then((data) => {
+            //     this.chart.setOption({
+            //         color: ['#3398DB'],
+            //         tooltip: {
+            //             trigger: 'axis',
+            //             axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            //                 type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            //             }
+            //         },
+            //         grid: {
+            //             left: '3%',
+            //             right: '4%',
+            //             bottom: '3%',
+            //             containLabel: true
+            //         },
+            //         xAxis: [{
+            //             type: 'category',
+            //             // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            //             data: this.time,
+            //             axisTick: {
+            //                 alignWithLabel: true
+            //             }
+            //         }],
+            //         yAxis: [{
+            //             type: 'value'
+            //         }],
+            //         series: [{
+            //             name: '直接访问',
+            //             type: 'bar',
+            //             barWidth: '60%',
+            //             data: [10, 52, 200, 334, 390, 330, 220]
+            //         }]
+            //     })
+            // })
+        },
+
         //查询
         search() {
             if (!this.account && !this.username) {
                 this.page = 1
-                this.getTableList(this.account,this.isMOuth)
+                this.getTableList()
             } else {
                 if(this.account === ''){
                     this.getAccount()
                 }else{
                     this.page = 1
-                    this.getTableList(this.account,this.isMOuth)
+                    this.getTableList()
                     this.$message.success("搜索成功")
                 }
             }
@@ -164,17 +294,25 @@ export default {
                 // console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
-                this.getTableList(this.account,this.isMOuth)
+                this.getTableList()
                 this.$message.success("搜索成功")
             })
         },
         
         //获取表单数据
-        getTableList(account,isMOuth){     
-            findAgentInfoByAccount(account,isMOuth)
+        getTableList(){
+            let obj = {
+                account: this.account,
+                isMonth: this.isMOuth
+            }
+            findAgentInfoByAccount(obj)
             .then(res => {
                 // console.log(res)
                 this.tableData = res.data.data
+                // res.data.data.forEach(e => {
+                //     this.time.push(e.date)
+                // })
+                // console.log(this.time)
                 // console.log(this.tableData)
             })
             .catch(error => {

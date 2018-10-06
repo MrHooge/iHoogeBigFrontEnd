@@ -67,7 +67,7 @@
                         prop="fllowBuy"
                         align="center">
         </el-table-column>
-            <el-table-column label="北单(金额)"
+            <!-- <el-table-column label="北单(金额)"
                         prop="beidan"
                         align="center">
         </el-table-column>
@@ -82,7 +82,7 @@
             <el-table-column label="扣减(金额)"
                         prop="koujian"
                         align="center">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="佣金(金额)"
                          prop="sumCommision"
                          align="center">
@@ -136,8 +136,8 @@ export default {
     },
     created() {
         console.log(this.roleId)
-        // this.getTableList()
-        this.getTodayDate()
+        this.getTableList()
+        // this.getTodayDate()
         if(this.roleId === '10000181' ){
             this.qudaoShow = false
         }else{
@@ -151,20 +151,6 @@ export default {
         }
     },
     methods: {
-        //设置默认时间为当天
-        getTodayDate(){
-                let date = new Date()
-                console.log(date)
-                let y = date.getFullYear();
-                let m = date.getMonth() + 1;
-                m = m < 10 ? ('0' + m) : m;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                this.start_time =  y + '-' + m + '-' + d +' '+ '00:00:00';
-                this.end_date = y + '-' + m + '-' + d +' '+ '23:59:59';
-                
-                this.getTableList()
-        },
         //查询
         search() {
             if (!this.account && !this.username) {

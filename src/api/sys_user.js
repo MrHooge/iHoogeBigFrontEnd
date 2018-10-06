@@ -158,14 +158,11 @@ export function addRoleBondPermission(userInfos) {
 }
 
 //获取表单数据
-export function findAgentInfoByAccount(account, isMonth) {
+export function findAgentInfoByAccount(userInfos) {
   return request.member({
     url: '/user/findAgentInfoByAccount',
     method: 'get',
-    params: {
-      account,
-      isMonth
-    }
+    params: userInfos
   })
 }
 
