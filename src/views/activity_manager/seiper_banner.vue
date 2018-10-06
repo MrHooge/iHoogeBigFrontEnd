@@ -142,7 +142,7 @@
 								                 align="center">
 									<template slot-scope="scope">
 										<el-input v-model="input"
-										          placeholder="请输入跳转地址"></el-input>
+										          placeholder="请输入跳转地址" clearable></el-input>
                                                   <!-- {{scope.row.id}} -->
 									</template>
 								</el-table-column>
@@ -150,7 +150,7 @@
 								                 align="center">
 									<template slot-scope="scope">
 										<el-input v-model="weightsout"
-										          placeholder="请输入位置数值">{{scope.row.id}}</el-input>
+										          placeholder="请输入位置数值" clearable>{{scope.row.id}}</el-input>
                                         
 									</template>
 								</el-table-column>
@@ -188,13 +188,13 @@
 					</el-form-item>
 						<el-form-item label="位置"
 					              prop="weights">
-					<el-input v-model="ruleForm.weights" placeholder="请输入位置数值" style="width:5%;"></el-input><br />
+					<el-input v-model="ruleForm.weights" placeholder="请输入位置数值" style="width:5%;" clearable></el-input><br />
 					<span style="color:red">注释：‘1’代表第一位，‘2’代表第二位，以此类推</span>
 					</el-form-item>
 					<el-form-item label="跳转地址"
 					              prop="upUrle">
 						<el-input v-model="ruleForm.upUrle"
-						          placeholder="请输入跳转地址"></el-input>
+						          placeholder="请输入跳转地址" clearable></el-input>
 
 					</el-form-item>
 					<el-form-item label="图标"

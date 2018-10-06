@@ -26,7 +26,8 @@
                            @current-change="currpage"
                            :page-size="pages"
                            layout="prev, pager, next"
-                           :total="total">
+                           :total="total"
+                           v-if="total != ''">
             </el-pagination>
         </div>
         <el-dialog title="设置会员出票"
@@ -37,7 +38,7 @@
                     <label class="labname">用户名：</label>
                     <el-input v-model="username"
                               placeholder="请输入用户名"
-                              style="width:220px;"></el-input>
+                              style="width:220px;" clearable></el-input>
                 </div>
                 <div class="boxner">
                     <label class="labname">是否直接出票：</label>

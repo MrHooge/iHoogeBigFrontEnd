@@ -6,13 +6,13 @@
 				<el-col :span="3">
 					<div class="grid-content bg-purple">
 						<el-input v-model="number"
-						          placeholder="请输入需要充值的账号"></el-input>
+						          placeholder="请输入需要充值的账号" clearable></el-input>
 					</div>
 				</el-col>
                 <el-col :span="3">
 					<div class="grid-content bg-purple">
 						<el-input v-model="username"
-						          placeholder="请输入需要充值的昵称"></el-input>
+						          placeholder="请输入需要充值的昵称" clearable></el-input>
 					</div>
 				</el-col>
 				<el-col :span="6">
@@ -52,7 +52,7 @@
 			                 align="center">
 				<template slot-scope="scope">
 					<el-input v-model="chje"
-					          placeholder="请输入需要充值的金额"></el-input>
+					          placeholder="请输入需要充值的金额" clearable></el-input>
 				</template>
 			</el-table-column>
 

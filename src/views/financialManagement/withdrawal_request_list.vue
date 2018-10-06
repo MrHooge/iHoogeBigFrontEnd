@@ -8,13 +8,13 @@
 				<el-col :span="3">
 					<div class="grid-content bg-purple">
 						<el-input v-model="name"
-						          placeholder="请输入查询的账号"></el-input>
+						          placeholder="请输入查询的账号" clearable></el-input>
 					</div>
 				</el-col>
 				<el-col :span="3">
 					<div class="grid-content bg-purple">
 						<el-input v-model="flow_num"
-						          placeholder="请输入查询流水ID"></el-input>
+						          placeholder="请输入查询流水ID" clearable></el-input>
 					</div>
 				</el-col>
 				<el-col :span="2">
@@ -43,7 +43,7 @@
                     </el-select>
                 </el-col>
 
-				<el-col :span="12">
+				<el-col :span="8">
 					<div class="block"
 					     style="display: inline-block;">
 						<el-date-picker v-model="value1"
@@ -64,12 +64,16 @@
 						</el-date-picker>
 					</div>
 				</el-col>
-
+                <!-- 搜索财务审核统计 -->
+                <el-col :span="8">
+                    <div style="height:40px;line-height:40px;margin-top:20px;">财务审核统计：{{financeCount}}<span style="font-size:12px;color:red;margin-left:20px;">注：默认是当天的已到账统计(有时间段就是时间段的统计数)</span></div>
+                </el-col>
 				<el-col :span="2">
-					<div class="grid-content bg-purple"
-					     @click="search">
+					<div class="grid-content bg-purple" @click="search" style="margin-top:20px;">
 						<el-button type="primary"
-						           icon="el-icon-search">搜索</el-button>
+						           icon="el-icon-search"
+                                   @click="getCount">搜索
+                        </el-button>
 					</div>
 				</el-col>
 			</el-row>
@@ -251,7 +255,7 @@
 				<el-input type="textarea"
 				          :rows="2"
 				          placeholder="请输入驳回描述"
-				          v-model="textarea">
+				          v-model="textarea" clearable>
 				</el-input>
 
 			</div>
@@ -275,7 +279,7 @@
 </template>
 
 <script>
-import { findMemberDrawingList, memberDrawingReview } from "@/api/sys_user";
+import { findMemberDrawingList, memberDrawingReview,getFinanceCount } from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
@@ -339,13 +343,39 @@ export default {
                 // { status: "4", label: "银行退单" },
                 { status: "6", label: "已到账" },
             ],
+            financeCount: '',   //存储财务审核总和（根据时间段的筛选）
 		};
 	},
 	created() {
 		// this.search(1)
-		this.getData(1)
+        this.getData(1)
+        this.getCount()
 	},
 	methods: {
+        //获取财务审核统计
+        getCount(){
+            console.log(this.value2)
+            if(this.value1 === null){
+                this.value1 = ''
+            }
+            if(this.value2 === null){
+                this.value2 = ''
+            }
+            let obj = {
+                account: this.name,
+                startTime: this.value1,
+                endTime: this.value2,
+                status: this.status
+            }
+            getFinanceCount(obj).then(res => {
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.financeCount = res.data.data.financeCount
+                }else{
+                    this.$message.error('财务审核统计'+ res.data.message)
+                }
+            })
+        },
         //筛选查询
         filter(){
             this.getData(1)

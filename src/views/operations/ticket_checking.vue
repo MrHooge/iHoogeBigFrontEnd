@@ -18,7 +18,7 @@
 						<div class="grid-content bg-purple">
 							<el-input v-model="amount"
 							          placeholder="请输入本金"
-							          style="width:200px;"></el-input>
+							          style="width:200px;" clearable></el-input>
 						</div>
 					</el-col>
 				</el-row>
@@ -33,7 +33,7 @@
 						<div class="grid-content bg-purple">
 							<el-input v-model="bonus"
 							          placeholder="请输入预测奖金"
-							          style="width:200px;"></el-input>
+							          style="width:200px;" clearable></el-input>
 						</div>
 					</el-col>
 				</el-row>

@@ -158,14 +158,11 @@ export function addRoleBondPermission(userInfos) {
 }
 
 //获取表单数据
-export function findAgentInfoByAccount(account, isMonth) {
+export function findAgentInfoByAccount(userInfos) {
   return request.member({
     url: '/user/findAgentInfoByAccount',
     method: 'get',
-    params: {
-      account,
-      isMonth
-    }
+    params: userInfos
   })
 }
 
@@ -209,13 +206,11 @@ export function findAgentByQDAccount(params) {
   })
 }
 // 后台代理分组功能实现
-export function setAgentToGroup(params) {
+export function setAgentToGroup(userInfos) {
   return request.member({
     url: '/userCount/setAgentToGroup',
     method: 'get',
-    params: {
-      params
-    }
+    params:userInfos
   })
 }
 
@@ -680,6 +675,14 @@ export function memberDrawingReview(params) {
     method: 'get',
     params: params
   })
+}
+// 财务审核统计
+export function getFinanceCount(params) {
+    return request.user({
+      url: '/userCount/getFinanceCount',
+      method: 'get',
+      params: params
+    })
 }
 // 运营管理==============
 //  寻票列表====暂存

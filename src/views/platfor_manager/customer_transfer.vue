@@ -5,8 +5,8 @@
 			<div class="search">
 				<el-input v-model="sjname"
 				          placeholder="请输入账号查询"
-				          style="width:15%;"></el-input>
-                <el-input v-model="username" placeholder="请输入昵称查询" style="width:15%;"></el-input>
+				          style="width:15%;" clearable></el-input>
+                <el-input v-model="username" placeholder="请输入昵称查询" style="width:15%;" clearable></el-input>
                 
 				<el-button type="primary"
 				           icon="el-icon-search"
@@ -52,7 +52,8 @@
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
-			               :total="total">
+			               :total="total"
+                           v-if="total != ''">
 			</el-pagination>
 		</div>
 		<!-- 弹窗事件 -->
@@ -61,7 +62,7 @@
 		           width="40%">
 			<div>
 				<el-input v-model="input"
-				          placeholder="请输入转入用户名"></el-input>
+				          placeholder="请输入转入用户名" clearable></el-input>
                 <span>注：不是输入昵称！</span>
 			</div>
 			<span slot="footer"

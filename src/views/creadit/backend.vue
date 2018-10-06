@@ -1,8 +1,8 @@
 <template>
 	<div class="backend app-container">
 		<div class="search">
-			<el-input v-model="input1" placeholder="请输入会员名" style="width:20%;"></el-input>
-			<el-input v-model="input2" placeholder="请输入昵称" style="width:20%;"></el-input>
+			<el-input v-model="input1" placeholder="请输入会员名" style="width:20%;" clearable></el-input>
+			<el-input v-model="input2" placeholder="请输入昵称" style="width:20%;" clearable></el-input>
 			<el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
 		</div>
 		<el-table :data="tableData" border style="width: 100%;" show-summary>
@@ -10,7 +10,7 @@
             <el-table-column prop="account" label="会员名" align="center" width="180"></el-table-column>
             <el-table-column align="center" label="授信值">
                 <template slot-scope="scope">
-                    <el-input v-model="scope.row.creditLimit" placeholder="请输入内容"></el-input>
+                    <el-input v-model="scope.row.creditLimit" placeholder="请输入内容" clearable></el-input>
                 </template>
             </el-table-column>
             <el-table-column prop="ableCreditBalance" align="center" label="当前可用金额"></el-table-column>

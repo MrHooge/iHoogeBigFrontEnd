@@ -2,8 +2,8 @@
     <div class="backend">
 			<!--  代理给客户加款流水 -->
         <div class="search">
-            <el-input v-model="input1" placeholder="请输入会员名进行查询" style="width:30%;"></el-input>
-            <el-input v-model="username" placeholder="请输入昵称查询" style="width:30%;"></el-input>
+            <el-input v-model="input1" placeholder="请输入会员名进行查询" style="width:30%;" clearable></el-input>
+            <el-input v-model="username" placeholder="请输入昵称查询" style="width:30%;" clearable></el-input>
             <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
         </div>
         <div class="warning">

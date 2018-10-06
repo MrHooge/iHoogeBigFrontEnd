@@ -4,7 +4,7 @@
 			<el-input v-model="sjname"
 			          placeholder="请输入会员名"
 			          style="width:50%;"
-								@input="onInput"></el-input>
+								@input="onInput" clearable></el-input>
 			<el-button type="primary"
 			           icon="el-icon-search"
 			           @click="search">搜索</el-button>
@@ -50,7 +50,8 @@
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
-			               :total="total">
+			               :total="total"
+                           v-if="total != ''">
 			</el-pagination>
 		</div>
 		<!-- 修改角色信息 -->
@@ -60,12 +61,12 @@
 				<!-- <el-form-item label="角色名称"
 				              :label-width="formLabelWidth">
 					<el-input v-model="form.role_name"
-					          auto-complete="off"></el-input>
+					          auto-complete="off" clearable></el-input>
 				</el-form-item> -->
 				<!-- <el-form-item label="角色描述"
 				              :label-width="formLabelWidth">
 					<el-input v-model="form.role_ID"
-					          auto-complete="off"></el-input>
+					          auto-complete="off" clearable></el-input>
 				</el-form-item> -->
 				<el-form-item label="权限配置"
 				              :label-width="formLabelWidth">

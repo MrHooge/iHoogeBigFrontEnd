@@ -85,16 +85,16 @@
         <el-dialog :visible.sync="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="大小分基准">
-                    <el-input v-model="form.baseBigOrSmall" auto-complete="off"></el-input>
+                    <el-input v-model="form.baseBigOrSmall" auto-complete="off" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="客队分">
-                    <el-input v-model="form.guestScore" auto-complete="off"></el-input>
+                    <el-input v-model="form.guestScore" auto-complete="off" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="主队分">
-                    <el-input v-model="form.homeScore" auto-complete="off"></el-input>
+                    <el-input v-model="form.homeScore" auto-complete="off" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="让分">
-                    <el-input v-model="form.rf" auto-complete="off"></el-input>
+                    <el-input v-model="form.rf" auto-complete="off" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="状态">
                     <el-radio v-model="form.status" label="0" border>进行中</el-radio>

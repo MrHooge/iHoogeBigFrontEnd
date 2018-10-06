@@ -1,7 +1,7 @@
 <template>
 	<div class="app-container">
-		<el-input v-model="account" placeholder="请输入账号查询" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
-        <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;"></el-input>
+		<el-input v-model="account" placeholder="请输入账号查询" style="width: 250px;margin-right:70px;margin-bottom:20px;margin-top:40px" clearable></el-input>
+        <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;" clearable></el-input>
 		<el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
 		<el-button type="primary" @click="jump" style="margin-left:100px;margin-bottom:40px;margin-top:40px">跳转到客户转移页面</el-button>
 		<el-table :data="tableData"

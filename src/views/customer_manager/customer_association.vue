@@ -1,6 +1,6 @@
 <template>
     <div class="association">
-         <el-input v-model="account" placeholder="请输入用户名" style="width: 300px;margin-right:100px;margin-bottom:40px;margin-top:40px"></el-input>
+         <el-input v-model="account" placeholder="请输入用户名" style="width: 300px;margin-right:100px;margin-bottom:40px;margin-top:40px" clearable></el-input>
          <el-date-picker
                      v-model="datetime"
                      type="datetimerange"

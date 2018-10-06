@@ -8,7 +8,7 @@
 					<div class="grid-content bg-purple">
 						<el-input v-model="name"
 						          placeholder="请输入查询的账号"
-						          @input="onInput"></el-input>
+						          @input="onInput" clearable></el-input>
 					</div>
 
 				</el-col>

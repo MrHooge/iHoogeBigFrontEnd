@@ -9,17 +9,17 @@
 			         class="demo-ruleForm">
 				<el-form-item label="账户名"
 				              prop="accountID">
-					<el-input v-model="ruleForm.accountID"></el-input>
+					<el-input v-model="ruleForm.accountID" clearable></el-input>
 				</el-form-item>
 				<el-form-item label="金额"
 				              prop="amount">
-					<el-input v-model="ruleForm.amount"></el-input>
+					<el-input v-model="ruleForm.amount" clearable></el-input>
                     <span>只能输入正数！！！</span>
 				</el-form-item>
 				<el-form-item label="描述"
 				              prop="des">
 					<el-input type="textarea"
-					          v-model="ruleForm.des"></el-input>
+					          v-model="ruleForm.des" clearable></el-input>
                               
 				</el-form-item>
 				<el-form-item>

@@ -21,20 +21,20 @@
                         </el-option>
             </el-select>
             </div>
-            <el-input v-model="form.type" style="width:300px" placeholder="填写新类别" v-else></el-input>
+            <el-input v-model="form.type" style="width:300px" placeholder="填写新类别" v-else clearable></el-input>
             <!-- </el-input> -->
         </el-form-item><br />
         <el-form-item label="资讯作者">
-            <el-input v-model="form.editor" style="width:300px" placeholder="必填"></el-input>
+            <el-input v-model="form.editor" style="width:300px" placeholder="必填" clearable></el-input>
         </el-form-item><br />
         <el-form-item label="文章标题">
-            <el-input v-model="form.title" style="width:300px" placeholder="必填"></el-input>
+            <el-input v-model="form.title" style="width:300px" placeholder="必填" clearable></el-input>
         </el-form-item><br />
         <el-form-item label="资讯摘要">
-            <el-input v-model="form.summary" style="width:300px" placeholder="必填"></el-input>
+            <el-input v-model="form.summary" style="width:300px" placeholder="必填" clearable></el-input>
         </el-form-item><br>
         <el-form-item label="短    标    题">
-            <el-input v-model="form.shortTitle" style="width:300px"></el-input>
+            <el-input v-model="form.shortTitle" style="width:300px" clearable></el-input>
         </el-form-item><br />
         <el-form-item label="显示隐藏">
             <el-radio label="1" v-model="form.isShow">显示</el-radio>
@@ -45,19 +45,19 @@
             <el-radio label="1" v-model="form.contentType" @change="getchange">链接</el-radio>
         </el-form-item><br />
         <el-form-item label="链接" v-show="obviously">
-            <el-input v-model="form.link" style="width:200px"></el-input>
+            <el-input v-model="form.link" style="width:200px" clearable></el-input>
         </el-form-item>
         <el-form-item label="文章标签">
             <el-input v-model="form.label" style="width:300px"></el-input>
         </el-form-item><br />
         <el-form-item label="关    键    字">
-            <el-input v-model="form.keyword" style="width:100px" placeholder="必填"></el-input>
+            <el-input v-model="form.keyword" style="width:100px" placeholder="必填" clearable></el-input>
         </el-form-item>
         <el-form-item label="点击数">
-            <el-input v-model="form.click" style="width:100px" placeholder="必填"></el-input>
+            <el-input v-model="form.click" style="width:100px" placeholder="必填" clearable></el-input>
         </el-form-item>
         <el-form-item label="权重">
-            <el-input v-model="form.sort" style="width:100px"></el-input>
+            <el-input v-model="form.sort" style="width:100px" clearable></el-input>
         </el-form-item><br />
         <el-form-item label="上传图片" style="border:none">
             <!-- <el-input type="file" @change="upload"></el-input> -->

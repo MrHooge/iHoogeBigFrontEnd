@@ -54,7 +54,8 @@
                 background
                 @current-change='pagechange'
                 layout="prev, pager, next"
-                :total="totalnum">
+                :total="totalnum"
+                v-if="totalnum != ''">
             </el-pagination>
         </div>
     </div>

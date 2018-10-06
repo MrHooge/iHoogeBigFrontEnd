@@ -58,6 +58,7 @@
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="totalList"
+        v-if="totalList != ''"
         >
       </el-pagination>
     </div>
@@ -66,13 +67,13 @@
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="账号" :label-width="formLabelWidth">
-          <el-input v-model="form.account" auto-complete="off"></el-input>
+          <el-input v-model="form.account" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="名字" :label-width="formLabelWidth">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
+          <el-input v-model="form.name" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="密码" :label-width="formLabelWidth">
-          <el-input v-model="form.password" auto-complete="off"></el-input>
+          <el-input v-model="form.password" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="角色" :label-width="formLabelWidth">
           <el-select v-model="form.role_id" placeholder="请选择角色">

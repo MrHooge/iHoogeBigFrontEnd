@@ -23,13 +23,13 @@
 					<el-form-item label="支付名称"
 					              prop="name">
 						<el-input v-model="ruleForm.name"
-						          id="upInput"></el-input>
+						          id="upInput" clearable></el-input>
 					</el-form-item>
 					<el-form-item label="图标"
 					              prop="pay_picture">
 						<!-- <el-input v-model="ruleForm.pay_picture"
 						          type="file"
-						          class="addBorder"></el-input> -->
+						          class="addBorder" clearable></el-input> -->
 						<el-upload :action="uploadUrl"
 						           :data='folder'
 						           list-type="picture-card"

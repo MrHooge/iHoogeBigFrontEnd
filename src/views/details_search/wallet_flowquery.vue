@@ -1,8 +1,8 @@
 <template>
     <div class="wallet">
         <div class="search">
-            账号：<el-input v-model="account" placeholder="请输入账户" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            账号：<el-input v-model="account" placeholder="请输入账户" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
+            昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             开始时间：<el-date-picker
             v-model="stime"
             type="date"

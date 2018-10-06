@@ -85,7 +85,7 @@
                     </el-col>
                     <el-col :span="17">
                         <div class="grid-content bg-purple-dark">
-                             <el-input v-model="useracount"></el-input>
+                             <el-input v-model="useracount" clearable></el-input>
                         </div>
                     </el-col>
                 </el-row>
@@ -98,7 +98,7 @@
                     </el-col>
                     <el-col :span="17">
                         <div class="grid-content bg-purple-dark">
-                             <el-input v-model="titles" placeholder="请输入标题语"></el-input>
+                             <el-input v-model="titles" placeholder="请输入标题语" clearable></el-input>
                         </div>
                     </el-col>
                 </el-row> 
@@ -111,7 +111,7 @@
                     </el-col>
                     <el-col :span="17">
                         <div class="grid-content bg-purple-dark">
-                            <el-input type="textarea" v-model="cont"></el-input>
+                            <el-input type="textarea" v-model="cont" clearable></el-input>
                         </div>
                     </el-col>
                 </el-row> 
@@ -132,6 +132,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             >
             </el-pagination>
         </div>

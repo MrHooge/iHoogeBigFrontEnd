@@ -64,21 +64,21 @@
     <el-dialog :visible.sync="dialogFormVisible">
     标题：<el-input v-model="title"
                 placeholder="请输入标题"
-                style="width:40%;margin-bottom:30px"></el-input><br />
+                style="width:40%;margin-bottom:30px" clearable></el-input><br />
           内容:&nbsp;&nbsp;
             <el-input
                 type="textarea"
                 :rows="3"
                 placeholder="请输入内容"
                 v-model="content"
-                style="width:40%;">
+                style="width:40%;" clearable>
             </el-input><br />
             <div style="height:100px" v-if="!isShow"></div>
             <div v-if="isShow">
                 指定人列表：
                 <el-input v-model="target"
                         placeholder="请输入"
-                        style="width:40%;margin-bottom:30px;margin-top:30px" type="">
+                        style="width:40%;margin-bottom:30px;margin-top:30px" type="" clearable>
                 </el-input><br />
             </div>
                 <div style="margin-bottom:30px">

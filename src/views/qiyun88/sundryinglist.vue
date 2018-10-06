@@ -1,8 +1,8 @@
 <template>
     <div class="Sunburn">
         <div class="box">
-            <el-input v-model="account" placeholder="请输入用户名" style="width: 180px;" @input="search"></el-input>
-            <el-input v-model="number" placeholder="请输入方案编号" style="width: 180px;margin-left:30px;" @input="search"></el-input>
+            <el-input v-model="account" placeholder="请输入用户名" style="width: 180px;" @input="search" clearable></el-input>
+            <el-input v-model="number" placeholder="请输入方案编号" style="width: 180px;margin-left:30px;" @input="search" clearable></el-input>
             <el-select v-model="status" placeholder="请选择状态筛选" style="width: 180px;margin-left:30px;" @change="changestatus">
                 <el-option
                 v-for="item in options"

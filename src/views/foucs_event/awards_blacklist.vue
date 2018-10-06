@@ -1,7 +1,7 @@
 <template>
     <div class="bonuslist">
         <div class="box">
-            <el-input v-model="username" style="width:220px;" placeholder="输入用户名自动进行搜索"></el-input>
+            <el-input v-model="username" style="width:220px;" placeholder="输入用户名自动进行搜索" clearable></el-input>
             <el-button @click="getOne()" type="primary">搜索</el-button>
         </div>
         <el-table

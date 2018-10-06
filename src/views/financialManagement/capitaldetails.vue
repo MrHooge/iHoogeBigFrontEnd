@@ -195,12 +195,10 @@ export default {
 			})
 			return sums
 		},
-		export2Excel() {
-
-		　　　　},
-		　　　formatJson(filterVal, jsonData) {
-			　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
-        　　　　},
+		export2Excel() {},
+        formatJson(filterVal, jsonData) {
+            return jsonData.map(v => filterVal.map(j => v[j]))
+        },
         // 导出
 		exportSome() {
 			let newobj
@@ -223,7 +221,7 @@ export default {
 			})
 			var model = {
 				listParams: JSON.stringify(this.newarr),
-				title: "单个代理的销量详情"
+				title: "财务资金明细"
 			};
 			console.log(model)
 			exportExcle(model.listParams, model.title)
@@ -236,7 +234,7 @@ export default {
                 const filterVal = ['index','date','allUnderLineMoney','commissionUse','allconsumMoney','posttaxPrize', 'todaySend', 'lotteryCard', 'lotteryCardUse','commissionUse','saleCommissionMoney','platformCommissionMoney'];
 				const list = this.tableData;
 				const data = this.formatJson(filterVal, list);
-				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+				export_json_to_excel(tHeader, data, '财务资金明细'); //对应下载文件的名字
 			})
 
 		}

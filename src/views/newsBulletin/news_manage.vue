@@ -2,9 +2,9 @@
 <template>
     <div class="manager">
         <div class="search">
-            标签：<el-input v-model="label" placeholder="请输入标签" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
-            标题：<el-input v-model="title" placeholder="请输入标题" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input>
-            类型：<el-input v-model="type" placeholder="请输入类型" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px"></el-input><br />
+            标签：<el-input v-model="label" placeholder="请输入标签" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px" clearable></el-input>
+            标题：<el-input v-model="title" placeholder="请输入标题" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px" clearable></el-input>
+            类型：<el-input v-model="type" placeholder="请输入类型" style="width: 150px;margin-right:70px;margin-bottom:20px;margin-top:40px" clearable></el-input><br />
             开始时间：<el-date-picker
             v-model="startTime"
             type="datetime"
@@ -134,6 +134,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             >
             </el-pagination>
             </div>

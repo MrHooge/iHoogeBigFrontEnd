@@ -5,7 +5,7 @@
 				<el-input v-model="sjname"
 				          placeholder="请输入方案ID"
 				          style="width:50%;"
-				          @input="onInput"></el-input>
+				          @input="onInput" clearable></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>

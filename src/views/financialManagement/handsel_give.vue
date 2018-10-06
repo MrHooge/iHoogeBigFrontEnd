@@ -7,7 +7,7 @@
 					type="textarea"
 					:rows="1"
 					placeholder="请输入内容"
-					v-model="textarea">
+					v-model="textarea" clearable>
 					</el-input>
 					<el-button type="primary"
 				           icon="el-icon-search"

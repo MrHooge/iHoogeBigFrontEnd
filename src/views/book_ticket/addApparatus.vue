@@ -15,7 +15,7 @@
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content bg-purple-light">
-                        <el-input v-model="id"></el-input>
+                        <el-input v-model="id" clearable></el-input>
                     </div>
                 </el-col>
             </el-row>

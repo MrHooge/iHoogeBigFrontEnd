@@ -62,6 +62,7 @@
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="totalList"
+        v-if="totalList != ''"
         style="width: 100%; margin-top: 20px">
       </el-pagination>
     </div>
@@ -70,13 +71,13 @@
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="权限ID" :label-width="formLabelWidth" v-if="form.child_id || dialogType=='modify'">
-          <el-input v-model="form.child_id" auto-complete="off"></el-input>
+          <el-input v-model="form.child_id" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="权限名称" :label-width="formLabelWidth">
-          <el-input v-model="form.model_name" auto-complete="off"></el-input>
+          <el-input v-model="form.model_name" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="权限路径" :label-width="formLabelWidth">
-          <el-input v-model="form.model_url" auto-complete="off"></el-input>
+          <el-input v-model="form.model_url" auto-complete="off" clearable></el-input>
         </el-form-item>
         <el-form-item label="模块名称" :label-width="formLabelWidth">
           <el-select v-model="form.model_parent" placeholder="请选择模块">
@@ -84,7 +85,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="描述" :label-width="formLabelWidth">
-          <el-input v-model="form.descriprion" auto-complete="off"></el-input>
+          <el-input v-model="form.descriprion" auto-complete="off" clearable></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

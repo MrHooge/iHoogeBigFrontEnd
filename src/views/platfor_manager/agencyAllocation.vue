@@ -6,8 +6,8 @@
 			<div class="search">
 				<el-input v-model="account"
 				          placeholder="请输入账号查询"
-				          style="width:15%;"></el-input>
-                <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;"></el-input>
+				          style="width:15%;" clearable></el-input>
+                <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;" clearable></el-input>
 				<el-button type="primary"
 				           icon="el-icon-search"
 				           @click="search">搜索</el-button>
@@ -70,23 +70,13 @@
             v-if="totalList != ''"
             >
             </el-pagination>
-		<!-- <div class="page"
-		     v-show="pageShow"
-		     style="padding:30px 0">
-			<el-pagination background
-			               :page-size=20
-			               @current-change="changepage"
-			               layout="prev, pager, next"
-			               :total="total">
-			</el-pagination>
-		</div> -->
 		<!-- 弹窗事件 -->
 		<el-dialog title="确认分组"
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
 				<el-input v-model="input"
-				          placeholder="请输入分组名"></el-input>
+				          placeholder="请输入分组名" clearable></el-input>
 
 			</div>
 			<span slot="footer"
@@ -146,21 +136,6 @@ export default {
             this.pageSize = num;
             this.getData()
         },
-		// onInput(){
-		// 		if(this.sjname==''){
-		// 			this.getData()
-		// 		}
-		// },
-		// //查询
-		// search(){
-		// 	if(this.account == ''){
-		// 		this.$message('请输入昵称')
-		// 	}else{
-        //         //account = this.account
-        //         this.page = 1
-		// 		this.getData()
-		// 	}
-        // },
         search() {
             if (!this.account && !this.name) {
                 this.getTable();
@@ -213,7 +188,6 @@ export default {
 				}
 			})
 		},
-
 		// 选择框的回调
 		handleSelectionChange(val) {
 			this.multipleSelection = val
@@ -223,37 +197,29 @@ export default {
 			} else {
 				this.isShow = false
 			}
-
 		},
 		cofirm() {
-			this.number = []
-            this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-                console.log(e)
-				this.number.push(e.ACCOUNT)
-			});
 			this.dialogVisible = true
-		},
+        },
 		makersure() {
-			let arr = []
-			let myObj = {}
-			this.number.forEach(e => {
-                console.log(e)
-				myObj[e] = this.input
-				// arr.push(myObj)
-
+            this.number = []
+			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
+                let obj = {
+                    dlAccount:e.ACCOUNT,
+                    groupName:this.input
+                }
+				this.number.push(obj)
 			});
-			Object.keys(myObj).forEach(function (key) {   //   对象循环
-				arr.push({ [key]: myObj[key] })
-				// console.log(key)
-			})
-			console.log(arr)
-
+			// console.log(this.number)
+            let lastobj = {
+                params: JSON.stringify(this.number)
+			}
+			// console.log(lastobj)
 			if (this.input == '') {
 				Message.success('请输入分组名')
 				return
 			} else {
-				setAgentToGroup(JSON.stringify(arr)).then(res => {
-					console.log(res)
+				setAgentToGroup(lastobj).then(res => {
 					if (res.data.error_code = 200) {
 						Message.success(res.data.message)
 						this.dialogVisible = false
@@ -264,10 +230,6 @@ export default {
 				})
 			}
 		},
-
-		// changepage(val) {  //  分页回调
-		// 	this.getData(val.id)
-		// }
 	}
 }
 </script>

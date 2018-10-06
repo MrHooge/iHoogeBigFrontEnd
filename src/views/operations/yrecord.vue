@@ -5,7 +5,7 @@
 			<el-col :span="6">
 				<div class="grid-content bg-purple">
 					<el-input v-model="input"
-					          placeholder="请输入客户名"></el-input>
+					          placeholder="请输入客户名" clearable></el-input>
 				</div>
 			</el-col>
 			<el-col :span="3">
@@ -102,6 +102,7 @@
 							<el-pagination background
 							               layout="prev, pager, next"
 							               :total="total"
+                                           v-if="total != ''"
 							               @current-change="changecurr">
 							</el-pagination>
 						</div>

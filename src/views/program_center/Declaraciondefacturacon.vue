@@ -1,8 +1,8 @@
 <template>
     <div class="program">
         <div class="search">
-            账号：<el-input v-model="account" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
-            方案编号:<el-input v-model="planNo" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"></el-input>
+            账号：<el-input v-model="account" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
+            方案编号:<el-input v-model="planNo" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             发单时间（起始）：<el-date-picker
             v-model="stime"
             type="date"
@@ -63,7 +63,7 @@
         </el-table>
          <el-dialog title="修改" :visible.sync="dialogShenVisible" width="500px" top="30vh">
             <div class="body">
-              请输入发单宣言：<el-input v-model="desc"></el-input>
+              请输入发单宣言：<el-input v-model="desc" clearable></el-input>
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogShenVisible = false">取 消</el-button>
@@ -79,6 +79,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             style="margin-top:40px"
             >
             </el-pagination>

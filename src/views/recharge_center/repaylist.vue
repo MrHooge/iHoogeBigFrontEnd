@@ -60,7 +60,8 @@
 			<el-pagination background
 			               layout="prev, pager, next"
 			               @current-change="currentPage"
-			               :total="totalNum">
+			               :total="totalNum"
+                           v-if="totalNum != ''">
 			</el-pagination>
 		</div>
 
@@ -80,7 +81,7 @@
 					<!-- <el-form-item label="名字"
 					              prop="name">
 						<el-input v-model="ruleForm.name"
-						          id="upInput"></el-input>
+						          id="upInput" clearable></el-input>
 					</el-form-item> -->
 					            <p class="name">
                 <el-row :gutter="20">
@@ -100,7 +101,7 @@
 					              prop="pay_picture">
 						<!-- <el-input v-model="ruleForm.pay_picture"
 						          type="file"
-						          class="addBorder"></el-input> -->
+						          class="addBorder" clearable></el-input> -->
 						<el-upload :action="uploadUrl"
 						           :data='folder'
 						           list-type="picture-card"

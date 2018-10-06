@@ -8,18 +8,18 @@
 						<el-input v-model="name"
 						          placeholder="请输入查询的账号"
 						          @input="onInput"
-								  style="width:40%"></el-input>
+								  style="width:40%" clearable></el-input>
 								  <!-- <el-input v-model="id" -->
                                   <el-input
 						          placeholder="请输入查询的流水号"
 						          @input="onInput"
-								  style="width:50%"></el-input>
+								  style="width:50%" clearable></el-input>
 
 					</div>
 					<!-- <div class="grid-content bg-purple">
 						<el-input v-model="id"
 						          placeholder="请输入查询的流水号"
-						          @input="onInput"></el-input>
+						          @input="onInput" clearable></el-input>
 					</div> -->
 				</el-col>
 				<el-col :span="12">
@@ -108,7 +108,8 @@
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
-			               :total="total">
+			               :total="total"
+                           v-if="total != ''">
 			</el-pagination>
 		</div>
 		<!-- 弹窗事件 -->
@@ -121,15 +122,15 @@
 			         class="demo-ruleForm">
 				<el-form-item label="账户名"
 				              prop="accountID">
-					<el-input v-model="ruleForm.accountID" readonly="readonly"></el-input>
+					<el-input v-model="ruleForm.accountID" readonly="readonly" clearable></el-input>
 				</el-form-item>
 				<el-form-item label="流水号"
 				              prop="chargeNo">
-					<el-input v-model="ruleForm.chargeNo" readonly="readonly"></el-input>
+					<el-input v-model="ruleForm.chargeNo" readonly="readonly" clearable></el-input>
 				</el-form-item>
 				<el-form-item label="金额"
 				              prop="amount">
-					<el-input v-model="ruleForm.amount" ></el-input>
+					<el-input v-model="ruleForm.amount" clearable></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" :disabled="disable"
