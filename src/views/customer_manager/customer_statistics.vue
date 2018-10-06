@@ -1,29 +1,29 @@
 <template>
     <div class="statistics">
-         <el-input placeholder="请输入用户名" v-model="account" style="width: 130px;margin-right:50px;margin-bottom:30px"></el-input>
-         <el-input placeholder="请输入昵称" v-model="username" style="width: 130px;margin-right:50px;margin-bottom:30px"></el-input>
+        <el-input placeholder="请输入用户名" v-model="account" style="width: 130px;margin-right:50px;margin-bottom:30px"></el-input>
+        <el-input placeholder="请输入昵称" v-model="username" style="width: 130px;margin-right:50px;margin-bottom:30px"></el-input>
         <el-input v-model="name" placeholder="请输入姓名" style="width: 150px;margin-right:50px;margin-top:40px"></el-input>
         <el-input v-model="idcard" placeholder="请输入身份证号" style="width: 200px;margin-right:50px;margin-top:40px"></el-input>
         <el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:50px;margin-top:20px"></el-input>
         开始时间：
-         <el-date-picker
-            v-model="startTime"
-            type="date"
-            style="margin-bottom:40px;margin-right:20px;width:200px"
-            placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            <el-date-picker
+                v-model="startTime"
+                type="date"
+                style="margin-bottom:40px;margin-right:20px;width:200px"
+                placeholder="请选择开始日期"
+                value-format="yyyy-MM-dd">
             </el-date-picker>
         结束时间：
             <el-date-picker
-            v-model="endTime"
-            align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
-            style="margin-left:10px;
-            width:200px
-            margin-bottom:40px;"
-            placeholder="请选择结束日期"
-            >
+                v-model="endTime"
+                align="right"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="margin-left:10px;
+                width:200px
+                margin-bottom:40px;"
+                placeholder="请选择结束日期"
+                >
             </el-date-picker>
 
         <el-button type="primary" @click="search_customer" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">搜索</el-button>
@@ -35,148 +35,67 @@
             style="width: 100%;"
             @selection-change="handleSelectionChange">
             <el-table-column
-            type="selection">
+                type="selection">
             </el-table-column>
             <el-table-column
-                    label="昵称"
-                    align="center"
-                    v-if="!isBeforMonth">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.username" @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.username}}</span>
-                        <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
-                    </template>
-            </el-table-column>
-
-            <el-table-column
-                    label="昵称"
-                    align="center"
-                    v-if="isBeforMonth">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.username" @click="getupnewweb(scope.row.account)">{{scope.row.username}}</span>
-                        <span v-else @click="getupnewweb(scope.row.account)">{{scope.row.account}}</span>
-                    </template>
+                label="昵称"
+                align="center">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.username" @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.username}}</span>
+                    <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
+                </template>
             </el-table-column>
             
             <el-table-column
-                    label="真实姓名"
-                    prop="name"
-                    align="center"
-                    v-if="isBeforMonth">
+                label="真实姓名"
+                prop="NAME"
+                align="center">
             </el-table-column>
             <el-table-column
-                    label="真实姓名"
-                    prop="NAME"
-                    align="center"
-                    v-if="!isBeforMonth">
-            </el-table-column>
-
-            <el-table-column
-                    label="证件号"
-                    prop="certNo"
-                    align="center"
-                    v-if="isBeforMonth"> 
+                label="证件号"
+                prop="CERT_NO"
+                align="center"> 
             </el-table-column>
             <el-table-column
-                    label="证件号"
-                    prop="CERT_NO"
-                    align="center"
-                    v-if="!isBeforMonth"> 
-            </el-table-column>
-            <el-table-column
-                    label="手机"
-                    prop="mobile"
-                    align="center"
-                    v-if="isBeforMonth">
-            </el-table-column>
-            <el-table-column
-                    label="手机"
-                    prop="MOBILE"
-                    align="center"
-                    v-if="!isBeforMonth">
+                label="手机"
+                prop="MOBILE"
+                align="center">
             </el-table-column>
 
             <el-table-column
-                    label="注册时间"
-                    align="center">
-                    <template slot-scope="scope">
-                        {{scope.row.registerDateTime | time}}
-                    </template>
-            </el-table-column>
-
-            <el-table-column
-                    label="最后登陆时间"
-                    align="center">
-                    <template slot-scope="scope">
-                        {{scope.row.lastLoginDateTime | time}}
-                    </template>
-            </el-table-column>
-
-            <el-table-column
-                    label="是否充值"
-                    align="center">
-                    <template slot-scope="scope">
-                        {{scope.row.isCharge | port}}
-                    </template>
-            </el-table-column>
-            <!-- <el-table-column
-                    label="证件类型"
-                    prop="certType"
-                    align="center">
-            </el-table-column>
-            <el-table-column
-                    label="邮箱"
-                    prop="email"
-                    align="center">
-            </el-table-column> -->
-            <el-table-column
-                    label="是否白名单"
-                    align="center"
-                    v-if="isBeforMonth">
-                    <template slot-scope="scope">
-                        {{scope.row.isWhitelist | mtype}}
-                    </template>
-            </el-table-column>
-
-            <el-table-column
-                    label="是否白名单"
-                    align="center"
-                    v-if="!isBeforMonth">
-                    <template slot-scope="scope">
-                        {{scope.row.IS_WHITELIST | mtype}}
-                    </template>
-            </el-table-column>
-            <!-- <el-table-column
-                    label="头像·"
-                    prop="picture"
-                    align="center">
-                    <template slot-scope="scope">
-                        <img :src="scope.row.picture" >
-                    </template>
-            </el-table-column> -->
-            <!-- <el-table-column
-                    label="状态"
-                    prop="status"
-                    align="center">
-            </el-table-column>          
-            <el-table-column
-                    label="类型"
-                    prop="type"
-                    align="center">
-            </el-table-column>   -->
-            <el-table-column
-                label="操作"
-                align="center"
-                v-if="isBeforMonth">
+                label="注册时间"
+                align="center">
                 <template slot-scope="scope">
-                    <el-button type="success" @click="addwhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;"  v-if="scope.row.isWhitelist === 1">加白</el-button>
-                    <el-button type="primary" @click="deletewhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;padding-left:10px;" v-if="scope.row.isWhitelist === 0">设为非白</el-button>
+                    {{scope.row.registerDateTime | time}}
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                label="最后登陆时间"
+                align="center">
+                <template slot-scope="scope">
+                    {{scope.row.lastLoginDateTime | time}}
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                label="是否充值"
+                align="center">
+                <template slot-scope="scope">
+                    {{scope.row.IS_CHARGE | port}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                label="是否白名单"
+                align="center">
+                <template slot-scope="scope">
+                    {{scope.row.isWhitelist | mtype}}
                 </template>
             </el-table-column>
 
             <el-table-column
                 label="操作"
-                align="center"
-                v-if="!isBeforMonth">
+                align="center">
                 <template slot-scope="scope">
                     <el-button type="success" @click="addwhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;"  v-if="scope.row.IS_WHITELIST === 1">加白</el-button>
                     <el-button type="primary" @click="deletewhite(scope.row,'modify')" style="width:70px;height:30px;line-height:5px;padding-left:10px;" v-if="scope.row.IS_WHITELIST === 0">设为非白</el-button>
@@ -192,8 +111,7 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="totalList"
-            >
+            :total="totalList">
         </el-pagination>
     </div>
 </template>
@@ -272,6 +190,7 @@ export default {
                 mobile: this.mobile,
             }
             findAllMember(obj).then(res => {
+                console.log(res)
                 this.tableData = res.data.data.list
                 this.totalList = res.data.data.total
                 console.log(this.totalList)
@@ -279,27 +198,15 @@ export default {
                 Message.error(error)
             })
         },
-        //搜索
-        search_customer(){
-            this.page = 1
-            this.pageSize = 20
-            // this.isBeforMonth = false
-            this.gettablelist()
-            // this.isBeforMonth = false
-            // if(this.isBeforMonth){
-            //     this.longtime()
-            // }else{
-            //     this.gettablelist();
-            // }
-            
-        },
+
         //加白
         addwhite(data){
-            if(this.isBeforMonth){
-                this.account = data.account
-            }else{
-                this.account = data.ACCOUNT;
-            }
+            // if(this.isBeforMonth){
+            //     this.account = data.account
+            // }else{
+            //     this.account = data.ACCOUNT;
+            // }
+            this.account = data.ACCOUNT;
             this.type = 1
             memberToWrite(this.account,this.type).then(res => {
                 if (res.data.error_code === 200) {
@@ -317,11 +224,12 @@ export default {
         },
         //取消加白
         deletewhite(data){
-            if(this.isBeforMonth){
-                this.account = data.account
-            }else{
-                this.account = data.ACCOUNT;
-            }
+            // if(this.isBeforMonth){
+            //     this.account = data.account
+            // }else{
+            //     this.account = data.ACCOUNT;
+            // }
+            this.account = data.ACCOUNT;
             this.type = 2
             memberToWrite(this.account,this.type).then(res => {
                 if (res.data.error_code === 200) {
@@ -344,11 +252,12 @@ export default {
             }else{
                 let newarr = [];
                 this.selections.forEach(e => {
-                    if(this.isBeforMonth){
-                        newarr.push(e.account)
-                    } else {
-                        newarr.push(e.ACCOUNT)
-                    }
+                    // if(this.isBeforMonth){
+                    //     newarr.push(e.account)
+                    // } else {
+                    //     newarr.push(e.ACCOUNT)
+                    // }
+                    newarr.push(e.ACCOUNT)
                 });
                 let newaccount = newarr.join(',');
                 this.account = newaccount;
@@ -394,6 +303,7 @@ export default {
                 console.log(res)
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
                     this.$message.success(res.data.message)
                 }else{
                     this.$message.error(res.data.message)
@@ -402,21 +312,18 @@ export default {
                 Message.error(error)
             })
         },
+        //搜索
+        search_customer(){
+            this.page = 1
+            this.pageSize = 20
+            this.gettablelist()
+        },
         // 选择框全部
         handleSelectionChange(selection) {
             this.selections = selection;
-            // console.log(this.selections.length)
-            // // console.log(this.selections[0].account)
-            // for(let i = 0;i<this.selections.length;i++){
-            //       //console.log(this.selections[i].account);
-            //       let newarr =[];
-            //       newarr.push(this.selections[i].account);
-            //       //console.log(newarr)
-            // }
         }
 
     }
-
 }
 </script>
 
