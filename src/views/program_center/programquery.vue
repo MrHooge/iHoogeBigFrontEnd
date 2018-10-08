@@ -126,11 +126,15 @@
                     align="center"
                     label="彩种">
                 </el-table-column>
-                            <el-table-column
+                <!-- <el-table-column
                     prop="term"
                     align="center"
                     label="彩期">
-                
+                </el-table-column> -->
+                <el-table-column
+                    prop="dealTime"
+                    align="center"
+                    label="截止时间">
                 </el-table-column>
                 <el-table-column
                     prop="playType"
@@ -153,7 +157,7 @@
                     prop="winStatus"
                     align="center"
                     label="中奖状态">
-                <template slot-scope="scope">
+                    <template slot-scope="scope">
                         <span v-if="scope.row.winStatus === '已派奖'" style="color: #409eff;">{{scope.row.winStatus}}</span>
                         <span v-else-if="scope.row.winStatus === '已中奖'" style="color: #ff0134;">{{scope.row.winStatus}}</span>
                         <span v-else>{{scope.row.winStatus}}</span>
@@ -176,8 +180,15 @@
                 </el-table-column>
                 <el-table-column
                     align="center"
+                    label="跟单/自购">
+                    <template slot-scope="scope">
+                        {{scope.row.isSuper | isSuper}}
+                    </template>        
+                </el-table-column>
+                <el-table-column
+                    align="center"
                     label="操作">
-                <template slot-scope="scope">
+                    <template slot-scope="scope">
                         <el-dropdown trigger="click">
                             <el-button type="primary">操作</el-button>
                             <el-dropdown-menu slot="dropdown">
@@ -299,6 +310,19 @@ export default {
         }
     },
     filters:{
+        //是否跟单
+        isSuper(a){
+            if(a){
+                a = Number(a)
+                if(a === 1){
+                    return '自购'
+                }
+                else if(a === 0){
+                    return '跟单'
+                }
+            }
+            
+        },
         platForm(a){
             a = Number(a)
             if(a === 1){

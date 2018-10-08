@@ -168,7 +168,9 @@ export default {
 					Message.success(res.data.msg)
 					return;
 				} else {
-					Message.success('授信成功！')
+                    this.getData(1, this.input1);
+                    Message.success('授信成功！')
+                    
 					// window.location.reload();
 				}
 			})

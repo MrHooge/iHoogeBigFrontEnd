@@ -1,12 +1,18 @@
 <template>
 	<div class="backend">
 		<div class="search">
-			<el-input v-model="username"
-			          placeholder="请输入会员名进行查询"
-			          style="width:12%;" @input="onInput" clearable></el-input>
+			<el-input v-model="account"
+			          placeholder="请输入账号进行查询"
+			          style="width:12%;" @input="onInput" clearable>
+            </el-input>
+            <el-input v-model="username"
+			          placeholder="请输入昵称进行查询"
+			          style="width:12%;" clearable>
+            </el-input>
 			<el-input v-model="operator"
 			          placeholder="请输入操作人进行查询"
-			          style="width:12%;" clearable></el-input>
+			          style="width:12%;" clearable>
+            </el-input>
             <el-date-picker
             v-model="stime"
             type="date"
@@ -144,6 +150,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             >
             </el-pagination>
 	</div>
@@ -151,6 +158,7 @@
 
 <script>
 import { getCreditRefund, passCreditRefundApply, refuseCreditRefundApply } from '@/api/sys_user'
+import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -159,7 +167,7 @@ export default {
 	data() {
 		return {
 			pageshow: false,
-			username: '',
+			account: '',
 			dialogVisible: false,
 			dialogVisible1: false,
 			total: 0,
@@ -181,44 +189,65 @@ export default {
             value: '',
             operator: '',
             totalList: 0,
+            username: "",   //输入查询的昵称
 		};
 	},
 	created() {
 		//   调接口返回数据
-		this.getData(this.username, this.value,this.operator);
+		this.getData(this.account, this.value,this.operator);
 	},
 	methods: {
 		 //翻页
         handleCurrentChange(num){
             this.page = num;
-            this.getData(this.username, this.value,this.operator);
+            this.getData(this.account, this.value,this.operator);
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
-            this.getData(this.username, this.value,this.operator);
+            this.getData(this.account, this.value,this.operator);
         },
 		onInput(){
-			if(this.username==''){
-				this.getData(this.username, this.value,this.operator);
+			if(this.account==''){
+				this.getData(this.account, this.value,this.operator);
 			}
 		},
 		//   下拉选择框的筛选
 		getval() {
 			// console.log(this.value);
 
-			this.getData(this.username, this.value,this.operator);
+			this.getData(this.account, this.value,this.operator);
 		},
 		//   搜索查询
-		search() {
-			if (this.value == '全部') {
+        search() {
+            if (this.value == '全部') {
 				console.log('111111')
 				this.value == ''
 			}
-            // console.log(this.value)
-            this.page = 1
-			this.getData(this.username, this.value,this.operator);
-		},
+            if (!this.account && !this.username) {
+                this.page = 1
+                this.getData(this.account, this.value,this.operator);
+            } else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.getData(this.account, this.value,this.operator);
+                }
+            }
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.getData(this.account, this.value,this.operator);
+            })
+        },
 		//   接口返回数据数字转换成汉字
 		getStr(num) {
 			if (num == 0) {
@@ -285,7 +314,7 @@ export default {
 				console.log(res)
 				if (res.status == 200) {
 					Message.success("审核成功！")
-					this.getData(this.username, this.value,this.operator);
+					this.getData(this.account, this.value,this.operator);
 					this.dialogVisible = false;
 				}else{
                     this.$message.error(res.data.msg)
@@ -310,7 +339,7 @@ export default {
 				console.log(res)
 				if (res.status == 200) {
 					Message.success("驳回成功！")
-					this.getData(1, this.username, this.value);
+					this.getData(1, this.account, this.value);
 					this.dialogVisible1 = false;
 				}
 			})
