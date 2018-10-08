@@ -15,10 +15,18 @@
             </div>
             </div>
             <div class="Enthalt">
-            
             <div class="hang">
                 <div class="left">发单人：</div>
                 <div class="right">{{ account }}</div>
+            </div>
+            <div class="lei">
+                <div class="left">是否自购：</div>
+                <div class="right">{{ isSuper | isZG }}</div>
+            </div>
+            
+            <div class="hang">
+                <div class="left">超级发单人：</div>
+                <div class="right">{{ superAccount }}</div>
             </div>
             <div class="lei">
                 <div class="left">方案公开类型：</div>
@@ -226,7 +234,9 @@ export default {
             planStatus:'',//方案状态
             playType: '', //过关方式
             term:'',//彩期
+            isSuper: '',   //是否自购
             account:'',
+            superAccount: '',//跟单人的账号
             createDateTime:'',
             dealDateTime:'',
             arrivalTime: '',
@@ -246,6 +256,18 @@ export default {
         }
     },
     filters:{
+        isZG(a){
+            if(a){
+                a = Number(a)
+                if(a === 1){
+                    return '是'
+                }
+                else if(a === 0){
+                    return '否'
+                }
+            }
+            
+        },
         time(a){
             if(a != null){
                 let date = new Date(a);
@@ -309,7 +331,9 @@ export default {
                 this.planStatus = res.data.planStatus;
                 this.playType = res.data.playType;
                 this.term = res.data.term;
+                this.isSuper = res.data.isSuper;
                 this.account = res.data.account;
+                this.superAccount = res.data.superAccount;
                 this.createDateTime = res.data.createDateTime;
                 this.dealDateTime = res.data.dealDateTime;
                 this.isSuper = res.data.isSuper;

@@ -175,7 +175,7 @@ export default {
         // this.search(1)
         this.getData(this.name, this.value1, this.value2)
     },
-    filter:{
+    filters:{
         time(a){
             if(a != null){
                 let date = new Date(a);
@@ -246,9 +246,9 @@ export default {
         // 点击充值掉接口
         handleRepy(row) {
             this.dialogVisible = true
-            this.username = row.account
-            this.money = row.number
             console.log(row)
+            this.username = row.ACCOUNT
+            this.money = row.number
         },
         makersure() {
             let obj = {
@@ -257,10 +257,10 @@ export default {
             }
             xxCharge(obj).then(res => {
                 console.log(res)
-                if (res.status == 200) {
+                if (res.status === 200) {
                     this.dialogVisible = false
                     Message.success('充值成功')
-                    this.getData()
+                    this.getData(this.name, this.value1, this.value2)
                 } else {
 
                 }

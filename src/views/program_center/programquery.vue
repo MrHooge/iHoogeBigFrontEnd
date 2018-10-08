@@ -126,10 +126,15 @@
                     align="center"
                     label="彩种">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     prop="term"
                     align="center"
                     label="彩期">
+                </el-table-column> -->
+                <el-table-column
+                    prop="dealTime"
+                    align="center"
+                    label="截止时间">
                 </el-table-column>
                 <el-table-column
                     prop="playType"
@@ -172,6 +177,13 @@
                     prop="minBonus"
                     align="center"
                     label="预测奖金（最小）">           
+                </el-table-column>
+                <el-table-column
+                    align="center"
+                    label="跟单/自购">
+                    <template slot-scope="scope">
+                        {{scope.row.isSuper | isSuper}}
+                    </template>        
                 </el-table-column>
                 <el-table-column
                     align="center"
@@ -298,6 +310,19 @@ export default {
         }
     },
     filters:{
+        //是否跟单
+        isSuper(a){
+            if(a){
+                a = Number(a)
+                if(a === 1){
+                    return '自购'
+                }
+                else if(a === 0){
+                    return '跟单'
+                }
+            }
+            
+        },
         platForm(a){
             a = Number(a)
             if(a === 1){

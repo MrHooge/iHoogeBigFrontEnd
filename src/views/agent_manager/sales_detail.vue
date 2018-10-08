@@ -111,11 +111,11 @@ export default {
         },
         width: {
             type: String,
-            default: '500px'
+            default: '800px'
         },
         height: {
             type: String,
-            default: '500px'
+            default: '400px'
         }
     },
     data() {
@@ -143,21 +143,20 @@ export default {
             newarr: [],
             username: '',   //输入想搜索的昵称
 
-
             time: [],   //存储日期
-            khs: [],   //存储开户数
+            xfs: [],   //存储消费数
         }
     },
     mounted() {
         // this.initChart();
     },
-    beforeDestroy() {
-        if (!this.chart) {
-            return
-        }
-        this.chart.dispose();
-        this.chart = null;
-    },
+    // beforeDestroy() {
+    //     if (!this.chart) {
+    //         return
+    //     }
+    //     this.chart.dispose();
+    //     this.chart = null;
+    // },
     created(){
         this.getTableList()
     },
@@ -181,9 +180,9 @@ export default {
                 this.tableData = res.data.data
                 res.data.data.forEach(e => {
                     this.time.push(e.date)
-                    this.khs.push(e.accountNum)
+                    this.xfs.push(e.allPayNum)
                 })
-
+                
                 console.log(this.time)
 
                 this.chart.setOption({
@@ -191,7 +190,7 @@ export default {
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            type: 'line' // 默认为直线，可选为：'line' | 'shadow'
                         }
                     },
                     grid: {
@@ -203,7 +202,7 @@ export default {
                     xAxis: [{
                         type: 'category',
                         // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                        data: this.time,
+                        data: this.time.reverse(),
                         axisTick: {
                             alignWithLabel: true
                         }
@@ -212,11 +211,11 @@ export default {
                         type: 'value'
                     }],
                     series: [{
-                        name: '直接访问',
-                        type: 'bar',
+                        name: '消费数（个）',
+                        type: 'line',
                         barWidth: '60%',
                         // data: [10, 52, 200, 334, 390, 330, 220]
-                        data: this.khs
+                        data: this.xfs
                     }]
                 })
                 // console.log(this.tableData)
@@ -265,12 +264,15 @@ export default {
             if (!this.account && !this.username) {
                 this.page = 1
                 this.getTableList()
+                this.initChart();
+                
             } else {
                 if(this.account === ''){
                     this.getAccount()
                 }else{
                     this.page = 1
                     this.getTableList()
+                    this.initChart();
                     this.$message.success("搜索成功")
                 }
             }
@@ -295,6 +297,7 @@ export default {
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.getTableList()
+                this.initChart();
                 this.$message.success("搜索成功")
             })
         },
