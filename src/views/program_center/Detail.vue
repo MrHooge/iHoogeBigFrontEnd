@@ -319,12 +319,12 @@ export default {
                 matchId:''
             }
             getPlanDetailForManager(obj).then(res => {
+                console.log(res.data)
                 let rest = res.data.matchDetail;
                 rest.forEach(e => {
                     this.newarr.push(e.options);
                 });
-                console.log(123456789)
-                console.log(this.newarr)
+                
                 this.messagedata = res.data.matchDetail;
                 this.tablethis = res.data.matchDetail.options;
                 this.lotteryType = res.data.lotteryType;

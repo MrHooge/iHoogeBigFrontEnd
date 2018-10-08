@@ -448,6 +448,7 @@ export default {
                 desc:this.desc
             }
             selectLotteryPlan(obj).then(res =>{
+                console.log(res)
                 this.tableData = res.data.data
                 this.totalList = res.data.totalCount
                 this.fadan = res.data.data.planStatus
