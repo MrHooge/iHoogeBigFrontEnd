@@ -235,6 +235,11 @@ export default {
     methods: {
         //金额图表
         moneyEchart() {
+            this.time = []
+            this.jc = []  //竞彩金额
+            this.zg = []  //自购金额
+            this.gd = []  //跟单金额
+            this.yj = []
             this.chart1 = echarts.init(this.$refs.moneyEchart);
             // 把配置和数据放这里
             let obj = {
@@ -376,218 +381,6 @@ export default {
                 Message.error(error)
             })
         },
-        //竞彩
-        // Jc(){
-        //     this.chart2 = echarts.init(this.$refs.jcEchart);
-        //     // 把配置和数据放这里
-        //     let obj = {
-        //         account: this.account,
-        //         isMonth: this.isMOuth
-        //     }
-        //     findAgentInfoByAccount(obj)
-        //     .then(res => {
-        //         this.tableData = res.data.data
-        //         res.data.data.forEach(e => {
-        //             this.jc.push(e.allBuy)
-        //         })
-        //         this.chart2.setOption({
-        //             title: {
-        //                 text: '竞彩（金额）'
-        //             },
-        //             color: ['#3398DB'],
-        //             tooltip: {
-        //                 trigger: 'axis',
-        //                 axisPointer: { // 坐标轴指示器，坐标轴触发有效
-        //                     type: 'line' // 默认为直线，可选为：'line' | 'shadow'
-        //                 }
-        //             },
-        //             grid: {
-        //                 left: '3%',
-        //                 right: '4%',
-        //                 bottom: '3%',
-        //                 containLabel: true
-        //             },
-        //             xAxis: [{
-        //                 type: 'category',
-        //                 data: this.time,
-        //                 axisTick: {
-        //                     alignWithLabel: true
-        //                 }
-        //             }],
-        //             yAxis: [{
-        //                 type: 'value'
-        //             }],
-        //             series: [{
-        //                 name: '竞彩（金额）',
-        //                 type: 'line',
-        //                 barWidth: '60%',
-        //                 data: this.jc.reverse()
-        //             }]
-        //         })
-        //     })
-        //     .catch(error => {
-        //         Message.error(error)
-        //     })
-        // },
-        // //自购
-        // Zg(){
-        //     this.chart3 = echarts.init(this.$refs.zgEchart);
-        //     // 把配置和数据放这里
-        //     let obj = {
-        //         account: this.account,
-        //         isMonth: this.isMOuth
-        //     }
-        //     findAgentInfoByAccount(obj)
-        //     .then(res => {
-        //         this.tableData = res.data.data
-        //         res.data.data.forEach(e => {
-        //             this.zg.push(e.selfBuy)
-        //         })
-        //         this.chart3.setOption({
-        //             title: {
-        //                 text: '自购（金额）'
-        //             },
-        //             color: ['#3398DB'],
-        //             tooltip: {
-        //                 trigger: 'axis',
-        //                 axisPointer: { // 坐标轴指示器，坐标轴触发有效
-        //                     type: 'line' // 默认为直线，可选为：'line' | 'shadow'
-        //                 }
-        //             },
-        //             grid: {
-        //                 left: '3%',
-        //                 right: '4%',
-        //                 bottom: '3%',
-        //                 containLabel: true
-        //             },
-        //             xAxis: [{
-        //                 type: 'category',
-        //                 data: this.time,
-        //                 axisTick: {
-        //                     alignWithLabel: true
-        //                 }
-        //             }],
-        //             yAxis: [{
-        //                 type: 'value'
-        //             }],
-        //             series: [{
-        //                 name: '自购（金额）',
-        //                 type: 'line',
-        //                 barWidth: '60%',
-        //                 data: this.zg.reverse()
-        //             }]
-        //         })
-        //     })
-        //     .catch(error => {
-        //         Message.error(error)
-        //     })
-        // },
-        // //跟单
-        // Gd(){
-        //     this.chart4 = echarts.init(this.$refs.gdEchart);
-        //     // 把配置和数据放这里
-        //     let obj = {
-        //         account: this.account,
-        //         isMonth: this.isMOuth
-        //     }
-        //     findAgentInfoByAccount(obj)
-        //     .then(res => {
-        //         this.tableData = res.data.data
-        //         res.data.data.forEach(e => {
-        //             this.gd.push(e.fllowBuy)
-        //         })
-        //         this.chart4.setOption({
-        //             title: {
-        //                 text: '跟单（金额）'
-        //             },
-        //             color: ['#3398DB'],
-        //             tooltip: {
-        //                 trigger: 'axis',
-        //                 axisPointer: { // 坐标轴指示器，坐标轴触发有效
-        //                     type: 'line' // 默认为直线，可选为：'line' | 'shadow'
-        //                 }
-        //             },
-        //             grid: {
-        //                 left: '3%',
-        //                 right: '4%',
-        //                 bottom: '3%',
-        //                 containLabel: true
-        //             },
-        //             xAxis: [{
-        //                 type: 'category',
-        //                 data: this.time,
-        //                 axisTick: {
-        //                     alignWithLabel: true
-        //                 }
-        //             }],
-        //             yAxis: [{
-        //                 type: 'value'
-        //             }],
-        //             series: [{
-        //                 name: '跟单（金额）',
-        //                 type: 'line',
-        //                 barWidth: '60%',
-        //                 data: this.gd.reverse()
-        //             }]
-        //         })
-        //     })
-        //     .catch(error => {
-        //         Message.error(error)
-        //     })
-        // },
-        // //佣金
-        // Yj(){
-        //     this.chart5 = echarts.init(this.$refs.yjEchart);
-        //     // 把配置和数据放这里
-        //     let obj = {
-        //         account: this.account,
-        //         isMonth: this.isMOuth
-        //     }
-        //     findAgentInfoByAccount(obj)
-        //     .then(res => {
-        //         this.tableData = res.data.data
-        //         res.data.data.forEach(e => {
-        //             this.yj.push(e.commission)
-        //         })
-        //         this.chart5.setOption({
-        //             title: {
-        //                 text: '佣金（金额）'
-        //             },
-        //             color: ['#3398DB'],
-        //             tooltip: {
-        //                 trigger: 'axis',
-        //                 axisPointer: { // 坐标轴指示器，坐标轴触发有效
-        //                     type: 'line' // 默认为直线，可选为：'line' | 'shadow'
-        //                 }
-        //             },
-        //             grid: {
-        //                 left: '3%',
-        //                 right: '4%',
-        //                 bottom: '3%',
-        //                 containLabel: true
-        //             },
-        //             xAxis: [{
-        //                 type: 'category',
-        //                 data: this.time,
-        //                 axisTick: {
-        //                     alignWithLabel: true
-        //                 }
-        //             }],
-        //             yAxis: [{
-        //                 type: 'value'
-        //             }],
-        //             series: [{
-        //                 name: '佣金（金额）',
-        //                 type: 'line',
-        //                 barWidth: '60%',
-        //                 data: this.yj.reverse()
-        //             }]
-        //         })
-        //     })
-        //     .catch(error => {
-        //         Message.error(error)
-        //     })
-        // },
         //查询
         search() {
             if (!this.account && !this.username) {
@@ -674,7 +467,9 @@ export default {
                 // const tHeader = ['编号', '日期', '开户数', '激活数', '消费数（个）', '竞彩（金额）', '自购（金额）', '跟单（金额）', '北单（金额）', '老足彩（金额）', '数字（金额）', '扣减（金额）', '佣金（金额）']; //对应表格输出的title
 				const tHeader = ['编号', '日期', '消费数（个）', '竞彩（金额）', '自购（金额）', '跟单（金额）', '佣金（金额）']; //对应表格输出的title
                 // 对应表格输出的数据
-                const filterVal = ['index','date','accountNum','activeNum','allPayNum','allBuy', 'selfBuy', 'fllowBuy', 'beidan','laozhucai','shuzi','offer','commision'];
+                // const filterVal = ['index','date','accountNum','activeNum','allPayNum','allBuy', 'selfBuy', 'fllowBuy', 'beidan','laozhucai','shuzi','offer','commision'];
+                const filterVal = ['index','date','allPayNum','allBuy', 'selfBuy', 'fllowBuy','commision'];
+
 				const list = this.tableData;
 				const data = this.formatJson(filterVal, list);
 				export_json_to_excel(tHeader, data, this.username + '的业绩明细'); //对应下载文件的名字

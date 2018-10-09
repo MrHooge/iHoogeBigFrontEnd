@@ -204,6 +204,10 @@ export default {
     methods: {
         //个数图表
         NumEchart() {
+            this.dlAccount = []
+            this.xfs = []  //消费数
+            this.zgs = []   //自购数
+            this.gds = []   //跟单数
             this.chart1 = echarts.init(this.$refs.NumEchart);
             // 把配置和数据放这里
             let paramsObj = {
@@ -321,6 +325,11 @@ export default {
         },
         //金额图表
         moneyEchart() {
+            this.dlAccount = []
+            this.jc = []   //竞彩金额
+            this.zg = []  //自购金额
+            this.gd = []  //跟单金额
+            this.yj = []  //佣金金额
             this.chart2 = echarts.init(this.$refs.moneyEchart);
             // 把配置和数据放这里
             let paramsObj = {
@@ -564,9 +573,10 @@ export default {
                 const {
                     export_json_to_excel
                 } = require('../../vendor/Export2Excel');　　　　　　　　
-                const tHeader = ['编号', '代理名字', '消费数(个)', '自购数(个)', '跟单数(个)', '竞彩', '自购(金额)', '跟单(金额)', '北单(金额)', '老足彩(金额)', '数字(金额)','扣减(金额)','佣金(金额)','渠道']; //对应表格输出的title
-                　　　　　　　　
-                const filterVal = ['num','agentName','allBuyNum','CountSelfBuyNum','CountFllowBuyNum','allBuyMoney', 'selfBuy', 'fllowBuy', 'beidan','laozucai','shuzi','koujian','sumCommision','qdName']; // 对应表格输出的数据　　　　　
+                // const tHeader = ['编号', '代理名字', '消费数(个)', '自购数(个)', '跟单数(个)', '竞彩', '自购(金额)', '跟单(金额)', '北单(金额)', '老足彩(金额)', '数字(金额)','扣减(金额)','佣金(金额)','渠道']; //对应表格输出的title
+                const tHeader = ['编号', '代理名字', '消费数(个)', '自购数(个)', '跟单数(个)', '竞彩(金额)', '自购(金额)', '跟单(金额)','佣金(金额)','渠道']; //对应表格输出的title
+                　　　
+                const filterVal = ['num','agentName','allBuyNum','CountSelfBuyNum','CountFllowBuyNum','allBuyMoney', 'selfBuy', 'fllowBuy', 'sumCommision','qdName']; // 对应表格输出的数据　　　　　
                 const list = this.tableData;　　　　　　　　
                 const data = this.formatJson(filterVal, list);　　　　　　　　
                 export_json_to_excel(tHeader, data, '业绩汇总'); //对应下载文件的名字　　　　
