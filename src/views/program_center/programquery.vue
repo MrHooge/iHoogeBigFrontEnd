@@ -132,9 +132,11 @@
                     label="彩期">
                 </el-table-column> -->
                 <el-table-column
-                    prop="dealTime"
                     align="center"
                     label="截止时间">
+                    <template slot-scope="scope">
+                        {{scope.row.dealTime | time}}
+                    </template>   
                 </el-table-column>
                 <el-table-column
                     prop="playType"
