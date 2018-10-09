@@ -219,10 +219,10 @@ export default {
                 .then(res => {
                     console.log(res.data)
                     if(res.data.error_code == 200){
-                        this.$message(res.data.message)
+                        this.$message.success(res.data.message)
                         this.dialogTou = false
                     }else{
-                        this.$message(res.data.message)
+                        this.$message.error(res.data.message)
                     }
                 })
 
@@ -240,7 +240,10 @@ export default {
             updateMatchDealTime(obj)
                 .then(res => {
                     if (res.data.error_code == 200) {
-                        this.$message(res.data.message)
+                        this.$message.success(res.data.message)
+                        this.dialogVisible = false
+                    }else{
+                        this.$message.error(res.data.message)
                         this.dialogVisible = false
                     }
                 })
@@ -257,14 +260,13 @@ export default {
                 setFbFocusMatch(ids)
                 .then(res => {
                     if(res.data.error_code == 200){
-                        this.$message(res.data.message)
+                        this.$message.success(res.data.message)
+                        this.getTable()
                     }else{
-                        this.$message(res.data.message)
+                        this.$message.error(res.data.message)
                     }
                 })
-                }
-                
-               
+            }
         },
         // 选择框全部
         handleSelectionChange(selection) {

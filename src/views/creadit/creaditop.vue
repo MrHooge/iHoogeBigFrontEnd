@@ -96,7 +96,7 @@
 			                 width="180px"
 			                 label="操作">
 				<template slot-scope="scope">
-					<div v-if="scope.row.status==0">
+					<div v-if="scope.row.status == 0">
 						<el-button size="mini"
 						           type="primary"
 						           @click="examine(scope.row)">审核</el-button>
@@ -105,6 +105,10 @@
 						           @click="reject(scope.row)">驳回</el-button>
 					</div>
 					<div v-else>
+                        <el-button size="mini"
+						           type="success" v-if="scope.row.status === 1">已审核</el-button>
+                        <el-button size="mini"
+						           type="danger" v-else>被驳回</el-button>
 					</div>
 				</template>
 			</el-table-column>

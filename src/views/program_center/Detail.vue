@@ -257,16 +257,13 @@ export default {
     },
     filters:{
         isZG(a){
-            if(a){
-                a = Number(a)
-                if(a === 1){
-                    return '是'
-                }
-                else if(a === 0){
-                    return '否'
-                }
+            a = Number(a)
+            if(a === 1){
+                return '是'
             }
-            
+            else if(a === 0){
+                return '否'
+            }
         },
         time(a){
             if(a != null){

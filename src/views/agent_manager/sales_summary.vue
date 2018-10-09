@@ -55,7 +55,7 @@
                         prop="CountFllowBuyNum"
                         align="center">
         </el-table-column>
-        <el-table-column label="竞彩"
+        <el-table-column label="竞彩（金额）"
                         prop="allBuyMoney"
                         align="center">
         </el-table-column>
@@ -108,7 +108,9 @@
                    :total="totalList"
                    v-if="totalList != ''">
     </el-pagination>
-  </div>
+    <div :class="NumName" :id="NumId" :style="{height:NumHeight,width:NumWidth}" ref="NumEchart"></div>
+    <div :class="moneyName" :id="moneyId" :style="{height:moneyHeight,width:moneyWidth}" ref="moneyEchart"></div>
+    </div>
 </template>
 
 <script>
@@ -116,9 +118,58 @@ import { Message, MessageBox } from 'element-ui'
 import { findAllMember} from '@/api/customer'
 import { findAgentInfoByAccount,  exportExcle, findSaleInfo } from '@/api/sys_user'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import echarts from 'echarts'   //引入图表插件
 export default {
+    props: {
+        //个数
+        NumName: {
+            type: String,
+            default: 'NumName'
+        },
+        NumId: {
+            type: String,
+            default: 'NumId'
+        },
+        NumWidth: {
+            type: String,
+            default: '800px'
+        },
+        NumHeight: {
+            type: String,
+            default: '400px'
+        },
+        //金额
+        moneyName: {
+            type: String,
+            default: 'moneyName'
+        },
+        moneyId: {
+            type: String,
+            default: 'moneyId'
+        },
+        moneyWidth: {
+            type: String,
+            default: '800px'
+        },
+        moneyHeight: {
+            type: String,
+            default: '400px'
+        },
+    },
     data() {
         return {
+            chart1: null,
+            chart2: null,
+
+            dlAccount: [],   //存储代理用户
+            xfs: [],   //存储消费数
+            zgs: [],   //存储自购数
+            gds: [],   //存储跟单数
+            jc: [],   //存储竞彩
+            zg: [],   //存储自购
+            gd: [],   //存储跟单
+            yj: [],   //存储佣金
+
             tableData: [],
             account: '', // 用户名
             agentName: '',
@@ -151,6 +202,258 @@ export default {
         }
     },
     methods: {
+        //个数图表
+        NumEchart() {
+            this.chart1 = echarts.init(this.$refs.NumEchart);
+            // 把配置和数据放这里
+            let paramsObj = {
+                agentName: this.account,
+                loginAccount: this.loginAccount,
+                page: this.pageCurr,
+                pageSize: this.pages,
+                start_time: this.start_time,
+                end_date: this.end_date
+            }
+            findSaleInfo(paramsObj).then(res => {
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.istrue = false
+                    this.tableData = res.data.data.list
+                    this.tableData.forEach(e => {
+                        this.dlAccount.push(e.agentName)
+                        this.xfs.push(e.allBuyNum)   //消费数
+                        this.zgs.push(e.CountSelfBuyNum)   //自购数
+                        this.gds.push(e.CountFllowBuyNum)   //跟单数
+                    })
+                }
+                this.chart1.setOption({
+                    title: {
+                        text: '业绩汇总（个数）',
+                        // subtext: '纯属虚构'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['消费数（个）','自购数（个）','跟单数（个）']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: this.dlAccount,
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            // formatter: '{value} °C'
+                        }
+                    },
+                    series: [
+                        {
+                            name:'消费数（个）',
+                            
+                            type:'line',
+                            data: this.xfs,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                        {
+                            name:'自购数（个）',
+                            
+                            type:'line',
+                            data: this.zgs,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                        {
+                            name:'跟单数（个）',
+                            
+                            type:'line',
+                            data: this.gds,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                    ]
+                })
+            })
+            .catch(error => {
+                Message.error(error)
+            })
+        },
+        //金额图表
+        moneyEchart() {
+            this.chart2 = echarts.init(this.$refs.moneyEchart);
+            // 把配置和数据放这里
+            let paramsObj = {
+                agentName: this.account,
+                loginAccount: this.loginAccount,
+                page: this.pageCurr,
+                pageSize: this.pages,
+                start_time: this.start_time,
+                end_date: this.end_date
+            }
+            findSaleInfo(paramsObj).then(res => {
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.istrue = false
+                    this.tableData = res.data.data.list
+                    this.tableData.forEach(e => {
+                        // this.dlAccount.push(e.agentName)
+                        this.jc.push(e.allBuyMoney)   //竞彩金额
+                        this.zg.push(e.selfBuy)   //自购金额
+                        this.gd.push(e.fllowBuy)   //跟单金额
+                        this.yj.push(e.sumCommision)   //佣金金额
+                    })
+                }
+                this.chart2.setOption({
+                    title: {
+                        text: '业绩汇总（金额）',
+                        // subtext: '纯属虚构'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['竞彩（金额）','自购（金额）','跟单（金额）','佣金（金额）']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: this.dlAccount,
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            // formatter: '{value} °C'
+                        }
+                    },
+                    series: [
+                        {
+                            name:'竞彩（金额）',
+                            
+                            type:'line',
+                            data: this.jc,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                        {
+                            name:'自购（金额）',
+                            
+                            type:'line',
+                            data: this.zg,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                        {
+                            name:'跟单（金额）',
+                            
+                            type:'line',
+                            data: this.gd,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                        {
+                            name:'佣金（金额）',
+                            
+                            type:'line',
+                            data: this.yj,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                    ]
+                })
+            })
+            .catch(error => {
+                Message.error(error)
+            })
+        },
         //查询
         search() {
             if (!this.account && !this.username) {
@@ -159,6 +462,8 @@ export default {
                 this.end_date = this.datetime[1]
                 this.page = 1
                 this.getTableList()
+                this.NumEchart();     //个数图表
+                this.moneyEchart();   //金额图表
             } else {
                 if(this.account === ''){
                     this.getAccount()
@@ -168,6 +473,8 @@ export default {
                     this.end_date = this.datetime[1]
                     this.page = 1
                     this.getTableList()
+                    this.NumEchart();     //个数图表
+                    this.moneyEchart();   //金额图表
                 }
             }
             console.log(this.start_time)
@@ -185,6 +492,9 @@ export default {
                 this.end_date = this.datetime[1]
                 this.page = 1
                 this.getTableList()
+                this.NumEchart();     //个数图表
+                this.moneyEchart();   //金额图表
+                this.$message.success("搜索成功")
             })
         },
         

@@ -184,7 +184,7 @@
                     align="center"
                     label="跟单/自购">
                     <template slot-scope="scope">
-                        {{scope.row.isSuper | isSuper}}
+                        {{scope.row.isSuper | isSuperisSuper}}
                     </template>        
                 </el-table-column>
                 <el-table-column
@@ -313,17 +313,14 @@ export default {
     },
     filters:{
         //是否跟单
-        isSuper(a){
-            if(a){
-                a = Number(a)
-                if(a === 1){
-                    return '自购'
-                }
-                else if(a === 0){
-                    return '跟单'
-                }
+        isSuperisSuper(a){
+            a = Number(a)
+            if(a === 1){
+                return '自购'
             }
-            
+            else if(a === 0) {
+                return '跟单'
+            }
         },
         platForm(a){
             a = Number(a)
