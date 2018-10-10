@@ -561,7 +561,7 @@ export default {
             }
             searchTicket(obj).then(res => {
                  console.log(1)
-                console.log(res.data.amount)
+                console.log(res)
                 console.log(1)
                 this.tableData = res.data.data;
                 this.whole = res.data.amount;

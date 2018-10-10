@@ -44,7 +44,7 @@
 				<el-table-column label="状态"
 				                 align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.status |cahngeStatus}}</span>
+						<span style="margin-left: 10px">{{ scope.row.status | changeStatus}}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="寻票状态"
@@ -88,7 +88,7 @@
 				<el-table-column label="抄单"
 				                 align="center">
 					<template slot-scope="scope">
-						<div v-if="scope.row.copy_status==1">
+						<div v-if="scope.row.copy_status === 1">
 							<el-button type="primary"
 							           @click="copyMsg(scope.row)">抄单</el-button>
 						</div>
@@ -145,7 +145,7 @@ export default {
 			// let s = date.getSeconds();
 			return Y + M + D + h + m;
 		},
-		cahngeStatus(a) {
+		changeStatus(a) {
 			return a ? '成功' : '驳回'
 		},
 
@@ -160,10 +160,10 @@ export default {
 			}
 			copyPlan(obj).then(res => {
 				console.log(res)
-				if(res.data.error_code==200){
-					Messagae.success(res.data.message)
+				if(res.data.error_code === 200){
+					Message.success(res.data.message)
 				}else {
-					Messagae.success(res.data.message)
+					Message.error(res.data.message)
 				}
 			})
 		},

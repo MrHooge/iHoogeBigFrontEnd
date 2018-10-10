@@ -67,6 +67,7 @@
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
             <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
         </div>
+        <p style="font-size:12px;color:red;">注：点击昵称可以跳转到会员资料修改页面</p>
         <div class="tablelist">
             <el-table :data="tableData" border style="width: 100%;">
                 <el-table-column

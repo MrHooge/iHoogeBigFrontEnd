@@ -648,48 +648,48 @@ export const constantRouterMap = [{
     },
     children: [{
         path: 'modifyPassword',
-        name: '修改密码',
+        name: '会员密码修改',
         component: () =>
           import ('@/views/customer_manager/modify_password'),
         meta: {
-          title: '修改密码'
+          title: '会员密码修改'
         }
       },
       {
         path:'customerStatistics',
-        name:'会员统计',
+        name:'会员加白设置',
         component: () => import('@/views/customer_manager/customer_statistics'),
-        meta: {title: '会员统计'}
+        meta: {title: '会员加白设置'}
       },
       {
         path:'customerManager',
-        name:'会员管理',
+        name:'会员资料修改',
         component: () => import('@/views/customer_manager/customer_manager'),
-        meta: {title: '会员管理'}
+        meta: {title: '会员资料修改'}
       },
       {
         path:'operatingRecording',
-        name:'绑定及转移记录',
+        name:'会员关联查询',
         component: () => import('@/views/customer_manager/operating_recording'),
-        meta: {title: '绑定及转移记录'}
+        meta: {title: '会员关联查询'}
       },
       {
         path:'customerAssociation',
-        name:'客户关联申请',
+        name:'客户关联审核',
         component: () => import('@/views/customer_manager/customer_association'),
-        meta: {title: '客户关联申请'}
+        meta: {title: '客户关联审核'}
       },
       {
         path:'messageSearch',
-        name:'查询短信',
+        name:'会员短信查询',
         component: () => import('@/views/customer_manager/message_search'),
-        meta: {title: '查询短信'}
+        meta: {title: '会员短信查询'}
       },
       {
         path:'customerTransfer',
-        name:'客户转移申请',
+        name:'客户转移审核',
         component: () => import('@/views/customer_manager/customer_transfer'),
-        meta: {title: '客户转移申请'}
+        meta: {title: '客户转移审核'}
       }
 
     ]
@@ -909,6 +909,12 @@ export const constantRouterMap = [{
         name: '钱包流水查询',
         component: () => import('@/views/details_search/wallet_flowquery'),
         meta: { title: '钱包流水查询' }
+      },
+      {
+        path: 'walletInformation',
+        name: '钱包信息查询',
+        component: () => import('@/views/details_search/wallet_information'),
+        meta: { title: '钱包信息查询' }
       },
     ]
   },

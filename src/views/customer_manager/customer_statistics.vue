@@ -29,6 +29,7 @@
         <el-button type="primary" @click="search_customer" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">搜索</el-button>
         <el-button type="primary" @click="longtime" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">一个月以上未登录用户</el-button>
         <el-button type="primary" @click="moredeletewhite">批量取消加白</el-button>
+        <p style="font-size:12px;color:red;">注：点击昵称可以跳转到会员资料修改页面</p>
         <el-table
             :data="tableData"
             border

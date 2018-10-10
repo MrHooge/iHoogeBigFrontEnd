@@ -24,7 +24,7 @@
                         <el-input v-model="val"
                                   placeholder="分钟"
                                   type="number"
-                                  min="0" clearable></el-input>
+                                  min="0"></el-input>
                     </div>
                 </el-col>
             </el-row>

@@ -5,7 +5,7 @@
          <el-button type="primary" @click="setAgent(1)">设置代理黑名单</el-button>
          <el-button type="primary" @click="setAgent(2)">设置代理及底下黑名单</el-button>
          <el-button type="danger" @click="setAgent(3)">设置代理白名单</el-button>
-         <el-button type="primary" @click="setAgent(4)">设置代理及底下黑名单</el-button>
+         <el-button type="primary" @click="setAgent(4)">设置代理及底下白名单</el-button>
          <!-- <el-button type="danger">设置代理及底下会员黑名单</el-button>
          <el-button type="danger">设置代理及底下会员白名单</el-button> -->
       </div>
@@ -124,11 +124,12 @@ export default {
                 }
                setAddPrizeBlackOrWhite(obj)
                .then(res => {
-                    if(res.error_code==200) {
-                        this.$message('设置' + res.message)
+                   console.log(res)
+                    if(res.data.error_code==200) {
+                        this.$message.success('设置' + res.data.message)
                         this.getTable()
                     } else {
-                        this.$message(res.message)
+                        this.$message.error(res.message)
                     }
                 })
             }else{

@@ -67,7 +67,6 @@
 					<div class="grid-content bg-purple-light">
 						<el-input v-model="phonenum"
 						          placeholder="请输入手机号"
-						          type="number"
 						          min="0" clearable></el-input>
 					</div>
 				</el-col>
@@ -163,7 +162,7 @@ export default {
 						this.getTable(1)
 						this.dialogVisible = false
 					} else {
-						Message.success(res.data.message)
+						Message.error(res.data.message)
 					}
 				})
 			}

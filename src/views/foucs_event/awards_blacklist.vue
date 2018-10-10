@@ -1,8 +1,9 @@
 <template>
     <div class="bonuslist">
         <div class="box">
-            <el-input v-model="username" style="width:220px;" placeholder="输入用户名自动进行搜索" clearable></el-input>
-            <el-button @click="getOne()" type="primary">搜索</el-button>
+            <el-input v-model="account" style="width:220px;" placeholder="请输入账号查询" clearable></el-input>
+            <el-input v-model="username" placeholder="请输入昵称查询" style="width:15%;" clearable></el-input>
+            <el-button @click="search" type="primary">搜索</el-button>
         </div>
         <el-table
         :data="tableData"
@@ -43,7 +44,8 @@
                @current-change = "currpage"
                :page-size="pages"
                layout="prev, pager, next"
-               :total="total">
+               :total="total"
+               v-if="total != ''">
             </el-pagination>
          </div>
     </div>
@@ -51,12 +53,14 @@
 
 <script>
 import { getAddPrizeBlack } from '@/api/events'
+import { findAllMember} from '@/api/customer'
 export default {
     data() {
         return {
             tableData: [], // 数据表格
             pages: 20,
-            username: '', // 搜索的用户名
+            account: '', // 搜索的用户名
+            username: '',   //搜索的昵称
             total: 0
         }
     },
@@ -71,16 +75,16 @@ export default {
     methods: {
         getTables(curr) {
             let model = {
-                account: this.username,
+                account: this.account,
                 page: curr,
                 pageSize: 20
             }
             getAddPrizeBlack(model)
             .then(res=>{
-                console.log(res.data.error_code)
+                console.log(res)
                 if(res.data.error_code == 200){
                     this.tableData = res.data.data.list
-                    this.total = res.data.total
+                    this.total = res.data.data.total
                 }else{
                     this.$message(res.message)
                 }
@@ -88,8 +92,35 @@ export default {
             })
         },
         // 筛选
-        getOne(){
-            this.getTables(1)
+        // getOne(){
+        //     this.getTables(1)
+        // },
+        //查询
+        search() {
+            if (!this.account && !this.username) {
+                this.getTables(1);
+            } else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    // this.page = 1
+                    // this.getUsername()
+                    this.getTables(1);
+                }
+            }
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                console.log(res.data.data.list[0].ACCOUNT)
+                this.account = res.data.data.list[0].ACCOUNT
+                // this.page = 1
+                // this.getUsername()
+                this.getTables(1);
+            })
         },
         currpage(val) {
             this.getTables(val)

@@ -556,7 +556,7 @@ export function findRechargeOnLine(params) {
     params: params
   })
 }
-//会员充值流水查询--总表
+//钱包流水列表
 export function findMemberWalletLineByAccount(params) {
   return request.member({
     url: '/user/findMemberWalletLineByAccount',
@@ -564,6 +564,14 @@ export function findMemberWalletLineByAccount(params) {
     params: params
   })
 }
+//钱包信息列表
+export function findAllMemberWalletInfo(params) {
+    return request.member({
+      url: '/user/findAllMemberWalletInfo',
+      method: 'get',
+      params: params
+    })
+  }
 //获取所有充值失败的订单
 export function getAllFailPayOrder(params) {
   return request.pay({

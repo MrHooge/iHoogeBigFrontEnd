@@ -67,7 +67,10 @@ export default {
             let status = this.status;
             updateLotteryTypeIsSale(lotteryType,status).then(res => {
                 if(res.data.error_code == 200){
-                    this.$message(res.data.message);
+                    this.$message.success(res.data.message);
+                    this.dialogShenVisible = false
+                }else{
+                    this.$message.error(res.data.message);
                     this.dialogShenVisible = false
                 }
             })

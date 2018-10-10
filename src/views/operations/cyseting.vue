@@ -75,19 +75,27 @@
 
 				<el-table-column prop="name"
 				                 align="center"
-				                 label="昵称">
+				                 label="姓名">
 				</el-table-column>
 				<el-table-column align="center"
 				                 label="操作">
 					<template slot-scope="scope">
-						<div v-if="scope.row.type==0">
+						<div v-if="scope.row.type === 0">
 							<el-button type="primary"
 							           @click="change(scope.row)">
 								设为彩研人员
 							</el-button>
 						</div>
-						<!-- <div v-else></div> -->
-
+						<div v-else-if="scope.row.type === 1">
+                            <el-button type="success">
+								彩研人员
+							</el-button>
+                        </div>
+                        <div v-else>
+                            <el-button type="warning">
+								机器人
+							</el-button>
+                        </div>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -174,15 +182,19 @@ export default {
 				{ name: "普通会员", id: 0 },
 				{ name: "彩研人员", id: 1 },
 				{ name: "机器人", id: 2 }
-			] //下拉选择数据
+            ], //下拉选择数据
+            
+            page: 1,
+            typeval: "", //选中的类型
+            pageSize: 20,
 		};
 	},
 	filters: {
 		typeIn(a) {
-			if (a == 0) {
+			if (a === 0) {
 				return "普通会员"
 
-			} else if (a == 1) {
+			} else if (a === 1) {
 
 				return "彩研人员"
 
@@ -192,11 +204,13 @@ export default {
 		}
 	},
 	created() {
-		this.getData(1, this.typeval, this.account, this.username, this.mobile);
+        this.page = 1
+		this.getData();
 	},
 	methods: {
 		search() {
-			this.getData(1, this.typeval, this.account, this.username, this.mobile);
+            this.page = 1
+			this.getData();
 		},
 		// 设置为彩研人员按钮事件
 		change(a) {
@@ -213,8 +227,10 @@ export default {
 			}
 			toCaiYan(obj).then(res => {
 				console.log(res)
-				if (res.data.success) {
-					this.$message("设置成功")
+				if (res.data.success === true) {
+                    this.$message.success("设置成功")
+                    this.getData();
+                    this.beishu = ''
 				} else {
 					this.$message(res.data.msg)
 				}
@@ -230,32 +246,33 @@ export default {
      *  {mobile:手机号}
      * ]
      */
-		getData(curr, type, account, username, mobile) {
+		getData() {
 			let obj = {
-				page: curr,
-				type: type,
-				account: account || "",
-				username: username || "",
-				mobile: mobile || "",
-				pageSize: 20
+				page: this.page,
+				type: this.typeval,
+				account: this.account || "",
+				username: this.username || "",
+				mobile: this.mobile || "",
+				pageSize: this.pageSize
 			};
 			getMember(obj).then(res => {
 				console.log(res)
-				if (res.status == 200) {
+				if (res.data.success === true) {
 					this.totalNum = res.data.totalCount;
                     this.tabledata = res.data.data;
-                    
-				}
+				}else{
+                    this.$message.error(res.data.msg)
+                }
 			})
 		},
 		// 获取类型
 		gettype() {
-			console.log(this.typeval);
-			this.getData(1, this.typeval, this.account, this.username, this.mobile);
+			this.getData();
 		},
 		// 分页回调 获取当前的点击页码
 		currentPage(val) {
-			this.getData(val);
+            this.page = val
+			this.getData();
 		}
 	}
 };

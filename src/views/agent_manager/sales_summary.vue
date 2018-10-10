@@ -28,7 +28,7 @@
                     style="margin-left:50px;">导出
         </el-button>
         <p class="taost">
-            注:金额默认是消费金额
+            注:金额默认是消费金额（搜索时时间段必选！）
         </p>
       <!-- 上下页 -->
     </div>
@@ -132,7 +132,7 @@ export default {
         },
         NumWidth: {
             type: String,
-            default: '800px'
+            default: '1000px'
         },
         NumHeight: {
             type: String,
@@ -149,7 +149,7 @@ export default {
         },
         moneyWidth: {
             type: String,
-            default: '800px'
+            default: '1000px'
         },
         moneyHeight: {
             type: String,
@@ -219,7 +219,6 @@ export default {
                 end_date: this.end_date
             }
             findSaleInfo(paramsObj).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.istrue = false
                     this.tableData = res.data.data.list
@@ -494,26 +493,30 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
-                this.account = res.data.data.list[0].ACCOUNT
-                this.istrue = true
-                this.start_time = this.datetime[0]
-                this.end_date = this.datetime[1]
-                this.page = 1
-                this.getTableList()
-                this.NumEchart();     //个数图表
-                this.moneyEchart();   //金额图表
-                this.$message.success("搜索成功")
+                if(res.data.error_code === 200){
+                    this.account = res.data.data.list[0].ACCOUNT
+                    this.istrue = true
+                    this.start_time = this.datetime[0]
+                    this.end_date = this.datetime[1]
+                    this.page = 1
+                    this.getTableList()
+                    this.NumEchart();     //个数图表
+                    this.moneyEchart();   //金额图表
+                }
             })
         },
         
         handleSizeChange(val) {
             this.pages = val
             this.getTableList()
+            this.NumEchart();     //个数图表
+            this.moneyEchart();   //金额图表
         },
         handleCurrentChange(val) {
             this.pageCurr = val
             this.getTableList()
+            this.NumEchart();     //个数图表
+            this.moneyEchart();   //金额图表
         },
         //获取表单数据
         getTableList() {
@@ -530,6 +533,8 @@ export default {
                     this.istrue = false
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
+                }else{
+                    this.$message.error('搜索失败!')
                 }
             
             })
@@ -545,21 +550,20 @@ export default {
             this.tableData.forEach((e, index) => {
                 console.log(e)
                 let newobj = {
-                num: index,
-                agentName: e.agentName,
-                allBuyNum: Number(e.allBuyNum).toFixed(2),
-                CountSelfBuyNum: Number(e.CountSelfBuyNum).toFixed(2),
-                CountFllowBuyNum:Number(e.CountFllowBuyNum).toFixed(2),
-                allBuyMoney:e.allBuyMoney,
-                selfBuy: Number(e.selfBuy).toFixed(2),
-                fllowBuy: Number(e.followBuy).toFixed(2),
-                beidan: Number(e.beidan).toFixed(2),
-                laozucai: Number(e.laozucai).toFixed(2),
-                shuzi: Number(e.shuzi).toFixed(2),
-                koujian: Number(e.koujian).toFixed(2),
-                sumCommision: (e.sumCommision ? e.sumCommision : 0).toFixed(2),
-                qdName:e.qdName
-                
+                    num: index,
+                    agentName: e.agentName,
+                    allBuyNum: Number(e.allBuyNum).toFixed(2),
+                    CountSelfBuyNum: Number(e.CountSelfBuyNum).toFixed(2),
+                    CountFllowBuyNum:Number(e.CountFllowBuyNum).toFixed(2),
+                    allBuyMoney:e.allBuyMoney,
+                    selfBuy: Number(e.selfBuy).toFixed(2),
+                    fllowBuy: Number(e.followBuy).toFixed(2),
+                    // beidan: Number(e.beidan).toFixed(2),
+                    // laozucai: Number(e.laozucai).toFixed(2),
+                    // shuzi: Number(e.shuzi).toFixed(2),
+                    // koujian: Number(e.koujian).toFixed(2),
+                    sumCommision: (e.sumCommision ? e.sumCommision : 0).toFixed(2),
+                    qdName:e.qdName
                 }
                 this.newarr.push(newobj)
             })

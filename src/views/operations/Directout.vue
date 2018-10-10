@@ -105,20 +105,25 @@ export default {
             this.dialogVisible = true
         },
         sure() {
-            let model = {
-                account: this.username,
-                status: String(this.radio7)
-            }
-            setMemberTicket(model).then(res => {
-                console.log(res)
-                if (res.status == 200) {
-                    Message.success(res.data.message)
-                    this.getTables(1)
-                } else {
-                    this.$message(res.data.message)
+            if(this.username === ''){
+                this.$message('请输入用户名！')
+            }else{
+                let model = {
+                    account: this.username,
+                    status: String(this.radio7)
                 }
-                this.dialogVisible = false
-            })
+                setMemberTicket(model).then(res => {
+                    console.log(res)
+                    if (res.status == 200) {
+                        Message.success(res.data.message)
+                        this.getTables(1)
+                    } else {
+                        this.$message(res.data.message)
+                    }
+                    this.dialogVisible = false
+                })
+            }
+            
         }
     }
 }

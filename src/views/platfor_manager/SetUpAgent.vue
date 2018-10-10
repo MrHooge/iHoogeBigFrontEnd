@@ -2,9 +2,10 @@
 	<div class="app-container">
 		<div class="search">
 			<el-input v-model="sjname"
-			          placeholder="请输入会员名"
-			          style="width:50%;"
+			          placeholder="请输入账号查询"
+			          style="width:15%;"
 								@input="onInput" clearable></el-input>
+            <el-input v-model="username" placeholder="请输入昵称查询" style="width:15%;" clearable></el-input>
 			<el-button type="primary"
 			           icon="el-icon-search"
 			           @click="search">搜索</el-button>
@@ -87,22 +88,11 @@
 </template>
 
 <script>
-import {
-	findAllMember,
-	updateMemberToQD,
-	setMemberToAgent
-} from '@/api/sys_user'
+import { findAllMember, updateMemberToQD, setMemberToAgent } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
-import {
-	Message,
-	Checkbox
-} from 'element-ui'
+import { Message, Checkbox } from 'element-ui'
 import treeTable from '@/components/TreeTable'
-import {
-	getCookies,
-	setCookies,
-	removeCookies
-} from '@/utils/cookies'
+import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
 	data() {
 		return {
@@ -135,11 +125,11 @@ export default {
 			}
 		},
 		search() {  //  搜索
-			this.getTable(1, this.sjname)
+			this.getTable(1, this.sjname , this.username)
 		},
-		getTable(page, a) { //   获取所有会员列表
+		getTable(page, a,name) { //   获取所有会员列表
 
-			findAllMember(page, a).then(res => {
+			findAllMember(page, a,name).then(res => {
 				console.log(res)
 				this.tableData = res.data.data.list
 				this.total = res.data.data.total

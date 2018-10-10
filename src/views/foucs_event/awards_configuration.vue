@@ -17,7 +17,7 @@
                     加奖上限值
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="val" type="number" clearable></el-input>
+                    <el-input v-model="val" type="number"></el-input>
                 </div></el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
@@ -67,6 +67,7 @@
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
+            :total="totalList"
             layout="total, sizes, prev, pager, next, jumper"
             >
             </el-pagination>
@@ -111,7 +112,7 @@
                         </el-col>
                         <el-col :span="14">
                            <div class="grid-content bg-purple-dark">
-                              <el-input v-model.number="amount" placeholder="请输入最小方案金额" style="width: 215px;" type="number" clearable></el-input>
+                              <el-input v-model.number="amount" placeholder="请输入最小方案金额" style="width: 215px;" type="number"></el-input>
                            </div>
                         </el-col>
                      </el-row>
@@ -145,7 +146,7 @@
                            </el-col>
                            <el-col :span="14">
                               <div class="grid-content bg-purple-dark">
-                                 <el-input v-model.number="num" placeholder="请输入0-1之间的小数" style="width: 215px;" type="number" clearable></el-input>
+                                 <el-input v-model.number="num" placeholder="请输入0-1之间的小数" style="width: 215px;" clearable></el-input>
                               </div>
                            </el-col>
                         </el-row>
@@ -197,7 +198,7 @@
                         </el-col>
                         <el-col :span="14">
                            <div class="grid-content bg-purple-dark">
-                              <el-input v-model.number="updateform.minAmount" placeholder="请输入最小方案金额" style="width: 215px;" type="number" clearable></el-input>
+                              <el-input v-model.number="updateform.minAmount" placeholder="请输入最小方案金额" style="width: 215px;" type="number"></el-input>
                            </div>
                         </el-col>
                      </el-row>
@@ -231,7 +232,7 @@
                            </el-col>
                            <el-col :span="14">
                               <div class="grid-content bg-purple-dark">
-                                 <el-input v-model.number="updateform.rate" placeholder="请输入0-1之间的小数" style="width: 215px;" type="number" clearable></el-input>
+                                 <el-input v-model.number="updateform.rate" placeholder="请输入0-1之间的小数" style="width: 215px;" clearable></el-input>
                               </div>
                            </el-col>
                         </el-row>
@@ -364,6 +365,7 @@ export default {
 
         page: 1,
         pageSize: 20,
+        totalList: 0,
 
         updateform: {
             // lotteryType: '',    // 修改的彩种
@@ -420,6 +422,7 @@ export default {
                 console.log(res.data.data)
                 if(res.data.error_code === 200){
                     this.eventslist = res.data.data
+                    this.totalList = res.data.totalCount
                 }
             }).catch(error => {
                 Message.error(error)
@@ -455,7 +458,10 @@ export default {
                 .then(res => {
                     console.log(res.data)
                     if(res.data.error_code == 200){
-                        this.$message(res.data.message)
+                        this.$message.success(res.data.message)
+                        this.adddioalog = false
+                    }else{
+                        this.$message.error(res.data.message)
                         this.adddioalog = false
                     }
                 })

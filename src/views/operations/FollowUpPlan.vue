@@ -59,11 +59,11 @@ export default {
 					console.log(res)
 					if (res.status == 200) {
 						if (res.data.error_code == 200) {
-							this.$message(res.data.message);
+							this.$message.success(res.data.message);
 						} else if (res.data.error_code == 405) {
-							this.$message(res.data.message);
+							this.$message.error(res.data.message);
 						} else {
-							this.$message(res.data.message);
+							this.$message.error(res.data.message);
 						}
 					}
 				})

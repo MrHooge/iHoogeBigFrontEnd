@@ -17,7 +17,7 @@
                     分钟数
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="val" placeholder="分钟" type="number" min="0" clearable></el-input>
+                    <el-input v-model="val" placeholder="分钟" type="number" min="0"></el-input>
                 </div></el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
@@ -193,10 +193,11 @@ export default {
                 .then(res => {
                     console.log(res.data)
                     if(res.data.error_code == 200){
-                        this.$message(res.data.message)
+                        this.$message.success(res.data.message)
                         this.dialogTou = false
                     }else{
-                        this.$message(res.data.message)
+                        this.$message.error(res.data.message)
+                        this.dialogTou = false
                     }
                 })
                 // this.$ajax.get(api.lottery+'/lottery/updateDGByStatus',obj).then(res => {
@@ -224,7 +225,10 @@ export default {
                 .then(res => {
                     if (res.data.error_code == 200) {
                         this.dialogVisible = false
-                        this.$message(res.data.message)
+                        this.$message.success(res.data.message)
+                    }else{
+                        this.dialogVisible = false
+                        this.$message.error(res.data.message)
                     }
                 })
         },
@@ -241,9 +245,9 @@ export default {
                 .then(res => {
                     console.log(res)
                     if(res.data.error_code == 200){
-                        this.$message(res.data.message)
+                        this.$message.success(res.data.message)
                     }else{
-                        this.$message(res.data.message)
+                        this.$message.error(res.data.message)
                     }
                 })
                 }

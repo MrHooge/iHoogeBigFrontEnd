@@ -182,7 +182,7 @@ export default {
         },
         //开奖显示
         openprize(){
-            this.$router.push({path:'/programCenter/lotteryprize',query:{radio:this.radio}})
+            this.$router.push({path:'/programCenter/winningprogram',query:{radio:this.radio}})
         },
         
 

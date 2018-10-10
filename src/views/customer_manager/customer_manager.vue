@@ -73,6 +73,7 @@
                 </div>
             </el-dialog>
         </template> -->
+        <p style="font-size:12px;color:red;">注：点击昵称可以跳转到钱包信息查询页面</p>
         <div class="show_data">
             <el-table
                 :data="tableData"
@@ -87,8 +88,8 @@
                     label="昵称"
                     align="center">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.username">{{scope.row.username}}</span>
-                        <span v-else>{{scope.row.ACCOUNT}}</span>
+                        <span v-if="scope.row.username" @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.username}}</span>
+                        <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
                     </template>
                 </el-table-column> 
                 <el-table-column
@@ -358,6 +359,10 @@ export default {
 
     },
     methods:{
+        //点击账号跳转会员管理页面
+        getupnewweb(a){
+             this.$router.push({path:'/detailsSearch/walletInformation',query:{account:a}})
+        },
         //点击修改按钮 跳出修改框
         xiugaiKuang(a){
             console.log(a)
