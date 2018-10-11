@@ -1230,6 +1230,12 @@ export const constantRouterMap = [{
         component: () => import('@/views/Information_app/MatchGames.vue'),
         meta: { title: '手动匹配篮球赛事' }
       },   
+      {
+        path: 'addMaster',
+        name: '添加大师',
+        component: () => import('@/views/Information_app/AddMaster.vue'),
+        meta: { title: '添加大师' }
+      },   
     ]
   },
 

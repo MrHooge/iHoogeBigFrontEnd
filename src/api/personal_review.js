@@ -88,3 +88,15 @@ export function macthPlays(obj) {
       params: obj
     });
   }
+   
+// 接口名称 添加大师
+// 请求类型 get
+// 请求Url  /memberManage/addMaster
+
+export function addMantio(obj) {
+  return request.member({
+    url: url + "/memberManage/addMaster",
+    method: "get",
+    params: obj
+  });
+}

@@ -84,9 +84,8 @@
               </el-input>
             <el-button size="small" type="primary" @click="getTeamlist">搜索</el-button>
            </div>
-
              <ul class="listbox">
-                <Li v-if="sid" v-for="item in getmatchlist" :key="item.id">
+                <li v-if="sid==0" v-for="item in getmatchlist" :key="item.id">
                     <el-radio v-model="feijing" :label="item.id">
                         <el-tooltip placement="top">
                           <div slot="content">
@@ -109,17 +108,19 @@
                         <span class="box">{{item.away}}</span>
                         <span class="box">{{item.time | time}}</span>
                     </el-radio>
-                </Li>
-                <Li v-else v-for="item in rightteamlist" :key="item.id">
+                </li>
+                <li v-if="sid==1" v-for="item in rightteamlist" :key="item.id">
                     <el-radio v-model="feijing" :label="item.id">
+                        <img :src="item.logo" alt="logo" class="logo">
+                        <span class="box">{{item.ashort}}</span>
                         <span class="box">{{item.big5}}</span>
-                        <span class="box">{{item.city | time}}</span>
+                        <span class="box">{{item.city}}</span>
+                        <span class="box">{{item.en}}</span>
                     </el-radio>
-                </Li>
+                </li>
              </ul>
         </div>
-
-      
+ 
    </div>
 </template>
 
@@ -145,7 +146,7 @@ export default {
       loading1:false,
       teamname:'' , // 500完的球队名
       rightteamlist:'', // 球队肺经的来搜索的
-      sid:0,
+      sid:0, // 默认标志是比赛的球队
     };
   },
   filters: {
@@ -193,6 +194,7 @@ export default {
     // 获取飞京的所有球队
     getTeamlist(){
       this.sid = 1;
+      this.data_timeright = '';
       let obj = {
         name:this.val
       }
@@ -200,6 +202,7 @@ export default {
       FuzzySeach(obj).then(res=>{
         console.log(res)
         if(res.data.data.length>0){
+          console.log(res.data.data);
           this.rightteamlist = res.data.data
         }else{
           this.$message("没有匹配的球队信息")
@@ -256,6 +259,7 @@ export default {
     },
     getdate2() {
       this.val = '';
+      this.sid = 0;
       this.loading2 = true
       // console.log(this.data_timeright);
       let obj = {
@@ -280,6 +284,13 @@ export default {
 <style scoped>
 .effectiveagent {
   padding: 10px 25px;
+}
+.logo{
+  width:20px;
+  height:20px;
+  border-radius:20px;
+  border: 1px solid #ccc;
+  padding: 10;
 }
 .clear {
   clear: both;
