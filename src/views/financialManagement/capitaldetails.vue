@@ -103,6 +103,7 @@
 			</el-table-column>
 						
 		</el-table>
+        <div :class="moneyName" :id="moneyId" :style="{height:moneyHeight,width:moneyWidth,}" ref="moneyEchart" style="margin-top:50px;"></div>
 	</div>
 </template>
 
@@ -112,9 +113,42 @@ import { Message, MessageBox } from 'element-ui'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import treeTable from '@/components/TreeTable'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import echarts from 'echarts'   //引入图表插件
 export default {
+    props: {
+        moneyName: {
+            type: String,
+            default: 'moneyName'
+        },
+        moneyId: {
+            type: String,
+            default: 'moneyId'
+        },
+        moneyWidth: {
+            type: String,
+            default: '1600px'
+        },
+        moneyHeight: {
+            type: String,
+            default: '400px'
+        },
+    },
 	data() {
 		return {
+            chart: null,
+            time: [],   //存储日期
+            allOnLineMoney: [],   //存储线上充值
+            allUnderLineMoney: [],   //存储线下充值
+            allWithdrawalMoney: [],   //存储提款
+            allconsumMoney: [],   //存储消费
+            posttaxPrize: [],   //存储税后奖金
+            todaySend: [],   //存储当日赠送
+            lotteryCard: [],   //存储红包嘉奖彩金使用
+            lotteryCardUse: [],   //存储彩金卡使用
+            commissionUse: [],   //存储佣金使用
+            saleCommissionMoney: [],   //存储销售佣金
+            platformCommissionMoney: [],   //存储平台收佣
+
 			tableData: [], //表格数据
 			username: '', // 用户名
 			options: [
@@ -138,8 +172,300 @@ export default {
 		commissionUse(a) {
 			return a.toFixed(2)
 		}
-	},
+    },
+    mounted() {
+        //图表默认显示只能在mounted调用  html渲染后才有数据
+        this.moneyEchart();
+    },
 	methods: {
+        //金额图表
+        moneyEchart() {
+            this.time = []
+            this.allOnLineMoney = [],   //存储线上充值
+            this.allUnderLineMoney = [],   //存储线下充值
+            this.allWithdrawalMoney = [],   //存储提款
+            this.allconsumMoney = [],   //存储消费
+            this.posttaxPrize = [],   //存储税后奖金
+            this.todaySend = [],   //存储当日赠送
+            this.lotteryCard = [],   //存储红包嘉奖彩金使用
+            this.lotteryCardUse = [],   //存储彩金卡使用
+            this.commissionUse = [],   //存储佣金使用
+            this.saleCommissionMoney = [],   //存储销售佣金
+            this.platformCommissionMoney = [],   //存储平台收佣
+
+            this.chart = echarts.init(this.$refs.moneyEchart);
+            // 把配置和数据放这里
+            let model = {
+				isMonth: this.datetype || 1
+			}
+			findFinancialMoneyInfo(model).then(res => {
+				if (res.status == 200) {
+					if (res.data.data && res.data.data.length > 0) {
+                        this.tableData = res.data.data
+                        console.log(this.tableData)
+                        this.tableData.forEach(e => {
+                            this.time.push(e.date)
+                            this.allOnLineMoney.push(e.allOnLineMoney)   //线上充值
+
+                            this.allUnderLineMoney.push(e.allUnderLineMoney)   //线下充值
+                            this.allWithdrawalMoney.push(e.allWithdrawalMoney)   //提款
+                            this.allconsumMoney.push(e.allconsumMoney)   //消费
+                            this.posttaxPrize.push(e.posttaxPrize)   //税后奖金
+                            this.todaySend.push(e.todaySend)   //当日赠送
+                            this.lotteryCard.push(e.lotteryCard)   //红包嘉奖彩金使用
+                            this.lotteryCardUse.push(e.lotteryCardUse)   //彩金卡使用
+                            this.commissionUse.push(e.date)   //佣金使用
+                            this.saleCommissionMoney.push(e.commissionUse)   //销售佣金
+                            this.platformCommissionMoney.push(e.platformCommissionMoney)   //平台收佣
+                        })
+                        // console.log(this.allOnLineMoney);
+                        
+                        this.chart.setOption({
+                            title: {
+                                text: '财务资金明细',
+                                // subtext: '纯属虚构'
+                            },
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            legend: {
+                                data:['线上充值','线下充值','提款','消费','税后奖金','当日赠送','红包嘉奖彩金使用','彩金卡使用','佣金使用','销售佣金','平台收佣']
+                            },
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    dataZoom: {
+                                        yAxisIndex: 'none'
+                                    },
+                                    dataView: {readOnly: false},
+                                    magicType: {type: ['line', 'bar']},
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
+                            },
+                            xAxis:  {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: this.time.reverse(),
+                            },
+                            yAxis: {
+                                type: 'value',
+                                axisLabel: {
+                                    // formatter: '{value} °C'
+                                }
+                            },
+                            series: [
+                                {
+                                    name:'线上充值',
+                                    
+                                    type:'line',
+                                    data: this.allOnLineMoney.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'线下充值',
+
+                                    type:'line',
+                                    data: this.allUnderLineMoney.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'},
+                                            [{
+                                                symbol: 'none',
+                                                x: '90%',
+                                                yAxis: 'max'
+                                            }, {
+                                                symbol: 'circle',
+                                                label: {
+                                                    normal: {
+                                                        position: 'start',
+                                                        formatter: '最大值'
+                                                    }
+                                                },
+                                                type: 'max',
+                                                name: '最高点'
+                                            }]
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'提款',
+                                    
+                                    type:'line',
+                                    data: this.allWithdrawalMoney.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'消费',
+                                    
+                                    type:'line',
+                                    data: this.allconsumMoney.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'税后奖金',
+                                    
+                                    type:'line',
+                                    data: this.posttaxPrize.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'当日赠送',
+                                    
+                                    type:'line',
+                                    data: this.todaySend.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'红包嘉奖彩金使用',
+                                    
+                                    type:'line',
+                                    data: this.lotteryCard.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'彩金卡使用',
+                                    
+                                    type:'line',
+                                    data: this.lotteryCardUse.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'佣金使用',
+                                    
+                                    type:'line',
+                                    data: this.commissionUse.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'销售佣金',
+                                    
+                                    type:'line',
+                                    data: this.saleCommissionMoney.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                {
+                                    name:'平台收佣',
+                                    
+                                    type:'line',
+                                    data: this.platformCommissionMoney.reverse(),
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+                                
+                            ]
+                        });
+					}
+				}
+			})
+            .catch(error => {
+                Message.error(error)
+            })
+        },
 		// 下拉框的回调
 		getval(val) {
 			this.getTableList()
@@ -157,7 +483,13 @@ export default {
 				console.log(res)
 				if (res.status == 200) {
 					if (res.data.data && res.data.data.length > 0) {
-						this.tableData = res.data.data
+                        this.tableData = res.data.data
+                        let arr = []
+                        this.tableData.forEach(e => {
+                            arr.push(e.allOnLineMoney)
+                            
+                        })
+                        console.log(arr)
 					}
 				}
 			})
@@ -165,7 +497,8 @@ export default {
 		},
 		// 时间段的回调
 		handledate() {
-			this.getTableList(this.datetype)
+            this.getTableList(this.datetype)
+            this.moneyEchart()
 		},
 		//   合计的方法
 		getSummaries(param) {

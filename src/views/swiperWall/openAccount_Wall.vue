@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { openAccountWall,findAccountActiveWall } from '@/api/sys_user'
+import { findAccountWall,findAccountActiveWall } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
@@ -136,12 +136,14 @@ export default {
                 endTime: this.value2,
             }
             //开户墙
-            openAccountWall(obj).then(res=>{
+            findAccountWall(obj).then(res=>{
                 console.log(res)
                 if(res.data.error_code == 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
                     console.log(this.tableData)
+                }else{
+                    this.$message.error(res.data.message)
                 }
             })
         },
@@ -149,14 +151,18 @@ export default {
             let obj = { 
                 loginAccount: getCookies('name'),
                 page:this.page,
-                pageSize:this.pageSize
+                pageSize:this.pageSize,
+                startTime: this.value1,
+                endTime: this.value2,
             }
 			findAccountActiveWall(obj).then(res=>{
 				console.log(res)
-				if(res.data.error_code==200){
+				if(res.data.error_code === 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
-				}
+				}else{
+                    this.$message.error(res.data.message)
+                }
 		    })
 		}
 	}

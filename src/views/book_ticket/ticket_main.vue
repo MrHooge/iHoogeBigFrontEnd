@@ -1,7 +1,6 @@
 <template>
     <div class="program">
         <div class="search">
-            
             方案号：<el-input v-model="planNo" placeholder="请输入方案号" style="width: 120px;margin-right:40px;margin-bottom:10px;" clearable></el-input>
             方案拆包号：<el-input v-model="id" placeholder="请输入方案拆包号" style="width: 150px;margin-right:40px;" clearable></el-input>
             发起时间：
@@ -226,7 +225,7 @@
                     单个拆包票数
                 </div></el-col>
                 <el-col :span="5"><div class="grid-content bg-purple-light">
-                    <el-input v-model="val" type="number" clearable></el-input>
+                    <el-input v-model="val" type="number"></el-input>
                 </div></el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">

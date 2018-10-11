@@ -42,7 +42,7 @@
                 label="截止日期"
                 align="center">
                 <template slot-scope="scope">
-					{{scope.row.MatchDealTime.time | setimes}}
+					{{scope.row.matchDealTime.time | setimes}}
 				</template>
             </el-table-column>
 
@@ -64,7 +64,6 @@
 import setimes from '@/utils/time.js'
 import api from '@/api/Api'
 import { updateBbFocusMatchStatus,getBasketBallMatch } from '@/api/events'
-// import settime from './index.js'
 export default {
     data() {
         return {
@@ -100,9 +99,9 @@ export default {
             updateBbFocusMatchStatus(id)
             .then(res => {
                 if(res.data.error_code == 200){
-                    this.$message(res.data.message)
+                    this.$message.success(res.data.message)
                 }else{
-                    this.$message(res.data.message)
+                    this.$message.error(res.data.message)
                 }
             })
         }

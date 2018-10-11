@@ -200,16 +200,6 @@ export default {
                         this.dialogTou = false
                     }
                 })
-                // this.$ajax.get(api.lottery+'/lottery/updateDGByStatus',obj).then(res => {
-                //     // console.log(res)
-                //     if(res.error_code==200){
-                //         this.$message(res.message)
-                //         this.dialogTou = false
-                //     }else{
-                //         this.$message(res.message)
-                //     }
-                // })
-
             }
             
         },
@@ -241,8 +231,7 @@ export default {
                     arr.push(e.id)
                 })
                 let ids = arr.join(',')
-                setBbFocusMatch(ids)
-                .then(res => {
+                setBbFocusMatch(ids).then(res => {
                     console.log(res)
                     if(res.data.error_code == 200){
                         this.$message.success(res.data.message)
@@ -250,7 +239,7 @@ export default {
                         this.$message.error(res.data.message)
                     }
                 })
-                }
+            }
                 
                
         },

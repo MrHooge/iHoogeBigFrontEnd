@@ -10,7 +10,7 @@
                     <el-input v-model="form.username" style="width:70%" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="排序权重" :label-width="formLabelWidth" prop="sort">
-                    <el-input v-model="form.sort" style="width:70%" type="number" clearable></el-input>
+                    <el-input v-model="form.sort" style="width:70%" type="number"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -81,7 +81,7 @@
                     </el-col>
                     <el-col :span="17">
                         <div class="grid-content bg-purple-dark">
-                             <el-input v-model="numbers" placeholder="请输入最多4位数字" type="number" clearable></el-input>
+                             <el-input v-model="numbers" placeholder="请输入最多4位数字" type="number"></el-input>
                         </div>
                     </el-col>
                 </el-row> 

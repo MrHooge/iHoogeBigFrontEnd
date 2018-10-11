@@ -306,7 +306,7 @@ export function currentjiabai(params) {
 }
 // 开户轮播墙
 
-export function openAccountWall(userInfos) {
+export function findAccountWall(userInfos) {
   return request.member({
     url: '/userCount/findAccountWall',
     method: 'get',

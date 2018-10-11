@@ -68,6 +68,7 @@
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
             :total="totalList"
+            v-if="totalList != ''"
             layout="total, sizes, prev, pager, next, jumper"
             >
             </el-pagination>
@@ -493,7 +494,7 @@ export default {
                 setAddPrize(newobj).then(res => {
                     if (res.status == 200) {
                         if (res.data.error_code == 200) {
-                            this.$message(res.data.message)
+                            this.$message.success(res.data.message)
                             this.checkedPlays = [];
                             this.value = ''
                             this.num  = ''
@@ -501,7 +502,7 @@ export default {
                             this.dialogVisible = false
                             this.getTable()
                         } else {
-                            this.$message(res.data.message)
+                            this.$message.error(res.data.message)
                         }
                     }
                 })
@@ -548,7 +549,7 @@ export default {
                 this.$http.get(api.lottery + '/lottery/setAddPrize', { params: obj }).then(res => {
                     if (res.status == 200) {
                         if (res.data.error_code == 200) {
-                            this.$message(res.data.message)
+                            this.$message.success(res.data.message)
                             this.checkedPlays = [];
                             this.value = ''
                             this.num  = ''
@@ -557,7 +558,7 @@ export default {
                             this.page = 1
                             this.getTable()
                         } else {
-                            this.$message(res.data.message)
+                            this.$message.error(res.data.message)
                         }
                     }
                 })

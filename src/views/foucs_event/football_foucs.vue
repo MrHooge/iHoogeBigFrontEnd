@@ -134,9 +134,13 @@ export default {
             }
             findFootballMixureInfo(obj)
             .then(res => {
-                // console.log(res.data.data.list)
-                this.tableData = res.data.data
-                this.totalList = res.data.total
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data
+                    this.totalList = res.data.total
+                }else{
+                    this.$message.error('失败！')
+                }
             })
             
         },
@@ -145,9 +149,9 @@ export default {
             updateFbFocusMatchStatus(id)
                 .then(res => {
                     if (res.data.error_code == 200) {
-                        this.$message(res.data.message)
+                        this.$message.success(res.data.message)
                     } else {
-                        this.$message(res.data.message)
+                        this.$message.error(res.data.message)
                     }
                 })
         },

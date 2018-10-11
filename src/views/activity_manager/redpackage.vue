@@ -146,7 +146,7 @@
                     红包金额
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="amount" placeholder="请输入红包金额" type="number" min="0" clearable></el-input>
+                    <el-input v-model="amount" placeholder="请输入红包金额" type="number" min="0"></el-input>
                 </div></el-col>
             </el-row>
             <br>
@@ -164,7 +164,7 @@
                     红包数量
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="pageNum" placeholder="请输入红包个数" type="number" min="0" clearable></el-input>
+                    <el-input v-model="pageNum" placeholder="请输入红包个数" type="number" min="0"></el-input>
                 </div></el-col>
             </el-row>
             <br>
@@ -173,7 +173,7 @@
                     抢夺金额
                 </div></el-col>
                 <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="jmoney" placeholder="请输入抢夺的金额" type="number" min="0" clearable></el-input>
+                    <el-input v-model="jmoney" placeholder="请输入抢夺的金额" type="number" min="0"></el-input>
                 </div></el-col>
             </el-row>
             <br>

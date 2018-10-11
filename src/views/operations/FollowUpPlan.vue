@@ -7,18 +7,18 @@
 			          placeholder="请输入跟单数"
 			          style="width: 180px;"
 			          type="number"
-			          clearable></el-input>
+			          ></el-input>
 			<el-input v-model="serial "
 			          placeholder="请输入跟单编号"
 			          style="width: 180px;margin-left:50px;"
 			          type="number"
-			          clearable></el-input>
+			          ></el-input>
 			<div style="display:inline-block">
 				<el-input v-model="interval"
 				          placeholder="请输入跟单时间间隔"
 				          style="width: 180px;margin-left:50px;"
 				          type="number"
-				          clearable></el-input> 秒</div>
+				          ></el-input> 秒</div>
 			<el-button type="primary"
 			           @click="automatic"
 			           style="margin-left:50px;">自动跟单</el-button>

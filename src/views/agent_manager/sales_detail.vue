@@ -91,10 +91,6 @@
         </el-table>
 
         <div :class="moneyName" :id="moneyId" :style="{height:moneyHeight,width:moneyWidth}" ref="moneyEchart"></div>
-        <!-- <div :class="jcName" :id="jcId" :style="{height:jcHeight,width:jcWidth}" ref="jcEchart"></div>
-        <div :class="zgName" :id="zgId" :style="{height:zgHeight,width:zgWidth}" ref="zgEchart"></div>
-        <div :class="gdName" :id="gdId" :style="{height:gdHeight,width:gdWidth}" ref="gdEchart"></div>
-        <div :class="yjName" :id="yjId" :style="{height:yjHeight,width:yjWidth}" ref="yjEchart"></div> -->
     </div>
 </template>
 <script>
@@ -109,82 +105,18 @@ export default {
             type: String,
             default: 'moneyName'
         },
-        // jcName: {
-        //     type: String,
-        //     default: 'jcName'
-        // },
-        // zgName: {
-        //     type: String,
-        //     default: 'zgName'
-        // },
-        // gdName: {
-        //     type: String,
-        //     default: 'gdName'
-        // },
-        // yjName: {
-        //     type: String,
-        //     default: 'yjName'
-        // },
         moneyId: {
             type: String,
             default: 'moneyId'
         },
-        // jcId: {
-        //     type: String,
-        //     default: 'jcId'
-        // },
-        // zgId: {
-        //     type: String,
-        //     default: 'zgId'
-        // },
-        // gdId: {
-        //     type: String,
-        //     default: 'gdId'
-        // },
-        // yjId: {
-        //     type: String,
-        //     default: 'yjId'
-        // },
         moneyWidth: {
             type: String,
             default: '800px'
         },
-        // jcWidth: {
-        //     type: String,
-        //     default: '800px'
-        // },
-        // zgWidth: {
-        //     type: String,
-        //     default: '800px'
-        // },
-        // gdWidth: {
-        //     type: String,
-        //     default: '800px'
-        // },
-        // yjWidth: {
-        //     type: String,
-        //     default: '800px'
-        // },
         moneyHeight: {
             type: String,
             default: '400px'
         },
-        // jcHeight: {
-        //     type: String,
-        //     default: '400px'
-        // },
-        // zgHeight: {
-        //     type: String,
-        //     default: '400px'
-        // },
-        // gdHeight: {
-        //     type: String,
-        //     default: '400px'
-        // },
-        // yjHeight: {
-        //     type: String,
-        //     default: '400px'
-        // },
     },
     data() {
         return {

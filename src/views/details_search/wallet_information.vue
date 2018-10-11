@@ -32,6 +32,11 @@
                 align="center"
                 label="可提现余额">
             </el-table-column>
+            <el-table-column
+                prop="ableBalance"
+                align="center"
+                label="可用余额">
+            </el-table-column>
         </el-table>
         </div>
         <el-pagination
