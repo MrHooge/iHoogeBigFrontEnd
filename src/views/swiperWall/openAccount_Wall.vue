@@ -12,24 +12,25 @@
 			             name="second"></el-tab-pane>
 
 		</el-tabs>
+        <p style="color:red;font-size:12px;">注：数据默认显示当天的！</p>
          <el-col :span="12">
             <div class="block"
                     style="display: inline-block;">
                 <el-date-picker v-model="value1"
-                                type="date"
+                                type="datetime"
                                 placeholder="选择日期"
-                                format="yyyy-MM-dd"
-                                value-format="yyyy-MM-dd">
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                >
                 </el-date-picker>
             </div>
             <div style="display: inline-block;">至</div>
             <div class="block"
                     style="display: inline-block;">
                 <el-date-picker v-model="value2"
-                                type="date"
+                                type="datetime"
                                 placeholder="选择日期"
-                                format="yyyy-MM-dd"
-                                value-format="yyyy-MM-dd">
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                default-time="23:59:59">
                 </el-date-picker>
             </div>
         </el-col>
