@@ -1210,6 +1210,40 @@ export const constantRouterMap = [{
       
     ]
   },
+  // 麒云大师资讯app
+  {
+    path: '/app',
+    component: Layout,
+    redirect: '/operations/information',
+    name: '麒云大师资讯',
+    meta: { title: '麒云大师资讯' },
+    children: [
+      {
+        path: 'information',
+        name: '个人审核',
+        component: () => import('@/views/Information_app/Information.vue'),
+        meta: { title: '个人审核' }
+      },
+      {
+        path: 'lable',
+        name: '称号标签',
+        component: () => import('@/views/Information_app/Lable.vue'),
+        meta: { title: '称号标签' }
+      },   
+      {
+        path: 'matchGames',
+        name: '手动匹配篮球赛事',
+        component: () => import('@/views/Information_app/MatchGames.vue'),
+        meta: { title: '手动匹配篮球赛事' }
+      },   
+      {
+        path: 'addMaster',
+        name: '添加大师',
+        component: () => import('@/views/Information_app/AddMaster.vue'),
+        meta: { title: '添加大师' }
+      },   
+    ]
+  },
 
   { path: '*', redirect: '/404', hidden: true }
 ]

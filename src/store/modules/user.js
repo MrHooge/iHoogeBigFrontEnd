@@ -7,7 +7,7 @@ const user = {
     token: getCookies('token'),
     account: '',
     name: '',
-    avatar: '',
+    avatar: '', 
     menus: [],
     roles: []
   },
