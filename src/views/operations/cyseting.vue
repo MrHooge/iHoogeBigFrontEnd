@@ -55,6 +55,10 @@
 				                 label="用户名"
 				                 align="center">
 				</el-table-column>
+                <el-table-column prop="username"
+				                 label="昵称"
+				                 align="center">
+				</el-table-column>
 
 				<el-table-column align="center"
 				                 label="手机号">
@@ -76,6 +80,10 @@
 				<el-table-column prop="name"
 				                 align="center"
 				                 label="姓名">
+				</el-table-column>
+                <el-table-column prop="multiple"
+				                 align="center"
+				                 label="倍数">
 				</el-table-column>
 				<el-table-column align="center"
 				                 label="操作">

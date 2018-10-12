@@ -15,20 +15,19 @@
             <div class="block"
                     style="display: inline-block;">
                 <el-date-picker v-model="value1"
-                                type="date"
+                                type="datetime"
                                 placeholder="选择日期"
-                                format="yyyy-MM-dd"
-                                value-format="yyyy-MM-dd">
+                                value-format="yyyy-MM-dd HH:mm:ss">
                 </el-date-picker>
             </div>
             <div style="display: inline-block;">至</div>
             <div class="block"
                     style="display: inline-block;">
                 <el-date-picker v-model="value2"
-                                type="date"
+                                type="datetime"
                                 placeholder="选择日期"
-                                format="yyyy-MM-dd"
-                                value-format="yyyy-MM-dd">
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                default-time="23:59:59">
                 </el-date-picker>
             </div>
         </el-col>
@@ -65,7 +64,7 @@
 				</el-table-column>
 
 			</el-table>
-			 <el-pagination
+			 <!-- <el-pagination
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -76,7 +75,7 @@
             :total="totalList"
             v-if="totalList != ''"
             >
-            </el-pagination>
+            </el-pagination> -->
 		</div>
 	</div>
 </template>
@@ -119,13 +118,10 @@ export default {
             this.handleClick(tab, event)
         },
 		handleClick() {
-			// console.log(tab)
 			if (this.activeName2 == 'first') {
 				this.getTableData(1)
-				console.log('11111111111')
 			} else {
 				this.getTableData(0)
-				console.log('22222222222')
 			}
 
 		},
@@ -141,10 +137,12 @@ export default {
 			findRechargeAndConsumerWall(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code == 200) {
-                    this.tableData = res.data.data.list
-                    this.totalList = res.data.data.total
+                    this.tableData = res.data.data
+                    // this.totalList = res.data.data.total
 				}else{
+                    this.$message.error(res.data.message)
                     this.tableData = []
+                    this.totalList = ''
                 }
 			})
 		}

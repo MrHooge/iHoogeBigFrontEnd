@@ -7,20 +7,17 @@
             <el-table-column
                 prop="account"
                 align="center"
-                label="账号"
-               >
+                label="账号">
             </el-table-column>
             <el-table-column
-            align="center"
-             prop="autograph"
-                label="签名"
-               >
+                align="center"
+                prop="autograph"
+                label="签名">
             </el-table-column>
             <el-table-column
                 align="center"
                 label="创建时间"
-                prop="createDatetime"
-               >
+                prop="createDatetime">
                 <template slot-scope="scope">
                     <span>{{ scope.row.createDatetime | time }}</span>
                 </template>
@@ -48,8 +45,8 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
-            >
-            </el-pagination>
+            v-if="totalList != ''">
+        </el-pagination>
    </div>
 </template>
 
@@ -59,29 +56,29 @@ import { getReviewList, Reviews } from "@/api/personal_review.js";
 export default {
   data() {
     return {
-      tableData: [], // 表歌数据
-      page: 1, // 当前页
-      pageSize: 20, //数据条数
-      totalList: 0 // 总页数
+        tableData: [], // 表歌数据
+        page: 1, // 当前页
+        pageSize: 20, //数据条数
+        totalList: 0 // 总页数
     };
   },
   filters: {
     time(a) {
-      if (a != null) {
-        let date = new Date(a);
-        let y = date.getFullYear();
-        let MM = date.getMonth() + 1;
-        MM = MM < 10 ? "0" + MM : MM;
-        let d = date.getDate();
-        d = d < 10 ? "0" + d : d;
-        let h = date.getHours();
-        h = h < 10 ? "0" + h : h;
-        let m = date.getMinutes();
-        m = m < 10 ? "0" + m : m;
-        let s = date.getSeconds();
-        s = s < 10 ? "0" + s : s;
-        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
-      }
+        if (a != null) {
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? "0" + MM : MM;
+            let d = date.getDate();
+            d = d < 10 ? "0" + d : d;
+            let h = date.getHours();
+            h = h < 10 ? "0" + h : h;
+            let m = date.getMinutes();
+            m = m < 10 ? "0" + m : m;
+            let s = date.getSeconds();
+            s = s < 10 ? "0" + s : s;
+            return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+        }
     }
   },
   created() {

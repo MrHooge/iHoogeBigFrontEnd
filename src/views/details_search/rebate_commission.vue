@@ -4,17 +4,18 @@
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             开始时间：<el-date-picker
             v-model="stime"
-            type="date"
+            type="datetime"
             style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>
             
             结束时间：<el-date-picker
             v-model="etime"
             align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
+            type="datetime"
             style="margin-left:10px;
             width:200px
             margin-bottom:40px;"
@@ -38,10 +39,11 @@
                 label="	账号">
             </el-table-column>
             <el-table-column
-                prop="CREATE_DATE_TIME"
                 align="center"
                 label="	发生时间">
-               
+               <template slot-scope="scope">
+                   {{scope.row.CREATE_DATE_TIME | time}}
+               </template>
             </el-table-column>
 
             <el-table-column
@@ -104,6 +106,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             style="margin-top:40px"
             >
             </el-pagination>
@@ -131,6 +134,25 @@ export default {
     created(){
         this.getfluwwallet()
     },
+    filters:{
+        time(a){
+            if(a != null){
+                let date = new Date(a);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+        }
+    },
     methods:{
         getfluwwallet(){
             let wallerdata = {
@@ -155,6 +177,7 @@ export default {
         },
          //查询
         inquire(){
+            this.page = 1
             let wallerdata = {
                 account:this.account,
                 end_time:this.etime,
@@ -168,7 +191,13 @@ export default {
                 type:''
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
-                this.tableData = res.data.data.list
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
+                
             }).catch(error => {
                  Message.error(error)
             })

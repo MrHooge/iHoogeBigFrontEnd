@@ -125,13 +125,7 @@
 </template>
 
 <script>
-import {
-  seachFiveBaketball,
-  seachFjBaketball,
-  FuzzySeach,
-  macthTeam,
-  macthPlays
-} from "@/api/personal_review.js";
+import { seachFiveBaketball, seachFjBaketball, FuzzySeach, matchBasketballTeam, matchBasketballGame } from "@/api/personal_review.js";
 export default {
   data() {
     return {
@@ -151,93 +145,98 @@ export default {
   },
   filters: {
     time(a) {
-      if (a != null) {
-        let date = new Date(a);
-        let y = date.getFullYear();
-        let MM = date.getMonth() + 1;
-        MM = MM < 10 ? "0" + MM : MM;
-        let d = date.getDate();
-        d = d < 10 ? "0" + d : d;
-        let h = date.getHours();
-        h = h < 10 ? "0" + h : h;
-        let m = date.getMinutes();
-        m = m < 10 ? "0" + m : m;
-        let s = date.getSeconds();
-        s = s < 10 ? "0" + s : s;
-        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
-      }
+        if (a != null) {
+            let date = new Date(a);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? "0" + MM : MM;
+            let d = date.getDate();
+            d = d < 10 ? "0" + d : d;
+            let h = date.getHours();
+            h = h < 10 ? "0" + h : h;
+            let m = date.getMinutes();
+            m = m < 10 ? "0" + m : m;
+            let s = date.getSeconds();
+            s = s < 10 ? "0" + s : s;
+            return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+        }
     },
     status(j) {
-      if (j == 0) {
-        return "进行中";
-      } else if (j == 1) {
-        return "已结束";
-      } else {
-        return "取消";
-      }
+        if (j == 0) {
+            return "进行中";
+        } else if (j == 1) {
+            return "已结束";
+        } else {
+            return "取消";
+        }
     },
     zl(s) {
-      return s ? "否" : "是";
+        return s ? "否" : "是";
     }
   },
   // 模糊搜索字段是主队名字
   computed: {
     getmatchlist() {
-      if (this.fjlist) {
-        return this.fjlist.filter(k => {
-          return k.home.match(this.val) || k.away.match(this.val);
-        });
-      }
+        if (this.fjlist) {
+            return this.fjlist.filter(k => {
+            return k.home.match(this.val) || k.away.match(this.val);
+            });
+        }
     }
   },
   methods: {
     // 获取飞京的所有球队
     getTeamlist(){
-      this.sid = 1;
-      this.data_timeright = '';
-      let obj = {
-        name:this.val
-      }
-      console.log(obj)
-      FuzzySeach(obj).then(res=>{
-        console.log(res)
-        if(res.data.data.length>0){
-          console.log(res.data.data);
-          this.rightteamlist = res.data.data
-        }else{
-          this.$message("没有匹配的球队信息")
+        this.sid = 1;
+        this.data_timeright = '';
+        let obj = {
+            name:this.val
         }
-      })
+        console.log(obj)
+        FuzzySeach(obj).then(res=>{
+            console.log(res)
+            if(res.data.data.length>0){
+            console.log(res.data.data);
+            this.rightteamlist = res.data.data
+            }else{
+            this.$message("没有匹配的球队信息")
+            }
+        })
     },
     // 匹配球队
     MatchTeam(){
-      let obj = {
-        author:this.$store.state.user.name,
-        fiveTeamId:this.teamname,
-        fjTeamId:this.fjTeamId
-      }
-      macthTeam(obj).then(res=>{
-
-      })
-    },
-    startMatch() {
-      if (this.fiveball && this.feijing) {
         let obj = {
-          author: this.$store.state.user.name,
-          fiveMatchId: this.fiveball,
-          fjMatchId: this.feijing
-        };
-        console.log(obj);
-        macthPlays(obj).then(res => {
-          if(res.error_code==200){
-            this.$message(res.message)
-          }else{
-            this.$message(res.message)
-          }
-        });
-      } else {
-        this.$message("请先各选择一场赛事进行匹配")
-      }
+            author:this.$store.state.user.name,
+            fiveTeamId:this.teamname,    //500万球队名称
+            fjTeamId:this.feijing      //飞鲸球队id
+        }
+        matchBasketballTeam(obj).then(res=>{
+            console.log(res)
+            if(res.data.error_code === 200){
+                this.$message.success(res.data.message)
+            }else{
+                this.$message.error(res.data.message)
+            }
+        })
+    },
+    //匹配赛事
+    startMatch() {
+        if (this.fiveball && this.feijing) {
+            let obj = {
+                author: this.$store.state.user.name,
+                fiveMatchId: this.fiveball,
+                fjMatchId: this.feijing
+            };
+            matchBasketballGame(obj).then(res => {
+                if(res.data.error_code === 200){
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            });
+        } else {
+            this.$message("请先各选择一场赛事进行匹配")
+        }
     },
     getdate() {
       this.loading1 = true

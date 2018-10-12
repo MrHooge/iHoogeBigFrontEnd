@@ -304,6 +304,7 @@ export function currentjiabai(params) {
         params: params
     })
 }
+
 // 开户轮播墙
 
 export function findAccountWall(userInfos) {
@@ -564,14 +565,22 @@ export function findMemberWalletLineByAccount(params) {
     params: params
   })
 }
-//钱包信息列表
+//获取钱包信息列表
 export function findAllMemberWalletInfo(params) {
     return request.member({
       url: '/user/findAllMemberWalletInfo',
       method: 'get',
       params: params
     })
-  }
+}
+  //获取钱包金额统计
+export function countMemberWalletInfo(params) {
+    return request.member({
+        url: '/userCount/countMemberWalletInfo',
+        method: 'get',
+        params: params
+    })
+}
 //获取所有充值失败的订单
 export function getAllFailPayOrder(params) {
   return request.pay({

@@ -26,20 +26,19 @@
 					<div class="block"
 					     style="display: inline-block;">
 						<el-date-picker v-model="value1"
-						                type="date"
+						                type="datetime"
 						                placeholder="选择日期"
-						                format="yyyy-MM-dd"
-						                value-format="yyyy-MM-dd">
+						                value-format="yyyy-MM-dd HH:mm:ss">
 						</el-date-picker>
 					</div>
 					<div style="display: inline-block;">至</div>
 					<div class="block"
 					     style="display: inline-block;">
 						<el-date-picker v-model="value2"
-						                type="date"
+						                type="datetime"
 						                placeholder="选择日期"
-						                format="yyyy-MM-dd"
-						                value-format="yyyy-MM-dd">
+						                value-format="yyyy-MM-dd HH:mm:ss"
+                                        default-time="23:59:59">
 						</el-date-picker>
 					</div>
 				</el-col>
@@ -98,19 +97,31 @@
 			<el-table-column label="操作"
 			                 align="center">
 				<template slot-scope="scope">
-					<el-button size="mini"
+					<el-button size="mini" type="primary"
 					           @click="handleRepy(scope.row)">充值</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
 		<div class="page">
-			<el-pagination background
+			<!-- <el-pagination background
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
 			               :total="total"
                            v-if="total != ''">
-			</el-pagination>
+			</el-pagination> -->
+            <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="[10, 20, 30, 40, 50]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="totalList"
+                v-if="totalList != ''"
+                >
+            </el-pagination>
 		</div>
 		<!-- 弹窗事件 -->
 		<el-dialog title="充值补单"
@@ -155,7 +166,7 @@ export default {
 			disable:false,
 			name: "", // 用户名
 			number: "", // 充值的金额
-			total: 0, // 总页数
+			totalList: 0, // 总页数
 			tableData: [],//表格的数据
 			dialogVisible: false,
 			username: '',
@@ -166,7 +177,9 @@ export default {
 				accountID: '',  //请输入账户ID
 				chargeNo: '', //请输入流水号
 				amount: '',  //请输入金额
-			},
+            },
+            page: 1,
+            pageSize: 20,
 
 		};
 	},
@@ -195,35 +208,37 @@ export default {
 
 	created() {
 		// this.search(1)
-		this.getData(1, this.name, this.value1, this.value2)
+		this.getData(this.name, this.value1, this.value2)
 	},
 	methods: {
 		onInput() {
+            this.page = 1
 			if (this.name == '') {
-				this.getData(1, this.name, this.value1, this.value2)
+				this.getData(this.name, this.value1, this.value2)
 			}
-			console.log(this.name)
 		},
 		search() {
-			console.log(this.value1)
-			console.log(this.value2)
-			this.getData(1, this.name, this.value1, this.value2)
+            this.page = 1
+			this.getData(this.name, this.value1, this.value2)
 		},
-		getData(curr, a, b, c) {
+		getData(a, b, c) {
 			let obj = {
 				account: a,
-				startTime: b,
-				endTime: c,
-				page: curr,
-				pageSize: 20
+				startTime: b || '',
+				endTime: c || '',
+				page: this.page,
+				pageSize: this.pageSize
 			}
-			console.log(obj)
 			getAllFailPayOrder(obj).then(res => {
 				console.log(res)
-				if (res.status == 200) {
+				if (res.data.error_code == 200) {
 					this.tableData = res.data.data.list
-					this.total = res.data.data.total
-				}
+					this.totalList = res.data.data.total
+				}else{
+                    this.$message.error(res.data.message)
+                    this.tableData = []
+					this.totalList = ''
+                }
 			})
 		},
 		handleRepy(row) {  //  操作按钮
@@ -267,10 +282,17 @@ export default {
 		},
 		resetForm(formName) {
 			this.$refs[formName].resetFields();
-		},
+        },
+        //改变页面大小
+        handleSizeChange(val){
+            this.page = val
+           	this.getData(this.name, this.value1, this.value2)
+
+        },
 		// 分页的回调
-		changepage(val) {
-			this.getData(val, this.name, this.value1, this.value2)
+		handleCurrentChange(val) {
+            this.page = val
+			this.getData(this.name, this.value1, this.value2)
 		},
 
 	}

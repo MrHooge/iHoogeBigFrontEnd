@@ -57,11 +57,11 @@
                 <template slot-scope="scope">
                     <el-button size="mini"
                                type="primary"
-                               @click="handleEdit(scope.row)">取消篮球焦点赛事</el-button>
+                               @click="handleEdit(scope.row)">取消足球焦点赛事</el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination
+        <!-- <el-pagination
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -70,8 +70,9 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             >
-            </el-pagination>
+        </el-pagination> -->
    </div>
 </template>
 
@@ -79,7 +80,6 @@
 import setimes from '@/utils/time.js'
 import api from '@/api/Api'
 import { findFootballMixureInfo, updateFbFocusMatchStatus } from '@/api/events'
-// import settime from './index.js'
 export default {
     data() {
         return {
@@ -129,8 +129,8 @@ export default {
             let obj = {
                 isFocus: 1,
                 type: 2,
-                page: this.page,
-                pageSize: this.pageSize
+                // page: this.page,
+                // pageSize: this.pageSize
             }
             findFootballMixureInfo(obj)
             .then(res => {

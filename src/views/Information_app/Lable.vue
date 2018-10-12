@@ -22,7 +22,7 @@
 
 <script>
 
-import { Addlable } from "@/api/personal_review.js"
+import { addLabel } from "@/api/personal_review.js"
 
 export default {
   data() {
@@ -55,8 +55,7 @@ export default {
             account:this.ruleForm.name,
             label:this.ruleForm.type.join(',')
           }
-          Addlable(obj).then(res=>{
-            // console.log(res)
+          addLabel(obj).then(res=>{
             if(res.data.error_code==200){
               this.$message(res.data.message)
             }else{

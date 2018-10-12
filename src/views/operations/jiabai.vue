@@ -13,24 +13,46 @@
                 </el-switch>
             </div>
         </div>
+        <div style="width:50%;margin: 0 auto;text-align:center;margin-top:50px;">
+            <span>配置订单数量提醒</span>
+            <el-input type="number" placeholder="请输入数量" v-model="num" style="width:200px;"></el-input>
+            <el-button type="primary" @click="remind">配置</el-button>
+        </div>
         
 	</div>
 </template>
 
 <script>
 import { jiabai , currentjiabai} from '@/api/sys_user'
+import { updateRemindNum } from '@/api/events'
 export default {
     data() {
         return {
             value:null,
+            num: '',  //存储数量
 		};
     },
     created(){
         this.currentjiabai()
     },
     methods: {
+        //配置订单数量提醒
+        remind(){
+            console.log(this.num)
+            let obj = {
+                num: this.num
+            }
+            updateRemindNum(obj).then(res => {
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.$message.success(res.data.message)
+                    this.num = ''
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            })
+        },
         callback(val){
-            // console.log(val)
             if(val){
                 this.switch(1)
             }else{

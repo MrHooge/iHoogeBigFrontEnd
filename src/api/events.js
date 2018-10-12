@@ -1,5 +1,12 @@
 import request from '@/utils/request'
-
+//配置订单数量提醒
+export function updateRemindNum(userinfos){
+    return request.lottery({
+        url:'/lottery/updateRemindNum',
+        method:'get',
+        params:userinfos
+    })
+}
 //获取嘉奖列表配置
 export function getAddPirzeConfigList(userinfos){
     return request.lottery({

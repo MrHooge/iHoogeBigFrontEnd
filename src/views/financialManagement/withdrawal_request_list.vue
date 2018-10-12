@@ -29,10 +29,11 @@
 					</el-select>
                     
 				</el-col>
-                <el-col :span="2">
+                <el-col :span="4">
                     <el-select v-model="status"
                             placeholder="请选择筛选数据"
-                            @change="filter">
+                            @change="filter"
+                            style="width:200px;">
                         <el-option v-for="item in options2"
                                 :key="item.status"
                                 :label="item.label"
@@ -47,29 +48,31 @@
 					<div class="block"
 					     style="display: inline-block;">
 						<el-date-picker v-model="value1"
-						                type="date"
+						                type="datetime"
 						                placeholder="选择日期"
-						                format="yyyy-MM-dd"
-						                value-format="yyyy-MM-dd">
+						                value-format="yyyy-MM-dd HH:mm:ss">
 						</el-date-picker>
 					</div>
 					至
 					<div class="block"
 					     style="display: inline-block;">
 						<el-date-picker v-model="value2"
-						                type="date"
+						                type="datetime"
 						                placeholder="选择日期"
-						                format="yyyy-MM-dd"
-						                value-format="yyyy-MM-dd">
+						                value-format="yyyy-MM-dd HH:mm:ss"
+                                        default-time="23:59:59">
 						</el-date-picker>
 					</div>
 				</el-col>
+                <el-col :span="4">
+                    <el-button type="primary" @click="search">查询</el-button>
+                </el-col>
                 <!-- 搜索财务审核统计 -->
                 <el-col :span="8">
                     <div style="height:40px;line-height:40px;margin-top:20px;">财务审核统计：{{financeCount}}<span style="font-size:12px;color:red;margin-left:20px;">注：默认是当天的已到账统计(有时间段就是时间段的统计数)</span></div>
                 </el-col>
 				<el-col :span="2">
-					<div class="grid-content bg-purple" @click="search" style="margin-top:20px;">
+					<div class="grid-content bg-purple" style="margin-top:20px;">
 						<el-button type="primary"
 						           icon="el-icon-search"
                                    @click="getCount">搜索
@@ -268,12 +271,24 @@
 		</el-dialog>
 		<div class="page"
 		     v-show="pageShow">
-			<el-pagination background
+			<!-- <el-pagination background
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
 			               :total="total">
-			</el-pagination>
+			</el-pagination> -->
+            <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="[10, 20, 30, 40, 50]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="totalList"
+                v-if="totalList != ''"
+                >
+            </el-pagination>
 		</div>
 	</div>
 </template>
@@ -290,7 +305,7 @@ export default {
 			pageShow: true,
 			name: "", // 用户名
 			number: "", // 充值的金额
-			total: 0, // 总页数
+			totalList: 0, // 总页数
 			tableData: [],//表格的数据
 
 			dialogVisible: false,
@@ -306,7 +321,7 @@ export default {
 				value: '1',
 				label: '汇款时间'
 			}],
-			value: '',
+			value: '2',
 			flow_num: '', //   流水 ID
 			a: "", //  姓名
 			b: "",  // 金额
@@ -344,6 +359,7 @@ export default {
                 { status: "6", label: "已到账" },
             ],
             financeCount: '',   //存储财务审核总和（根据时间段的筛选）
+            pageSize: 20,
 		};
 	},
 	created() {
@@ -354,7 +370,7 @@ export default {
 	methods: {
         //获取财务审核统计
         getCount(){
-            console.log(this.value2)
+            this.page = 1
             if(this.value1 === null){
                 this.value1 = ''
             }
@@ -383,13 +399,13 @@ export default {
 		search() {
 			this.getData(1)
 		},
-		getData(curr) { // a 账号， b 开始时间，
+		getData(curr) { // a 账号， b 开始时间
 			let obj = {
 				loginAccount: '',
 				page: curr,
-				pageSize: 20,
-				start_time: this.value1,
-				end_time: this.value2,
+				pageSize: this.pageSize,
+				start_time: this.value1 || '',
+				end_time: this.value2 || '',
 				account: this.name,  //  账号
 				flow_num: this.flow_num, //  流水 ID
                 is_drawing_time: this.value, // 0 申请时间,1汇款时间
@@ -402,14 +418,15 @@ export default {
                     console.log(res)
                     if(res.data.msg === '数据获取成功'){
                         this.tableData = res.data.data.list
-					    this.total = res.data.data.total
+					    this.totalList = res.data.data.total
                     }
                     else{
                         this.$message.error(res.data.msg)
+                        this.tableData = []
+                        this.totalList = ''
                     }
 				} else {
-					console.log(res)
-					Message.success(res.data.message)
+                    Message.success(res.data.message)
 				}
 			})
 		},
@@ -465,9 +482,13 @@ export default {
 					this.dialogVisible1 = false;
 				}
 			})
-		},
+        },
+        //改变页面大小
+        handleSizeChange(val){
+            this.getData(val)
+        },
 		// 分也回调
-		changepage(val) {
+		handleCurrentChange(val) {
 			this.getData(val)
 		}
 	},

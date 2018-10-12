@@ -269,6 +269,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             style="margin-top:40px"
             >
             </el-pagination>

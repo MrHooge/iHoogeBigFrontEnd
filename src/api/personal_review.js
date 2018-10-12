@@ -26,7 +26,7 @@ export function Reviews(obj) {
 /**
  * 修改信息相关
  */
-export function Addlable(obj) {
+export function addLabel(obj) {
   return request.member({
     url: url + "/memberManage/addLabel",
     method: "get",
@@ -69,7 +69,7 @@ export function FuzzySeach(obj) {
 //   请求类型 get
 //   请求Url  /master/matchBasketballTeam
 
-export function macthTeam(obj) {
+export function matchBasketballTeam(obj) {
   return request.member({
     url: url + "/master/matchBasketballTeam",
     method: "get",
@@ -81,7 +81,7 @@ export function macthTeam(obj) {
 // 请求类型 get
 // 请求Url  /master/matchBasketballGame
 
-export function macthPlays(obj) {
+export function matchBasketballGame(obj) {
     return request.member({
       url: url + "/master/matchBasketballGame",
       method: "get",

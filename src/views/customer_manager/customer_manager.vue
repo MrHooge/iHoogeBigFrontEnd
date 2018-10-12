@@ -11,17 +11,18 @@
             开始时间：
             <el-date-picker
                 v-model="start_time"
-                type="date"
+                type="datetime"
                 style="margin-bottom:40px;margin-right:20px;width:200px"
                 placeholder="请选择开始日期"
-                value-format="yyyy-MM-dd">
+                value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>
             结束时间：
             <el-date-picker
                 v-model="end_time"
                 align="right"
-                value-format="yyyy-MM-dd"
-                type="date"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                default-time="23:59:59"
+                type="datetime"
                 style="margin-left:10px;
                 width:200px
                 margin-bottom:40px;"
@@ -29,50 +30,6 @@
             </el-date-picker>
             <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
         </div>
-        <!-- 绑定银行卡信息 -->
-        <!-- <template>
-             <el-dialog :visible.sync="dialogFormVisible">
-                <el-form :model="bankInfos">
-                    <el-form-item label="账号" prop="account">
-                        <el-input v-model="bankInfos.account" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="银行" prop="bank">
-                        <el-input v-model="bankInfos.bank" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="卡号" prop="bankCard">
-                        <el-input v-model="bankInfos.bankCard" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="开户地区" prop="bankPart">
-                        <el-input v-model="bankInfos.bankPart" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="身份证号" prop="certNo">
-                        <el-input v-model="bankInfos.certNo" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="开户城市" prop="city">
-                        <el-input v-model="bankInfos.city" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="开户省份" prop="province">
-                        <el-input v-model="bankInfos.province" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="真实姓名" prop="name">
-                        <el-input v-model="bankInfos.name" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="支付宝账号" prop="zfbAccount">
-                        <el-input v-model="bankInfos.zfbAccount" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="提款方式" prop="bank_type">
-                        <el-radio-group v-model="bank_type">
-                            <el-radio label="银行提款"></el-radio>
-                            <el-radio label="支付宝"></el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="bankbinding">确 定</el-button>
-                </div>
-            </el-dialog>
-        </template> -->
         <p style="font-size:12px;color:red;">注：点击昵称可以跳转到钱包信息查询页面</p>
         <div class="show_data">
             <el-table
@@ -239,6 +196,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             >
             </el-pagination>
             </div>

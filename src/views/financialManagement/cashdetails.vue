@@ -1,27 +1,19 @@
 <template>
 	<div class="app-container">
 		<div class="row">
-			<!-- <el-select v-model="datetype"
-			           placeholder="请选择时间段"
-			           @change="handledate">
-				<el-option v-for="item in options"
-				           :key="item.value"
-				           :label="item.label"
-				           :value="item.value">
-				</el-option>
-			</el-select> -->
 			<el-date-picker
             v-model="stime"
-            type="date"
+            type="datetime"
             style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>            
             <el-date-picker
             v-model="etime"
             align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
+            type="datetime"
             style="margin-left:10px;
             width:200px
             margin-bottom:40px;"

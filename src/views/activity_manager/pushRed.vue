@@ -1,32 +1,6 @@
 <template>
     <div class="robot">
         <div class="btn">
-             <!-- <el-input v-model="account" placeholder="请输入用户名" style="width: 180px;margin-right:20px"></el-input>
-             <el-button type="primary" @click="search">查询</el-button>
-             <el-date-picker
-            v-model="stime"
-            type="date"
-            style="margin-bottom:40px;margin-right:20px;width:200px"
-            placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
-            </el-date-picker>
-            <el-date-picker
-            v-model="etime"
-            align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
-            style="margin-left:10px;
-            width:200px
-            margin-bottom:40px;"
-            placeholder="请选择结束日期"
-            >
-            </el-date-picker>            
-            <el-button type="sendred" @click="sendred">
-                查询发红包记录
-            </el-button>
-            <el-button type="getred" @click="getred">
-                查询抢红包记录
-            </el-button> -->
             <el-button type="primary" @click="addjqr">
                 发布平台红包
             </el-button>
@@ -64,6 +38,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             style="margin-top:40px"
             >
             </el-pagination>

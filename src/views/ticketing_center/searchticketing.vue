@@ -207,7 +207,7 @@
                         </el-date-picker><br /> 
                 彩期&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始：&nbsp;<el-date-picker
                         v-model="startTerm"
-                        type="date"
+                        type="datetime"
                         style="margin-bottom:10px;margin-right:20px;width:200px;"
                         placeholder="请选择开始日期"
                         value-format="yyyy-MM-dd HH:mm:ss"
@@ -216,7 +216,7 @@
                         </el-date-picker> 
                         结束：<el-date-picker
                         v-model="endTerm"
-                        type="date"
+                        type="datetime"
                         style="margin-bottom:10px;margin-right:20px;width:200px"
                         placeholder="请选择开始日期"
                         value-format="yyyy-MM-dd HH:mm:ss"

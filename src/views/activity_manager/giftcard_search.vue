@@ -6,17 +6,18 @@
          
           开始时间：<el-date-picker
             v-model="stime"
-            type="date"
+            type="datetime"
             style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>
             
             结束时间：<el-date-picker
             v-model="etime"
             align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
+            type="datetime"
             style="margin-left:10px;
             width:200px
             margin-bottom:40px;"
@@ -113,6 +114,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             style="margin-top:40px"
             >
             </el-pagination>

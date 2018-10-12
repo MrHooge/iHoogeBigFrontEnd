@@ -92,7 +92,6 @@ export default {
                     this.tableData.push(res.data.data[0])
                 }
             })
-            
         },
         handleEdit(a) {
             let id = a.id;     

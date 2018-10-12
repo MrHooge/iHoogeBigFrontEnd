@@ -1,22 +1,23 @@
 <template>
     <div class="robot">
         <div class="btn">
-             <el-input v-model="account" placeholder="请输入用户名" style="width: 180px;margin-right:20px" clearable></el-input>
-             <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
-             <el-button type="primary" @click="search">用昵称查询账号</el-button>
-             <el-date-picker
+            <el-input v-model="account" placeholder="请输入用户名" style="width: 180px;margin-right:20px" clearable></el-input>
+            <el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
+            <el-button type="primary" @click="search">用昵称查询账号</el-button>
+            <el-date-picker
             v-model="stime"
-            type="date"
+            type="datetime"
             style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>
             至
             <el-date-picker
             v-model="etime"
             align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
+            type="datetime"
             style="margin-left:10px;
             width:200px
             margin-bottom:40px;"
@@ -131,6 +132,7 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
+            v-if="totalList != ''"
             style="margin-top:40px"
             >
             </el-pagination>
@@ -233,6 +235,8 @@ export default {
             totalList: 0,  //总页数
             username: '',   //昵称
 
+            putRedRacket: false,   //当点击查询发红包记录按钮时为true
+
         }
     },
     created() {
@@ -293,6 +297,7 @@ export default {
             }
         },
         getTable() {
+            this.putRedRacket = false
             let obj = {
                 account: this.account,
                 endTime: this.etime,
@@ -376,8 +381,9 @@ export default {
                     })
             }
         },
-        //查询发红包
-        sendred(){
+        putRed(){
+            this.putRedRacket = true
+            
             let obj = {
                 account:this.account,
                 endTime:this.etime,
@@ -387,43 +393,43 @@ export default {
             }
             putRedRacketList2(obj)
                 .then(res => {
-                    console.log(res.data.data.list)
+                    console.log(res)
                     if(res.data.error_code === 200){
                         this.tableData = res.data.data.list
-                        this.total = res.data.total
+                        this.totalList = res.data.data.total
                     }else{
                         this.$message.error(res.data.message)
                     }
                     
                 })
         },
+        //查询发红包
+        sendred(){
+            this.page = 1
+            this.putRed()
+        },
         //查询抢红包
         getred(){
-             let obj = {
-                account:this.account,
-                endTime:this.etime,
-                startTime:this.stime,
-                offset: this.page,
-                pageSize: this.pageSize
-            }
-            grabRedRacketList2(obj)
-                .then(res => {
-                    console.log(res)
-                    this.tableData = res.data.data.list
-                    this.total = res.data.total
-                })
+            this.page = 1
+            this.getTable()
         },
          //翻页
         handleCurrentChange(num){
             this.page = num;
-            this.getred();
-            this.sendred()
+            if(this.putRedRacket){
+                this.putRed()
+            }else{
+                this.getTable()
+            }
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
-            this.getred();
-            this.sendred()
+            if(this.putRedRacket){
+                this.putRed()
+            }else{
+                this.getTable()
+            }
         },
     }
 }

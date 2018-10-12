@@ -5,17 +5,18 @@
             方案编号:<el-input v-model="planNo" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             发单时间（起始）：<el-date-picker
             v-model="stime"
-            type="date"
+            type="datetime"
             style="margin-bottom:40px;margin-right:20px;width:180px"
             placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd">
+            value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>
             
             发单时间（截止）：<el-date-picker
             v-model="etime"
             align="right"
-            value-format="yyyy-MM-dd"
-            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
+            type="datetime"
             style="margin-left:10px;
             width:180px
             margin-bottom:40px;"

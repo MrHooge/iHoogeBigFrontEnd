@@ -4,6 +4,8 @@
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+            <span style="font-size:16px;margin-left:780px;">可用余额统计：{{ableBalanceCount}}元</span>
+            <p style="color:red;font-size:14px;margin-left:1490px;">注：该统计数是所有用户的统计</p>
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
@@ -56,7 +58,7 @@
 </template>
 
 <script>
-import { findAllMemberWalletInfo } from '@/api/sys_user'
+import { findAllMemberWalletInfo,countMemberWalletInfo } from '@/api/sys_user'
 import { findAllMember} from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
@@ -68,6 +70,7 @@ export default {
             pageSize: 20,
             totalList: 0,
             username: '',   //输入查询的昵称
+            ableBalanceCount: '',   //可用余额统计
         }
     },
     created(){
@@ -75,6 +78,7 @@ export default {
             this.account = this.$route.query.account
         }
         this.inquire()
+        this.getCount()
     },
     filters:{
         time(a){
@@ -94,7 +98,7 @@ export default {
                 return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
             }
         }
-  },
+    },
     methods:{
         //筛选查询
         filter(){
@@ -119,6 +123,16 @@ export default {
                 }
             }).catch(error => {
                 Message.error(error)
+            })
+        },
+        //获取金额统计
+        getCount(){
+            countMemberWalletInfo().then(res =>{
+                if(res.data.error_code === 200){
+                    this.ableBalanceCount = res.data.data.ABLE_BALANCE
+                }else{
+                    this.$message.error('金额统计失败！')
+                }
             })
         },
         //查询
