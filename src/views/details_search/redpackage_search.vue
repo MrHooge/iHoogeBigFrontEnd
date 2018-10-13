@@ -164,8 +164,8 @@ export default {
         inquire(){
             let wallerdata = {
                 account:this.account,
-                end_time:this.etime,
-                start_time:this.stime,
+                end_time:this.etime || '',
+                start_time:this.stime || '',
                 qdAccount:this.qdAccount,
                 dlAccount:this.dlAccount,
                 loginAccount:'manager',

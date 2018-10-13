@@ -151,11 +151,10 @@ export default {
         account: this.account,
         offset: this.page,
         pageSize: this.pageSize,
-        endTime:this.etime,
-        startTime:this.stime
+        endTime:this.etime || '',
+        startTime:this.stime || ''
       };
     getCloundSummaryList(model).then(res => {
-        console.log(res.data.error_code)
         if (res.data.error_code === 200) {
             this.tablelist = res.data.data.list  
             this.totalList = res.data.data.total

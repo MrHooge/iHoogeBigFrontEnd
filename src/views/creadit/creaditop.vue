@@ -271,8 +271,8 @@ export default {
 				pageSize: this.pageSize,
 				account: name,
 				operator:m,
-				startTime:this.stime,
-				endTime:this.etime,
+				startTime:this.stime || '',
+				endTime:this.etime || '',
 				status: s,
 				loginAccount: getCookies('name')
 			};

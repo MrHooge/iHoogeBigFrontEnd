@@ -9,7 +9,6 @@
             placeholder="请选择开始日期"
             value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>
-            
             结束时间：<el-date-picker
             v-model="etime"
             align="right"
@@ -22,7 +21,6 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
-           
             <el-button type="primary" style="margin-left:30px;" @click="Recharge">搜索充值流水</el-button>
             <el-button type="primary" style="margin-left:30px;" @click="Withdrawal">搜索提款流水</el-button>
         </div>
@@ -37,7 +35,7 @@
             </el-table-column>
             <el-table-column
                 prop="account"
-                label="	账户"
+                label="账户"
                 align="center">
             </el-table-column>
             <el-table-column
@@ -52,12 +50,12 @@
             </el-table-column>
              <el-table-column
                 prop="freezeBalance"
-                label="	冻结余额"
+                label="冻结余额"
                 align="center">
             </el-table-column>
               <el-table-column
                 prop="heapBalance"
-                label="		消费金额"
+                label="消费金额"
                 align="center">
             </el-table-column>
              <el-table-column
@@ -72,26 +70,26 @@
             </el-table-column>
              <el-table-column
                 prop="orderNo"
-                label="	订单编号"
+                label="订单编号"
                 align="center">
             </el-table-column>
              <el-table-column
                 prop="planNo"
-                label="	方案编号"
+                label="方案编号"
                 align="center">
             </el-table-column>
              <el-table-column
                 prop="remark"
-                label="	备注"
+                label="备注"
                 align="center">
             </el-table-column>
              <el-table-column
                 prop="transType"
-                label="	流水类型"
+                label="流水类型"
                 align="center">
             </el-table-column>
             <el-table-column
-                label="	流水ID" align="center"
+                label="流水ID" align="center"
                 prop="walletLineNo">
                
             </el-table-column>
@@ -186,14 +184,13 @@ export default {
         account: this.account || "",
         offset: this.page,
         pageSize: this.pageSize,
-        endTime:this.etime,
-        startTime:this.stime
+        endTime:this.etime || '',
+        startTime:this.stime || ''
       };
       getRechargeList(model)
         .then(res => {
-            console.log(res.status);
-          if (res.status == 200) {
             console.log(res)
+          if (res.status == 200) {
             this.tablelist = res.data.data
             this.totalList = res.data.data.total          
           }
@@ -231,7 +228,6 @@ export default {
       };
       getRechargeList(model)
         .then(res => {
-            console.log(res)
             if (res.status == 200) {
                 if(res.data.error_code === 200){
                     this.tablelist = res.data.data.list

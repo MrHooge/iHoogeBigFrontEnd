@@ -208,8 +208,8 @@ export default {
         pageSize:this.pageSize,
         account: this.account,
         memberAccount:this.memberAccount,
-        start_time:this.stime,
-        end_time:this.etime,
+        start_time:this.stime || '',
+        end_time:this.etime || '',
         loginAccount: getCookies('name')
       };
       getAgentChargeLine(obj).then(res => {

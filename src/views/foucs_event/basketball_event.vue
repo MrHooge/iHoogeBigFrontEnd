@@ -62,7 +62,7 @@
                         <el-date-picker
                             v-model="time"
                             type="datetime"
-                            value-format='yyyy-MM-dd HH:mm:ss'
+                            value-format='yyyyMMddHHmmss'
                             placeholder="请选择日期时间">
                         </el-date-picker>
                     </div>

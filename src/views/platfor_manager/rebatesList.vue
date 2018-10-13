@@ -153,7 +153,6 @@
 										<div class="block">
 											<el-date-picker v-model="value1"
 											                type="datetime"
-											                format="yyyy-MM-dd hh:mm:ss"
 											                value-format="yyyy-MM-dd hh:mm:ss">
 											</el-date-picker>
 										</div>
@@ -166,8 +165,8 @@
 										<div class="block">
 											<el-date-picker v-model="value2"
 											                type="datetime"
-											                format="yyyy-MM:dd hh-mm:ss"
-											                value-format="yyyy-MM-dd hh:mm:ss">
+											                value-format="yyyy-MM-dd hh:mm:ss"
+                                                            default-time="23:59:59">
 											</el-date-picker>
 										</div>
 									</template>
@@ -340,22 +339,19 @@ export default {
 			this.tableData3 = [];
 			this.viewFormVisible = true;
 			this.tableData3.push(obj);
-			console.log(this.tableData3);
 			this.onePeople = obj;
-			console.log(this.onePeople);
 		},
 		clearForm() {  //  取消按钮
 			this.viewFormVisible = false
 		},
 		submitInfos() {  //  弹窗确认按钮
-			console.log(this.value1)
 			let params = {
 				account: this.onePeople.ACCOUNT,
 				gd_rate: this.gd_rate, // 代购返点
 				hm_rate: 0,  //  合买返点
 				rate_id: this.onePeople.rate_id, //返点id
-				startDate: this.value1, //  返点开始
-				endDate: this.value2, //  返点结束
+				startDate: this.value1 || '', //  返点开始
+				endDate: this.value2 || '', //  返点结束
 				lottery_type: this.onePeople.LOTTERY_TYPE,
 			}
 			if (this.value1 == '' || this.value2 == '') {
@@ -365,7 +361,6 @@ export default {
 				Message.success('请填写完整信息')
 			} else {
 				updateRateByAccount(params).then(res => {
-					console.log(res)
 					if (res.data.error_code == 200) {
 						Message.success(res.data.message)
                         this.viewFormVisible = false;
@@ -388,9 +383,7 @@ export default {
 					account: this.ACCOUNT,
 					lottery_type :this.LOTTERY_TYPE
 			}
-			console.log(obj)
 			delRateByAccount(obj).then(res => {
-				console.log(res)
 				if(res.data.error_code==200){
 					Message.success(res.data.message)
 					this.dialogVisible2 = false
