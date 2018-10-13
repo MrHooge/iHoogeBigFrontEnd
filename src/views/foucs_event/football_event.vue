@@ -243,6 +243,7 @@ export default {
                     if (res.data.error_code == 200) {
                         this.$message.success(res.data.message)
                         this.dialogVisible = false
+                        this.getTable()
                     }else{
                         this.$message.error(res.data.message)
                         this.dialogVisible = false

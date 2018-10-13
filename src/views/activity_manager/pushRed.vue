@@ -170,27 +170,6 @@ export default {
             this.page = 1
             this.getTable()
         },
-        // getTable() {
-        //     let obj = {
-        //         account: this.account,
-        //         endTime: this.etime,
-        //         startTime: this.stime,
-        //         offset: this.page,
-        //         pageSize: this.pageSize
-        //     }
-        //     //抢红包列表
-        //     grabRedRacketList2(obj)
-        //         .then(res => {
-        //             console.log(res)
-        //             if(res.data.error_code === 200){
-        //                 this.tableData = res.data.data.list
-        //                 this.totalList = res.data.data.total
-        //             }else{
-        //                 this.$message.error(res.data.message)
-        //             }
-        //         })
-        // },
-
         //  查询所有机器人
         getTable() {   
 			let obj = {
@@ -198,7 +177,6 @@ export default {
 				pageSize: this.pageSize
 			}
 			getRobotList(obj).then(res => {
-				console.log(res)
 				if (res.data.error_code == 200) {
 					this.tableData = res.data.data.list
 					this.totalList = res.data.data.total
@@ -206,9 +184,9 @@ export default {
 			})
 		},
         handleSelectionChange(val){
-            console.log(val)
             this.selectios = val
         },
+        //平台发红包
         addjqr() {
             if(this.selectios&&this.selectios.length>0){
                 this.dialogVisible = true
@@ -243,20 +221,17 @@ export default {
             else {
                 let arr = []
                 this.selectios.forEach(a=>{
-                    console.log(a.id)
                     arr.push(a.id)
                 })
-                console.log(arr)
                 let model = {
                     money: this.amount,
                     name: this.pageName,
                     number: this.pageNum,
                     robotIdList:arr.join(','),
                     robotMoney:this.jmoney,
-                    startTime:this.starttime,
+                    startTime:this.starttime || '',
                     type:this.radio
                 }
-                console.log(model)
                 addRedRacketForPlatform(model)
                     .then(res => {
                         if (res.data.error_code == 200) {
@@ -269,54 +244,16 @@ export default {
                     })
             }
         },
-        //查询发红包
-        sendred(){
-            let obj = {
-                account:this.account,
-                endTime:this.etime,
-                startTime:this.stime,
-                offset: this.page,
-                pageSize: this.pageSize
-            }
-            putRedRacketList2(obj)
-                .then(res => {
-                    console.log(res.data.data.list)
-                    if(res.data.error_code === 200){
-                        this.tableData = res.data.data.list
-                        this.total = res.data.total
-                    }else{
-                        this.$message.error(res.data.message)
-                    }
-                    
-                })
-        },
-        //查询抢红包
-        getred(){
-             let obj = {
-                account:this.account,
-                endTime:this.etime,
-                startTime:this.stime,
-                offset: this.page,
-                pageSize: this.pageSize
-            }
-            grabRedRacketList2(obj)
-                .then(res => {
-                    console.log(res)
-                    this.tableData = res.data.data.list
-                    this.total = res.data.total
-                })
-        },
+        
          //翻页
         handleCurrentChange(num){
             this.page = num;
-            this.getred();
-            this.sendred()
+            this.getTable()
         },
         //改变页面大小
         handleSizeChange(num){
             this.pageSize = num;
-            this.getred();
-            this.sendred()
+            this.getTable()
         },
     }
 }

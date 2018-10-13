@@ -32,19 +32,19 @@ export default {
     sure(){
         if(this.val&&this.radio&&this.num){
             let obj ={
-            account:this.val,
-            sort:this.radio,
-            type:this.num, 
+                account:this.val,
+                sort:this.num,
+                type:this.radio, 
             }
             addMantio(obj).then(data=>{
                 let res = data.data
                 if(res.error_code==200){
-                    this.$message(res.message)
+                    this.$message.success(res.message)
                     this.val=''
                     this.num= ''
                     this.radio = 1
                 }else{
-                    this.$message(res.message)
+                    this.$message.error(res.message)
                 }
             })
         }else{

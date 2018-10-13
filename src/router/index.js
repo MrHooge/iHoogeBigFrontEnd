@@ -355,53 +355,53 @@ export const constantRouterMap = [{
     path: '/recharge_center',
     component: Layout,
     redirect: '/recharge_center/rechange_open_session',
-    name: '支付中心',
+    name: '充值管理',
     meta: {
-      title: '支付中心'
+      title: '充值管理'
     },
     children: [{
         path: 'rechange_open_session',
-        name: '支付设置',
+        name: '支付渠道开停',
         component: () =>
           import ('@/views/recharge_center/rechange_open_session'),
         meta: {
-          title: '支付设置'
+          title: '支付渠道开停'
         }
       },
       {
         path: 'rechangeDetail',
-        name: '线下充值明细',
+        name: '线下充值操作',
         component: () =>
           import ('@/views/recharge_center/rechangeDetail'),
         meta: {
-          title: '线下充值明细'
+          title: '线下充值操作'
         }
       },
       {
         path: 'online_SerialNumber',
-        name: '线上充值流水',
+        name: '线上补单查询',
         component: () =>
           import ('@/views/recharge_center/online_SerialNumber'),
         meta: {
-          title: '线上充值流水'
+          title: '线上补单查询'
         }
       },
       {
         path: 'all_rechange_surface',
-        name: '会员充值流水查询-总表',
+        name: '线上线下流水',
         component: () =>
           import ('@/views/recharge_center/all_rechange_surface'),
         meta: {
-          title: '会员充值流水查询-总表'
+          title: '线上线下流水'
         }
       },
       {
         path: 'replenishment_order',
-        name: '线上充值补单',
+        name: '线上补单操作',
         component: () =>
           import ('@/views/recharge_center/replenishment_order'),
         meta: {
-          title: '线上充值补单'
+          title: '线上补单操作'
         }
       },
       {
@@ -1242,6 +1242,12 @@ export const constantRouterMap = [{
         component: () => import('@/views/Information_app/AddMaster.vue'),
         meta: { title: '添加大师' }
       },   
+      {
+        path: 'addCloud',
+        name: '添加云豆',
+        component: () => import('@/views/Information_app/addCloud.vue'),
+        meta: { title: '添加云豆' }
+      }, 
     ]
   },
 

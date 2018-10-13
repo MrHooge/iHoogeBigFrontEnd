@@ -100,3 +100,11 @@ export function addMantio(obj) {
     params: obj
   });
 }
+//添加云豆
+export function addCloud(obj) {
+    return request.member({
+      url: url + "/memberManage/addCloud",
+      method: "get",
+      params: obj
+    });
+  }
