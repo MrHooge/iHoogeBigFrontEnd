@@ -6,27 +6,26 @@
         <el-input v-model="idcard" placeholder="请输入身份证号" style="width: 200px;margin-right:50px;margin-top:40px" clearable></el-input>
         <el-input v-model="mobile" placeholder="请输入电话" style="width: 150px;margin-right:50px;margin-top:20px" clearable></el-input>
         开始时间：
-            <el-date-picker
-                v-model="startTime"
-                type="datetime"
-                style="margin-bottom:40px;margin-right:20px;width:200px"
-                placeholder="请选择开始日期"
-                value-format="yyyy-MM-dd HH:mm:ss">
-            </el-date-picker>
+        <el-date-picker
+            v-model="startTime"
+            type="datetime"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
+            placeholder="请选择开始日期"
+            value-format="yyyy-MM-dd HH:mm:ss">
+        </el-date-picker>
         结束时间：
-            <el-date-picker
-                v-model="endTime"
-                align="right"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                default-time="23:59:59"
-                type="datetime"
-                style="margin-left:10px;
-                width:200px
-                margin-bottom:40px;"
-                placeholder="请选择结束日期"
-                >
-            </el-date-picker>
-
+        <el-date-picker
+            v-model="endTime"
+            align="right"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
+            type="datetime"
+            style="margin-left:10px;
+            width:200px
+            margin-bottom:40px;"
+            placeholder="请选择结束日期"
+            >
+        </el-date-picker>
         <el-button type="primary" @click="search_customer" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">搜索</el-button>
         <el-button type="primary" @click="longtime" @keyup.13="getone" style="margin-left:100px;margin-bottom:30px">一个月以上未登录用户</el-button>
         <el-button type="primary" @click="moredeletewhite">批量取消加白</el-button>
@@ -47,7 +46,6 @@
                     <span v-else @click="getupnewweb(scope.row.ACCOUNT)">{{scope.row.ACCOUNT}}</span>
                 </template>
             </el-table-column>
-            
             <el-table-column
                 label="真实姓名"
                 prop="NAME"
@@ -63,7 +61,6 @@
                 prop="MOBILE"
                 align="center">
             </el-table-column>
-
             <el-table-column
                 label="注册时间"
                 align="center">
@@ -71,7 +68,6 @@
                     {{scope.row.registerDateTime | time}}
                 </template>
             </el-table-column>
-
             <el-table-column
                 label="最后登陆时间"
                 align="center">
@@ -79,7 +75,6 @@
                     {{scope.row.lastLoginDateTime | time}}
                 </template>
             </el-table-column>
-
             <el-table-column
                 label="是否充值"
                 align="center">
@@ -94,7 +89,6 @@
                     {{scope.row.isWhitelist | mtype}}
                 </template>
             </el-table-column>
-
             <el-table-column
                 label="操作"
                 align="center">
@@ -104,7 +98,6 @@
                 </template>
             </el-table-column>  
         </el-table>
-        
         <el-pagination
             background
             @size-change="handleSizeChange"
@@ -193,10 +186,8 @@ export default {
                 mobile: this.mobile,
             }
             findAllMember(obj).then(res => {
-                console.log(res)
                 this.tableData = res.data.data.list
                 this.totalList = res.data.data.total
-                console.log(this.totalList)
             }).catch(error => {
                 Message.error(error)
             })
@@ -204,11 +195,6 @@ export default {
 
         //加白
         addwhite(data){
-            // if(this.isBeforMonth){
-            //     this.account = data.account
-            // }else{
-            //     this.account = data.ACCOUNT;
-            // }
             this.account = data.ACCOUNT;
             this.type = 1
             memberToWrite(this.account,this.type).then(res => {
@@ -227,11 +213,6 @@ export default {
         },
         //取消加白
         deletewhite(data){
-            // if(this.isBeforMonth){
-            //     this.account = data.account
-            // }else{
-            //     this.account = data.ACCOUNT;
-            // }
             this.account = data.ACCOUNT;
             this.type = 2
             memberToWrite(this.account,this.type).then(res => {
@@ -255,11 +236,6 @@ export default {
             }else{
                 let newarr = [];
                 this.selections.forEach(e => {
-                    // if(this.isBeforMonth){
-                    //     newarr.push(e.account)
-                    // } else {
-                    //     newarr.push(e.ACCOUNT)
-                    // }
                     newarr.push(e.ACCOUNT)
                 });
                 let newaccount = newarr.join(',');

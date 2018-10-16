@@ -10,8 +10,8 @@
                 <div class="right">{{ lotteryType }}</div>
             </div>
             <div class="lei">
-                <div class="left">期数：</div>
-                <div class="right">{{ term }}</div>
+                <div class="left">超级方案编号：</div>
+                <div class="right">{{ superPlanNo }}</div>
             </div>
             </div>
             <div class="Enthalt">
@@ -54,16 +54,6 @@
             </div>
             </div>
             <div class="Enthalt">
-            <div class="hang">
-                <div class="left">支付状态：</div>
-                <div class="right"></div>
-            </div>
-           <div class="lei">
-                <div class="left">税前金额：</div>
-                <div class="right">{{ pretaxPrize }}</div>
-            </div>
-            </div>
-            <div class="Enthalt">
                 <div class="hang">
                 <div class="left">方案状态：</div>
                 <div class="right">{{ planStatus }}</div>
@@ -86,13 +76,13 @@
             </div>
             <div class="Enthalt">
                 <div class="hang">
-                <div class="left">方案截止时间：</div>
-                <div class="right">{{ dealDateTime | time }}</div>
-            </div>
-            <div class="lei">
-                <div class="left">平台：</div>
-                <div class="right"></div>
-            </div>
+                    <div class="left">方案截止时间：</div>
+                    <div class="right">{{ dealDateTime | time }}</div>
+                </div>
+                <div class="lei">
+                    <div class="left">税前金额：</div>
+                    <div class="right">{{ pretaxPrize }}</div>
+                </div>
             </div>
             <div class="Enthalt">
                 <div class="hang">
@@ -231,6 +221,7 @@ export default {
             newarr:[],
             tablethis:[],
             lotteryType:'',//彩种
+            superPlanNo: '',  //超级方案编号
             planStatus:'',//方案状态
             playType: '', //过关方式
             term:'',//彩期
@@ -325,6 +316,7 @@ export default {
                 this.messagedata = res.data.matchDetail;
                 this.tablethis = res.data.matchDetail.options;
                 this.lotteryType = res.data.lotteryType;
+                this.superPlanNo = res.data.superPlanNo;
                 this.planStatus = res.data.planStatus;
                 this.playType = res.data.playType;
                 this.term = res.data.term;
