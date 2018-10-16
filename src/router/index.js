@@ -200,11 +200,11 @@ export const constantRouterMap = [{
       },
       {
         path: 'activateWall',
-        name: '激活轮播墙',
+        name: '会员加白设置',
         component: () =>
           import ('@/views/swiperWall/activate_Wall'),
         meta: {
-          title: '激活轮播墙'
+          title: '会员加白设置'
         }
       },
       {
