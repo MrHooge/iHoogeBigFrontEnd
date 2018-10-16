@@ -1,54 +1,67 @@
 <template>
-	<div class="backend app-container">
-		<div class="layerbody">
-			<div class="search">
-                <el-input v-model="account" placeholder="请输入用户名" style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px" clearable></el-input>
-                <el-input v-model="username" placeholder="请输入昵称查询" style="width:10%;margin-right:50px;" clearable></el-input>
+    <div class="backend app-container">
+        <div class="layerbody">
+            <div class="search">
+                <el-input v-model="account"
+                          placeholder="请输入用户名"
+                          style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px"
+                          clearable></el-input>
+                <el-input v-model="username"
+                          placeholder="请输入昵称查询"
+                          style="width:10%;margin-right:50px;"
+                          clearable></el-input>
                 <el-select v-model="type"
-                        placeholder="筛选"
-                        @change="handlestatus"
-                        style="width:140px;margin-right: 50px;">
+                           placeholder="筛选"
+                           @change="handlestatus"
+                           style="width:140px;margin-right: 50px;">
                     <el-option v-for="item in options1"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                            >
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value">
                     </el-option>
                 </el-select>
                 <el-select v-model="commentType"
-                        placeholder="筛选"
-                        @change="handlestatus"
-                        style="width:140px;margin-right: 50px;">
+                           placeholder="筛选"
+                           @change="handlestatus"
+                           style="width:140px;margin-right: 50px;">
                     <el-option v-for="item in options2"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                            :disabled="item.disabled">
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"
+                               :disabled="item.disabled"
+                               v-show="options2show">
+                    </el-option>
+                    <el-option v-for="item in options3"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"
+                               :disabled="item.disabled"
+                               v-show="options3show">
                     </el-option>
                 </el-select>
                 开始时间：
-                <el-date-picker
-                    v-model="startDate"
-                    type="datetime"
-                    style="margin-bottom:40px;margin-right:20px;width:200px"
-                    placeholder="请选择开始日期"
-                    value-format="yyyy-MM-dd HH:mm:ss">
+                <el-date-picker v-model="startDate"
+                                type="datetime"
+                                style="margin-bottom:40px;margin-right:20px;width:200px"
+                                placeholder="请选择开始日期"
+                                value-format="yyyy-MM-dd HH:mm:ss">
                 </el-date-picker>
                 结束时间：
-                <el-date-picker
-                    v-model="endDate"
-                    align="right"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    default-time="23:59:59"
-                    type="datetime"
-                    style="margin-left:10px;
+                <el-date-picker v-model="endDate"
+                                align="right"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                default-time="23:59:59"
+                                type="datetime"
+                                style="margin-left:10px;
                     width:200px
                     margin-bottom:40px;"
-                    placeholder="请选择结束日期">
+                                placeholder="请选择结束日期">
                 </el-date-picker>
-				<el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-                
-			</div>
+                <el-button type="primary"
+                           icon="el-icon-search"
+                           @click="search">搜索</el-button>
+
+            </div>
             <!-- <div slot="footer"
                 class="dialog-footer"
                 v-show="isShow"
@@ -57,74 +70,71 @@
                         style="width:10%;"
                         @click="cofirm">确 定</el-button>
             </div> -->
-			<div class="main">
-				<el-table :data="tableData"
-				          border
-				          tooltip-effect="dark"
-				          style="width: 100%"
-				          @selection-change="handleSelectionChange">
-					<el-table-column type="selection"
-					                 align="center">
-					</el-table-column>
+            <div class="main">
+                <el-table :data="tableData"
+                          border
+                          tooltip-effect="dark"
+                          style="width: 100%"
+                          @selection-change="handleSelectionChange">
+                    <el-table-column type="selection"
+                                     align="center">
+                    </el-table-column>
                     <el-table-column label="方案发起人"
-					                 prop="account"
-					                 align="center">
-					</el-table-column>
+                                     prop="account"
+                                     align="center">
+                    </el-table-column>
                     <el-table-column label="方案ID"
-					                 prop="planNo"
-					                 align="center">
-					</el-table-column>
-					<el-table-column label="评论人"
-					                 prop="username"
-					                 align="center">
-					</el-table-column>
-					<el-table-column label="评论内容"
-					                 prop="connect"
-					                 align="center">
-					</el-table-column>
+                                     prop="planNo"
+                                     align="center">
+                    </el-table-column>
+                    <el-table-column label="评论人"
+                                     prop="username"
+                                     align="center">
+                    </el-table-column>
+                    <el-table-column label="评论内容"
+                                     prop="connect"
+                                     align="center">
+                    </el-table-column>
                     <el-table-column label="评论时间"
-					                 prop="time"
-					                 align="center">
-					</el-table-column>
+                                     prop="time"
+                                     align="center">
+                    </el-table-column>
                     <el-table-column label="回复内容"
-					                 prop="reply"
-					                 align="center">
-					</el-table-column>
+                                     prop="reply"
+                                     align="center">
+                    </el-table-column>
                     <el-table-column label="回复时间"
-					                 prop="replayTime"
-					                 align="center">
-					</el-table-column>
+                                     prop="replayTime"
+                                     align="center">
+                    </el-table-column>
                     <el-table-column label="审核状态"
-					                 prop="status"
-					                 align="center"
+                                     prop="status"
+                                     align="center"
                                      filter-placement="bottom-end">
-                                     <template slot-scope="scope">
-                                        <el-tag
-                                        disable-transitions>{{scope.row.status | changeType}}</el-tag>
-                                    </template>
-					</el-table-column>
-				</el-table>
-			</div>
-		</div>
-		<div class="page"
-		     v-show="pageShow"
-		     style="padding:30px 0">
-            <el-pagination
-                background
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                :page-sizes="[10, 20, 30, 40, 50]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="totalList"
-                v-if="totalList != ''"
-                >
+                        <template slot-scope="scope">
+                            <el-tag disable-transitions>{{scope.row.status | changeType}}</el-tag>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+        </div>
+        <div class="page"
+             v-show="pageShow"
+             style="padding:30px 0">
+            <el-pagination background
+                           @size-change="handleSizeChange"
+                           @current-change="handleCurrentChange"
+                           :current-page="page"
+                           :page-sizes="[10, 20, 30, 40, 50]"
+                           :page-size="pageSize"
+                           layout="total, sizes, prev, pager, next, jumper"
+                           :total="totalList"
+                           v-if="totalList != ''">
             </el-pagination>
-		</div>
-        
-		<!-- 弹窗事件 -->
-		<!-- <el-dialog title="确认审核"
+        </div>
+
+        <!-- 弹窗事件 -->
+        <!-- <el-dialog title="确认审核"
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
@@ -136,7 +146,7 @@
 				           @click="toExamine(1)">审 核</el-button>
 			</span>
 		</el-dialog> -->
-	</div>
+    </div>
 </template>
 
 <script>
@@ -147,8 +157,10 @@ import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
-	data() {
-		return {
+    data() {
+        return {
+            options2show: true,
+            options3show: false,
             account: '',   //用户名
             username: '', //昵称
             type: '1',
@@ -159,85 +171,88 @@ export default {
             pageSize: 20,
             // comment: false,
             // replay: false,
-			// input: '', //  分组名
-			// dialogVisible: false, //确认弹框
-			// isShow: false,
-            
-			totalList: 0, //总页数
-			tableData: [], //表格数据
-			// multipleSelection: [], //选中的数据
-			// arr: [],
+            // input: '', //  分组名
+            // dialogVisible: false, //确认弹框
+            // isShow: false,
+
+            totalList: 0, //总页数
+            tableData: [], //表格数据
+            // multipleSelection: [], //选中的数据
+            // arr: [],
             pageShow: false,
             // ids:'',   //存储被选中的id
 
             // statustype: '', //状态类型
             options1: [
-				{
-					value: '1',
+                {
+                    value: '1',
                     label: '评论',
-                    
-				},
-				{
-					value: '2',
-					label: '回复'
-                },  
+
+                },
+                {
+                    value: '2',
+                    label: '回复'
+                },
             ],
             options2: [
-				{
-					value: '1',
+                {
+                    value: '1',
                     label: '推荐',
-                    disabled: false,
-				},
-				{
-					value: '2',
-                    label: '问答',
                     disabled: false,
                 },
                 {
-					value: '3',
+                    value: '2',
+                    label: '问答',
+                    disabled: false,
+                },
+            ],
+            options3: [
+
+                {
+                    value: '3',
                     label: '评论回复',
                     disabled: false
                 },
                 {
-					value: '4',
+                    value: '4',
                     label: '回复回复',
                     disabled: false
                 },
                 {
-					value: '0',
+                    value: '0',
                     label: '回复的全部',
                     disabled: false
                 },
-			],
-		}
-	},
-	created() {
+            ],
+        }
+    },
+    created() {
         // this.getData()
         // if(this.type === '1'){
         //     this.replay = true
         // }else{
         //     this.comment = true
         // }
-	},
+    },
     filters: {
-        changeType(val){
-            if(val === 0 || val === '正在审核'){
+        changeType(val) {
+            if (val === 0 || val === '正在审核') {
                 return '正在审核'
             }
-            else if(val === 1 || val === '审核通过'){
+            else if (val === 1 || val === '审核通过') {
                 return '审核通过'
             }
-            else if(val === 2 || val === '审核不通过'){
+            else if (val === 2 || val === '审核不通过') {
                 return '审核不通过'
             }
         }
     },
-	methods: {
-		// onInput() {
-		// 	this.getData(1, this.sjname)
-		// },
-		// search() {
-		// 	this.getData()
+    methods: {
+        // onInput() {
+        // 	this.getData(1, this.sjname)
+        // },
+        // search() {
+        // 	this.getData()
         // },
         //查询
         search() {
@@ -245,16 +260,16 @@ export default {
                 this.page = 1
                 this.getData()
             } else {
-                if(this.account === ''){
+                if (this.account === '') {
                     this.getAccount()
-                }else{
+                } else {
                     this.page = 1
                     this.getData()
                 }
             }
         },
         //用昵称查询账号
-        getAccount(){
+        getAccount() {
             let obj = {
                 username: this.username
             }
@@ -265,85 +280,92 @@ export default {
             })
         },
         //状态筛选的回调
-        handlestatus(val){
+        handlestatus(val) {
             console.log(val)
-            this.getData(1, this.sjname,this.statustype)
-            if(this.type === '1'){
-                
+            if(val ==1) {
+                this.options2show = true
+                this.options3show = false
+            }else {
+                 this.options2show = false
+                 this.options3show = true
             }
+            // this.getData(1, this.sjname,this.statustype)
+            // if(this.type === '1'){
+
+            // }
         },
         //获取评论列表
-		getData() {
-			let obj = {
+        getData() {
+            let obj = {
                 account: this.account,
                 commentType: this.commentType,
                 type: this.type,
                 startDate: this.startDate,
                 endDate: this.endDate,
                 offset: this.page,
-                pageSize : this.pageSize,
-			}
-			getCommentList(obj).then(res => {
-				console.log(res)
-				// if (res.data.error_code == 200) {
-				// 	this.tableData = res.data.data.list
-				// 	this.total = res.data.data.total
-				// 	this.pageShow = true
-				// } else {
-				// 	this.pageShow = false
-				// 	Message.success(res.data.message)
-				// }
-			})
-		},
+                pageSize: this.pageSize,
+            }
+            getCommentList(obj).then(res => {
+                console.log(res)
+                // if (res.data.error_code == 200) {
+                // 	this.tableData = res.data.data.list
+                // 	this.total = res.data.data.total
+                // 	this.pageShow = true
+                // } else {
+                // 	this.pageShow = false
+                // 	Message.success(res.data.message)
+                // }
+            })
+        },
 
-		// 选择框的回调
-		handleSelectionChange(val) {
+        // 选择框的回调
+        handleSelectionChange(val) {
             this.multipleSelection = val
-			if (val.length > 0) {
-				this.isShow = true
+            if (val.length > 0) {
+                this.isShow = true
 
-			} else {
-				this.isShow = false
-			}
+            } else {
+                this.isShow = false
+            }
 
-		},
-		cofirm() {
+        },
+        cofirm() {
             this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
                 this.ids += e.id + ','
             });
             console.log(this.ids)
-			this.dialogVisible = true
-		},
+            this.dialogVisible = true
+        },
         //评论审核
-        toExamine(val){
-			let arr = []
-			let myObj = {}
-			console.log(arr)
-			let type = val
-			let cid = this.ids
-				// shComment(type,JSON.stringify(cid)).then(res => {
-				shComment(type,cid).then(res => {
-					console.log(res)
-					if (res.data.error_code = 200) {
-						Message.success(res.data.message)
-						this.dialogVisible = false
-					} else {
-						Message.success(res.data.message)
-					}
-				})
+        toExamine(val) {
+            let arr = []
+            let myObj = {}
+            console.log(arr)
+            let type = val
+            let cid = this.ids
+            // shComment(type,JSON.stringify(cid)).then(res => {
+            shComment(type, cid).then(res => {
+                console.log(res)
+                if (res.data.error_code = 200) {
+                    Message.success(res.data.message)
+                    this.dialogVisible = false
+                } else {
+                    Message.success(res.data.message)
+                }
+            })
         },
         //改变页面大小
-        handleSizeChange(num){
+        handleSizeChange(num) {
             this.pageSize = num;
             this.gettabledata()
         },
         //翻页
-        handleCurrentChange(num){
+        handleCurrentChange(num) {
             this.page = num;
             this.gettabledata()
         },
-		
-	}
+
+    }
 }
 </script>
 
@@ -351,18 +373,18 @@ export default {
 .main {
   padding-top: 30px;
 }
-.backend >>> .el-dialog__header{
-    text-align: center;
+.backend >>> .el-dialog__header {
+  text-align: center;
 }
-.backend >>> .el-dialog__footer{
-    text-align: center;
+.backend >>> .el-dialog__footer {
+  text-align: center;
 }
-.backend >>> .el-button--default{
-    background: #e25550;
-    color: #fff;
+.backend >>> .el-button--default {
+  background: #e25550;
+  color: #fff;
 }
-.backend >>> .el-tag{
-    background: #31b0d5;
-    color: #fff;
+.backend >>> .el-tag {
+  background: #31b0d5;
+  color: #fff;
 }
 </style>
