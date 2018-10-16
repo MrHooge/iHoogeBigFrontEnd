@@ -5,7 +5,6 @@
             :data="tableData"
             border
             style="width: 100%;">
-            
             <el-table-column
                 label="昵称"
                 align="center">
@@ -21,7 +20,6 @@
                     {{scope.row.registerDateTime | time}}
                 </template>
             </el-table-column>
-
             <el-table-column
                 label="最后登陆时间"
                 align="center">
@@ -38,7 +36,6 @@
                 </template>
             </el-table-column>  
         </el-table>
-        
         <el-pagination
             background
             @size-change="handleSizeChange"
@@ -60,7 +57,6 @@ export default {
     data(){
         return {
             tableData:[],
-            selections:[],
             account:'',
             name:'',
             idcard: '',
@@ -73,9 +69,6 @@ export default {
             username:'',
             type:'',
             totalList: 0,
-            addBtn: true,
-            cancelBtn: true,
-            isBeforMonth: false
         }
     },
     filters:{
@@ -118,12 +111,8 @@ export default {
             d = d < 10 ? ('0' + d) : d;
             this.startTime =  y + '-' + m + '-' + d +' '+ '00:00:00';
             this.endTime = y + '-' + m + '-' + d +' '+ '23:59:59';
-             this.gettablelist()
+            this.gettablelist()
         },
-        //点击账号跳转会员管理页面
-        // getupnewweb(a){
-        //      this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
-        // },
         //获取表格数据
         gettablelist(){
             let obj = {
@@ -140,8 +129,12 @@ export default {
                 mobile: this.mobile,
             }
             findAllMember(obj).then(res => {
-                this.tableData = res.data.data.list
+							if(res.data.error_code === 200){
+								this.tableData = res.data.data.list
                 this.totalList = res.data.data.total
+							}else{
+								this.$message.error(res.data.message)
+							}
             }).catch(error => {
                 Message.error(error)
             })
@@ -153,13 +146,9 @@ export default {
             this.type = 1
             memberToWrite(this.account,this.type).then(res => {
                 if (res.data.error_code === 200) {
-                    Message.success('加白成功')
-                    this.account = ''
-                    if(this.isBeforMonth){
-                        this.longtime()
-                    }else{
-                        this.gettablelist()
-                    }
+										this.account = ''
+										this.gettablelist()
+										Message.success('加白成功')
                 } else {
                     Message.error(res.data.message)
                 }
@@ -171,96 +160,25 @@ export default {
             this.type = 2
             memberToWrite(this.account,this.type).then(res => {
                 if (res.data.error_code === 200) {
-                    Message.success('取消加白成功')
-                    this.account = ''
-                    if(this.isBeforMonth){
-                        this.longtime()
-                    }else{
-                        this.gettablelist()
-                    }
+                    
+										this.account = ''
+										this.gettablelist()
+										Message.success('取消加白成功')
                 } else {
                     Message.error(res.data.message)
                 }
             })
         },
-        //批量取消加白
-        // moredeletewhite(){
-        //     if(this.selections.length === 0){
-        //         this.$message('至少选择一个用户')
-        //     }else{
-        //         let newarr = [];
-        //         this.selections.forEach(e => {
-        //             // if(this.isBeforMonth){
-        //             //     newarr.push(e.account)
-        //             // } else {
-        //             //     newarr.push(e.ACCOUNT)
-        //             // }
-        //             newarr.push(e.ACCOUNT)
-        //         });
-        //         let newaccount = newarr.join(',');
-        //         this.account = newaccount;
-        //         this.type = 2;
-        //         memberToWrite(this.account,this.type).then(res => {
-        //             if (res.data.error_code === 200) {
-        //                 Message.success('取消加白成功')
-        //                 this.account = ''
-        //                 if(this.isBeforMonth){
-        //                     this.longtime()
-        //                 }else{
-        //                     this.gettablelist()
-        //                 }
-        //             } else {
-        //                 Message.error(res.data.message)
-        //             }
-        //         })
-        //     }
-        // },
          //翻页
         handleCurrentChange(num){
-            this.page = num;
-            if(this.isBeforMonth){
-                this.longtime()
-            }else{
-                this.gettablelist();
-            }
+						this.page = num;
+						this.gettablelist();
         },
         //改变页面大小
         handleSizeChange(num){
-            this.pageSize = num;
-            if(this.isBeforMonth){
-                this.longtime()
-            }else{
-                this.gettablelist();
-            }
+						this.pageSize = num;
+						this.gettablelist();
         },
-        //显示一个月以上未登录用户
-        longtime(){
-            // this.page = 1
-            this.isBeforMonth = true
-            getHistoryClient(this.page, this.pageSize).then(res => {
-                console.log(res)
-                if(res.data.error_code === 200){
-                    this.tableData = res.data.data.list
-                    this.totalList = res.data.data.total
-                    this.$message.success(res.data.message)
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            }).catch(error => {
-                Message.error(error)
-            })
-        },
-        //搜索
-        search_customer(){
-            this.page = 1
-            this.pageSize = 20
-            this.gettablelist()
-        },
-        // // 选择框全部
-        // handleSelectionChange(selection) {
-        //     this.selections = selection;
-        // }
-
     }
 }
 </script>
