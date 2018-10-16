@@ -1,6 +1,6 @@
 <template>
     <div class="statistics">
-       
+       <p style="color:red;font-size:14px;">注：只显示当日注册的客户，加白不可随意更改！</p>
         <el-table
             :data="tableData"
             border
