@@ -701,6 +701,14 @@ export function getFinanceCount(params) {
       params: params
     })
 }
+// 中奖金额总和
+export function getPlanWiningPrize(params) {
+  return request.user({
+    url: '/userCount/getPlanWiningPrize',
+    method: 'get',
+    params: params
+  })
+}
 // 运营管理==============
 //  寻票列表====暂存
 export function findTicketList(params) {

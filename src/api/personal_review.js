@@ -102,9 +102,25 @@ export function addMantio(obj) {
 }
 //添加云豆
 export function addCloud(obj) {
-    return request.member({
-      url: url + "/memberManage/addCloud",
-      method: "get",
-      params: obj
-    });
-  }
+  return request.member({
+    url: url + "/memberManage/addCloud",
+    method: "get",
+    params: obj
+  });
+}
+//获取评论列表
+export function getCommentList(obj) {
+  return request.member({
+    url: url + "/memberManage/getCommentList",
+    method: "get",
+    params: obj
+  });
+}
+//评论回复驳回
+export function bhComment(obj) {
+  return request.member({
+    url: url + "/memberManage/bhComment",
+    method: "get",
+    params: obj
+  });
+}

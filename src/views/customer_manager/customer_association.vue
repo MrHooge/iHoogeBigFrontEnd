@@ -1,28 +1,35 @@
 <template>
     <div class="association">
-         <el-input v-model="account" placeholder="请输入用户名" style="width: 300px;margin-right:100px;margin-bottom:40px;margin-top:40px" clearable></el-input>
-         <el-date-picker
-                     v-model="datetime"
-                     type="datetimerange"
-                     :picker-options="pickerOptions2"
-                     range-separator="至"
-                     value-format="yyyy-MM-dd"
-                     start-placeholder="开始日期"
-                     end-placeholder="结束日期"
-                     :default-time="['00:00:00']"
-                     align="right"
-                     margin-bottom:40px
-                     margin-top:40px>
-                  </el-date-picker>
-                  <el-button type="primary" @click="getone" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">搜索</el-button>
+         <el-input v-model="account" placeholder="请输入用户名" style="width:15%;margin-right:50px;margin-bottom:40px;margin-top:40px" clearable></el-input>
+         <el-input v-model="username" placeholder="请输入昵称查询" style="width:15%;margin-right:50px;" clearable></el-input>
+            开始时间：
+            <el-date-picker
+                v-model="start"
+                type="datetime"
+                style="margin-bottom:40px;margin-right:20px;width:200px"
+                placeholder="请选择开始日期"
+                value-format="yyyy-MM-dd HH:mm:ss">
+            </el-date-picker>
+            结束时间：
+            <el-date-picker
+                v-model="end"
+                align="right"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                default-time="23:59:59"
+                type="datetime"
+                style="margin-left:10px;
+                width:200px
+                margin-bottom:40px;"
+                placeholder="请选择结束日期">
+            </el-date-picker>
+                  <el-button type="primary" @click="search" @keyup.13="search" style="margin-left:100px;margin-bottom:40px;margin-top:40px">搜索</el-button>
                   <el-table :data="tableData" border style="width: 100%;">
+            
             <el-table-column
-                prop="agent_account"
-                label="代理昵称"
+                prop="member_account"
                 align="center"
-                width="180">
+                label="代理昵称">
             </el-table-column>
-
             <el-table-column
                 align="center"
                 label="创建时间">
@@ -37,12 +44,13 @@
                     {{scope.row.isReal | type}}
                 </template>
             </el-table-column>
-
             <el-table-column
-                prop="member_account"
+                prop="agent_account"
+                label="会员昵称"
                 align="center"
-                label="会员昵称">
+                width="180">
             </el-table-column>
+            
             <el-table-column
                 align="center"
                 label="操作">
@@ -67,13 +75,13 @@
 </template>
 
 <script>
-import { findMemberAssociation,MemberAudit } from '@/api/customer'
+import { findMemberAssociation,MemberAudit,findAllMember } from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
     data(){
         return {
             account:'',
-            datetime:'',
+            username: '',   //查询的昵称
             end:'',
             page:1,
             pageSize:20,
@@ -145,28 +153,37 @@ export default {
             this.pageSize = num;
             this.gettabledata()
         },
-        //搜索回调
-        getone(){
-            if(!this.account){
-                this.$message('请输入账户名')
-            }else{
-                console.log(this.datetime === '')
-                if(this.datetime === ''){
-                    this.end = ''
-                    this.start = ''
+        //查询
+        search() {
+            if (!this.account && !this.username) {
+                this.page = 1
+                this.gettabledata()
+            } else {
+                if(this.account === ''){
+                    this.getAccount()
                 }else{
-                    this.end = this.datetime[1];
-                    this.start = this.datetime[0];
+                    this.page = 1
+                    this.gettabledata()
                 }
-                this.gettabledata();
             }
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.gettabledata()
+            })
         },
         //获取表单数据
         gettabledata(){
             let obj = {
                 agentName:this.account,
-                endDate:this.end,
-                startDate:this.start,
+                endDate:this.end || '',
+                startDate:this.start || '',
                 page:this.page,
                 pageSize:this.pageSize
             }
@@ -187,17 +204,16 @@ export default {
             //console.log(data.agent_account);
             this.agentName = data.agent_account;
             let newobj = {
-                agentName:this.agentName,
-                memeberName:data.member_account,
+                agentName:data.member_account,
+                memeberName:this.agentName,
                 is_erview:1
             }
             MemberAudit(newobj).then(res => {
-                 if (res.data.error_code === 200) {
-                     Message.success('已通过')
-                     } else {
-                         Message.error(res.data.message)
-                         }
-
+                if (res.data.error_code === 200) {
+                    Message.success('已通过')
+                } else {
+                    Message.error(res.data.message)
+                }
             })
         }
     }

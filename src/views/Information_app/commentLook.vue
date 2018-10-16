@@ -1,0 +1,368 @@
+<template>
+	<div class="backend app-container">
+		<div class="layerbody">
+			<div class="search">
+                <el-input v-model="account" placeholder="请输入用户名" style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px" clearable></el-input>
+                <el-input v-model="username" placeholder="请输入昵称查询" style="width:10%;margin-right:50px;" clearable></el-input>
+                <el-select v-model="type"
+                        placeholder="筛选"
+                        @change="handlestatus"
+                        style="width:140px;margin-right: 50px;">
+                    <el-option v-for="item in options1"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                            >
+                    </el-option>
+                </el-select>
+                <el-select v-model="commentType"
+                        placeholder="筛选"
+                        @change="handlestatus"
+                        style="width:140px;margin-right: 50px;">
+                    <el-option v-for="item in options2"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                            :disabled="item.disabled">
+                    </el-option>
+                </el-select>
+                开始时间：
+                <el-date-picker
+                    v-model="startDate"
+                    type="datetime"
+                    style="margin-bottom:40px;margin-right:20px;width:200px"
+                    placeholder="请选择开始日期"
+                    value-format="yyyy-MM-dd HH:mm:ss">
+                </el-date-picker>
+                结束时间：
+                <el-date-picker
+                    v-model="endDate"
+                    align="right"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    default-time="23:59:59"
+                    type="datetime"
+                    style="margin-left:10px;
+                    width:200px
+                    margin-bottom:40px;"
+                    placeholder="请选择结束日期">
+                </el-date-picker>
+				<el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+                
+			</div>
+            <!-- <div slot="footer"
+                class="dialog-footer"
+                v-show="isShow"
+                style="padding:30px 0">
+                <el-button type="primary"
+                        style="width:10%;"
+                        @click="cofirm">确 定</el-button>
+            </div> -->
+			<div class="main">
+				<el-table :data="tableData"
+				          border
+				          tooltip-effect="dark"
+				          style="width: 100%"
+				          @selection-change="handleSelectionChange">
+					<el-table-column type="selection"
+					                 align="center">
+					</el-table-column>
+                    <el-table-column label="方案发起人"
+					                 prop="account"
+					                 align="center">
+					</el-table-column>
+                    <el-table-column label="方案ID"
+					                 prop="planNo"
+					                 align="center">
+					</el-table-column>
+					<el-table-column label="评论人"
+					                 prop="username"
+					                 align="center">
+					</el-table-column>
+					<el-table-column label="评论内容"
+					                 prop="connect"
+					                 align="center">
+					</el-table-column>
+                    <el-table-column label="评论时间"
+					                 prop="time"
+					                 align="center">
+					</el-table-column>
+                    <el-table-column label="回复内容"
+					                 prop="reply"
+					                 align="center">
+					</el-table-column>
+                    <el-table-column label="回复时间"
+					                 prop="replayTime"
+					                 align="center">
+					</el-table-column>
+                    <el-table-column label="审核状态"
+					                 prop="status"
+					                 align="center"
+                                     filter-placement="bottom-end">
+                                     <template slot-scope="scope">
+                                        <el-tag
+                                        disable-transitions>{{scope.row.status | changeType}}</el-tag>
+                                    </template>
+					</el-table-column>
+				</el-table>
+			</div>
+		</div>
+		<div class="page"
+		     v-show="pageShow"
+		     style="padding:30px 0">
+            <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="[10, 20, 30, 40, 50]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="totalList"
+                v-if="totalList != ''"
+                >
+            </el-pagination>
+		</div>
+        
+		<!-- 弹窗事件 -->
+		<!-- <el-dialog title="确认审核"
+		           :visible.sync="dialogVisible"
+		           width="40%">
+			<div>
+			</div>
+			<span slot="footer"
+			      class="dialog-footer">
+				<el-button @click="toExamine(2)">驳回</el-button>
+				<el-button type="primary"
+				           @click="toExamine(1)">审 核</el-button>
+			</span>
+		</el-dialog> -->
+	</div>
+</template>
+
+<script>
+import { getCommentList } from '@/api/personal_review.js'
+import { findAllMember } from '@/api/customer'
+import waves from '@/directive/waves/index.js' // 水波纹指令
+import { Message } from 'element-ui'
+import treeTable from '@/components/TreeTable'
+import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+export default {
+	data() {
+		return {
+            account: '',   //用户名
+            username: '', //昵称
+            type: '1',
+            commentType: '1',
+            startDate: '',
+            endDate: '',
+            page: 1,
+            pageSize: 20,
+            // comment: false,
+            // replay: false,
+			// input: '', //  分组名
+			// dialogVisible: false, //确认弹框
+			// isShow: false,
+            
+			totalList: 0, //总页数
+			tableData: [], //表格数据
+			// multipleSelection: [], //选中的数据
+			// arr: [],
+            pageShow: false,
+            // ids:'',   //存储被选中的id
+
+            // statustype: '', //状态类型
+            options1: [
+				{
+					value: '1',
+                    label: '评论',
+                    
+				},
+				{
+					value: '2',
+					label: '回复'
+                },  
+            ],
+            options2: [
+				{
+					value: '1',
+                    label: '推荐',
+                    disabled: false,
+				},
+				{
+					value: '2',
+                    label: '问答',
+                    disabled: false,
+                },
+                {
+					value: '3',
+                    label: '评论回复',
+                    disabled: false
+                },
+                {
+					value: '4',
+                    label: '回复回复',
+                    disabled: false
+                },
+                {
+					value: '0',
+                    label: '回复的全部',
+                    disabled: false
+                },
+			],
+		}
+	},
+	created() {
+        // this.getData()
+        // if(this.type === '1'){
+        //     this.replay = true
+        // }else{
+        //     this.comment = true
+        // }
+	},
+    filters: {
+        changeType(val){
+            if(val === 0 || val === '正在审核'){
+                return '正在审核'
+            }
+            else if(val === 1 || val === '审核通过'){
+                return '审核通过'
+            }
+            else if(val === 2 || val === '审核不通过'){
+                return '审核不通过'
+            }
+        }
+    },
+	methods: {
+		// onInput() {
+		// 	this.getData(1, this.sjname)
+		// },
+		// search() {
+		// 	this.getData()
+        // },
+        //查询
+        search() {
+            if (!this.account && !this.username) {
+                this.page = 1
+                this.getData()
+            } else {
+                if(this.account === ''){
+                    this.getAccount()
+                }else{
+                    this.page = 1
+                    this.getData()
+                }
+            }
+        },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                this.account = res.data.data.list[0].ACCOUNT
+                this.page = 1
+                this.getData()
+            })
+        },
+        //状态筛选的回调
+        handlestatus(val){
+            console.log(val)
+            this.getData(1, this.sjname,this.statustype)
+            if(this.type === '1'){
+                
+            }
+        },
+        //获取评论列表
+		getData() {
+			let obj = {
+                account: this.account,
+                commentType: this.commentType,
+                type: this.type,
+                startDate: this.startDate,
+                endDate: this.endDate,
+                offset: this.page,
+                pageSize : this.pageSize,
+			}
+			getCommentList(obj).then(res => {
+				console.log(res)
+				// if (res.data.error_code == 200) {
+				// 	this.tableData = res.data.data.list
+				// 	this.total = res.data.data.total
+				// 	this.pageShow = true
+				// } else {
+				// 	this.pageShow = false
+				// 	Message.success(res.data.message)
+				// }
+			})
+		},
+
+		// 选择框的回调
+		handleSelectionChange(val) {
+            this.multipleSelection = val
+			if (val.length > 0) {
+				this.isShow = true
+
+			} else {
+				this.isShow = false
+			}
+
+		},
+		cofirm() {
+            this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
+                this.ids += e.id + ','
+            });
+            console.log(this.ids)
+			this.dialogVisible = true
+		},
+        //评论审核
+        toExamine(val){
+			let arr = []
+			let myObj = {}
+			console.log(arr)
+			let type = val
+			let cid = this.ids
+				// shComment(type,JSON.stringify(cid)).then(res => {
+				shComment(type,cid).then(res => {
+					console.log(res)
+					if (res.data.error_code = 200) {
+						Message.success(res.data.message)
+						this.dialogVisible = false
+					} else {
+						Message.success(res.data.message)
+					}
+				})
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.gettabledata()
+        },
+        //翻页
+        handleCurrentChange(num){
+            this.page = num;
+            this.gettabledata()
+        },
+		
+	}
+}
+</script>
+
+<style scoped>
+.main {
+  padding-top: 30px;
+}
+.backend >>> .el-dialog__header{
+    text-align: center;
+}
+.backend >>> .el-dialog__footer{
+    text-align: center;
+}
+.backend >>> .el-button--default{
+    background: #e25550;
+    color: #fff;
+}
+.backend >>> .el-tag{
+    background: #31b0d5;
+    color: #fff;
+}
+</style>

@@ -91,7 +91,7 @@
                 label="是否白名单"
                 align="center">
                 <template slot-scope="scope">
-                    {{scope.row.isWhitelist | mtype}}
+                    {{scope.row.IS_WHITELIST | mtype}}
                 </template>
             </el-table-column>
 

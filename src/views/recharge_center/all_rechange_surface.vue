@@ -5,26 +5,26 @@
 		<div class="topten">
 			<el-row :gutter="20">
 			
-				<el-col :span="2">
-					<el-select v-model="child_type" placeholder="请选择充值类型">
-					<el-option v-for="item in options"
-					           :key="item.child_type"
-					           :label="item.label"
-					           :value="item.child_type">
-					</el-option>
-				</el-select>
+				<el-col :span="3">
+					<el-select v-model="child_type" placeholder="请选择充值类型" style="width:160px;">
+						<el-option v-for="item in options"
+								:key="item.child_type"
+								:label="item.label"
+								:value="item.child_type">
+						</el-option>
+					</el-select>
 				</el-col>
-				<el-col :span="2">
-					<el-select v-model="child_type" placeholder="请选择充值类型">
-					<el-option v-for="item in options2"
-					           :key="item.child_type"
-					           :label="item.label"
-					           :value="item.child_type">
-					</el-option>
-				</el-select>
+				<el-col :span="3">
+					<el-select v-model="child_type" placeholder="请选择充值类型" style="width:160px;">
+						<el-option v-for="item in options2"
+								:key="item.child_type"
+								:label="item.label"
+								:value="item.child_type">
+						</el-option>
+					</el-select>
 				</el-col>
 			
-				<el-col :span="5">
+				<el-col :span="3">
 			
 					<div class="grid-content bg-purple">
 						<el-input v-model="name"
@@ -364,7 +364,7 @@ export default {
 			})
 			let model = {
 				listParams: JSON.stringify(this.newarr),
-				title: '会员充值流水'
+				title: '线上线下流水表'
 			}
 			console.log(model)
 			exportExcle(model.listParams, model.title)
@@ -376,7 +376,7 @@ export default {
 				const list = this.tableData;
 				console.log(this.tableData);
 				const data = this.formatJson(filterVal, list);
-				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+				export_json_to_excel(tHeader, data, '线上线下流水表'); //对应下载文件的名字
 			})
 		}
 	},

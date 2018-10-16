@@ -6,11 +6,13 @@
             方案编号:<el-input v-model="planNo" placeholder="请输入方案编号" style="width: 130px;margin-right:30px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             发单金额:<el-input v-model="startAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至<el-input v-model="endAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
             税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:300px;margin-bottom:20px;margin-top:40px"></el-input>
-            方案状态：<el-select v-model="planStatus"
+            <!-- 方案状态： -->
+            订单状态：
+            <el-select v-model="planStatus"
 			           placeholder="请选择状态筛选数据"
 			           @change="getval"
                        style="width:8%">
-				<el-option v-for="item in options"
+				<el-option v-for="item in sections1"
 				           :key="item.planStatus"
 				           :label="item.label"
 				           :value="item.planStatus"
@@ -64,7 +66,22 @@
             </el-date-picker>
              预测奖金：<el-input v-model="minBonus" placeholder="请输入奖金最小值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至
              <el-input v-model="maxBonus" placeholder="请输入奖金最大值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>
-            <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
+            <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px;margin-right:120px;">查询</el-button>
+            <!-- 中奖金额总和 -->
+            <!-- 订单状态：
+            <el-select v-model="planStatus"
+			           placeholder="请选择状态筛选数据"
+			           @change="getval"
+                       style="width:7%">
+				<el-option v-for="item in sections1"
+				           :key="item.planStatus"
+				           :label="item.label"
+				           :value="item.planStatus">
+				</el-option>
+               
+			</el-select> -->
+            <span style="display:inline-block;">消费金额	:{{consumMoney}}&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wingPrize}}</span>
+            <el-button type="primary" @click="searchCount">统计总和</el-button>
             <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
         </div>
         <p style="font-size:12px;color:red;">注：点击昵称可以跳转到会员资料修改页面</p>
@@ -254,6 +271,7 @@
 <script>
 import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus } from '@/api/period'
 import { findAllMember} from '@/api/customer'
+import { getPlanWiningPrize } from '@/api/sys_user.js';
 export default {
     data(){
         return{
@@ -275,18 +293,18 @@ export default {
             page:1,
             pageSize:20,
             desc: '',
-            planStatus:'',
+            // planStatus:'',
             dialogShenVisible:false,
             Declarationofwithdrawal:false,
             undesirabledesabel:false,
             fadan:'',
-            options: [
-				{ planStatus: "", label: "全部" },
-				{ planStatus: "1", label: "未支付" },
-				{ planStatus: "3", label: "出票中" },
-                { planStatus: "4", label: "已出票" },
-                { planStatus: "9", label: "未出票作废" }
-            ],
+            // options: [
+			// 	{ planStatus: "", label: "全部" },
+			// 	{ planStatus: "1", label: "未支付" },
+			// 	{ planStatus: "3", label: "出票中" },
+            //     { planStatus: "4", label: "已出票" },
+            //     { planStatus: "9", label: "未出票作废" }
+            // ],
             sections: [
 				{ winStatus: "", label: "全部" },
 				{ winStatus: "1", label: "未开奖" },
@@ -294,6 +312,21 @@ export default {
                 { winStatus: "3", label: "已中奖" },
                 { winStatus: "4", label: "已派奖" },
                 { winStatus: "11", label: "已退款" }
+            ],
+            sections1: [
+				{ planStatus: "-1", label: "全部" },
+				{ planStatus: "1", label: "未支付" },
+				{ planStatus: "2", label: "招募中" },
+                { planStatus: "3", label: "出票中" },
+                { planStatus: "4", label: "已出票" },
+                { planStatus: "5", label: "已撤单" },
+                { planStatus: "6", label: "已流单" },
+                { planStatus: "7", label: "受理中" },
+                { planStatus: "8", label: "部份出票" },
+                { planStatus: "9", label: "未出票作废" },
+                { planStatus: "10", label: "已过期" },
+
+
             ],
             directions: [
                 { playType: "", label: "全部" },
@@ -310,6 +343,8 @@ export default {
             totalList: 0,
 
             username: "",   //输入查询的昵称
+            consumMoney: "",   //消费金额
+            wingPrize: "",    //中奖总金额
         }
     },
     filters:{
@@ -368,37 +403,35 @@ export default {
         this.getTodayDate()
     },
     methods:{
+        searchCount(){
+            let obj = {
+                account: this.account,
+                startTime:this.stime || '',
+                endTime:this.etime || '',
+                planStatus: this.planStatus,
+                wingStatus: this.winStatus
+            }
+            getPlanWiningPrize(obj).then( res => {
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.consumMoney = res.data.consumMoney
+                    this.wingPrize = res.data.wingPrize
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            })
+        },
         getTodayDate(){
                 let date = new Date()
-                console.log(date)
                 let y = date.getFullYear();
                 let m = date.getMonth() + 1;
                 m = m < 10 ? ('0' + m) : m;
                 let d = date.getDate();
                 d = d < 10 ? ('0' + d) : d;
                 this.stime =  y + '-' + m + '-' + d +' '+ '00:00:00';
-                console.log(this.stime)
                 this.etime = y + '-' + m + '-' + d +' '+ '23:59:59';
-                console.log(this.etime)
                 this.gettable()
         },
-        //将中国标准时间转换为日期
-        // changeTime(date){
-        //     if(date != ''){
-        //         let y = date.getFullYear();
-        //         let m = date.getMonth() + 1;
-        //         m = m < 10 ? ('0' + m) : m;
-        //         let d = date.getDate();
-        //         d = d < 10 ? ('0' + d) : d;
-        //         let h = date.getHours();
-        //         h = h < 10 ? ('0' + h) : h;
-        //         let minute = date.getMinutes();
-        //         minute = minute < 10 ? ('0' + minute) : minute;
-        //         let seconds = date.getSeconds();
-        //         seconds = seconds < 10 ? ('0' + seconds) : seconds;
-        //         return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
-        //     }
-        // },
         //点击账号跳转会员管理页面
         getupnewweb(a){
              this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
@@ -410,7 +443,6 @@ export default {
         },
         
         getval(){
-            console.log(this.planStatus)
             this.gettable()
         },
         FokusEreignis(){
@@ -448,7 +480,6 @@ export default {
                 desc:this.desc
             }
             selectLotteryPlan(obj).then(res =>{
-                console.log(res)
                 this.tableData = res.data.data
                 this.totalList = res.data.totalCount
                 this.fadan = res.data.data.planStatus
@@ -522,7 +553,6 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.gettable()

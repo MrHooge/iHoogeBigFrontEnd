@@ -1248,6 +1248,12 @@ export const constantRouterMap = [{
         component: () => import('@/views/Information_app/addCloud.vue'),
         meta: { title: '添加云豆' }
       }, 
+      {
+        path: 'commentLook',
+        name: '麒云资讯评论驳回',
+        component: () => import('@/views/Information_app/commentLook.vue'),
+        meta: { title: '麒云资讯评论驳回' }
+      }, 
     ]
   },
 
