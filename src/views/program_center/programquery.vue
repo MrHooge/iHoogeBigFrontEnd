@@ -68,20 +68,8 @@
              <el-input v-model="maxBonus" placeholder="请输入奖金最大值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px;margin-right:120px;">查询</el-button>
             <!-- 中奖金额总和 -->
-            <!-- 订单状态：
-            <el-select v-model="planStatus"
-			           placeholder="请选择状态筛选数据"
-			           @change="getval"
-                       style="width:7%">
-				<el-option v-for="item in sections1"
-				           :key="item.planStatus"
-				           :label="item.label"
-				           :value="item.planStatus">
-				</el-option>
-               
-			</el-select> -->
-            <span style="display:inline-block;">消费金额	:{{consumMoney}}&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wingPrize}}</span>
-            <el-button type="primary" @click="searchCount">统计总和</el-button>
+            <span style="display:inline-block;">消费金额:{{consumMoney}}元&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wingPrize}}元</span>
+            <el-button type="primary" @click="searchCount">统计总和</el-button><span style="color:red;font-size:14px;">注：默认显示当天的！</span>
             <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
         </div>
         <p style="font-size:12px;color:red;">注：点击昵称可以跳转到会员资料修改页面</p>
@@ -144,11 +132,6 @@
                     align="center"
                     label="彩种">
                 </el-table-column>
-                <!-- <el-table-column
-                    prop="term"
-                    align="center"
-                    label="彩期">
-                </el-table-column> -->
                 <el-table-column
                     align="center"
                     label="截止时间">
@@ -414,8 +397,8 @@ export default {
             getPlanWiningPrize(obj).then( res => {
                 console.log(res)
                 if(res.data.error_code === 200){
-                    this.consumMoney = res.data.consumMoney
-                    this.wingPrize = res.data.wingPrize
+                    this.consumMoney = res.data.data.consumMoney
+                    this.wingPrize = res.data.data.wingPrize
                 }else{
                     this.$message.error(res.data.message)
                 }

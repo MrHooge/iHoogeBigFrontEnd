@@ -25,6 +25,32 @@ export function addGoldCard(params,loginAccount){
         }
     })
 }
+//查询所有的彩金卡
+export function getAllGift(userInfos){
+    return request.member({
+        url:'/userManage/getAllGift',
+        method:'get',
+        params: userInfos
+    })
+}
+//修改礼物及彩金卡
+export function updateGift(userInfos){
+    return request.member({
+        url:'/userManage/updateGift',
+        method:'post',
+        data: userInfos
+    })
+}
+//查询充值赠送活动配置
+export function findAllRechargeCardAct(userInfos){
+    return request.member({
+        url:'/userManage/findAllRechargeCardAct',
+        method:'get',
+        params: userInfos
+    })
+}
+
+
 //红包记录
 export function grabRedRacketList2(params){
     return request.pay({
