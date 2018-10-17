@@ -627,11 +627,11 @@ export const constantRouterMap = [{
       },
       {
         path: 'activateWall',
-        name: '会员加白设置',
+        name: '市场加白',
         component: () =>
           import ('@/views/swiperWall/activate_Wall'),
         meta: {
-          title: '会员加白设置'
+          title: '市场加白'
         }
       },
 
@@ -1248,6 +1248,24 @@ export const constantRouterMap = [{
         name: '添加云豆',
         component: () => import('@/views/Information_app/addCloud.vue'),
         meta: { title: '添加云豆' }
+      }, 
+      {
+        path: 'commentLook',
+        name: '麒云资讯评论驳回',
+        component: () => import('@/views/Information_app/commentLook.vue'),
+        meta: { title: '麒云资讯评论驳回' }
+      }, 
+      {
+        path: 'underlineRecharge',
+        name: '线下充值',
+        component: () => import('@/views/Information_app/underlineRecharge.vue'),
+        meta: { title: '线下充值' }
+      }, 
+      {
+        path: 'putForward',
+        name: '提现',
+        component: () => import('@/views/Information_app/putForward.vue'),
+        meta: { title: '提现' }
       }, 
     ]
   },

@@ -157,15 +157,6 @@ export default {
 				this.getTable()
 			}
 		},
-			//查询
-		// inquire(){
-		// 	if(this.account == ''){
-		// 		this.$message('请输入昵称')
-		// 	}else{
-		// 		//account = this.account
-		// 		this.getTable()
-		// 	}
-        // },
         //查询
         inquire() {
             if (!this.account && !this.name) {

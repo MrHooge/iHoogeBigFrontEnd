@@ -143,8 +143,8 @@ export default {
 			let obj = {
 				loginAccount: getCookies('name'),
 				agentName: a,
-				startTime: b,
-				endTime: c,
+				startTime: b || '',
+				endTime: c || '',
 			}
 			console.log(obj)
 			findRechargeOnLine(obj).then(res => {

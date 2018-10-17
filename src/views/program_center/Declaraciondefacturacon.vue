@@ -145,7 +145,7 @@ export default {
                 account:this.account,
                 endAmount:this.endAmount,
                 endReturnAmount	:this.endReturnAmount,
-                endTime:this.etime,
+                endTime:this.etime || '',
                 page:this.page,
                 pageSize:this.pageSize,	
                 planNo:this.planNo,
@@ -153,7 +153,7 @@ export default {
                 playType:this.playType,
                 startAmount	:this.startAmount,
                 startReturnAmount:this.startReturnAmount,
-                startTime:this.stime,
+                startTime:this.stime || '',
                 winStatus:this.winStatus,
                 desc:''
             }

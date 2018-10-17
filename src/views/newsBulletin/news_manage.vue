@@ -8,6 +8,7 @@
             开始时间：<el-date-picker
             v-model="startTime"
             type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
             style="margin-bottom:40px;margin-right:20px;width:200px"
             placeholder="请选择开始日期">
             </el-date-picker>
@@ -20,6 +21,7 @@
             width:200px
             margin-bottom:40px;"
             placeholder="请选择结束日期"
+            value-format="yyyy-MM-dd HH:mm:ss"
             default-time="23:59:59"
             >
             </el-date-picker>
@@ -183,23 +185,23 @@ export default {
     },
     methods:{
         //将中国标准时间转换为日期
-        changeTime(date){
-            console.log(date)
-            if(date != '' && date != null){
-                let y = date.getFullYear();
-                let m = date.getMonth() + 1;
-                m = m < 10 ? ('0' + m) : m;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let minute = date.getMinutes();
-                minute = minute < 10 ? ('0' + minute) : minute;
-                let seconds = date.getSeconds();
-                seconds = seconds < 10 ? ('0' + seconds) : seconds;
-                return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
-            }
-        },
+        // changeTime(date){
+        //     console.log(date)
+        //     if(date != '' && date != null){
+        //         let y = date.getFullYear();
+        //         let m = date.getMonth() + 1;
+        //         m = m < 10 ? ('0' + m) : m;
+        //         let d = date.getDate();
+        //         d = d < 10 ? ('0' + d) : d;
+        //         let h = date.getHours();
+        //         h = h < 10 ? ('0' + h) : h;
+        //         let minute = date.getMinutes();
+        //         minute = minute < 10 ? ('0' + minute) : minute;
+        //         let seconds = date.getSeconds();
+        //         seconds = seconds < 10 ? ('0' + seconds) : seconds;
+        //         return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
+        //     }
+        // },
         //修改
         update(date){
             this.$router.push({ path: '/newsBulletin/addNews', query: { id: date.id } })
@@ -213,8 +215,8 @@ export default {
              type:this.type,
              title:this.title,
              label:this.label,
-             endTime:this.changeTime(this.endTime),
-             startTime:this.changeTime(this.startTime),
+             endTime:this.endTime,
+             startTime:this.startTime,
              offset:this.page,
              pageSize:this.pageSize
            }

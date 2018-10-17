@@ -42,9 +42,6 @@
             style="width: 100%"
             border
             @selection-change="handleSelectionChange">
-            <!-- <el-table-column
-                type="selection">
-                </el-table-column> -->
             <el-table-column
                 prop="walletLineNo"
                 align="center"
@@ -137,78 +134,6 @@
             >
             </el-pagination>
          </div>
-         <!-- 添加机器人弹窗 -->
-        <el-dialog
-            title="设置机器人抢红包"
-            :visible.sync="dialogVisible"
-            width="500px"
-            >
-            <el-row>
-                <el-col :span="4"><div class="grid-content bg-purple">
-                    红包金额
-                </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="amount" placeholder="请输入红包金额" type="number" min="0"></el-input>
-                </div></el-col>
-            </el-row>
-            <br>
-            <el-row>
-                <el-col :span="4"><div class="grid-content bg-purple">
-                    红包名称
-                </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="pageName" placeholder="请输入红包名称" clearable></el-input>
-                </div></el-col>
-            </el-row>
-            <br>            
-            <el-row>
-                <el-col :span="4"><div class="grid-content bg-purple">
-                    红包数量
-                </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="pageNum" placeholder="请输入红包个数" type="number" min="0"></el-input>
-                </div></el-col>
-            </el-row>
-            <br>
-            <el-row>
-                <el-col :span="4"><div class="grid-content bg-purple">
-                    抢夺金额
-                </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-input v-model="jmoney" placeholder="请输入抢夺的金额" type="number" min="0"></el-input>
-                </div></el-col>
-            </el-row>
-            <br>
-            <el-row>
-                <el-col :span="4"><div class="grid-content bg-purple">
-                    开始时间
-                </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-date-picker
-                        v-model="starttime"
-                        type="datetime"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        placeholder="请选择红包开始日期">
-                    </el-date-picker>
-                </div></el-col>
-            </el-row>
-            <br>
-            <el-row>
-                <el-col :span="4"><div class="grid-content bg-purple">
-                    红包类型
-                </div></el-col>
-                <el-col :span="12"><div class="grid-content bg-purple-light">
-                    <el-radio v-model="radio" label="1" border style="margin-bottom:20px">手气红包</el-radio><br />
-                    <el-radio v-model="radio" label="2" border>标准红包</el-radio>
-
-                </div></el-col>
-            </el-row>
-            <br>            
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="sure">确 定</el-button>
-            </span>
-        </el-dialog>
     </div>
 </template>
 

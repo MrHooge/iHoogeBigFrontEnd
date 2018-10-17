@@ -69,7 +69,7 @@
 					<span>{{ scope.row.todaySend | commissionUse }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="红包嘉奖彩金使用"
+			<el-table-column label="嘉奖"
 			                 prop="lotteryCard"
 			                 align="center">
 			</el-table-column>
@@ -80,7 +80,7 @@
 					<span>{{ scope.row.lotteryCardUse | commissionUse}}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="佣金使用"
+			<!-- <el-table-column label="佣金使用"
 			                 prop="commissionUse"
 			                 align="center">
 				<template slot-scope="scope">
@@ -93,7 +93,7 @@
 				<template slot-scope="scope">
 					<span>{{ scope.row.saleCommissionMoney | commissionUse }}</span>
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column label="平台收佣"
 			                 prop="platformCommissionMoney"
 			                 align="center">

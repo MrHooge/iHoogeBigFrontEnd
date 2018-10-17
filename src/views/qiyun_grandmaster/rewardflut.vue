@@ -163,8 +163,8 @@ export default {
         account: this.account || "",
         offset: this.page,
         pageSize: this.pageSize,
-        endTime: this.etime,
-        startTime: this.stime
+        endTime: this.etime || '',
+        startTime: this.stime || ''
       };
       getRewardList(model)
         .then(res => {

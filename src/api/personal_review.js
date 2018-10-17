@@ -102,9 +102,49 @@ export function addMantio(obj) {
 }
 //添加云豆
 export function addCloud(obj) {
-    return request.member({
-      url: url + "/memberManage/addCloud",
-      method: "get",
-      params: obj
-    });
-  }
+  return request.member({
+    url: url + "/memberManage/addCloud",
+    method: "get",
+    params: obj
+  });
+}
+//获取评论列表
+export function getCommentList(obj) {
+  return request.member({
+    url: url + "/memberManage/getCommentList",
+    method: "get",
+    params: obj
+  });
+}
+//评论回复驳回
+export function bhComment(obj) {
+  return request.member({
+    url: url + "/memberManage/bhComment",
+    method: "get",
+    params: obj
+  });
+}
+//线下充值
+export function addClouds(obj) {
+  return request.member({
+    url: url + "/memberManage/addClouds",
+    method: "get",
+    params: obj
+  });
+}
+//获取提现列表
+export function withdrawCashList(obj) {
+  return request.member({
+    url: url + "/memberManage/withdrawCashList",
+    method: "get",
+    params: obj
+  });
+}
+//提现
+export function withdrawCashConfirm(obj) {
+  return request.member({
+    url: url + "/memberManage/withdrawCashConfirm",
+    method: "get",
+    params: obj
+  });
+}

@@ -153,8 +153,8 @@ export default {
                 loginAccount: getCookies('name'),
                 page:this.page,
                 pageSize:this.pageSize,
-                startTime: this.value1,
-                endTime: this.value2,
+                startTime: this.value1 || '',
+                endTime: this.value2 || '',
             }
 			findAccountActiveWall(obj).then(res=>{
 				console.log(res)

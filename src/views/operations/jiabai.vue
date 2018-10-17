@@ -14,7 +14,7 @@
             </div>
         </div>
         <div style="width:50%;margin: 0 auto;text-align:center;margin-top:50px;">
-            <span>配置订单数量提醒</span>
+            <span>客户当日下单超限提醒</span>
             <el-input type="number" placeholder="请输入数量" v-model="num" style="width:200px;"></el-input>
             <el-button type="primary" @click="remind">配置</el-button>
         </div>

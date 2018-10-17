@@ -306,11 +306,11 @@ export default {
         getTable(){
             let obj = {
                 account: this.account,
-                end_time: this.end_time,
+                end_time: this.end_time || '',
                 mobile: this.mobile,
                 page: this.page,
                 pageSize: this.pageSize,
-                start_time: this.start_time,
+                start_time: this.start_time || '',
                 username: this.username,
                 realName: this.name,
                 identifyId: this.idcard,

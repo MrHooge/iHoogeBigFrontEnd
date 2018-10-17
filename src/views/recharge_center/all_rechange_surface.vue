@@ -5,26 +5,26 @@
 		<div class="topten">
 			<el-row :gutter="20">
 			
-				<el-col :span="2">
-					<el-select v-model="child_type" placeholder="请选择充值类型">
-					<el-option v-for="item in options"
-					           :key="item.child_type"
-					           :label="item.label"
-					           :value="item.child_type">
-					</el-option>
-				</el-select>
+				<el-col :span="3">
+					<el-select v-model="child_type" placeholder="请选择充值类型" style="width:160px;">
+						<el-option v-for="item in options"
+								:key="item.child_type"
+								:label="item.label"
+								:value="item.child_type">
+						</el-option>
+					</el-select>
 				</el-col>
-				<el-col :span="2">
-					<el-select v-model="child_type" placeholder="请选择充值类型">
-					<el-option v-for="item in options2"
-					           :key="item.child_type"
-					           :label="item.label"
-					           :value="item.child_type">
-					</el-option>
-				</el-select>
+				<el-col :span="3">
+					<el-select v-model="child_type" placeholder="请选择充值类型" style="width:160px;">
+						<el-option v-for="item in options2"
+								:key="item.child_type"
+								:label="item.label"
+								:value="item.child_type">
+						</el-option>
+					</el-select>
 				</el-col>
 			
-				<el-col :span="5">
+				<el-col :span="3">
 			
 					<div class="grid-content bg-purple">
 						<el-input v-model="name"
@@ -149,13 +149,25 @@
 		</el-table>
 		<div class="page"
 		     v-show="pageShow">
-			<el-pagination background
+			<!-- <el-pagination background
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
 			               :total="total"
                            v-if="total != ''">
-			</el-pagination>
+			</el-pagination> -->
+            <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            v-if="totalList != ''"
+            >
+            </el-pagination>
 		</div>
 	</div>
 </template>
@@ -170,11 +182,13 @@ import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
 	data() {
 		return {
-			pageShow: true,
+            pageShow: true,
+            page: 1,
+            pageSize: 20,
 			dialogFormVisible:false,
 			name: "", // 用户名
 			number: "", // 充值的金额
-			total: 0, // 总页数
+			totalList: 0, // 总页数
 			tableData: [],//表格的数据
 			dialogVisible: false,
 			username: '',
@@ -257,28 +271,31 @@ export default {
 
 	},
 	created() {
-        this.getData(1, this.name, this.value1, this.value2)
+        this.getData( this.name, this.value1, this.value2)
 	},
 	methods: {
 		typechange(){
-			this.dialogFormVisible = true
+            this.dialogFormVisible = true
+            
 		},
 		onInput() {
 			if (this.name == '') {
-				this.getData(1, this.name, this.value1, this.value2)
+                this.page = 1
+				this.getData( this.name, this.value1, this.value2)
 			}
 		},
 		search() {
-			this.getData(1, this.name, this.value1, this.value2)
+            this.page = 1
+			this.getData( this.name, this.value1, this.value2)
 
 		},
-		getData(curr, a, b, c) {
+		getData( a, b, c) {
 			let obj = {
 				loginAccount: getCookies('name'),
-				page: curr,
-				pageSize: 20,
-				start_time: b,
-				end_time: c,
+				page: this.page,
+				pageSize: this.pageSize,
+				start_time: b || '',
+				end_time: c || '',
 				type: 2,
 				child_type:this.child_type,
 				account:a,
@@ -302,14 +319,20 @@ export default {
 			findMemberWalletLineByAccount(obj).then(res => {
 				if (res.data.error_code == 200) {
 					this.tableData = res.data.data.list
-					this.total = res.data.data.total
+					this.totalList = res.data.data.total
 				}else {
 					Message.success(res.data.message)
 				}
 			})
-		},
-		changepage(val) {
-			this.getData(val, this.name, this.value1, this.value2)
+        },
+        //改变页面大小
+        handleSizeChange(num){
+            this.pageSize = num;
+            this.getData(this.name, this.value1, this.value2)
+        },
+		handleCurrentChange(val) {
+            this.page = val
+			this.getData( this.name, this.value1, this.value2)
         },
         formatJson(filterVal, jsonData) {
     　　　　　　return jsonData.map(v => filterVal.map(j => v[j]))
@@ -341,7 +364,7 @@ export default {
 			})
 			let model = {
 				listParams: JSON.stringify(this.newarr),
-				title: '会员充值流水'
+				title: '线上线下流水表'
 			}
 			console.log(model)
 			exportExcle(model.listParams, model.title)
@@ -353,7 +376,7 @@ export default {
 				const list = this.tableData;
 				console.log(this.tableData);
 				const data = this.formatJson(filterVal, list);
-				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
+				export_json_to_excel(tHeader, data, '线上线下流水表'); //对应下载文件的名字
 			})
 		}
 	},

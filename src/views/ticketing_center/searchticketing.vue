@@ -564,14 +564,14 @@ export default {
                 playType:this.playType,//玩法
                 isBingo:this.isBingo,//中奖状态
                 status:this.status,//出票状态
-                createDateTimeStart:this.createDateTimeStart,//生成票时间开始
-                createDateTimeEnd:this.createDateTimeEnd,//生成票时间结束
-                printDateTimeStart:this.printDateTimeStart,//打印票时间开始
-                printDateTimeEnd:this.printDateTimeEnd,//打印票时间结束
-                sendTicketDateTimeStart:this.sendTicketDateTimeStart,//送票时间开始
-                sendTicketDateTimeEnd:this.sendTicketDateTimeEnd,//送票时间结束
-                startTerm:this.startTerm,//彩期开始
-                endTerm:this.endTerm,//彩期结束
+                createDateTimeStart:this.createDateTimeStart || '',//生成票时间开始
+                createDateTimeEnd:this.createDateTimeEnd || '',//生成票时间结束
+                printDateTimeStart:this.printDateTimeStart || '',//打印票时间开始
+                printDateTimeEnd:this.printDateTimeEnd || '',//打印票时间结束
+                sendTicketDateTimeStart:this.sendTicketDateTimeStart || '',//送票时间开始
+                sendTicketDateTimeEnd:this.sendTicketDateTimeEnd || '',//送票时间结束
+                startTerm:this.startTerm || '',//彩期开始
+                endTerm:this.endTerm || '',//彩期结束
                 offset:this.page,//页数
                 pageSize:this.pageSize,
                 type: this.type

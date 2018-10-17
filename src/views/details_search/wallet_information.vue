@@ -4,8 +4,8 @@
             账号：<el-input v-model="account" placeholder="请输入账户" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 150px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
-            <span style="font-size:16px;margin-left:780px;">可用余额统计：{{ableBalanceCount}}元</span>
-            <p style="color:red;font-size:14px;margin-left:1490px;">注：该统计数是所有用户的统计</p>
+            <span style="font-size:16px;">可用余额统计：{{ableBalanceCount}}元</span>
+            <span style="color:red;font-size:14px;margin-left:10px;">注：该统计数是所有用户的统计</span>
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">

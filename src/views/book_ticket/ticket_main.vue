@@ -554,11 +554,11 @@ export default {
                 startCount: this.startCount,
                 endCount: this.endCount,    //张数
 
-                startCreateTime: this.startCreateTime,
-                endCreateTime: this.endCreateTime,  //发起时间
+                startCreateTime: this.startCreateTime || '',
+                endCreateTime: this.endCreateTime || '',  //发起时间
 
-                startDealTime: this.startDealTime,  
-                endDealTime: this.endDealTime,    //截止时间
+                startDealTime: this.startDealTime || '',  
+                endDealTime: this.endDealTime || '',    //截止时间
 
                 startMultiple: this.startMultiple,
                 endMultiple: this.endMultiple,   //倍数
