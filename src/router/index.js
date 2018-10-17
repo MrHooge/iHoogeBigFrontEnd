@@ -198,15 +198,7 @@ export const constantRouterMap = [{
           title: '开户轮播墙'
         }
       },
-      {
-        path: 'activateWall',
-        name: '激活轮播墙',
-        component: () =>
-          import ('@/views/swiperWall/activate_Wall'),
-        meta: {
-          title: '激活轮播墙'
-        }
-      },
+      
       {
         path: 'rechangeWall',
         name: '充值与消费墙',
@@ -631,6 +623,15 @@ export const constantRouterMap = [{
           import ('@/views/agent_manager/capital_flow'),
         meta: {
           title: '资金流水'
+        }
+      },
+      {
+        path: 'activateWall',
+        name: '市场加白',
+        component: () =>
+          import ('@/views/swiperWall/activate_Wall'),
+        meta: {
+          title: '市场加白'
         }
       },
 

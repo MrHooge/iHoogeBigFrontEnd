@@ -3,8 +3,8 @@
   <div class="activityGiftcard">
     <div class="btnbox">
             <el-button type="primary" @click="givemoney">充值送彩金卡</el-button>
-            <el-button type="primary" @click="modifyCard">修改礼物及彩金卡</el-button>
-            <el-button type="primary" @click="modidyActivity">修改充值赠送活动</el-button>
+            <el-button type="primary" @click="modifyCard">修改彩金卡及大转盘</el-button>
+            <el-button type="primary" @click="modidyActivity">修改手工充值赠送活动</el-button>
             <!-- 充值送彩金卡 -->
             <el-dialog
                 title="充值送彩金卡"
@@ -50,9 +50,9 @@
                     <el-button type="primary" @click="sure">确 定</el-button>
                 </span>
             </el-dialog>
-            <!-- 修改礼物及彩金卡 -->
+            <!-- 修改彩金卡及大转盘 -->
             <el-dialog
-                title="修改礼物及彩金卡"
+                title="修改彩金卡及大转盘"
                 :visible.sync="dialogVisible1">
                 <el-table
                     ref="multipleTable"
@@ -104,10 +104,13 @@
                     </el-table-column>
                 </el-table>
             </el-dialog>
-            <!-- 修改充值赠送活动 -->
+            <!-- 修改手工充值赠送活动 -->
             <el-dialog
-                title="修改充值赠送活动"
+                title="修改手工充值赠送活动"
                 :visible.sync="dialogVisible2">
+                <p>1.录入起始金额</p>
+                <p>2.彩金卡必须是当前已有彩金卡，否则无法使用</p>
+                <p>3.赠送彩金卡以数字加英文逗号隔开，可重复（例如：24,8,8,80 即24元彩金卡一张，8元两张，80元一张）</p>
                 <el-table
                     ref="multipleTable"
                     :data="tableData2"
@@ -131,10 +134,7 @@
                         align="center"                
                         label="赠送彩金卡id">
                         <template slot-scope="scope">
-                            <!-- <el-input v-model="scope.row.content"></el-input> -->
-                            <el-select>
-                                
-                            </el-select>
+                            <el-input v-model="scope.row.content"></el-input>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -158,36 +158,43 @@
 </template>
 
 <script>
-import { addGoldCard,getAllGift,updateGift,findAllRechargeCardAct } from '@/api/activity'
+import { addGoldCard,getAllGift,updateGift,findAllRechargeCardAct,updateRechargeCardAct } from '@/api/activity'
 import { Message, MessageBox } from 'element-ui'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
     data() {
         return {
             dialogVisible: false,//充值送彩金卡
-            dialogVisible1: false,//修改礼物及彩金卡
-            dialogVisible2: false,//修改充值赠送活动
+            dialogVisible1: false,//修改彩金卡及大转盘
+            dialogVisible2: false,//修改手工充值赠送活动
             username:'',
             options: [],   //存储彩金卡
             money:'',
             tableData1: [],   //存储所有礼物及彩金卡数据
             tableData2: [],   //存储所有充值赠送活动配置
 
-            id: '',
-            full_money: '',
-            money: '',
-            name: '',
-            prob: '',
+            id: '',     //存储礼物的id
+            full_money: '',  //存储礼物的满额度使用	
+            money: '',    //存储礼物的价值金额	
+            name: '',    //存储礼物的名字
+            prob: '',    //存储礼物的获得概率
+
+            activityId: '', //存储充值赠送活动的id
+            activityContent: '', //存储充值赠送活动的赠送彩金卡id
+            activityBegin_money: '',  //存储充值赠送活动的起始金额
+            activityEnd_money: '',   //存储充值赠送活动的结束金额	
         }
+    },
+    created() {
+        this.getAllCards()
     },
     components: {},
     methods:{
-        //修改礼物及彩金卡弹出框
+        //修改彩金卡及大转盘弹出框
         modifyCard(){
             this.dialogVisible1 = true
-            this.getAllCards()
         },
-        //修改礼物及彩金卡确定按钮
+        //修改彩金卡及大转盘确定按钮
         modifyCardSure(val){
             this.id = val.id
             this.full_money = val.full_money
@@ -203,16 +210,38 @@ export default {
                 limit_money: '',
             }
             updateGift(obj).then( res=>{
-                console.log(res)
+                if(res.data.error_code === 200){
+                    this.$message.success(res.data.message)
+                    this.dialogVisible2 = false
+                }else{
+                    this.$message.error(res.data.message)
+                }
             })
         },
-        //修改充值赠送活动弹出框
+        //修改手工充值赠送活动弹出框
         modidyActivity(){
             this.dialogVisible2 = true
             this.getAllCardAct()
         },
         modidyActivitySure(val){
-            console.log(val)
+            this.activityId = val.id
+            this.activityContent = val.content
+            this.activityBegin_money = val.begin_money
+            this.activityEnd_money = val.end_money
+            let obj = {
+                id: this.activityId,
+                content: this.activityContent,
+                begin_money: this.activityBegin_money,
+                end_money: this.activityEnd_money,
+            }
+            updateRechargeCardAct(obj).then(res =>{
+                if(res.data.error_code === 200){
+                    this.$message.success(res.data.message)
+                    this.dialogVisible2 = false
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            })
         },
         //获取所有彩金卡
         getAllCards(){
@@ -235,10 +264,10 @@ export default {
         },
         getAllCardAct(){
             findAllRechargeCardAct().then(res =>{
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.tableData2 = res.data.data
-                    
+                }else{
+                    this.tableData2 = []
                 }
             })
         },
@@ -247,7 +276,6 @@ export default {
             this.money = '',
             this.username = '',
             this.dialogVisible = true
-            this.getAllCards()
         },
         //确定按钮的回调
         sure(){
@@ -268,7 +296,6 @@ export default {
                     this.$message.error(res.data.message)
                 }
             })
-
         }
 
     }

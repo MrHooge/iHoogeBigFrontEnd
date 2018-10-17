@@ -33,7 +33,7 @@ export function getAllGift(userInfos){
         params: userInfos
     })
 }
-//修改礼物及彩金卡
+//修改礼物及大转盘
 export function updateGift(userInfos){
     return request.member({
         url:'/userManage/updateGift',
@@ -47,6 +47,14 @@ export function findAllRechargeCardAct(userInfos){
         url:'/userManage/findAllRechargeCardAct',
         method:'get',
         params: userInfos
+    })
+}
+//修改充值赠送活动
+export function updateRechargeCardAct(userInfos){
+    return request.member({
+        url:'/userManage/updateRechargeCardAct',
+        method:'post',
+        data: userInfos
     })
 }
 
