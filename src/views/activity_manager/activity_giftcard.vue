@@ -92,14 +92,16 @@
                         align="center"                
                         label="获得概率">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.prob"></el-input>
+                            <el-input value="0" v-if="scope.row.prob === 0"></el-input>
+                            <el-input v-model="scope.row.prob" v-else></el-input>
                         </template>
                     </el-table-column>
                     <el-table-column
                         align="center"                
                         label="操作">
                         <template slot-scope="scope">
-                            <el-button type="primary" @click="modifyCardSure(scope.row)">修改</el-button>
+                            <el-button v-if="scope.row.full_money === -1" disabled>修改</el-button>
+                            <el-button type="primary" @click="modifyCardSure(scope.row)" v-else>修改</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -196,6 +198,8 @@ export default {
         },
         //修改彩金卡及大转盘确定按钮
         modifyCardSure(val){
+            
+            console.log(val.prob)
             this.id = val.id
             this.full_money = val.full_money
             this.money = val.money
@@ -212,7 +216,7 @@ export default {
             updateGift(obj).then( res=>{
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
-                    this.dialogVisible2 = false
+                    this.dialogVisible1 = false
                 }else{
                     this.$message.error(res.data.message)
                 }
@@ -223,6 +227,7 @@ export default {
             this.dialogVisible2 = true
             this.getAllCardAct()
         },
+        //修改手工充值赠送活动确定按钮
         modidyActivitySure(val){
             this.activityId = val.id
             this.activityContent = val.content
@@ -291,7 +296,7 @@ export default {
             addGoldCard(params,loginAccount).then(res => {
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
-                this.dialogVisible = false
+                    this.dialogVisible = false
                 }else{
                     this.$message.error(res.data.message)
                 }

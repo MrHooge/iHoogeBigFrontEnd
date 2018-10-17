@@ -117,6 +117,15 @@ export function selectLotteryPlan(userinfos){
         
     })
 }
+//根据比赛查询方案
+export function getPlanByMatch(userinfos){
+    return request.lottery({
+        url:'/lottery/getPlanByMatch',
+        method:'get',
+        params:userinfos
+        
+    })
+}
 //方案修改
 export function updatePlanDesc(userinfos){
     return request.lottery({

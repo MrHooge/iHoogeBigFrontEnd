@@ -1255,6 +1255,18 @@ export const constantRouterMap = [{
         component: () => import('@/views/Information_app/commentLook.vue'),
         meta: { title: '麒云资讯评论驳回' }
       }, 
+      {
+        path: 'underlineRecharge',
+        name: '线下充值',
+        component: () => import('@/views/Information_app/underlineRecharge.vue'),
+        meta: { title: '线下充值' }
+      }, 
+      {
+        path: 'putForward',
+        name: '提现',
+        component: () => import('@/views/Information_app/putForward.vue'),
+        meta: { title: '提现' }
+      }, 
     ]
   },
 

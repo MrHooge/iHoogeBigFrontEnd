@@ -124,3 +124,27 @@ export function bhComment(obj) {
     params: obj
   });
 }
+//线下充值
+export function addClouds(obj) {
+  return request.member({
+    url: url + "/memberManage/addClouds",
+    method: "get",
+    params: obj
+  });
+}
+//获取提现列表
+export function withdrawCashList(obj) {
+  return request.member({
+    url: url + "/memberManage/withdrawCashList",
+    method: "get",
+    params: obj
+  });
+}
+//提现
+export function withdrawCashConfirm(obj) {
+  return request.member({
+    url: url + "/memberManage/withdrawCashConfirm",
+    method: "get",
+    params: obj
+  });
+}

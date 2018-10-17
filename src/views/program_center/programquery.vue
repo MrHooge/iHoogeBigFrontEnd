@@ -6,10 +6,10 @@
             方案编号:<el-input v-model="planNo" placeholder="请输入方案编号" style="width: 130px;margin-right:30px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             发单金额:<el-input v-model="startAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至<el-input v-model="endAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
             税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:300px;margin-bottom:20px;margin-top:40px"></el-input>
-            <!-- 方案状态： -->
+
             订单状态：
             <el-select v-model="planStatus"
-			           placeholder="请选择状态筛选数据"
+			           placeholder="请选择订单状态"
 			           @change="getval"
                        style="width:8%">
 				<el-option v-for="item in sections1"
@@ -20,8 +20,21 @@
 				</el-option>
                
 			</el-select>
+            彩种：
+            <el-select v-model="lotteryType"
+			           placeholder="请选择彩种类型"
+			           @change="getval"
+                       style="width:8%">
+				<el-option v-for="item in sections2"
+				           :key="item.lotteryType"
+				           :label="item.label"
+				           :value="item.lotteryType"
+                           >
+				</el-option>
+               
+			</el-select>
             中奖状态：<el-select v-model="winStatus"
-			           placeholder="请选择状态筛选数据"
+			           placeholder="请选择中奖状态"
 			           @change="getval"
                        style="width:7%">
 				<el-option v-for="item in sections"
@@ -32,7 +45,7 @@
                
 			</el-select><br />
             玩法：<el-select v-model="playType"
-			           placeholder="请选择状态筛选数据"
+			           placeholder="请选择玩法"
 			           @change="getval"
                        style="width:10%">
 				<el-option v-for="item in directions"
@@ -60,16 +73,52 @@
             width:200px;
             margin-bottom:40px;"
             placeholder="请选择结束日期"
-            default-time="23:59:59"
-            
-            >
+            default-time="23:59:59">
             </el-date-picker>
              预测奖金：<el-input v-model="minBonus" placeholder="请输入奖金最小值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至
              <el-input v-model="maxBonus" placeholder="请输入奖金最大值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px;margin-right:120px;">查询</el-button>
+            <!-- 根据比赛查询方案 -->
+            方案购买开始时间:
+            <el-date-picker
+                v-model="start_time"
+                type="datetime"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="margin-bottom:40px;margin-right:20px;width:200px"
+                placeholder="请选择开始日期">
+            </el-date-picker>
+            方案结束时间:
+            <el-date-picker
+                v-model="end_time"
+                align="right"
+                type="datetime"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="margin-left:10px;
+                margin-right:30px;
+                width:200px;
+                margin-bottom:40px;"
+                placeholder="请选择结束日期"
+                default-time="23:59:59">
+            </el-date-picker>
+            比赛时间:
+            <el-date-picker
+                v-model="intTimt"
+                align="right"
+                value-format="yyyyMMdd"
+                style="margin-left:10px;
+                margin-right:30px;
+                width:200px;
+                margin-bottom:40px;"
+                placeholder="请选择比赛时间">
+            </el-date-picker>
+            比赛场次:<el-input v-model="lineId" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
+            <el-button type="primary" @click="matchSearch">根据比赛查询方案</el-button>
             <!-- 中奖金额总和 -->
-            <span style="display:inline-block;">消费金额:{{consumMoney}}元&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wingPrize}}元</span>
-            <el-button type="primary" @click="searchCount">统计总和</el-button><span style="color:red;font-size:14px;">注：默认显示当天的！</span>
+            <div v-show="isAdmin">
+                <span style="display:inline-block;">消费金额:{{consumMoney}}元&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wingPrize}}元</span>
+                <el-button type="primary" @click="searchCount">统计总和</el-button><span style="color:red;font-size:14px;">注：默认显示当天的！</span>
+            </div>
+            
             <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
         </div>
         <p style="font-size:12px;color:red;">注：点击昵称可以跳转到会员资料修改页面</p>
@@ -252,7 +301,7 @@
     </div>
 </template>
 <script>
-import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus } from '@/api/period'
+import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus,getPlanByMatch } from '@/api/period'
 import { findAllMember} from '@/api/customer'
 import { getPlanWiningPrize } from '@/api/sys_user.js';
 export default {
@@ -288,6 +337,7 @@ export default {
             //     { planStatus: "4", label: "已出票" },
             //     { planStatus: "9", label: "未出票作废" }
             // ],
+            
             sections: [
 				{ winStatus: "", label: "全部" },
 				{ winStatus: "1", label: "未开奖" },
@@ -311,6 +361,23 @@ export default {
 
 
             ],
+            
+            sections2: [
+                // {lotteryType:"304",label:"竞彩篮球单关投注"},
+                // {lotteryType:"30",label:"竞彩篮球胜负"},
+                // {lotteryType:"31",label:"竞彩篮球让分胜负"},
+                // {lotteryType:"32",label:"竞彩篮球胜分差"},
+                // {lotteryType:"33",label:"竞彩篮球大小分"},
+                {lotteryType:"43",label:"竞彩篮球混合过关"},
+                // {lotteryType:"303",label:"竞彩足球单关投注"},
+                {lotteryType:"42",label:"竞彩足球混合过关"},
+                // {lotteryType:"41",label:"竞彩足球胜平负"},
+                // {lotteryType:"34",label:"竞彩足球让球胜平负"},
+                // {lotteryType:"35",label:"竞彩足球比分"},
+                // {lotteryType:"36",label:"竞彩足球进球数"},
+                // {lotteryType:"37",label:"竞彩足球半全场"}
+
+            ],
             directions: [
                 { playType: "", label: "全部" },
                 { playType: "116", label: "自由过关" },
@@ -328,6 +395,15 @@ export default {
             username: "",   //输入查询的昵称
             consumMoney: "",   //消费金额
             wingPrize: "",    //中奖总金额
+
+            lotteryType: '',
+
+            start_time: '',   //方案购买开始时间
+            end_time: '',     //方案结束时间
+            intTimt: '',     //比赛时间
+            lineId: '',     //比赛场次
+
+            isAdmin: false,
         }
     },
     filters:{
@@ -384,8 +460,41 @@ export default {
     created(){
         // this.gettable()
         this.getTodayDate()
+        console.log(this.$store.state.user. name)
+
+        //只有如下账号的人可以显示
+        if(this.$store.state.user.name === 'develop' || this.$store.state.user.name === 'manager' ||  this.$store.state.user.name === 'admin' ){
+            this.isAdmin = true
+        }else{
+            this.isAdmin = false
+        }
     },
     methods:{
+        //根据比赛查询方案
+        matchSearch(){
+            let obj ={
+                start_time: this.start_time,
+                end_time: this.end_time,
+                intTimt: this.intTimt,
+                lineId: this.lineId
+            }
+            getPlanByMatch(obj).then(res =>{
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data
+                    this.totalList = res.data.totalCount
+                    this.fadan = res.data.data.planStatus
+                    this.tableData.forEach((e,index) => {
+                        this.fadan = e.planDesc
+                    })
+                    this.$message.success(res.data.message)
+                }else{
+                    this.$message.error(res.data.message)
+                }
+
+            })
+        },
+        //统计总和
         searchCount(){
             let obj = {
                 account: this.account,
@@ -460,7 +569,8 @@ export default {
                 maxBonus:this.maxBonus,
                 minBonus:this.minBonus,
                 winStatus:this.winStatus,
-                desc:this.desc
+                desc:this.desc,
+                lotteryType: this.lotteryType   //彩种
             }
             selectLotteryPlan(obj).then(res =>{
                 this.tableData = res.data.data
@@ -499,23 +609,18 @@ export default {
             planNo:this.onePlanNo
         }
         planBack(subject)
-        .then(res => {
-            if(res.data.error_code == 200){
-                this.$message.success('退单成功')
-                this.Declarationofwithdrawal = false
-                this.gettable()
-            }else{
-                this.Declarationofwithdrawal = false
-                this.$message.error(res.data.message)
-                
-            }
-        })
+            .then(res => {
+                if(res.data.error_code == 200){
+                    this.$message.success('退单成功')
+                    this.Declarationofwithdrawal = false
+                    this.gettable()
+                }else{
+                    this.Declarationofwithdrawal = false
+                    this.$message.error(res.data.message)
+                    
+                }
+            })
         },
-        //查询
-        // search(){
-        //     this.page = 1
-        //     this.gettable()
-        // },
         search() {
 			if (!this.account && !this.username) {
                 // this.$message("请输入您要查询的账号或昵称！")
