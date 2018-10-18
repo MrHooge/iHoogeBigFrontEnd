@@ -1267,6 +1267,12 @@ export const constantRouterMap = [{
         component: () => import('@/views/Information_app/putForward.vue'),
         meta: { title: '提现' }
       }, 
+      {
+        path: 'reportExamine',
+        name: '举报审核',
+        component: () => import('@/views/Information_app/reportExamine.vue'),
+        meta: { title: '举报审核' }
+      }, 
     ]
   },
 

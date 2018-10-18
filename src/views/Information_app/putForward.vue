@@ -27,7 +27,8 @@
                                      prop="status"
                                      align="center">
                         <template slot-scope="scope">
-                            <el-button type="success" @click="cofirm(scope.row)">提现</el-button>
+                            <el-button type="success" @click="cofirm(scope.row,1)">确认</el-button>
+                            <el-button type="danger" @click="cofirm(scope.row,2)">驳回</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -47,21 +48,32 @@
             </el-pagination>
         </div>
         <!-- 弹窗事件 -->
-        <el-dialog title="确认驳回"
-		           :visible.sync="dialogVisible"
+        <el-dialog title="确认提现"
+		           :visible.sync="dialogVisible1"
 		           width="40%"
                    >
 			<span slot="footer"
 			      class="dialog-footer">
-                  <el-button @click="dialogVisible = false" type="primary">取消</el-button>
+                  <el-button @click="dialogVisible1 = false" type="primary">取消</el-button>
 				<el-button @click="sure()" type="success">确定</el-button>
+			</span>
+		</el-dialog>
+
+        <el-dialog title="确认驳回"
+		           :visible.sync="dialogVisible2"
+		           width="40%"
+                   >
+			<span slot="footer"
+			      class="dialog-footer">
+                  <el-button @click="dialogVisible2 = false" type="primary">取消</el-button>
+				<el-button @click="bohui()" type="success">确定</el-button>
 			</span>
 		</el-dialog>
     </div>
 </template>
 
 <script>
-import { withdrawCashList,withdrawCashConfirm } from '@/api/personal_review.js'
+import { withdrawCashList,withdrawCashConfirm,withdrawCashReject } from '@/api/personal_review.js'
 import { findAllMember } from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
@@ -78,7 +90,9 @@ export default {
             
 
             account: '',    //存储要提现的account
-            dialogVisible: false
+            dialogVisible1: false,
+            dialogVisible2: false
+
         }
     },
     created() {
@@ -136,9 +150,14 @@ export default {
             })
         },
         //提示框
-        cofirm(val){
-            this.dialogVisible = true
+        cofirm(val,num){
             this.account = val.account
+            if(num === 1){
+                this.dialogVisible1 = true
+                
+            }else{
+                this.dialogVisible2 = true
+            }
         },
         //提现确认
         sure(){
@@ -149,11 +168,27 @@ export default {
                 console.log(res)
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
-                    this.dialogVisible = false
+                    this.dialogVisible1 = false
                     this.getData()
                 }else{
                     this.$message.error(res.data.message)
-                    this.dialogVisible = false
+                    this.dialogVisible1 = false
+                }
+            })
+        },
+        bohui(){
+            let obj = {
+                account: this.account,
+            }
+            withdrawCashReject(obj).then(res=>{
+                console.log(res)
+                if(res.data.error_code === 200){
+                    this.$message.success(res.data.message)
+                    this.dialogVisible2 = false
+                    this.getData()
+                }else{
+                    this.$message.error(res.data.message)
+                    this.dialogVisible2 = false
                 }
             })
         },
