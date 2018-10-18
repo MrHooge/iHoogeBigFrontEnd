@@ -102,7 +102,7 @@
             </el-date-picker>
             比赛时间:
             <el-date-picker
-                v-model="intTimt"
+                v-model="intTime"
                 align="right"
                 value-format="yyyyMMdd"
                 style="margin-left:10px;
@@ -234,7 +234,7 @@
                     align="center"
                     label="跟单/自购">
                     <template slot-scope="scope">
-                        {{scope.row.isSuper | isSuperisSuper}}
+                        {{scope.row.isSuper | isSuper}}
                     </template>        
                 </el-table-column>
                 <el-table-column
@@ -284,25 +284,171 @@
                     <el-button type="primary" @click="sure">确定</el-button>
                 </div>
             </el-dialog>
-         <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="page"
-            :page-sizes="[10, 20, 30, 40, 50]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalList"
-            v-if="totalList != ''"
-            style="margin-top:40px"
-            >
+            <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="[10, 20, 30, 40, 50]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="totalList"
+                v-if="totalList != ''"
+                style="margin-top:40px">
             </el-pagination>
+
+            <el-dialog :visible.sync="disabled" width="100%" top="30vh">
+                <div class="body">
+                    <el-table :data="tableData1" border style="width: 100%;">
+                        <el-table-column
+                            align="center"
+                            label="方案编号">
+                            <template slot-scope="scope">
+                                {{scope.row.planNo}}<span style="color:red">{{scope.row.isFocus | shape}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            label="用户名"
+                            align="center">
+                            <template slot-scope="scope">
+                                <span @click="getupnewweb(scope.row.account)" v-if="scope.row.username">
+                                {{scope.row.username}}
+                                </span>
+                                <span @click="getupnewweb(scope.row.account)" v-else>
+                                {{ scope.row.account}}
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="dlAccount"
+                            align="center"
+                            label="代理用户名">
+                        </el-table-column>
+                        <el-table-column
+                            prop="qdAccount"
+                            align="center"
+                            label="	渠道用户名">
+                        </el-table-column>
+                            <el-table-column
+                                align="center"
+                                label="发单时间">
+                                <template slot-scope="scope">
+                                    {{scope.row.createDateTime | time}}
+                                </template>
+                            </el-table-column>
+                        <el-table-column
+                            prop="amount"
+                            align="center"
+                            label="金额">
+                        </el-table-column>
+                        <el-table-column
+                            prop="planStatus"
+                            align="center"
+                            label="方案状态">
+                            <template slot-scope="scope">
+                                <span v-if="scope.row.planStatus === 1" style="color: #409eff;">{{scope.row.planStatus | changePlanStatus}}</span>
+                                <span v-else-if="scope.row.planStatus === 3" style="color: #ff0134;">{{scope.row.planStatus | changePlanStatus}}</span>
+                                <span v-else-if="scope.row.planStatus === 4" style="color: green;">{{scope.row.planStatus | changePlanStatus}}</span>
+                                <span v-else>{{scope.row.planStatus | changePlanStatus}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            align="center"
+                            label="彩种">
+                            <template slot-scope="scope">
+                                {{scope.row.lotteryType | changeLotteryType}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            align="center"
+                            label="截止时间">
+                            <template slot-scope="scope">
+                                {{scope.row.dealDateTime | time}}
+                            </template>   
+                        </el-table-column>
+                        <el-table-column
+                            align="center"
+                            label="玩法">
+                            <template slot-scope="scope">
+                                {{scope.row.playType | changePlayType}}
+                            </template>        
+                        </el-table-column>
+                        <el-table-column
+                            align="center"
+                            label="来源">
+                            <template slot-scope="scope">
+                                {{scope.row.platform | platForm}}
+                            </template>          
+                        </el-table-column>
+                        <el-table-column
+                            prop="addPrize"
+                            align="center"
+                            label="嘉奖">           
+                        </el-table-column>
+                        <el-table-column
+                            prop="winStatus"
+                            align="center"
+                            label="中奖状态">
+                            <template slot-scope="scope">
+                                <span v-if="scope.row.winStatus === '已派奖'" style="color: #409eff;">{{scope.row.winStatus}}</span>
+                                <span v-else-if="scope.row.winStatus === '已中奖'" style="color: #ff0134;">{{scope.row.winStatus}}</span>
+                                <span v-else>{{scope.row.winStatus}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="posttaxPrize"
+                            align="center"
+                            label="税后奖金">           
+                        </el-table-column>
+                        <el-table-column
+                            prop="maxBonus"
+                            align="center"
+                            label="预测奖金（最大）">           
+                        </el-table-column>
+                        <el-table-column
+                            prop="minBonus"
+                            align="center"
+                            label="预测奖金（最小）">           
+                        </el-table-column>
+                        <el-table-column
+                            align="center"
+                            label="跟单/自购">
+                            <template slot-scope="scope">
+                                {{scope.row.isSuperMan | isSuper}}
+                            </template>        
+                        </el-table-column>
+                        <el-table-column
+                            align="center"
+                            label="操作">
+                            <template slot-scope="scope">
+                                <el-dropdown trigger="click">
+                                    <el-button type="primary">操作</el-button>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-popover
+                                            placement="right"
+                                            trigger="click">
+                                        </el-popover>
+                                        <el-button type="warning" @click="outticket(scope.row,'modify')">设置出票</el-button>&nbsp;
+                                        &nbsp;&nbsp;<el-button type="danger" @click="Chargeback(scope.row,'modify')">退单</el-button>
+                                        <!-- <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button> -->
+                                        <el-button type="success" @click="Szczegol(scope.row)">明细</el-button>
+                                    </el-dropdown-menu>
+                                    </el-dropdown> 
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+                <!-- <div slot="footer" class="dialog-footer">
+                    <el-button @click="disabled = false">取 消</el-button>
+                    <el-button type="primary" @click="want">确定</el-button>
+                </div> -->
+            </el-dialog>
         </div>
     </div>
 </template>
 <script>
 import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus,getPlanByMatch } from '@/api/period'
-import { findAllMember} from '@/api/customer'
+import { findAllMember } from '@/api/customer'
 import { getPlanWiningPrize } from '@/api/sys_user.js';
 export default {
     data(){
@@ -325,19 +471,10 @@ export default {
             page:1,
             pageSize:20,
             desc: '',
-            // planStatus:'',
             dialogShenVisible:false,
             Declarationofwithdrawal:false,
             undesirabledesabel:false,
             fadan:'',
-            // options: [
-			// 	{ planStatus: "", label: "全部" },
-			// 	{ planStatus: "1", label: "未支付" },
-			// 	{ planStatus: "3", label: "出票中" },
-            //     { planStatus: "4", label: "已出票" },
-            //     { planStatus: "9", label: "未出票作废" }
-            // ],
-            
             sections: [
 				{ winStatus: "", label: "全部" },
 				{ winStatus: "1", label: "未开奖" },
@@ -363,19 +500,19 @@ export default {
             ],
             
             sections2: [
-                // {lotteryType:"304",label:"竞彩篮球单关投注"},
-                // {lotteryType:"30",label:"竞彩篮球胜负"},
-                // {lotteryType:"31",label:"竞彩篮球让分胜负"},
-                // {lotteryType:"32",label:"竞彩篮球胜分差"},
-                // {lotteryType:"33",label:"竞彩篮球大小分"},
                 {lotteryType:"43",label:"竞彩篮球混合过关"},
-                // {lotteryType:"303",label:"竞彩足球单关投注"},
                 {lotteryType:"42",label:"竞彩足球混合过关"},
-                // {lotteryType:"41",label:"竞彩足球胜平负"},
-                // {lotteryType:"34",label:"竞彩足球让球胜平负"},
-                // {lotteryType:"35",label:"竞彩足球比分"},
-                // {lotteryType:"36",label:"竞彩足球进球数"},
-                // {lotteryType:"37",label:"竞彩足球半全场"}
+                {lotteryType:"304",label:"竞彩篮球单关投注"},
+                {lotteryType:"30",label:"竞彩篮球胜负"},
+                {lotteryType:"31",label:"竞彩篮球让分胜负"},
+                {lotteryType:"32",label:"竞彩篮球胜分差"},
+                {lotteryType:"33",label:"竞彩篮球大小分"},
+                {lotteryType:"303",label:"竞彩足球单关投注"},
+                {lotteryType:"41",label:"竞彩足球胜平负"},
+                {lotteryType:"34",label:"竞彩足球让球胜平负"},
+                {lotteryType:"35",label:"竞彩足球比分"},
+                {lotteryType:"36",label:"竞彩足球进球数"},
+                {lotteryType:"37",label:"竞彩足球半全场"}
 
             ],
             directions: [
@@ -400,15 +537,91 @@ export default {
 
             start_time: '',   //方案购买开始时间
             end_time: '',     //方案结束时间
-            intTimt: '',     //比赛时间
+            intTime: '',     //比赛时间
             lineId: '',     //比赛场次
+            tableData1: [],
 
-            isAdmin: false,
+            isAdmin: false,    //是否是管理员
+            disabled: false,
+
         }
     },
     filters:{
+        //玩法
+        changePlayType(val){
+            if(val === ""){
+                return '全部'
+            }else if(val === 116){
+                return '自由过关'
+            }else if(val === 117){
+                return '单关'
+            }else if(val === 118){
+                return '2串1'
+            }else if(val === 119){
+                return '3串1'
+            }else if(val === 120){
+                return '4串1'
+            }else if(val === 121){
+                return '5串1'
+            }else if(val === 122){
+                return '6串1'
+            }else if(val === 123){
+                return '7串1'
+            }else if(val === 124){
+                return '8串1'
+            }else if(val === 35){
+                return '竞彩足球比分'
+            }else if(val === 36){
+                return '竞彩足球进球数'
+            }else if(val === 37){
+                return '竞彩足球半全场'
+            }
+        },
+        //彩种
+        changeLotteryType(val){
+            if(val === 42){
+                return '竞彩足球混合过关'
+            }else if(val === 43){
+                return '竞彩篮球混合过关'
+            }else if(val === 304){
+                return '竞彩篮球单关投注'
+            }else if(val === 30){
+                return '竞彩篮球胜负'
+            }else if(val === 31){
+                return '竞彩篮球让分胜负'
+            }else if(val === 32){
+                return '竞彩篮球胜分差'
+            }else if(val === 33){
+                return '竞彩篮球大小分'
+            }else if(val === 303){
+                return '竞彩足球单关投注'
+            }else if(val === 41){
+                return '竞彩足球胜平负'
+            }else if(val === 34){
+                return '竞彩足球让球胜平负'
+            }else if(val === 35){
+                return '竞彩足球比分'
+            }else if(val === 36){
+                return '竞彩足球进球数'
+            }else if(val === 37){
+                return '竞彩足球半全场'
+            }
+        },
+        //出票状态
+        changePlanStatus(val){
+            val = Number(val)
+            if(val === 1 ){
+                return '未支付'
+            }else if(val === 3){
+                return '出票中'
+            }else if(val === 4){
+                return '已出票'
+            }else if(val === 8){
+                return '部分出票'
+            }
+        },
         //是否跟单
-        isSuperisSuper(a){
+        isSuper(a){
             a = Number(a)
             if(a === 1){
                 return '自购'
@@ -472,27 +685,33 @@ export default {
     methods:{
         //根据比赛查询方案
         matchSearch(){
-            let obj ={
-                start_time: this.start_time,
-                end_time: this.end_time,
-                intTimt: this.intTimt,
-                lineId: this.lineId
-            }
-            getPlanByMatch(obj).then(res =>{
-                console.log(res)
-                if(res.data.error_code === 200){
-                    this.tableData = res.data.data
-                    this.totalList = res.data.totalCount
-                    this.fadan = res.data.data.planStatus
-                    this.tableData.forEach((e,index) => {
-                        this.fadan = e.planDesc
-                    })
-                    this.$message.success(res.data.message)
-                }else{
-                    this.$message.error(res.data.message)
+            if(this.start_time === '' || this.end_time === '' || this.intTime === '' || this.lineId === ''){
+                this.$message.error('请输入完整信息！')
+            }else{
+                let obj ={
+                    start_time: this.start_time,
+                    end_time: this.end_time,
+                    intTime: this.intTime,
+                    lineId: this.lineId,
+                    page: 1,
+                    pageSize: 1000
                 }
+                getPlanByMatch(obj).then(res =>{
+                    if(res.data.error_code === 200){
+                        this.disabled = true
+                        this.tableData1 = res.data.data.list
+                        this.fadan = res.data.data.planStatus
+                        this.tableData1.forEach((e,index) => {
+                            this.fadan = e.planDesc
+                        })
+                        this.$message.success(res.data.message)
+                    }else{
+                        this.$message.error(res.data.message)
+                    }
 
-            })
+                })
+            }
+            
         },
         //统计总和
         searchCount(){

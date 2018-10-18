@@ -263,10 +263,12 @@ export default {
                             obj.label = e.name
                             this.options.push(obj)
                         }
+                        
                     });
                 }
             })
         },
+        //获取所有活动
         getAllCardAct(){
             findAllRechargeCardAct().then(res =>{
                 if(res.data.error_code === 200){
