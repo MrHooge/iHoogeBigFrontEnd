@@ -388,30 +388,10 @@ export default {
         },
 
         updateJia(data){
-            console.log(data)
             this.value = data.lotteryType
             this.updateform.minAmount = data.minAmount.toString()
-            // this.updateform.playType = data.playType
             this.updateform.rate = data.rate
             this.updatedialog = true
-            // console.log(this.updateform.playType)
-            // let arr = []
-            // let newarr = []
-            // arr = data.playType.split(',')
-            // console.log(arr)
-            // arr.forEach(e => {
-            //     if(e === '2串1'){
-            //         newarr.push(118)
-            //     }
-            //     else if(e === '3串1'){
-            //         newarr.push(119)
-            //     }
-            // });
-            // this.options1.value = 118
-            // console.log(this.options1.value)
-            // this.cityOptions.value = newarr
-            // console.log(this.playType)
-            // this.updateform.playType.push(Number(119))
         },
         // 获取表格数据
         getTable() {
@@ -420,7 +400,6 @@ export default {
                 pageSize: this.pageSize
             }
             getAddPirzeConfigList(obj).then(res => {
-                console.log(res.data.data)
                 if(res.data.error_code === 200){
                     this.eventslist = res.data.data
                     this.totalList = res.data.totalCount
@@ -457,7 +436,6 @@ export default {
                 let maxAddPrize = this.val;
                 updateMaxAddPrize(maxAddPrize)
                 .then(res => {
-                    console.log(res.data)
                     if(res.data.error_code == 200){
                         this.$message.success(res.data.message)
                         this.adddioalog = false
@@ -470,11 +448,9 @@ export default {
         },
         // 下拉的回调
         getval() {
-            console.log(this.value)
         },
         // 选择框的回调
         handplay(value) {
-            console.log(value)
             this.checkedPlays = value
             this.updateform.playType = value
         },

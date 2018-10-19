@@ -303,14 +303,12 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.getTable()
             })
         },
 		handleChange(val) {
-			console.log(val);
         },
         //   获取所有会员列表
 		getTable() {
@@ -320,7 +318,6 @@ export default {
                account: this.account
             }
 			findAllRate(obj).then(res => {
-                console.log(res);
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data.list;
 				    this.total = res.data.data.total;
@@ -330,11 +327,6 @@ export default {
                 }
 			});
 		},
-		// getData(page) {
-		// 	findAllRate(page,).then(res => {
-		// 		console.log(res)
-		// 	})
-		// },
 		handleEdit(obj) {
 			this.tableData3 = [];
 			this.viewFormVisible = true;

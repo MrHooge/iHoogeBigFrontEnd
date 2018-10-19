@@ -149,15 +149,12 @@ export default {
 	},
 	methods: {
 		handleEdit(index, row) {
-			console.log(index, row);
 		},
 		handleDelete(index, row) {
-			console.log(index, row);
 		},
 		getData(curr) {  //  获取数据列表
 			let obj = { offset: curr, pageSize: 20 }
 			findTicketList(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					if (res.data.findTicketList.list.length > 0) {
 						this.total = res.data.findTicketList.total;

@@ -174,7 +174,6 @@ export default {
             startTime:this.stime
         };
         getCloundSummaryList(model).then(res => {
-            console.log(res)
             if (res.data.error_code === 200) {
                 this.tablelist = res.data.data.list
                 this.totalList = res.data.data.total 
@@ -208,7 +207,6 @@ export default {
             listParams: JSON.stringify(this.newarr),
             title: '会员充值流水'
         }
-        console.log(model)
         exportExcle(model.listParams, model.title)
             .then(res => {})
         require.ensure([], () => {

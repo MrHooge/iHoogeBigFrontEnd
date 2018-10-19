@@ -57,14 +57,12 @@ export default {
 		},
 		makersure() {
 			let params = this.StringtoObject(this.textarea)
-			console.log(params);
 			let userName = getCookies('name')
 			if (this.textarea == '') {
 				Message.success('请输入内容')
 				return
 			} else {
 				presentes(userName,JSON.stringify(params)).then(res => {
-					console.log(res)
 					if (res.data.error_code = 200) {
 						Message.success(res.data.message)
 						this.input = ''

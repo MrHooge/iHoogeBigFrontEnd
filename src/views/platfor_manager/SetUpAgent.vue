@@ -130,7 +130,6 @@ export default {
 		getTable(page, a,name) { //   获取所有会员列表
 
 			findAllMember(page, a,name).then(res => {
-				console.log(res)
 				this.tableData = res.data.data.list
 				this.total = res.data.data.total
 			})
@@ -142,7 +141,6 @@ export default {
 				role_ID: data.id,
                 role_name: data.ACCOUNT
             }
-            console.log(data)
 			this.viewFormVisible = true
 			// this.getFindRoleAndPermission(data.NAME)
 			this.account = data.ACCOUNT
@@ -162,7 +160,6 @@ export default {
                 }
                 //设置为渠道
 				updateMemberToQD(obj).then(res => {
-					console.log(res)
 					if (res.data.error_code == 200) {
 						this.viewFormVisible = false
 						Message.success(res.data.message)
@@ -179,7 +176,6 @@ export default {
                 }
                 //设置为代理
 				setMemberToAgent(obj).then(res => {
-					console.log(res)
 					if (res.data.error_code == 200) {
 						this.viewFormVisible = false
 						Message.success(res.data.message)

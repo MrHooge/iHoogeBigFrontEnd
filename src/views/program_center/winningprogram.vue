@@ -100,7 +100,6 @@ export default {
         //获取数据
         gettable(){
             getWinPlanByType(this.lotteryTypes).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200) {
                     this.tableData = res.data.data
                     this.$message.success(res.data.message)

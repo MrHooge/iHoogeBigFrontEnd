@@ -187,16 +187,13 @@ export default {
         // 默认当天
         getTodayDate(){
             let date = new Date()
-            console.log(date)
             let y = date.getFullYear();
             let m = date.getMonth() + 1;
             m = m < 10 ? ('0' + m) : m;
             let d = date.getDate();
             d = d < 10 ? ('0' + d) : d;
             this.stime =  y + '-' + m + '-' + d +' '+ '00:00:00';
-            console.log(this.stime)
             this.etime = y + '-' + m + '-' + d +' '+ '23:59:59';
-            console.log(this.etime)
             this.getTdable()
         },
         filter(){
@@ -223,7 +220,6 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.getTdable()
@@ -238,9 +234,7 @@ export default {
                 pageSize: this.pageSize,
                 status: this.status
             }
-            console.log(obj)
             findGoldCard(obj).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total

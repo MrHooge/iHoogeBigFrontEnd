@@ -162,7 +162,6 @@ export default {
     methods:{
         renew(){
             updateMatch().then(res=>{
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
                 }else{
@@ -181,7 +180,6 @@ export default {
             this.gettable()
         },
         modify(data){
-            console.log(data)
             this.dialogFormVisible = true;
             this.form.id = data.id
             if(data.bigOrSmall != null){

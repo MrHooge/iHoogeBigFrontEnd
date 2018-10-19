@@ -54,10 +54,8 @@ export default {
 			this.getData()
 		},
 		handleEdit(index, row) {
-			console.log(index, row);
 		},
 		handleDelete(index, row) {
-			console.log(index, row);
 		},
 		// dateFormat:function(row, column) {  
 		//     var date = row[column.property];  
@@ -73,8 +71,6 @@ export default {
 				type: 2, // 1代理列表 2后台列表
 			}
 			findTicke2(obj).then(res => {
-                console.log(res)
-                console.log('111')
 				if (res.status == 200) {
 					this.dialogVisible = true
 					this.message = res.data.message
@@ -82,11 +78,6 @@ export default {
 				}
 			})
 		},
-		// 分页的回调
-		// changecurr(val) {
-		// 	this.getData(val)
-		// 	// console.log(val)
-		// }
 
 	}
 };

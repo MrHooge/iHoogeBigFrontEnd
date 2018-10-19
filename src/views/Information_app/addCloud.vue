@@ -30,7 +30,6 @@ export default {
                 clound: this.num,
             }
             addCloud(obj).then(res =>{
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
                     this.val = ''

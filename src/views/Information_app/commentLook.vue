@@ -321,7 +321,6 @@ export default {
         },
         //状态筛选的回调
         handlestatus(val) {
-            console.log(val)
             if(val ==1) {
                 this.options2show = true
                 this.options3show = false

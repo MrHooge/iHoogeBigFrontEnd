@@ -140,7 +140,6 @@ export default {
                 pageSize: this.pageSize,
             }
             withdrawCashList(obj).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
@@ -165,7 +164,6 @@ export default {
                 account: this.account,
             }
             withdrawCashConfirm(obj).then(res=>{
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
                     this.dialogVisible1 = false
@@ -181,7 +179,6 @@ export default {
                 account: this.account,
             }
             withdrawCashReject(obj).then(res=>{
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
                     this.dialogVisible2 = false

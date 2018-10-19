@@ -147,7 +147,6 @@ export default {
       getHighGradeList(obj)
         .then(res => {
           if (res.status == 200) {
-            console.log(res.data.data.list)
               this.tableData = res.data.data.list;
             
           }
@@ -167,7 +166,6 @@ export default {
           this.form.sort = "";
           this.getTbale(1)
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

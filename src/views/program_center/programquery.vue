@@ -673,7 +673,6 @@ export default {
     created(){
         // this.gettable()
         this.getTodayDate()
-        console.log(this.$store.state.user. name)
 
         //只有如下账号的人可以显示
         if(this.$store.state.user.name === 'develop' || this.$store.state.user.name === 'manager' ||  this.$store.state.user.name === 'admin' ){
@@ -723,7 +722,6 @@ export default {
                 wingStatus: this.winStatus
             }
             getPlanWiningPrize(obj).then( res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.consumMoney = res.data.data.consumMoney
                     this.wingPrize = res.data.data.wingPrize

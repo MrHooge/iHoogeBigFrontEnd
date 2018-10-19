@@ -369,7 +369,6 @@ export default {
                 type: this.type
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
@@ -401,7 +400,6 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.inquire()

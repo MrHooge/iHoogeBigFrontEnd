@@ -186,7 +186,6 @@ export default {
         }
     },
     created() {
-        console.log(this.roleId)
         this.getTableList()
         // this.getTodayDate()
         if(this.roleId === '10000181' ){
@@ -194,7 +193,6 @@ export default {
         }else{
             this.qudaoShow = true
         }
-        console.log(this.qudaoShow)
     },
     filters: {
         sumCommision(sum) {
@@ -340,7 +338,6 @@ export default {
                 end_date: this.end_date
             }
             findSaleInfo(paramsObj).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.istrue = false
                     this.tableData = res.data.data.list
@@ -485,7 +482,6 @@ export default {
                     this.moneyEchart();   //金额图表
                 }
             }
-            console.log(this.start_time)
         },
         //用昵称查询账号
         getAccount(){
@@ -548,7 +544,6 @@ export default {
         //导出表格
         exportSome() {
             this.tableData.forEach((e, index) => {
-                console.log(e)
                 let newobj = {
                     num: index,
                     agentName: e.agentName,
@@ -558,10 +553,6 @@ export default {
                     allBuyMoney:e.allBuyMoney,
                     selfBuy: Number(e.selfBuy).toFixed(2),
                     fllowBuy: Number(e.followBuy).toFixed(2),
-                    // beidan: Number(e.beidan).toFixed(2),
-                    // laozucai: Number(e.laozucai).toFixed(2),
-                    // shuzi: Number(e.shuzi).toFixed(2),
-                    // koujian: Number(e.koujian).toFixed(2),
                     sumCommision: (e.sumCommision ? e.sumCommision : 0).toFixed(2),
                     qdName:e.qdName
                 }
@@ -572,7 +563,6 @@ export default {
                 title: "业绩汇总"
             };
             exportExcle(model.listParmas, model.title).then(res => {})
-            console.log(this.newarr)
             require.ensure([], () => {　　　　　　　
                 const {
                     export_json_to_excel

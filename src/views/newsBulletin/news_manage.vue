@@ -186,7 +186,6 @@ export default {
     methods:{
         //将中国标准时间转换为日期
         // changeTime(date){
-        //     console.log(date)
         //     if(date != '' && date != null){
         //         let y = date.getFullYear();
         //         let m = date.getMonth() + 1;

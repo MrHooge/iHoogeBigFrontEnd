@@ -164,7 +164,6 @@ export default {
 				isMonth: this.datetype || 1
 			}
 			findFinancialCashInfo(model).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					if (res.data.data && res.data.data.length > 0) {
 						this.tableData = res.data.data
@@ -237,7 +236,6 @@ export default {
 				listParams: JSON.stringify(this.newarr),
 				title: '财务现金明细'
 			}
-			console.log(model)
 			exportExcle(model.listParams, model.title)
 				.then(res => {})
 			require.ensure([], () => {
@@ -245,8 +243,6 @@ export default {
 				const tHeader = ['编号', '日期', '线下代理授信加款', '线下运营加款', '线下客服加款', '线下财务加款', '易宝', '联动', '支付宝', '当日提款', '当日赠送', '合计']; //对应表格输出的title
 				const filterVal = ['index','date','officeUnderLineAdd','operationsUnderLineAdd','cusServiceUnderLineAdd','financialUnderLineAdd', 'yibao', 'liandong', 'zifubao','withdrawal','sendMoney','allMoney']; // 对应表格输出的数据
 				const list = this.tableData;
-				console.log(123456789)
-				console.log(this.tableData);
 				const data = this.formatJson(filterVal, list);
 				export_json_to_excel(tHeader, data, '列表excel'); //对应下载文件的名字
 			})

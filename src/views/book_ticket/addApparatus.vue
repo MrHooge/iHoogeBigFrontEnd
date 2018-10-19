@@ -50,7 +50,6 @@ export default {
                 id: this.id
             }
             addApparatus(obj).then(res=> {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.adddioalog = false
                     this.$message.success(res.data.message)

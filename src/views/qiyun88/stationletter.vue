@@ -83,7 +83,6 @@ export default {
         }
         addMail(obj)
         .then(res => {
-          console.log(res.data.error_code)
             if(res.data.error_code == 200) {
               this.$message(res.data.message)
               this.content = '',
@@ -98,7 +97,6 @@ export default {
       },
       changestatus(a){
         if(this.time == 1){
-          console.log(1)
         }
       }
     }

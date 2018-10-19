@@ -97,7 +97,6 @@ export default {
             }
             examineList(obj)
                 .then(res => {
-                    console.log(res)
                     if (res.status == 200) {
                         if (
                             res.data.data.list &&
@@ -115,14 +114,12 @@ export default {
         },
         // 审核通过
         adopt(a) {
-            console.log(a)
             let model = {
                 id: a,
                 type: 1
             }
             examine(model)
                 .then(res => {
-                    console.log(res)
                     if (res.status == 200) {
                         if (res.data.error_code == 200) {
                             this.$message(res.data.message)
@@ -141,7 +138,6 @@ export default {
             }
             examine(obj)
                 .then(res => {
-                    console.log(res)
                     if (res.status == 200) {
                         if (res.data.error_code == 200) {
                             this.$message(res.data.message)

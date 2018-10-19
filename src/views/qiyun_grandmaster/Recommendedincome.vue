@@ -168,7 +168,6 @@ export default {
       };
       getRecommendIncomeList(model)
         .then(res => {
-            // console.log(res.status);
             if (res.data.error_code === 200) {
                 this.tablelist = res.data.data.list
                 this.totalList = res.data.data.total 
@@ -188,7 +187,6 @@ export default {
       };
       getRewardIncomeList(model)
         .then(res => {
-            // console.log(res.status);
             if (res.data.error_code === 200) {
                 this.tablelist = res.data.data.list
                 this.totalList = res.data.data.total 
@@ -208,7 +206,6 @@ export default {
       };
       getRechargeList(model)
         .then(res => {
-            // console.log(res.status);
           if (res.data.error_code === 200) {
                 this.tablelist = res.data.data.list
                 this.totalList = res.data.data.total 

@@ -69,7 +69,6 @@
                 :data="option"
                 border
                 >
-                
                 <el-table-column
                     label="场次"
                     prop="lineId"
@@ -79,52 +78,18 @@
                     label="玩法"
                     prop="type"
                     align="center">
-                    <!-- <template slot-scope="scope">
-                        <span v-for="v in scope.row.option" :key="v.index">{{v.lotteryType}}</span>
-                    </template> -->
                 </el-table-column>
                 <el-table-column
                     label="选项"
                     prop="typeValueStr"
                     align="center">
-                    <!-- <template slot-scope="scope">
-                        <span v-for="v in scope.row.option" :key="v.index">{{v.typeValueStr}}</span>
-                    </template> -->
                 </el-table-column>
                 <el-table-column
                     label="SP"
                     prop="award"
                     align="center">
-                    <!-- <template slot-scope="scope">
-                        <span v-for="v in scope.row.option" :key="v.index">{{v.award}}</span>
-                    </template> -->
                 </el-table-column>
             </el-table>
-            
-            <!-- <el-table
-                :data="matchItem"
-                border
-                >
-                <el-table-column
-                    label="发单人用户名"
-                    prop="account"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    label="玩法"
-                    align="center">
-                    <template slot-scope="scope">
-                        <span v-for="v in scope.row.option" :key="v.index">{{v.lotteryType}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    label="选项"
-                    align="center">
-                    <template slot-scope="scope">
-                        <span v-for="v in scope.row.option" :key="v.index">{{v.typeValueStr}}</span>
-                    </template>
-                </el-table-column>
-            </el-table> -->
         </div>
     
     </div>
@@ -139,8 +104,6 @@ export default {
             oldPlan: [],   //存储原方案详情数据
             chaibao: [],  //存储拆包详情数据
             matchItem: [],
-            // startTime: "",  //发起时间
-            // dealTime: "",  //截止时间
             option: [],  
         }
     },
@@ -165,7 +128,6 @@ export default {
     },
     created(){
         this.id = this.$route.query.id;
-        console.log(this.id)
         this.getTable()
     },
     methods:{
@@ -175,73 +137,14 @@ export default {
                 id: this.id
             }
             ticketPrintDetail(obj).then(res=>{
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.oldPlan = res.data.data.planDetail
                     this.chaibao = res.data.data.ticketDetail
                     this.matchItem = res.data.data.planDetail.matchItem
                     this.option = res.data.data.ticketDetail.option
-                    // this.startTime = res.data.data.planDetail.createDateTime
-                    // this.dealTime = res.data.data.planDetail.dealDateTime
                 }
             })
         }
-        //撤销
-        // getone(){
-        //     this.dialogVisible = true
-        // },
-        // editlayer(){
-        //     let newobj = {
-        //         planNo:this.$route.query.planNo
-        //     }
-        //     planBack(newobj).then(res => {
-        //         if(res.data.error_code == 200){
-        //             this.$message(res.data.message)
-        //             this.dialogVisible = false
-        //         }else{
-        //             this.$message(res.data.message)
-        //             this.dialogVisible = false
-        //         }
-        //     })
-        // },
-        // //获取数据
-        // gettable(){
-        //     let obj = {
-        //         planNo:this.number
-        //     }
-        //     this.newarr = [];
-        //     let obje = {
-        //         matchId:''
-        //     }
-        //     getPlanDetailForManager(obj).then(res => {
-        //         let rest = res.data.matchDetail;
-        //         rest.forEach(e => {
-        //             this.newarr.push(e.options);
-        //         });
-        //         console.log(123456789)
-        //         console.log(this.newarr)
-        //         this.messagedata = res.data.matchDetail;
-        //         this.tablethis = res.data.matchDetail.options;
-        //         this.lotteryType = res.data.lotteryType;
-        //         this.planStatus = res.data.planStatus;
-        //         this.term = res.data.term;
-        //         this.account = res.data.account;
-        //         this.createDateTime = res.data.createDateTime;
-        //         this.dealDateTime = res.data.dealDateTime;
-        //         this.isSuper = res.data.isSuper;
-        //         this.amount = res.data.amount;
-        //         this.multiple = res.data.multiple;
-        //         this.publics = res.data.public;
-        //         this.winStatus = res.data.winStatus;
-        //         this.pretaxPrize = res.data.pretaxPrize;
-        //         this.posttaxPrize = res.data.posttaxPrize;
-        //         this.printTicketDateTime = res.data.printTicketDateTime;
-        //         this.ticketDetail = res.data.ticketDetail;
-        //         this.planOrderStatus = res.data.planOrderStatus;
-        //         this.openResultTime = res.data.openResultTime;
-        //         this.posttaxPrize = res.data.posttaxPrize;
-        //     })
-        // }
     }
 }
 </script>

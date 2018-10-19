@@ -87,7 +87,6 @@ export default {
             }
             getBasketBallMatch(obj)
             .then(res => {
-                console.log(res.data.data.length)
                 if(res.data.data.length > 0){
                     this.tableData.push(res.data.data[0])
                 }

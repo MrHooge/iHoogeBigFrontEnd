@@ -307,7 +307,6 @@ export default {
                 matchId:''
             }
             getPlanDetailForManager(obj).then(res => {
-                console.log(res.data)
                 let rest = res.data.matchDetail;
                 rest.forEach(e => {
                     this.newarr.push(e.options);

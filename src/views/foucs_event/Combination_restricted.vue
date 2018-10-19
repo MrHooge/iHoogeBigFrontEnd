@@ -243,13 +243,11 @@ export default {
 				page: this.page,
 				pageSize: 20
 			}
-			getLotteryLimit(obj).then(res => {  //  
-				// console.log(res)
+			getLotteryLimit(obj).then(res => {
 				if (res.data.error_code == 200) {
-					this.plays = '' //  
+					this.plays = ''
 					this.tableData = res.data.data.list
 					this.tableData.forEach(e => {
-						// console.log(e)
 						this.numPlay = e.passType.split(',')
                     });
                     let arr = []
@@ -262,7 +260,6 @@ export default {
 						});
 					});
 					this.total = res.data.data.total
-					console.log(this.plays)
 				}
 			})
 		},
@@ -273,7 +270,6 @@ export default {
 
 		handleCheckedCitiesChange(value) {
 			this.checkedCities = value
-			console.log(this.checkedCities)
         },
         
 		selfbuy() {   //  添加组合限售
@@ -285,7 +281,6 @@ export default {
                     arr.push(e.value)
                 });
                 newArr = arr.join(',')
-                console.log(newArr)
             // }else{
             //     arr = this.checkedCities[0]
             // }
@@ -296,7 +291,6 @@ export default {
 			}
 			addLotteryLimit(obj).then(res => {
 				if (res.status == 200) {
-                    console.log(res)
                     if(res.data.error_code === 200){
                         this.dialogVisible = false
                         Message.success(res.data.message)
@@ -320,7 +314,6 @@ export default {
 				status: this.radio2,
 			}
 			updateLotteryLimitStatus(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					this.dialogVisible2 = false
 					Message.success(res.data.message)

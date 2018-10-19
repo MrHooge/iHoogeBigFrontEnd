@@ -38,12 +38,10 @@ export default {
     methods: {
         //配置订单数量提醒
         remind(){
-            console.log(this.num)
             let obj = {
                 num: this.num
             }
             updateRemindNum(obj).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
                     this.num = ''
@@ -60,7 +58,6 @@ export default {
             }
         },
         switch(a){
-            console.log(a)
             let obj={
                 status:a
             }

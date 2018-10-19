@@ -87,7 +87,6 @@ export default {
     methods: {
         handleSelectionChange(val) {
             this.selecons = val
-            console.log(this.selecons)
         },
         getAll() {
             this.$ajax.get(api.lottery + '/champion/getMatchUpList').then(res => {
@@ -104,10 +103,8 @@ export default {
             if(this.selecons&&this.selecons.length>0){
                 let arr = [] 
                 this.selecons.forEach(e=>{
-                    console.log(e.id)
                     arr.push(e.id)
                 })
-                console.log(arr)
                 let model = {
                     matchIdList:arr.join(',')
                 }
@@ -149,7 +146,6 @@ export default {
         },
                 // switch的回调
         callback(val){
-            console.log(val)
             if(val){
                 this.open(1)
             }else{
@@ -162,7 +158,6 @@ export default {
                 type:a
             }
             this.$ajax.get(api.lottery +'/champion/openAndClose',model).then(res=>{
-                console.log(res)
                 if(res.error_code==200){
                     this.$message('设置' + res.message)
                     this.getAll()

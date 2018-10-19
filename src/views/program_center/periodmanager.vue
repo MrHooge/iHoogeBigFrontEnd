@@ -150,7 +150,6 @@ export default {
     methods:{
         //生成彩期
         addTerm(){
-            console.log(this.radio)
             if(this.radio === ''){
                 this.$message('请选择彩期！')
             }else if(this.buildCount === ''){
@@ -161,7 +160,6 @@ export default {
                     lotteryTypeValue: this.radio
                 }
                 addTerm(obj).then(res=>{
-                    console.log(res)
                     if(res.data.error_code === 200){
                         this.radio = ''
                         this.buildCount = ''

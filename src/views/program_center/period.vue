@@ -258,7 +258,6 @@ export default {
     methods:{
         //获取数据列表
         gettable(){
-            //console.log(this.$route.query)
             let obj = {
                 page:this.page,
                 pageSize:this.pageSize,

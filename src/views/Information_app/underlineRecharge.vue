@@ -31,7 +31,6 @@ export default {
                 money: this.money,
             }
             addClouds(obj).then(res =>{
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
                     this.account = ''

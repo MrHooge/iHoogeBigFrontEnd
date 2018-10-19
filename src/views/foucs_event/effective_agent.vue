@@ -87,7 +87,6 @@ export default {
             }
             getAgentList(obj)
             .then(res => {
-                console.log(res.data.data.list)
                 this.tableData = res.data.data.list
                 this.totalList = res.data.data.total
             })
@@ -99,7 +98,6 @@ export default {
         },
         // 选择框全部
         handleSelectionChange(selection) {
-            console.log(selection)
             this.selections = selection
         },
          //翻页
@@ -125,7 +123,6 @@ export default {
                 }
                setAddPrizeBlackOrWhite(obj)
                .then(res => {
-                   console.log(res)
                     if(res.data.error_code==200) {
                         this.$message.success('设置' + res.data.message)
                         this.getTable()

@@ -192,11 +192,8 @@ export default {
         let obj = {
             name:this.val
         }
-        console.log(obj)
         FuzzySeach(obj).then(res=>{
-            console.log(res)
             if(res.data.data.length>0){
-            console.log(res.data.data);
             this.rightteamlist = res.data.data
             }else{
             this.$message("没有匹配的球队信息")
@@ -211,7 +208,6 @@ export default {
             fjTeamId:this.feijing      //飞鲸球队id
         }
         matchBasketballTeam(obj).then(res=>{
-            console.log(res)
             if(res.data.error_code === 200){
                 this.$message.success(res.data.message)
             }else{
@@ -240,13 +236,11 @@ export default {
     },
     getdate() {
       this.loading1 = true
-      // console.log(this.data_timeleft);
       let obj = {
         startDate: this.data_timeleft[0],
         endDate: this.data_timeleft[1]
       };
       seachFiveBaketball(obj).then(res => {
-        console.log(res);
         if (res.data.error_code == 200) {
           let result = res.data.data;
           if (result && result.length > 0) {
@@ -260,13 +254,11 @@ export default {
       this.val = '';
       this.sid = 0;
       this.loading2 = true
-      // console.log(this.data_timeright);
       let obj = {
         startDate: this.data_timeright[0],
         endDate: this.data_timeright[1]
       };
       seachFjBaketball(obj).then(res => {
-        // console.log(res);
         if (res.data.error_code == 200) {
           let result = res.data.data;
           if (result && result.length > 0) {

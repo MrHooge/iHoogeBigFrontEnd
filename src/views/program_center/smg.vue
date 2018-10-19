@@ -199,7 +199,6 @@ export default {
         gettable(){
             let time = this.startTime;
             getFootBallAdmin(time).then(res => {
-               console.log(res)
                this.tableData = res.data.data
            })
         },
@@ -207,7 +206,6 @@ export default {
             this.gettable()
         },
         modify(data){
-            console.log(data)
             this.dialogFormVisible = true;
             this.form.id = data.id
             if(data.guestScore != null){

@@ -207,7 +207,6 @@ export default {
     methods:{
         //开奖
         addjqr(){
-            //console.log(this.selections)
             if(this.selections1.length === 0){
                 this.$message('至少选择一个竞技彩')
             }else{
@@ -219,7 +218,6 @@ export default {
                 this.lotteryTypes = newaccount;
                 openResult(this.lotteryTypes).then(res => {
                     if(res.data.error_code === 200) {
-                        console.log(res)
                         this.tabledata = res.data.data
                         this.$message.success(res.data.message)
                     }else{

@@ -193,10 +193,8 @@ export default {
                 mobile: this.mobile,
             }
             findAllMember(obj).then(res => {
-                console.log(res)
                 this.tableData = res.data.data.list
                 this.totalList = res.data.data.total
-                console.log(this.totalList)
             }).catch(error => {
                 Message.error(error)
             })
@@ -204,11 +202,6 @@ export default {
 
         //加白
         addwhite(data){
-            // if(this.isBeforMonth){
-            //     this.account = data.account
-            // }else{
-            //     this.account = data.ACCOUNT;
-            // }
             this.account = data.ACCOUNT;
             this.type = 1
             memberToWrite(this.account,this.type).then(res => {
@@ -303,7 +296,6 @@ export default {
             // this.page = 1
             this.isBeforMonth = true
             getHistoryClient(this.page, this.pageSize).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total

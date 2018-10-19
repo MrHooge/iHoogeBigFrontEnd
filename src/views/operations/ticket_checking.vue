@@ -109,7 +109,6 @@ export default {
 				isSuper: a,
 			}
 			getTicketConfig(obj).then(res => {
-				console.log(res)
 				if (res.error_code == 200) {
 					this.amount = res.data.amount
 					this.radio8 = String(res.data.status)
@@ -119,13 +118,11 @@ export default {
 		},
 		// 自购编辑
 		selfbuy(a) {
-			console.log(1)
 			this.edit(a)
 
 		},
 		// 跟单编辑
 		flows(a) {
-			console.log(2)
 			this.edit(a)
 		},
 		edit(a) {
@@ -136,7 +133,6 @@ export default {
 				status: this.radio8
 			}
 			updateTicketConfig(model).then(res => {
-				console.log(res)
 				if (res.data.error_code == 200) {
 					this.$message(res.data.message)
 					this.dialogVisible = false;

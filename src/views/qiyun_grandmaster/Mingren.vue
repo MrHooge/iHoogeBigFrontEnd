@@ -104,8 +104,6 @@
 
 <script>
 import { changeSort,getMasterList,addMaster,cancelMaster } from '@/api/grandmaster'
-
-// console.log(api.infos)
 export default {
   data() {
     return {
@@ -165,7 +163,6 @@ export default {
             this.form.sort = ''
             this.getTbale(1)
           } else {
-            console.log('error submit!!');
             return false;
           }
         });

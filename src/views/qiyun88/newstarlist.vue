@@ -78,7 +78,6 @@ export default {
             let dan = ''
                 getNewStar(dan)
                 .then(res => {
-                    //console.log(res.data.data)
                     this.tableData = res.data.data
                 })
         },
@@ -89,7 +88,6 @@ export default {
             let accounts = this.val
                 addNewStar(accounts)
                 .then(res => {
-                    console.log(res.data.error_code)
                     if (res.data.error_code == 200) {
                         this.$message(res.data.message)
                         this.dialogVisible = false

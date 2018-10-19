@@ -267,7 +267,6 @@ export default {
         },
         //提示框
         cofirm(val,num){
-            console.log(num)
             this.id = val.id
             this.dialogVisible = true
             if(num === 1){

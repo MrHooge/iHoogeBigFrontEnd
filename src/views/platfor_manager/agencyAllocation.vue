@@ -155,7 +155,6 @@ export default {
                 username: this.name
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.getUsername()
@@ -210,11 +209,9 @@ export default {
                 }
 				this.number.push(obj)
 			});
-			// console.log(this.number)
             let lastobj = {
                 params: JSON.stringify(this.number)
 			}
-			// console.log(lastobj)
 			if (this.input == '') {
 				Message.success('请输入分组名')
 				return

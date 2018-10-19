@@ -131,7 +131,6 @@ export default {
             username: this.username
         }
         findAllMember(obj).then(res => {
-            console.log(res.data.data.list[0].ACCOUNT)
             this.input1 = res.data.data.list[0].ACCOUNT
             this.page = 1
             this.getData(this.input1);
@@ -148,7 +147,6 @@ export default {
     },
     // 点击授信额度弹窗
     layer() {
-      console.log(1);
     },
     //   数字转换
     getStr(num) {
@@ -167,7 +165,6 @@ export default {
             account: a,
         };
         getCreditLimitLine(obj).then(res=>{
-            console.log(res.data.msg)
             if(res.data.success === true){
                 this.total = res.data.totalCount;
                 this.tableData = res.data.data.list;

@@ -189,7 +189,6 @@ export default {
       };
       getRechargeList(model)
         .then(res => {
-            console.log(res)
           if (res.status == 200) {
             this.tablelist = res.data.data
             this.totalList = res.data.data.total          

@@ -175,7 +175,6 @@ export default {
         },
     // 状态的回调
     stashow(a,b) {
-      // console.log(typeof a)
       this.radio = String(a);
       this.id = b
       this.dialogShenVisible = true;
@@ -188,7 +187,6 @@ export default {
       }
        updatePlanShowStatus(obj)
         .then(res => {
-            console.log(res.status)
           if (res.status == 200) {
             if (res.data.error_code == 200) {
               this.$message(res.data.message);
@@ -208,7 +206,6 @@ export default {
       };
        passShowPlanApply(model)
         .then(res => {
-          console.log(res);
           if (res.status == 200) {
             if (res.data.error_code == 200) {
               this.$message(res.data.message);
@@ -227,7 +224,6 @@ export default {
       };
       passShowPlanApply(model)
         .then(res => {
-          console.log(res);
           if (res.status == 200) {
             if (res.data.error_code == 200) {
               this.$message(res.data.message);
@@ -250,7 +246,6 @@ export default {
     },
     // 状态选中的回调
     changestatus() {
-     // console.log(this.status)
        this.getTable();
     },
     //获取列表数据

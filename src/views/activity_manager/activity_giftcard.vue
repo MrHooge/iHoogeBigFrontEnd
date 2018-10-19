@@ -227,8 +227,6 @@ export default {
         },
         //修改彩金卡及大转盘确定按钮
         modifyCardSure(val){
-            
-            console.log(val.prob)
             this.id = val.id
             this.full_money = val.full_money
             this.money = val.money
