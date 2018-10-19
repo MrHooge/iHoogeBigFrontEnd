@@ -77,7 +77,6 @@ export default {
                 mobile:this.mobile
             }
             getSmsCode(obj).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.tableData.push(res.data.data)
                 }

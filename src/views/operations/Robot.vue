@@ -125,7 +125,6 @@ export default {
 				pageSize: 20
 			}
 			getRobotList(obj).then(res => {
-				console.log(res)
 				if (res.data.error_code == 200) {
 					this.tableData = res.data.data.list
 					this.total = res.data.data.total
@@ -156,7 +155,6 @@ export default {
 					userName: this.uname
 				}
 				addRobot(model).then(res => {
-					console.log(res)
 					if (res.error_code == 200) {
 						Message.success(res.data.message)
 						this.getTable(1)

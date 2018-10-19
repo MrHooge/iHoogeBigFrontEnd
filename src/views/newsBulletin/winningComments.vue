@@ -174,7 +174,6 @@ export default {
                 type: b
 			}
 			getUnreviewedWinCommentList(obj).then(res => {
-				console.log(res)
 				if (res.data.error_code == 200) {
 					this.tableData = res.data.data.list
 					this.total = res.data.data.total
@@ -201,18 +200,15 @@ export default {
 			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
                 this.ids += e.id + ','
             });
-             console.log(this.ids)
 			this.dialogVisible = true
 		},
         //评论审核
         toExamine(val){
 			let arr = []
 			let myObj = {}
-			console.log(arr)
 			let type = val
 			let cid = this.ids
 				shWinComment(type,cid).then(res => {
-					console.log(res)
 					if (res.data.error_code = 200) {
 						Message.success(res.data.message)
                         this.dialogVisible = false

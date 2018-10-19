@@ -199,15 +199,23 @@
 			                 align="center">
 				<template slot-scope="scope">
 					<div style="padding:5px 0">
-						<el-button
+						<el-button v-show="isKF"
 						    type="primary"
-						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">通过
+						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">客服通过
+                        </el-button>
+						<el-button v-show="!isKF"
+						    type="primary"
+						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">财务通过
                         </el-button>
 					</div>
 					<div>
-						<el-button
+						<el-button v-show="isKF"
 						    type="danger"
-						    @click="reject(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">驳回
+						    @click="reject(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">客服驳回
+                        </el-button>
+						<el-button v-show="!isKF"
+						    type="danger"
+						    @click="reject(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">财务驳回
                         </el-button>
 					</div>
                     <div v-if="scope.row.STATUS === 6">
@@ -234,8 +242,10 @@
 			<span slot="footer"
 			      class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary"
-				           @click="confirm()">确 定</el-button>
+				<el-button type="primary" v-show="isKF"
+				           @click="confirm(1)">确 定</el-button>
+				<el-button type="primary" v-show="!isKF"
+				           @click="confirm(2)">确 定</el-button>
 			</span>
 		</el-dialog>
 		<!-- 驳回弹窗 -->
@@ -359,7 +369,9 @@ export default {
                 { status: "6", label: "已到账" },
             ],
             financeCount: '',   //存储财务审核总和（根据时间段的筛选）
-            pageSize: 20,
+			pageSize: 20,
+			
+			isKF: false   //是否是客服待审核
 		};
 	},
 	created() {
@@ -384,7 +396,6 @@ export default {
                 status: this.status
             }
             getFinanceCount(obj).then(res => {
-                console.log(res)
                 if(res.data.error_code === 200){
                     this.financeCount = res.data.data.financeCount
                 }else{
@@ -411,11 +422,8 @@ export default {
                 is_drawing_time: this.value, // 0 申请时间,1汇款时间
                 status: this.status
 			}
-			console.log(obj)
 			findMemberDrawingList(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
-                    console.log(res)
                     if(res.data.msg === '数据获取成功'){
                         this.tableData = res.data.data.list
 					    this.totalList = res.data.data.total
@@ -432,27 +440,31 @@ export default {
 		},
 		// 询问弹出框
 		examine(a) {
+			if(a.STATUS === 1){
+				this.isKF = true
+			}else{
+				this.isKF = false
+			}
 			this.a = a.account;
 			this.b = a.amount;
 			this.dialogVisible = true;
 			this.ob = a;
 		},
 		// 确定的回调
-		confirm() {
-			console.log(this.ob);
+		confirm(a) {
 			let obj = {
 				drawingId: this.ob.id,
 				account: this.ob.account,
 				status: 1, //0 不通过 1通过
 				remark: '',
 				returnRemark: '',
+				indentifyType: a
 			}
-			console.log(obj)
 			memberDrawingReview(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
-					Message.success(res.data.message)
 					this.getData(this.page);
+					this.dialogVisible = false;
+				}else{
 					this.dialogVisible = false;
 				}
 			})
@@ -475,7 +487,6 @@ export default {
 
 			};
 			memberDrawingReview(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					Message.success("驳回成功！")
 					this.getData(this.page);

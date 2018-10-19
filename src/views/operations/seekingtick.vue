@@ -159,7 +159,6 @@ export default {
 				planNo: a.plan_no
 			}
 			copyPlan(obj).then(res => {
-				console.log(res)
 				if(res.data.error_code === 200){
 					Message.success(res.data.message)
 				}else {
@@ -171,10 +170,8 @@ export default {
 			this.getData()
 		},
 		handleEdit(index, row) {
-			console.log(index, row);
 		},
 		handleDelete(index, row) {
-			console.log(index, row);
 		},
 		// dateFormat:function(row, column) {  
 		//     var date = row[column.property];  
@@ -191,7 +188,6 @@ export default {
 				page: curr,
 				pageSize: 20			}
 			findTicketList2(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 
 					this.total = res.data.data.total;
@@ -226,7 +222,6 @@ export default {
 		// 分页的回调
 		changecurr(val) {
 			this.getData(val)
-			// console.log(val)
 		}
 
 	}

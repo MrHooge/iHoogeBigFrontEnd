@@ -56,7 +56,6 @@ export default {
 					time: this.interval || ""
 				};
 				autoCopyPlan(obj).then(res => {
-					console.log(res)
 					if (res.status == 200) {
 						if (res.data.error_code == 200) {
 							this.$message.success(res.data.message);

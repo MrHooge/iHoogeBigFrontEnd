@@ -34,9 +34,6 @@ export default {
     }
   },
   created() {
-    // console.log(123456)
-    // console.log(this.routes)
-    // console.log(123456)
   },
   methods: {
     hasOneShowingChildren(children) {

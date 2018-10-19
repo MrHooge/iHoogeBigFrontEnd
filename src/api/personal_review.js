@@ -140,10 +140,34 @@ export function withdrawCashList(obj) {
     params: obj
   });
 }
-//提现
+//提现确认
 export function withdrawCashConfirm(obj) {
   return request.member({
     url: url + "/memberManage/withdrawCashConfirm",
+    method: "get",
+    params: obj
+  });
+}
+//提现驳回
+export function withdrawCashReject(obj) {
+  return request.member({
+    url: url + "/memberManage/withdrawCashReject",
+    method: "get",
+    params: obj
+  });
+}
+//获取举报列表
+export function getReportList(obj) {
+  return request.member({
+    url: url + "/memberManage/getReportList",
+    method: "get",
+    params: obj
+  });
+}
+//举报审核
+export function shReport(obj) {
+  return request.member({
+    url: url + "/memberManage/shReport",
     method: "get",
     params: obj
   });

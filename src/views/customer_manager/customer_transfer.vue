@@ -193,9 +193,12 @@ export default {
                 pageSize:this.pageSize
             }
             findMemberMove(obj).then(res => {
-                this.tableData = res.data.data.list
-                this.totalList = res.data.data.total
-
+                if(res.data.error_code === 200){
+                    this.tableData = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
             }).catch(error => {
                 Message.error(error)
             })
@@ -213,14 +216,13 @@ export default {
                 moveAgent:this.moveAgent
             }
             MemberMoveAudit(newobj).then(res => {
-                 if (res.data.error_code === 200) {
-                     Message.success('已通过')
-                     } else {
-                         Message.error(res.data.message)
-                         }
+                if (res.data.error_code === 200) {
+                    Message.success('已通过')
+                } else {
+                    Message.error(res.data.message)
+                }
 
             })
-            
         }
     }
 

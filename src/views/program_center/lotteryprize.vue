@@ -69,7 +69,6 @@ export default {
         gettable(){
             let lotteryTypes = this.$route.query.radio;
             openResult(lotteryTypes).then(res => {
-                console.log(res)
             })
         },
         //派奖

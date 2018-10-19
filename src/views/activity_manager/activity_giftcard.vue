@@ -19,7 +19,10 @@
                         </el-col>
                         <el-col :span="15">
                             <div class="grid-content bg-purple-light">
-                                <el-input v-model="username" placeholder="请输入用户名" clearable></el-input>
+                                <el-input v-model="account" placeholder="请输入用户名" clearable></el-input>
+                                <p style="color:red;font-size:14px;">注：不知道用户名时可用昵称查询！</p>
+                                <el-input v-model="username" placeholder="请输入昵称" style="width:210px;margin-bottom:20px;" clearable></el-input>
+                                <el-button type="primary" @click="getAccount">查询</el-button>
                             </div>
                         </el-col>
                     </el-row>
@@ -161,6 +164,7 @@
 
 <script>
 import { addGoldCard,getAllGift,updateGift,findAllRechargeCardAct,updateRechargeCardAct } from '@/api/activity'
+import { findAllMember} from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
@@ -169,6 +173,7 @@ export default {
             dialogVisible: false,//充值送彩金卡
             dialogVisible1: false,//修改彩金卡及大转盘
             dialogVisible2: false,//修改手工充值赠送活动
+            account: '',
             username:'',
             options: [],   //存储彩金卡
             money:'',
@@ -192,14 +197,36 @@ export default {
     },
     components: {},
     methods:{
+        // //查询
+        // search() {
+		// 	if (!this.account && !this.username) {
+        //         // this.$message("请输入您要查询的账号或昵称！")
+        //         this.page = 1
+        //         this.getTable()
+		// 	} else {
+        //         if(this.account == ''){
+        //             this.getAccount()
+        //         }else{
+        //             this.page = 1
+        //             this.getTable()
+        //         }
+		// 	}
+        // },
+        //用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                this.account = res.data.data.list[0].ACCOUNT
+            })
+        },
         //修改彩金卡及大转盘弹出框
         modifyCard(){
             this.dialogVisible1 = true
         },
         //修改彩金卡及大转盘确定按钮
         modifyCardSure(val){
-            
-            console.log(val.prob)
             this.id = val.id
             this.full_money = val.full_money
             this.money = val.money
@@ -263,10 +290,12 @@ export default {
                             obj.label = e.name
                             this.options.push(obj)
                         }
+                        
                     });
                 }
             })
         },
+        //获取所有活动
         getAllCardAct(){
             findAllRechargeCardAct().then(res =>{
                 if(res.data.error_code === 200){
@@ -279,14 +308,14 @@ export default {
         //弹出框
         givemoney(){
             this.money = '',
-            this.username = '',
+            this.account = '',
             this.dialogVisible = true
         },
         //确定按钮的回调
         sure(){
             let arr = []
             let obj = {
-                account: this.username,
+                account: this.account,
                 money: this.money,
                 require_type: 2
             }

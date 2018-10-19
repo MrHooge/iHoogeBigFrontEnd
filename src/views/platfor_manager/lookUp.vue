@@ -177,7 +177,6 @@ export default {
                 username: this.name
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 // this.getUsername()
@@ -209,14 +208,12 @@ export default {
 				this.tableData3 = res.data.data.list.filter((e, index) => {   //  获取代理数据
 					return e.AGENT_TYPE == 1
 				})
-				// console.log(res)
 			})
 		},
 		//  给渠道绑定代理
 		handleEdit(a) {
 			this.dialogVisible = true
 			this.onePeople = a
-			console.log(a)
 
 		},
 		cofirm() {  //  弹框确定按钮
@@ -224,8 +221,6 @@ export default {
 				this.$message('请选择一个代理')
 			} else {
 				let arr = [];
-				// console.log(this.multipleSelection)
-				// console.log(arr)
 				this.multipleSelection.forEach(x => {
 					arr.push(x.member_id)
 				})
@@ -233,12 +228,9 @@ export default {
 				let obj = {}
 				obj[a] = arr.join(',')
 				addAgency(JSON.stringify(obj)).then(res => {
-				// console.log(res)
 					if (res.data.error_code == 200) {
-						console.log(res)
 						Message.success(res.data.message)
 						this.dialogVisible = false
-						// this.multipleSelection = []
 					} else {
 						Message.success(res.data.message)
 					}
@@ -249,7 +241,6 @@ export default {
 		// 选择框的回调
 		handleSelectionChange(val) {
 			this.multipleSelection = val
-			console.log(val)
 		},
 	},
 

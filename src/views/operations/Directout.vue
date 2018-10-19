@@ -88,7 +88,6 @@ export default {
                 pageSize: 20,
             }
             getMemberTicket(obj).then(res => {
-                console.log(res)
                 if (res.data.error_code == 200) {
                     this.tableData = res.data.data.list
                     this.total = res.data.data.total
@@ -113,7 +112,6 @@ export default {
                     status: String(this.radio7)
                 }
                 setMemberTicket(model).then(res => {
-                    console.log(res)
                     if (res.status == 200) {
                         Message.success(res.data.message)
                         this.getTables(1)

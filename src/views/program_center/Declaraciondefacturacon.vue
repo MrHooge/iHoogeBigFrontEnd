@@ -158,7 +158,6 @@ export default {
                 desc:''
             }
             selectLotteryPlan(obj).then(res =>{
-                console.log(res.data.error_code)
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data
                     this.fadan = res.data.data.planStatus
@@ -170,7 +169,6 @@ export default {
         },
         //修改发单宣言
         Modificar(data){
-            console.log(data)
             this.dialogShenVisible = true
             this.planNo = data.planNo
         },

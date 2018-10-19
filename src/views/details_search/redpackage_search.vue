@@ -153,7 +153,6 @@ export default {
                 child_type:this.type
             }
             findMemberWalletLineByAccount(wallerdata).then(res => {
-                console.log(res.data.data.list)
                  this.tableData = res.data.data.list
                  this.totalList = res.data.data.total
             }).catch(error => {

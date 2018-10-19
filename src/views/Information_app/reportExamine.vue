@@ -2,41 +2,24 @@
     <div class="backend app-container">
         <div class="layerbody">
             <div class="search">
-                <el-input v-model="account"
-                          placeholder="请输入用户名"
-                          style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px"
-                          clearable></el-input>
-                <el-input v-model="username"
-                          placeholder="请输入昵称查询"
-                          style="width:10%;margin-right:50px;"
-                          clearable></el-input>
                 <el-select v-model="type"
-                           placeholder="筛选"
-                           @change="handlestatus"
-                           style="width:140px;margin-right: 50px;">
+                           placeholder="请选择举报类型"
+                           style="width:140px;margin-right: 50px;"
+                           @change="report">
                     <el-option v-for="item in options1"
                                :key="item.value"
                                :label="item.label"
                                :value="item.value">
                     </el-option>
                 </el-select>
-                <el-select v-model="commentType"
-                           placeholder="筛选"
-                           @change="handlestatus"
-                           style="width:140px;margin-right: 50px;">
+                <el-select v-model="states"
+                           placeholder="请选择审核状态"
+                           style="width:140px;margin-right: 50px;"
+                           @change="examine">
                     <el-option v-for="item in options2"
                                :key="item.value"
                                :label="item.label"
-                               :value="item.value"
-                               :disabled="item.disabled"
-                               v-show="options2show">
-                    </el-option>
-                    <el-option v-for="item in options3"
-                               :key="item.value"
-                               :label="item.label"
-                               :value="item.value"
-                               :disabled="item.disabled"
-                               v-show="options3show">
+                               :value="item.value">
                     </el-option>
                 </el-select>
                 开始时间：
@@ -62,98 +45,59 @@
                            @click="search">搜索</el-button>
 
             </div>
-            <!-- <div slot="footer"
-                class="dialog-footer"
-                v-show="isShow"
-                style="padding:30px 0">
-                <el-button type="primary"
-                        style="width:10%;"
-                        @click="cofirm">确 定</el-button>
-            </div> -->
             <div class="main">
                 <el-table :data="tableData"
                           border
                           tooltip-effect="dark"
                           style="width: 100%">
-                    <!-- <el-table-column type="selection"
-                                     align="center">
-                    </el-table-column> -->
-                    <el-table-column label="方案ID"
-                                     prop="planNo"
+                    <el-table-column label="id"
+                                     prop="id"
                                      align="center">
                     </el-table-column>
-                    <!-- <el-table-column label="评论人账户"
+                    <el-table-column label="用户名"
                                      prop="account"
                                      align="center">
                     </el-table-column>
-                    <el-table-column label="对应方案发起人的账户"
-                                     prop="planAccount"
-                                     align="center">
-                    </el-table-column> -->
-                    <el-table-column label="评论人用户名"
+                    <el-table-column label="举报成功的钱是否退回"
                                      align="center">
                                      <template slot-scope="scope">
-                                         <span v-if="scope.row.username != null">{{scope.row.username}}</span>
-                                         <span v-else>{{scope.row.account}}</span>
+                                         {{scope.row.isArrival | isArrival}}
                                      </template>
                     </el-table-column>
-                    <el-table-column label="方案发起人的用户名"
-                                     align="center">
-                                     <template slot-scope="scope">
-                                         <span v-if="scope.row.planUsername != null">{{scope.row.planUsername}}</span>
-                                         <span v-else>{{scope.row.planAccount}}</span>
-                                     </template>
-                    </el-table-column>
-                    <!-- <el-table-column label="评论人头像"
-                                     prop="picture"
-                                     align="center">
-                    </el-table-column>
-                    <el-table-column label="方案发起人头像"
-                                     prop="planPicture"
-                                     align="center">
-                    </el-table-column> -->
-                    
-                    <el-table-column label="评论类型"
-                                     align="center">
-                                     <template slot-scope="scope">
-                                         {{scope.row.type | type}}
-                                     </template>
-                    </el-table-column>
-                    
-                    <el-table-column label="点赞总数"
-                                     prop="likeCount"
-                                     align="center">
-                    </el-table-column>
-                    <el-table-column label="楼层"
-                                     prop="floor"
-                                     align="center">
-                    </el-table-column>
-                    <el-table-column label="评论时间"
-                                     prop="commentTime"
+                    <el-table-column label="到账时间"
                                      align="center">
                         <template slot-scope="scope">
-                            {{scope.row.commentTime | time}}
+                            {{scope.row.arrivalTime | time}}
                         </template>
                     </el-table-column>
-                    <el-table-column label="评论内容"
-                                     prop="connect"
+                    <el-table-column label="举报时间"
+                                     align="center">
+                        <template slot-scope="scope">
+                            {{scope.row.time | time}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="举报内容"
+                                     prop="reportType"
                                      align="center">
                     </el-table-column>
                     <el-table-column label="审核状态"
-                                     prop="status"
                                      align="center"
                                      filter-placement="bottom-end">
                         <template slot-scope="scope">
-                            <el-tag disable-transitions>{{scope.row.status | changeType}}</el-tag>
+                            <el-tag disable-transitions>{{scope.row.states | changeType}}</el-tag>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作"
                                      prop="status"
                                      align="center">
                         <template slot-scope="scope">
-                            <!-- <el-button type="primary" @click="Reject(scope.row)">驳回</el-button> -->
-                            <el-button type="danger" @click="cofirm(scope.row)">驳回</el-button>
-
+                            <div v-if="scope.row.states === 0">
+                                <el-button type="success" @click="cofirm(scope.row,1)">通过</el-button>
+                                <el-button type="danger" @click="cofirm(scope.row,2)">不通过</el-button>
+                            </div>
+                            <div v-else>
+                                <el-button type="primary">已审核</el-button>
+                            </div>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -173,21 +117,22 @@
             </el-pagination>
         </div>
         <!-- 弹窗事件 -->
-        <el-dialog title="确认驳回"
+        <el-dialog title="确认举报"
 		           :visible.sync="dialogVisible"
 		           width="40%"
                    >
 			<span slot="footer"
 			      class="dialog-footer">
-                  <el-button @click="dialogVisible = false" type="primary">取消</el-button>
-				<el-button @click="Reject()" type="success">确定</el-button>
+                    <el-button @click="dialogVisible = false" type="primary">取消</el-button>
+				    <el-button @click="Reject(1)" type="success" v-show="tg">确定</el-button>
+                    <el-button @click="Reject(2)" type="success" v-show="btg">确定</el-button>
 			</span>
 		</el-dialog>
     </div>
 </template>
 
 <script>
-import { getCommentList,bhComment } from '@/api/personal_review.js'
+import { getReportList,shReport } from '@/api/personal_review.js'
 import { findAllMember } from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
@@ -196,12 +141,12 @@ import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
 export default {
     data() {
         return {
-            options2show: true,
-            options3show: false,
+            // options2show: true,
+            // options3show: false,
             account: '',   //用户名
             username: '', //昵称
-            type: '1',
-            commentType: '1',
+            type: '1',      //举报类型
+            states: '0',    //审核状态
             startDate: '',
             endDate: '',
             page: 1,
@@ -212,56 +157,47 @@ export default {
             options1: [
                 {
                     value: '1',
-                    label: '评论',
+                    label: '问答举报',
 
                 },
                 {
                     value: '2',
-                    label: '回复'
+                    label: '评论举报'
+                },
+                {
+                    value: '3',
+                    label: '回复举报'
                 },
             ],
             options2: [
+                 
+                {
+                    value: '0',
+                    label: '未审核',
+                },
                 {
                     value: '1',
-                    label: '推荐',
-                    disabled: false,
+                    label: '审核成功',
                 },
                 {
                     value: '2',
-                    label: '问答',
-                    disabled: false,
-                },
-            ],
-            options3: [
-
-                {
-                    value: '3',
-                    label: '评论回复',
-                    disabled: false
-                },
-                {
-                    value: '4',
-                    label: '回复回复',
-                    disabled: false
-                },
-                {
-                    value: '0',
-                    label: '回复的全部',
-                    disabled: false
+                    label: '审核失败',
                 },
             ],
 
             id: '',    //存储要驳回的方案id
-            connectType: '',   //存储要驳回的type
-            dialogVisible: false
+            dialogVisible: false,
+
+            tg: false,
+            btg: false,
         }
     },
     created() {
         this.getData()
     },
     filters: {
-        type(val){
-            return val === 1 ? '推荐':'问答'
+        isArrival(val){
+            return val === 1 ? '已退回':'未退回'
         },
         changeType(val) {
             if (val === 0 || val === '未审核') {
@@ -296,51 +232,31 @@ export default {
         
         //查询
         search() {
-            if (!this.account && !this.username) {
-                this.page = 1
-                this.getData()
-            } else {
-                if (this.account === '') {
-                    this.getAccount()
-                } else {
-                    this.page = 1
-                    this.getData()
-                }
-            }
+            this.getData()
         },
-        //用昵称查询账号
-        getAccount() {
-            let obj = {
-                username: this.username
-            }
-            findAllMember(obj).then(res => {
-                this.account = res.data.data.list[0].ACCOUNT
-                this.page = 1
-                this.getData()
-            })
+        //举报类型
+        report(val) {
+            this.type = val
+            this.getData()
         },
-        //状态筛选的回调
-        handlestatus(val) {
-            if(val ==1) {
-                this.options2show = true
-                this.options3show = false
-            }else {
-                 this.options2show = false
-                 this.options3show = true
-            }
+        //审核选择
+        examine(val) {
+            this.states = val
+            this.getData()
         },
-        //获取评论列表
+        //获取数据列表
         getData() {
             let obj = {
-                account: this.account,
-                commentType: this.commentType,
+                // account: this.account,
+                states: this.states,
                 type: this.type,
-                startDate: this.startDate,
-                endDate: this.endDate,
+                // startDate: this.startDate,
+                // endDate: this.endDate,
                 offset: this.page,
                 pageSize: this.pageSize,
+                // otherId: ""
             }
-            getCommentList(obj).then(res => {
+            getReportList(obj).then(res => {
                 if(res.data.error_code === 200){
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
@@ -350,18 +266,24 @@ export default {
             })
         },
         //提示框
-        cofirm(val){
+        cofirm(val,num){
             this.id = val.id
-            this.connectType = val.type
             this.dialogVisible = true
+            if(num === 1){
+                this.tg = true
+                this.btg = false
+            }else{
+                this.tg = false
+                this.btg = true
+            }
         },
-        //驳回
-        Reject(){
+        //审核
+        Reject(a){
             let obj = {
                 id: this.id,
-                type: this.connectType
+                type: a
             }
-            bhComment(obj).then(res=>{
+            shReport(obj).then(res=>{
                 if(res.data.error_code === 200){
                     this.$message.success(res.data.message)
                     this.dialogVisible = false

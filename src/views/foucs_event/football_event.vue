@@ -192,7 +192,6 @@ export default {
             }
             findFootballMixureInfo(obj)
             .then(res => {
-                console.log(res)
                 this.tableData = res.data.data
             })
         },
@@ -215,10 +214,8 @@ export default {
                     status:status,
                     time:this.time
                 }
-                console.log(obj)
                 updateDGByStatus(obj)
                 .then(res => {
-                    console.log(res.data)
                     if(res.data.error_code == 200){
                         this.$message.success(res.data.message)
                         this.dialogTou = false

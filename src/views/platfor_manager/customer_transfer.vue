@@ -128,7 +128,6 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.sjname = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.getUsername()
@@ -153,7 +152,6 @@ export default {
 				pageSize: 20
 			}
 			getSubordinateMember(obj).then(res => {
-				console.log(res)
 				if (res.data.error_code === 200) {
 					this.tableData = res.data.data.list
 					this.total = res.data.data.total
@@ -175,7 +173,6 @@ export default {
 			} else {
 				this.isShow = false
 			}
-			console.log(val)
 
 		},
 		cofirm() {
@@ -185,7 +182,6 @@ export default {
 			});
 
 			this.num=this.number.join(',');
-			console.log(this.num)
 			this.dialogVisible = true
 		},
 		makersure() {
@@ -196,7 +192,6 @@ export default {
 				Message.success('请输入用户名')
 			} else {
 				moveMember(oldAccount, newAccount, moveMemberId).then(res => {
-					console.log(res)
 					if(res.data.error_code = 200){
 						Message.success(res.data.message)
 						this.dialogVisible = false

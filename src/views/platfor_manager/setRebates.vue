@@ -337,51 +337,10 @@ export default {
 			this.viewFormVisible = false
 		},
 		submitInfos() {  // 确定按钮
-            // console.log(this.value)
-            // let arr =  []
-            
-            // if(this.checkList.length > 1){
-            //     this.checkList.forEach(e => {
-            //         arr.push(e) 
-            //     });
-            //     this.value = arr.join(',')    //当选择多个时
-            // }else{
-            //     this.value = this.checkList[0]  //当只选择一个时
-            // }
-            // let arr =  []
-            // console.log(this.checkList)
-            // if(this.checkList.length > 1){
-            //     this.checkList.forEach(e => {
-            //         arr.push(e)
-            //         console.log(e)
-            //     });
-            //     this.value1 = arr[0]
-            //     this.value2 = arr[1]
-            //     // this.value = arr.join(',')    //当选择多个时
-            // }else if(this.checkList[0] === '38'){
-            //     console.log('111')
-            //     this.value1 = this.checkList[0]  //当只选择一个时(竞彩足球)
-            //     this.value2 = '39'
-            //     this.gd_rate2 = '0'
-            // }else if(this.checkList[0] === '39'){
-            //     console.log('222')
-            //     this.value1 = '38'
-            //     this.value2 = this.checkList[0]  //当只选择一个时(竞彩篮球)
-            //     this.gd_rate1 = '0'
-            // }
-            // let arr =  []
-            // console.log(this.checkList)
             if(this.checkList.length < 2){
                 this.$message.error('请选择两个！')
             }else{
-                // this.checkList.forEach(e => {
-                //     arr.push(e)
-                //     console.log(e)
-                // });
-                // this.value1 = arr[0]
-                // this.value2 = arr[1]
                 if(this.gd_rate1 === '' || this.valueType1 === '' || this.startvalue1 === '' || this.endvalue1 === '' || this.gd_rate2 === '' || this.valueType2 === '' || this.endvalue2 === ''){
-                    console.log('dfdsfd')
                     this.$message.error('请填完整！')
                 }
                 else{

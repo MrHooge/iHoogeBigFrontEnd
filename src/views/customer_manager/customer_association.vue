@@ -201,7 +201,6 @@ export default {
         },
         //通过操作
         editnums(data){
-            //console.log(data.agent_account);
             this.agentName = data.agent_account;
             let newobj = {
                 agentName:data.member_account,

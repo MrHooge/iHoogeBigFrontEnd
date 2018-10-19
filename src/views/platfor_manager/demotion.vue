@@ -163,7 +163,6 @@ export default {
                 username: this.name
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.getUsername()
@@ -214,9 +213,7 @@ export default {
 		let obj = {
 			account: this.onePeople.ACCOUNT
 		}
-		console.log(obj)
 				setAgentToMember(obj).then(res=>{
-					console.log(res)
 					if(res.status==200){
 						this.dialogVisible = false
 						Message.success(res.data.message)

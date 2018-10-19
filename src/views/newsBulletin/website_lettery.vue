@@ -182,7 +182,6 @@ export default {
         }
       addMail(obj)
       .then(res => {
-        console.log(res)
         if(res.data.error_code == 200){
           this.$message.success(res.data.message)
           this.dialogFormVisible = false
@@ -205,7 +204,6 @@ export default {
       }
       getMailList(newobj)
       .then(res => {
-          console.log(res)
         this.date = res.data.data
       })
     }

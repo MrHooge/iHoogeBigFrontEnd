@@ -190,7 +190,6 @@ export default {
         },
         getList() {
             getSuperMan().then(res =>{
-                console.log(res)
                 this.navLi = this.removeEmptyArrayEle(res.data.data)
                 if(this.navLi[0].account){
                     this.redman.red01 = this.navLi[0].account

@@ -210,13 +210,11 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
             })
         },
         //查询
         search() {
-            console.log(this.account)
             if(this.account === null){
                 this.getAccount()
             }
@@ -233,7 +231,6 @@ export default {
             //抢红包列表
             grabRedRacketList2(obj)
                 .then(res => {
-                    console.log(res)
                     if(res.data.error_code === 200){
                         this.tableData = res.data.data.list
                         this.totalList = res.data.data.total
@@ -243,7 +240,6 @@ export default {
                 })
         },
         handleSelectionChange(val){
-            console.log(val)
             this.selectios = val
         },
         addjqr() {
@@ -280,10 +276,8 @@ export default {
             else {
                 let arr = []
                 this.selectios.forEach(a=>{
-                    console.log(a.id)
                     arr.push(a.id)
                 })
-                console.log(arr)
                 let model = {
                     money: this.amount,
                     name: this.pageName,
@@ -293,7 +287,6 @@ export default {
                     startTime:this.starttime,
                     type:this.radio
                 }
-                console.log(model)
                 addRedRacketForPlatform(model)
                     .then(res => {
                         if (res.data.error_code == 200) {
@@ -318,7 +311,6 @@ export default {
             }
             putRedRacketList2(obj)
                 .then(res => {
-                    console.log(res)
                     if(res.data.error_code === 200){
                         this.tableData = res.data.data.list
                         this.totalList = res.data.data.total

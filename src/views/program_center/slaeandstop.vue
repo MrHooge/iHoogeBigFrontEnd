@@ -53,7 +53,6 @@ export default {
         //获取数据
         gettable(){
             getLotteryTypeIsSale().then(res => {
-                console.log(res)
                 this.tableData.push(res.data.data)
             })
         },

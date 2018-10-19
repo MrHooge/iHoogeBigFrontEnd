@@ -95,7 +95,6 @@ export default {
         if (res.status == 200) {
           let data = res.data;
           if (data.error_code == 200) {
-            console.log(data.data);
             let k = res.data.data;
             if (k.list && k.list.length > 0) {
               this.tableData = k.list;
@@ -112,7 +111,6 @@ export default {
         examine: 1
       };
       Reviews(obj).then(res => {
-        console.log(res);
         if (res.data.error_code == 200) {
           this.$message(res.data.message);
           this.getTable();

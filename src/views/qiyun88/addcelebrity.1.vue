@@ -187,18 +187,8 @@ export default {
             })
         },
         getList () {
-			//  超级大神列表
-			// this.$axios.get(api.member + '/user/getSuperMan').then(res => {
-			// 	console.log(res)
-			// 	if (res.data.data.length > 0) {
-			// 		this.navLi = this.removeEmptyArrayEle(res.data.data)
-			// 	} else {
-			// 		this.hren = true
-			// 	}
-            // })
 
             getSuperMan().then(res =>{
-                console.log(res)
                 this.navLi = this.removeEmptyArrayEle(res.data.data)
             })
         },

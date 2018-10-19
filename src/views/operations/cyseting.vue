@@ -234,7 +234,6 @@ export default {
 				multiple: this.beishu
 			}
 			toCaiYan(obj).then(res => {
-				console.log(res)
 				if (res.data.success === true) {
                     this.$message.success("设置成功")
                     this.getData();
@@ -264,7 +263,6 @@ export default {
 				pageSize: this.pageSize
 			};
 			getMember(obj).then(res => {
-				console.log(res)
 				if (res.data.success === true) {
 					this.totalNum = res.data.totalCount;
                     this.tabledata = res.data.data;

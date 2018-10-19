@@ -248,7 +248,6 @@ export default {
           sp:this.form.sp
         }
         createDayOneDan1(obj).then(res => {
-            console.log(res)
             if(res.data.error_code == 200){
                 this.$message.success(res.data.message)
             }else{
@@ -284,7 +283,6 @@ export default {
           sp:this.formsecond.sp
         }
         createDayOneDan2(obj).then(res => {
-            console.log(res)
             if(res.data.error_code == 200){
                 this.$message.success(res.data.message)
             }else{
@@ -334,7 +332,6 @@ export default {
                 recommend2:this.formthird.recommend2
             }
             createSZ2C11(obj).then(res => {
-                console.log(res)
                 if(res.data.error_code == 200){
                     this.$message.success(res.data.message)
                 }else{
@@ -384,7 +381,6 @@ export default {
                 recommend2:this.formthird.recommend2
             }
             createSZ2C12(obj).then(res => {
-                console.log(res)
                 if(res.data.error_code == 200){
                     this.$message.success(res.data.message)
                 }else{

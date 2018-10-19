@@ -112,7 +112,6 @@ export default {
                 account: this.number
             };
             getMemberWalletByAccount(obj).then(res => {
-                console.log(res)
                 this.tableData = [];
                 if (res.status == 200) {
                     this.tableData.push(res.data.data);
@@ -125,7 +124,6 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.number = res.data.data.list[0].ACCOUNT
                 this.accountSearch()
             })
@@ -137,7 +135,6 @@ export default {
 				amount: this.chje
 			}
 			xxCharge(obj).then(res => {
-				console.log(res)
 				if (res.data.success) {
 					this.$message.success("充值成功！")
 					setTimeout(() => {

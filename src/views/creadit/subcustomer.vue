@@ -153,7 +153,6 @@ export default {
             username: this.username
         }
         findAllMember(obj).then(res => {
-            console.log(res.data.data.list[0].ACCOUNT)
             this.account = res.data.data.list[0].ACCOUNT
             this.page = 1
             this.getData();
@@ -198,7 +197,6 @@ export default {
     
     // 点击授信额度弹窗
     layer() {
-      console.log(1);
     },
 
     // 调接口数据、
@@ -213,7 +211,6 @@ export default {
         loginAccount: getCookies('name')
       };
       getAgentChargeLine(obj).then(res => {
-          console.log(res)
         if(res.status === 200){
             this.tableData = res.data.data.list;
             this.totalList = res.data.data.total
@@ -222,20 +219,6 @@ export default {
         }
       })
     },
-    // getData(curr, name) {
-    //   let obj = { page: curr, pageSize: 20, account: name ,loginAccount:localStorage.getItem('account')};
-    //   this.$http
-    //     .get(api.pay +"/xxPay/getAgentChargeLine", {
-    //       params: obj
-    //     })
-    //     .then(res => {
-    //       if ((res.status = 200)) {
-    //         // console.log(res.data.data)
-    //         this.total = res.data.totalCount;
-    //         this.tableData = res.data.data;
-    //       }
-    //     });
-    // },
     // 获取当前的点击页码
     currentPage(val) {
       this.getData(val);

@@ -188,10 +188,8 @@ export default {
                     status:status,
                     time:this.time
                 }
-                console.log(obj)
                 updateDGByStatus(obj)
                 .then(res => {
-                    console.log(res.data)
                     if(res.data.error_code == 200){
                         this.$message.success(res.data.message)
                         this.dialogTou = false
@@ -232,7 +230,6 @@ export default {
                 })
                 let ids = arr.join(',')
                 setBbFocusMatch(ids).then(res => {
-                    console.log(res)
                     if(res.data.error_code == 200){
                         this.$message.success(res.data.message)
                     }else{

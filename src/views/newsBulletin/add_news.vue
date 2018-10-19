@@ -171,8 +171,6 @@ export default {
   methods: {
    //链接显示隐藏
     getchange(date){
-        console.log(date)
-        // console.log(this.form.contentType)
         if(this.form.contentType == 1){
             this.obviously = true
         }else{
@@ -191,8 +189,7 @@ export default {
       },
  
     //上传图片成功回调
-    handleAvatarSuccess(res){   
-      //console.log(res)
+    handleAvatarSuccess(res){
       this.form.picture = res
     },
     beforeAvatarUpload(file) {
@@ -209,14 +206,12 @@ export default {
     },
         //状态选中
         handselect(value){
-            console.log(value)
             this.form.type = value
         },
         //修改新闻
         update(){
             if(this.form.editor && this.form.keyword && this.form.summary && this.form.title && this.form.type && this.form.contentType){
                 reviseNews(this.form).then(res => {
-                    console.log(res)
                     if(res.data.error_code == 200){
                         this.$message.success(res.data.message)
                     }else{
@@ -246,7 +241,6 @@ export default {
     },
     //获取新闻类别
     history(){
-      console.log(456516516545)
       let obj = {
         type:1
       }

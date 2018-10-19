@@ -144,7 +144,6 @@ export default {
                 username: this.name
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.getUsername()
@@ -182,11 +181,7 @@ export default {
 				if (res.status == 200) {
                     this.tableData = res.data.data.list
                     this.totalList = res.data.data.total
-					// filter((e, index) => {
-					// 	return e.AGENT_TYPE == 1
-					// })
 				}
-				console.log(this.tableData)
 			})
 		},
 		//  给渠道绑定代理
@@ -199,9 +194,7 @@ export default {
 			let obj = {
 				account: this.onePeople.ACCOUNT
 			}
-			console.log(obj)
 			upgradeAgentToQD(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					this.dialogVisible = false
 					Message.success(res.data.message)

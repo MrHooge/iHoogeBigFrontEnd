@@ -102,17 +102,14 @@ export default {
                 username: this.input2
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.input1 = res.data.data.list[0].ACCOUNT
                 this.getData(1, this.input1);
             })
         },
 		//   授信的点击事件
 		shouxin (a) {
-			console.log(a)
 			this.dialogVisible = true;
 			this.obj = a
-			console.log(this.obj)
 			// 获取授信代理用户名
 			this.username = a.account;
 			// 获取授信额度
@@ -134,7 +131,6 @@ export default {
 				account: a,
 			};
 			getCreditMember(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
                     if(res.data.data.list){
                         this.tableData = res.data.data.list
@@ -148,7 +144,6 @@ export default {
                             free += e.freezeCreditBalance
                             this.totalMoney = total
                             this.totalFree = free
-                            // console.log(e)
                         })
                     }
 					
@@ -163,7 +158,6 @@ export default {
 		clickCreadit(a, b, c) {
 			let creadit = { account: a, creditLimit: b, operater: c };
 			credit(creadit).then(res => {
-				console.log(res)
 				if (res.data.success == false) {
 					Message.success(res.data.msg)
 					return;

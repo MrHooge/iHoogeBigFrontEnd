@@ -219,14 +219,11 @@ export default {
 		},
 		//   下拉选择框的筛选
 		getval() {
-			// console.log(this.value);
-
 			this.getData(this.account, this.value,this.operator);
 		},
 		//   搜索查询
         search() {
             if (this.value == '全部') {
-				console.log('111111')
 				this.value == ''
 			}
             if (!this.account && !this.username) {
@@ -247,7 +244,6 @@ export default {
                 username: this.username
             }
             findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
                 this.account = res.data.data.list[0].ACCOUNT
                 this.page = 1
                 this.getData(this.account, this.value,this.operator);
@@ -277,25 +273,12 @@ export default {
 				loginAccount: getCookies('name')
 			};
 			getCreditRefund(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					this.totalList = res.data.data.total;
 					this.tableData = res.data.data.list;
 				}
 			})
 		},
-
-		// getData(currpage, name, s) {
-		//   let obj = { page: currpage, pageSize: 10, account: name, status: s,loginAccount:localStorage.getItem('account') };
-		//   this.$http.get(api.pay +'/xxPay/getCreditRefund', { params: obj })
-		//     .then(res => {
-		//       if (res.status == 200) {
-		//         console.log(res.data.data)
-		//         this.total = res.data.totalCount;
-		//         this.tableData = res.data.data;
-		//       }
-		//     });
-		// },
 		// 获取当前的点击页码
 		changepage(val) {
 			this.getData(val);
@@ -310,13 +293,11 @@ export default {
 		},
 		// 确定的回调
 		confirm() {
-			console.log(this.ob);
 			let obj = {
 				account: getCookies('name'),
 				id: this.ob.id
 			}
 			passCreditRefundApply(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					Message.success("审核成功！")
 					this.getData(this.account, this.value,this.operator);
@@ -341,24 +322,12 @@ export default {
 				id: this.ob.id
 			};
 			refuseCreditRefundApply(obj).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					Message.success("驳回成功！")
 					this.getData(1, this.account, this.value);
 					this.dialogVisible1 = false;
 				}
 			})
-			// this.$http
-			// 	.get(api.pay + "/xxPay/refuseCreditRefundApply", {
-			// 		params: obj
-			// 	})
-			// 	.then(res => {
-			// 		if ((res.status = 200)) {
-			// 			this.$message("驳回成功！");
-			// 			this.getData(1)
-			// 			this.dialogVisible1 = false;
-			// 		}
-			// 	});
 		}
 	}
 };

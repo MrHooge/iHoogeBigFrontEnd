@@ -202,7 +202,6 @@ export default {
 				if (res.status == 200) {
 					if (res.data.data && res.data.data.length > 0) {
                         this.tableData = res.data.data
-                        console.log(this.tableData)
                         this.tableData.forEach(e => {
                             this.time.push(e.date)
                             this.allOnLineMoney.push(e.allOnLineMoney)   //线上充值
@@ -218,7 +217,6 @@ export default {
                             this.saleCommissionMoney.push(e.commissionUse)   //销售佣金
                             this.platformCommissionMoney.push(e.platformCommissionMoney)   //平台收佣
                         })
-                        // console.log(this.allOnLineMoney);
                         
                         this.chart.setOption({
                             title: {
@@ -480,7 +478,6 @@ export default {
 				isMonth: this.datetype || 1
 			}
 			findFinancialMoneyInfo(model).then(res => {
-				console.log(res)
 				if (res.status == 200) {
 					if (res.data.data && res.data.data.length > 0) {
                         this.tableData = res.data.data
@@ -489,7 +486,6 @@ export default {
                             arr.push(e.allOnLineMoney)
                             
                         })
-                        console.log(arr)
 					}
 				}
 			})
@@ -556,10 +552,8 @@ export default {
 				listParams: JSON.stringify(this.newarr),
 				title: "财务资金明细"
 			};
-			console.log(model)
 			exportExcle(model.listParams, model.title)
 				.then(res => {})
-			console.log(this.newarr)
 			require.ensure([], () => {
 				const { export_json_to_excel } = require('../../vendor/Export2Excel');
 				const tHeader = ['编号', '日期', '线下充值', '提款', '消费', '税后奖金', '当日赠送', '红包嘉奖奖金使用', '彩卡金使用', '佣金使用', '销售佣金', '平台收佣']; //对应表格输出的title

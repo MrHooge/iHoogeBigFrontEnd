@@ -22,7 +22,6 @@ export default {
   methods: {
     getMenu() {
       this.$store.dispatch('GetRolePermission', this.name).then(() => {
-        console.log('get Role Permission Success !')
       }).catch(() => {
       })
     }
