@@ -82,13 +82,13 @@ export function matchBasketballTeam(obj) {
 // 请求Url  /master/matchBasketballGame
 
 export function matchBasketballGame(obj) {
-    return request.member({
-      url: url + "/master/matchBasketballGame",
-      method: "get",
-      params: obj
-    });
-  }
-   
+  return request.member({
+    url: url + "/master/matchBasketballGame",
+    method: "get",
+    params: obj
+  });
+}
+
 // 接口名称 添加大师
 // 请求类型 get
 // 请求Url  /memberManage/addMaster
@@ -168,6 +168,14 @@ export function getReportList(obj) {
 export function shReport(obj) {
   return request.member({
     url: url + "/memberManage/shReport",
+    method: "get",
+    params: obj
+  });
+}
+//获取反馈列表
+export function getFeedbackList(obj) {
+  return request.member({
+    url: url + "/memberManage/getFeedbackList",
     method: "get",
     params: obj
   });
