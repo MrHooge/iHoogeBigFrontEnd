@@ -199,23 +199,27 @@
 			                 align="center">
 				<template slot-scope="scope">
 					<div style="padding:5px 0">
-						<el-button v-show="isKF"
+						<!-- <el-button v-if="scope.row.STATUS === 1"
 						    type="primary"
 						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">客服通过
-                        </el-button>
-						<el-button v-show="!isKF"
+                        </el-button> -->
+						<el-button v-if="scope.row.STATUS === 1"
 						    type="primary"
-						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">财务通过
+						    @click="examine(scope.row)">客服通过
+                        </el-button>
+						<el-button v-if="scope.row.STATUS === 7"
+						    type="primary"
+						    @click="examine(scope.row)">财务通过
                         </el-button>
 					</div>
 					<div>
-						<el-button v-show="isKF"
+						<el-button v-if="scope.row.STATUS === 1"
 						    type="danger"
-						    @click="reject(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">客服驳回
+						    @click="reject(scope.row)">客服驳回
                         </el-button>
-						<el-button v-show="!isKF"
+						<el-button v-if="scope.row.STATUS === 7"
 						    type="danger"
-						    @click="reject(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">财务驳回
+						    @click="reject(scope.row)">财务驳回
                         </el-button>
 					</div>
                     <div v-if="scope.row.STATUS === 6">
@@ -440,6 +444,7 @@ export default {
 		},
 		// 询问弹出框
 		examine(a) {
+			console.log(a)
 			if(a.STATUS === 1){
 				this.isKF = true
 			}else{
