@@ -11,7 +11,7 @@
             <el-select v-model="planStatus"
 			           placeholder="请选择订单状态"
 			           @change="getval"
-                       style="width:8%">
+                       style="width:10%">
 				<el-option v-for="item in sections1"
 				           :key="item.planStatus"
 				           :label="item.label"
@@ -24,7 +24,7 @@
             <el-select v-model="lotteryType"
 			           placeholder="请选择彩种类型"
 			           @change="getval"
-                       style="width:8%">
+                       style="width:10%">
 				<el-option v-for="item in sections2"
 				           :key="item.lotteryType"
 				           :label="item.label"
@@ -36,7 +36,7 @@
             中奖状态：<el-select v-model="winStatus"
 			           placeholder="请选择中奖状态"
 			           @change="getval"
-                       style="width:7%">
+                       style="width:10%">
 				<el-option v-for="item in sections"
 				           :key="item.winStatus"
 				           :label="item.label"
@@ -447,463 +447,471 @@
     </div>
 </template>
 <script>
-import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus,getPlanByMatch } from '@/api/period'
-import { findAllMember } from '@/api/customer'
-import { getPlanWiningPrize } from '@/api/sys_user.js';
+import {
+  selectLotteryPlan,
+  updatePlanDesc,
+  planBack,
+  getIsFocusPlan,
+  updatePlanStatus,
+  getPlanByMatch
+} from "@/api/period";
+import { findAllMember } from "@/api/customer";
+import { getPlanWiningPrize } from "@/api/sys_user.js";
 export default {
-    data(){
-        return{
-            tableData:[],
-            account:'',
-            minBonus:'',
-            maxBonus:'',
-            startAmount:'',
-            endAmount:'',
-            startReturnAmount:'',
-            endReturnAmount:'',
-            planNo:'',
-            onePlanNo: '',
-            planStatus:'',
-            winStatus:'',
-            playType:'',
-            stime:'',
-            etime:'',
-            page:1,
-            pageSize:20,
-            desc: '',
-            dialogShenVisible:false,
-            Declarationofwithdrawal:false,
-            undesirabledesabel:false,
-            fadan:'',
-            sections: [
-				{ winStatus: "", label: "全部" },
-				{ winStatus: "1", label: "未开奖" },
-				{ winStatus: "2", label: "未中奖" },
-                { winStatus: "3", label: "已中奖" },
-                { winStatus: "4", label: "已派奖" },
-                { winStatus: "11", label: "已退款" }
-            ],
-            sections1: [
-				{ planStatus: "-1", label: "全部" },
-				{ planStatus: "1", label: "未支付" },
-				{ planStatus: "2", label: "招募中" },
-                { planStatus: "3", label: "出票中" },
-                { planStatus: "4", label: "已出票" },
-                { planStatus: "5", label: "已撤单" },
-                { planStatus: "6", label: "已流单" },
-                { planStatus: "7", label: "受理中" },
-                { planStatus: "8", label: "部份出票" },
-                { planStatus: "9", label: "未出票作废" },
-                { planStatus: "10", label: "已过期" },
+  data() {
+    return {
+      tableData: [],
+      account: "",
+      minBonus: "",
+      maxBonus: "",
+      startAmount: "",
+      endAmount: "",
+      startReturnAmount: "",
+      endReturnAmount: "",
+      planNo: "",
+      onePlanNo: "",
+      planStatus: "",
+      winStatus: "",
+      playType: "",
+      stime: "",
+      etime: "",
+      page: 1,
+      pageSize: 20,
+      desc: "",
+      dialogShenVisible: false,
+      Declarationofwithdrawal: false,
+      undesirabledesabel: false,
+      fadan: "",
+      sections: [
+        { winStatus: "", label: "全部" },
+        { winStatus: "1", label: "未开奖" },
+        { winStatus: "2", label: "未中奖" },
+        { winStatus: "3", label: "已中奖" },
+        { winStatus: "4", label: "已派奖" },
+        { winStatus: "11", label: "已退款" }
+      ],
+      sections1: [
+        { planStatus: "-1", label: "全部" },
+        { planStatus: "1", label: "未支付" },
+        { planStatus: "2", label: "招募中" },
+        { planStatus: "3", label: "出票中" },
+        { planStatus: "4", label: "已出票" },
+        { planStatus: "5", label: "已撤单" },
+        { planStatus: "6", label: "已流单" },
+        { planStatus: "7", label: "受理中" },
+        { planStatus: "8", label: "部份出票" },
+        { planStatus: "9", label: "未出票作废" },
+        { planStatus: "10", label: "已过期" }
+      ],
 
+      sections2: [
+        { lotteryType: "43", label: "竞彩篮球混合过关" },
+        { lotteryType: "42", label: "竞彩足球混合过关" },
+        { lotteryType: "304", label: "竞彩篮球单关投注" },
+        { lotteryType: "30", label: "竞彩篮球胜负" },
+        { lotteryType: "31", label: "竞彩篮球让分胜负" },
+        { lotteryType: "32", label: "竞彩篮球胜分差" },
+        { lotteryType: "33", label: "竞彩篮球大小分" },
+        { lotteryType: "303", label: "竞彩足球单关投注" },
+        { lotteryType: "41", label: "竞彩足球胜平负" },
+        { lotteryType: "34", label: "竞彩足球让球胜平负" },
+        { lotteryType: "35", label: "竞彩足球比分" },
+        { lotteryType: "36", label: "竞彩足球进球数" },
+        { lotteryType: "37", label: "竞彩足球半全场" }
+      ],
+      directions: [
+        { playType: "", label: "全部" },
+        { playType: "116", label: "自由过关" },
+        { playType: "117", label: "单关" },
+        { playType: "118", label: "2串1" },
+        { playType: "119", label: "3串1" },
+        { playType: "120", label: "4串1" },
+        { playType: "121", label: "5串1" },
+        { playType: "122", label: "6串1" },
+        { playType: "123", label: "7串1" },
+        { playType: "124", label: "8串1" }
+      ],
+      totalList: 0,
 
-            ],
-            
-            sections2: [
-                {lotteryType:"43",label:"竞彩篮球混合过关"},
-                {lotteryType:"42",label:"竞彩足球混合过关"},
-                {lotteryType:"304",label:"竞彩篮球单关投注"},
-                {lotteryType:"30",label:"竞彩篮球胜负"},
-                {lotteryType:"31",label:"竞彩篮球让分胜负"},
-                {lotteryType:"32",label:"竞彩篮球胜分差"},
-                {lotteryType:"33",label:"竞彩篮球大小分"},
-                {lotteryType:"303",label:"竞彩足球单关投注"},
-                {lotteryType:"41",label:"竞彩足球胜平负"},
-                {lotteryType:"34",label:"竞彩足球让球胜平负"},
-                {lotteryType:"35",label:"竞彩足球比分"},
-                {lotteryType:"36",label:"竞彩足球进球数"},
-                {lotteryType:"37",label:"竞彩足球半全场"}
+      username: "", //输入查询的昵称
+      consumMoney: "", //消费金额
+      wingPrize: "", //中奖总金额
 
-            ],
-            directions: [
-                { playType: "", label: "全部" },
-                { playType: "116", label: "自由过关" },
-				{ playType: "117", label: "单关" },
-				{ playType: "118", label: "2串1" },
-                { playType: "119", label: "3串1" },
-                { playType: "120", label: "4串1" },
-                { playType: "121", label: "5串1" },
-                { playType: "122", label: "6串1" },
-                { playType: "123", label: "7串1" },
-                { playType: "124", label: "8串1" },
-            ],
-            totalList: 0,
+      lotteryType: "",
 
-            username: "",   //输入查询的昵称
-            consumMoney: "",   //消费金额
-            wingPrize: "",    //中奖总金额
+      start_time: "", //方案购买开始时间
+      end_time: "", //方案结束时间
+      intTime: "", //比赛时间
+      lineId: "", //比赛场次
+      tableData1: [],
 
-            lotteryType: '',
-
-            start_time: '',   //方案购买开始时间
-            end_time: '',     //方案结束时间
-            intTime: '',     //比赛时间
-            lineId: '',     //比赛场次
-            tableData1: [],
-
-            isAdmin: false,    //是否是管理员
-            disabled: false,
-
-        }
+      isAdmin: false, //是否是管理员
+      disabled: false
+    };
+  },
+  filters: {
+    //玩法
+    changePlayType(val) {
+      if (val === "") {
+        return "全部";
+      } else if (val === 116) {
+        return "自由过关";
+      } else if (val === 117) {
+        return "单关";
+      } else if (val === 118) {
+        return "2串1";
+      } else if (val === 119) {
+        return "3串1";
+      } else if (val === 120) {
+        return "4串1";
+      } else if (val === 121) {
+        return "5串1";
+      } else if (val === 122) {
+        return "6串1";
+      } else if (val === 123) {
+        return "7串1";
+      } else if (val === 124) {
+        return "8串1";
+      } else if (val === 35) {
+        return "竞彩足球比分";
+      } else if (val === 36) {
+        return "竞彩足球进球数";
+      } else if (val === 37) {
+        return "竞彩足球半全场";
+      }
     },
-    filters:{
-        //玩法
-        changePlayType(val){
-            if(val === ""){
-                return '全部'
-            }else if(val === 116){
-                return '自由过关'
-            }else if(val === 117){
-                return '单关'
-            }else if(val === 118){
-                return '2串1'
-            }else if(val === 119){
-                return '3串1'
-            }else if(val === 120){
-                return '4串1'
-            }else if(val === 121){
-                return '5串1'
-            }else if(val === 122){
-                return '6串1'
-            }else if(val === 123){
-                return '7串1'
-            }else if(val === 124){
-                return '8串1'
-            }else if(val === 35){
-                return '竞彩足球比分'
-            }else if(val === 36){
-                return '竞彩足球进球数'
-            }else if(val === 37){
-                return '竞彩足球半全场'
-            }
-        },
-        //彩种
-        changeLotteryType(val){
-            if(val === 42){
-                return '竞彩足球混合过关'
-            }else if(val === 43){
-                return '竞彩篮球混合过关'
-            }else if(val === 304){
-                return '竞彩篮球单关投注'
-            }else if(val === 30){
-                return '竞彩篮球胜负'
-            }else if(val === 31){
-                return '竞彩篮球让分胜负'
-            }else if(val === 32){
-                return '竞彩篮球胜分差'
-            }else if(val === 33){
-                return '竞彩篮球大小分'
-            }else if(val === 303){
-                return '竞彩足球单关投注'
-            }else if(val === 41){
-                return '竞彩足球胜平负'
-            }else if(val === 34){
-                return '竞彩足球让球胜平负'
-            }else if(val === 35){
-                return '竞彩足球比分'
-            }else if(val === 36){
-                return '竞彩足球进球数'
-            }else if(val === 37){
-                return '竞彩足球半全场'
-            }
-        },
-        //出票状态
-        changePlanStatus(val){
-            val = Number(val)
-            if(val === 1 ){
-                return '未支付'
-            }else if(val === 3){
-                return '出票中'
-            }else if(val === 4){
-                return '已出票'
-            }else if(val === 8){
-                return '部分出票'
-            }
-        },
-        //是否跟单
-        isSuper(a){
-            a = Number(a)
-            if(a === 1){
-                return '自购'
-            }
-            else if(a === 0) {
-                return '跟单'
-            }
-        },
-        platForm(a){
-            a = Number(a)
-            if(a === 1){
-                return 'ios'
-            }
-            else if(a === 2){
-                return '安卓'
-            }
-            else if(a === 3){
-                return 'm端'
-            }
-            else if(a === 4){
-                return 'pc端'
-            }
-        },
-        //是否嘉奖
-        shape(s){
-            return s == true ? "嘉" : ""
-        },
-        type(b){
-            return b == '' ? '' : b
-        },
-        time(a){
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-            }
-        }
+    //彩种
+    changeLotteryType(val) {
+      if (val === 42) {
+        return "竞彩足球混合过关";
+      } else if (val === 43) {
+        return "竞彩篮球混合过关";
+      } else if (val === 304) {
+        return "竞彩篮球单关投注";
+      } else if (val === 30) {
+        return "竞彩篮球胜负";
+      } else if (val === 31) {
+        return "竞彩篮球让分胜负";
+      } else if (val === 32) {
+        return "竞彩篮球胜分差";
+      } else if (val === 33) {
+        return "竞彩篮球大小分";
+      } else if (val === 303) {
+        return "竞彩足球单关投注";
+      } else if (val === 41) {
+        return "竞彩足球胜平负";
+      } else if (val === 34) {
+        return "竞彩足球让球胜平负";
+      } else if (val === 35) {
+        return "竞彩足球比分";
+      } else if (val === 36) {
+        return "竞彩足球进球数";
+      } else if (val === 37) {
+        return "竞彩足球半全场";
+      }
     },
-    created(){
-        // this.gettable()
-        this.getTodayDate()
-
-        //只有如下账号的人可以显示
-        if(this.$store.state.user.name === 'develop' || this.$store.state.user.name === 'manager' ||  this.$store.state.user.name === 'admin' ){
-            this.isAdmin = true
-        }else{
-            this.isAdmin = false
-        }
+    //出票状态
+    changePlanStatus(val) {
+      val = Number(val);
+      if (val === 1) {
+        return "未支付";
+      } else if (val === 3) {
+        return "出票中";
+      } else if (val === 4) {
+        return "已出票";
+      } else if (val === 8) {
+        return "部分出票";
+      }
     },
-    methods:{
-        //根据比赛查询方案
-        matchSearch(){
-            if(this.start_time === '' || this.end_time === '' || this.intTime === '' || this.lineId === ''){
-                this.$message.error('请输入完整信息！')
-            }else{
-                let obj ={
-                    start_time: this.start_time,
-                    end_time: this.end_time,
-                    intTime: this.intTime,
-                    lineId: this.lineId,
-                    page: 1,
-                    pageSize: 1000
-                }
-                getPlanByMatch(obj).then(res =>{
-                    if(res.data.error_code === 200){
-                        this.disabled = true
-                        this.tableData1 = res.data.data.list
-                        this.fadan = res.data.data.planStatus
-                        this.tableData1.forEach((e,index) => {
-                            this.fadan = e.planDesc
-                        })
-                        this.$message.success(res.data.message)
-                    }else{
-                        this.$message.error(res.data.message)
-                    }
-
-                })
-            }
-            
-        },
-        //统计总和
-        searchCount(){
-            let obj = {
-                account: this.account,
-                startTime:this.stime || '',
-                endTime:this.etime || '',
-                planStatus: this.planStatus,
-                wingStatus: this.winStatus
-            }
-            getPlanWiningPrize(obj).then( res => {
-                if(res.data.error_code === 200){
-                    this.consumMoney = res.data.data.consumMoney
-                    this.wingPrize = res.data.data.wingPrize
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            })
-        },
-        getTodayDate(){
-                let date = new Date()
-                let y = date.getFullYear();
-                let m = date.getMonth() + 1;
-                m = m < 10 ? ('0' + m) : m;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                this.stime =  y + '-' + m + '-' + d +' '+ '00:00:00';
-                this.etime = y + '-' + m + '-' + d +' '+ '23:59:59';
-                this.gettable()
-        },
-        //点击账号跳转会员管理页面
-        getupnewweb(a){
-             this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
-        },
-        //明细页面跳转
-        Szczegol(parse){
-         let routeData = this.$router.resolve({ path: '/programCenter/Detail', query: {  planNo: parse.planNo } });
-            window.open(routeData.href, '_blank');
-        },
-        
-        getval(){
-            this.gettable()
-        },
-        FokusEreignis(){
-            let Schema = {
-                planNo:this.planNo
-            }
-            getIsFocusPlan(Schema)
-            .then(res => {
-                if(res.data == 'true'){
-                    this.$message('是')
-                }else{
-                    this.$message('否')
-                }
-            })
-        },
-        //获取数据
-        gettable(){
-            let obj = {
-                account:this.account,
-                endAmount:this.endAmount,
-                endReturnAmount	:this.endReturnAmount,
-                endTime:this.etime || '',
-                page:this.page,
-                dlAccount:'',
-                pageSize:this.pageSize,	
-                planNo:this.planNo,
-                planStatus:this.planStatus,
-                playType:this.playType,
-                startAmount	:this.startAmount,
-                startReturnAmount:this.startReturnAmount,
-                startTime:this.stime || '',
-                maxBonus:this.maxBonus,
-                minBonus:this.minBonus,
-                winStatus:this.winStatus,
-                desc:this.desc,
-                lotteryType: this.lotteryType   //彩种
-            }
-            selectLotteryPlan(obj).then(res =>{
-                this.tableData = res.data.data
-                this.totalList = res.data.totalCount
-                this.fadan = res.data.data.planStatus
-                this.tableData.forEach((e,index) => {
-                    this.fadan = e.planDesc
-                })
-            })
-        },
-        //出票
-        outticket(data){
-            this.undesirabledesabel = true
-            this.onePlanNo = data.planNo
-        },
-        //确认出票
-        getfromyicket(){
-            updatePlanStatus(this.onePlanNo).then(res => {
-                if(res.data.error_code == 200){
-                    this.$message.success('出票成功')
-                    this.undesirabledesabel = false
-                    this.gettable()
-                }else{
-                    this.undesirabledesabel = false
-                     this.$message.error(res.data.message)
-                }
-            })
-        },
-        //退单
-        Chargeback(data){
-            this.Declarationofwithdrawal = true;
-            this.onePlanNo = data.planNo
-        },
-        want(){
-            let subject = {
-            planNo:this.onePlanNo
-        }
-        planBack(subject)
-            .then(res => {
-                if(res.data.error_code == 200){
-                    this.$message.success('退单成功')
-                    this.Declarationofwithdrawal = false
-                    this.gettable()
-                }else{
-                    this.Declarationofwithdrawal = false
-                    this.$message.error(res.data.message)
-                    
-                }
-            })
-        },
-        search() {
-			if (!this.account && !this.username) {
-                // this.$message("请输入您要查询的账号或昵称！")
-                this.page = 1
-                this.gettable()
-			} else {
-                if(this.account === ''){
-                    this.getAccount()
-                }else{
-                    this.page = 1
-                    this.gettable()
-                }
-			}
-        },
-        //用昵称查询账号
-        getAccount(){
-            let obj = {
-                username: this.username
-            }
-            findAllMember(obj).then(res => {
-                this.account = res.data.data.list[0].ACCOUNT
-                this.page = 1
-                this.gettable()
-            })
-        },
-         //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.gettable()
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.gettable()
-        },
-        //修改
-        inquire(data){
-            this.dialogShenVisible = true;
-            this.planNo = data.planNo;
-            this.desc = data.planDesc;
-             this.planNo = '';
-        },
-        //确认
-        sure(){
-            updatePlanDesc(this.desc,this.planNo)
-            .then(res => {
-                if(res.data.error_code == 200){
-                    this.$message(res.data.message);
-                    this.dialogShenVisible = false;
-                    this.planNo = '';
-                     this.gettable()
-                }
-            })
-        }
+    //是否跟单
+    isSuper(a) {
+      a = Number(a);
+      if (a === 1) {
+        return "自购";
+      } else if (a === 0) {
+        return "跟单";
+      }
+    },
+    platForm(a) {
+      a = Number(a);
+      if (a === 1) {
+        return "ios";
+      } else if (a === 2) {
+        return "安卓";
+      } else if (a === 3) {
+        return "m端";
+      } else if (a === 4) {
+        return "pc端";
+      }
+    },
+    //是否嘉奖
+    shape(s) {
+      return s == true ? "嘉" : "";
+    },
+    type(b) {
+      return b == "" ? "" : b;
+    },
+    time(a) {
+      if (a != null) {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
     }
-}
+  },
+  created() {
+    // this.gettable()
+    this.getTodayDate();
+    this.searchCount();
+
+    //只有如下账号的人可以显示
+    if (
+      this.$store.state.user.name === "develop" ||
+      this.$store.state.user.name === "manager" ||
+      this.$store.state.user.name === "admin"
+    ) {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+    }
+  },
+  methods: {
+    //根据比赛查询方案
+    matchSearch() {
+      if (
+        this.start_time === "" ||
+        this.end_time === "" ||
+        this.intTime === "" ||
+        this.lineId === ""
+      ) {
+        this.$message.error("请输入完整信息！");
+      } else {
+        let obj = {
+          start_time: this.start_time,
+          end_time: this.end_time,
+          intTime: this.intTime,
+          lineId: this.lineId,
+          page: 1,
+          pageSize: 1000
+        };
+        getPlanByMatch(obj).then(res => {
+          if (res.data.error_code === 200) {
+            this.disabled = true;
+            this.tableData1 = res.data.data.list;
+            this.fadan = res.data.data.planStatus;
+            this.tableData1.forEach((e, index) => {
+              this.fadan = e.planDesc;
+            });
+            this.$message.success(res.data.message);
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      }
+    },
+    //统计总和
+    searchCount() {
+      let obj = {
+        account: this.account,
+        startTime: this.stime || "",
+        endTime: this.etime || "",
+        planStatus: this.planStatus,
+        wingStatus: this.winStatus
+      };
+      getPlanWiningPrize(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.consumMoney = res.data.data.consumMoney;
+          this.wingPrize = res.data.data.wingPrize;
+        } else {
+          this.$message.error(res.data.message);
+        }
+      });
+    },
+    getTodayDate() {
+      let date = new Date();
+      let y = date.getFullYear();
+      let m = date.getMonth() + 1;
+      m = m < 10 ? "0" + m : m;
+      let d = date.getDate();
+      d = d < 10 ? "0" + d : d;
+      this.stime = y + "-" + m + "-" + d + " " + "00:00:00";
+      this.etime = y + "-" + m + "-" + d + " " + "23:59:59";
+      this.gettable();
+    },
+    //点击账号跳转会员管理页面
+    getupnewweb(a) {
+      this.$router.push({
+        path: "/customerManager/customerManager",
+        query: { account: a }
+      });
+    },
+    //明细页面跳转
+    Szczegol(parse) {
+      let routeData = this.$router.resolve({
+        path: "/programCenter/Detail",
+        query: { planNo: parse.planNo }
+      });
+      window.open(routeData.href, "_blank");
+    },
+
+    getval() {
+      this.gettable();
+    },
+    FokusEreignis() {
+      let Schema = {
+        planNo: this.planNo
+      };
+      getIsFocusPlan(Schema).then(res => {
+        if (res.data == "true") {
+          this.$message("是");
+        } else {
+          this.$message("否");
+        }
+      });
+    },
+    //获取数据
+    gettable() {
+      let obj = {
+        account: this.account,
+        endAmount: this.endAmount,
+        endReturnAmount: this.endReturnAmount,
+        endTime: this.etime || "",
+        page: this.page,
+        dlAccount: "",
+        pageSize: this.pageSize,
+        planNo: this.planNo,
+        planStatus: this.planStatus,
+        playType: this.playType,
+        startAmount: this.startAmount,
+        startReturnAmount: this.startReturnAmount,
+        startTime: this.stime || "",
+        maxBonus: this.maxBonus,
+        minBonus: this.minBonus,
+        winStatus: this.winStatus,
+        desc: this.desc,
+        lotteryType: this.lotteryType //彩种
+      };
+      selectLotteryPlan(obj).then(res => {
+        this.tableData = res.data.data;
+        this.totalList = res.data.totalCount;
+        this.fadan = res.data.data.planStatus;
+        this.tableData.forEach((e, index) => {
+          this.fadan = e.planDesc;
+        });
+      });
+    },
+    //出票
+    outticket(data) {
+      this.undesirabledesabel = true;
+      this.onePlanNo = data.planNo;
+    },
+    //确认出票
+    getfromyicket() {
+      updatePlanStatus(this.onePlanNo).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message.success("出票成功");
+          this.undesirabledesabel = false;
+          this.gettable();
+        } else {
+          this.undesirabledesabel = false;
+          this.$message.error(res.data.message);
+        }
+      });
+    },
+    //退单
+    Chargeback(data) {
+      this.Declarationofwithdrawal = true;
+      this.onePlanNo = data.planNo;
+    },
+    want() {
+      let subject = {
+        planNo: this.onePlanNo
+      };
+      planBack(subject).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message.success("退单成功");
+          this.Declarationofwithdrawal = false;
+          this.gettable();
+        } else {
+          this.Declarationofwithdrawal = false;
+          this.$message.error(res.data.message);
+        }
+      });
+    },
+    search() {
+      if (!this.account && !this.username) {
+        // this.$message("请输入您要查询的账号或昵称！")
+        this.page = 1;
+        this.gettable();
+      } else {
+        if (this.account === "") {
+          this.getAccount();
+        } else {
+          this.page = 1;
+          this.gettable();
+        }
+      }
+    },
+    //用昵称查询账号
+    getAccount() {
+      let obj = {
+        username: this.username
+      };
+      findAllMember(obj).then(res => {
+        this.account = res.data.data.list[0].ACCOUNT;
+        this.page = 1;
+        this.gettable();
+      });
+    },
+    //翻页
+    handleCurrentChange(num) {
+      this.page = num;
+      this.gettable();
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      this.gettable();
+    },
+    //修改
+    inquire(data) {
+      this.dialogShenVisible = true;
+      this.planNo = data.planNo;
+      this.desc = data.planDesc;
+      this.planNo = "";
+    },
+    //确认
+    sure() {
+      updatePlanDesc(this.desc, this.planNo).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message(res.data.message);
+          this.dialogShenVisible = false;
+          this.planNo = "";
+          this.gettable();
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style>
-.program{
-    padding: 10px 20px
+.program {
+  padding: 10px 20px;
 }
-.jiajiang{
-    border: 1px solid yellow;
-    width: 25px;
-    height: 25px;
-
+.jiajiang {
+  border: 1px solid yellow;
+  width: 25px;
+  height: 25px;
 }
 </style>

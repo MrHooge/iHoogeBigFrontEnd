@@ -1,10 +1,10 @@
 <!-- 活动管理 -->
 <template>
-  <div class="activityGiftcard">
-    <div class="btnbox">
+    <div class="activityGiftcard">
+        <div class="btnbox">
             <el-button type="primary" @click="givemoney">充值送彩金卡</el-button>
             <el-button type="primary" @click="modifyCard">修改彩金卡及大转盘</el-button>
-            <el-button type="primary" @click="modidyActivity">修改手工充值赠送活动</el-button>
+            <el-button type="primary" @click="modidyActivity">修改手工充值赠送彩金卡</el-button>
             <!-- 充值送彩金卡 -->
             <el-dialog
                 title="充值送彩金卡"
@@ -69,7 +69,7 @@
                         align="center"
                         label="id">
                     </el-table-column>
-                     
+                        
                     <el-table-column
                         align="center"                
                         label="满额度使用">
@@ -103,11 +103,20 @@
                         align="center"                
                         label="操作">
                         <template slot-scope="scope">
-                            <el-button v-if="scope.row.full_money === -1" disabled>修改</el-button>
-                            <el-button type="primary" @click="modifyCardSure(scope.row)" v-else>修改</el-button>
+                            <!-- <el-button v-if="scope.row.full_money === -1" disabled>修改</el-button> -->
+                            <el-button type="primary" @click="modifyCardkuang(scope.row)">修改</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
+            </el-dialog>
+            <!-- 弹窗事件 -->
+            <el-dialog title="确认修改"
+                        :visible.sync="isSure1"
+                        width="40%">
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="isSure1 = false" type="primary">取消</el-button>
+                    <el-button @click="modifyCardSure()" type="success">确定</el-button>
+                </span>
             </el-dialog>
             <!-- 修改手工充值赠送活动 -->
             <el-dialog
@@ -137,7 +146,7 @@
                     </el-table-column>
                     <el-table-column
                         align="center"                
-                        label="赠送彩金卡id">
+                        label="赠送内容">
                         <template slot-scope="scope">
                             <el-input v-model="scope.row.content"></el-input>
                         </template>
@@ -153,197 +162,200 @@
                         align="center"                
                         label="操作">
                         <template slot-scope="scope">
-                            <el-button type="primary" @click="modidyActivitySure(scope.row)">修改</el-button>
+                            <el-button type="primary" @click="modidyActivitykuang(scope.row)">修改</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </el-dialog>
+            <!-- 弹窗事件 -->
+            <el-dialog title="确认修改"
+                        :visible.sync="isSure2"
+                        width="30%">
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="isSure2 = false" type="primary">取消</el-button>
+                    <el-button @click="modidyActivitySure()" type="success">确定</el-button>
+                </span>
+            </el-dialog>
         </div>
-  </div>
+    </div>
 </template>
 
 <script>
-import { addGoldCard,getAllGift,updateGift,findAllRechargeCardAct,updateRechargeCardAct } from '@/api/activity'
-import { findAllMember} from '@/api/customer'
-import { Message, MessageBox } from 'element-ui'
-import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import { addGoldCard, getAllGift, updateGift, findAllRechargeCardAct, updateRechargeCardAct} from "@/api/activity";
+import { findAllMember } from "@/api/customer";
+import { Message, MessageBox } from "element-ui";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
-    data() {
-        return {
-            dialogVisible: false,//充值送彩金卡
-            dialogVisible1: false,//修改彩金卡及大转盘
-            dialogVisible2: false,//修改手工充值赠送活动
-            account: '',
-            username:'',
-            options: [],   //存储彩金卡
-            money:'',
-            tableData1: [],   //存储所有礼物及彩金卡数据
-            tableData2: [],   //存储所有充值赠送活动配置
+  data() {
+    return {
+      dialogVisible: false, //充值送彩金卡
+      dialogVisible1: false, //修改彩金卡及大转盘
+      dialogVisible2: false, //修改手工充值赠送活动
+      account: "",
+      username: "",
+      options: [], //存储彩金卡
+      money: "",
+      tableData1: [], //存储所有礼物及彩金卡数据
+      tableData2: [], //存储所有充值赠送活动配置
 
-            id: '',     //存储礼物的id
-            full_money: '',  //存储礼物的满额度使用	
-            money: '',    //存储礼物的价值金额	
-            name: '',    //存储礼物的名字
-            prob: '',    //存储礼物的获得概率
+      id: "", //存储礼物的id
+      full_money: "", //存储礼物的满额度使用
+      money: "", //存储礼物的价值金额
+      name: "", //存储礼物的名字
+      prob: "", //存储礼物的获得概率
 
-            activityId: '', //存储充值赠送活动的id
-            activityContent: '', //存储充值赠送活动的赠送彩金卡id
-            activityBegin_money: '',  //存储充值赠送活动的起始金额
-            activityEnd_money: '',   //存储充值赠送活动的结束金额	
-        }
+      activityId: "", //存储充值赠送活动的id
+      activityContent: "", //存储充值赠送活动的赠送彩金卡id
+      activityBegin_money: "", //存储充值赠送活动的起始金额
+      activityEnd_money: "", //存储充值赠送活动的结束金额
+
+      isSure1: false,
+      isSure2: false
+    };
+  },
+  created() {
+    this.getAllCards();
+  },
+  components: {},
+  methods: {
+    //用昵称查询账号
+    getAccount() {
+      let obj = {
+        username: this.username
+      };
+      findAllMember(obj).then(res => {
+        this.account = res.data.data.list[0].ACCOUNT;
+      });
     },
-    created() {
-        this.getAllCards()
+    //修改彩金卡及大转盘弹出框
+    modifyCard() {
+      this.dialogVisible1 = true;
     },
-    components: {},
-    methods:{
-        // //查询
-        // search() {
-		// 	if (!this.account && !this.username) {
-        //         // this.$message("请输入您要查询的账号或昵称！")
-        //         this.page = 1
-        //         this.getTable()
-		// 	} else {
-        //         if(this.account == ''){
-        //             this.getAccount()
-        //         }else{
-        //             this.page = 1
-        //             this.getTable()
-        //         }
-		// 	}
-        // },
-        //用昵称查询账号
-        getAccount(){
-            let obj = {
-                username: this.username
-            }
-            findAllMember(obj).then(res => {
-                this.account = res.data.data.list[0].ACCOUNT
-            })
-        },
-        //修改彩金卡及大转盘弹出框
-        modifyCard(){
-            this.dialogVisible1 = true
-        },
-        //修改彩金卡及大转盘确定按钮
-        modifyCardSure(val){
-            this.id = val.id
-            this.full_money = val.full_money
-            this.money = val.money
-            this.name = val.name
-            this.prob = val.prob
-            let obj = {
-                id: this.id,
-                full_money: this.full_money,
-                money: this.money,
-                name: this.name,
-                prob: this.prob,
-                limit_money: '',
-            }
-            updateGift(obj).then( res=>{
-                if(res.data.error_code === 200){
-                    this.$message.success(res.data.message)
-                    this.dialogVisible1 = false
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            })
-        },
-        //修改手工充值赠送活动弹出框
-        modidyActivity(){
-            this.dialogVisible2 = true
-            this.getAllCardAct()
-        },
-        //修改手工充值赠送活动确定按钮
-        modidyActivitySure(val){
-            this.activityId = val.id
-            this.activityContent = val.content
-            this.activityBegin_money = val.begin_money
-            this.activityEnd_money = val.end_money
-            let obj = {
-                id: this.activityId,
-                content: this.activityContent,
-                begin_money: this.activityBegin_money,
-                end_money: this.activityEnd_money,
-            }
-            updateRechargeCardAct(obj).then(res =>{
-                if(res.data.error_code === 200){
-                    this.$message.success(res.data.message)
-                    this.dialogVisible2 = false
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            })
-        },
-        //获取所有彩金卡
-        getAllCards(){
-            getAllGift().then(res => {
-                if(res.data.error_code === 200){
-                    this.tableData1 = res.data.data
-                    res.data.data.forEach(e => {
-                        let obj = {
-                            value: '',
-                            label: '',
-                        }
-                        if(e.full_money != -1){
-                            obj.value = e.money
-                            obj.label = e.name
-                            this.options.push(obj)
-                        }
-                        
-                    });
-                }
-            })
-        },
-        //获取所有活动
-        getAllCardAct(){
-            findAllRechargeCardAct().then(res =>{
-                if(res.data.error_code === 200){
-                    this.tableData2 = res.data.data
-                }else{
-                    this.tableData2 = []
-                }
-            })
-        },
-        //弹出框
-        givemoney(){
-            this.money = '',
-            this.account = '',
-            this.dialogVisible = true
-        },
-        //确定按钮的回调
-        sure(){
-            let arr = []
-            let obj = {
-                account: this.account,
-                money: this.money,
-                require_type: 2
-            }
-            arr.push(obj);
-            let params = JSON.stringify(arr)
-            let loginAccount = getCookies('name')
-            addGoldCard(params,loginAccount).then(res => {
-                if(res.data.error_code === 200){
-                    this.$message.success(res.data.message)
-                    this.dialogVisible = false
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            })
+    //修改彩金卡及大转盘确定弹出框
+    modifyCardkuang(val) {
+      this.id = val.id;
+      this.full_money = val.full_money;
+      this.money = val.money;
+      this.name = val.name;
+      this.prob = val.prob;
+      this.isSure1 = true;
+    },
+    //修改彩金卡及大转盘确定按钮
+    modifyCardSure() {
+      let obj = {
+        id: this.id,
+        full_money: this.full_money,
+        money: this.money,
+        name: this.name,
+        prob: this.prob,
+        limit_money: ""
+      };
+      updateGift(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.$message.success(res.data.message);
+          this.isSure1 = false;
+        } else {
+          this.$message.error(res.data.message);
+          this.isSure1 = false;
         }
-
+      });
+    },
+    //修改手工充值赠送活动弹出框
+    modidyActivity() {
+      this.dialogVisible2 = true;
+      this.getAllCardAct();
+    },
+    //修改手工充值赠送活动确认弹出框
+    modidyActivitykuang(val) {
+      this.activityId = val.id;
+      this.activityContent = val.content;
+      this.activityBegin_money = val.begin_money;
+      this.activityEnd_money = val.end_money;
+      this.isSure2 = true;
+    },
+    //修改手工充值赠送活动确定按钮
+    modidyActivitySure() {
+      let obj = {
+        id: this.activityId,
+        content: this.activityContent,
+        begin_money: this.activityBegin_money,
+        end_money: this.activityEnd_money
+      };
+      updateRechargeCardAct(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.$message.success(res.data.message);
+          this.isSure2 = false;
+        } else {
+          this.$message.error(res.data.message);
+          this.isSure2 = false;
+        }
+      });
+    },
+    //获取所有彩金卡
+    getAllCards() {
+      getAllGift().then(res => {
+        if (res.data.error_code === 200) {
+          this.tableData1 = res.data.data;
+          res.data.data.forEach(e => {
+            let obj = {
+              value: "",
+              label: ""
+            };
+            if (e.full_money != -1) {
+              obj.value = e.money;
+              obj.label = e.name;
+              this.options.push(obj);
+            }
+          });
+        }
+      });
+    },
+    //获取所有活动
+    getAllCardAct() {
+      findAllRechargeCardAct().then(res => {
+        if (res.data.error_code === 200) {
+          this.tableData2 = res.data.data;
+        } else {
+          this.tableData2 = [];
+        }
+      });
+    },
+    //弹出框
+    givemoney() {
+      (this.money = ""), (this.account = ""), (this.dialogVisible = true);
+    },
+    //确定按钮的回调
+    sure() {
+      let arr = [];
+      let obj = {
+        account: this.account,
+        money: this.money,
+        require_type: 2
+      };
+      arr.push(obj);
+      let params = JSON.stringify(arr);
+      let loginAccount = getCookies("name");
+      addGoldCard(params, loginAccount).then(res => {
+        if (res.data.error_code === 200) {
+          this.$message.success(res.data.message);
+          this.dialogVisible = false;
+        } else {
+          this.$message.error(res.data.message);
+        }
+      });
     }
-}
+  }
+};
 </script>
 
 <style scoped>
-.activityGiftcard{
-    padding: 0 20px;
+.activityGiftcard {
+  padding: 0 20px;
 }
 .btnbox {
-    padding: 20px 0;
+  padding: 20px 0;
 }
 div.gift {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 </style>

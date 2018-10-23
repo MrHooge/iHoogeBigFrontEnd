@@ -7,9 +7,13 @@
 			         ref="ruleForm"
 			         label-width="100px"
 			         class="demo-ruleForm">
-				<el-form-item label="账户名"
+				<el-form-item label="账号"
 				              prop="accountID">
 					<el-input v-model="ruleForm.accountID" clearable></el-input>
+				</el-form-item>
+				<p style="color:red;font-size:14px;margin-left:100px;">注：当不知道账号时可用昵称查询！</p>
+				<el-form-item label="昵称">
+					<el-input v-model="username" clearable style="width:90%;margin-right:30px;"></el-input><el-button type="primary" @click="search">查询</el-button>
 				</el-form-item>
 				<el-form-item label="金额"
 				              prop="amount">
@@ -39,6 +43,7 @@
 <script>
 import { chargeRight } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
+import { findAllMember} from '@/api/customer'
 import { Message } from 'element-ui'
 import treeTable from '@/components/TreeTable'
 export default {
@@ -63,10 +68,23 @@ export default {
 					{ required: true, message: '请输入金额', trigger: 'blur' },
 				],
 
-			}
+			},
+			username: "",   //输入查询的昵称
 		};
 	},
 	methods: {
+		search() {
+			this.getAccount()
+        },
+		//用昵称查询账号
+        getAccount(){
+            let obj = {
+                username: this.username
+            }
+            findAllMember(obj).then(res => {
+                this.ruleForm.accountID = res.data.data.list[0].ACCOUNT
+            })
+        },
 		submitForm(formName) {
             this.disable = true
             if(this.ruleForm.amount < 0){
