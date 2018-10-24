@@ -165,192 +165,192 @@ import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 // import api from "@/api/api.js";
 export default {
-	data () {
-		return {
-			pageShow: true,
-			tableData: [],
-			total: 0,
-			username: "",
-			viewFormVisible: false,
-			dialogVisible1: false,
-			tableData3: [], //
-			onePeople: {}, // 存选择的某一条数据
-			rechangeName: '', //  修改支付的名称
-			activeNames: ["2"], //  折叠面板
-			is_open: "",
-			value1: "",
-			value2: "",
-			value3: true,
-			value4: true,
-			dialogImageUrl: "",
-			dialogVisible2: false,
-			imageUrl: '',
-			ruleForm: {
-				name: "",
-				is_open: "",
-				pay_picture: ""
-			},
-			rules: {
-				name: [
-					{ required: true, message: "请输入活动名称", trigger: "blur" },
-					{ min: 1, max: 10, message: "长度在 1 到 10 个字符", trigger: "blur" }
-				]
-			},
-			uploadUrl: "",//  图片上传接口
-			fileUrl: ''
+  data() {
+    return {
+      pageShow: true,
+      tableData: [],
+      total: 0,
+      username: "",
+      viewFormVisible: false,
+      dialogVisible1: false,
+      tableData3: [], //
+      onePeople: {}, // 存选择的某一条数据
+      rechangeName: "", //  修改支付的名称
+      activeNames: ["2"], //  折叠面板
+      is_open: "",
+      value1: "",
+      value2: "",
+      value3: true,
+      value4: true,
+      dialogImageUrl: "",
+      dialogVisible2: false,
+      imageUrl: "",
+      ruleForm: {
+        name: "",
+        is_open: "",
+        pay_picture: ""
+      },
+      rules: {
+        name: [
+          { required: true, message: "请输入活动名称", trigger: "blur" },
+          { min: 1, max: 10, message: "长度在 1 到 10 个字符", trigger: "blur" }
+        ]
+      },
+      uploadUrl: "", //  图片上传接口
+      fileUrl: ""
+    };
+  },
+  filters: {
+    type(a) {
+      return a == "0" ? "关闭" : "开启";
+    }
+  },
 
+  computed: {},
+  created() {
+    this.getTable();
+  },
+  mounted() {
+    // this.uploadUrl = api.member + '/userCount/uploadFile'
+    this.uploadUrl = "https://member.api.qiyun88.cn/userCount/uploadFile";
+  },
 
-		}
-	},
-	filters: {
-		type(a) {
-			return a == "0" ? "关闭" : "开启";
-		}
-	},
+  methods: {
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handleAvatarSuccess(res, file) {
+      console.log("111111111111111111");
+      console.log(res);
+      // console.log(file)
+      this.ruleForm.pay_picture = res; //  添加支付的图片名
+      this.fileUrl = res; //  修改支付的图片名
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const JPGArr = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
+      const isJPG = JPGArr.indexOf(file.type) > -1;
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
-	computed: {},
-	created () {
-		this.getTable();
-	},
-	mounted() {
-		// this.uploadUrl = api.member + '/userCount/uploadFile'
-		this.uploadUrl ='https://member.api.qiyun88.cn/userCount/uploadFile'
-	},
+      if (!isJPG) {
+        this.$message.error("上传图片只能是 JPG/PNG/GIF 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    },
+    submitForm(formName) {
+      //   添加支付
+      if (this.value3 == true) {
+        this.ruleForm.is_open = 1;
+      } else {
+        this.ruleForm.is_open = 0;
+      }
+      let obj = {
+        id: "",
+        is_update: 0,
+        pay_name: this.ruleForm.name,
+        is_open: this.ruleForm.is_open,
+        pay_picture: this.ruleForm.pay_picture
+      };
+      console.log(obj);
+      // addPaySwitch(obj).then(res=>{
 
-	methods: {
-		handleRemove(file, fileList) {
-			console.log(file, fileList);
-		},
-		handleAvatarSuccess(res, file) {
-			console.log('111111111111111111')
-			console.log(res);
-			// console.log(file)
-			this.ruleForm.pay_picture = res  //  添加支付的图片名
-			this.fileUrl = res  //  修改支付的图片名
-			this.imageUrl = URL.createObjectURL(file.raw);
-		},
-		beforeAvatarUpload(file) {
-			const JPGArr = ["image/jpg", "image/jpeg", "image/png", "image/gif"]
-			const isJPG = JPGArr.indexOf(file.type) > -1;
-			const isLt2M = file.size / 1024 / 1024 < 2;
-
-			if (!isJPG) {
-				this.$message.error("上传图片只能是 JPG/PNG/GIF 格式!");
-			}
-			if (!isLt2M) {
-				this.$message.error("上传图片大小不能超过 2MB!");
-			}
-			return isJPG && isLt2M;
-		},
-		submitForm(formName) {  //   添加支付
-			if (this.value3 == true) {
-				this.ruleForm.is_open = 1;
-			} else {
-				this.ruleForm.is_open = 0;
-			}
-			let obj = {
-				id: '',
-				is_update: 0,
-				pay_name: this.ruleForm.name,
-				is_open: this.ruleForm.is_open,
-				pay_picture: this.ruleForm.pay_picture
-			}
-			console.log(obj)
-			// addPaySwitch(obj).then(res=>{
-
-			// })
-			this.$refs[formName].validate(valid => {
-				if (valid) {
-					// alert("submit!");
-					addPaySwitch(obj).then(res => {
-						console.log(res)
-						if (res.data.error_code == 200) {
-							Message.success(res.data.message)
-							this.dialogVisible1 = false
-							// this.findPaySwitch()
-						} else {
-							Message.success(res.data.message)
-						}
-					})
-				} else {
-					console.log("error submit!!");
-					return false;
-				}
-			});
-		},
-		resetForm(formName) {
-			this.$refs[formName].resetFields();
-		},
-		//   ===================================================================
-		showDailag() {
-			//  添加图片
-			this.dialogVisible1 = true;
-		},
-		switchChange() {
-			//   console.log(this.value3)
-			if (this.value3 == true) {
-				this.is_open = 1;
-			} else {
-				this.is_open = 0;
-			}
-		},
-		handleChange (val) {
-			console.log(val);
-		},
-		getTable () {
-			//   获取所有会员列表
-			findPaySwitch().then(res => {
-				console.log(res)
-				if (res.data.error_code == 200) {
-					this.tableData = res.data.data;
-				}
-				console.log(res);
-			});
-		},
-		handleEdit (obj) {
-			console.log(obj);
-			this.tableData3 = [];
-			this.viewFormVisible = true;
-			this.tableData3.push(obj);
-			//   console.log(this.tableData3);
-			this.onePeople = obj;
-			//   console.log(this.onePeople);
-		},
-		submitInfos() {   //  修改支付
-			if (this.value3 == true) {
-				this.is_open = 1;
-			} else {
-				this.is_open = 0;
-			}
-			let obj = {
-				id: this.onePeople.id,
-				is_open: this.is_open,
-				is_update: 1,
-				pay_name: this.rechangeName,
-				pay_picture: this.fileUrl
-			};
-			console.log(obj);
-			addPaySwitch(obj).then(res => {
-				console.log(res);
-				if (res.data.error_code == 200) {
-					Message.success(res.data.message)
-					this.viewFormVisible = false
-					this.rechangeName = ''
-					this.findPaySwitch()
-				} else {
-					Message.success(res.data.message)
-				}
-			});
-		},
-		clearForm () {
-			//  取消按钮
-			this.viewFormVisible = false;
-		},
-		// 分页的回调
-		changepage (val) {
-			this.getTable(val);
-		}
-	}
+      // })
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // alert("submit!");
+          addPaySwitch(obj).then(res => {
+            console.log(res);
+            if (res.data.error_code == 200) {
+              Message.success(res.data.message);
+              this.dialogVisible1 = false;
+              // this.findPaySwitch()
+            } else {
+              Message.success(res.data.message);
+            }
+          });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    //   ===================================================================
+    showDailag() {
+      //  添加图片
+      this.dialogVisible1 = true;
+    },
+    switchChange() {
+      //   console.log(this.value3)
+      if (this.value3 == true) {
+        this.is_open = 1;
+      } else {
+        this.is_open = 0;
+      }
+    },
+    handleChange(val) {
+      console.log(val);
+    },
+    getTable() {
+      //   获取所有会员列表
+      findPaySwitch().then(res => {
+        console.log(res);
+        if (res.data.error_code == 200) {
+          this.tableData = res.data.data;
+        }
+        console.log(res);
+      });
+    },
+    handleEdit(obj) {
+      console.log(obj);
+      this.tableData3 = [];
+      this.viewFormVisible = true;
+      this.tableData3.push(obj);
+      //   console.log(this.tableData3);
+      this.onePeople = obj;
+      //   console.log(this.onePeople);
+    },
+    submitInfos() {
+      //  修改支付
+      if (this.value3 == true) {
+        this.is_open = 1;
+      } else {
+        this.is_open = 0;
+      }
+      let obj = {
+        id: this.onePeople.id,
+        is_open: this.is_open,
+        is_update: 1,
+        pay_name: this.rechangeName,
+        pay_picture: this.fileUrl
+      };
+      console.log(obj);
+      addPaySwitch(obj).then(res => {
+        console.log(res);
+        if (res.data.error_code == 200) {
+          Message.success(res.data.message);
+          this.viewFormVisible = false;
+          this.rechangeName = "";
+          this.findPaySwitch();
+        } else {
+          Message.success(res.data.message);
+        }
+      });
+    },
+    clearForm() {
+      //  取消按钮
+      this.viewFormVisible = false;
+    },
+    // 分页的回调
+    changepage(val) {
+      this.getTable(val);
+    }
+  }
 };
 </script>
 
@@ -393,7 +393,7 @@ export default {
   display: block;
 }
 img {
-	width: 50px;
-	height: 50px;
+  width: 50px;
+  height: 50px;
 }
 </style>
