@@ -279,8 +279,10 @@
 			<span slot="footer"
 			      class="dialog-footer">
 				<el-button @click="dialogVisible1 = false">取 消</el-button>
-				<el-button type="primary"
-				           @click="sure()">确 定</el-button>
+				<el-button type="primary" v-show="isKF"
+				           @click="sure(1)">确 定</el-button>
+				<el-button type="primary" v-show="!isKF"
+				           @click="sure(2)">确 定</el-button>
 			</span>
 		</el-dialog>
 		<div class="page"
@@ -482,14 +484,14 @@ export default {
 			this.ob = a;
 		},
 		// 驳回弹窗的确定回调
-		sure() {
+		sure(type) {
 			let obj = {
 				drawingId: this.ob.id,
 				account: this.ob.account,
 				status: 0,  //0 不通过 1通过
 				remark: this.textarea,
 				returnRemark: this.valueList,
-
+				indentifyType: type
 			};
 			memberDrawingReview(obj).then(res => {
 				if (res.status == 200) {
