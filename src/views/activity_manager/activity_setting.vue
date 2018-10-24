@@ -670,6 +670,7 @@ export default {
       } else {
         this.is_use = false;
       }
+
       this.send_money = val.send_money;
       this.send_percentage = val.send_percentage;
 
