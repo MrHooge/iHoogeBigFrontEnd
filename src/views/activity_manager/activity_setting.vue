@@ -184,7 +184,7 @@
                 title="充值赠送彩金"
                 :visible.sync="dialogVisible3"
                 width="80%">
-                <el-button type="primary" style="margin-left:1365px;margin-bottom:20px;" @click="addPresentes">添加</el-button>
+                <el-button type="primary" style="margin-bottom:20px;" @click="addPresentes">添加</el-button>
                 <el-table
                     ref="multipleTable"
                     :data="tableData3"
