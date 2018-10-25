@@ -217,7 +217,7 @@
 						    type="danger"
 						    @click="reject(scope.row)">客服驳回
                         </el-button>
-						<el-button v-if="scope.row.STATUS === 7"
+						<el-button v-if="scope.row.STATUS === 7 || scope.row.STATUS === 2"
 						    type="danger"
 						    @click="reject(scope.row)">财务驳回
                         </el-button>
@@ -279,8 +279,10 @@
 			<span slot="footer"
 			      class="dialog-footer">
 				<el-button @click="dialogVisible1 = false">取 消</el-button>
-				<el-button type="primary"
-				           @click="sure()">确 定</el-button>
+				<el-button type="primary" v-show="isKF"
+				           @click="sure(1)">确 定</el-button>
+				<el-button type="primary" v-show="!isKF"
+				           @click="sure(2)">确 定</el-button>
 			</span>
 		</el-dialog>
 		<div class="page"
@@ -308,251 +310,269 @@
 </template>
 
 <script>
-import { findMemberDrawingList, memberDrawingReview,getFinanceCount } from "@/api/sys_user";
+import {
+  findMemberDrawingList,
+  memberDrawingReview,
+  getFinanceCount
+} from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
-	data() {
-		return {
-			pageShow: true,
-			name: "", // 用户名
-			number: "", // 充值的金额
-			totalList: 0, // 总页数
-			tableData: [],//表格的数据
+  data() {
+    return {
+      pageShow: true,
+      name: "", // 用户名
+      number: "", // 充值的金额
+      totalList: 0, // 总页数
+      tableData: [], //表格的数据
 
-			dialogVisible: false,
-			dialogVisible1: false,
-			username: '',
-			money: '',
-			value1: '',
-			value2: '',
-			options1: [{
-				value: '2',
-				label: '申请时间'
-			}, {
-				value: '1',
-				label: '汇款时间'
-			}],
-			value: '2',
-			flow_num: '', //   流水 ID
-			a: "", //  姓名
-			b: "",  // 金额
-			ob: "",
-			textarea: '', //  驳回描述
-			optionsList: [{    //  驳回 选项
-				valueList: '-1',
-				label: '其他'
-			}, {
-				valueList: '0',
-				label: '重复购买'
-			}, {
-				valueList: '1',
-				label: '方案过期'
-			}, {
-				valueList: '2',
-				label: '出票失败'
-			}],
-            valueList: '-1',
-            status: '',   //状态筛选
-            options2: [
-				{ status: "", label: "全部" },
-				{ status: "-2", label: "待审核" },
-                { status: "-3", label: "审核驳回" },
-                { status: "-4", label: "所有失败记录" },
-                { status: "-5", label: "所有进行中" },
-                // { status: "1", label: "客服待审核" },
-                // { status: "2", label: "客服驳回" },
-                { status: "7", label: "财务待审核" },
-                { status: "8", label: "财务驳回" },
-                { status: "3", label: "待汇款" },
-                { status: "5", label: "汇款驳回" },
-                // { status: "0", label: "已汇出" },
-                // { status: "4", label: "银行退单" },
-                { status: "6", label: "已到账" },
-            ],
-            financeCount: '',   //存储财务审核总和（根据时间段的筛选）
-			pageSize: 20,
-			
-			isKF: false   //是否是客服待审核
-		};
-	},
-	created() {
-		// this.search(1)
-        this.getData(1)
-        this.getCount()
-	},
-	methods: {
-        //获取财务审核统计
-        getCount(){
-            this.page = 1
-            if(this.value1 === null){
-                this.value1 = ''
-            }
-            if(this.value2 === null){
-                this.value2 = ''
-            }
-            let obj = {
-                account: this.name,
-                startTime: this.value1,
-                endTime: this.value2,
-                status: this.status
-            }
-            getFinanceCount(obj).then(res => {
-                if(res.data.error_code === 200){
-                    this.financeCount = res.data.data.financeCount
-                }else{
-                    this.$message.error('财务审核统计'+ res.data.message)
-                }
-            })
+      dialogVisible: false,
+      dialogVisible1: false,
+      username: "",
+      money: "",
+      value1: "",
+      value2: "",
+      options1: [
+        {
+          value: "2",
+          label: "申请时间"
         },
-        //筛选查询
-        filter(){
-            this.getData(1)
-        },
-		search() {
-			this.getData(1)
-		},
-		getData(curr) { // a 账号， b 开始时间
-			let obj = {
-				loginAccount: '',
-				page: curr,
-				pageSize: this.pageSize,
-				start_time: this.value1 || '',
-				end_time: this.value2 || '',
-				account: this.name,  //  账号
-				flow_num: this.flow_num, //  流水 ID
-                is_drawing_time: this.value, // 0 申请时间,1汇款时间
-                status: this.status
-			}
-			findMemberDrawingList(obj).then(res => {
-				if (res.status == 200) {
-                    if(res.data.msg === '数据获取成功'){
-                        this.tableData = res.data.data.list
-					    this.totalList = res.data.data.total
-                    }
-                    else{
-                        this.$message.error(res.data.msg)
-                        this.tableData = []
-                        this.totalList = ''
-                    }
-				} else {
-                    Message.success(res.data.message)
-				}
-			})
-		},
-		// 询问弹出框
-		examine(a) {
-			console.log(a)
-			if(a.STATUS === 1){
-				this.isKF = true
-			}else{
-				this.isKF = false
-			}
-			this.a = a.account;
-			this.b = a.amount;
-			this.dialogVisible = true;
-			this.ob = a;
-		},
-		// 确定的回调
-		confirm(a) {
-			let obj = {
-				drawingId: this.ob.id,
-				account: this.ob.account,
-				status: 1, //0 不通过 1通过
-				remark: '',
-				returnRemark: '',
-				indentifyType: a
-			}
-			memberDrawingReview(obj).then(res => {
-				if (res.status == 200) {
-					this.getData(this.page);
-					this.dialogVisible = false;
-				}else{
-					this.dialogVisible = false;
-				}
-			})
-		},
-		// 驳回弹窗
-		reject(a) {
-			this.dialogVisible1 = true;
-			this.a = a.account;
-			this.b = a.amount;
-			this.ob = a;
-		},
-		// 驳回弹窗的确定回调
-		sure() {
-			let obj = {
-				drawingId: this.ob.id,
-				account: this.ob.account,
-				status: 0,  //0 不通过 1通过
-				remark: this.textarea,
-				returnRemark: this.valueList,
-
-			};
-			memberDrawingReview(obj).then(res => {
-				if (res.status == 200) {
-					Message.success("驳回成功！")
-					this.getData(this.page);
-					this.dialogVisible1 = false;
-				}
-			})
-        },
-        //改变页面大小
-        handleSizeChange(val){
-            this.getData(val)
-        },
-		// 分也回调
-		handleCurrentChange(val) {
-			this.getData(val)
-		}
-	},
-	filters: {
-        
-        //改变时间
-		changeTime(timestamp) {
-			var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-			let Y = date.getFullYear() + '-';
-			let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-			let D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
-			let h = date.getHours() + ':';
-			let m = date.getMinutes();
-			// let s = date.getSeconds();
-			return M + D + h + m;
-        },
-        //改变状态
-        changeStatus(val){
-            // if(val === 0){
-            //     return '已汇出'
-            // }
-            if(val === 1){
-                return '客服待审核'
-            }
-            else if(val === 2){
-                return '客服驳回'
-            }
-            else if(val === 3){
-                return '待汇款'
-            }
-            // else if(val === 4){
-            //     return '银行退单'
-            // }
-            else if(val === 5){
-                return '汇款驳回'
-            }
-            else if(val === 6){
-                return '已到账'
-            }
-            else if(val === 7){
-                return '财务待审核'
-            }
-            else if(val === 8){
-                return '财务驳回'
-            }
+        {
+          value: "1",
+          label: "汇款时间"
         }
+      ],
+      value: "2",
+      flow_num: "", //   流水 ID
+      a: "", //  姓名
+      b: "", // 金额
+      ob: "",
+      textarea: "", //  驳回描述
+      optionsList: [
+        {
+          //  驳回 选项
+          valueList: "-1",
+          label: "其他"
+        },
+        {
+          valueList: "0",
+          label: "重复购买"
+        },
+        {
+          valueList: "1",
+          label: "方案过期"
+        },
+        {
+          valueList: "2",
+          label: "出票失败"
+        }
+      ],
+      valueList: "-1",
+      status: "", //状态筛选
+      options2: [
+        { status: "", label: "全部" },
+        { status: "-2", label: "待审核" },
+        { status: "-3", label: "审核驳回" },
+        { status: "-4", label: "所有失败记录" },
+        { status: "-5", label: "所有进行中" },
+        // { status: "1", label: "客服待审核" },
+        // { status: "2", label: "客服驳回" },
+        { status: "7", label: "财务待审核" },
+        { status: "8", label: "财务驳回" },
+        { status: "3", label: "待汇款" },
+        { status: "5", label: "汇款驳回" },
+        // { status: "0", label: "已汇出" },
+        // { status: "4", label: "银行退单" },
+        { status: "6", label: "已到账" }
+      ],
+      financeCount: "", //存储财务审核总和（根据时间段的筛选）
+      pageSize: 20,
 
-	}
+      isKF: false //是否是客服待审核
+    };
+  },
+  created() {
+    // this.search(1)
+    this.getData(1);
+    this.getCount();
+  },
+  methods: {
+    //获取财务审核统计
+    getCount() {
+      this.page = 1;
+      if (this.value1 === null) {
+        this.value1 = "";
+      }
+      if (this.value2 === null) {
+        this.value2 = "";
+      }
+      let obj = {
+        account: this.name,
+        startTime: this.value1,
+        endTime: this.value2,
+        status: this.status
+      };
+      getFinanceCount(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.financeCount = res.data.data.financeCount;
+        } else {
+          this.$message.error("财务审核统计" + res.data.message);
+        }
+      });
+    },
+    //筛选查询
+    filter() {
+      this.getData(1);
+    },
+    search() {
+      this.getData(1);
+    },
+    getData(curr) {
+      // a 账号， b 开始时间
+      let obj = {
+        loginAccount: "",
+        page: curr,
+        pageSize: this.pageSize,
+        start_time: this.value1 || "",
+        end_time: this.value2 || "",
+        account: this.name, //  账号
+        flow_num: this.flow_num, //  流水 ID
+        is_drawing_time: this.value, // 0 申请时间,1汇款时间
+        status: this.status
+      };
+      findMemberDrawingList(obj).then(res => {
+        if (res.status == 200) {
+          if (res.data.msg === "数据获取成功") {
+            this.tableData = res.data.data.list;
+            this.totalList = res.data.data.total;
+          } else {
+            this.$message.error(res.data.msg);
+            this.tableData = [];
+            this.totalList = "";
+          }
+        } else {
+          Message.success(res.data.message);
+        }
+      });
+    },
+    // 询问弹出框
+    examine(a) {
+      console.log(a);
+      if (a.STATUS === 1) {
+        this.isKF = true;
+      } else {
+        this.isKF = false;
+      }
+      this.a = a.account;
+      this.b = a.amount;
+      this.dialogVisible = true;
+      this.ob = a;
+    },
+    // 确定的回调
+    confirm(a) {
+      let obj = {
+        drawingId: this.ob.id,
+        account: this.ob.account,
+        status: 1, //0 不通过 1通过
+        remark: "",
+        returnRemark: "",
+        indentifyType: a
+      };
+      memberDrawingReview(obj).then(res => {
+        if (res.status == 200) {
+          this.getData(this.page);
+          this.dialogVisible = false;
+        } else {
+          this.dialogVisible = false;
+        }
+      });
+    },
+    // 驳回弹窗
+    reject(a) {
+      console.log(a.STATUS);
+      if (a.STATUS === 1) {
+        this.isKF = true;
+      } else {
+        this.isKF = false;
+      }
+      this.dialogVisible1 = true;
+      this.a = a.account;
+      this.b = a.amount;
+      this.ob = a;
+    },
+    // 驳回弹窗的确定回调
+    sure(a) {
+      let obj = {
+        drawingId: this.ob.id,
+        account: this.ob.account,
+        status: 0, //0 不通过 1通过
+        remark: this.textarea,
+        returnRemark: this.valueList,
+        indentifyType: a
+      };
+      memberDrawingReview(obj).then(res => {
+        if (res.status == 200) {
+          Message.success("驳回成功！");
+          this.getData(this.page);
+          this.dialogVisible1 = false;
+        } else {
+          this.dialogVisible1 = false;
+        }
+      });
+    },
+    //改变页面大小
+    handleSizeChange(val) {
+      this.getData(val);
+    },
+    // 分也回调
+    handleCurrentChange(val) {
+      this.getData(val);
+    }
+  },
+  filters: {
+    //改变时间
+    changeTime(timestamp) {
+      var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      let Y = date.getFullYear() + "-";
+      let M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      let D =
+        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+      let h = date.getHours() + ":";
+      let m = date.getMinutes();
+      // let s = date.getSeconds();
+      return M + D + h + m;
+    },
+    //改变状态
+    changeStatus(val) {
+      // if(val === 0){
+      //     return '已汇出'
+      // }
+      if (val === 1) {
+        return "客服待审核";
+      } else if (val === 2) {
+        return "客服驳回";
+      } else if (val === 3) {
+        return "待汇款";
+      }
+      // else if(val === 4){
+      //     return '银行退单'
+      // }
+      else if (val === 5) {
+        return "汇款驳回";
+      } else if (val === 6) {
+        return "已到账";
+      } else if (val === 7) {
+        return "财务待审核";
+      } else if (val === 8) {
+        return "财务驳回";
+      }
+    }
+  }
 };
 </script>
 
