@@ -15,6 +15,7 @@
                     <el-table
                         :data="tableData"
                         border>
+                        
                         <el-table-column
                             prop="matchId"
                             label="场次号"
@@ -84,34 +85,12 @@
                         </el-table-column>
                     </el-table>
                 </div>
-                <!-- <div class="tablesecond">
-                <div class="table-top">
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                    <div class="listnum">过关</div>
-                </div>
-                <div v-for="(item,index) in tableData" :key="index" class="table-down">
-                <div class="testfirst">
-                    
-                    <div v-for="val in item.selectStatus" :key="val.index" class="testsecond"> <el-checkbox name="type"></el-checkbox></div>
-                </div>
-                
-                <div>
-                    {{index}} 
-                    <span v-for="val in v.selectStatus" :key="val.index">{{val}}</span>
-                </div>
-                </div>
-                </div> -->
             </div>
      <el-dialog :visible.sync="dialogFormVisible">
       <el-form :model="form">
+        <el-form-item label="比赛时间">
+            <el-date-picker v-model="form.matchTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择比赛时间"></el-date-picker>
+        </el-form-item>
         <el-form-item label="客队总进球">
           <el-input v-model="form.guestScore" auto-complete="off" clearable></el-input>
         </el-form-item>
@@ -142,133 +121,144 @@
 </template>
 
 <script>
-import { getFootBallAdmin,updateFootBallAdmin } from '@/api/period'
+import { getFootBallAdmin, updateFootBallAdmin } from "@/api/period";
 export default {
-    data(){
-        return{
-            tableData:[],
-            startTime:'',
-            dialogFormVisible:false,
-            form:{
-                guestScore:'',	
-                halfGuestScore:'',	
-                halfHomeScore:'',	
-                homeScore:'',		
-                rq:'',
-                status:1,
-                id:''	
-            }
-        }
+  data() {
+    return {
+      tableData: [],
+      startTime: "",
+      dialogFormVisible: false,
+      form: {
+        matchTime: "",
+        guestScore: "",
+        halfGuestScore: "",
+        halfHomeScore: "",
+        homeScore: "",
+        rq: "",
+        status: 1,
+        id: ""
+      }
+    };
+  },
+  created() {
+    this.gettable();
+  },
+  filters: {
+    changeType(val) {
+      val = Number(val);
+      if (val === 0) {
+        return "进行中";
+      } else if (val === 1) {
+        return "截止";
+      } else if (val === 2) {
+        return "取消";
+      }
     },
-    created(){
-            this.gettable()
-        },
-    filters: {
-        changeType(val){
-            val = Number(val)
-            if(val === 0){
-                return '进行中'
-            }
-            else if(val === 1){
-                return '截止'
-            }
-            else if(val === 2){
-                return '取消'
-            }
-        },
-        time(a){
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-            }
-        }
-    },
-    methods:{
-        //查询
-        gettable(){
-            let time = this.startTime;
-            getFootBallAdmin(time).then(res => {
-               this.tableData = res.data.data
-           })
-        },
-        searchlist(){
-            this.gettable()
-        },
-        modify(data){
-            this.dialogFormVisible = true;
-            this.form.id = data.id
-            if(data.guestScore != null){
-                this.form.guestScore = data.guestScore.toString()
-            }else{
-                this.form.guestScore = ''
-            }
-            if(data.halfGuestScore != null){
-                this.form.halfGuestScore = data.halfGuestScore.toString()
-            }
-            else{
-                this.form.halfGuestScore = ''
-            }
-            if(data.halfHomeScore != null){
-                this.form.halfHomeScore = data.halfHomeScore.toString()
-            }
-            else{
-                this.form.halfHomeScore = ''
-            }
-            if(data.homeScore != null){
-                this.form.homeScore = data.homeScore.toString()
-            }
-            else{
-                this.form.homeScore = ''
-            }
-            if(data.rq != null){
-                this.form.rq = data.rq.toString()
-            }
-            else{
-                this.form.rq = ''
-            }
-            if(data.status != null){
-                this.form.status = data.status.toString()
-            }
-            else{
-                this.form.status = ''
-            }
-        },
-        //确认修改
-        submitInfos(){
-            updateFootBallAdmin(this.form).then(res => {
-                if(res.data.error_code == 200){
-                    this.$message.success(res.data.message)
-                    this.dialogFormVisible = false
-                    this.form.guestScore = ''
-                    this.form.halfGuestScore = ''
-                    this.form.halfHomeScore = ''
-                    this.form.homeScore = ''
-                    this.gettable()
-
-                }else{
-                    this.$message.error(res.data.message)
-                    this.dialogFormVisible = false
-                }
-            })
-        }
+    time(a) {
+      if (a != null) {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
     }
-}
+  },
+  methods: {
+    changeTime(a) {
+      if (a != null) {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
+    },
+    //查询
+    gettable() {
+      let time = this.startTime;
+      getFootBallAdmin(time).then(res => {
+        this.tableData = res.data.data;
+      });
+    },
+    searchlist() {
+      this.gettable();
+    },
+    modify(data) {
+      this.dialogFormVisible = true;
+      this.form.id = data.id;
+      this.form.matchTime = this.changeTime(data.matchTime);
+      if (data.guestScore != null) {
+        this.form.guestScore = data.guestScore.toString();
+      } else {
+        this.form.guestScore = "";
+      }
+      if (data.halfGuestScore != null) {
+        this.form.halfGuestScore = data.halfGuestScore.toString();
+      } else {
+        this.form.halfGuestScore = "";
+      }
+      if (data.halfHomeScore != null) {
+        this.form.halfHomeScore = data.halfHomeScore.toString();
+      } else {
+        this.form.halfHomeScore = "";
+      }
+      if (data.homeScore != null) {
+        this.form.homeScore = data.homeScore.toString();
+      } else {
+        this.form.homeScore = "";
+      }
+      if (data.rq != null) {
+        this.form.rq = data.rq.toString();
+      } else {
+        this.form.rq = "";
+      }
+      if (data.status != null) {
+        this.form.status = data.status.toString();
+      } else {
+        this.form.status = "";
+      }
+    },
+    //确认修改
+    submitInfos() {
+      updateFootBallAdmin(this.form).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message.success(res.data.message);
+          this.dialogFormVisible = false;
+          this.form.guestScore = "";
+          this.form.halfGuestScore = "";
+          this.form.halfHomeScore = "";
+          this.form.homeScore = "";
+          this.gettable();
+        } else {
+          this.$message.error(res.data.message);
+          this.dialogFormVisible = false;
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style>
-.basketball{
-    padding: 10px 20px
+.basketball {
+  padding: 10px 20px;
 }
 /* .tablefirst{
   float: left;
@@ -276,12 +266,12 @@ export default {
 .tablesecond{
   float: left;
 } */
-.testfirst{
-  width:780px;
+.testfirst {
+  width: 780px;
   height: 71px;
-  border: 1px solid #cccccc
+  border: 1px solid #cccccc;
 }
-.testsecond{
+.testsecond {
   text-align: center;
   width: 78px;
   height: 71px;
@@ -289,7 +279,7 @@ export default {
   border-right: 1px solid #cccccc;
   float: left;
 }
-.listnum{
+.listnum {
   width: 78px;
   height: 71px;
   border: 1px solid #cccccc;
@@ -297,19 +287,19 @@ export default {
   line-height: 71px;
   float: left;
 }
-.table-top{
+.table-top {
   width: 780px;
   height: 71px;
-  background: green
+  background: green;
 }
-.table-down{
-  margin-top: 0px
+.table-down {
+  margin-top: 0px;
 }
 
-.Built-inmodule{
+.Built-inmodule {
   float: left;
 }
-.el-table_1_column_10{
-  width: 150px
+.el-table_1_column_10 {
+  width: 150px;
 }
 </style>

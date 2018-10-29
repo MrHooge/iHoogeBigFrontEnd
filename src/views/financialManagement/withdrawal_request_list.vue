@@ -69,7 +69,7 @@
                 </el-col>
                 <!-- 搜索财务审核统计 -->
                 <el-col :span="8">
-                    <div style="height:40px;line-height:40px;margin-top:20px;">财务审核统计：{{financeCount}}<span style="font-size:12px;color:red;margin-left:20px;">注：默认是当天的已到账统计(有时间段就是时间段的统计数)</span></div>
+                    <div style="height:40px;line-height:40px;margin-top:20px;">财务审核统计：{{financeCount}}元<span style="font-size:12px;color:red;margin-left:20px;">注：默认是当天的已到账统计(有时间段就是时间段的统计数)</span></div>
                 </el-col>
 				<el-col :span="2">
 					<div class="grid-content bg-purple" style="margin-top:20px;">
