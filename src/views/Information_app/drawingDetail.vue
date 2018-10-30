@@ -1,0 +1,269 @@
+<template>
+    <div class="Sunburn">
+        <div class="box">
+            账号：<el-input v-model="account" placeholder="请输入用户名" style="width: 180px;" clearable></el-input>
+             开始时间：<el-date-picker
+            v-model="stime"
+            type="datetime"
+            style="margin-bottom:40px;margin-right:20px;width:200px"
+            placeholder="请选择开始日期"
+            value-format="yyyy-MM-dd HH:mm:ss">
+            </el-date-picker>
+            结束时间：<el-date-picker
+            v-model="etime"
+            align="right"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            default-time="23:59:59"
+            type="datetime"
+            style="margin-left:10px;
+            width:200px
+            margin-bottom:40px;"
+            placeholder="请选择结束日期"
+            >
+            </el-date-picker>
+            <el-button type="primary" style="margin-left:30px;" @click="search">查询</el-button>
+            <!-- <el-button type="primary" style="margin-left:30px;" @click="Recharge">搜索充值流水</el-button>
+            <el-button type="primary" style="margin-left:30px;" @click="Withdrawal">搜索提款流水</el-button> -->
+        </div>
+        <!-- 表格数据 -->
+        <el-table
+            :data="tablelist"
+            border
+            style="width: 100%">
+            <el-table-column
+                prop="account"
+                label="账户"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="ableBalance"
+                label="可用余额" align="center">
+            </el-table-column>
+            
+            <el-table-column
+                prop="clouds"
+                label="云朵流水数量" align="center">
+            </el-table-column>
+            <el-table-column
+                label="充值时间" align="center">
+                 <template slot-scope="scope">
+                    {{scope.row.createDateTime | time}}
+                     </template>
+            </el-table-column>
+             <el-table-column
+                prop="freezeBalance"
+                label="冻结余额"
+                align="center">
+            </el-table-column>
+              <el-table-column
+                prop="heapBalance"
+                label="消费金额"
+                align="center">
+            </el-table-column>
+             <!-- <el-table-column
+                prop="memberId"
+                label="账户ID"
+                align="center">
+            </el-table-column> -->
+             <el-table-column
+                prop="operLineNo"
+                label="流水编号"
+                align="center">
+            </el-table-column>
+             <el-table-column
+                prop="orderNo"
+                label="订单编号"
+                align="center">
+            </el-table-column>
+             <el-table-column
+                prop="planNo"
+                label="方案编号"
+                align="center">
+            </el-table-column>
+             <el-table-column
+                prop="remark"
+                label="备注"
+                align="center">
+            </el-table-column>
+             <!-- <el-table-column
+                prop="transType"
+                label="流水类型"
+                align="center">
+                <template slot-scope="scope">
+                    {{scope.row.transType | changeType}}
+                </template>
+            </el-table-column> -->
+            <el-table-column
+                label="流水ID" align="center"
+                prop="walletLineNo">
+            </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <div class="page">
+            <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            :total="totalList"
+            v-if="totalList != ''"
+            layout="total, sizes, prev, pager, next, jumper"
+            >
+            </el-pagination>
+        </div>
+    </div>
+</template>
+
+<script>
+import { getWithdrawList } from "@/api/personal_review";
+export default {
+  data() {
+    return {
+      tablelist: [], // 表格数据
+      account: "", // 用户名
+      stime: "",
+      etime: "",
+      page: 1,
+      pageSize: 20,
+      totalList: 0
+    };
+  },
+  filters: {
+    // createDateTime(a) {
+    //   return new Date(a).toLocaleDateString().replace(/\//g, "-");
+    // },
+    // staus(a) {
+    //   return a ? "显示" : "隐藏";
+    // },
+    // stype(a) {
+    //   if (a == 0) {
+    //     return "待审核";
+    //   } else if (a == 1) {
+    //     return "已审核";
+    //   } else {
+    //     return "被驳回";
+    //   }
+    // },
+    time(a) {
+      if (a != null) {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
+    },
+    changeType(val) {
+      val = Number(val);
+      if (val === 61) {
+        return "快速审核扣款";
+      } else if (val === 401) {
+        return "购买推荐";
+      } else if (val === 402) {
+        return "不中退款";
+      } else if (val === 403) {
+        return "被购价款";
+      } else if (val === 404) {
+        return "提现";
+      }
+    }
+  },
+  created() {
+    this.getTable();
+  },
+  methods: {
+    //查询
+    search() {
+      this.page = 1;
+      this.getTable();
+    },
+    //翻页
+    handleCurrentChange(num) {
+      this.page = num;
+      this.getTable();
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      this.getTable();
+    },
+    //充值流水
+    // Recharge() {
+    //   let model = {
+    //     account: this.account || "",
+    //     offset: this.page,
+    //     pageSize: this.pageSize,
+    //     endTime: this.etime || "",
+    //     startTime: this.stime || ""
+    //   };
+    //   getRechargeList(model).then(res => {
+    //     if (res.status == 200) {
+    //       this.tablelist = res.data.data;
+    //       this.totalList = res.data.data.total;
+    //     }
+    //   });
+    // },
+    //提款流水
+    // Withdrawal() {
+    //   let model = {
+    //     account: this.account || "",
+    //     offset: this.page,
+    //     pageSize: this.pageSize,
+    //     endTime: this.etime,
+    //     startTime: this.stime
+    //   };
+    //   getWithdrawList(model).then(res => {
+    //     if (res.status == 200) {
+    //       if (res.data.error_code === 200) {
+    //         this.tablelist = res.data.data.list;
+    //         this.totalList = res.data.data.total;
+    //       } else {
+    //         this.$message.error(res.data.message);
+    //       }
+    //     }
+    //   });
+    // },
+    //获取列表数据
+    getTable() {
+      let model = {
+        account: this.account || "",
+        offset: this.page,
+        pageSize: this.pageSize,
+        endTime: this.etime,
+        startTime: this.stime
+      };
+      getWithdrawList(model).then(res => {
+        if (res.status == 200) {
+          if (res.data.error_code === 200) {
+            this.tablelist = res.data.data.list;
+            this.totalList = res.data.data.total;
+          } else {
+            this.tablelist = [];
+            this.totalList = "";
+            this.$message.error(res.data.message);
+          }
+        }
+      });
+    }
+  }
+};
+</script>
+
+<style scoped>
+.Sunburn {
+  padding: 10px 20px;
+}
+.box {
+  padding: 10px 0;
+}
+</style>

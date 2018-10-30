@@ -180,3 +180,68 @@ export function getFeedbackList(obj) {
     params: obj
   });
 }
+
+//查询充值明细列表
+export function getRechargeList(obj) {
+  return request.member({
+    url: url + "/memberManage/getRechargeList",
+    method: "get",
+    params: obj
+  });
+}
+//查询提款明细列表
+export function getWithdrawList(obj) {
+  return request.member({
+    url: url + "/memberManage/getWithdrawList",
+    method: "get",
+    params: obj
+  });
+}
+//查询购买推荐明细列表
+export function getBuyRecommendList(obj) {
+  return request.member({
+    url: url + "/memberManage/getBuyRecommendList",
+    method: "get",
+    params: obj
+  });
+}
+//查询不中退款明细列表
+export function getRecommendRefundList(obj) {
+  return request.member({
+    url: url + "/memberManage/getRecommendRefundList",
+    method: "get",
+    params: obj
+  });
+}
+//查询被购加款明细列表
+export function getRecommendIncomeLis(obj) {
+  return request.member({
+    url: url + "/memberManage/getRecommendIncomeLis",
+    method: "get",
+    params: obj
+  });
+}
+//查询快速审核扣款明细
+export function getQuickReviwList(obj) {
+  return request.member({
+    url: url + "/memberManage/getQuickReviwList",
+    method: "get",
+    params: obj
+  });
+}
+//查询云朵汇总表
+export function getCloundSummaryList(obj) {
+  return request.member({
+    url: url + "/memberManage/getCloundSummaryList",
+    method: "get",
+    params: obj
+  });
+}
+//获取购买围观列表
+export function getOnLookList(obj) {
+  return request.member({
+    url: url + "/memberManage/getOnLookList",
+    method: "get",
+    params: obj
+  });
+}

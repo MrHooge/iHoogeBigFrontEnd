@@ -1027,7 +1027,57 @@ export const constantRouterMap = [
         name: "反馈",
         component: () => import("@/views/Information_app/feedback.vue"),
         meta: { title: "反馈" }
-      }
+      },
+
+
+      {
+        path: "rechargeDrawingDetail",
+        name: "充值提款明细",
+        component: () => import("@/views/Information_app/rechargeDrawingDetail.vue"),
+        meta: { title: "充值提款明细" }
+      },
+      // {
+      //   path: "drawingDetail",
+      //   name: "提款明细",
+      //   component: () => import("@/views/Information_app/drawingDetail.vue"),
+      //   meta: { title: "提款明细" }
+      // },
+      {
+        path: "flowingWaterType",
+        name: "购买推荐明细",
+        component: () => import("@/views/Information_app/flowingWaterType.vue"),
+        meta: { title: "购买推荐明细" }
+      },
+      // {
+      //   path: "noprizeRefund",
+      //   name: "不中退款明细",
+      //   component: () => import("@/views/Information_app/noprizeRefund.vue"),
+      //   meta: { title: "不中退款明细" }
+      // },
+      // {
+      //   path: "addMoney",
+      //   name: "被购加款明细",
+      //   component: () => import("@/views/Information_app/addMoney.vue"),
+      //   meta: { title: "被购加款明细" }
+      // },
+      // {
+      //   path: "lookChargebacks",
+      //   name: "审核扣款明细",
+      //   component: () => import("@/views/Information_app/lookChargebacks.vue"),
+      //   meta: { title: "审核扣款明细" }
+      // },
+      {
+        path: "cloudsAll",
+        name: "云朵汇总表",
+        component: () => import("@/views/Information_app/cloudsAll.vue"),
+        meta: { title: "云朵汇总表" }
+      },
+      {
+        path: "OnlookersList",
+        name: "购买围观列表",
+        component: () => import("@/views/Information_app/OnlookersList.vue"),
+        meta: { title: "购买围观列表" }
+      },
     ]
   },
   { path: "*", redirect: "/404", hidden: true }
