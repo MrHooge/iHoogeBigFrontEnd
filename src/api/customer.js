@@ -141,3 +141,19 @@ export function getHistoryClient(offset,pageSize){
         }
     })
 }
+//查询审核头像
+export function findAllMemberPictureReview(params) {
+    return request.member({
+        url: '/user/findAllMemberPictureReview',
+        method:'get',
+        params: params
+    })
+}
+//头像审核操作
+export function updateMemberPictureReview(params) {
+    return request.member({
+        url: '/user/updateMemberPictureReview',
+        method:'get',
+        params: params
+    })
+}
