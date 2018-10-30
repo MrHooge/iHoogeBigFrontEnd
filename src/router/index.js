@@ -494,6 +494,12 @@ export const constantRouterMap = [
         name: "客户转移审核",
         component: () => import("@/views/customer_manager/customer_transfer"),
         meta: { title: "客户转移审核" }
+      },
+      {
+        path: "head_review",
+        name: "会员头像审核",
+        component: () => import("@/views/customer_manager/head_review"),
+        meta: { title: "会员头像审核" }
       }
     ]
   },
