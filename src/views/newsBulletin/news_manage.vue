@@ -26,7 +26,7 @@
             >
             </el-date-picker>
             <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
-            <el-button type="primary" @click="cutOff" style="margin-left:100px;margin-bottom:40px;margin-top:40px">删除</el-button>
+            <el-button type="danger" @click="cutOff" style="margin-left:100px;margin-bottom:40px;margin-top:40px">删除</el-button>
         </div>
         <!-- 弹窗事件 -->
         <el-dialog title="确认删除"

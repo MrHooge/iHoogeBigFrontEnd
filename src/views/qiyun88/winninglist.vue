@@ -9,8 +9,8 @@
                 :value="item.value">
                 </el-option>
             </el-select>
-            <el-button type="primary" size="mini" @click="adopt" style="margin-left:100px;">发起中奖宣传</el-button>
-            <el-button type="primary" @click="cutOff" style="margin-left:100px;margin-bottom:40px;margin-top:40px">删除</el-button>
+            <el-button type="primary" @click="adopt" style="margin-left:100px;">发起中奖宣传</el-button>
+            <el-button type="danger" @click="cutOff" style="margin-left:100px;margin-bottom:40px;margin-top:40px">删除</el-button>
         </div>
         <!-- 弹窗事件 -->
         <el-dialog title="确认删除"
