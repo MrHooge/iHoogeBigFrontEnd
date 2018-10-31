@@ -26,15 +26,28 @@
             >
             </el-date-picker>
             <el-button type="primary" @click="inquire" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
-
+            <el-button type="primary" @click="cutOff" style="margin-left:100px;margin-bottom:40px;margin-top:40px">删除</el-button>
         </div>
+        <!-- 弹窗事件 -->
+        <el-dialog title="确认删除"
+                   :visible.sync="dialogVisible"
+                   width="30%">
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false" type="primary">取消</el-button>
+                <el-button @click="cutOffSure()" type="success">确定</el-button>
+            </span>
+        </el-dialog>
         <!-- 获取新闻资讯 -->
         <div class="show_data">
             <el-table
                :data="tableData"
                border
+               @selection-change="handleSelectionChange"
                style="width: 100%;">
-                  <el-table-column
+                <el-table-column
+                type="selection">
+                </el-table-column>
+                <el-table-column
                      label="id"
                      prop="id"
                      align="center">
@@ -145,126 +158,142 @@
 </template>
 
 <script>
-import { getNewsList } from '@/api/news'
-import { Message, MessageBox } from 'element-ui'
-import { getCookies } from '@/utils/cookies'
+import { getNewsList, delNewsList } from "@/api/news";
+import { Message, MessageBox } from "element-ui";
+import { getCookies } from "@/utils/cookies";
 export default {
-    data(){
-        return {
+  data() {
+    return {
+      tableData: [],
+      page: 1,
+      pageSize: 20,
+      dialogFormVisible: false,
+      startTime: "" || null,
+      endTime: "" || null,
+      label: "" || null,
+      title: "" || null,
+      type: "" || null,
+      click: "",
+      content: "",
+      //label:'',
+      keyword: "",
+      shortTitle: "",
+      sort: "",
+      summary: "",
+      totalList: 0,
 
-            tableData:[],
-            page:1,
-            pageSize:20,
-            dialogFormVisible: false,
-            startTime:''||null,
-            endTime:''||null,
-            label:''||null,
-            title:''||null,
-            type:''||null,
-            click:'',
-            content:'',
-            //label:'',
-            keyword:'',
-            shortTitle:'',
-            sort:'',
-            summary:'',
-            totalList: 0,
-        }
-    },
-    filters:{
-        status(a) {
-            if(a == 0){
-                return "隐藏"
-            }else{
-                return "显示"
-            }
-        }
-    },
-    created(){
-        this.gettablelist();
-    },
-    methods:{
-        //将中国标准时间转换为日期
-        // changeTime(date){
-        //     if(date != '' && date != null){
-        //         let y = date.getFullYear();
-        //         let m = date.getMonth() + 1;
-        //         m = m < 10 ? ('0' + m) : m;
-        //         let d = date.getDate();
-        //         d = d < 10 ? ('0' + d) : d;
-        //         let h = date.getHours();
-        //         h = h < 10 ? ('0' + h) : h;
-        //         let minute = date.getMinutes();
-        //         minute = minute < 10 ? ('0' + minute) : minute;
-        //         let seconds = date.getSeconds();
-        //         seconds = seconds < 10 ? ('0' + seconds) : seconds;
-        //         return y + '-' + m + '-' + d +' '+ h + ':' + minute + ':' + seconds;
-        //     }
-        // },
-        //修改
-        update(date){
-            this.$router.push({ path: '/newsBulletin/addNews', query: { id: date.id } })
-        },
-        inquire(){
-            this.gettablelist()  
-        },
-        //获取表格数据
-        gettablelist(){
-           let obj = {
-             type:this.type,
-             title:this.title,
-             label:this.label,
-             endTime:this.endTime,
-             startTime:this.startTime,
-             offset:this.page,
-             pageSize:this.pageSize
-           }
-           getNewsList(obj)
-           .then(res => {
-             this.tableData = res.data.data.list
-             this.totalList = res.data.data.total
-           })
-        },
-        //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.gettablelist()
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.gettablelist()
-        },
-       
+      dialogVisible: false,
+      selectios: [] //多选框存储
+    };
+  },
+  filters: {
+    status(a) {
+      if (a == 0) {
+        return "隐藏";
+      } else {
+        return "显示";
+      }
     }
-}
+  },
+  created() {
+    this.gettablelist();
+  },
+  methods: {
+    //删除
+    cutOff() {
+      if (this.selectios && this.selectios.length > 0) {
+        this.dialogVisible = true;
+      } else {
+        this.$message("请至少选择一个!");
+      }
+    },
+    cutOffSure() {
+      let arr = [];
+      this.selectios.forEach(e => {
+        arr.push(e.id);
+      });
+      let obj = {
+        newsId: arr.join(",")
+      };
+      delNewsList(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.dialogVisible = false;
+          this.$message.success(res.data.message);
+          this.gettablelist();
+        } else {
+          this.dialogVisible = false;
+          this.$message.error(res.data.message);
+        }
+      });
+    },
+    handleSelectionChange(val) {
+      this.selectios = val;
+    },
+    //修改
+    update(date) {
+      this.$router.push({
+        path: "/newsBulletin/addNews",
+        query: { id: date.id }
+      });
+    },
+    inquire() {
+      this.gettablelist();
+    },
+    //获取表格数据
+    gettablelist() {
+      let obj = {
+        type: this.type,
+        title: this.title,
+        label: this.label,
+        endTime: this.endTime,
+        startTime: this.startTime,
+        offset: this.page,
+        pageSize: this.pageSize
+      };
+      getNewsList(obj).then(res => {
+        this.tableData = res.data.data.list;
+        this.totalList = res.data.data.total;
+      });
+    },
+    //翻页
+    handleCurrentChange(num) {
+      this.page = num;
+      this.gettablelist();
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      this.gettablelist();
+    }
+  }
+};
 </script>
 
 <style scoped>
-.manager{
-    padding: 10px 20px
+.manager {
+  padding: 10px 20px;
 }
-.walletshow{
-    width: 80%;
-    height: 80%;
-    margin: 10% auto;
-    border: 1px solid black;
-    background: white;
-    position: absolute;
-    top:20%;
-    left: 15%;
+.walletshow {
+  width: 80%;
+  height: 80%;
+  margin: 10% auto;
+  border: 1px solid black;
+  background: white;
+  position: absolute;
+  top: 20%;
+  left: 15%;
 }
-.page{
-    margin-top: 30px
+.page {
+  margin-top: 30px;
 }
 .el-dropdown {
-    vertical-align: top;
-  }
-  .el-dropdown + .el-dropdown {
-    margin-left: 15px;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
+  vertical-align: top;
+}
+.el-dropdown + .el-dropdown {
+  margin-left: 15px;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
 </style>
 

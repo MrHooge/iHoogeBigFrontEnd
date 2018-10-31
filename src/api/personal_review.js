@@ -214,9 +214,9 @@ export function getRecommendRefundList(obj) {
   });
 }
 //查询被购加款明细列表
-export function getRecommendIncomeLis(obj) {
+export function getRecommendIncomeList(obj) {
   return request.member({
-    url: url + "/memberManage/getRecommendIncomeLis",
+    url: url + "/memberManage/getRecommendIncomeList",
     method: "get",
     params: obj
   });

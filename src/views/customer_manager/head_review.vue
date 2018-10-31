@@ -39,8 +39,8 @@
 		          border
 		          style="width: 100%;"
 		          @selection-change="handleSelectionChange">
-			<el-table-column type="selection">
-			</el-table-column>
+			<!-- <el-table-column type="selection">
+			</el-table-column> -->
 			<el-table-column label="ID"
 			                 prop="id"
 			                 align="center">
@@ -113,185 +113,197 @@
 </template>
 
 <script>
-import { findAllMemberPictureReview, updateMemberPictureReview } from '@/api/customer'
-import { Message, MessageBox } from 'element-ui'
-import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import {
+  findAllMemberPictureReview,
+  updateMemberPictureReview
+} from "@/api/customer";
+import { Message, MessageBox } from "element-ui";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
-	data() {
-		return {
-			tableData: [],
-			selections: [],
-			account: '',
-			endTime: '',
-			page: 1,
-			pageSize: 20,
-			startTime: '',
-			totalList: 0,
-			options: [{
-				value: '0',
-				label: '未审核'
-			}, {
-				value: '1',
-				label: '通过'
-			}, {
-				value: '2',
-				label: '未通过'
-			}],
-			value: '0'
-		}
-	},
-	filters: {
-		time(a) {
-			if (a != null && a != '') {
-				let date = new Date(a);
-				let y = date.getFullYear();
-				let MM = date.getMonth() + 1;
-				MM = MM < 10 ? ('0' + MM) : MM;
-				let d = date.getDate();
-				d = d < 10 ? ('0' + d) : d;
-				let h = date.getHours();
-				h = h < 10 ? ('0' + h) : h;
-				let m = date.getMinutes();
-				m = m < 10 ? ('0' + m) : m;
-				let s = date.getSeconds();
-				s = s < 10 ? ('0' + s) : s;
-				return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-			}
-		},
-		mtype(a) {
-			if (a == 0) {
-				return '未审核'
-			} else if (a == 1) {
-				return '通过'
-			} else {
-				return '未通过'
-			}
-		},
-	},
-	created() {
-		this.gettablelist()
-	},
-	methods: {
-		//点击账号跳转会员管理页面
-		getupnewweb(a) {
-			this.$router.push({ path: '/customerManager/customerManager', query: { account: a } })
-		},
-		//获取表格数据
-		gettablelist() {
-			let obj = {
-				account: this.account,
-				end_time: this.endTime || '',
-				page: this.page,
-				pageSize: this.pageSize,
-				start_time: this.startTime || '',
-				status: this.value
-			}
-			findAllMemberPictureReview(obj).then(res => {
-				console.log(res)
-				if (res.data.error_code == 200) {
-					this.tableData = res.data.data.list
-					this.totalList = res.data.data.total
-				} else {
-					this.tableData = []
-					this.$message(res.data.message)
-				}
-			}).catch(error => {
-				Message.error(error)
-			})
-		},
+  data() {
+    return {
+      tableData: [],
+      selections: [],
+      account: "",
+      endTime: "",
+      page: 1,
+      pageSize: 20,
+      startTime: "",
+      totalList: 0,
+      options: [
+        {
+          value: "0",
+          label: "未审核"
+        },
+        {
+          value: "1",
+          label: "通过"
+        },
+        {
+          value: "2",
+          label: "未通过"
+        }
+      ],
+      value: "0"
+    };
+  },
+  filters: {
+    time(a) {
+      if (a != null && a != "") {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
+    },
+    mtype(a) {
+      if (a == 0) {
+        return "未审核";
+      } else if (a == 1) {
+        return "通过";
+      } else {
+        return "未通过";
+      }
+    }
+  },
+  created() {
+    this.gettablelist();
+  },
+  methods: {
+    //点击账号跳转会员管理页面
+    getupnewweb(a) {
+      this.$router.push({
+        path: "/customerManager/customerManager",
+        query: { account: a }
+      });
+    },
+    //获取表格数据
+    gettablelist() {
+      let obj = {
+        account: this.account,
+        end_time: this.endTime || "",
+        page: this.page,
+        pageSize: this.pageSize,
+        start_time: this.startTime || "",
+        status: this.value
+      };
+      findAllMemberPictureReview(obj)
+        .then(res => {
+          console.log(res);
+          if (res.data.error_code == 200) {
+            this.tableData = res.data.data.list;
+            this.totalList = res.data.data.total;
+          } else {
+            this.tableData = [];
+            this.totalList = "";
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch(error => {
+          Message.error(error);
+        });
+    },
 
-		// 通过按钮
-		addwhite(data) {
-			let obj = {
-				account: data.account,
-				id: data.id,
-				operator: getCookies('name'),
-				status: 1
-			}
-			updateMemberPictureReview(obj).then(res => {
-				if (res.data.error_code == 200) {
-					this.$message(res.data.message)
-					this.gettablelist()
-				} else {
-					this.$message(res.data.message)
-				}
-			})
-		},
-		// 不通过按钮
-		deletewhite(data) {
-			let obj = {
-				account: data.account,
-				id: data.id,
-				operator: getCookies('name'),
-				status: 1
-			}
-			updateMemberPictureReview(obj).then(res => {
-				if (res.data.error_code == 200) {
-					this.$message(res.data.message)
-					this.gettablelist()
-				} else {
-					this.$message(res.data.message)
-				}
-			})
-		},
-		// //批量取消加白
-		// moredeletewhite(){
-		//     if(this.selections.length === 0){
-		//         this.$message('至少选择一个用户')
-		//     }else{
-		//         let newarr = [];
-		//         this.selections.forEach(e => {
-		//             newarr.push(e.ACCOUNT)
-		//         });
-		//         let newaccount = newarr.join(',');
-		//         this.account = newaccount;
-		//         this.type = 2;
-		//         memberToWrite(this.account,this.type).then(res => {
-		//             if (res.data.error_code === 200) {
-		//                 Message.success('取消加白成功')
-		//                 this.account = ''
-		//                 if(this.isBeforMonth){
-		//                     this.longtime()
-		//                 }else{
-		//                     this.gettablelist()
-		//                 }
-		//             } else {
-		//                 Message.error(res.data.message)
-		//             }
-		//         })
-		//     }
-		// },
-		//翻页
-		handleCurrentChange(num) {
-			this.page = num;
-			if (this.isBeforMonth) {
-				this.longtime()
-			} else {
-				this.gettablelist();
-			}
-		},
-		//改变页面大小
-		handleSizeChange(num) {
-			this.pageSize = num;
-			if (this.isBeforMonth) {
-				this.longtime()
-			} else {
-				this.gettablelist();
-			}
-		},
-		//搜索
-		search_customer() {
-			this.page = 1
-			this.pageSize = 20
-			this.gettablelist()
-		},
-		// 选择框全部
-		handleSelectionChange(selection) {
-			this.selections = selection;
-		}
-
-	}
-}
+    // 通过按钮
+    addwhite(data) {
+      let obj = {
+        account: data.account,
+        id: data.id,
+        operator: getCookies("name"),
+        status: 1
+      };
+      updateMemberPictureReview(obj).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message.success(res.data.message);
+          this.gettablelist();
+        } else {
+          this.$message.error(res.data.message);
+        }
+      });
+    },
+    // 不通过按钮
+    deletewhite(data) {
+      let obj = {
+        account: data.account,
+        id: data.id,
+        operator: getCookies("name"),
+        status: 1
+      };
+      updateMemberPictureReview(obj).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message.success(res.data.message);
+          this.gettablelist();
+        } else {
+          this.$message.error(res.data.message);
+        }
+      });
+    },
+    // //批量取消加白
+    // moredeletewhite(){
+    //     if(this.selections.length === 0){
+    //         this.$message('至少选择一个用户')
+    //     }else{
+    //         let newarr = [];
+    //         this.selections.forEach(e => {
+    //             newarr.push(e.ACCOUNT)
+    //         });
+    //         let newaccount = newarr.join(',');
+    //         this.account = newaccount;
+    //         this.type = 2;
+    //         memberToWrite(this.account,this.type).then(res => {
+    //             if (res.data.error_code === 200) {
+    //                 Message.success('取消加白成功')
+    //                 this.account = ''
+    //                 if(this.isBeforMonth){
+    //                     this.longtime()
+    //                 }else{
+    //                     this.gettablelist()
+    //                 }
+    //             } else {
+    //                 Message.error(res.data.message)
+    //             }
+    //         })
+    //     }
+    // },
+    //翻页
+    handleCurrentChange(num) {
+      this.page = num;
+      if (this.isBeforMonth) {
+        this.longtime();
+      } else {
+        this.gettablelist();
+      }
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      if (this.isBeforMonth) {
+        this.longtime();
+      } else {
+        this.gettablelist();
+      }
+    },
+    //搜索
+    search_customer() {
+      this.page = 1;
+      this.pageSize = 20;
+      this.gettablelist();
+    },
+    // 选择框全部
+    handleSelectionChange(selection) {
+      this.selections = selection;
+    }
+  }
+};
 </script>
 
 <style>

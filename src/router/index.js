@@ -1042,47 +1042,17 @@ export const constantRouterMap = [
         component: () => import("@/views/Information_app/rechargeDrawingDetail.vue"),
         meta: { title: "充值提款明细" }
       },
-      // {
-      //   path: "drawingDetail",
-      //   name: "提款明细",
-      //   component: () => import("@/views/Information_app/drawingDetail.vue"),
-      //   meta: { title: "提款明细" }
-      // },
       {
         path: "flowingWaterType",
-        name: "购买推荐明细",
+        name: "流水类型查询",
         component: () => import("@/views/Information_app/flowingWaterType.vue"),
-        meta: { title: "购买推荐明细" }
+        meta: { title: "流水类型查询" }
       },
-      // {
-      //   path: "noprizeRefund",
-      //   name: "不中退款明细",
-      //   component: () => import("@/views/Information_app/noprizeRefund.vue"),
-      //   meta: { title: "不中退款明细" }
-      // },
-      // {
-      //   path: "addMoney",
-      //   name: "被购加款明细",
-      //   component: () => import("@/views/Information_app/addMoney.vue"),
-      //   meta: { title: "被购加款明细" }
-      // },
-      // {
-      //   path: "lookChargebacks",
-      //   name: "审核扣款明细",
-      //   component: () => import("@/views/Information_app/lookChargebacks.vue"),
-      //   meta: { title: "审核扣款明细" }
-      // },
       {
         path: "cloudsAll",
         name: "云朵汇总表",
         component: () => import("@/views/Information_app/cloudsAll.vue"),
         meta: { title: "云朵汇总表" }
-      },
-      {
-        path: "OnlookersList",
-        name: "购买围观列表",
-        component: () => import("@/views/Information_app/OnlookersList.vue"),
-        meta: { title: "购买围观列表" }
       },
     ]
   },

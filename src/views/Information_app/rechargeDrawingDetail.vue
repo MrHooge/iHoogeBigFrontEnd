@@ -57,11 +57,6 @@
                 label="消费金额"
                 align="center">
             </el-table-column>
-             <!-- <el-table-column
-                prop="memberId"
-                label="账户ID"
-                align="center">
-            </el-table-column> -->
              <el-table-column
                 prop="operLineNo"
                 label="流水编号"
@@ -82,20 +77,18 @@
                 label="备注"
                 align="center">
             </el-table-column>
-             <el-table-column
+             <!-- <el-table-column
                 prop="transType"
                 label="流水类型"
                 align="center">
-            </el-table-column>
-              <el-table-column
+            </el-table-column> -->
+            <el-table-column
                 prop="createDateTime"
                 label="充值时间" align="center">
                 <template slot-scope="scope">
                   {{scope.row.createDateTime | time}}
                 </template>
-                
             </el-table-column>
-            
         </el-table>
         <!-- 分页 -->
         <div class="page">
@@ -153,18 +146,17 @@ export default {
     }
   },
   created() {
-    this.getRecharge();
+    this.getRecharge(); //默认显示充值明细列表
   },
   methods: {
     //查询
     search(val) {
+      this.page = 1;
       if (val === "recharge") {
         this.isRecharge = true;
-        this.page = 1;
         this.getRecharge();
       } else if (val === "drawing") {
         this.isRecharge = false;
-        this.page = 1;
         this.getDrawing();
       }
     },
@@ -199,6 +191,7 @@ export default {
         if (res.data.error_code === 200) {
           this.tablelist = res.data.data.list;
           this.totalList = res.data.data.total;
+          this.$message.success(res.data.message);
         } else {
           this.tablelist = [];
           this.totalList = "";
