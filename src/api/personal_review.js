@@ -5,7 +5,17 @@ import request from "@/utils/request";
  */
 
 // 接口名称 1.待审核个性签名列表
-let url = "http://180.97.82.13:10130";
+// let url = "http://180.97.82.13:10130";
+var url;
+// 获取是开发环境还是生产环境
+const baseUrl = process.env.NODE_ENV;
+console.log(baseUrl)
+if (baseUrl === 'development') {
+  url = "https://master.api.qiyun88.cn"
+} else {
+  url = ""
+}
+console.log(url)
 export function getReviewList(obj) {
   return request.member({
     url: url + "/memberManage/autographList",
