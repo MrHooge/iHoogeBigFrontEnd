@@ -34,6 +34,11 @@
             border
             style="width: 100%">
             <el-table-column
+                prop="planNo"
+                label="方案编号"
+                align="center">
+            </el-table-column>
+            <el-table-column
                 label="流水ID" align="center"
                 prop="walletLineNo">
             </el-table-column>
@@ -60,7 +65,7 @@
                 label="消费金额"
                 align="center">
             </el-table-column>
-             <el-table-column
+             <!-- <el-table-column
                 prop="operLineNo"
                 label="流水编号"
                 align="center">
@@ -69,13 +74,8 @@
                 prop="orderNo"
                 label="订单编号"
                 align="center">
-            </el-table-column>
-             <el-table-column
-                prop="planNo"
-                label="方案编号"
-                align="center">
-            </el-table-column>
-             <el-table-column
+            </el-table-column> -->
+            <el-table-column
                 prop="remark"
                 label="备注"
                 align="center">
