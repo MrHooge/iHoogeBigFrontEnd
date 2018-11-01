@@ -9,7 +9,6 @@
             placeholder="请选择开始日期"
             value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>
-            
             结束时间：<el-date-picker
             v-model="etime"
             align="right"
@@ -19,13 +18,10 @@
             style="margin-left:10px;
             width:200px
             margin-bottom:40px;"
-            placeholder="请选择结束日期"
-            >
+            placeholder="请选择结束日期">
             </el-date-picker>
-           
             <el-button type="primary" style="margin-left:30px;" @click="search">查询</el-button>
             <el-button type="primary" style="margin-left:30px;" @click="exportSome">导出</el-button>
-
         </div>
         <!-- 表格数据 -->
         <el-table
@@ -155,7 +151,7 @@ export default {
       let model = {
         account: this.account || "",
         offset: this.page,
-        pageSize: this.pageSize,
+        pagesize: this.pageSize,
         endTime: this.etime || "",
         startTime: this.stime || ""
       };

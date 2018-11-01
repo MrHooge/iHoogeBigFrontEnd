@@ -204,7 +204,7 @@ export default {
       let model = {
         account: this.account,
         offset: this.page,
-        pageSize: this.pageSize,
+        pagesize: this.pageSize,
         endTime: this.etime,
         startTime: this.stime
       };

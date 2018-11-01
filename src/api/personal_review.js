@@ -255,4 +255,3 @@ export function getOnLookList(obj) {
     params: obj
   });
 }
-console.log(url)
