@@ -251,7 +251,10 @@ export default {
         if (res.data.error_code === 200) {
           this.tableData = res.data.data.list;
           this.totalList = res.data.data.total;
+          this.$message.success(res.data.message);
         } else {
+          this.tableData = [];
+          this.totalList = "";
           this.$message.error(res.data.message);
         }
       });
