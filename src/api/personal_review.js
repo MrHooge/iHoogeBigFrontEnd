@@ -9,7 +9,7 @@ import request from "@/utils/request";
 var url;
 // 获取是开发环境还是生产环境
 const baseUrl = process.env.NODE_ENV;
-console.log(baseUrl)
+console.log(process.env)
 if (baseUrl === 'development') {
   url = "https://master.api.qiyun88.cn"
 } else {
@@ -251,6 +251,23 @@ export function getCloundSummaryList(obj) {
 export function getOnLookList(obj) {
   return request.member({
     url: url + "/memberManage/getOnLookList",
+    method: "get",
+    params: obj
+  });
+}
+
+//获取推荐列表
+export function getPlanList(obj) {
+  return request.member({
+    url: url + "/memberManage/getPlanList",
+    method: "get",
+    params: obj
+  });
+}
+//更改推荐审核状态
+export function shPlanById(obj) {
+  return request.member({
+    url: url + "/memberManage/shPlanById",
     method: "get",
     params: obj
   });

@@ -1054,6 +1054,12 @@ export const constantRouterMap = [
         component: () => import("@/views/Information_app/cloudsAll.vue"),
         meta: { title: "云朵汇总表" }
       },
+      {
+        path: "lookRecommend",
+        name: "审核推荐",
+        component: () => import("@/views/Information_app/lookRecommend.vue"),
+        meta: { title: "审核推荐" }
+      },
     ]
   },
   { path: "*", redirect: "/404", hidden: true }
