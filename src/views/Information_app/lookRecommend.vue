@@ -6,10 +6,10 @@
                           placeholder="请输入用户名"
                           style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px"
                           clearable></el-input>
-                <el-input v-model="username"
+                <!-- <el-input v-model="username"
                           placeholder="请输入昵称查询"
                           style="width:10%;margin-right:50px;"
-                          clearable></el-input>
+                          clearable></el-input> -->
                 开始时间：
                 <el-date-picker v-model="startDate"
                                 type="datetime"
@@ -151,7 +151,7 @@
 
 <script>
 import { getPlanList, shPlanById } from "@/api/personal_review.js";
-import { findAllMember } from "@/api/customer";
+// import { findAllMember } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message } from "element-ui";
 import treeTable from "@/components/TreeTable";
@@ -162,7 +162,7 @@ export default {
       //   options2show: true,
       //   options3show: false,
       account: "", //用户名
-      username: "", //昵称
+      //   username: "", //昵称
       //   type: "1",
       //   commentType: "1",
       startDate: "",
@@ -235,28 +235,8 @@ export default {
   methods: {
     //查询
     search() {
-      if (!this.account && !this.username) {
-        this.page = 1;
-        this.getData();
-      } else {
-        if (this.account === "") {
-          this.getAccount();
-        } else {
-          this.page = 1;
-          this.getData();
-        }
-      }
-    },
-    //用昵称查询账号
-    getAccount() {
-      let obj = {
-        username: this.username
-      };
-      findAllMember(obj).then(res => {
-        this.account = res.data.data.list[0].ACCOUNT;
-        this.page = 1;
-        this.getData();
-      });
+      this.page = 1;
+      this.getData();
     },
     //获取评论列表
     getData() {
