@@ -44,8 +44,7 @@
             align="center"
             label="用户头像"
             >
-            <template slot-scope="scope"
-            >
+            <template slot-scope="scope">
                 <img :src="'https://'+scope.row.pictureUrl" alt="" width='50px;'>
             </template>
         </el-table-column>
@@ -59,56 +58,55 @@
 </template>
 
 <script>
-import { getNewStar,addNewStar } from '@/api/sunburn'
+import { getNewStar, addNewStar } from "@/api/sunburn";
 export default {
-    data() {
-        return {
-            tableData: [],
-            val:'',
-            dialogVisible:false,
-        }
+  data() {
+    return {
+      tableData: [],
+      val: "",
+      dialogVisible: false
+    };
+  },
+  filters: {},
+  created() {
+    this.getTable();
+  },
+  methods: {
+    // 获取表格数据
+    getTable() {
+      let dan = "";
+      getNewStar(dan).then(res => {
+        this.tableData = res.data.data;
+      });
     },
-    filters: {},
-    created() {
-        this.getTable()
+    showAddNewStar() {
+      this.dialogVisible = true;
     },
-    methods: {
-        // 获取表格数据
-        getTable() {
-            let dan = ''
-                getNewStar(dan)
-                .then(res => {
-                    this.tableData = res.data.data
-                })
-        },
-        showAddNewStar() {
-            this.dialogVisible = true        
-        },
-        sure(){
-            let accounts = this.val
-                addNewStar(accounts)
-                .then(res => {
-                    if (res.data.error_code == 200) {
-                        this.$message(res.data.message)
-                        this.dialogVisible = false
-                    }else{
-                        this.$message(res.message)                        
-                    }
-            })
+    sure() {
+      let accounts = this.val;
+      addNewStar(accounts).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message.success(res.data.message);
+          this.dialogVisible = false;
+          this.getTable();
+        } else {
+          this.$message.error(res.message);
         }
+      });
     }
-}
+  }
+};
 </script>
 
 <style scoped>
-.effectiveagent{
-    padding: 10px 20px
+.effectiveagent {
+  padding: 10px 20px;
 }
-div.btn{
-    padding-bottom: 0.5rem;
+div.btn {
+  padding-bottom: 0.5rem;
 }
-p.toasts{
-    color: #f00;
-    padding: 10px 0;
+p.toasts {
+  color: #f00;
+  padding: 10px 0;
 }
 </style>

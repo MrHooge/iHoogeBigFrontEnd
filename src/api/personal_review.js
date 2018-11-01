@@ -15,7 +15,7 @@ if (baseUrl === 'development') {
 } else {
   url = ""
 }
-console.log(url)
+
 export function getReviewList(obj) {
   return request.member({
     url: url + "/memberManage/autographList",
@@ -255,3 +255,4 @@ export function getOnLookList(obj) {
     params: obj
   });
 }
+console.log(url)

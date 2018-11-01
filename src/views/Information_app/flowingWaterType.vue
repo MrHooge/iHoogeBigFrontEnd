@@ -21,7 +21,7 @@
             placeholder="请选择结束日期"
             >
             </el-date-picker>
-            <el-button type="primary" style="margin-left:30px;" @click="search('buyRecommend')">查询购买明细</el-button>
+            <el-button type="primary" style="margin-left:30px;" @click="search('buyRecommend')">查询购买推荐</el-button>
             <el-button type="primary" style="margin-left:30px;" @click="search('noprizeRefund')">查询不中退款</el-button>
             <el-button type="primary" style="margin-left:30px;" @click="search('addMoney')">查询被购加款</el-button>
             <el-button type="primary" style="margin-left:30px;" @click="search('lookChargebacks')">查询审核扣款</el-button>
