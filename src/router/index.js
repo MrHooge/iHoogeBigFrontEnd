@@ -442,6 +442,12 @@ export const constantRouterMap = [
         name: "市场加白",
         component: () => import("@/views/swiperWall/activate_Wall"),
         meta: { title: "市场加白" }
+      },
+      {
+        path: "customerCancel",
+        name: "客户注销",
+        component: () => import("@/views/agent_manager/customerCancel"),
+        meta: { title: "客户注销" }
       }
     ]
   },
