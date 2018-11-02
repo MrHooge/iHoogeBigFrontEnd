@@ -444,10 +444,10 @@ export const constantRouterMap = [
         meta: { title: "市场加白" }
       },
       {
-        path: "customerCancel",
-        name: "客户注销",
-        component: () => import("@/views/agent_manager/customerCancel"),
-        meta: { title: "客户注销" }
+        path: "cancelApply",
+        name: "注销申请",
+        component: () => import("@/views/agent_manager/cancelApply"),
+        meta: { title: "注销申请" }
       }
     ]
   },
@@ -506,6 +506,12 @@ export const constantRouterMap = [
         name: "会员头像审核",
         component: () => import("@/views/customer_manager/head_review"),
         meta: { title: "会员头像审核" }
+      },
+      {
+        path: "customerCancel",
+        name: "客服注销",
+        component: () => import("@/views/customer_manager/customerCancel"),
+        meta: { title: "客服注销" }
       }
     ]
   },

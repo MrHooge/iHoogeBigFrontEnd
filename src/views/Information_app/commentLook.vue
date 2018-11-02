@@ -81,20 +81,25 @@
                                      prop="id"
                                      align="center">
                     </el-table-column>
-                    <el-table-column label="方案编号"
-                                     prop="planNo"
-                                     align="center" v-if="options2show">
-                    </el-table-column>
+                    <template slot="header" v-show="options2show">
+                      <el-table-column label="方案"
+                                      align="center"
+                                      >
+                                      <!-- <template slot-scope="scope">
+                                        <span v-show="options2show">{{scope.row.planNo }}</span> -->
+                                      <!-- </template> -->
+                      </el-table-column>
+                    </template>
                     <el-table-column label="评论人用户名"
                                      prop="account"
                                      align="center"
                                      v-show="options2show">
                     </el-table-column>
-                    <el-table-column label="回复人用户名"
+                    <!-- <el-table-column label="回复人用户名"
                                      prop="replyAccount"
                                      align="center"
                                      v-show="options3show">
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column label="方案发起人的用户名"
                                      align="center">
                                      <template slot-scope="scope">

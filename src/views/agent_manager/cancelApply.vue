@@ -17,6 +17,10 @@
 			          placeholder="请输入手机号进行查询"
 			          style="width:12%;" clearable>
             </el-input>
+            <el-input v-model="identifyId"
+			          placeholder="请输入身份证号进行查询"
+			          style="width:12%;" clearable>
+            </el-input>
             <!-- <el-date-picker
             v-model="stime"
             type="datetime"
@@ -414,10 +418,6 @@ export default {
       this.form.up_account = val.agentAccount;
       this.form.username = val.username;
     },
-    // 获取当前的点击页码
-    // changepage(val) {
-    //   this.getData(val);
-    // },
     // 询问弹出框
     examine(a) {
       this.a = a.name;
