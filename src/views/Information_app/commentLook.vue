@@ -28,14 +28,14 @@
                                :label="item.label"
                                :value="item.value"
                                :disabled="item.disabled"
-                               v-show="options2show">
+                               v-if="options2show">
                     </el-option>
                     <el-option v-for="item in options3"
                                :key="item.value"
                                :label="item.label"
                                :value="item.value"
                                :disabled="item.disabled"
-                               v-show="options3show">
+                               v-if="options3show">
                     </el-option>
                 </el-select>
                 开始时间：
@@ -51,9 +51,7 @@
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 default-time="23:59:59"
                                 type="datetime"
-                                style="margin-left:10px;
-                    width:200px
-                    margin-bottom:40px;"
+                                style="margin-left:10px;width:200px;margin-bottom:40px;"
                                 placeholder="请选择结束日期">
                 </el-date-picker>
                 <el-button type="primary"
@@ -61,14 +59,6 @@
                            @click="search">搜索</el-button>
 
             </div>
-            <!-- <div slot="footer"
-                class="dialog-footer"
-                v-show="isShow"
-                style="padding:30px 0">
-                <el-button type="primary"
-                        style="width:10%;"
-                        @click="cofirm">确 定</el-button>
-            </div> -->
             <div class="main">
                 <el-table :data="tableData"
                           border
@@ -81,55 +71,22 @@
                                      prop="id"
                                      align="center">
                     </el-table-column>
-                    <template slot="header" v-show="options2show">
                       <el-table-column label="方案"
-                                      align="center"
-                                      >
-                                      <!-- <template slot-scope="scope">
-                                        <span v-show="options2show">{{scope.row.planNo }}</span> -->
-                                      <!-- </template> -->
+                                       prop="planNo"
+                                       align="center"
+                                       v-if="options2show">
                       </el-table-column>
-                    </template>
-                    <el-table-column label="评论人用户名"
+                      <el-table-column label="评论人用户名"
                                      prop="account"
                                      align="center"
-                                     v-show="options2show">
+                                     v-if="options2show">
                     </el-table-column>
-                    <!-- <el-table-column label="回复人用户名"
+                    <el-table-column label="回复人用户名"
                                      prop="replyAccount"
                                      align="center"
-                                     v-show="options3show">
-                    </el-table-column> -->
-                    <el-table-column label="方案发起人的用户名"
-                                     align="center">
-                                     <template slot-scope="scope">
-                                         <span v-if="scope.row.planUsername != null">{{scope.row.planUsername}}</span>
-                                         <span v-else>{{scope.row.planAccount}}</span>
-                                     </template>
+                                     v-if="options3show">
                     </el-table-column>
-                    <el-table-column label="评论类型"
-                                     align="center">
-                                     <template slot-scope="scope">
-                                         {{scope.row.type | type}}
-                                     </template>
-                    </el-table-column>
-                    
-                    <el-table-column label="点赞总数"
-                                     prop="likeCount"
-                                     align="center">
-                    </el-table-column>
-                    <el-table-column label="楼层"
-                                     prop="floor"
-                                     align="center">
-                    </el-table-column>
-                    <el-table-column label="评论时间"
-                                     prop="commentTime"
-                                     align="center">
-                        <template slot-scope="scope">
-                            {{scope.row.commentTime | time}}
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="评论内容"
+                      <el-table-column label="评论内容"
                                      prop="connect"
                                      align="center"
                                       v-if="options2show">
@@ -139,6 +96,70 @@
                                      align="center"
                                       v-if="options3show">
                     </el-table-column>
+                    
+                    <el-table-column label="方案发起人的用户名"
+                                     align="center"
+                                     v-if="options2show">
+                                     <template slot-scope="scope">
+                                         <span v-if="scope.row.planUsername != null">{{scope.row.planUsername}}</span>
+                                         <span v-else>{{scope.row.planAccount}}</span>
+                                     </template>
+                    </el-table-column>
+                    <el-table-column label="评论类型"
+                                     align="center"
+                                     v-if="options2show">
+                                     <template slot-scope="scope">
+                                         {{scope.row.type | type}}
+                                     </template>
+                    </el-table-column>
+                    <el-table-column label="回复类型"
+                                     align="center"
+                                     v-if="options3show">
+                                     <template slot-scope="scope">
+                                         {{scope.row.replyedType | replyedType}}
+                                     </template>
+                    </el-table-column>
+                    
+                    <el-table-column label="点赞数"
+                                     prop="likeCount"
+                                     align="center"
+                                     v-if="options2show">
+                    </el-table-column>
+                    <el-table-column label="点赞数"
+                                     prop="replyLike"
+                                     align="center"
+                                     v-if="options3show">
+                    </el-table-column>
+                    
+                    <el-table-column label="楼层"
+                                     prop="floor"
+                                     align="center"
+                                     v-if="options2show">
+                    </el-table-column>
+                    <el-table-column label="楼层"
+                                     prop="replyFloor"
+                                     align="center"
+                                     v-if="options3show">
+                    </el-table-column>
+                    
+                    <el-table-column label="评论时间"
+                                     prop="commentTime"
+                                     align="center"
+                                     v-if="options2show">
+                        <template slot-scope="scope">
+                            {{scope.row.commentTime | time}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="回复时间"
+                                     prop="replyTime"
+                                     align="center"
+                                     v-if="options3show">
+                        <template slot-scope="scope">
+                            {{scope.row.replyTime | time}}
+                        </template>
+                    </el-table-column>
+                    
+                    
                     <el-table-column label="审核状态"
                                      prop="status"
                                      align="center"
@@ -195,6 +216,8 @@ import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
   data() {
     return {
+      selval: "",
+      // asd: true,
       options2show: true,
       options3show: false,
       account: "", //用户名
@@ -260,6 +283,15 @@ export default {
     type(val) {
       return val === 1 ? "推荐" : "问答";
     },
+    replyedType(val) {
+      if (val === 0) {
+        return "未审核";
+      } else if (val === 1) {
+        return "通过";
+      } else {
+        return "不通过";
+      }
+    },
     changeType(val) {
       if (val === 0 || val === "未审核") {
         return "未审核";
@@ -315,15 +347,16 @@ export default {
     },
     //状态筛选的回调
     handlestatus(val) {
-      console.log(val);
-      if (val == 1) {
+      val = Number(val);
+      if (val === 1) {
+        // this.asd = true;
         this.options2show = true;
         this.options3show = false;
       } else {
+        // this.asd = false;
         this.options2show = false;
         this.options3show = true;
       }
-      console.log(this.options2show);
     },
     //获取评论列表
     getData() {
