@@ -1072,6 +1072,12 @@ export const constantRouterMap = [
         component: () => import("@/views/Information_app/lookRecommend.vue"),
         meta: { title: "审核推荐" }
       },
+      {
+        path: "questions_answers",
+        name: "问答审核",
+        component: () => import("@/views/Information_app/questions_answers.vue"),
+        meta: { title: "问答审核" }
+      },
     ]
   },
   { path: "*", redirect: "/404", hidden: true }

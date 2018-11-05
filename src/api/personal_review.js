@@ -272,3 +272,19 @@ export function shPlanById(obj) {
     params: obj
   });
 }
+//获取问答列表
+export function getQuestionList(obj) {
+  return request.member({
+    url: url + "/memberManage/getQuestionList",
+    method: "get",
+    params: obj
+  });
+}
+//获取问答列表
+export function shQuestionById(obj) {
+  return request.member({
+    url: url + "/memberManage/shQuestionById",
+    method: "get",
+    params: obj
+  });
+}

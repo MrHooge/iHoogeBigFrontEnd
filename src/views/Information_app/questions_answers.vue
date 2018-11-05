@@ -3,7 +3,11 @@
         <div class="layerbody">
             <div class="search">
                 <el-input v-model="account"
-                          placeholder="请输入用户名"
+                          placeholder="提问人用户名"
+                          style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px"
+                          clearable></el-input>
+                <el-input v-model="beAccount"
+                          placeholder="被提问人用户名"
                           style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px"
                           clearable></el-input>
                 <!-- <el-input v-model="username"
@@ -50,64 +54,94 @@
                                      prop="id"
                                      align="center">
                     </el-table-column>
-                    <el-table-column label="账号"
-                                     prop="account"
+                    <el-table-column label="悬赏金额"
+                                     prop="reward"
                                      align="center">
                     </el-table-column>
-                    <el-table-column label="推荐内容"
-                                     prop="content"
+                    <el-table-column label="提问账号"
+                                     prop="questioner"
                                      align="center">
                     </el-table-column>
-                    <!-- <el-table-column label="评论人头像"
-                                     prop="picture"
+                    <el-table-column label="提问内容"
+                                     prop="questionContent"
                                      align="center">
                     </el-table-column>
-                    <el-table-column label="方案发起人头像"
-                                     prop="planPicture"
+                    <el-table-column label="提问时间"
                                      align="center">
-                    </el-table-column> -->
+												<template slot-scope="scope">
+                            {{scope.row.questionTime | time}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="是否公开"
+                                     align="center">
+												<template slot-scope="scope">
+													<span v-if="scope.row.isOpen=true">公开</span>
+													<span v-else>不公开</span>
+                            <!-- {{scope.row.isOpen | isOpen}} -->
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="回答账号"
+                                     prop="replyer"
+                                     align="center">
+                    </el-table-column>
+                    <el-table-column label="回答内容"
+                                     prop="replyContent"
+                                     align="center">
+                    </el-table-column>
+                    <el-table-column label="回答时间"
+                                     align="center">
+											<template slot-scope="scope">
+                            {{scope.row.replyTime | time}}
+                        </template>
+                    </el-table-column>
                     
-                    <el-table-column label="开奖状态"
+                    <el-table-column label="是否到账"
                                      align="center">
                                      <template slot-scope="scope">
-                                         {{scope.row.bingoStatus | changeStatus}}
+                                         {{scope.row.isArrival | changeisArrival}}
                                      </template>
                     </el-table-column>
-                    <el-table-column label="串法"
+                    <el-table-column label="到账时间"
+                                     align="center">
+                                     <template slot-scope="scope">
+                                         {{scope.row.arrivalTime | time}}
+                                     </template>
+                    </el-table-column>
+                    <!-- <el-table-column label="串法"
                                      align="center">
                                      <template slot-scope="scope">
                                          {{scope.row.playType | changePlayType}}
                                      </template>
-                    </el-table-column>
-                    <el-table-column label="类型"
+                    </el-table-column> -->
+                    <!-- <el-table-column label="类型"
                                      align="center">
                                      <template slot-scope="scope">
                                          {{scope.row.type | changeType}}
                                      </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     
                     <el-table-column label="点赞总数"
                                      prop="likeCount"
                                      align="center">
                     </el-table-column>
                     <el-table-column label="阅读量"
-                                     prop="readNum"
+                                     prop="readCount"
                                      align="center">
                     </el-table-column>
-                    <el-table-column label="标题"
+                    <el-table-column label="提问标题"
                                      prop="title"
                                      align="center">
                     </el-table-column>
-                    <el-table-column label="方案创建时间"
+                    <!-- <el-table-column label="方案创建时间"
                                      align="center">
                         <template slot-scope="scope">
                             {{scope.row.createTime | time}}
                         </template>
-                    </el-table-column>
-                    <el-table-column label="费用"
+                    </el-table-column> -->
+                    <!-- <el-table-column label="费用"
                                      prop="fee"
                                      align="center">
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column label="审核状态"
                                      align="center"
                                      filter-placement="bottom-end">
@@ -150,7 +184,7 @@
 </template>
 
 <script>
-import { getPlanList, shPlanById } from "@/api/personal_review.js";
+import { getQuestionList, shQuestionById } from "@/api/personal_review.js";
 // import { findAllMember } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message } from "element-ui";
@@ -162,7 +196,8 @@ export default {
     return {
       //   options2show: true,
       //   options3show: false,
-      account: "", //用户名
+			account: "", // 提问人用户名
+			beAccount:'',  // 被提问人用户名
       //   username: "", //昵称
       //   type: "1",
       //   commentType: "1",
@@ -188,14 +223,12 @@ export default {
     this.getData();
   },
   filters: {
-    changeStatus(val) {
+    changeisArrival(val) {
       val = Number(val);
       if (val === 0) {
-        return "未开奖";
+        return "未到账";
       } else if (val === 1) {
-        return "中奖";
-      } else if (val === 2) {
-        return "未中奖";
+        return "已到账";
       }
     },
     changeExamine(val) {
@@ -207,30 +240,19 @@ export default {
         return "审核失败";
       }
     },
-    changeType(val) {
-      val = Number(val);
-      return val === 0 ? "不中不退" : "不中全退";
-    },
-    changePlayType(val) {
-      val = Number(val);
-      return val === 1 ? "单关" : "二串一";
-    },
+    // changeType(val) {
+    //   val = Number(val);
+    //   return val === 0 ? "不中不退" : "不中全退";
+    // },
+    // changePlayType(val) {
+    //   val = Number(val);
+    //   return val === 1 ? "单关" : "二串一";
+    // },
     time(a) {
-      if (a != null) {
-        let date = new Date(a);
-        let y = date.getFullYear();
-        let MM = date.getMonth() + 1;
-        MM = MM < 10 ? "0" + MM : MM;
-        let d = date.getDate();
-        d = d < 10 ? "0" + d : d;
-        let h = date.getHours();
-        h = h < 10 ? "0" + h : h;
-        let m = date.getMinutes();
-        m = m < 10 ? "0" + m : m;
-        let s = date.getSeconds();
-        s = s < 10 ? "0" + s : s;
-        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
-      }
+			if (a != null) {
+				return setTime(a)
+			}
+
     }
   },
   methods: {
@@ -242,16 +264,18 @@ export default {
     //获取评论列表
     getData() {
       let obj = {
-        account: this.account,
+				account: this.account,  //  提问人
+				beAccount:this.beAccount, //  被提问人
         startDate: this.startDate,
         endDate: this.endDate,
         offset: this.page,
         pageSize: this.pageSize
       };
-      getPlanList(obj).then(res => {
-        if (res.data.error_code === 200) {
+      getQuestionList(obj).then(res => {
+				console.log(res)
+        if (res.data.error_code == 200) {
           this.tableData = res.data.data.list;
-          this.totalList = res.data.data.total;
+					this.totalList = res.data.data.total;
           this.$message.success(res.data.message);
         } else {
           this.tableData = [];
@@ -282,10 +306,11 @@ export default {
         arr.push(e.id);
       });
       let obj = {
-        planId: arr.join(","),
+        questionId: arr.join(","),
         cz: a
       };
-      shPlanById(obj).then(res => {
+      shQuestionById(obj).then(res => {
+				console.log(res)
         if (res.data.error_code === 200) {
           this.$message.success(res.data.message);
           this.dialogVisible = false;
