@@ -1017,9 +1017,15 @@ export const constantRouterMap = [
       },
       {
         path: "commentLook",
-        name: "麒云资讯评论驳回",
+        name: "评论驳回",
         component: () => import("@/views/Information_app/commentLook.vue"),
-        meta: { title: "麒云资讯评论驳回" }
+        meta: { title: "评论驳回" }
+      },
+      {
+        path: "replayLook",
+        name: "回复驳回",
+        component: () => import("@/views/Information_app/replayLook.vue"),
+        meta: { title: "回复驳回" }
       },
       {
         path: "underlineRecharge",
