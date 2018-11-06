@@ -90,12 +90,12 @@
                     <div v-if="scope.row.type==1">
                         <!-- <el-button type="primary" size="mini" @click="adopt(scope.row.id)">通过</el-button>
                         <el-button type="danger" size="mini" @click="reject(scope.row.id)">驳回</el-button> -->
-                        <el-button type="default" size="mini" @click="stashow(scope.row.status,scope.row.id)">状态</el-button>
+                        <el-button type="info" size="mini" @click="stashow(scope.row.status,scope.row.id)">状态</el-button>
                     </div>
                     <div v-else>
                         <el-button type="primary" size="mini" @click="adopt(scope.row.id)">通过</el-button>
                         <el-button type="danger" size="mini" @click="reject(scope.row.id)">驳回</el-button>
-                        <el-button type="default" size="mini" @click="stashow(scope.row.status,scope.row.id)">状态</el-button>
+                        <el-button type="info" size="mini" @click="stashow(scope.row.status,scope.row.id)">状态</el-button>
                     </div>
                 </template>    
             </el-table-column>
@@ -120,6 +120,8 @@
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
+            :total="totalList"
+            v-if="totalList != ''"
             layout="total, sizes, prev, pager, next, jumper"
             >
             </el-pagination>
@@ -140,6 +142,7 @@ export default {
       radio: "", // 选中的checkbox,
       id: "", // 那一条数据
       tablelist: [], // 表格数据
+      totalList: 0,
       account: "", // 用户名
       number: "", //编号
       status: "",
@@ -240,11 +243,11 @@ export default {
       updatePlanShowStatus(obj).then(res => {
         if (res.status == 200) {
           if (res.data.error_code == 200) {
-            this.$message(res.data.message);
+            this.$message.success(res.data.message);
             this.dialogShenVisible = false;
             this.getTable();
           } else {
-            this.$message(res.data.message);
+            this.$message.error(res.data.message);
           }
         }
       });
@@ -311,6 +314,10 @@ export default {
         // console.log(res.status);
         if (res.status == 200) {
           this.tablelist = res.data.data;
+          this.totalList = res.data.totalCount;
+          this.$message.success(res.data.message);
+        } else {
+          this.$message.error(res.data.message);
         }
       });
     }

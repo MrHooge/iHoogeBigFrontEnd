@@ -35,56 +35,28 @@
                                 style="margin-left:10px;width:200px;margin-bottom:40px;"
                                 placeholder="请选择结束日期">
                 </el-date-picker>
-                <el-button type="primary"
-                           icon="el-icon-search"
-                           @click="search">搜索</el-button>
-
+                <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
             </div>
             <div class="main">
                 <el-table :data="tableData"
                           border
                           tooltip-effect="dark"
                           style="width: 100%">
-                    <!-- <el-table-column type="selection"
-                                     align="center">
-                    </el-table-column> -->
                     <el-table-column label="ID"
                                      prop="id"
                                      align="center">
                     </el-table-column>
-                      <el-table-column label="方案"
-                                       prop="planNo"
-                                       align="center">
-                      </el-table-column>
-                      <el-table-column label="评论人用户名"
-                                     prop="account"
-                                     align="center">
-                    </el-table-column>
-                    <!-- <el-table-column label="回复人用户名"
+                    <el-table-column label="回复人用户名"
                                      prop="replyAccount"
                                      align="center">
-                    </el-table-column> -->
-                      <el-table-column label="评论内容"
-                                     prop="connect"
-                                     align="center">
                     </el-table-column>
-                    <!-- <el-table-column label="回复内容"
-                                     prop="replyConnect"
-                                     align="center">
-                    </el-table-column> -->
-                    
-                    <el-table-column label="方案发起人的用户名"
-                                     align="center">
-                                     <template slot-scope="scope">
-                                         <span v-if="scope.row.planUsername != null">{{scope.row.planUsername}}</span>
-                                         <span v-else>{{scope.row.planAccount}}</span>
-                                     </template>
+                    <el-table-column label="回复内容"
+                                        prop="replyConnect"
+                                        align="center">
                     </el-table-column>
-                    <el-table-column label="评论类型"
+                    <el-table-column label="被回复人的用户名"
+                                     prop="replyedAccount"
                                      align="center">
-                                     <template slot-scope="scope">
-                                         {{scope.row.type | type}}
-                                     </template>
                     </el-table-column>
                     <el-table-column label="回复类型"
                                      align="center">
@@ -92,50 +64,31 @@
                                          {{scope.row.replyedType | replyedType}}
                                      </template>
                     </el-table-column>
-                    
                     <el-table-column label="点赞数"
-                                     prop="likeCount"
-                                     align="center">
-                    </el-table-column>
-                    <!-- <el-table-column label="点赞数"
                                      prop="replyLike"
                                      align="center">
-                    </el-table-column> -->
-                    
-                    <el-table-column label="楼层"
-                                     prop="floor"
-                                     align="center">
                     </el-table-column>
-                    <!-- <el-table-column label="楼层"
+                    <el-table-column label="楼层"
                                      prop="replyFloor"
                                      align="center">
-                    </el-table-column> -->
-                    
-                    <el-table-column label="评论时间"
-                                     align="center">
-                        <template slot-scope="scope">
-                            {{scope.row.commentTime | time}}
-                        </template>
                     </el-table-column>
-                    <!-- <el-table-column label="回复时间"
+                    <el-table-column label="回复时间"
                                      prop="replyTime"
                                      align="center">
                         <template slot-scope="scope">
                             {{scope.row.replyTime | time}}
                         </template>
-                    </el-table-column> -->
+                    </el-table-column>
                     
                     
                     <el-table-column label="审核状态"
-                                     prop="status"
                                      align="center"
                                      filter-placement="bottom-end">
                         <template slot-scope="scope">
-                            <el-tag disable-transitions>{{scope.row.status | changeType}}</el-tag>
+                            <el-tag disable-transitions>{{scope.row.replyStatus | changeType}}</el-tag>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作"
-                                     prop="status"
                                      align="center">
                         <template slot-scope="scope">
                             <el-button type="danger" @click="cofirm(scope.row)">驳回</el-button>
@@ -184,8 +137,8 @@ export default {
       selval: "",
       account: "", //用户名
       username: "", //昵称
-      type: "1",
-      commentType: "1",
+      type: "2",
+      commentType: "-1",
       startDate: "",
       endDate: "",
       page: 1,
@@ -195,16 +148,19 @@ export default {
       tableData: [], //表格数据
       options: [
         {
-          value: "1",
-          label: "推荐",
-          disabled: false
+          value: "-1",
+          label: "全部"
         },
         {
-          value: "2",
-          label: "问答",
-          disabled: false
+          value: "3",
+          label: "评论回复"
+        },
+        {
+          value: "4",
+          label: "回复回复"
         }
       ],
+
       id: "", //存储要驳回的方案id
       dialogVisible: false
     };
@@ -217,15 +173,15 @@ export default {
       return val === 1 ? "推荐" : "问答";
     },
     replyedType(val) {
-      if (val === 0) {
-        return "未审核";
-      } else if (val === 1) {
-        return "通过";
-      } else {
-        return "不通过";
+      val = Number(val);
+      if (val === 3) {
+        return "评论回复";
+      } else if (val === 4) {
+        return "回复回复";
       }
     },
     changeType(val) {
+      val = Number(val);
       if (val === 0 || val === "未审核") {
         return "未审核";
       } else if (val === 1 || val === "审核通过") {
@@ -307,7 +263,7 @@ export default {
     Reject() {
       let obj = {
         id: this.id,
-        type: 1
+        type: 2
       };
       bhComment(obj).then(res => {
         if (res.data.error_code === 200) {
