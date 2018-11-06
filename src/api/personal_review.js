@@ -13,7 +13,7 @@ console.log(process.env)
 if (baseUrl === 'development') {
   url = "https://master.api.qiyun88.cn"
 } else {
-  url = ""
+  url = "https://master.api.qyun88.com"
 }
 
 export function getReviewList(obj) {

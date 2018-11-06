@@ -125,12 +125,6 @@
         </div>
         <div class="tablelist">
         <el-table :data="tableData" border style="width: 100%;">
-            <!-- <el-table-column 
-                label="编号"
-                align="center"
-                type="index"
-                width="120px">
-			</el-table-column> -->
             <el-table-column
                 prop="wallet_Line_No"
                 align="center"
@@ -140,7 +134,6 @@
                 prop="username"
                 align="center"
                 label="用户名">
-               
             </el-table-column>
             <el-table-column
                 prop="ACCOUNT"
@@ -159,11 +152,6 @@
                 align="center"
                 label="方案号">           
             </el-table-column>
-            <!-- <el-table-column
-                prop="LOTTERY_TYPE"
-                align="center"
-                label="方案类型">
-            </el-table-column> -->
             <el-table-column
                 prop="LOTTERY_TYPE_NAME"
                 align="center"
@@ -196,11 +184,6 @@
                 align="center"
                 label="历史消费">
             </el-table-column>
-            <!-- <el-table-column
-                prop="TRANS_TYPE"
-                align="center"
-                label="	发生类型说明">
-            </el-table-column> -->
         </el-table>
         </div>
         <el-pagination
@@ -335,7 +318,7 @@ export default {
       this.account = this.$route.query.account;
     }
     this.inquire();
-    this.getAll();
+    // this.getAll();
   },
   filters: {
     time(a) {
@@ -361,7 +344,6 @@ export default {
     filter() {
       this.page = 1;
       this.inquire();
-      this.getAll();
     },
 
     //获取数据
@@ -383,7 +365,7 @@ export default {
           if (res.data.error_code === 200) {
             this.tableData = res.data.data.list;
             this.totalList = res.data.data.total;
-            this.inquire();
+            this.getAll();
           } else {
             this.$message.error(res.data.message);
           }
@@ -410,8 +392,6 @@ export default {
         .then(res => {
           if (res.data.error_code === 200) {
             this.newTableData = res.data.data.list;
-            // this.totalList = res.data.data.total;
-            // console.log(res.data.data.total);
           } else {
             this.$message.error(res.data.message);
           }
@@ -424,17 +404,13 @@ export default {
     search() {
       if (!this.account && !this.username) {
         this.page = 1;
-        this.getAll();
         this.inquire();
-
-        console.log(this.totalList);
       } else {
         if (this.account == "") {
           this.getAccount();
         } else {
           this.page = 1;
           this.inquire();
-          this.getAll();
         }
       }
     },
@@ -447,7 +423,6 @@ export default {
         this.account = res.data.data.list[0].ACCOUNT;
         this.page = 1;
         this.inquire();
-        this.getAll();
       });
     },
     //翻页
@@ -483,16 +458,13 @@ export default {
     },
     // 导出
     exportSome() {
-      //   this.pageSize = this.totalList;
-      //   this.inquire();
-      //   this.getAll();
       let newobj;
       this.newTableData.forEach((e, index) => {
         newobj = {
           wallet_Line_No: e.wallet_Line_No, //流水号
           username: e.username, //用户名
           ACCOUNT: e.ACCOUNT, //账号
-          CREATE_DATE_TIME: e.CREATE_DATE_TIME, //发生时间
+          // CREATE_DATE_TIME: e.CREATE_DATE_TIME, //发生时间
           PLAN_NO: e.PLAN_NO, //方案号
           LOTTERY_TYPE_NAME: e.LOTTERY_TYPE_NAME, // 方案类型说明
           REMARK: e.REMARK, //流水描述
@@ -516,7 +488,7 @@ export default {
           "流水号",
           "用户名",
           "账号",
-          "发生时间",
+          // "发生时间",
           "方案号",
           "方案类型说明",
           "流水描述",
@@ -531,7 +503,7 @@ export default {
           "wallet_Line_No",
           "username",
           "ACCOUNT",
-          "CREATE_DATE_TIME",
+          // "CREATE_DATE_TIME",
           "PLAN_NO",
           "LOTTERY_TYPE_NAME",
           "REMARK",
