@@ -87,10 +87,9 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
-            v-if="totalList != ''"
-            >
+            v-if="totalList != ''">
             </el-pagination>
-        </div>
+		    </div>
     </div>
 </template>
 
@@ -101,6 +100,7 @@ export default {
   data() {
     return {
       tablelist: [], // 表格数据
+      newTableData: [],
       account: "" || null, // 用户名
       stime: "" || null,
       etime: "" || null,
@@ -157,9 +157,11 @@ export default {
       };
       getCloundSummaryList(model).then(res => {
         if (res.data.error_code === 200) {
-          this.tablelist = res.data.data.list;
-          this.totalList = res.data.data.total;
+          console.log(res);
+          this.tablelist = res.data.data;
+          this.totalList = res.data.total;
           this.$message.success(res.data.message);
+          this.getAll();
         } else {
           this.tablelist = [];
           this.totalList = "";
@@ -167,13 +169,34 @@ export default {
         }
       });
     },
+    //获取所有数据
+    getAll() {
+      let model = {
+        account: this.account || "",
+        offset: this.page,
+        pagesize: this.totalList,
+        endTime: this.etime || "",
+        startTime: this.stime || ""
+      };
+      getCloundSummaryList(model)
+        .then(res => {
+          if (res.data.error_code === 200) {
+            this.newTableData = res.data.data;
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch(error => {
+          Message.error(error);
+        });
+    },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));
     },
     // 导出
     exportSome() {
       let newobj;
-      this.tablelist.forEach((e, index) => {
+      this.newTableData.forEach((e, index) => {
         newobj = {
           account: e.account,
           buyRecommend: e.buyRecommend,
@@ -219,7 +242,7 @@ export default {
           "rewardIncome",
           "withdraw"
         ]; // 对应表格输出的数据
-        const list = this.tablelist;
+        const list = this.newTableData;
         const data = this.formatJson(filterVal, list);
         export_json_to_excel(tHeader, data, "云朵汇总表"); //对应下载文件的名字
       });
