@@ -5,7 +5,17 @@ import request from "@/utils/request";
  */
 
 // 接口名称 1.待审核个性签名列表
-let url = "http://180.97.82.13:10130";
+// let url = "http://180.97.82.13:10130";
+var url;
+// 获取是开发环境还是生产环境
+const baseUrl = process.env.NODE_ENV;
+console.log(process.env)
+if (baseUrl === 'development') {
+  url = "https://master.api.qiyun88.cn"
+} else {
+  url = "https://master.api.qyun88.com"
+}
+
 export function getReviewList(obj) {
   return request.member({
     url: url + "/memberManage/autographList",
@@ -176,6 +186,104 @@ export function shReport(obj) {
 export function getFeedbackList(obj) {
   return request.member({
     url: url + "/memberManage/getFeedbackList",
+    method: "get",
+    params: obj
+  });
+}
+
+//查询充值明细列表
+export function getRechargeList(obj) {
+  return request.member({
+    url: url + "/memberManage/getRechargeList",
+    method: "get",
+    params: obj
+  });
+}
+//查询提款明细列表
+export function getWithdrawList(obj) {
+  return request.member({
+    url: url + "/memberManage/getWithdrawList",
+    method: "get",
+    params: obj
+  });
+}
+//查询购买推荐明细列表
+export function getBuyRecommendList(obj) {
+  return request.member({
+    url: url + "/memberManage/getBuyRecommendList",
+    method: "get",
+    params: obj
+  });
+}
+//查询不中退款明细列表
+export function getRecommendRefundList(obj) {
+  return request.member({
+    url: url + "/memberManage/getRecommendRefundList",
+    method: "get",
+    params: obj
+  });
+}
+//查询被购加款明细列表
+export function getRecommendIncomeList(obj) {
+  return request.member({
+    url: url + "/memberManage/getRecommendIncomeList",
+    method: "get",
+    params: obj
+  });
+}
+//查询快速审核扣款明细
+export function getQuickReviwList(obj) {
+  return request.member({
+    url: url + "/memberManage/getQuickReviwList",
+    method: "get",
+    params: obj
+  });
+}
+//查询云朵汇总表
+export function getCloundSummaryList(obj) {
+  return request.member({
+    url: url + "/memberManage/getCloundSummaryList",
+    method: "get",
+    params: obj
+  });
+}
+//获取购买围观列表
+export function getOnLookList(obj) {
+  return request.member({
+    url: url + "/memberManage/getOnLookList",
+    method: "get",
+    params: obj
+  });
+}
+
+//获取推荐列表
+export function getPlanList(obj) {
+  return request.member({
+    url: url + "/memberManage/getPlanList",
+    method: "get",
+    params: obj
+  });
+}
+//更改推荐审核状态
+export function shPlanById(obj) {
+  return request.member({
+    url: url + "/memberManage/shPlanById",
+    method: "get",
+    params: obj
+  });
+}
+//获取问答列表
+export function getQuestionList(obj) {
+  return request.member({
+    url: url + "/memberManage/getQuestionList",
+    method: "get",
+    params: obj
+  });
+}
+//获取问答列表
+export function shQuestionById(obj) {
+  return request.member({
+    url: url + "/memberManage/shQuestionById",
     method: "get",
     params: obj
   });

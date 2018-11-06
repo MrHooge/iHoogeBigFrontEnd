@@ -14,12 +14,26 @@
         <el-button type="primary"
                  icon="el-icon-search"
                  @click="search">查询</el-button>
+        <el-button type="danger" @click="cutOff" style="margin-left:100px;margin-bottom:40px;margin-top:40px">删除</el-button>
     </div>
+    <!-- 弹窗事件 -->
+    <el-dialog title="确认删除"
+                :visible.sync="dialogVisible"
+                width="30%">
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false" type="primary">取消</el-button>
+            <el-button @click="cutOffSure()" type="success">确定</el-button>
+        </span>
+    </el-dialog>
     <!-- 表格数据 -->
     <div>
         <el-table :data="date"
             border
+            @selection-change="handleSelectionChange"
             style="width: 100%;">
+            <el-table-column
+              type="selection">
+            </el-table-column>
             <el-table-column
                 type="index"
                 align="center"
@@ -100,119 +114,154 @@
 </template>
 
 <script>
-import { addMail,getMailList } from '@/api/news'
-import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import { addMail, getMailList, delMailList } from "@/api/news";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
   data() {
     return {
-      date:[],
-     dialogFormVisible:false,
-     title:'',
-     content:'',
-     target:'',
-     status:'',
-     type:'',
-     typelist:'',
-     statuslist:'',
-     isShow: false,   //默认不展示指定列表输入框
+      date: [],
+      dialogFormVisible: false,
+      title: "",
+      content: "",
+      target: "",
+      status: "",
+      type: "",
+      typelist: "",
+      statuslist: "",
+      isShow: false, //默认不展示指定列表输入框
+
+      dialogVisible: false,
+      selectios: [] //多选框存储
+    };
+  },
+  filters: {
+    time(a) {
+      if (a != null) {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
+    },
+    type(a) {
+      if (a == 1) {
+        return "所有人可见";
+      } else if (a == 2) {
+        return "白名单可见";
+      } else {
+        return "指定人可见";
+      }
+    },
+    start(a) {
+      if (a == 1) {
+        return "显示 ";
+      } else {
+        return "隐藏";
+      }
     }
   },
-   filters:{
-       time(a){
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-            }
-        },
-        type(a){
-          if(a == 1){
-            return "所有人可见"
-          }else if(a == 2){
-            return "白名单可见"
-          }else{
-            return "指定人可见"
-          }
-        },
-        start(a){
-          if(a == 1){
-            return "显示 "
-          }else{
-            return "隐藏"
-          }
-        }
-   },
   components: {},
-  created(){
-      this.getdate()
+  created() {
+    this.getdate();
   },
   methods: {
-    showTarget(a){
-        if(a === 2){
-            this.isShow = true
-        }else{
-            this.isShow = false
+    //删除
+    cutOff() {
+      if (this.selectios && this.selectios.length > 0) {
+        this.dialogVisible = true;
+      } else {
+        this.$message("请至少选择一个!");
+      }
+    },
+    cutOffSure() {
+      let arr = [];
+      this.selectios.forEach(e => {
+        arr.push(e.id);
+      });
+      let obj = {
+        mailIds: arr.join(",")
+      };
+      delMailList(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.dialogVisible = false;
+          this.$message.success(res.data.message);
+          this.getdate();
+        } else {
+          this.dialogVisible = false;
+          this.$message.error(res.data.message);
         }
-        
+      });
     },
-    addmessage(){
-      this.dialogFormVisible = true
+    handleSelectionChange(val) {
+      this.selectios = val;
     },
-    submitInfos(){
-      if(this.title == '' ||this.content == '' ||this.status == '' || this.type == ''){
-        this.$message('请输入相关数据')
-      }else{
+    showTarget(a) {
+      if (a === 2) {
+        this.isShow = true;
+      } else {
+        this.isShow = false;
+      }
+    },
+    addmessage() {
+      this.dialogFormVisible = true;
+    },
+    submitInfos() {
+      if (
+        this.title == "" ||
+        this.content == "" ||
+        this.status == "" ||
+        this.type == ""
+      ) {
+        this.$message("请输入相关数据");
+      } else {
         let obj = {
-        author:getCookies('name'),
-        title:this.title,   //标题
-        content:this.content,
-        target:this.target,
-        status:this.status,
-        type:this.type
-        }
-      addMail(obj)
-      .then(res => {
-        if(res.data.error_code == 200){
-          this.$message.success(res.data.message)
-          this.dialogFormVisible = false
-        }else{
-            this.$message.error(res.data.data)
-            this.dialogFormVisible = false
-        }
-      })
+          author: getCookies("name"),
+          title: this.title, //标题
+          content: this.content,
+          target: this.target,
+          status: this.status,
+          type: this.type
+        };
+        addMail(obj).then(res => {
+          if (res.data.error_code == 200) {
+            this.$message.success(res.data.message);
+            this.dialogFormVisible = false;
+          } else {
+            this.$message.error(res.data.data);
+            this.dialogFormVisible = false;
+          }
+        });
       }
     },
     //查寻
-    search(){
-      this.getdate()
+    search() {
+      this.getdate();
     },
     //获取数据列表
-    getdate(){
+    getdate() {
       let newobj = {
-        status:this.statuslist,
-        type:this.typelist
-      }
-      getMailList(newobj)
-      .then(res => {
-        this.date = res.data.data
-      })
+        status: this.statuslist,
+        type: this.typelist
+      };
+      getMailList(newobj).then(res => {
+        this.date = res.data.data;
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
-.inputmessage{
-  padding: 10px 20px
+.inputmessage {
+  padding: 10px 20px;
 }
 </style>

@@ -65,6 +65,9 @@
     <!-- 添加用户 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form">
+        <el-form-item label="操作人" :label-width="formLabelWidth">
+          <el-input v-model="operator" auto-complete="off" clearable></el-input>
+        </el-form-item>
         <el-form-item label="账号" :label-width="formLabelWidth">
           <el-input v-model="form.account" auto-complete="off" clearable></el-input>
         </el-form-item>
@@ -92,95 +95,106 @@
 </template>
 
 <script>
-import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message, MessageBox } from 'element-ui'
-import { findAllRole, findAllUserAndRole, updateUserInfo, addUser, delUser,addTicketUser } from '@/api/sys_user'
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message, MessageBox } from "element-ui";
+import {
+  findAllRole,
+  findAllUserAndRole,
+  updateUserInfo,
+  addUser,
+  delUser,
+  addTicketUser
+} from "@/api/sys_user";
 export default {
   data() {
     return {
-      dialogTitle: '添加用户',
-      dialogType: 'add',
+      dialogTitle: "添加用户",
+      dialogType: "add",
       tableData: [],
       dialogFormVisible: false,
       form: {
-        account: '',
-        name: '',
-        password: '',
-        role_id: '',
-        status: ''
+        operator: "", //操作人
+        account: "",
+        name: "",
+        password: "",
+        role_id: "",
+        status: ""
       },
-      formLabelWidth: '120px',
+      ishaveOperator: false, //添加时不显示操作人 修改时显示
+      operator: "", //操作人
+      formLabelWidth: "120px",
       page: 1,
       pageSize: 100,
       totalPages: 0,
       totalList: 0,
       allRoles: []
-    }
+    };
   },
   directives: {
     waves
   },
   filters: {
     status(a) {
-      return a ? '可用' : '不可用'
+      return a ? "可用" : "不可用";
     }
   },
   created() {
-    this.getUserList('', this.page, this.pageSize)
-    this.getFindAllRole()
+    this.getUserList("", this.page, this.pageSize);
+    this.getFindAllRole();
   },
   components: {},
   methods: {
-      addTicket(data){
-          let account = data
-          addTicketUser(account).then(res=>{
-              if(res.data.error_code === 200){
-                this.$message.success(res.data.message)
-              }else{
-                this.$message.error(res.data.message)
-              }
-            //   if(res.data.error_code === 200){
-            //       this.$message(res.data.message)
-            //   }
-          })
-      },
+    addTicket(data) {
+      let account = data;
+      addTicketUser(account).then(res => {
+        if (res.data.error_code === 200) {
+          this.$message.success(res.data.message);
+        } else {
+          this.$message.error(res.data.message);
+        }
+      });
+    },
     // 获取用户列表
     getUserList(account, page, pageSize) {
-      findAllUserAndRole(account, page, pageSize).then(res => {
-        this.tableData = res.data.data.list.filter(e => {
-            return e.role_name === '打票人员'
+      findAllUserAndRole(account, page, pageSize)
+        .then(res => {
+          this.tableData = res.data.data.list.filter(e => {
+            return e.role_name === "打票人员";
+          });
+          this.page = res.data.data.pageNum;
+          this.pageSize = res.data.data.pageSize;
+          this.totalPages = res.data.data.pages;
+          this.totalList = res.data.data.total;
+        })
+        .catch(error => {
+          Message.error(error);
         });
-        this.page = res.data.data.pageNum
-        this.pageSize = res.data.data.pageSize
-        this.totalPages = res.data.data.pages
-        this.totalList = res.data.data.total
-      }).catch(error => {
-        Message.error(error)
-      })
     },
     // 每页条数
     handleSizeChange(num) {
-      this.getUserList('', this.page, num)
+      this.getUserList("", this.page, num);
     },
     // 当前页数据
     handleCurrentChange(num) {
-      this.getUserList('', num, this.pageSize)
+      this.getUserList("", num, this.pageSize);
     },
     // 显示弹窗
     showDailag(data, type) {
-      if (type === 'modify') {
-        this.dialogTitle = '修改用户信息'
-        this.dialogType = 'modify'
-        this.form.account = data.ACCOUNT
-        this.form.name = data.NAME
-        this.form.status = data.STATUS
-        this.dialogType = type
+      if (type === "modify") {
+        this.ishaveOperator = true;
+        this.dialogTitle = "修改用户信息";
+        this.dialogType = "modify";
+        this.form.account = data.ACCOUNT;
+        this.form.name = data.NAME;
+        this.form.status = data.STATUS;
+        this.dialogType = type;
       } else {
-        this.dialogTitle = '添加用户'
-        this.dialogType = 'add'
-        this.form = {}
+        this.ishaveOperator = false;
+        this.dialogTitle = "添加用户";
+        this.dialogType = "add";
+        this.form = {};
       }
-      this.dialogFormVisible = true
+      this.dialogFormVisible = true;
     },
     // 删除用户信息
     // deleteUser(data) {
@@ -202,45 +216,54 @@ export default {
     // 提交数据
     submitInfos() {
       if (this.form.status) {
-        this.form.status = 1
+        this.form.status = 1;
       } else {
-        this.form.status = 0
+        this.form.status = 0;
       }
-      if (this.dialogType === 'modify') {
-        updateUserInfo(this.form).then(res => {
+      if (this.dialogType === "modify") {
+        let obj = {
+          operator: this.operator, //操作人
+          account: this.form.account,
+          name: this.form.name,
+          password: this.form.password,
+          role_id: this.form.role_id,
+          status: this.form.status
+        };
+        updateUserInfo(obj).then(res => {
           if (res.data.error_code === 200) {
-            Message.success('修改信息成功')
+            Message.success("修改信息成功");
           } else {
-            Message.error(res.data.message)
+            Message.error(res.data.message);
           }
-        })
+        });
       } else {
         addUser(this.form).then(res => {
           if (res.data.error_code === 200) {
-            Message.success('添加信息成功')
+            Message.success("添加信息成功");
           } else {
-            Message.error(res.data.message)
+            Message.error(res.data.message);
           }
-        })
+        });
       }
-      const _this = this
+      const _this = this;
       setTimeout(() => {
-        _this.getUserList('', this.page, this.pageSize)
-      }, 800)
-      this.dialogFormVisible = false
+        _this.getUserList("", this.page, this.pageSize);
+      }, 800);
+      this.dialogFormVisible = false;
     },
     // 获取所有角色
     getFindAllRole() {
-      findAllRole().then(res => {
-        this.allRoles = res.data.data
-      }).catch(error => {
-        Message.error(error)
-      })
+      findAllRole()
+        .then(res => {
+          this.allRoles = res.data.data;
+        })
+        .catch(error => {
+          Message.error(error);
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

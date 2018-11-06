@@ -74,14 +74,14 @@ export function delUser(user_id) {
 }
 //添加打票人员
 export function addTicketUser(account) {
-    return request.ticket({
-      url: '/ticketSystem/addTicketUser',
-      method: 'get',
-      params: {
-        account
-      }
-    })
-  }
+  return request.ticket({
+    url: '/ticketSystem/addTicketUser',
+    method: 'get',
+    params: {
+      account
+    }
+  })
+}
 
 // 查询所有父模块
 export function findAllParentModel(id) {
@@ -145,15 +145,15 @@ export function updateParentModel(modelInfo) {
 
 // 给角色 配置权限
 export function addRoleBondPermission(userInfos) {
-  var params =new URLSearchParams();
-  params.append('value',JSON.stringify(userInfos));
+  var params = new URLSearchParams();
+  params.append('value', JSON.stringify(userInfos));
   return request.member({
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
-  },
+    },
     url: '/user/addRoleBondPermission',
     method: 'post',
-    data:JSON.stringify(userInfos)
+    data: JSON.stringify(userInfos)
   })
 }
 
@@ -194,7 +194,7 @@ export function findAllAgentAndQD(userInfos) {
   return request.member({
     url: '/user/findAllAgentAndQD',
     method: 'get',
-    params:userInfos
+    params: userInfos
   })
 }
 // 通过渠道账号查询名下代理
@@ -210,12 +210,12 @@ export function setAgentToGroup(userInfos) {
   return request.member({
     url: '/userCount/setAgentToGroup',
     method: 'get',
-    params:userInfos
+    params: userInfos
   })
 }
 
 // 获取所有会员列表
-export function findAllMember(page, account , username) {
+export function findAllMember(page, account, username) {
   return request.member({
     url: '/user/findAllMember',
     method: 'get',
@@ -290,19 +290,19 @@ export function addBanner(params) {
 }
 //自动加白设置
 export function jiabai(params) {
-    return request.member({
-        url: '/userManage/updateAutoToWrite',
-        method: 'get',
-        params: params
-    })
+  return request.member({
+    url: '/userManage/updateAutoToWrite',
+    method: 'get',
+    params: params
+  })
 }
 //查询加白设置
 export function currentjiabai(params) {
-    return request.member({
-        url: '/user/isWhite',
-        method: 'get',
-        params: params
-    })
+  return request.member({
+    url: '/user/isWhite',
+    method: 'get',
+    params: params
+  })
 }
 
 // 开户轮播墙
@@ -311,7 +311,7 @@ export function findAccountWall(userInfos) {
   return request.member({
     url: '/userCount/findAccountWall',
     method: 'get',
-    params:userInfos
+    params: userInfos
   })
 }
 // 激活轮播墙
@@ -323,7 +323,7 @@ export function findAccountActiveWall(userInfos) {
     // params: {
     //   loginAccount
     // }
-    params:userInfos
+    params: userInfos
   })
 }
 // 充值消费轮播墙
@@ -567,19 +567,19 @@ export function findMemberWalletLineByAccount(params) {
 }
 //获取钱包信息列表
 export function findAllMemberWalletInfo(params) {
-    return request.member({
-      url: '/user/findAllMemberWalletInfo',
-      method: 'get',
-      params: params
-    })
+  return request.member({
+    url: '/user/findAllMemberWalletInfo',
+    method: 'get',
+    params: params
+  })
 }
-  //获取钱包金额统计
+//获取钱包金额统计
 export function countMemberWalletInfo(params) {
-    return request.member({
-        url: '/userCount/countMemberWalletInfo',
-        method: 'get',
-        params: params
-    })
+  return request.member({
+    url: '/userCount/countMemberWalletInfo',
+    method: 'get',
+    params: params
+  })
 }
 //获取所有充值失败的订单
 export function getAllFailPayOrder(params) {
@@ -695,11 +695,11 @@ export function memberDrawingReview(params) {
 }
 // 财务审核统计
 export function getFinanceCount(params) {
-    return request.user({
-      url: '/userCount/getFinanceCount',
-      method: 'get',
-      params: params
-    })
+  return request.user({
+    url: '/userCount/getFinanceCount',
+    method: 'get',
+    params: params
+  })
 }
 // 中奖金额总和
 export function getPlanWiningPrize(params) {

@@ -6,19 +6,10 @@
                           placeholder="请输入用户名"
                           style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px"
                           clearable></el-input>
-                <el-input v-model="username"
+                <!-- <el-input v-model="username"
                           placeholder="请输入昵称查询"
                           style="width:10%;margin-right:50px;"
-                          clearable></el-input>
-                <el-select v-model="commentType"
-                           placeholder="筛选"
-                           style="width:140px;margin-right: 50px;">
-                    <el-option v-for="item in options"
-                               :key="item.value"
-                               :label="item.label"
-                               :value="item.value">
-                    </el-option>
-                </el-select>
+                          clearable></el-input> -->
                 开始时间：
                 <el-date-picker v-model="startDate"
                                 type="datetime"
@@ -32,113 +23,96 @@
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 default-time="23:59:59"
                                 type="datetime"
-                                style="margin-left:10px;width:200px;margin-bottom:40px;"
+                                style="margin-left:10px;
+                    width:200px
+                    margin-bottom:40px;"
                                 placeholder="请选择结束日期">
                 </el-date-picker>
                 <el-button type="primary"
                            icon="el-icon-search"
-                           @click="search">搜索</el-button>
+                           @click="search"
+                           style="margin-left:20px;">搜索</el-button>
+                <el-button type="success" @click="cofirm('pass')" style="margin-left:100px;margin-bottom:40px;margin-top:40px">审核通过</el-button>
+                <el-button type="danger" @click="cofirm('nopass')" style="margin-left:100px;margin-bottom:40px;margin-top:40px">审核不通过</el-button>
+
 
             </div>
             <div class="main">
                 <el-table :data="tableData"
                           border
+                          @selection-change="handleSelectionChange"
                           tooltip-effect="dark"
                           style="width: 100%">
-                    <!-- <el-table-column type="selection"
+                    <el-table-column type="selection"
                                      align="center">
-                    </el-table-column> -->
+                    </el-table-column>
                     <el-table-column label="ID"
                                      prop="id"
                                      align="center">
                     </el-table-column>
-                      <el-table-column label="方案"
-                                       prop="planNo"
-                                       align="center">
-                      </el-table-column>
-                      <el-table-column label="评论人用户名"
+                    <el-table-column label="账号"
                                      prop="account"
                                      align="center">
                     </el-table-column>
-                    <!-- <el-table-column label="回复人用户名"
-                                     prop="replyAccount"
-                                     align="center">
-                    </el-table-column> -->
-                      <el-table-column label="评论内容"
-                                     prop="connect"
+                    <el-table-column label="推荐内容"
+                                     prop="content"
                                      align="center">
                     </el-table-column>
-                    <!-- <el-table-column label="回复内容"
-                                     prop="replyConnect"
+                    <!-- <el-table-column label="评论人头像"
+                                     prop="picture"
+                                     align="center">
+                    </el-table-column>
+                    <el-table-column label="方案发起人头像"
+                                     prop="planPicture"
                                      align="center">
                     </el-table-column> -->
                     
-                    <el-table-column label="方案发起人的用户名"
+                    <el-table-column label="开奖状态"
                                      align="center">
                                      <template slot-scope="scope">
-                                         <span v-if="scope.row.planUsername != null">{{scope.row.planUsername}}</span>
-                                         <span v-else>{{scope.row.planAccount}}</span>
+                                         {{scope.row.bingoStatus | changeStatus}}
                                      </template>
                     </el-table-column>
-                    <el-table-column label="评论类型"
+                    <el-table-column label="串法"
                                      align="center">
                                      <template slot-scope="scope">
-                                         {{scope.row.type | type}}
+                                         {{scope.row.playType | changePlayType}}
                                      </template>
                     </el-table-column>
-                    <el-table-column label="回复类型"
+                    <el-table-column label="类型"
                                      align="center">
                                      <template slot-scope="scope">
-                                         {{scope.row.replyedType | replyedType}}
+                                         {{scope.row.type | changeType}}
                                      </template>
                     </el-table-column>
                     
-                    <el-table-column label="点赞数"
+                    <el-table-column label="点赞总数"
                                      prop="likeCount"
                                      align="center">
                     </el-table-column>
-                    <!-- <el-table-column label="点赞数"
-                                     prop="replyLike"
-                                     align="center">
-                    </el-table-column> -->
-                    
-                    <el-table-column label="楼层"
-                                     prop="floor"
+                    <el-table-column label="阅读量"
+                                     prop="readNum"
                                      align="center">
                     </el-table-column>
-                    <!-- <el-table-column label="楼层"
-                                     prop="replyFloor"
+                    <el-table-column label="标题"
+                                     prop="title"
                                      align="center">
-                    </el-table-column> -->
-                    
-                    <el-table-column label="评论时间"
+                    </el-table-column>
+                    <el-table-column label="方案创建时间"
                                      align="center">
                         <template slot-scope="scope">
-                            {{scope.row.commentTime | time}}
+                            {{scope.row.createTime | time}}
                         </template>
                     </el-table-column>
-                    <!-- <el-table-column label="回复时间"
-                                     prop="replyTime"
+                    <el-table-column label="费用"
+                                     prop="fee"
                                      align="center">
-                        <template slot-scope="scope">
-                            {{scope.row.replyTime | time}}
-                        </template>
-                    </el-table-column> -->
-                    
-                    
+                    </el-table-column>
                     <el-table-column label="审核状态"
-                                     prop="status"
                                      align="center"
                                      filter-placement="bottom-end">
                         <template slot-scope="scope">
-                            <el-tag disable-transitions>{{scope.row.status | changeType}}</el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="操作"
-                                     prop="status"
-                                     align="center">
-                        <template slot-scope="scope">
-                            <el-button type="danger" @click="cofirm(scope.row)">驳回</el-button>
+                            <el-tag disable-transitions>{{scope.row.examineStatus | changeExamine}}</el-tag>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -158,34 +132,40 @@
             </el-pagination>
         </div>
         <!-- 弹窗事件 -->
-        <el-dialog title="确认驳回"
+        <el-dialog :title="dialogTitle"
 		           :visible.sync="dialogVisible"
 		           width="40%"
                    >
 			<span slot="footer"
 			      class="dialog-footer">
                   <el-button @click="dialogVisible = false" type="primary">取消</el-button>
-				<el-button @click="Reject()" type="success">确定</el-button>
+                <!-- 审核通过 -->
+				<el-button @click="review(1)" type="success" v-show="isPass">确定</el-button>
+                <!-- 审核不通过 -->
+				<el-button @click="review(2)" type="success" v-show="!isPass">确定</el-button>
+
 			</span>
 		</el-dialog>
     </div>
 </template>
 
 <script>
-import { getCommentList, bhComment } from "@/api/personal_review.js";
-import { findAllMember } from "@/api/customer";
+import { getPlanList, shPlanById } from "@/api/personal_review.js";
+// import { findAllMember } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
+import setTime from "@/utils/time.js";
 export default {
   data() {
     return {
-      selval: "",
+      //   options2show: true,
+      //   options3show: false,
       account: "", //用户名
-      username: "", //昵称
-      type: "1",
-      commentType: "1",
+      //   username: "", //昵称
+      //   type: "1",
+      //   commentType: "1",
       startDate: "",
       endDate: "",
       page: 1,
@@ -193,39 +173,32 @@ export default {
 
       totalList: 0, //总页数
       tableData: [], //表格数据
-      options: [
-        {
-          value: "1",
-          label: "推荐",
-          disabled: false
-        },
-        {
-          value: "2",
-          label: "问答",
-          disabled: false
-        }
-      ],
-      id: "", //存储要驳回的方案id
-      dialogVisible: false
+
+      //   id: "", //存储要驳回的方案id
+
+      //   connectType: "", //存储要驳回的type
+
+      selectios: [], //多选框存储
+      dialogVisible: false,
+      dialogTitle: "审核通过",
+      isPass: true
     };
   },
   created() {
     this.getData();
   },
   filters: {
-    type(val) {
-      return val === 1 ? "推荐" : "问答";
-    },
-    replyedType(val) {
+    changeStatus(val) {
+      val = Number(val);
       if (val === 0) {
-        return "未审核";
+        return "未开奖";
       } else if (val === 1) {
-        return "通过";
-      } else {
-        return "不通过";
+        return "中奖";
+      } else if (val === 2) {
+        return "未中奖";
       }
     },
-    changeType(val) {
+    changeExamine(val) {
       if (val === 0 || val === "未审核") {
         return "未审核";
       } else if (val === 1 || val === "审核通过") {
@@ -233,6 +206,14 @@ export default {
       } else if (val === 2 || val === "审核失败") {
         return "审核失败";
       }
+    },
+    changeType(val) {
+      val = Number(val);
+      return val === 0 ? "不中不退" : "不中全退";
+    },
+    changePlayType(val) {
+      val = Number(val);
+      return val === 1 ? "单关" : "二串一";
     },
     time(a) {
       if (a != null) {
@@ -255,61 +236,56 @@ export default {
   methods: {
     //查询
     search() {
-      if (!this.account && !this.username) {
-        this.page = 1;
-        this.getData();
-      } else {
-        if (this.account === "") {
-          this.getAccount();
-        } else {
-          this.page = 1;
-          this.getData();
-        }
-      }
-    },
-    //用昵称查询账号
-    getAccount() {
-      let obj = {
-        username: this.username
-      };
-      findAllMember(obj).then(res => {
-        this.account = res.data.data.list[0].ACCOUNT;
-        this.page = 1;
-        this.getData();
-      });
+      this.page = 1;
+      this.getData();
     },
     //获取评论列表
     getData() {
       let obj = {
         account: this.account,
-        commentType: this.commentType,
-        type: this.type,
         startDate: this.startDate,
         endDate: this.endDate,
         offset: this.page,
         pageSize: this.pageSize
       };
-      getCommentList(obj).then(res => {
+      getPlanList(obj).then(res => {
         if (res.data.error_code === 200) {
           this.tableData = res.data.data.list;
           this.totalList = res.data.data.total;
+          this.$message.success(res.data.message);
         } else {
+          this.tableData = [];
+          this.totalList = "";
           this.$message.error(res.data.message);
         }
       });
     },
     //提示框
-    cofirm(val) {
-      this.id = val.id;
-      this.dialogVisible = true;
+    cofirm(type) {
+      if (type === "pass") {
+        this.isPass = true;
+        this.dialogTitle = "审核通过";
+      } else {
+        this.isPass = false;
+        this.dialogTitle = "审核不通过";
+      }
+      if (this.selectios && this.selectios.length > 0) {
+        this.dialogVisible = true;
+      } else {
+        this.$message("请至少选择一个!");
+      }
     },
-    //驳回
-    Reject() {
+    //审核
+    review(a) {
+      let arr = [];
+      this.selectios.forEach(e => {
+        arr.push(e.id);
+      });
       let obj = {
-        id: this.id,
-        type: 1
+        planId: arr.join(","),
+        cz: a
       };
-      bhComment(obj).then(res => {
+      shPlanById(obj).then(res => {
         if (res.data.error_code === 200) {
           this.$message.success(res.data.message);
           this.dialogVisible = false;
@@ -319,6 +295,9 @@ export default {
           this.dialogVisible = false;
         }
       });
+    },
+    handleSelectionChange(val) {
+      this.selectios = val;
     },
     //改变页面大小
     handleSizeChange(num) {

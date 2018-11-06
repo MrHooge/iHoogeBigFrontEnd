@@ -27,7 +27,7 @@ export function createSZ2C11(userinfos) {
     contentType: 'application/json;charset=UTF-8',
     url: '/information/createSZ2C11',
     method: 'post',
-    data:userinfos
+    data: userinfos
   })
 }
 //实战二串一（二）
@@ -37,7 +37,7 @@ export function createSZ2C12(userinfos) {
     // headers:{"Content-Type":"application/json"},
     url: '/information/createSZ2C12',
     method: 'post',
-    data:userinfos
+    data: userinfos
   })
 }
 //获取新闻资讯
@@ -45,7 +45,15 @@ export function getNewsList(userinfos) {
   return request.infos({
     url: '/information/getNewsList',
     method: 'get',
-    params:userinfos
+    params: userinfos
+  })
+}
+//删除新闻资讯
+export function delNewsList(userinfos) {
+  return request.infos({
+    url: '/information/delNewsList',
+    method: 'get',
+    params: userinfos
   })
 }
 //根据id获取资讯
@@ -67,19 +75,19 @@ export function createNews(userinfos) {
 }
 //修改新闻
 export function reviseNews(userinfos) {
-    return request.infos({
+  return request.infos({
     contentType: 'application/json;charset=UTF-8',
-      url: '/information/reviseNews',
-      method: 'post',
-      data: userinfos
-    })
-  }
+    url: '/information/reviseNews',
+    method: 'post',
+    data: userinfos
+  })
+}
 //获取类别或标签列表
 export function getTypes(userinfos) {
   return request.infos({
     url: '/information/getTypes',
     method: 'get',
-    params:userinfos
+    params: userinfos
   })
 }
 //上传图片
@@ -87,7 +95,7 @@ export function uploadImage(userinfos) {
   return request.infos({
     url: '/information/uploadImage',
     method: 'post',
-    params:userinfos
+    params: userinfos
   })
 }
 //上传图片
@@ -95,7 +103,7 @@ export function setNewsPicetur(userinfos) {
   return request.infos({
     url: '/information/setNewsPicetur',
     method: 'post',
-    params:userinfos
+    params: userinfos
   })
 }
 //添加站内信
@@ -104,7 +112,16 @@ export function addMail(userinfos) {
     contentType: 'application/json;charset=UTF-8',
     url: '/information/addMail',
     method: 'post',
-    data:userinfos
+    data: userinfos
+  })
+}
+//删除站内信
+export function delMailList(userinfos) {
+  return request.infos({
+    contentType: 'application/json;charset=UTF-8',
+    url: '/information/delMailList',
+    method: 'get',
+    params: userinfos
   })
 }
 //获取站内信列表数据
@@ -112,47 +129,47 @@ export function getMailList(userinfos) {
   return request.infos({
     url: '/information/getMailList',
     method: 'get',
-    params:userinfos
+    params: userinfos
   })
 }
 
 //评论列表
 export function getUnreviewedCommentList(params) {
-    return request.infos({
-      url: '/information/getUnreviewedCommentList',
-      method: 'get',
-      params:params
-    })
-  }
-  //评论审核
-export function shComment(type,cid) {
-    return request.infos({
-      url: '/information/shComment',
-      method: 'get',
-      params: {
-          type,
-          cid
-      }
-    })
-  }
+  return request.infos({
+    url: '/information/getUnreviewedCommentList',
+    method: 'get',
+    params: params
+  })
+}
+//评论审核
+export function shComment(type, cid) {
+  return request.infos({
+    url: '/information/shComment',
+    method: 'get',
+    params: {
+      type,
+      cid
+    }
+  })
+}
 
-  //中奖评论列表
+//中奖评论列表
 export function getUnreviewedWinCommentList(params) {
-    return request.infos({
-      url: '/information/getUnreviewedWinCommentList',
-      method: 'get',
-      params:params
-    })
-  }
-  //中奖评论审核
-export function shWinComment(type,cid) {
-    return request.infos({
-      url: '/information/shWinComment',
-      method: 'get',
-      params: {
-          type,
-          cid
-      }
-    })
-  }
+  return request.infos({
+    url: '/information/getUnreviewedWinCommentList',
+    method: 'get',
+    params: params
+  })
+}
+//中奖评论审核
+export function shWinComment(type, cid) {
+  return request.infos({
+    url: '/information/shWinComment',
+    method: 'get',
+    params: {
+      type,
+      cid
+    }
+  })
+}
 

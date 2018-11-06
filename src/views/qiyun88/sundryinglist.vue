@@ -21,12 +21,26 @@
                 </el-option>
             </el-select>
             <el-button type="primary" style="margin-left:30px;" @click="search">搜索</el-button>
+            <el-button type="danger" @click="cutOff" style="margin-left:100px;margin-bottom:40px;margin-top:40px">删除</el-button>
         </div>
+        <!-- 弹窗事件 -->
+        <el-dialog title="确认删除"
+                    :visible.sync="dialogVisible"
+                    width="30%">
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false" type="primary">取消</el-button>
+                <el-button @click="cutOffSure()" type="success">确定</el-button>
+            </span>
+        </el-dialog>
         <!-- 表格数据 -->
         <el-table
             :data="tablelist"
             border
+            @selection-change="handleSelectionChange"
             style="width: 100%">
+            <el-table-column
+              type="selection">
+            </el-table-column>
             <el-table-column
                 prop="account"
                 label="用户名" align="center">
@@ -76,12 +90,12 @@
                     <div v-if="scope.row.type==1">
                         <!-- <el-button type="primary" size="mini" @click="adopt(scope.row.id)">通过</el-button>
                         <el-button type="danger" size="mini" @click="reject(scope.row.id)">驳回</el-button> -->
-                        <el-button type="default" size="mini" @click="stashow(scope.row.status,scope.row.id)">状态</el-button>
+                        <el-button type="info" size="mini" @click="stashow(scope.row.status,scope.row.id)">状态</el-button>
                     </div>
                     <div v-else>
                         <el-button type="primary" size="mini" @click="adopt(scope.row.id)">通过</el-button>
                         <el-button type="danger" size="mini" @click="reject(scope.row.id)">驳回</el-button>
-                        <el-button type="default" size="mini" @click="stashow(scope.row.status,scope.row.id)">状态</el-button>
+                        <el-button type="info" size="mini" @click="stashow(scope.row.status,scope.row.id)">状态</el-button>
                     </div>
                 </template>    
             </el-table-column>
@@ -106,6 +120,8 @@
             :current-page="page"
             :page-sizes="[10, 20, 30, 40, 50]"
             :page-size="pageSize"
+            :total="totalList"
+            v-if="totalList != ''"
             layout="total, sizes, prev, pager, next, jumper"
             >
             </el-pagination>
@@ -114,19 +130,25 @@
 </template>
 
 <script>
-import { getPlanShow,updatePlanShowStatus,passShowPlanApply } from '@/api/sunburn'
+import {
+  getPlanShow,
+  updatePlanShowStatus,
+  passShowPlanApply,
+  delPlanShow
+} from "@/api/sunburn";
 export default {
   data() {
     return {
-      radio: "",// 选中的checkbox,
-      id:'',// 那一条数据
+      radio: "", // 选中的checkbox,
+      id: "", // 那一条数据
       tablelist: [], // 表格数据
+      totalList: 0,
       account: "", // 用户名
       number: "", //编号
       status: "",
       total: 0,
-      page:1,
-      pageSize:20,
+      page: 1,
+      pageSize: 20,
       dialogShenVisible: false,
       options: [
         { value: "", lable: "全部" },
@@ -139,7 +161,10 @@ export default {
         { value: "0", lable: "待审核" },
         { value: "1", lable: "已审核" },
         { value: "2", lable: "被驳回" }
-      ]
+      ],
+
+      dialogVisible: false,
+      selectios: [] //多选框存储
     };
   },
   filters: {
@@ -163,20 +188,50 @@ export default {
     this.getTable();
   },
   methods: {
+    //删除
+    cutOff() {
+      if (this.selectios && this.selectios.length > 0) {
+        this.dialogVisible = true;
+      } else {
+        this.$message("请至少选择一个!");
+      }
+    },
+    cutOffSure() {
+      let arr = [];
+      this.selectios.forEach(e => {
+        arr.push(e.id);
+      });
+      let obj = {
+        ids: arr.join(",")
+      };
+      delPlanShow(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.dialogVisible = false;
+          this.$message.success(res.data.message);
+          this.getTable();
+        } else {
+          this.dialogVisible = false;
+          this.$message.error(res.data.message);
+        }
+      });
+    },
+    handleSelectionChange(val) {
+      this.selectios = val;
+    },
     //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.getTable()
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.getTable()
-        },
+    handleCurrentChange(num) {
+      this.page = num;
+      this.getTable();
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      this.getTable();
+    },
     // 状态的回调
-    stashow(a,b) {
+    stashow(a, b) {
       this.radio = String(a);
-      this.id = b
+      this.id = b;
       this.dialogShenVisible = true;
     },
     // 弹窗的确定回调
@@ -184,69 +239,66 @@ export default {
       let obj = {
         id: this.id,
         status: this.radio
-      }
-       updatePlanShowStatus(obj)
-        .then(res => {
-          if (res.status == 200) {
-            if (res.data.error_code == 200) {
-              this.$message(res.data.message);
-              this.dialogShenVisible = false;
-              this.getTable();
-            } else {
-              this.$message(res.data.message);
-            }
+      };
+      updatePlanShowStatus(obj).then(res => {
+        if (res.status == 200) {
+          if (res.data.error_code == 200) {
+            this.$message.success(res.data.message);
+            this.dialogShenVisible = false;
+            this.getTable();
+          } else {
+            this.$message.error(res.data.message);
           }
-        });
+        }
+      });
     },
-     // 通过审核回调
+    // 通过审核回调
     adopt(id) {
       let model = {
         id: id,
         type: 1
       };
-       passShowPlanApply(model)
-        .then(res => {
-          if (res.status == 200) {
-            if (res.data.error_code == 200) {
-              this.$message(res.data.message);
-              this.getTable();
-            } else {
-              this.$message(res.data.message);
-            }
+      passShowPlanApply(model).then(res => {
+        if (res.status == 200) {
+          if (res.data.error_code == 200) {
+            this.$message(res.data.message);
+            this.getTable();
+          } else {
+            this.$message(res.data.message);
           }
-        });
-    },  
+        }
+      });
+    },
     // 驳回的回调
     reject(id) {
       let model = {
         id: id,
         type: 2
       };
-      passShowPlanApply(model)
-        .then(res => {
-          if (res.status == 200) {
-            if (res.data.error_code == 200) {
-              this.$message(res.data.message);
-              this.getTable();
-            } else {
-              this.$message(res.data.message);
-            }
+      passShowPlanApply(model).then(res => {
+        if (res.status == 200) {
+          if (res.data.error_code == 200) {
+            this.$message(res.data.message);
+            this.getTable();
+          } else {
+            this.$message(res.data.message);
           }
-        });
+        }
+      });
     },
     // 筛选回调
     search() {
-        this.page = 1
-        this.getTable();
+      this.page = 1;
+      this.getTable();
     },
     // 类型选中后的回调
     changetype() {
-        this.page = 1
-        this.getTable();
+      this.page = 1;
+      this.getTable();
     },
     // 状态选中的回调
     changestatus() {
-       this.getTable();
+      this.getTable();
     },
     //获取列表数据
     getTable() {
@@ -258,21 +310,24 @@ export default {
         status: this.status || "",
         type: this.type || ""
       };
-      getPlanShow(model)
-        .then(res => {
-            // console.log(res.status);
-          if (res.status == 200) {
-            this.tablelist = res.data.data            
-          }
-        });
+      getPlanShow(model).then(res => {
+        // console.log(res.status);
+        if (res.status == 200) {
+          this.tablelist = res.data.data;
+          this.totalList = res.data.totalCount;
+          this.$message.success(res.data.message);
+        } else {
+          this.$message.error(res.data.message);
+        }
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-.Sunburn{
-    padding: 10px 20px
+.Sunburn {
+  padding: 10px 20px;
 }
 .box {
   padding: 10px 0;

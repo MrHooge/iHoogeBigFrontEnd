@@ -442,6 +442,12 @@ export const constantRouterMap = [
         name: "市场加白",
         component: () => import("@/views/swiperWall/activate_Wall"),
         meta: { title: "市场加白" }
+      },
+      {
+        path: "cancelApply",
+        name: "注销申请",
+        component: () => import("@/views/agent_manager/cancelApply"),
+        meta: { title: "注销申请" }
       }
     ]
   },
@@ -494,6 +500,18 @@ export const constantRouterMap = [
         name: "客户转移审核",
         component: () => import("@/views/customer_manager/customer_transfer"),
         meta: { title: "客户转移审核" }
+      },
+      {
+        path: "head_review",
+        name: "会员头像审核",
+        component: () => import("@/views/customer_manager/head_review"),
+        meta: { title: "会员头像审核" }
+      },
+      {
+        path: "customerCancel",
+        name: "客服注销",
+        component: () => import("@/views/customer_manager/customerCancel"),
+        meta: { title: "客服注销" }
       }
     ]
   },
@@ -999,9 +1017,15 @@ export const constantRouterMap = [
       },
       {
         path: "commentLook",
-        name: "麒云资讯评论驳回",
+        name: "评论驳回",
         component: () => import("@/views/Information_app/commentLook.vue"),
-        meta: { title: "麒云资讯评论驳回" }
+        meta: { title: "评论驳回" }
+      },
+      {
+        path: "replayLook",
+        name: "回复驳回",
+        component: () => import("@/views/Information_app/replayLook.vue"),
+        meta: { title: "回复驳回" }
       },
       {
         path: "underlineRecharge",
@@ -1027,7 +1051,39 @@ export const constantRouterMap = [
         name: "反馈",
         component: () => import("@/views/Information_app/feedback.vue"),
         meta: { title: "反馈" }
-      }
+      },
+
+
+      {
+        path: "rechargeDrawingDetail",
+        name: "充值提款明细",
+        component: () => import("@/views/Information_app/rechargeDrawingDetail.vue"),
+        meta: { title: "充值提款明细" }
+      },
+      {
+        path: "flowingWaterType",
+        name: "流水类型查询",
+        component: () => import("@/views/Information_app/flowingWaterType.vue"),
+        meta: { title: "流水类型查询" }
+      },
+      {
+        path: "cloudsAll",
+        name: "云朵汇总表",
+        component: () => import("@/views/Information_app/cloudsAll.vue"),
+        meta: { title: "云朵汇总表" }
+      },
+      {
+        path: "lookRecommend",
+        name: "审核推荐",
+        component: () => import("@/views/Information_app/lookRecommend.vue"),
+        meta: { title: "审核推荐" }
+      },
+      {
+        path: "questions_answers",
+        name: "问答审核",
+        component: () => import("@/views/Information_app/questions_answers.vue"),
+        meta: { title: "问答审核" }
+      },
     ]
   },
   { path: "*", redirect: "/404", hidden: true }

@@ -224,175 +224,175 @@
 </template>
 
 <script>
-import { findAllRate, updateRateByAccount, delRateByAccount } from "@/api/sys_user";
-import { findAllMember} from '@/api/customer'
+import {
+  findAllRate,
+  updateRateByAccount,
+  delRateByAccount
+} from "@/api/sys_user";
+import { findAllMember } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
-	data() {
-		return {
-			dialogVisible2: false, //  删除会员返点弹框
-			pageShow: true,
-			tableData: [],
-			total: 0,
-			username: "",
-			viewFormVisible: false,
-			tableData3: [], //
-			onePeople: {}, // 存选择的某一条数据
-			activeNames: ['2'],  //  折叠面板
-			gd_rate: '', //  代购返点
-			hm_rate: '', // 合买返点
-			startDate: '',  // 返点开始
-			endDate: '',  // 返点结束
-			value1: '',
-			value2: '',
-			ACCOUNT:'',
-            LOTTERY_TYPE:'',
-            account: "",   //查询的账号
-            page: 1,
-		};
-	},
-	filters: {
-		type(a) {
-			return a == "38" ? "竞彩足球" : "竞彩篮球";
-		},
+  data() {
+    return {
+      dialogVisible2: false, //  删除会员返点弹框
+      pageShow: true,
+      tableData: [],
+      total: 0,
+      username: "",
+      viewFormVisible: false,
+      tableData3: [], //
+      onePeople: {}, // 存选择的某一条数据
+      activeNames: ["2"], //  折叠面板
+      gd_rate: "", //  代购返点
+      hm_rate: "", // 合买返点
+      startDate: "", // 返点开始
+      endDate: "", // 返点结束
+      value1: "",
+      value2: "",
+      ACCOUNT: "",
+      LOTTERY_TYPE: "",
+      account: "", //查询的账号
+      page: 1
+    };
+  },
+  filters: {
+    type(a) {
+      return a == "38" ? "竞彩足球" : "竞彩篮球";
+    }
+  },
 
-	},
-
-	computed: {
-		// memberfilter: function () {
-		// 	if (this.username == "") {
-		// 		this.pageShow = true;
-		// 	} else {
-		// 		this.pageShow = false;
-		// 	}
-		// 	return this.tableData.filter(name => {
-		// 		return name.ACCOUNT.match(this.username);
-		// 	});
-		// }
-		// tableDatalayer() {
-		// 	return this.tableData3.filter(name => {
-		// 		return name.ACCOUNT.match(this.sjname)
-		// 	})
-		// }
-	},
-	created() {
-		this.getTable();
-	},
-	methods: {
-        //查询
-        search() {
-			if (!this.account && !this.username) {
-                // this.$message("请输入您要查询的账号或昵称！")
-                this.page = 1
-                this.getTable()
-			} else {
-                if(this.account == ''){
-                    this.getAccount()
-                }else{
-                    this.page = 1
-                    this.getTable()
-                }
-			}
-        },
-        //用昵称查询账号
-        getAccount(){
-            let obj = {
-                username: this.username
-            }
-            findAllMember(obj).then(res => {
-                this.account = res.data.data.list[0].ACCOUNT
-                this.page = 1
-                this.getTable()
-            })
-        },
-		handleChange(val) {
-        },
-        //   获取所有会员列表
-		getTable() {
-            let obj = {
-               page: this.page,
-               pageSize: 20,
-               account: this.account
-            }
-			findAllRate(obj).then(res => {
-                if(res.data.error_code === 200){
-                    this.tableData = res.data.data.list;
-				    this.total = res.data.data.total;
-                }
-                else{
-                    this.$message.error(res.data.message)
-                }
-			});
-		},
-		handleEdit(obj) {
-			this.tableData3 = [];
-			this.viewFormVisible = true;
-			this.tableData3.push(obj);
-			this.onePeople = obj;
-		},
-		clearForm() {  //  取消按钮
-			this.viewFormVisible = false
-		},
-		submitInfos() {  //  弹窗确认按钮
-			let params = {
-				account: this.onePeople.ACCOUNT,
-				gd_rate: this.gd_rate, // 代购返点
-				hm_rate: 0,  //  合买返点
-				rate_id: this.onePeople.rate_id, //返点id
-				startDate: this.value1 || '', //  返点开始
-				endDate: this.value2 || '', //  返点结束
-				lottery_type: this.onePeople.LOTTERY_TYPE,
-			}
-			if (this.value1 == '' || this.value2 == '') {
-				Message.success('请填写时间')
-				return
-			} else if (this.gd_rate == '') {
-				Message.success('请填写完整信息')
-			} else {
-				updateRateByAccount(params).then(res => {
-					if (res.data.error_code == 200) {
-						Message.success(res.data.message)
-                        this.viewFormVisible = false;
-                        this.getTable()
-					} else {
-						Message.success(res.data.message)
-					}
-				})
-			}
-
-		},
-		deleteRebates(row) {  //  返点删除 按钮
-			this.dialogVisible2 = true
-			this.LOTTERY_TYPE = row.LOTTERY_TYPE
-			this.ACCOUNT = row.ACCOUNT
-
-		},
-		makersure(){
-			let obj = {
-					account: this.ACCOUNT,
-					lottery_type :this.LOTTERY_TYPE
-			}
-			delRateByAccount(obj).then(res => {
-				if(res.data.error_code==200){
-					Message.success(res.data.message)
-					this.dialogVisible2 = false
-				}else {
-					Message.success(res.data.message)
-				}
-			})
-		},
-		// 分页的回调
-		changepage(val) {
-            this.page = val
-			this.getTable();
-		},
-
-	}
+  computed: {
+    // memberfilter: function () {
+    // 	if (this.username == "") {
+    // 		this.pageShow = true;
+    // 	} else {
+    // 		this.pageShow = false;
+    // 	}
+    // 	return this.tableData.filter(name => {
+    // 		return name.ACCOUNT.match(this.username);
+    // 	});
+    // }
+    // tableDatalayer() {
+    // 	return this.tableData3.filter(name => {
+    // 		return name.ACCOUNT.match(this.sjname)
+    // 	})
+    // }
+  },
+  created() {
+    this.getTable();
+  },
+  methods: {
+    //查询
+    search() {
+      if (!this.account && !this.username) {
+        // this.$message("请输入您要查询的账号或昵称！")
+        this.page = 1;
+        this.getTable();
+      } else {
+        if (this.account == "") {
+          this.getAccount();
+        } else {
+          this.page = 1;
+          this.getTable();
+        }
+      }
+    },
+    //用昵称查询账号
+    getAccount() {
+      let obj = {
+        username: this.username
+      };
+      findAllMember(obj).then(res => {
+        this.account = res.data.data.list[0].ACCOUNT;
+        this.page = 1;
+        this.getTable();
+      });
+    },
+    handleChange(val) {},
+    //   获取所有会员列表
+    getTable() {
+      let obj = {
+        page: this.page,
+        pageSize: 20,
+        account: this.account
+      };
+      findAllRate(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.tableData = res.data.data.list;
+          this.total = res.data.data.total;
+        } else {
+          this.$message.error(res.data.message);
+        }
+      });
+    },
+    handleEdit(obj) {
+      this.tableData3 = [];
+      this.viewFormVisible = true;
+      this.tableData3.push(obj);
+      this.onePeople = obj;
+    },
+    clearForm() {
+      //  取消按钮
+      this.viewFormVisible = false;
+    },
+    submitInfos() {
+      //  弹窗确认按钮
+      let params = {
+        account: this.onePeople.ACCOUNT,
+        gd_rate: this.gd_rate, // 代购返点
+        hm_rate: 0, //  合买返点
+        rate_id: this.onePeople.rate_id, //返点id
+        startDate: this.value1 || "", //  返点开始
+        endDate: this.value2 || "", //  返点结束
+        lottery_type: this.onePeople.LOTTERY_TYPE
+      };
+      if (this.value1 == "" || this.value2 == "") {
+        Message.success("请填写时间");
+        return;
+      } else if (this.gd_rate == "") {
+        Message.success("请填写完整信息");
+      } else {
+        updateRateByAccount(params).then(res => {
+          if (res.data.error_code == 200) {
+            Message.success(res.data.message);
+            this.viewFormVisible = false;
+            this.getTable();
+          } else {
+            Message.success(res.data.message);
+          }
+        });
+      }
+    },
+    deleteRebates(row) {
+      //  返点删除 按钮
+      this.dialogVisible2 = true;
+      this.LOTTERY_TYPE = row.LOTTERY_TYPE;
+      this.ACCOUNT = row.ACCOUNT;
+    },
+    makersure() {
+      let obj = {
+        account: this.ACCOUNT,
+        lottery_type: this.LOTTERY_TYPE
+      };
+      delRateByAccount(obj).then(res => {
+        if (res.data.error_code == 200) {
+          Message.success(res.data.message);
+          this.dialogVisible2 = false;
+        } else {
+          Message.success(res.data.message);
+        }
+      });
+    },
+    // 分页的回调
+    changepage(val) {
+      this.page = val;
+      this.getTable();
+    }
+  }
 };
-
 </script>
 
 <style scoped>
