@@ -859,6 +859,7 @@ export default {
     },
     //编辑
     handleEdit(a) {
+      console.log(a);
       this.stime = [];
       this.title = "编辑活动";
       this.dialogVisible = true;

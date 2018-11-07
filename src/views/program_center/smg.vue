@@ -78,12 +78,26 @@
                         </el-table-column>
                         <el-table-column
                             label="操作"
-                            align="center">
+                            align="center"
+                            width="200px;">
                             <template slot-scope="scope">
-                                <el-button type="primary" @click="modify(scope.row,'modify')">修改</el-button>
+                                <el-button type="primary" size="mini" @click="modify(scope.row,'modify')">修改</el-button>
+                                <!-- 展开停开售列表 -->
+                                <el-button type="primary" size="mini" @click="unfold(scope.row)">展开</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
+                    <!-- 开停售展示弹窗 -->
+                    <el-dialog
+                        title="停开售列表"
+                        :visible.sync="dialogVisible"
+                        width="700px">
+                          <div class="grid-content bg-purple">
+                              <el-checkbox-group v-model="checkList" style="margin-left:30px;">
+                                  <el-checkbox  v-for="(name,index) in lables" :key="index" :label="name"></el-checkbox>
+                              </el-checkbox-group>
+                          </div>
+                    </el-dialog>
                 </div>
             </div>
      <el-dialog :visible.sync="dialogFormVisible">
@@ -137,7 +151,21 @@ export default {
         rq: "",
         status: 1,
         id: ""
-      }
+      },
+      checkList: [], //选中的模块
+      dialogVisible: false,
+      lables: [
+        "胜平负",
+        "让球",
+        "比分",
+        "总进球",
+        "半全场",
+        "单关胜平负",
+        "单关让球",
+        "单关比分",
+        "单关总进球",
+        "单关半全场"
+      ]
     };
   },
   created() {
@@ -173,6 +201,15 @@ export default {
     }
   },
   methods: {
+    //点击展示开停售列表
+    unfold(a) {
+      this.dialogVisible = true;
+      for (var i = 0; i < a.selectStatus.length; i++) {
+        if (a.selectStatus[i] === true) {
+          this.checkList.push(this.lables[i]);
+        }
+      }
+    },
     changeTime(a) {
       if (a != null) {
         let date = new Date(a);

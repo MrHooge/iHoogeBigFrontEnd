@@ -61,6 +61,9 @@
 		           :visible.sync="dialogVisible"
 		           width="40%">
 			<div>
+				<el-input v-model="accountName"
+				          placeholder="请输入昵称查询用户名" clearable style="width:80%;margin-bottom:20px;"></el-input>
+						  <el-button type="primary" @click="searchAccount">查询</el-button>
 				<el-input v-model="input"
 				          placeholder="请输入转入用户名" clearable></el-input>
                 <span>注：不是输入昵称！</span>
@@ -76,140 +79,148 @@
 </template>
 
 <script>
-import { getSubordinateMember, moveMember } from '@/api/sys_user'
-import { findAllMember} from '@/api/customer'
-import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message } from 'element-ui'
-import treeTable from '@/components/TreeTable'
-import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import { getSubordinateMember, moveMember } from "@/api/sys_user";
+import { findAllMember } from "@/api/customer";
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message } from "element-ui";
+import treeTable from "@/components/TreeTable";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
-	data() {
-		return {
-			pageShow: false, //  分页
-			input: '', //  转移后
-			dialogVisible: false, //确认弹框
-			isShow: false,
-			sjname: '', //  搜索名
-			total: 0, //总页数
-			tableData: [], //表格数据
-			multipleSelection: [], //选中的数据
-            number: [],
-            username: '',   //搜索的昵称
-            page: 1,
-			
+  data() {
+    return {
+      pageShow: false, //  分页
+      input: "", //  转移后
+      dialogVisible: false, //确认弹框
+      isShow: false,
+      sjname: "", //  搜索名
+      total: 0, //总页数
+      tableData: [], //表格数据
+      multipleSelection: [], //选中的数据
+      number: [],
+      username: "", //搜索的昵称
+      page: 1,
+      accountName: "" //昵称查询账号
+    };
+  },
+  created() {
+    // this.getData()
+    if (this.$route.query.account) {
+      this.sjname = this.$route.query.account;
+      this.search();
+    }
+  },
 
-		}
-	},
-	created(){
-        // this.getData()
-        if(this.$route.query.account){
-            this.sjname = this.$route.query.account
-            this.search()
+  methods: {
+    //用昵称查询账号
+    searchAccount() {
+      let obj = {
+        username: this.accountName
+      };
+      findAllMember(obj).then(res => {
+        this.input = res.data.data.list[0].ACCOUNT;
+      });
+    },
+    search() {
+      if (!this.sjname && !this.username) {
+        this.getData();
+      } else {
+        if (this.sjname === "") {
+          this.getAccount();
+        } else {
+          this.page = 1;
+          this.getUsername();
+          this.getData();
         }
-	},
+      }
+    },
+    //用昵称查询账号
+    getAccount() {
+      let obj = {
+        username: this.username
+      };
+      findAllMember(obj).then(res => {
+        this.sjname = res.data.data.list[0].ACCOUNT;
+        this.page = 1;
+        this.getUsername();
+        this.getData();
+      });
+    },
+    //用账号查询昵称
+    getUsername() {
+      if (this.sjname != "") {
+        let obj = {
+          account: this.sjname
+        };
+        findAllMember(obj).then(res => {
+          this.username = res.data.data.list[0].username;
+        });
+      }
+    },
+    getData() {
+      let obj = {
+        account: this.sjname,
+        page: this.page,
+        pageSize: 20
+      };
+      getSubordinateMember(obj).then(res => {
+        if (res.data.error_code === 200) {
+          this.tableData = res.data.data.list;
+          this.total = res.data.data.total;
+          this.pageShow = true;
+        } else {
+          this.pageShow = false;
+          Message.success(res.data.message);
+          this.tableData = [];
+        }
+      });
+    },
 
-	methods: {
-        search() {
-            if (!this.sjname && !this.username) {
-                this.getData();
-            } else {
-                if(this.sjname === ''){
-                    this.getAccount()
-                }else{
-                    this.page = 1
-                    this.getUsername()
-                    this.getData()
-                }
-            }
-        },
-        //用昵称查询账号
-        getAccount(){
-            let obj = {
-                username: this.username
-            }
-            findAllMember(obj).then(res => {
-                this.sjname = res.data.data.list[0].ACCOUNT
-                this.page = 1
-                this.getUsername()
-                this.getData()
-            })
-        },
-        //用账号查询昵称
-        getUsername(){
-            if(this.sjname != ''){
-                let obj = {
-                    account: this.sjname
-                }
-                findAllMember(obj).then(res => {
-                    this.username = res.data.data.list[0].username
-                })
-            }
-        },
-		getData() {
-			let obj = {
-				account: this.sjname,
-				page: this.page,
-				pageSize: 20
-			}
-			getSubordinateMember(obj).then(res => {
-				if (res.data.error_code === 200) {
-					this.tableData = res.data.data.list
-					this.total = res.data.data.total
-					this.pageShow = true
-				} else {
-					this.pageShow = false
-					Message.success(res.data.message)
-                    this.tableData = []
-				}
-			})
-		},
+    // 选择框的回调
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      if (val.length > 0) {
+        this.isShow = true;
+      } else {
+        this.isShow = false;
+      }
+    },
+    cofirm() {
+      this.number = [];
+      this.multipleSelection.forEach(e => {
+        //  循环 选中数据  添加选中ID 放入 新数组中
+        return this.number.push(e.id);
+      });
 
-		// 选择框的回调
-		handleSelectionChange(val) {
-			this.multipleSelection = val
-			if (val.length > 0) {
-				this.isShow = true
+      this.num = this.number.join(",");
+      this.dialogVisible = true;
+    },
+    makersure() {
+      let oldAccount = this.sjname;
+      let newAccount = this.input;
+      let moveMemberId = this.num;
+      if (this.input == "") {
+        Message.success("请输入用户名");
+      } else {
+        moveMember(oldAccount, newAccount, moveMemberId).then(res => {
+          if ((res.data.error_code = 200)) {
+            Message.success(res.data.message);
+            this.dialogVisible = false;
+            // this.input = ''
+            this.getData();
+          } else {
+            Message.success(res.data.message);
+          }
+        });
+      }
+    },
 
-			} else {
-				this.isShow = false
-			}
-
-		},
-		cofirm() {
-			this.number = []
-			this.multipleSelection.forEach(e => {  //  循环 选中数据  添加选中ID 放入 新数组中
-				return this.number.push(e.id)
-			});
-
-			this.num=this.number.join(',');
-			this.dialogVisible = true
-		},
-		makersure() {
-			let oldAccount = this.sjname
-			let newAccount = this.input
-			let moveMemberId = this.num
-			if (this.input == '') {
-				Message.success('请输入用户名')
-			} else {
-				moveMember(oldAccount, newAccount, moveMemberId).then(res => {
-					if(res.data.error_code = 200){
-						Message.success(res.data.message)
-						this.dialogVisible = false
-                        // this.input = ''
-                        this.getData()
-					}else {
-						Message.success(res.data.message)
-					}
-				})
-			}
-		},
-
-        changepage(val) {  //  分页回调
-            this.page = val
-			this.getData()
-		}
-	}
-}
+    changepage(val) {
+      //  分页回调
+      this.page = val;
+      this.getData();
+    }
+  }
+};
 </script>
 
 <style scoped>

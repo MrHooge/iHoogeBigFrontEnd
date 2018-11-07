@@ -270,15 +270,15 @@
                         prop="amount"
                         align="center">
                 </el-table-column>  
-                    <el-table-column
+                    <!-- <el-table-column
                         label="中奖状态"
                         align="center">
                         <template slot-scope="scope">
                             {{scope.row.isBingo | isBingo}}
                             </template>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
-                        label="方案状态"
+                        label="中奖状态"
                         align="center">
                         <template slot-scope="scope">
                             {{scope.row.winStatus | white}}
@@ -352,323 +352,312 @@
 </template>
 
 <script>
-import { searchTicket } from '@/api/ticket'
-import { mapActions } from 'vuex'
+import { searchTicket } from "@/api/ticket";
+import { mapActions } from "vuex";
 export default {
-    data(){
-        return{
-            // whole:'',
-            // wholeget:'',
-            tableData:[],
-            provider:''||null,
-            term:''||null,
-            id:''||null,
-            planNo:''||null,
-            playType:''||null,
-            isBingo:''||null,
-            status:''||null,
-            createDateTimeStart:''||null,
-            createDateTimeEnd:''||null,
-            printDateTimeStart:''||null,
-            printDateTimeEnd:''||null,
-            sendTicketDateTimeStart:''||null,
-            sendTicketDateTimeEnd:''||null,
-            startTerm:''||null,
-            endTerm:''||null,
-            page:1,
-            pageSize:20,
-            type:''||null,
-            totalList: 0,
+  data() {
+    return {
+      // whole:'',
+      // wholeget:'',
+      tableData: [],
+      provider: "" || null,
+      term: "" || null,
+      id: "" || null,
+      planNo: "" || null,
+      playType: "" || null,
+      isBingo: "" || null,
+      status: "" || null,
+      createDateTimeStart: "" || null,
+      createDateTimeEnd: "" || null,
+      printDateTimeStart: "" || null,
+      printDateTimeEnd: "" || null,
+      sendTicketDateTimeStart: "" || null,
+      sendTicketDateTimeEnd: "" || null,
+      startTerm: "" || null,
+      endTerm: "" || null,
+      page: 1,
+      pageSize: 20,
+      type: "" || null,
+      totalList: 0,
 
-            options: [{
-            value: '-1',
-            label: '全部'
-            }, {
-            value: '0',
-            label: '中奖'
-            }, {
-            value: '1',
-            label: '未中奖'
-            }],
+      options: [
+        {
+          value: "-1",
+          label: "全部"
+        },
+        {
+          value: "0",
+          label: "中奖"
+        },
+        {
+          value: "1",
+          label: "未中奖"
+        }
+      ],
 
-            
-            options01: [{
-            value: '-1',
-            label: '全部'
-            }, {
-            value: '1',
-            label: '未送票'
-            }, {
-            value: '3',
-            label: '未确认'
-            }, {
-            value: '4',
-            label: '出票成功'
-            }, {
-            value: '5',
-            label: '出票失败'
-            }],
+      options01: [
+        {
+          value: "-1",
+          label: "全部"
+        },
+        {
+          value: "1",
+          label: "未送票"
+        },
+        {
+          value: "3",
+          label: "未确认"
+        },
+        {
+          value: "4",
+          label: "出票成功"
+        },
+        {
+          value: "5",
+          label: "出票失败"
         }
+      ]
+    };
+  },
+  filters: {
+    type(a) {
+      if (a != null) {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
     },
-    filters:{
-         type(a){
-             if(a != null){
-                 let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-             }
-        },
-        changeType(b){
-            if(b === 30){
-                return '竞彩篮球胜负'
-            }
-            else if(b === 31){
-                return '竞彩篮球让分胜负'
-            }
-            else if(b === 32){
-                return '竞彩篮球胜分差'
-            }
-            else if(b === 33){
-                return '竞彩篮球大小分'
-            }
-            else if(b === 34){
-                return '竞彩足球让球胜平负'
-            }
-            else if(b === 35){
-                return '竞彩足球比分'
-            }
-            else if(b === 36){
-                return '竞彩足球进球数'
-            }
-            else if(b === 37){
-                return '竞彩足球半全场'
-            }
-            else if(b === 41){
-                return '竞彩足球胜平负'
-            }
-            else if(b === 42){
-                return '竞彩足球混合过关'
-            }
-            else if(b === 43){
-                return '竞彩篮球混合过关'
-            }
-            else if(b === 49){
-                return '竞彩足球胜平负/让球'
-            }
-            else if(b === 303){
-                return '竞彩足球单关投注'
-            }
-            else if(b === 304){
-                return '竞彩篮球单关投注'
-            }
-        },
-        come(a){
-            if(a == -1){
-                return "全部"
-            }else{
-                return "其他"
-            }
-        },
-        isBingo(isBingo){
-            return isBingo === 1 ? '未中奖' : '已中奖'
-        },
-        white(status){
-            if(status === 1){
-                return "未开奖"
-            }
-            else if(status === 2){
-                return "未中奖"
-            }
-            else if(status === 3){
-                return "已中奖"
-            }
-            else if(status === 4){
-                return "已派奖"
-            }
-            else if(status === 5){
-                return "部分未中"
-            }
-            else if(status === 6){
-                return "部分已中"
-            }
-            else if(status === 7){
-                return "部分派奖"
-            }
-            else if(status === 11){
-                return "已退款"
-            }
-        },
-        use(studio){
-            if(studio == 1){
-                return "未送票"
-            }else if(studio == 3){
-                return "未确认"
-            }else if(studio == 4){
-                return "出票成功"
-            }else if(studio == 5){
-                return "出票失败"
-            }
-        }
+    changeType(b) {
+      if (b === 30) {
+        return "竞彩篮球胜负";
+      } else if (b === 31) {
+        return "竞彩篮球让分胜负";
+      } else if (b === 32) {
+        return "竞彩篮球胜分差";
+      } else if (b === 33) {
+        return "竞彩篮球大小分";
+      } else if (b === 34) {
+        return "竞彩足球让球胜平负";
+      } else if (b === 35) {
+        return "竞彩足球比分";
+      } else if (b === 36) {
+        return "竞彩足球进球数";
+      } else if (b === 37) {
+        return "竞彩足球半全场";
+      } else if (b === 41) {
+        return "竞彩足球胜平负";
+      } else if (b === 42) {
+        return "竞彩足球混合过关";
+      } else if (b === 43) {
+        return "竞彩篮球混合过关";
+      } else if (b === 49) {
+        return "竞彩足球胜平负/让球";
+      } else if (b === 303) {
+        return "竞彩足球单关投注";
+      } else if (b === 304) {
+        return "竞彩篮球单关投注";
+      }
     },
-    created(){
-        this.gettable()
+    come(a) {
+      if (a == -1) {
+        return "全部";
+      } else {
+        return "其他";
+      }
     },
-    methods:{
-        // ...mapActions({
-        //         openprize: 'Sendtime'
-        //     }),
-        openprize(){
-            this.page = 1
-            this.gettable()
-        },
-            //查询操作openprize
-        gettable(){
-            if(this.playType === '自由过关'){
-                this.playType = 116
-            }else if(this.playType === '单关'){
-                this.playType = 117
-            }else if(this.playType === '2串1'){
-                this.playType = 118
-            }else if(this.playType === '3串1'){
-                this.playType = 119
-            }else if(this.playType === '4串1'){
-                this.playType = 120
-            }else if(this.playType === '5串1'){
-                this.playType = 121
-            }else if(this.playType === '6串1'){
-                this.playType = 122
-            }else if(this.playType === '7串1'){
-                this.playType = 123
-            }else if(this.playType === '8串1'){
-                this.playType = 124
-            }else if(this.playType === '前二2串1'){
-                this.playType = 125
-            }else if(this.playType === '单挑王'){
-                this.playType = 126
-            }
-            let obj = {
-                provider:this.provider,//提供商
-                term:this.term,//彩期
-                id:this.id,//票号
-                planNo:this.planNo,//方案编号
-                playType:this.playType,//玩法
-                isBingo:this.isBingo,//中奖状态
-                status:this.status,//出票状态
-                createDateTimeStart:this.createDateTimeStart || '',//生成票时间开始
-                createDateTimeEnd:this.createDateTimeEnd || '',//生成票时间结束
-                printDateTimeStart:this.printDateTimeStart || '',//打印票时间开始
-                printDateTimeEnd:this.printDateTimeEnd || '',//打印票时间结束
-                sendTicketDateTimeStart:this.sendTicketDateTimeStart || '',//送票时间开始
-                sendTicketDateTimeEnd:this.sendTicketDateTimeEnd || '',//送票时间结束
-                startTerm:this.startTerm || '',//彩期开始
-                endTerm:this.endTerm || '',//彩期结束
-                offset:this.page,//页数
-                pageSize:this.pageSize,
-                type: this.type
-            }
-            searchTicket(obj).then(res => {
-                console.log(res)
-                if(res.data.error_code === 200){
-                    this.tableData = res.data.data;
-                    // this.whole = res.data.amount;
-                    // this.wholeget = res.data.bingoAmount
-                    this.totalList = res.data.count
-                }
-            })
-        //    this.$store.dispatch('Sendtime',obj);
-        //    console.log(this.$store.getters)
-            //this.$router.push({ path: '/ticketingCenter/ticketlist' })
-        }, 
-        //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.gettable()
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.gettable()
-        },
+    isBingo(isBingo) {
+      return isBingo === 1 ? "未中奖" : "已中奖";
+    },
+    white(status) {
+      if (status === 1) {
+        return "未开奖";
+      } else if (status === 2) {
+        return "未中奖";
+      } else if (status === 3) {
+        return "已中奖";
+      } else if (status === 4) {
+        return "已派奖";
+      } else if (status === 5) {
+        return "部分未中";
+      } else if (status === 6) {
+        return "部分已中";
+      } else if (status === 7) {
+        return "部分派奖";
+      } else if (status === 11) {
+        return "已退款";
+      }
+    },
+    use(studio) {
+      if (studio == 1) {
+        return "未送票";
+      } else if (studio == 3) {
+        return "未确认";
+      } else if (studio == 4) {
+        return "出票成功";
+      } else if (studio == 5) {
+        return "出票失败";
+      }
     }
-}
+  },
+  created() {
+    this.gettable();
+  },
+  methods: {
+    // ...mapActions({
+    //         openprize: 'Sendtime'
+    //     }),
+    openprize() {
+      this.page = 1;
+      this.gettable();
+    },
+    //查询操作openprize
+    gettable() {
+      if (this.playType === "自由过关") {
+        this.playType = 116;
+      } else if (this.playType === "单关") {
+        this.playType = 117;
+      } else if (this.playType === "2串1") {
+        this.playType = 118;
+      } else if (this.playType === "3串1") {
+        this.playType = 119;
+      } else if (this.playType === "4串1") {
+        this.playType = 120;
+      } else if (this.playType === "5串1") {
+        this.playType = 121;
+      } else if (this.playType === "6串1") {
+        this.playType = 122;
+      } else if (this.playType === "7串1") {
+        this.playType = 123;
+      } else if (this.playType === "8串1") {
+        this.playType = 124;
+      } else if (this.playType === "前二2串1") {
+        this.playType = 125;
+      } else if (this.playType === "单挑王") {
+        this.playType = 126;
+      }
+      let obj = {
+        provider: this.provider, //提供商
+        term: this.term, //彩期
+        id: this.id, //票号
+        planNo: this.planNo, //方案编号
+        playType: this.playType, //玩法
+        isBingo: this.isBingo, //中奖状态
+        status: this.status, //出票状态
+        createDateTimeStart: this.createDateTimeStart || "", //生成票时间开始
+        createDateTimeEnd: this.createDateTimeEnd || "", //生成票时间结束
+        printDateTimeStart: this.printDateTimeStart || "", //打印票时间开始
+        printDateTimeEnd: this.printDateTimeEnd || "", //打印票时间结束
+        sendTicketDateTimeStart: this.sendTicketDateTimeStart || "", //送票时间开始
+        sendTicketDateTimeEnd: this.sendTicketDateTimeEnd || "", //送票时间结束
+        startTerm: this.startTerm || "", //彩期开始
+        endTerm: this.endTerm || "", //彩期结束
+        offset: this.page, //页数
+        pageSize: this.pageSize,
+        type: this.type
+      };
+      searchTicket(obj).then(res => {
+        console.log(res);
+        if (res.data.error_code === 200) {
+          this.tableData = res.data.data;
+          // this.whole = res.data.amount;
+          // this.wholeget = res.data.bingoAmount
+          this.totalList = res.data.count;
+        }
+      });
+      //    this.$store.dispatch('Sendtime',obj);
+      //    console.log(this.$store.getters)
+      //this.$router.push({ path: '/ticketingCenter/ticketlist' })
+    },
+    //翻页
+    handleCurrentChange(num) {
+      this.page = num;
+      this.gettable();
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      this.gettable();
+    }
+  }
+};
 </script>
 
 <style scoped>
-.el-select{
-    width: 120px;
+.el-select {
+  width: 120px;
 }
-.search-top{
-    margin-left:100px
+.search-top {
+  margin-left: 100px;
 }
-.ticket{
-    padding: 10px 20px
+.ticket {
+  padding: 10px 20px;
 }
-.left{
-    float: left;
+.left {
+  float: left;
 }
-.right{
-    float: left;
-    width: 1000px
+.right {
+  float: left;
+  width: 1000px;
 }
-.eleven{
-    width: 380px;
-    height: 300px;
-    margin-right: 15px;
-    margin-left: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
-    padding: 3px;
-    overflow: scroll;
+.eleven {
+  width: 380px;
+  height: 300px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
+  padding: 3px;
+  overflow: scroll;
 }
-.three{
-     width: 380px;
-    height: 230px;
-    margin-right: 15px;
-    margin-left: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
-    padding: 3px;
+.three {
+  width: 380px;
+  height: 230px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
+  padding: 3px;
 }
-.ten{
-     width: 280px;
-    height: 150px;
-    margin-right: 15px;
-    margin-left: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
-    padding: 3px;
+.ten {
+  width: 280px;
+  height: 150px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
+  padding: 3px;
 }
-.pecai{
-    width: 500px;
-    height: 150px;
-    margin-right: 15px;
-    margin-left: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
-    padding: 3px;
+.pecai {
+  width: 500px;
+  height: 150px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
+  padding: 3px;
 }
-.everytime{
-    width: 200px;
-    height: 130px;
-    margin-right: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
+.everytime {
+  width: 200px;
+  height: 130px;
+  margin-right: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
 }
-.happy{
-    width: 200px;
-    height: 130px;
-    margin-right: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
+.happy {
+  width: 200px;
+  height: 130px;
+  margin-right: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
 }
 </style>

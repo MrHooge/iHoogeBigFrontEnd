@@ -66,9 +66,6 @@
     <!-- 添加用户 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="操作人" :label-width="formLabelWidth" v-show="ishaveOperator">
-          <el-input v-model="operator" auto-complete="off" clearable></el-input>
-        </el-form-item>
         <el-form-item label="账号" :label-width="formLabelWidth">
           <el-input v-model="form.account" auto-complete="off" clearable></el-input>
         </el-form-item>
@@ -119,8 +116,6 @@ export default {
         role_id: "",
         status: ""
       },
-      ishaveOperator: false, //添加时不显示操作人 修改时显示
-      operator: "", //操作人
       formLabelWidth: "120px",
       page: 1,
       pageSize: 20,
@@ -168,7 +163,6 @@ export default {
     // 显示弹窗
     showDailag(data, type) {
       if (type === "modify") {
-        this.ishaveOperator = true;
         this.dialogTitle = "修改用户信息";
         this.dialogType = "modify";
         this.form.account = data.ACCOUNT;
@@ -180,7 +174,6 @@ export default {
         }
         this.dialogType = type;
       } else {
-        this.ishaveOperator = false;
         this.dialogTitle = "添加用户";
         this.dialogType = "add";
         this.form = {};
@@ -217,7 +210,7 @@ export default {
       }
       if (this.dialogType === "modify") {
         let obj = {
-          operator: this.operator, //操作人
+          operator: this.$store.state.user.name, //操作人
           account: this.form.account,
           name: this.form.name,
           password: this.form.password,

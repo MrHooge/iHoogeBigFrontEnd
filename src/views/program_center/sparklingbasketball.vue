@@ -62,11 +62,6 @@
             align="center">
             </el-table-column>
             <el-table-column
-            prop="selectStatus"
-            label="单关/过关停开售状态"
-            align="center">
-            </el-table-column>
-            <el-table-column
             label="状态"
             align="center">
                 <template slot-scope="scope">
@@ -77,10 +72,23 @@
             label="操作"
             align="center">
                 <template slot-scope="scope">
-                <el-button type="primary" @click="modify(scope.row)">修改</el-button>
+                <el-button type="primary" size="mini" @click="modify(scope.row)">修改</el-button>
+                <!-- 展开停开售列表 -->
+                <el-button type="primary" size="mini" @click="unfold(scope.row)">展开</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <!-- 开停售展示弹窗 -->
+        <el-dialog
+            title="停开售列表"
+            :visible.sync="dialogVisible"
+            width="700px">
+              <div class="grid-content bg-purple">
+                  <el-checkbox-group v-model="checkList" style="margin-left:30px;">
+                      <el-checkbox  v-for="(name,index) in lables" :key="index" :label="name"></el-checkbox>
+                  </el-checkbox-group>
+              </div>
+        </el-dialog>
         <!-- 弹框 -->
         <el-dialog :visible.sync="dialogFormVisible">
             <el-form :model="form">
@@ -133,7 +141,19 @@ export default {
         rf: "",
         status: "",
         id: ""
-      }
+      },
+      checkList: [], //选中的模块
+      dialogVisible: false,
+      lables: [
+        "单关胜负",
+        "过关胜负",
+        "单关让分胜负",
+        "过关让分胜负",
+        "单关胜分差",
+        "过关胜分差",
+        "单关大小分",
+        "过关大小分"
+      ]
     };
   },
   filters: {
@@ -168,6 +188,15 @@ export default {
     this.gettable();
   },
   methods: {
+    //点击展示开停售列表
+    unfold(a) {
+      this.dialogVisible = true;
+      for (var i = 0; i < a.selectStatus.length; i++) {
+        if (a.selectStatus[i] === true) {
+          this.checkList.push(this.lables[i]);
+        }
+      }
+    },
     changeTime(a) {
       if (a != null) {
         let date = new Date(a);
