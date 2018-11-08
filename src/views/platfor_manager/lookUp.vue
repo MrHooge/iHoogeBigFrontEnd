@@ -64,6 +64,11 @@
 								align="center">
 				<template slot-scope="scope">{{ scope.row.ACCOUNT }}</template>
 			</el-table-column>
+			<el-table-column label="上级用户名"
+								prop="upName"
+								align="center">
+				<!-- <template slot-scope="scope">{{ scope.row.ACCOUNT }}</template> -->
+			</el-table-column>
 		</el-table>
 		<!-- 弹窗事件 -->
 		<el-dialog title="给渠道绑代理"
@@ -228,16 +233,16 @@ export default {
     //翻页
     handleCurrentChange(num) {
       this.page = num;
-      this.getTable(this.page);
+      this.getTable();
     },
     //改变页面大小
     handleSizeChange(num) {
       this.pageSize = num;
-      this.getTable(this.page);
+      this.getTable();
     },
-    getTable(a) {
+    getTable() {
       let obj = {
-        page: a,
+        page: this.page,
         pageSize: 1000,
         account: this.account
       };
@@ -276,6 +281,7 @@ export default {
           if (res.data.error_code == 200) {
             Message.success(res.data.message);
             this.dialogVisible = false;
+            this.getTable();
           } else {
             Message.success(res.data.message);
           }
