@@ -4,42 +4,6 @@
         <el-input v-model="name" placeholder="请输入昵称查询" style="width:15%;" clearable></el-input>
 		<el-button type="primary" @click="inquire" style="margin-left:100px;margin-bottom:40px;margin-top:40px">查询</el-button>
 		<el-button type="primary" @click="bind" style="margin-left:100px;margin-bottom:40px;margin-top:40px">绑定渠道</el-button>
-		<!-- <el-table :data="memberfilter"
-		          border
-		          style="width: 100%">
-			<el-table-column label="编号"
-			                 align="center"
-			                 type="index"
-			                 width="180">
-			</el-table-column>
-			<el-table-column prop="username"
-			                 align="center"
-			                 label="昵称">
-			</el-table-column>
-			<el-table-column prop="NAME"
-			                 align="center"
-			                 label="姓名">
-			</el-table-column>
-			<el-table-column label="类型"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.AGENT_TYPE | type}}
-				</template>
-			</el-table-column>
-			<el-table-column prop="ACCOUNT"
-			                 align="center"
-			                 label="用户名">
-			</el-table-column>
-			<el-table-column align="center"
-			                 width="240px;"
-			                 label="操作">
-
-				<template slot-scope="scope">
-					<el-button type="primary"
-					           @click="handleEdit(scope.row, 'modify')">绑定代理</el-button>
-				</template>
-			</el-table-column>
-		</el-table> -->
 		<el-table ref="multipleTable"
 					:data="tableDatalayer"
 					border
@@ -57,17 +21,14 @@
 			<el-table-column label="昵称"
 								prop="username"
 								align="center">
-				<template slot-scope="scope">{{ scope.row.username }}</template>
 			</el-table-column>
 			<el-table-column label="用户名"
 								prop="ACCOUNT"
 								align="center">
-				<template slot-scope="scope">{{ scope.row.ACCOUNT }}</template>
 			</el-table-column>
 			<el-table-column label="上级用户名"
 								prop="upName"
 								align="center">
-				<!-- <template slot-scope="scope">{{ scope.row.ACCOUNT }}</template> -->
 			</el-table-column>
 		</el-table>
 		<!-- 弹窗事件 -->
@@ -75,79 +36,43 @@
 		           :visible.sync="dialogVisible"
 		           width="70%">
 			<div class="layerbody">
-				<div style="width：300px; padding: 10px;">
-					<el-input v-model="sjname"
-					          placeholder="请输入用户名进行查询" clearable></el-input>
-				</div>
-				<!-- <el-table ref="multipleTable"
-				          :data="tableDatalayer"
-				          border
-				          tooltip-effect="dark"
-				          style="width: 100%"
-				          @selection-change="handleSelectionChange">
-					<el-table-column type="selection"
-					                 align="center">
+				<el-table :data="memberfilter"
+								border
+								style="width: 100%">
+					<el-table-column label="编号"
+									align="center"
+									type="index"
+									width="180">
+					</el-table-column>
+					<el-table-column prop="username"
+									align="center"
+									label="昵称">
+					</el-table-column>
+					<el-table-column prop="NAME"
+									align="center"
+									label="姓名">
 					</el-table-column>
 					<el-table-column label="类型"
-					                 prop="AGENT_TYPE"
-					                 align="center">
-						<template slot-scope="scope">{{ scope.row.AGENT_TYPE |type }}</template>
+									align="center">
+						<template slot-scope="scope">
+							{{ scope.row.AGENT_TYPE | type}}
+						</template>
 					</el-table-column>
-					<el-table-column label="用户名"
-					                 prop="ACCOUNT"
-					                 align="center">
-						<template slot-scope="scope">{{ scope.row.ACCOUNT }}</template>
+					<el-table-column prop="ACCOUNT"
+									align="center"
+									label="用户名">
 					</el-table-column>
-					<el-table-column label="昵称"
-					                 prop="username"
-					                 align="center">
-						<template slot-scope="scope">{{ scope.row.username }}</template>
-					</el-table-column>
-				</el-table> -->
-				<el-table :data="memberfilter"
-		          border
-		          style="width: 100%">
-				<el-table-column label="编号"
-								align="center"
-								type="index"
-								width="180">
-				</el-table-column>
-				<el-table-column prop="username"
-								align="center"
-								label="昵称">
-				</el-table-column>
-				<el-table-column prop="NAME"
-								align="center"
-								label="姓名">
-				</el-table-column>
-				<el-table-column label="类型"
-								align="center">
-					<template slot-scope="scope">
-						{{ scope.row.AGENT_TYPE | type}}
-					</template>
-				</el-table-column>
-				<el-table-column prop="ACCOUNT"
-								align="center"
-								label="用户名">
-				</el-table-column>
-				<el-table-column align="center"
-								width="240px;"
-								label="操作">
+					<el-table-column align="center"
+									width="240px;"
+									label="操作">
 
-					<template slot-scope="scope">
-						<el-button type="primary"
-								@click="handleEdit(scope.row, 'modify')">绑定代理</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-				
+						<template slot-scope="scope">
+							<el-button type="primary"
+									@click="handleEdit(scope.row, 'modify')">绑定渠道</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
 			</div>
-			<!-- <span slot="footer"
-			      class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary"
-				           @click="cofirm">确 定</el-button>
-			</span> -->
 		</el-dialog>
 	</div>
 </template>
@@ -196,8 +121,15 @@ export default {
     this.getTable();
   },
   methods: {
+    //把代理绑定渠道
     bind() {
-      this.dialogVisible = true;
+      if (this.multipleSelection && this.multipleSelection.length > 0) {
+        this.dialogVisible = true;
+        this.account = "";
+        this.getTable();
+      } else {
+        this.$message("请至少选择一个!");
+      }
     },
     newVal() {
       if (this.account == "") {
@@ -213,7 +145,6 @@ export default {
           this.getAccount();
         } else {
           this.page = 1;
-          // this.getUsername()
           this.getTable();
         }
       }
@@ -259,7 +190,7 @@ export default {
         });
       });
     },
-    //  给渠道绑定代理
+    //  给代理绑定渠道
     handleEdit(a) {
       //   this.dialogVisible = true;
       this.onePeople = a;

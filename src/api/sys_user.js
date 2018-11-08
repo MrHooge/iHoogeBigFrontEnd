@@ -244,7 +244,7 @@ export function setMemberToAgent(params) {
     params: params
   })
 }
-//  给渠道绑定代理
+//  给代理绑定渠道
 export function addAgency(params) {
   return request.member({
     url: '/user/addAgentToQD',
