@@ -2,7 +2,7 @@
     <div class="effectiveagent">
 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
   <el-form-item label="账号" prop="name">
-    <el-input v-model="ruleForm.name" class="input_width"></el-input>
+    <el-input v-model="ruleForm.name" class="input_width" clearable></el-input>
   </el-form-item>
   <el-form-item label="标签" prop="type">
     <el-checkbox-group v-model="ruleForm.type">
@@ -21,15 +21,14 @@
 </template>
 
 <script>
-
-import { addLabel } from "@/api/personal_review.js"
+import { addLabel } from "@/api/personal_review.js";
 
 export default {
   data() {
     return {
       ruleForm: {
         name: "",
-        type: [],
+        type: []
       },
       rules: {
         name: [
@@ -43,7 +42,7 @@ export default {
             message: "请至少选择一个标签",
             trigger: "change"
           }
-        ],
+        ]
       }
     };
   },
@@ -52,16 +51,17 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let obj = {
-            account:this.ruleForm.name,
-            label:this.ruleForm.type.join(',')
-          }
-          addLabel(obj).then(res=>{
-            if(res.data.error_code==200){
-              this.$message(res.data.message)
-            }else{
-              this.$message(res.data.message)
+            account: this.ruleForm.name,
+            label: this.ruleForm.type.join(",")
+          };
+          addLabel(obj).then(res => {
+            if (res.data.error_code == 200) {
+              this.$message.success(res.data.message);
+              this.resetForm("ruleForm");
+            } else {
+              this.$message.error(res.data.message);
             }
-          })
+          });
         } else {
           return false;
         }
@@ -78,7 +78,7 @@ export default {
 .effectiveagent {
   padding: 10px 25px;
 }
-.input_width{
-  width:220px;
+.input_width {
+  width: 220px;
 }
 </style>
