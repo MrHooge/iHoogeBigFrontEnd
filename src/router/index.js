@@ -1084,6 +1084,12 @@ export const constantRouterMap = [
         component: () => import("@/views/Information_app/questions_answers.vue"),
         meta: { title: "问答审核" }
       },
+      {
+        path: "commissionScale",
+        name: "抽成比例",
+        component: () => import("@/views/Information_app/commissionScale.vue"),
+        meta: { title: "抽成比例" }
+      },
     ]
   },
   { path: "*", redirect: "/404", hidden: true }

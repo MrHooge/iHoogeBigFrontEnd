@@ -288,3 +288,19 @@ export function shQuestionById(obj) {
     params: obj
   });
 }
+//查询抽成比例
+export function getProportion(obj) {
+  return request.member({
+    url: url + "/memberManage/getProportion",
+    method: "get",
+    params: obj
+  });
+}
+//修改抽成比例
+export function modifyProportion(obj) {
+  return request.member({
+    url: url + "/memberManage/modifyProportion",
+    method: "get",
+    params: obj
+  });
+}
