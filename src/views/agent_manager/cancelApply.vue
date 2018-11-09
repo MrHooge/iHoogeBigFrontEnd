@@ -9,18 +9,18 @@
 			          placeholder="请输入昵称进行查询"
 			          style="width:12%;" clearable>
             </el-input>
-			<el-input v-model="realName"
+			      <!-- <el-input v-model="realName"
 			          placeholder="请输入真实姓名进行查询"
 			          style="width:12%;" clearable>
-            </el-input>
-            <el-input v-model="mobile"
+            </el-input> -->
+            <!-- <el-input v-model="mobile"
 			          placeholder="请输入手机号进行查询"
 			          style="width:12%;" clearable>
-            </el-input>
-            <el-input v-model="identifyId"
+            </el-input> -->
+            <!-- <el-input v-model="identifyId"
 			          placeholder="请输入身份证号进行查询"
 			          style="width:12%;" clearable>
-            </el-input>
+            </el-input> -->
             <!-- <el-date-picker
             v-model="stime"
             type="datetime"

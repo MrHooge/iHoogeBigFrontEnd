@@ -115,107 +115,115 @@
 </template>
 
 <script>
-import { getPayMember, getPayMemberByAccount } from '@/api/sys_user'
-import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message } from 'element-ui'
-import treeTable from '@/components/TreeTable'
-import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import { getPayMember, getPayMemberByAccount } from "@/api/sys_user";
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message } from "element-ui";
+import treeTable from "@/components/TreeTable";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 
 export default {
-	data() {
-		return {
-			totalNum: 0, //总页数
-			tableData: [], //存储表格数据
-			dialogVisible: false, //详情的弹窗隐藏
-			datainfor: {}, //单个会员的详细信息
-			input: "" //输入框的值
-		};
-	},
-	filters: {
-		// 过滤返回的类型1  0 的转换
-		sourcetype(a) {
-			if (a == 1) {
-				return "代理";
-			} else if (a == 0) {
-				return "渠道";
-			} else {
-				return "";
-			}
-		},
-		// 过滤返回的类型1  0 的转换
-		type(a) {
-			if (a == 1) {
-				return "代理";
-			} else if (a == 0) {
-				return "渠道";
-			} else {
-				return "普通会员";
-			}
-		}
-	},
-	created() {
-		this.getData(1);
-	},
-	//按名字过滤筛选表格数据
-	computed: {
-		tableDataFilter() {
-			return this.tableData.filter(e => {
-				return e.name.match(this.input)
-			})
-		}
-	},
-	methods: {
-		// 获取所有代理/渠道
-		getData(curr) {
-			let obj = {
-				page: curr,
-				pageSize: 20
-			};
-			getPayMember(obj).then(res => {
-				console.log(res)
-				if (res.status == 200) {
-					this.tableData = res.data.data;
-					this.totalNum = res.data.totalCount;
-				}
-			})
-		},
-		// 查看的回调
-		handleEdit(row) {
-			console.log(row.account);
-			this.getInfor(row.account);
-			this.dialogVisible = true;
-		},
-		// 获取单个会员的详细信息
-		getInfor(account) {
-			let obj = {
-				account: account
-			};
-			getPayMemberByAccount(obj).then(res => {
-				console.log(res)
-				if (res.status == 200) {
-					console.log(res.data.data);
-					this.datainfor = res.data.data;
-				}
-			})
-			// this.$http
-			// 	.get(api.pay + "/xxPay/getPayMemberByAccount", { params: obj })
-			// 	.then(res => {
-			// 		if (res.status == 200) {
-			// 			console.log(res.data.data);
-			// 			this.datainfor = res.data.data;
-			// 		}
-			// 	});
-		},
-		// 删除的回调
-		handleType(row) {
-			this.$router.push({ path: '/recharge_center/greaplist', query: { id: row.id } })
-			console.log(row);
-		},
-		//点击当前分页的回调
-		currentPage(vla) {
-			this.getData(vla)
-		}
-	}
+  data() {
+    return {
+      totalNum: 0, //总页数
+      tableData: [], //存储表格数据
+      dialogVisible: false, //详情的弹窗隐藏
+      datainfor: {}, //单个会员的详细信息
+      input: "" //输入框的值
+    };
+  },
+  filters: {
+    // 过滤返回的类型1  0 的转换
+    sourcetype(a) {
+      if (a == 1) {
+        return "代理";
+      } else if (a == 0) {
+        return "渠道";
+      } else {
+        return "";
+      }
+    },
+    // 过滤返回的类型1  0 的转换
+    type(a) {
+      if (a == 1) {
+        return "代理";
+      } else if (a == 0) {
+        return "渠道";
+      } else {
+        return "普通会员";
+      }
+    }
+  },
+  created() {
+    this.getData(1);
+  },
+  //按名字过滤筛选表格数据
+  computed: {
+    tableDataFilter() {
+      return this.tableData.filter(e => {
+        return e.name.match(this.input);
+      });
+    }
+  },
+  methods: {
+    // 获取所有代理/渠道
+    getData(curr) {
+      let obj = {
+        page: curr,
+        pageSize: 20
+      };
+      getPayMember(obj).then(res => {
+        console.log(res);
+        if (res.status == 200) {
+          this.tableData = res.data.data;
+          this.totalNum = res.data.totalCount;
+        }
+      });
+    },
+    // 查看的回调
+    handleEdit(row) {
+      console.log(row.account);
+      this.getInfor(row.account);
+      this.dialogVisible = true;
+    },
+    // 获取单个会员的详细信息
+    getInfor(account) {
+      let obj = {
+        account: account
+      };
+      getPayMemberByAccount(obj).then(res => {
+        console.log(res);
+        if (res.status == 200) {
+          console.log(res.data.data);
+          this.datainfor = res.data.data;
+        }
+      });
+      // this.$http
+      // 	.get(api.pay + "/xxPay/getPayMemberByAccount", { params: obj })
+      // 	.then(res => {
+      // 		if (res.status == 200) {
+      // 			console.log(res.data.data);
+      // 			this.datainfor = res.data.data;
+      // 		}
+      // 	});
+    },
+    // 删除的回调
+    handleType(row) {
+      //   this.$router.push({
+      //     path: "/recharge_center/greaplist",
+      //     query: { id: row.id }
+      //   });
+
+      let routeData = this.$router.resolve({
+        path: "/recharge_center/greaplist",
+        query: { id: row.id }
+      });
+      window.open(routeData.href, "_blank");
+    },
+    //点击当前分页的回调
+    currentPage(vla) {
+      this.getData(vla);
+    }
+  }
 };
 </script>
 <style scoped>

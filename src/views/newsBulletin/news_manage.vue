@@ -231,10 +231,16 @@ export default {
     },
     //修改
     update(date) {
-      this.$router.push({
+      // this.$router.push({
+      //   path: "/newsBulletin/addNews",
+      //   query: { id: date.id }
+      // });
+
+      let routeData = this.$router.resolve({
         path: "/newsBulletin/addNews",
         query: { id: date.id }
       });
+      window.open(routeData.href, "_blank");
     },
     inquire() {
       this.gettablelist();

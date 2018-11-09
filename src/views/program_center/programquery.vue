@@ -750,10 +750,16 @@ export default {
     },
     //点击账号跳转会员管理页面
     getupnewweb(a) {
-      this.$router.push({
+      // this.$router.push({
+      //   path: "/customerManager/customerManager",
+      //   query: { account: a }
+      // });
+
+      let routeData = this.$router.resolve({
         path: "/customerManager/customerManager",
         query: { account: a }
       });
+      window.open(routeData.href, "_blank");
     },
     //明细页面跳转
     Szczegol(parse) {

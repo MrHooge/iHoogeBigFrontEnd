@@ -80,155 +80,155 @@
 </template>
 
 <script>
-import { findAllAgentAndQD, setAgentToMember } from '@/api/sys_user'
-import { findAllMember} from '@/api/customer'
-import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message } from 'element-ui'
-import treeTable from '@/components/TreeTable'
+import { findAllAgentAndQD, setAgentToMember } from "@/api/sys_user";
+import { findAllMember } from "@/api/customer";
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message } from "element-ui";
+import treeTable from "@/components/TreeTable";
 export default {
-	components: { treeTable },
-	data() {
-		return {
-			account:'',
-			username:'',
-			tableData: [], //表格数据
-			sjname: '',//模糊搜索
-			dialogVisible: false,
-			tableData3: [], // 弹窗的表格数据
-			multipleSelection: [], //选中的数据
-			onePeople: {}, // 存选择的某一条数据
-			page:1,
-            pageSize:20,
-            totalList: 0,
-            name: '',   //昵称查询
-		}
-	},
-	filters: {
-		type(a) {
+  components: { treeTable },
+  data() {
+    return {
+      account: "",
+      username: "",
+      tableData: [], //表格数据
+      sjname: "", //模糊搜索
+      dialogVisible: false,
+      tableData3: [], // 弹窗的表格数据
+      multipleSelection: [], //选中的数据
+      onePeople: {}, // 存选择的某一条数据
+      page: 1,
+      pageSize: 20,
+      totalList: 0,
+      name: "" //昵称查询
+    };
+  },
+  filters: {
+    type(a) {
+      return a ? "代理" : "渠道";
+    }
+  },
+  computed: {
+    // memberfilter() {
+    // 	return this.tableData.filter(name => {
+    // 		return name.ACCOUNT.match(this.username)
+    // 	})
+    // },
+    // tableDatalayer() {
+    // 	return this.tableData3.filter(name => {
+    // 		return name.ACCOUNT.match(this.sjname)
+    // 	})
+    // }
+  },
+  created() {
+    this.getTable();
+  },
+  methods: {
+    // inquire(){
+    // 	if(this.account == ''){
+    // 		this.$message('请输入昵称')
+    // 	}else{
+    // 		//account = this.account
+    // 		this.getTable()
+    // 	}
+    // },
 
-			return a ? '代理' : '渠道'
-		}
-	},
-	computed: {
-		// memberfilter() {
-		// 	return this.tableData.filter(name => {
-		// 		return name.ACCOUNT.match(this.username)
-		// 	})
-		// },
-		// tableDatalayer() {
-		// 	return this.tableData3.filter(name => {
-		// 		return name.ACCOUNT.match(this.sjname)
-		// 	})
-		// }
-	},
-	created() {
-		this.getTable()
-	},
-	methods: {
-		// inquire(){
-		// 	if(this.account == ''){
-		// 		this.$message('请输入昵称')
-		// 	}else{
-		// 		//account = this.account
-		// 		this.getTable()
-		// 	}
-        // },
+    //点击跳转到客户转移页面
+    jump() {
+      // this.$router.push({
+      //     path: 'customer_transfer',
+      //     query: {
+      //         account: this.account
+      //     }
+      // })
 
-
-        //点击跳转到客户转移页面
-        jump(){
-            this.$router.push({
-                path: 'customer_transfer',
-                query: {
-                    account: this.account
-                }
-            })
-        },
-        inquire() {
-            if (!this.account && !this.name) {
-                this.getTable();
-            } else {
-                if(this.account === ''){
-                    this.getAccount()
-                }else{
-                    this.page = 1
-                    this.getUsername()
-                    this.getTable()
-                }
-            }
-        },
-        //用昵称查询账号
-        getAccount(){
-            let obj = {
-                username: this.name
-            }
-            findAllMember(obj).then(res => {
-                this.account = res.data.data.list[0].ACCOUNT
-                this.page = 1
-                this.getUsername()
-                this.getTable()
-            })
-        },
-        //用账号查询昵称
-        getUsername(){
-            if(this.account != ''){
-                let obj = {
-                    account: this.account
-                }
-                findAllMember(obj).then(res => {
-                    this.name = res.data.data.list[0].username
-                })
-            }
-        },
-			//翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.getTable()
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.getTable()
-        },
-		getTable() {
-			let obj = {
-				page:this.page,
-				pageSize:this.pageSize,
-				account:this.account
-			}
-			findAllAgentAndQD(obj).then(res => {  //  获取渠道列表
-				if(res.status == 200) {
-                    this.tableData = res.data.data.list
-                    this.totalList = res.data.data.total
-				}
-			})
-		},
-		//  给渠道绑定代理
-		handleEdit(a) {
-			this.dialogVisible = true
-			this.onePeople = a
-			this.username = this.onePeople.ACCOUNT
-		},
-		makersure() {   // 弹窗确认按钮
-		let obj = {
-			account: this.onePeople.ACCOUNT
-		}
-				setAgentToMember(obj).then(res=>{
-					if(res.status==200){
-						this.dialogVisible = false
-						Message.success(res.data.message)
-					}else {
-
-					}
-				})
-		}
-	},
-
-
-
-
-
-}
+      let routeData = this.$router.resolve({
+        path: "customer_transfer",
+        query: { account: this.account }
+      });
+      window.open(routeData.href, "_blank");
+    },
+    inquire() {
+      if (!this.account && !this.name) {
+        this.getTable();
+      } else {
+        if (this.account === "") {
+          this.getAccount();
+        } else {
+          this.page = 1;
+          this.getUsername();
+          this.getTable();
+        }
+      }
+    },
+    //用昵称查询账号
+    getAccount() {
+      let obj = {
+        username: this.name
+      };
+      findAllMember(obj).then(res => {
+        this.account = res.data.data.list[0].ACCOUNT;
+        this.page = 1;
+        this.getUsername();
+        this.getTable();
+      });
+    },
+    //用账号查询昵称
+    getUsername() {
+      if (this.account != "") {
+        let obj = {
+          account: this.account
+        };
+        findAllMember(obj).then(res => {
+          this.name = res.data.data.list[0].username;
+        });
+      }
+    },
+    //翻页
+    handleCurrentChange(num) {
+      this.page = num;
+      this.getTable();
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      this.getTable();
+    },
+    getTable() {
+      let obj = {
+        page: this.page,
+        pageSize: this.pageSize,
+        account: this.account
+      };
+      findAllAgentAndQD(obj).then(res => {
+        //  获取渠道列表
+        if (res.status == 200) {
+          this.tableData = res.data.data.list;
+          this.totalList = res.data.data.total;
+        }
+      });
+    },
+    //  给渠道绑定代理
+    handleEdit(a) {
+      this.dialogVisible = true;
+      this.onePeople = a;
+      this.username = this.onePeople.ACCOUNT;
+    },
+    makersure() {
+      // 弹窗确认按钮
+      let obj = {
+        account: this.onePeople.ACCOUNT
+      };
+      setAgentToMember(obj).then(res => {
+        if (res.status == 200) {
+          this.dialogVisible = false;
+          Message.success(res.data.message);
+        } else {
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style scoped>

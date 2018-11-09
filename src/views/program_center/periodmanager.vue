@@ -136,122 +136,135 @@
 </template>
 
 <script>
-import {addTerm} from '@/api/period'
+import { addTerm } from "@/api/period";
 export default {
-    
-    data(){
-        return{
-            radio: '',
-            buildCount: '',  //彩期数量
-            // lotteryTypeValue: '',  //选中的彩期
-        }
+  data() {
+    return {
+      radio: "",
+      buildCount: "" //彩期数量
+      // lotteryTypeValue: '',  //选中的彩期
+    };
+  },
+
+  methods: {
+    //生成彩期
+    addTerm() {
+      if (this.radio === "") {
+        this.$message("请选择彩期！");
+      } else if (this.buildCount === "") {
+        this.$message("请选择彩期数量！");
+      } else {
+        let obj = {
+          buildCount: this.buildCount,
+          lotteryTypeValue: this.radio
+        };
+        addTerm(obj).then(res => {
+          if (res.data.error_code === 200) {
+            this.radio = "";
+            this.buildCount = "";
+            this.$message.success(res.data.message);
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      }
     },
-   
-    methods:{
-        //生成彩期
-        addTerm(){
-            if(this.radio === ''){
-                this.$message('请选择彩期！')
-            }else if(this.buildCount === ''){
-                this.$message('请选择彩期数量！')
-            }else{
-                let obj = {
-                    buildCount: this.buildCount,
-                    lotteryTypeValue: this.radio
-                }
-                addTerm(obj).then(res=>{
-                    if(res.data.error_code === 200){
-                        this.radio = ''
-                        this.buildCount = ''
-                        this.$message.success(res.data.message)
-                    }else{
-                        this.$message.error(res.data.message)
-                    }
-                })
-            }
-        },
-        //显示列表
-        showperiodlist(){
-            if(this.radio === ''){
-                this.$message('请选择彩期！')
-            }else{
-                this.$router.push({path:'/programCenter/period',query:{radio:this.radio}})
-            }
-        },
-        //开奖显示
-        openprize(){
-            this.$router.push({path:'/programCenter/winningprogram',query:{radio:this.radio}})
-        },
-        
+    //显示列表
+    showperiodlist() {
+      if (this.radio === "") {
+        this.$message("请选择彩期！");
+      } else {
+        // this.$router.push({
+        //   path: "/programCenter/period",
+        //   query: { radio: this.radio }
+        // });
 
+        let routeData = this.$router.resolve({
+          path: "/programCenter/period",
+          query: { radio: this.radio }
+        });
+        window.open(routeData.href, "_blank");
+      }
+    },
+    //开奖显示
+    openprize() {
+      //   this.$router.push({
+      //     path: "/programCenter/winningprogram",
+      //     query: { radio: this.radio }
+      //   });
+      let routeData = this.$router.resolve({
+        path: "/programCenter/winningprogram",
+        query: { radio: this.radio }
+      });
+      window.open(routeData.href, "_blank");
     }
-
-}
+  }
+};
 </script>
 
 <style scoped>
-.search{
-    margin-left: 400px
+.search {
+  margin-left: 400px;
 }
-.lotterymanager{
-    padding: 10px 20px
+.lotterymanager {
+  padding: 10px 20px;
 }
-.left{
-    float: left;
+.left {
+  float: left;
 }
-.right{
-    float: left;
-    width: 1000px
+.right {
+  float: left;
+  width: 1000px;
 }
-.eleven{
-    width: 380px;
-    height: 300px;
-    margin-right: 15px;
-    margin-left: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
-    padding: 3px;
-    overflow: scroll;
+.eleven {
+  width: 380px;
+  height: 300px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
+  padding: 3px;
+  overflow: scroll;
 }
-.three{
-     width: 380px;
-    height: 230px;
-    margin-right: 15px;
-    margin-left: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
-    padding: 3px;
+.three {
+  width: 380px;
+  height: 230px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
+  padding: 3px;
 }
-.ten{
-     width: 280px;
-    height: 150px;
-    margin-right: 15px;
-    margin-left: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
-    padding: 3px;
+.ten {
+  width: 280px;
+  height: 150px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
+  padding: 3px;
 }
-.pecai{
-    width: 500px;
-    height: 150px;
-    margin-right: 15px;
-    margin-left: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
-    padding: 3px;
+.pecai {
+  width: 500px;
+  height: 150px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
+  padding: 3px;
 }
-.everytime{
-    width: 200px;
-    height: 130px;
-    margin-right: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
+.everytime {
+  width: 200px;
+  height: 130px;
+  margin-right: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
 }
-.happy{
-    width: 200px;
-    height: 130px;
-    margin-right: 15px;
-    border: 1px solid rgb(240, 228, 228);
-    float: left;
+.happy {
+  width: 200px;
+  height: 130px;
+  margin-right: 15px;
+  border: 1px solid rgb(240, 228, 228);
+  float: left;
 }
 </style>

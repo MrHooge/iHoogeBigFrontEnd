@@ -260,7 +260,7 @@ export default {
       city: "", //开户城市
       province: "", //开户省份
 
-      searchUsername: '',    //用昵称查询上级用户名
+      searchUsername: "" //用昵称查询上级用户名
     };
   },
   computed: {
@@ -315,23 +315,28 @@ export default {
   },
   methods: {
     search() {
-      this.getAccount()
+      this.getAccount();
     },
     //用昵称查询账号
-    getAccount(){
-        let obj = {
-            username: this.searchUsername
-        }
-        findAllMember(obj).then(res => {
-            this.form.agentAccount = res.data.data.list[0].ACCOUNT
-        })
+    getAccount() {
+      let obj = {
+        username: this.searchUsername
+      };
+      findAllMember(obj).then(res => {
+        this.form.agentAccount = res.data.data.list[0].ACCOUNT;
+      });
     },
     //点击账号跳转会员管理页面
     getupnewweb(a) {
-      this.$router.push({
+      // this.$router.push({
+      //   path: "/detailsSearch/walletInformation",
+      //   query: { account: a }
+      // });
+      let routeData = this.$router.resolve({
         path: "/detailsSearch/walletInformation",
         query: { account: a }
       });
+      window.open(routeData.href, "_blank");
     },
     //点击修改按钮 跳出修改框
     xiugaiKuang(a) {
@@ -456,12 +461,18 @@ export default {
     },
     //点击按钮跳到流水查询页面
     runningwater(a) {
-      this.$router.push({
+      // this.$router.push({
+      //   path: "/detailsSearch/walletFlowquery",
+      //   query: {
+      //     account: a.ACCOUNT
+      //   }
+      // });
+
+      let routeData = this.$router.resolve({
         path: "/detailsSearch/walletFlowquery",
-        query: {
-          account: a.ACCOUNT
-        }
+        query: { account: a.ACCOUNT }
       });
+      window.open(routeData.href, "_blank");
     }
   }
 };

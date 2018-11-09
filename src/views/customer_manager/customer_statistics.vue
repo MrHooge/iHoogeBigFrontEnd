@@ -113,200 +113,209 @@
 </template>
 
 <script>
-import { findAllMember,memberToWrite,getHistoryClient } from '@/api/customer'
-import { Message, MessageBox } from 'element-ui'
+import { findAllMember, memberToWrite, getHistoryClient } from "@/api/customer";
+import { Message, MessageBox } from "element-ui";
 export default {
-    data(){
-        return {
-            tableData:[],
-            selections:[],
-            account:'',
-            name:'',
-            idcard: '',
-            mobile: '',
-            endTime:'',
-            mobile:'',
-            page: 1,
-            pageSize: 20,
-            startTime:'',
-            username:'',
-            type:'',
-            totalList: 0,
-            addBtn: true,
-            cancelBtn: true,
-            isBeforMonth: false
-        }
+  data() {
+    return {
+      tableData: [],
+      selections: [],
+      account: "",
+      name: "",
+      idcard: "",
+      mobile: "",
+      endTime: "",
+      mobile: "",
+      page: 1,
+      pageSize: 20,
+      startTime: "",
+      username: "",
+      type: "",
+      totalList: 0,
+      addBtn: true,
+      cancelBtn: true,
+      isBeforMonth: false
+    };
+  },
+  filters: {
+    time(a) {
+      if (a != null && a != "") {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
     },
-    filters:{
-        time(a){
-            if(a != null && a != ''){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-            }
-        },
-        mtype(a){
-              return a == 1 ?"否" :  "是"
-        },
-        port(m){
-              return m == 1 ? "否" : "是"
-        }
+    mtype(a) {
+      return a == 1 ? "否" : "是";
     },
-    created(){
-        this.gettablelist()
-    },
-    methods:{
-        //点击账号跳转会员管理页面
-        getupnewweb(a){
-             this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
-        },
-        //获取表格数据
-        gettablelist(){
-            let obj = {
-                account: this.account,
-                end_time: this.endTime || '',
-                mobile: this.mobile,
-                page: this.page,
-                pageSize: this.pageSize,
-                start_time: this.startTime || '',
-                username: this.username,
-                realName: this.name,
-                type: this.type,
-                identifyId: this.idcard,
-                mobile: this.mobile,
-            }
-            findAllMember(obj).then(res => {
-                this.tableData = res.data.data.list
-                this.totalList = res.data.data.total
-            }).catch(error => {
-                Message.error(error)
-            })
-        },
-
-        //加白
-        addwhite(data){
-            this.account = data.ACCOUNT;
-            this.type = 1
-            memberToWrite(this.account,this.type).then(res => {
-                if (res.data.error_code === 200) {
-                    Message.success('加白成功')
-                    this.account = ''
-                    if(this.isBeforMonth){
-                        this.longtime()
-                    }else{
-                        this.gettablelist()
-                    }
-                } else {
-                    Message.error(res.data.message)
-                }
-            })
-        },
-        //取消加白
-        deletewhite(data){
-            this.account = data.ACCOUNT;
-            this.type = 2
-            memberToWrite(this.account,this.type).then(res => {
-                if (res.data.error_code === 200) {
-                    Message.success('取消加白成功')
-                    this.account = ''
-                    if(this.isBeforMonth){
-                        this.longtime()
-                    }else{
-                        this.gettablelist()
-                    }
-                } else {
-                    Message.error(res.data.message)
-                }
-            })
-        },
-        //批量取消加白
-        moredeletewhite(){
-            if(this.selections.length === 0){
-                this.$message('至少选择一个用户')
-            }else{
-                let newarr = [];
-                this.selections.forEach(e => {
-                    newarr.push(e.ACCOUNT)
-                });
-                let newaccount = newarr.join(',');
-                this.account = newaccount;
-                this.type = 2;
-                memberToWrite(this.account,this.type).then(res => {
-                    if (res.data.error_code === 200) {
-                        Message.success('取消加白成功')
-                        this.account = ''
-                        if(this.isBeforMonth){
-                            this.longtime()
-                        }else{
-                            this.gettablelist()
-                        }
-                    } else {
-                        Message.error(res.data.message)
-                    }
-                })
-            }
-        },
-         //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            if(this.isBeforMonth){
-                this.longtime()
-            }else{
-                this.gettablelist();
-            }
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            if(this.isBeforMonth){
-                this.longtime()
-            }else{
-                this.gettablelist();
-            }
-        },
-        //显示一个月以上未登录用户
-        longtime(){
-            // this.page = 1
-            this.isBeforMonth = true
-            getHistoryClient(this.page, this.pageSize).then(res => {
-                if(res.data.error_code === 200){
-                    this.tableData = res.data.data.list
-                    this.totalList = res.data.data.total
-                    this.$message.success(res.data.message)
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            }).catch(error => {
-                Message.error(error)
-            })
-        },
-        //搜索
-        search_customer(){
-            this.page = 1
-            this.pageSize = 20
-            this.gettablelist()
-        },
-        // 选择框全部
-        handleSelectionChange(selection) {
-            this.selections = selection;
-        }
-
+    port(m) {
+      return m == 1 ? "否" : "是";
     }
-}
+  },
+  created() {
+    this.gettablelist();
+  },
+  methods: {
+    //点击账号跳转会员管理页面
+    getupnewweb(a) {
+      //  this.$router.push({path:'/customerManager/customerManager',query:{account:a}})
+
+      let routeData = this.$router.resolve({
+        path: "/customerManager/customerManager",
+        query: { account: a }
+      });
+      window.open(routeData.href, "_blank");
+    },
+    //获取表格数据
+    gettablelist() {
+      let obj = {
+        account: this.account,
+        end_time: this.endTime || "",
+        mobile: this.mobile,
+        page: this.page,
+        pageSize: this.pageSize,
+        start_time: this.startTime || "",
+        username: this.username,
+        realName: this.name,
+        type: this.type,
+        identifyId: this.idcard,
+        mobile: this.mobile
+      };
+      findAllMember(obj)
+        .then(res => {
+          this.tableData = res.data.data.list;
+          this.totalList = res.data.data.total;
+        })
+        .catch(error => {
+          Message.error(error);
+        });
+    },
+
+    //加白
+    addwhite(data) {
+      this.account = data.ACCOUNT;
+      this.type = 1;
+      memberToWrite(this.account, this.type).then(res => {
+        if (res.data.error_code === 200) {
+          Message.success("加白成功");
+          this.account = "";
+          if (this.isBeforMonth) {
+            this.longtime();
+          } else {
+            this.gettablelist();
+          }
+        } else {
+          Message.error(res.data.message);
+        }
+      });
+    },
+    //取消加白
+    deletewhite(data) {
+      this.account = data.ACCOUNT;
+      this.type = 2;
+      memberToWrite(this.account, this.type).then(res => {
+        if (res.data.error_code === 200) {
+          Message.success("取消加白成功");
+          this.account = "";
+          if (this.isBeforMonth) {
+            this.longtime();
+          } else {
+            this.gettablelist();
+          }
+        } else {
+          Message.error(res.data.message);
+        }
+      });
+    },
+    //批量取消加白
+    moredeletewhite() {
+      if (this.selections.length === 0) {
+        this.$message("至少选择一个用户");
+      } else {
+        let newarr = [];
+        this.selections.forEach(e => {
+          newarr.push(e.ACCOUNT);
+        });
+        let newaccount = newarr.join(",");
+        this.account = newaccount;
+        this.type = 2;
+        memberToWrite(this.account, this.type).then(res => {
+          if (res.data.error_code === 200) {
+            Message.success("取消加白成功");
+            this.account = "";
+            if (this.isBeforMonth) {
+              this.longtime();
+            } else {
+              this.gettablelist();
+            }
+          } else {
+            Message.error(res.data.message);
+          }
+        });
+      }
+    },
+    //翻页
+    handleCurrentChange(num) {
+      this.page = num;
+      if (this.isBeforMonth) {
+        this.longtime();
+      } else {
+        this.gettablelist();
+      }
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      if (this.isBeforMonth) {
+        this.longtime();
+      } else {
+        this.gettablelist();
+      }
+    },
+    //显示一个月以上未登录用户
+    longtime() {
+      // this.page = 1
+      this.isBeforMonth = true;
+      getHistoryClient(this.page, this.pageSize)
+        .then(res => {
+          if (res.data.error_code === 200) {
+            this.tableData = res.data.data.list;
+            this.totalList = res.data.data.total;
+            this.$message.success(res.data.message);
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch(error => {
+          Message.error(error);
+        });
+    },
+    //搜索
+    search_customer() {
+      this.page = 1;
+      this.pageSize = 20;
+      this.gettablelist();
+    },
+    // 选择框全部
+    handleSelectionChange(selection) {
+      this.selections = selection;
+    }
+  }
+};
 </script>
 
 <style>
-.statistics{
-    padding: 10px 20px
+.statistics {
+  padding: 10px 20px;
 }
 </style>
