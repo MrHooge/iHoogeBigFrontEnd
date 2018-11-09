@@ -31,6 +31,17 @@
 								align="center">
 			</el-table-column>
 		</el-table>
+    <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalList"
+            v-if="totalList != ''">
+    </el-pagination>
 		<!-- 弹窗事件 -->
 		<el-dialog title="给渠道绑代理"
 		           :visible.sync="dialogVisible"
@@ -95,7 +106,7 @@ export default {
       multipleSelection: [], //选中的数据
       onePeople: {}, // 存选择的某一条数据
       page: 1,
-      pageSize: 1000,
+      pageSize: 20,
       totalList: 0,
       name: "" //昵称查询
     };
@@ -123,10 +134,9 @@ export default {
   methods: {
     //把代理绑定渠道
     bind() {
+      this.getAllQD();
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         this.dialogVisible = true;
-        this.account = "";
-        this.getTable();
       } else {
         this.$message("请至少选择一个!");
       }
@@ -174,15 +184,10 @@ export default {
     getTable() {
       let obj = {
         page: this.page,
-        pageSize: 1000,
+        pageSize: this.pageSize,
         account: this.account
       };
       findAllAgentAndQD(obj).then(res => {
-        //  获取渠道数据
-        this.totalList = res.data.data.total;
-        this.tableData = res.data.data.list.filter((e, index) => {
-          return e.AGENT_TYPE == 0;
-        });
         this.totalList = res.data.data.total;
         this.tableData3 = res.data.data.list.filter((e, index) => {
           //  获取代理数据
@@ -190,9 +195,22 @@ export default {
         });
       });
     },
+    //获取所有渠道数据
+    getAllQD() {
+      let obj = {
+        page: 1,
+        pageSize: 10000,
+        account: ""
+      };
+      findAllAgentAndQD(obj).then(res => {
+        //  获取渠道数据
+        this.tableData = res.data.data.list.filter((e, index) => {
+          return e.AGENT_TYPE == 0;
+        });
+      });
+    },
     //  给代理绑定渠道
     handleEdit(a) {
-      //   this.dialogVisible = true;
       this.onePeople = a;
       this.cofirm();
     },

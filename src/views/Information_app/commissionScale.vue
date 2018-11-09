@@ -4,37 +4,37 @@
             <div class="main" style="width:80%;margin: 0 auto;">
                 <el-form :label-position="labelPosition" label-width="280px" :model="formLabelAlign">
                     <el-form-item label="充值比例">
-                        <el-input v-model="formLabelAlign.recharge" style="width:45%;margin-right:20px;"></el-input>
+                        <el-input v-model="formLabelAlign.recharge" style="width:45%;margin-right:20px;" clearable></el-input>
                         <el-button type="primary" @click="modifyDialog('recharge')">修改</el-button>
                     </el-form-item>
                     <el-form-item label="100-200赠送比例">
-                        <el-input v-model="formLabelAlign.rechargeGiftStart" style="width:45%;margin-right:20px;"></el-input>
+                        <el-input v-model="formLabelAlign.rechargeGiftStart" style="width:45%;margin-right:20px;" clearable></el-input>
                         <el-button type="primary" @click="modifyDialog('rechargeGiftStart')">修改</el-button>
                     </el-form-item>
                     <el-form-item label="充值每100元增加的赠送比例">
-                        <el-input v-model="formLabelAlign.rechargeGift" style="width:45%;margin-right:20px;"></el-input>
+                        <el-input v-model="formLabelAlign.rechargeGift" style="width:45%;margin-right:20px;" clearable></el-input>
                         <el-button type="primary" @click="modifyDialog('rechargeGift')">修改</el-button>
                     </el-form-item>
                     <el-form-item label="围观收益比例">
-                        平台:<el-input v-model="lookers.platform" style="width:11%;"></el-input>
-                        回答者:<el-input v-model="lookers.answer" style="width:11%;"></el-input>
-                        提问者:<el-input v-model="lookers.quizzer" style="width:11%;"></el-input>
+                        平台:<el-input v-model="lookers.platform" style="width:11%;" clearable></el-input>
+                        回答者:<el-input v-model="lookers.answer" style="width:11%;" clearable></el-input>
+                        提问者:<el-input v-model="lookers.quizzer" style="width:11%;" clearable></el-input>
                         <el-button type="primary" @click="modifyDialog('onlookers')" style="margin-left:20px;">修改</el-button>
                     </el-form-item>
                     <el-form-item label="购买方案平台抽成">
-                        <el-input v-model="formLabelAlign.buyOrder" style="width:45%;margin-right:20px;"></el-input>
+                        <el-input v-model="formLabelAlign.buyOrder" style="width:45%;margin-right:20px;" clearable></el-input>
                         <el-button type="primary" @click="modifyDialog('buyOrder')">修改</el-button>
                     </el-form-item>
                     <el-form-item label="提问抽成">
-                        <el-input v-model="formLabelAlign.quiz" style="width:45%;margin-right:20px;"></el-input>
+                        <el-input v-model="formLabelAlign.quiz" style="width:45%;margin-right:20px;" clearable></el-input>
                         <el-button type="primary" @click="modifyDialog('quiz')">修改</el-button>
                     </el-form-item>
                     <el-form-item label="提现抽成">
-                        <el-input v-model="formLabelAlign.withdraw" style="width:45%;margin-right:20px;"></el-input>
+                        <el-input v-model="formLabelAlign.withdraw" style="width:45%;margin-right:20px;" clearable></el-input>
                         <el-button type="primary" @click="modifyDialog('withdraw')">修改</el-button>
                     </el-form-item>
                     <el-form-item label="围观云豆数量">
-                        <el-input v-model="formLabelAlign.onlook" style="width:45%;margin-right:20px;"></el-input>
+                        <el-input v-model="formLabelAlign.onlook" style="width:45%;margin-right:20px;" clearable></el-input>
                         <el-button type="primary" @click="modifyDialog('onlook')">修改</el-button>
                     </el-form-item>
                 </el-form>
