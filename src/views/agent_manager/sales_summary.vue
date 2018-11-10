@@ -93,7 +93,7 @@
         <el-table-column label="渠道"
                         prop="qdName"
                         align="center"
-                        v-if="qudaoShow">
+                        v-if="identity">
         </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -121,6 +121,7 @@ import {
   exportExcle,
   findSaleInfo
 } from "@/api/sys_user";
+import { findAllUserAndRole } from "@/api/sys_user";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 import echarts from "echarts"; //引入图表插件
 export default {
@@ -162,6 +163,8 @@ export default {
   },
   data() {
     return {
+      identity: true, // 判断用户身份
+
       chart1: null,
       chart2: null,
 
@@ -198,13 +201,32 @@ export default {
     } else {
       this.qudaoShow = true;
     }
+
+    this.getUserList("", 1, 100);
   },
+
   filters: {
     sumCommision(sum) {
       return sum ? sum : 0;
     }
   },
   methods: {
+    // 获取用户列表
+    getUserList(account, page, pageSize) {
+      findAllUserAndRole(account, page, pageSize)
+        .then(res => {
+          let list = res.data.data.list;
+          let name = getCookies("name");
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].role_name == "市场管理" && list[i].ACCOUNT == name) {
+              this.identity = false;
+            }
+          }
+        })
+        .catch(error => {
+          Message.error(error);
+        });
+    },
     //个数图表
     NumEchart() {
       this.dlAccount = [];

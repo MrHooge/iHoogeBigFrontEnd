@@ -102,186 +102,177 @@
 </template>
 
 <script>
-import { findAllAgentAndQD, setOrUpdateQDtoUser,findAllUserAndRole } from '@/api/sys_user'
-import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message } from 'element-ui'
-import treeTable from '@/components/TreeTable'
+import {
+  findAllAgentAndQD,
+  setOrUpdateQDtoUser,
+  findAllUserAndRole
+} from "@/api/sys_user";
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message } from "element-ui";
+import treeTable from "@/components/TreeTable";
 export default {
-	components: { treeTable },
-	data() {
-		return {
-			account:'',
-			input: '', //  绑定账号
-			isShow: false, //  确定按钮
-			tableData: [], //表格数据
-			sjname: '',//模糊搜索
-			dialogVisible: false,
-			tableData3: [], // 弹窗的表格数据
-			multipleSelection: [], //选中的数据
-			onePeople: {}, // 存选择的某一条数据
-			page:1,
-            pageSize:20,
-            totalList: 0,
-            allUser: '',
-
-		}
-	},
-	filters: {
-		type(a) {
-
-			return a ? '代理' : '渠道'
+  components: { treeTable },
+  data() {
+    return {
+      account: "",
+      input: "", //  绑定账号
+      isShow: false, //  确定按钮
+      tableData: [], //表格数据
+      sjname: "", //模糊搜索
+      dialogVisible: false,
+      tableData3: [], // 弹窗的表格数据
+      multipleSelection: [], //选中的数据
+      onePeople: {}, // 存选择的某一条数据
+      page: 1,
+      pageSize: 20,
+      totalList: 0,
+      allUser: ""
+    };
+  },
+  filters: {
+    type(a) {
+      return a ? "代理" : "渠道";
+    }
+  },
+  computed: {
+    memberfilter() {
+      return this.tableData.filter(name => {
+        return name.ACCOUNT.match(this.username);
+      });
+    }
+    // tableDatalayer() {
+    // 	return this.tableData3.filter(name => {
+    // 		return name.ACCOUNT.match(this.sjname)
+    // 	})
+    // }
+  },
+  created() {
+    this.getTable();
+  },
+  methods: {
+    //查询
+    inquire() {
+      if (this.account == "") {
+        this.$message("请输入昵称");
+      } else {
+        //account = this.account
+        this.getTable();
+      }
+    },
+    getTable() {
+      let obj = {
+        // page:this.page,
+        // pageSize:this.pageSize,
+        page: 1,
+        pageSize: 1000,
+        account: this.account
+      };
+      findAllAgentAndQD(obj).then(res => {
+        //  获取渠道数据
+        if (res.data.data.list) {
+          this.tableData = res.data.data.list.filter(e => {
+            return e.AGENT_TYPE == 0;
+          });
+          this.totalList = res.data.data.total;
         }
-        
-	},
-	computed: {
-		memberfilter() {
-			return this.tableData.filter(name => {
-				return name.ACCOUNT.match(this.username)
-            })
-		},
-		// tableDatalayer() {
-		// 	return this.tableData3.filter(name => {
-		// 		return name.ACCOUNT.match(this.sjname)
-		// 	})
-		// }
-	},
-	created() {
-		this.getTable()
-	},
-	methods: {
-        
-		//查询
-		inquire(){
-			if(this.account == ''){
-				this.$message('请输入昵称')
-			}else{
-				//account = this.account
-				this.getTable()
-			}
-		},
-		getTable() {
-			let obj = {
-				// page:this.page,
-                // pageSize:this.pageSize,
-                page:1,
-				pageSize:1000,
-				account:this.account
-			}
-            findAllAgentAndQD(obj).then(res => {  //  获取渠道数据
-                if(res.data.data.list){
-                    this.tableData = res.data.data.list.filter(e=>{
-                        return e.AGENT_TYPE == 0
-                    })
-                    this.totalList = res.data.data.total
-                }
+      });
+    },
 
-            })
-        },
-        
-        getAllUser(){
-            // let obj = {
-			// 	// page:this.page,
-            //     // pageSize:this.pageSize,
-            //     page:1,
-			// 	pageSize:1000,
-			// 	account:this.account
-            // }
-            findAllUserAndRole(this.account,this.page,1000).then(res =>{
-                console.log(res)
-                this.allUser = res.data.data.list
+    getAllUser() {
+      // let obj = {
+      // 	// page:this.page,
+      //     // pageSize:this.pageSize,
+      //     page:1,
+      // 	pageSize:1000,
+      // 	account:this.account
+      // }
+      findAllUserAndRole(this.account, this.page, 1000).then(res => {
+        this.allUser = res.data.data.list;
+      });
+    },
 
-                console.log(this.allUser)
-            })
-        },
+    cofirm() {
+      //  弹框确定按钮
+      // console.log(this.multipleSelection)
 
-		cofirm() {  //  弹框确定按钮
-			// console.log(this.multipleSelection)
+      // if (this.multipleSelection.length < 1) {
+      // 	this.$message('请选择一个代理')
+      // } else {
+      // 	this.dialogVisible = true
+      // }
+      this.dialogVisible = true;
+      this.getAllUser();
+    },
+    // makersure() {
+    // 	let arr = '';
+    // 	this.multipleSelection.forEach(x => {
+    // 		// arr.push(x.ACCOUNT)
+    // 			arr +=x.ACCOUNT+','
+    // 	})
+    // 	console.log(arr)
+    // 	if (this.input == '') {
+    // 		this.$message('请输入绑定账号')
+    // 	} else {
+    // 		let obj = {
+    // 			is_del: 1, //1 增加,0 删除
+    // 			member_account: arr, //渠道账号,渠道账号
+    // 			user_account: this.input
 
-			// if (this.multipleSelection.length < 1) {
-			// 	this.$message('请选择一个代理')
-			// } else {
-			// 	this.dialogVisible = true
-            // }
-            this.dialogVisible = true
-            this.getAllUser()
-		},
-		// makersure() {
-		// 	let arr = '';
-		// 	this.multipleSelection.forEach(x => {
-		// 		// arr.push(x.ACCOUNT)
-		// 			arr +=x.ACCOUNT+','
-		// 	})
-		// 	console.log(arr)
-		// 	if (this.input == '') {
-		// 		this.$message('请输入绑定账号')
-		// 	} else {
-		// 		let obj = {
-		// 			is_del: 1, //1 增加,0 删除
-		// 			member_account: arr, //渠道账号,渠道账号
-		// 			user_account: this.input
+    // 		}
+    // 		let is_del = 1
+    // 		let member_account = arr
+    // 		let user_account = this.input
+    // 		setOrUpdateQDtoUser(is_del,member_account,user_account).then(res => {
+    // 			console.log(res)
+    // 			if(res.data.error_code==200){
+    // 				this.dialogVisible = false
+    // 				Message.success(res.data.message)
+    // 			}else {
+    // 				Message.success(res.data.message)
+    // 			}
+    // 		})
+    // 	}
 
-		// 		}
-		// 		let is_del = 1
-		// 		let member_account = arr
-		// 		let user_account = this.input
-		// 		setOrUpdateQDtoUser(is_del,member_account,user_account).then(res => {
-		// 			console.log(res)
-		// 			if(res.data.error_code==200){
-		// 				this.dialogVisible = false
-		// 				Message.success(res.data.message)
-		// 			}else {
-		// 				Message.success(res.data.message)
-		// 			}
-		// 		})
-        // 	}
-        
-        handleCommand(command) {
-            let arr = '';
-			this.multipleSelection.forEach(e => {
-					arr += e.ACCOUNT + ','
-			})
-            let is_del = 1
-            let member_account = arr
-            let user_account = command
-            console.log(command)
-            setOrUpdateQDtoUser(is_del,member_account,user_account).then(res => {
-                console.log(res)
-                if(res.data.error_code==200){
-                    this.dialogVisible = false
-                    Message.success(res.data.message)
-                }else {
-                    Message.success(res.data.message)
-                }
-            })
-        },
-		// 选择框的回调
-		handleSelectionChange(val) {
-			this.multipleSelection = val
-			if (val.length > 0) {
-				this.isShow = true
-
-			} else {
-				this.isShow = false
-			}
-
-		},
-		  //翻页
-        handleCurrentChange(num){
-            this.page = num;
-            this.getTable()
-        },
-        //改变页面大小
-        handleSizeChange(num){
-            this.pageSize = num;
-            this.getTable()
-        },
-	},
-
-
-
-
-
-}
+    handleCommand(command) {
+      let arr = "";
+      this.multipleSelection.forEach(e => {
+        arr += e.ACCOUNT + ",";
+      });
+      let is_del = 1;
+      let member_account = arr;
+      let user_account = command;
+      console.log(command);
+      setOrUpdateQDtoUser(is_del, member_account, user_account).then(res => {
+        console.log(res);
+        if (res.data.error_code == 200) {
+          this.dialogVisible = false;
+          Message.success(res.data.message);
+        } else {
+          Message.success(res.data.message);
+        }
+      });
+    },
+    // 选择框的回调
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      if (val.length > 0) {
+        this.isShow = true;
+      } else {
+        this.isShow = false;
+      }
+    },
+    //翻页
+    handleCurrentChange(num) {
+      this.page = num;
+      this.getTable();
+    },
+    //改变页面大小
+    handleSizeChange(num) {
+      this.pageSize = num;
+      this.getTable();
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -294,10 +285,10 @@ export default {
   overflow: auto;
 }
 .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
+  cursor: pointer;
+  color: #409eff;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
 </style>

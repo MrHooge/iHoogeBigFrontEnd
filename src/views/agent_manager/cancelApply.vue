@@ -21,44 +21,13 @@
 			          placeholder="请输入身份证号进行查询"
 			          style="width:12%;" clearable>
             </el-input>
-            <!-- <el-date-picker
-            v-model="stime"
-            type="datetime"
-            style="margin-bottom:40px;margin-right:20px;width:200px"
-            placeholder="请选择开始日期"
-            value-format="yyyy-MM-dd HH:mm:ss">
-            </el-date-picker>          
-            <el-date-picker
-            v-model="etime"
-            align="right"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            default-time="23:59:59"
-            type="datetime"
-            style="margin-left:10px;
-            width:200px
-            margin-bottom:40px;"
-            placeholder="请选择结束日期"
-            >
-            </el-date-picker>		   -->
-			<el-button type="primary"
-			           icon="el-icon-search"
-			           @click="search">搜索</el-button>
-			<!-- <el-select v-model="value"
-			           placeholder="请选择状态筛选数据"
-			           @change="getval">
-				<el-option v-for="item in options"
-				           :key="item.value"
-				           :label="item.label"
-				           :value="item.value">
-				</el-option>
-			</el-select> -->
+			<el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
 		</div>
-
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%;">
-            <el-table-column type="index" align="center" label="编号"></el-table-column>
-            <el-table-column prop="ACCOUNT"
+      <el-table-column type="index" align="center" label="编号"></el-table-column>
+      <el-table-column prop="ACCOUNT"
 			                 label="账号"
 			                 align="center">
 			</el-table-column>
@@ -68,14 +37,7 @@
                         {{scope.row.CERT_NO | afterFour}}
                       </template>
 			</el-table-column>
-			<el-table-column label="最后登录时间"
-			                 align="center">
-                <template slot-scope="scope">
-					<span>{{ scope.row.LAST_LOGIN_DATE_TIME | time}}</span>
-				</template>
-			</el-table-column>
-
-			<!-- <el-table-column prop="MOBILE"
+      <!-- <el-table-column prop="MOBILE"
 			                 label="手机号"
 			                 align="center">
 			</el-table-column>
@@ -83,41 +45,31 @@
 			                 label="真实姓名"
 			                 align="center">
 			</el-table-column> -->
-
+			<el-table-column label="最后登录时间"
+			                 align="center">
+                <template slot-scope="scope">
+					<span>{{ scope.row.LAST_LOGIN_DATE_TIME | time}}</span>
+				</template>
+			</el-table-column>
 			<el-table-column align="center"
 			                 label="注册时间">
 				<template slot-scope="scope">
 					<span>{{ scope.row.REGISTER_DATE_TIME | time}}</span>
 				</template>
 			</el-table-column>
-
 			<el-table-column prop="agentAccount"
 			                 label="上级名字"
 			                 align="center">
 			 </el-table-column>
-
 			<el-table-column prop="username"
 			                 align="center"
 			                 label="昵称">
 			</el-table-column>
-
 			<el-table-column align="center"
 			                 width="180px"
 			                 label="操作">
 				<template slot-scope="scope">
-					<!-- <div v-if="scope.row.status == 0"> -->
-						<el-button type="primary"
-						           @click="launchApply(scope.row)">发起注销申请</el-button>
-						<!-- <el-button size="mini"
-						           type="danger"
-						           @click="reject(scope.row)">驳回</el-button> -->
-					<!-- </div>
-					<div v-else> -->
-                        <!-- <el-button size="mini"
-						           type="success" v-if="scope.row.status === 1">已审核</el-button>
-                        <el-button size="mini"
-						           type="danger" v-else>被驳回</el-button> -->
-					<!-- </div> -->
+						<el-button type="primary" @click="launchApply(scope.row)">发起注销申请</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -156,7 +108,7 @@
                     <el-input v-model="form.up_account" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="备注" :label-width="formLabelWidth">
-                    <el-input v-model="form.note" disabled></el-input>
+                    <el-input v-model="form.note"></el-input>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth">
                     <el-button @click="dialogVisible = false" style="margin-left:-120px;margin-right:100px">取 消</el-button>
@@ -188,13 +140,7 @@ import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
   data() {
     return {
-      //   pageshow: false,
-
       dialogVisible: false, //发起申请弹窗
-      //   dialogVisible1: false,
-      //   total: 0,
-      //   stime: "",
-      //   etime: "",
 
       a: "",
       b: "",
@@ -229,8 +175,7 @@ export default {
   },
   created() {
     //   调接口返回数据
-    this.getData();
-    // this.getTodayDate();
+    // this.getData();
   },
   filters: {
     //保留后四位
@@ -256,23 +201,6 @@ export default {
     }
   },
   methods: {
-    // 获取当前时间
-    // getTodayDate() {
-    //   let date = new Date();
-    //   let y = date.getFullYear();
-    //   let m = date.getMonth() + 1;
-    //   m = m < 10 ? "0" + m : m;
-    //   let d = date.getDate();
-    //   d = d < 10 ? "0" + d : d;
-    //   let h = date.getHours();
-    //   h = h < 10 ? "0" + h : h;
-    //   let min = date.getMinutes();
-    //   min = min < 10 ? "0" + min : min;
-    //   let s = date.getSeconds();
-    //   s = s < 10 ? "0" + s : s;
-    //   this.form.create_time =
-    //     y + "-" + m + "-" + d + " " + h + ":" + min + ":" + s;
-    // },
     //翻页
     handleCurrentChange(num) {
       this.page = num;
@@ -283,54 +211,22 @@ export default {
       this.pageSize = num;
       this.getData();
     },
-    // onInput() {
-    //   if (this.account == "") {
-    //     this.getData();
-    //   }
-    // },
-    //   下拉选择框的筛选
-    // getval() {
-    //   this.getData();
-    // },
     //   搜索查询
     search() {
-      //   if (this.value == "全部") {
-      //     this.value == "";
-      //   }
-      //   if (!this.account && !this.username) {
-      this.page = 1;
-      this.getData();
-      //   } else {
-      //     if (this.account === "") {
-      //       this.getAccount();
-      //     } else {
-      //       this.page = 1;
-      //       this.getData();
-      //     }
-      //   }
+      console.log(this.account === "");
+      if (
+        this.account === "" &&
+        this.identifyId === "" &&
+        this.username === "" &&
+        this.realName === "" &&
+        this.mobile === ""
+      ) {
+        this.$message("请输入查询条件！");
+      } else {
+        this.page = 1;
+        this.getData();
+      }
     },
-    //用昵称查询账号
-    // getAccount() {
-    //   let obj = {
-    //     username: this.username
-    //   };
-    //   findAllMember(obj).then(res => {
-    //     this.account = res.data.data.list[0].ACCOUNT;
-    //     this.page = 1;
-    //     this.getData();
-    //   });
-    // },
-    //   接口返回数据数字转换成汉字
-    // getStr(num) {
-    //   if (num == 0) {
-    //     return "待审核";
-    //   } else if (num == 1) {
-    //     return "已审核";
-    //   } else {
-    //     return "被驳回";
-    //   }
-    // },
-
     // 获取列表数据
     getData() {
       let obj = {

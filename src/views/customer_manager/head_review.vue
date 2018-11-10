@@ -58,9 +58,15 @@
 			<el-table-column label="图片"
 			                 align="center">
 				<template slot-scope="scope">
-					<img :src="'https://qyun88.oss-cn-hangzhou.aliyuncs.com/member/'+scope.row.picture"
-					     alt=""
-					     style="width: 100%;height: 100%;">
+          <!-- <div>
+            <img :class="'headImg'+scope.row.id" :src="'https://qyun88.oss-cn-hangzhou.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:30%;height:30%" @mouseover="Enlarge(scope.row)" @mouseout="toSmall">
+          </div> -->
+          <el-dropdown style="width:200px;">
+              <img :src="'https://qyun88.oss-cn-hangzhou.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:80px;height:80px">
+              <el-dropdown-menu slot="dropdown" style="width:200px;height:200px;position:relative">
+                <img :src="'https://qyun88.oss-cn-hangzhou.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:180px;height:180px;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;">
+              </el-dropdown-menu>
+          </el-dropdown> 
 				</template>
 			</el-table-column>
 			<el-table-column label="审核时间"
@@ -99,6 +105,7 @@
 				</template>
 			</el-table-column>
 		</el-table>
+
 		<el-pagination background
 		               @size-change="handleSizeChange"
 		               @current-change="handleCurrentChange"
@@ -145,6 +152,9 @@ export default {
         }
       ],
       value: "0"
+
+      // width: 30,
+      // height: 30
     };
   },
   filters: {
@@ -179,6 +189,19 @@ export default {
     this.gettablelist();
   },
   methods: {
+    Enlarge(a) {
+      console.log(a);
+
+      // this.width = 100;
+      // this.height = 100;
+      // let headImg = document.getElementsByClassName("'headImg'+");
+      // console.log(headImg.$refs.companyStyle.$el.clientWidth + "px");
+    },
+    toSmall() {
+      // this.width = 30;
+      // this.height = 30;
+    },
+
     //点击账号跳转会员管理页面
     getupnewweb(a) {
       // this.$router.push({

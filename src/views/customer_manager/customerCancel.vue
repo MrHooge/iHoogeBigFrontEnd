@@ -8,12 +8,12 @@
 		<el-table :data="tableData"
 		          border
 		          style="width: 100%;">
-            <el-table-column type="index" align="center" label="编号"></el-table-column>
-            <el-table-column prop="id"
+      <el-table-column type="index" align="center" label="编号"></el-table-column>
+      <!-- <el-table-column prop="id"
 			                 label="ID"
 			                 align="center">
-			</el-table-column>
-            <el-table-column prop="account"
+			</el-table-column> -->
+      <el-table-column prop="account"
 			                 label="账号"
 			                 align="center">
 			</el-table-column>

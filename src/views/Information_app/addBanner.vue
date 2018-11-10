@@ -227,7 +227,8 @@
 			               :page-size=10
 			               @current-change="changepage"
 			               layout="prev, pager, next"
-			               :total="total">
+			               :total="total"
+                     v-if="total != ''">
 			</el-pagination>
 		</div>
 	</div>
@@ -332,12 +333,8 @@ export default {
   },
 
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
+    handleRemove(file, fileList) {},
     handleAvatarSuccess(res, file) {
-      console.log(res);
-      // console.log(file)
       this.ruleForm.picture = res; //  添加支付的图片名
       this.fileUrl = res; //  修改支付的图片名
       this.imageUrl = URL.createObjectURL(file.raw);
@@ -369,25 +366,18 @@ export default {
         picture: this.ruleForm.picture, //  图片地址
         render_url: this.ruleForm.upUrle //  跳转地址
       };
-      console.log(obj);
-      // addPaySwitch(obj).then(res=>{
-
-      // })
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // alert("submit!");
           addBanner(obj).then(res => {
-            console.log(res);
             if (res.data.error_code == 200) {
               Message.success(res.data.message);
               this.dialogVisible1 = false;
-              // this.findPaySwitch()
+              this.getTable(1, 2);
             } else {
               Message.success(res.data.message);
             }
           });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -408,9 +398,7 @@ export default {
         this.is_user = 0; //  不使用
       }
     },
-    handleChange(val) {
-      console.log(val);
-    },
+    handleChange(val) {},
     getTable(curr, a) {
       //   获取所有banner 列表
 
@@ -420,12 +408,10 @@ export default {
         pageSize: 20
       };
       findAllBanner(obj).then(res => {
-        console.log(res);
         if (res.data.error_code === 200) {
           this.tableData = res.data.data.list;
           this.total = res.data.data.total;
         }
-        console.log(res);
       });
     },
     selectChange() {
@@ -433,9 +419,6 @@ export default {
       this.getTable(1, this.value);
     },
     handleEdit(obj) {
-      console.log(obj);
-
-      console.log(obj.is_use);
       if (obj.is_use === 1) {
         this.value3 = true;
       } else {
@@ -474,7 +457,7 @@ export default {
         if (res.data.error_code == 200) {
           Message.success(res.data.message);
           this.viewFormVisible = false;
-          // this.findPaySwitch()
+          this.getTable(1, 2);
         } else {
           Message.success(res.data.message);
         }

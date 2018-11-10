@@ -253,7 +253,7 @@
                                 <!-- <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button> -->
                                 <el-button type="success" @click="Szczegol(scope.row)">明细</el-button>
                             </el-dropdown-menu>
-                            </el-dropdown> 
+                        </el-dropdown> 
                     </template>
                 </el-table-column>
             </el-table>
