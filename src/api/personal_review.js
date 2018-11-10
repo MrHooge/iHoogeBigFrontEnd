@@ -304,3 +304,19 @@ export function modifyProportion(obj) {
     params: obj
   });
 }
+// 轮播图列表
+export function findAllBanner(params) {
+  return request.member({
+    url: url + '/index/findAllBanner',
+    method: 'get',
+    params: params
+  })
+}
+// 轮播图列表 -- 添加 修改
+export function addBanner(params) {
+  return request.member({
+    url: url + '/memberManage/addBanner',
+    method: 'get',
+    params: params
+  })
+}

@@ -17,13 +17,19 @@
 			                 label="账号"
 			                 align="center">
 			</el-table-column>
-            <el-table-column prop="applicant"
+      <el-table-column prop="username"
+			                 align="center"
+			                 label="昵称">
+			</el-table-column>
+      <el-table-column prop="applicant"
 			                 label="申请人"
 			                 align="center">
 			</el-table-column>
-			<el-table-column prop="identify"
-			                 label="身份证号"
+			<el-table-column label="身份证号"
 			                 align="center">
+                      <template slot-scope="scope">
+                        {{scope.row.identify | afterFour}}
+                      </template>
 			</el-table-column>
 			
 			<el-table-column label="审核时间"
@@ -33,14 +39,14 @@
 				</template>
 			</el-table-column>
 
-			<el-table-column prop="mobile"
+			<!-- <el-table-column prop="mobile"
 			                 label="手机号"
 			                 align="center">
-			</el-table-column>
-            <el-table-column prop="name"
+			</el-table-column> -->
+      <!-- <el-table-column prop="name"
 			                 label="真实姓名"
 			                 align="center">
-			</el-table-column>
+			</el-table-column> -->
             <el-table-column prop="note"
 			                 label="备注"
 			                 align="center">
@@ -67,12 +73,6 @@
 			                 label="上级名字"
 			                 align="center">
 			 </el-table-column>
-
-			<el-table-column prop="username"
-			                 align="center"
-			                 label="昵称">
-			</el-table-column>
-
 			<el-table-column align="center"
 			                 width="180px"
 			                 label="操作">
@@ -149,6 +149,10 @@ export default {
     this.getData();
   },
   filters: {
+    //保留后四位
+    afterFour(val) {
+      return val.substring(val.length - 4);
+    },
     time(a) {
       if (a != null) {
         let date = new Date(a);

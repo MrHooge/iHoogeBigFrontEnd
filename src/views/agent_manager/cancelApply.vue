@@ -9,18 +9,18 @@
 			          placeholder="请输入昵称进行查询"
 			          style="width:12%;" clearable>
             </el-input>
-			      <!-- <el-input v-model="realName"
+			      <el-input v-model="realName"
 			          placeholder="请输入真实姓名进行查询"
 			          style="width:12%;" clearable>
-            </el-input> -->
-            <!-- <el-input v-model="mobile"
+            </el-input>
+            <el-input v-model="mobile"
 			          placeholder="请输入手机号进行查询"
 			          style="width:12%;" clearable>
-            </el-input> -->
-            <!-- <el-input v-model="identifyId"
+            </el-input>
+            <el-input v-model="identifyId"
 			          placeholder="请输入身份证号进行查询"
 			          style="width:12%;" clearable>
-            </el-input> -->
+            </el-input>
             <!-- <el-date-picker
             v-model="stime"
             type="datetime"
@@ -62,11 +62,12 @@
 			                 label="账号"
 			                 align="center">
 			</el-table-column>
-			<el-table-column prop="CERT_NO"
-			                 label="身份证号"
+			<el-table-column label="身份证号"
 			                 align="center">
+                       <template slot-scope="scope">
+                        {{scope.row.CERT_NO | afterFour}}
+                      </template>
 			</el-table-column>
-			
 			<el-table-column label="最后登录时间"
 			                 align="center">
                 <template slot-scope="scope">
@@ -74,14 +75,14 @@
 				</template>
 			</el-table-column>
 
-			<el-table-column prop="MOBILE"
+			<!-- <el-table-column prop="MOBILE"
 			                 label="手机号"
 			                 align="center">
 			</el-table-column>
             <el-table-column prop="NAME"
 			                 label="真实姓名"
 			                 align="center">
-			</el-table-column>
+			</el-table-column> -->
 
 			<el-table-column align="center"
 			                 label="注册时间">
@@ -127,51 +128,35 @@
                    style="text-align:center">
             <el-form :model="form">
                 <el-form-item label="昵称" :label-width="formLabelWidth">
-                    <el-input v-model="form.username"></el-input>
+                    <el-input v-model="form.username" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="账号" :label-width="formLabelWidth">
-                    <el-input v-model="form.account"></el-input>
+                    <el-input v-model="form.account" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="身份证号" :label-width="formLabelWidth">
+                <!-- <el-form-item label="身份证号" :label-width="formLabelWidth">
                     <el-input v-model="form.identify"></el-input>
                 </el-form-item>
-                <!-- <el-form-item label="发起时间" :label-width="formLabelWidth">
-                    <el-date-picker
-                    v-model="form.create_time"
-                    type="datetime"
-                    style="margin-right:20px;width:200px"
-                    placeholder="请选择时间"
-                    value-format="yyyy-MM-dd HH:mm:ss">
-                    </el-date-picker>
-                </el-form-item> -->
-                <!-- <el-form-item label="审核时间" :label-width="formLabelWidth">
-                    <el-date-picker
-                    v-model="form.review_time"
-                    type="datetime"
-                    style="margin-right:20px;width:200px"
-                    placeholder="请选择时间"
-                    value-format="yyyy-MM-dd HH:mm:ss">
-                    </el-date-picker>
-                </el-form-item> -->
                 <el-form-item label="手机号码" :label-width="formLabelWidth">
                     <el-input v-model="form.mobile"></el-input>
                 </el-form-item>
                 <el-form-item label="真实姓名" :label-width="formLabelWidth">
                     <el-input v-model="form.name"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="操作人" :label-width="formLabelWidth">
-                    <el-input v-model="form.operator"></el-input>
+                    <el-input v-model="form.operator" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="状态" :label-width="formLabelWidth">
+                  <el-radio-group v-model="form.status" size="mini" disabled>
                     <el-radio v-model="form.status" label="0" border>未审核</el-radio>
                     <el-radio v-model="form.status" label="1" border>通过</el-radio>
                     <el-radio v-model="form.status" label="2" border>驳回</el-radio>
+                  </el-radio-group>
                 </el-form-item>
                 <el-form-item label="上级账号" :label-width="formLabelWidth">
-                    <el-input v-model="form.up_account"></el-input>
+                    <el-input v-model="form.up_account" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="备注" :label-width="formLabelWidth">
-                    <el-input v-model="form.note"></el-input>
+                    <el-input v-model="form.note" disabled></el-input>
                 </el-form-item>
                 <el-form-item :label-width="formLabelWidth">
                     <el-button @click="dialogVisible = false" style="margin-left:-120px;margin-right:100px">取 消</el-button>
@@ -179,35 +164,7 @@
                             @click="launchSure()">确 定</el-button>
                 </el-form-item>
             </el-form>
-                
-			<!-- <div>
-				<p>姓名：{{ a }}</p>
-				<p>金额：{{ b }}</p>
-				<p>手机号：{{ c }}</p>
-			</div>
-			<span slot="footer"
-			      class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary"
-				           @click="confirm(c)">确 定</el-button>
-			</span> -->
 		</el-dialog>
-		<!-- 驳回弹窗 -->
-		<!-- <el-dialog title="您确定要驳回以下会员的审核吗？"
-		           :visible.sync="dialogVisible1"
-		           width="30%">
-			<div>
-				<p>姓名：{{ a }}</p>
-				<p>金额：{{ b }}</p>
-				<p>手机号：{{ c }}</p>
-			</div>
-			<span slot="footer"
-			      class="dialog-footer">
-				<el-button @click="dialogVisible1 = false">取 消</el-button>
-				<el-button type="primary"
-				           @click="sure()">确 定</el-button>
-			</span>
-		</el-dialog> -->
 		<el-pagination
             background
             @size-change="handleSizeChange"
@@ -218,17 +175,12 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalList"
             v-if="totalList != ''">
-        </el-pagination>
+    </el-pagination>
 	</div>
 </template>
 
 <script>
-import //   getCreditRefund,
-//   passCreditRefundApply,
-//   refuseCreditRefundApply
-"@/api/sys_user";
 import { findAllMemberByLoginAcc, memberLogoutReview } from "@/api/customer";
-
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message } from "element-ui";
 import treeTable from "@/components/TreeTable";
@@ -249,15 +201,6 @@ export default {
       c: "",
       ob: "",
       tableData: [], // 存储表数据
-      //   options: [
-      //     { value: "", label: "全部" },
-      //     { value: "0", label: "待审核" },
-      //     { value: "1", label: "已审核" },
-      //     { value: "2", label: "被驳回" }
-      //   ],
-      //   appliant: "",
-      //   value: "",
-      //   operator: "",
       totalList: 0,
 
       account: "",
@@ -290,6 +233,10 @@ export default {
     // this.getTodayDate();
   },
   filters: {
+    //保留后四位
+    afterFour(val) {
+      return val.substring(val.length - 4);
+    },
     time(a) {
       if (a != null) {
         let date = new Date(a);

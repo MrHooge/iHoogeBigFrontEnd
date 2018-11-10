@@ -1090,6 +1090,12 @@ export const constantRouterMap = [
         component: () => import("@/views/Information_app/commissionScale.vue"),
         meta: { title: "抽成比例" }
       },
+      {
+        path: "addBanner",
+        name: "轮播图管理",
+        component: () => import("@/views/Information_app/addBanner"),
+        meta: { title: "轮播图管理" }
+      },
     ]
   },
   { path: "*", redirect: "/404", hidden: true }
