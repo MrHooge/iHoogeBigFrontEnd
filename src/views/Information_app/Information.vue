@@ -28,10 +28,10 @@
                 <template slot-scope="scope">
                     <el-button size="mini"
                                type="primary"
-                               @click="handlePass(scope.row.account)">通过</el-button>
+                               @click="handle(scope.row.account,'pass')">通过</el-button>
                     <el-button size="mini"
                                type="danger"
-                               @click="handleReject(scope.row.account)">拒绝</el-button>
+                               @click="handle(scope.row.account,'reject')">拒绝</el-button>
                 </template>
 
             </el-table-column>
@@ -59,7 +59,10 @@ export default {
       tableData: [], // 表歌数据
       page: 1, // 当前页
       pageSize: 20, //数据条数
-      totalList: 0 // 总页数
+      totalList: 0, // 总页数
+
+      account: "",
+      examine: ""
     };
   },
   filters: {
@@ -105,26 +108,21 @@ export default {
       });
     },
     // 审核通过
-    handlePass(a) {
-      let obj = {
-        account: a,
-        examine: 1
-      };
-      Reviews(obj).then(res => {
-        if (res.data.error_code == 200) {
-          this.$message.success(res.data.message);
-          this.getTable();
-        } else {
-          this.$message.error(res.data.message);
-        }
-      });
+    handle(a, b) {
+      this.account = a;
+      if (b === "pass") {
+        this.examine = 1;
+      } else if ("reject") {
+        this.examine = 0;
+      }
+      this.handleSure();
     },
 
     // 审核拒绝
-    handleReject(b) {
+    handleSure() {
       let obj = {
-        account: b,
-        examine: 0
+        account: this.account,
+        examine: this.examine
       };
       Reviews(obj).then(res => {
         if (res.data.error_code == 200) {
