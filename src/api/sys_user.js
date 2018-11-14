@@ -846,3 +846,12 @@ export function updateLotteryLimitStatus(params) {
     params: params
   })
 }
+
+// 渠道销量统计
+export function findQdSaleCount(userinfos) {
+  return request.member({
+    url: '/userCount/findQdSaleCount',
+    method: 'get',
+    params: userinfos
+  })
+}

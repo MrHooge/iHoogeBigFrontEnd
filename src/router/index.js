@@ -535,10 +535,10 @@ export const constantRouterMap = [
         meta: { title: "财务资金明细" }
       },
       {
-        path: "cashdetails",
-        name: "财务现金明细",
-        component: () => import("@/views/financialManagement/cashdetails"),
-        meta: { title: "财务现金明细" }
+        path: "channelSalesInfo",
+        name: "渠道销量统计",
+        component: () => import("@/views/financialManagement/channelSalesInfo"),
+        meta: { title: "渠道销量统计" }
       },
       {
         path: "handsel_give",
