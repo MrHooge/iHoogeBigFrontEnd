@@ -6,10 +6,6 @@
                           placeholder="请输入用户名"
                           style="width:10%;margin-right:50px;margin-bottom:40px;margin-top:40px"
                           clearable></el-input>
-                <!-- <el-input v-model="username"
-                          placeholder="请输入昵称查询"
-                          style="width:10%;margin-right:50px;"
-                          clearable></el-input> -->
                 <el-select v-model="type"
                            placeholder="筛选"
                            style="width:140px;margin-right: 50px;">
@@ -38,7 +34,7 @@
                                      align="center">
                                      <template slot-scope="scope">
                                          <div>
-                                            <img :src="'https://'+scope.row.masterPictureUrl" alt="" style="width:30%;height:30%">
+                                            <img :src="'https://'+scope.row.masterPictureUrl" alt="" style="width:20%;height:30%">
                                         </div>
                                      </template>
                     </el-table-column>
