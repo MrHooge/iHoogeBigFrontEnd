@@ -211,207 +211,206 @@
 </template>
 
 <script>
-import { getPlanDetailForManager,planBack } from '@/api/period'
+import { getPlanDetailForManager, planBack } from "@/api/period";
 export default {
-    data(){
-        return {
-            number:'',
-            tableData:[],
-            messagedata:[],
-            newarr:[],
-            tablethis:[],
-            lotteryType:'',//彩种
-            superPlanNo: '',  //超级方案编号
-            planStatus:'',//方案状态
-            playType: '', //过关方式
-            term:'',//彩期
-            isSuper: '',   //是否自购
-            account:'',
-            superAccount: '',//跟单人的账号
-            createDateTime:'',
-            dealDateTime:'',
-            arrivalTime: '',
-            isSuper:'',
-            amount:'',
-            multiple:'',
-            openResultTime:'',
-            publics:'',
-            winStatus:'',
-            pretaxPrize:'',
-            posttaxPrize:'',
-            printTicketDateTime:'',
-            planOrderStatus:'',
-            ticketDetail:'',
-            posttaxPrize:'',
-            dialogVisible:false
-        }
+  data() {
+    return {
+      number: "",
+      tableData: [],
+      messagedata: [],
+      newarr: [],
+      tablethis: [],
+      lotteryType: "", //彩种
+      superPlanNo: "", //超级方案编号
+      planStatus: "", //方案状态
+      playType: "", //过关方式
+      term: "", //彩期
+      isSuper: "", //是否自购
+      account: "",
+      superAccount: "", //跟单人的账号
+      createDateTime: "",
+      dealDateTime: "",
+      arrivalTime: "",
+      isSuper: "",
+      amount: "",
+      multiple: "",
+      openResultTime: "",
+      publics: "",
+      winStatus: "",
+      pretaxPrize: "",
+      posttaxPrize: "",
+      printTicketDateTime: "",
+      planOrderStatus: "",
+      ticketDetail: "",
+      posttaxPrize: "",
+      dialogVisible: false
+    };
+  },
+  filters: {
+    isZG(a) {
+      a = Number(a);
+      if (a === 1) {
+        return "是";
+      } else if (a === 0) {
+        return "否";
+      }
     },
-    filters:{
-        isZG(a){
-            a = Number(a)
-            if(a === 1){
-                return '是'
-            }
-            else if(a === 0){
-                return '否'
-            }
-        },
-        time(a){
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-            }
-        }
-    },
-    created(){
-        this.number = this.$route.query.planNo;
-        this.gettable()
-    },
-    methods:{
-        //撤销
-        getone(){
-            this.dialogVisible = true
-        },
-        editlayer(){
-            let newobj = {
-                planNo:this.$route.query.planNo
-            }
-            planBack(newobj).then(res => {
-                if(res.data.error_code == 200){
-                    this.$message(res.data.message)
-                    this.dialogVisible = false
-                }else{
-                    this.$message(res.data.message)
-                    this.dialogVisible = false
-                }
-            })
-        },
-        //获取数据
-        gettable(){
-            let obj = {
-                planNo:this.number
-            }
-            this.newarr = [];
-            let obje = {
-                matchId:''
-            }
-            getPlanDetailForManager(obj).then(res => {
-                let rest = res.data.matchDetail;
-                rest.forEach(e => {
-                    this.newarr.push(e.options);
-                });
-                
-                this.messagedata = res.data.matchDetail;
-                this.tablethis = res.data.matchDetail.options;
-                this.lotteryType = res.data.lotteryType;
-                this.superPlanNo = res.data.superPlanNo;
-                this.planStatus = res.data.planStatus;
-                this.playType = res.data.playType;
-                this.term = res.data.term;
-                this.isSuper = res.data.isSuper;
-                this.account = res.data.account;
-                this.superAccount = res.data.superAccount;
-                this.createDateTime = res.data.createDateTime;
-                this.dealDateTime = res.data.dealDateTime;
-                this.isSuper = res.data.isSuper;
-                this.amount = res.data.amount;
-                this.multiple = res.data.multiple;
-                this.publics = res.data.public;
-                this.winStatus = res.data.winStatus;
-                this.pretaxPrize = res.data.pretaxPrize;
-                this.posttaxPrize = res.data.posttaxPrize;
-                this.printTicketDateTime = res.data.printTicketDateTime;
-                this.arrivalTime = res.data.arrivalTime
-                this.ticketDetail = res.data.ticketDetail;
-                this.planOrderStatus = res.data.planOrderStatus;
-                this.openResultTime = res.data.openResultTime;
-                this.posttaxPrize = res.data.posttaxPrize;
-            })
-        }
+    time(a) {
+      if (a != null) {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
     }
-}
+  },
+  created() {
+    this.number = this.$route.query.planNo;
+    this.gettable();
+  },
+  methods: {
+    //撤销
+    getone() {
+      this.dialogVisible = true;
+    },
+    editlayer() {
+      let newobj = {
+        planNo: this.$route.query.planNo,
+        account: this.$store.state.user.name
+      };
+      planBack(newobj).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message(res.data.message);
+          this.dialogVisible = false;
+        } else {
+          this.$message(res.data.message);
+          this.dialogVisible = false;
+        }
+      });
+    },
+    //获取数据
+    gettable() {
+      let obj = {
+        planNo: this.number
+      };
+      this.newarr = [];
+      let obje = {
+        matchId: ""
+      };
+      getPlanDetailForManager(obj).then(res => {
+        let rest = res.data.matchDetail;
+        rest.forEach(e => {
+          this.newarr.push(e.options);
+        });
+
+        this.messagedata = res.data.matchDetail;
+        this.tablethis = res.data.matchDetail.options;
+        this.lotteryType = res.data.lotteryType;
+        this.superPlanNo = res.data.superPlanNo;
+        this.planStatus = res.data.planStatus;
+        this.playType = res.data.playType;
+        this.term = res.data.term;
+        this.isSuper = res.data.isSuper;
+        this.account = res.data.account;
+        this.superAccount = res.data.superAccount;
+        this.createDateTime = res.data.createDateTime;
+        this.dealDateTime = res.data.dealDateTime;
+        this.isSuper = res.data.isSuper;
+        this.amount = res.data.amount;
+        this.multiple = res.data.multiple;
+        this.publics = res.data.public;
+        this.winStatus = res.data.winStatus;
+        this.pretaxPrize = res.data.pretaxPrize;
+        this.posttaxPrize = res.data.posttaxPrize;
+        this.printTicketDateTime = res.data.printTicketDateTime;
+        this.arrivalTime = res.data.arrivalTime;
+        this.ticketDetail = res.data.ticketDetail;
+        this.planOrderStatus = res.data.planOrderStatus;
+        this.openResultTime = res.data.openResultTime;
+        this.posttaxPrize = res.data.posttaxPrize;
+      });
+    }
+  }
+};
 </script>
 
 <style scoped>
-.newobj{
-    width: 120px;
-    height: 150px;
-    float: left;
-    
+.newobj {
+  width: 120px;
+  height: 150px;
+  float: left;
 }
-.something{
-    font-size: 14px;
-    width: 100%;
-    height: 48px;
-    border: 1px solid #cccccc;
-    text-align: center;
-    line-height: 50px;
-    color: #909399
+.something {
+  font-size: 14px;
+  width: 100%;
+  height: 48px;
+  border: 1px solid #cccccc;
+  text-align: center;
+  line-height: 50px;
+  color: #909399;
 }
-.details{
-    padding: 10px 20px 
+.details {
+  padding: 10px 20px;
 }
-.Informationen{
-    min-width: 1000px;
-    width:60%;
-    margin-top: 20px;
-    color: #909399;
-    float: left;
+.Informationen {
+  min-width: 1000px;
+  width: 60%;
+  margin-top: 20px;
+  color: #909399;
+  float: left;
 }
-.Lento{
-    min-width: 100px;
-    width: 40%;
-    margin-top: 20px;
-    float: left;
+.Lento {
+  min-width: 100px;
+  width: 40%;
+  margin-top: 20px;
+  float: left;
 }
-.title{
-    text-align: center;
-    width: 95%;
-    line-height: 40px;
-    border: 1px  solid #cccccc
+.title {
+  text-align: center;
+  width: 95%;
+  line-height: 40px;
+  border: 1px solid #cccccc;
 }
-.Enthalt{
-    width: 95%;
-    height: 40px;
-    margin: 5px 0
+.Enthalt {
+  width: 95%;
+  height: 40px;
+  margin: 5px 0;
 }
-.hang{
-    width: 49%;
-    height: 40px;
-    float: left;
-    margin-right: 18px
+.hang {
+  width: 49%;
+  height: 40px;
+  float: left;
+  margin-right: 18px;
 }
-.lei{
-    float: left;
-     width: 49%;
-    height: 40px;
+.lei {
+  float: left;
+  width: 49%;
+  height: 40px;
 }
-.left{
-    float: left;
-    width: 49%;
-    height: 40px;
-    border: 1px solid #cccccc;
-    margin-right: 8px;
-    text-align: center;
-    line-height: 40px
+.left {
+  float: left;
+  width: 49%;
+  height: 40px;
+  border: 1px solid #cccccc;
+  margin-right: 8px;
+  text-align: center;
+  line-height: 40px;
 }
-.right{
-    float: left;
-     width: 49%;
-    height: 40px;
-    border: 1px solid #cccccc;
-    text-align: center;
-    line-height: 40px
+.right {
+  float: left;
+  width: 49%;
+  height: 40px;
+  border: 1px solid #cccccc;
+  text-align: center;
+  line-height: 40px;
 }
 </style>

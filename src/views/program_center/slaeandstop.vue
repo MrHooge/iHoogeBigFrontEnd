@@ -35,51 +35,51 @@
 </template>
 
 <script>
-import { getLotteryTypeIsSale,updateLotteryTypeIsSale } from '@/api/period'
+import { getLotteryTypeIsSale, updateLotteryTypeIsSale } from "@/api/period";
 export default {
-    data(){
-        return {
-            dialogShenVisible:false,
-            type:'',
-            status:'',
-            tableData:[]
-
+  data() {
+    return {
+      dialogShenVisible: false,
+      type: "",
+      status: "",
+      tableData: []
+    };
+  },
+  created() {
+    this.gettable();
+  },
+  methods: {
+    //获取数据
+    gettable() {
+      getLotteryTypeIsSale().then(res => {
+        this.tableData.push(res.data.data);
+      });
+    },
+    //修改
+    inquire() {
+      this.dialogShenVisible = true;
+    },
+    //确认
+    sure() {
+      let lotteryType = this.type;
+      let status = this.status;
+      let account = this.$store.state.user.name;
+      updateLotteryTypeIsSale(account, lotteryType, status).then(res => {
+        if (res.data.error_code == 200) {
+          this.$message.success(res.data.message);
+          this.dialogShenVisible = false;
+        } else {
+          this.$message.error(res.data.message);
+          this.dialogShenVisible = false;
         }
-    },
-    created(){
-        this.gettable()
-    },
-    methods:{
-        //获取数据
-        gettable(){
-            getLotteryTypeIsSale().then(res => {
-                this.tableData.push(res.data.data)
-            })
-        },
-        //修改
-        inquire(){
-            this.dialogShenVisible = true
-        },
-        //确认
-        sure(){
-            let lotteryType = this.type;
-            let status = this.status;
-            updateLotteryTypeIsSale(lotteryType,status).then(res => {
-                if(res.data.error_code == 200){
-                    this.$message.success(res.data.message);
-                    this.dialogShenVisible = false
-                }else{
-                    this.$message.error(res.data.message);
-                    this.dialogShenVisible = false
-                }
-            })
-        }
-    },
-}
+      });
+    }
+  }
+};
 </script>
 
 <style scoped>
-.sale{
-    padding: 10px 20px
+.sale {
+  padding: 10px 20px;
 }
 </style>

@@ -143,6 +143,7 @@ export default {
       startTime: "",
       dialogFormVisible: false,
       form: {
+        account: this.$store.state.user.name,
         matchTime: "",
         guestScore: "",
         halfGuestScore: "",

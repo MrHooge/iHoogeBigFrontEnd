@@ -87,7 +87,7 @@
                     <el-dialog title="修改" :visible.sync="dialogFormVisible">
                         <el-form :label-position="labelPosition" label-width="280px" :model="formLabelAlign">
                             <el-form-item label="彩种" style="text-align: left;">
-                                <el-select v-model="formLabelAlign.lotteryTypeValue" placeholder="请选择">
+                                <el-select v-model="formLabelAlign.lotteryTypeValue" placeholder="请选择" @change="changeLayout">
                                     <el-option
                                     v-for="item in options"
                                     :key="item.value"
@@ -376,9 +376,11 @@ export default {
         testMachineCode: [], //试机号
         totalAmount: "" //投注金额
       },
+
       result: "", //传参时的开奖结果
       resultDetail: "", //传参时的结果详情
       testMachineCode: "", //传参时的试机号
+
       //结果详情
       prizeNum: [], //中奖数
       prizeBonus: [], //奖金
@@ -401,10 +403,10 @@ export default {
         }
       ],
 
-      bigLotto: true,
-      sevenStar: false,
-      arrThree: false,
-      arrFive: false
+      bigLotto: true, //大乐透显示
+      sevenStar: false, //七星彩显示
+      arrThree: false, //排列3
+      arrFive: false //排列5
     };
   },
   filters: {
@@ -479,18 +481,46 @@ export default {
         this.totalList = res.data.data.total;
       });
     },
-
+    changeLayout() {
+      //根据彩种判断显示
+      if (this.formLabelAlign.lotteryTypeValue === "1") {
+        //大乐透
+        this.bigLotto = true;
+        this.sevenStar = false;
+        this.arrThree = false;
+        this.arrFive = false;
+      } else if (this.formLabelAlign.lotteryTypeValue === "2") {
+        //七星彩
+        this.bigLotto = false;
+        this.sevenStar = true;
+        this.arrThree = false;
+        this.arrFive = false;
+      } else if (this.formLabelAlign.lotteryTypeValue === "3") {
+        //排列3
+        this.bigLotto = false;
+        this.sevenStar = false;
+        this.arrThree = true;
+        this.arrFive = false;
+      } else if (this.formLabelAlign.lotteryTypeValue === "4") {
+        //排列5
+        this.bigLotto = false;
+        this.sevenStar = false;
+        this.arrThree = false;
+        this.arrFive = true;
+      }
+    },
     // 编辑
     update(data) {
-        console.log(data)
-    //   this.prizeNum = [];
+      console.log(data);
+      //数组清空
+      this.prizeNum = [];
       this.prizeBonus = [];
       this.formLabelAlign.result = [];
       this.formLabelAlign.testMachineCode = [];
 
       this.dialogFormVisible = true;
 
-      this.formLabelAlign.awardPool = data.awardPool;
+      this.formLabelAlign.awardPool = data.awardPool; //下期奖池
       this.formLabelAlign.isAble = data.isAble.toString();
       this.formLabelAlign.lotteryTypeValue = data.lotteryType.toString();
       this.formLabelAlign.openResultTime = this.changeTime(data.openDateTime);
@@ -500,22 +530,36 @@ export default {
       if (data.testMachineCode) {
         this.formLabelAlign.testMachineCode = data.testMachineCode.split(",");
       }
-    //   this.formLabelAlign.resultDetail = data.resultDetail;
+      //   this.formLabelAlign.resultDetail = data.resultDetail;
       this.formLabelAlign.status = data.status;
       this.formLabelAlign.term = data.term;
       this.formLabelAlign.totalAmount = data.totalAmount;
       //结果详情
       let arr = [];
       let newArr = [];
-      arr = data.resultDetail.split("#");
-      console.log(data.resultDetail)
+      //对数据第一个是否是#作判断 如果第一个是#则删除
+      console.log(data.resultDetail);
+      if (data.resultDetail != null) {
+        if (data.resultDetail.slice("0", "1") === "#") {
+          arr = data.resultDetail.slice("1").split("#");
+        } else {
+          arr = data.resultDetail.split("#");
+        }
+      }
+      //   console.log(data.resultDetail);
+      //   if (data.resultDetail.slice("0", "1") === "#") {
+      //     arr = data.resultDetail.slice("1").split("#");
+      //   } else {
+      //     arr = data.resultDetail.split("#");
+      //   }
+      console.log(data.resultDetail);
       console.log(arr);
       for (var i = 0; i < arr.length; i++) {
         newArr.push(arr[i].split("^"));
       }
-      console.log(newArr)
+      console.log(newArr);
       for (var j = 0; j < newArr.length; j++) {
-          console.log(newArr[j][1])
+        console.log(newArr[j][1]);
         this.prizeNum.push(newArr[j][1]);
         this.prizeBonus.push(newArr[j][2]);
       }
@@ -583,7 +627,7 @@ export default {
         num = 3;
         testNum = 3;
       } else if (this.arrFive) {
-        num = 5;
+        num = 1;
         testNum = 5;
       }
       console.log(num);
@@ -621,7 +665,6 @@ export default {
           if (res.data.error_code === 200) {
             this.dialogFormVisible = false;
             this.$message.success(res.data.message);
-            // this.formLabelAlign = "";
             this.gettable();
           } else {
             this.$message.error(res.data.message);

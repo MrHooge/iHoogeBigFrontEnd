@@ -150,11 +150,12 @@ export function getLotteryTypeIsSale() {
     })
 }
 //修改彩种列表
-export function updateLotteryTypeIsSale(lotteryType, status) {
+export function updateLotteryTypeIsSale(account, lotteryType, status) {
     return request.lottery({
         url: '/lottery/updateLotteryTypeIsSale',
         method: 'get',
         params: {
+            account,
             lotteryType,
             status
         }

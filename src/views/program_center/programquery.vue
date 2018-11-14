@@ -841,7 +841,8 @@ export default {
     },
     want() {
       let subject = {
-        planNo: this.onePlanNo
+        planNo: this.onePlanNo,
+        account: this.$store.state.user.name
       };
       planBack(subject).then(res => {
         if (res.data.error_code == 200) {
