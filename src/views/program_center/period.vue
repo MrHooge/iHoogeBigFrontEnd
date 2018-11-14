@@ -87,7 +87,7 @@
                     <el-dialog title="修改" :visible.sync="dialogFormVisible">
                         <el-form :label-position="labelPosition" label-width="280px" :model="formLabelAlign">
                             <el-form-item label="彩种" style="text-align: left;">
-                                <el-select v-model="formLabelAlign.lotteryTypeValue" placeholder="请选择" @change="changeLayout">
+                                <el-select v-model="formLabelAlign.lotteryTypeValue" placeholder="请选择" disabled>
                                     <el-option
                                     v-for="item in options"
                                     :key="item.value"
@@ -362,7 +362,7 @@ export default {
       term: "",
       totalList: 0,
 
-      labelPosition: "right",
+      labelPosition: "right", //标签的位置居右
       // 修改时传的参数
       formLabelAlign: {
         awardPool: "", //下期奖池
@@ -512,7 +512,7 @@ export default {
     // 编辑
     update(data) {
       console.log(data);
-      //数组清空
+      //数组清空（避免再次操作时，之前数组没有清空造成数组数据顺序出错）
       this.prizeNum = [];
       this.prizeBonus = [];
       this.formLabelAlign.result = [];
@@ -521,37 +521,33 @@ export default {
       this.dialogFormVisible = true;
 
       this.formLabelAlign.awardPool = data.awardPool; //下期奖池
-      this.formLabelAlign.isAble = data.isAble.toString();
-      this.formLabelAlign.lotteryTypeValue = data.lotteryType.toString();
-      this.formLabelAlign.openResultTime = this.changeTime(data.openDateTime);
+      this.formLabelAlign.isAble = data.isAble.toString(); //是否可用
+      this.formLabelAlign.lotteryTypeValue = data.lotteryType.toString(); //彩种
+      this.formLabelAlign.openResultTime = this.changeTime(data.openDateTime); //开奖时间
       if (data.result) {
-        this.formLabelAlign.result = data.result.split(",");
+        this.formLabelAlign.result = data.result.split(","); //开奖结果
       }
       if (data.testMachineCode) {
-        this.formLabelAlign.testMachineCode = data.testMachineCode.split(",");
+        this.formLabelAlign.testMachineCode = data.testMachineCode.split(","); //试机号
       }
       //   this.formLabelAlign.resultDetail = data.resultDetail;
-      this.formLabelAlign.status = data.status;
-      this.formLabelAlign.term = data.term;
-      this.formLabelAlign.totalAmount = data.totalAmount;
+      //   this.formLabelAlign.status = data.status; //状态
+      this.formLabelAlign.term = data.term; //彩期
+      this.formLabelAlign.totalAmount = data.totalAmount; //投注金额
       //结果详情
       let arr = [];
       let newArr = [];
-      //对数据第一个是否是#作判断 如果第一个是#则删除
+
       console.log(data.resultDetail);
+      //首先判断resultDetail是否有值
       if (data.resultDetail != null) {
+        //对数据第一个是否是#作判断 如果第一个是#则把#删除再分割字符串
         if (data.resultDetail.slice("0", "1") === "#") {
           arr = data.resultDetail.slice("1").split("#");
         } else {
           arr = data.resultDetail.split("#");
         }
       }
-      //   console.log(data.resultDetail);
-      //   if (data.resultDetail.slice("0", "1") === "#") {
-      //     arr = data.resultDetail.slice("1").split("#");
-      //   } else {
-      //     arr = data.resultDetail.split("#");
-      //   }
       console.log(data.resultDetail);
       console.log(arr);
       for (var i = 0; i < arr.length; i++) {
@@ -599,12 +595,13 @@ export default {
       arr1 = this.prizeNum;
       arr2 = this.prizeBonus;
       for (var i = 0; i < arr1.length; i++) {
-        newArr.push("prize" + (i + 1) + "^" + arr1[i] + "^");
+        newArr.push("prize" + (i + 1) + "^" + arr1[i] + "^"); //格式拼接中奖注数：prize1^0^
       }
       for (var k = 0; k < arr2.length; k++) {
-        newArr2.push(newArr[k] + arr2[k]);
+        newArr2.push(newArr[k] + arr2[k]); //格式拼接上奖金：prize1^0^0
       }
-      this.resultDetail = newArr2.join("#");
+      this.resultDetail = newArr2.join("#"); //结果详情最终拼接：prize1^0^0#prize2^4^70865#prize3^98^1800#prize4^1585^300#prize5^21353^20#prize6^263084^5
+      //把需要判断为空的参数放入一个数组
       let arr = [
         this.formLabelAlign.awardPool,
         this.formLabelAlign.lotteryTypeValue,
@@ -614,9 +611,11 @@ export default {
         this.formLabelAlign.testMachineCode,
         this.formLabelAlign.totalAmount
       ];
-      //判断是否每个输入框都有值
+
       let num = ""; //中奖数和奖金的个数
       let testNum = ""; //试机号的个数
+      console.log(this.bigLotto);
+      console.log(this.arrThree);
       if (this.bigLotto) {
         num = 11;
         testNum = 7;
@@ -637,6 +636,7 @@ export default {
       console.log(this.prizeNum.length);
       console.log(this.prizeBonus.length);
       console.log(arr);
+      //判断是否每个输入框都有值
       if (
         arr.indexOf(null) === -1 &&
         arr.indexOf("") === -1 &&
@@ -647,8 +647,8 @@ export default {
         this.formLabelAlign.testMachineCode.indexOf("") === -1 &&
         this.formLabelAlign.testMachineCode.length === testNum
       ) {
-        this.result = this.formLabelAlign.result.join(",");
-        this.testMachineCode = this.formLabelAlign.testMachineCode.join(",");
+        this.result = this.formLabelAlign.result.join(","); //传参时把数组用,拼接成字符串传
+        this.testMachineCode = this.formLabelAlign.testMachineCode.join(","); //传参时把数组用,拼接成字符串传
         let obj = {
           awardPool: this.formLabelAlign.awardPool,
           isAble: "",
@@ -662,6 +662,7 @@ export default {
           totalAmount: this.formLabelAlign.totalAmount
         };
         updateTerm(obj).then(res => {
+          //调用修改接口
           if (res.data.error_code === 200) {
             this.dialogFormVisible = false;
             this.$message.success(res.data.message);
