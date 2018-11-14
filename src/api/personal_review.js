@@ -320,3 +320,20 @@ export function addBanner(params) {
     params: params
   })
 }
+// 头像查询
+export function getPicture(params) {
+  return request.member({
+    url: url + '/memberManage/getPicture',
+    method: 'get',
+    params: params
+  })
+}
+
+// 头像查询
+export function modifyPicture(params) {
+  return request.member({
+    url: url + '/memberManage/modifyPicture',
+    method: 'get',
+    params: params
+  })
+}

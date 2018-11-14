@@ -342,12 +342,6 @@ export const constantRouterMap = [
         meta: { title: "彩金卡查询" }
       },
       {
-        path: "activityGiftcard",
-        name: "人工送彩金卡",
-        component: () => import("@/views/activity_manager/activity_giftcard"),
-        meta: { title: "人工送彩金卡" }
-      },
-      {
         path: "seiper_banner",
         name: "轮播图管理",
         component: () => import("@/views/activity_manager/seiper_banner"),
@@ -1095,6 +1089,12 @@ export const constantRouterMap = [
         name: "轮播图管理",
         component: () => import("@/views/Information_app/addBanner"),
         meta: { title: "轮播图管理" }
+      },
+      {
+        path: "headImgSearch",
+        name: "头像查询",
+        component: () => import("@/views/Information_app/headImgSearch"),
+        meta: { title: "头像查询" }
       },
     ]
   },
