@@ -12,6 +12,11 @@
                 label="id">
             </el-table-column>
             <el-table-column
+                prop="term"
+                align="center"                
+                label="彩期">
+            </el-table-column>
+            <el-table-column
                 align="center"                
                 label="是否可用">
                 <template slot-scope="scope">
@@ -57,11 +62,7 @@
                     {{scope.row.startDateTime | type}}
                 </template>
             </el-table-column>
-            <el-table-column
-                prop="term"
-                align="center"                
-                label="彩期">
-            </el-table-column>
+            
             <el-table-column
                 align="center"                
                 label="终端截止时间">
@@ -167,161 +168,109 @@
                             </el-form-item>
                             <el-form-item label="结果详情" style="width:100%">
                                 <div>
-                                    <h3>中奖数</h3>
+                                    <div style="text-align:center">
+                                        <span>中奖数</span>
+                                        <span style="margin-left:200px;">奖金</span>
+                                    </div>
+                                    
                                     <!-- 大乐透 -->
                                     <el-form :label-position="labelPosition" label-width="120px" v-if="bigLotto">
                                         <el-form-item label="一等奖">
-                                            <el-input v-model="prizeNum[0]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[0]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[0]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="一等奖追加">
-                                            <el-input v-model="prizeNum[1]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[1]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[1]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="二等奖">
-                                            <el-input v-model="prizeNum[2]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[2]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[2]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="二等奖追加">
-                                            <el-input v-model="prizeNum[3]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[3]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[3]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="三等奖">
-                                            <el-input v-model="prizeNum[4]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[4]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[4]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="三等奖追加">
-                                            <el-input v-model="prizeNum[5]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[5]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[5]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="四等奖">
-                                            <el-input v-model="prizeNum[6]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[6]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[6]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="四等奖追加">
-                                            <el-input v-model="prizeNum[7]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[7]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[7]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="五等奖">
-                                            <el-input v-model="prizeNum[8]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[8]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[8]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="五等奖追加">
-                                            <el-input v-model="prizeNum[9]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[9]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[9]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="六等奖">
-                                            <el-input v-model="prizeNum[10]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[10]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[10]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                     </el-form>
                                     <!-- 七星彩 -->
                                     <el-form :label-position="labelPosition" label-width="120px" v-if="sevenStar">
                                         <el-form-item label="一等奖">
-                                            <el-input v-model="prizeNum[0]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[0]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[0]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="二等奖">
-                                            <el-input v-model="prizeNum[1]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[1]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[1]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="三等奖">
-                                            <el-input v-model="prizeNum[2]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[2]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[2]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="四等奖">
-                                            <el-input v-model="prizeNum[3]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[3]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[3]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="五等奖">
-                                            <el-input v-model="prizeNum[4]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[4]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[4]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="六等奖">
-                                            <el-input v-model="prizeNum[5]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[5]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[5]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                     </el-form>
                                     <!-- 排列3 -->
                                     <el-form :label-position="labelPosition" label-width="120px" v-if="arrThree">
                                         <el-form-item label="排列直选">
-                                            <el-input v-model="prizeNum[0]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[0]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[0]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="排三组选3">
-                                            <el-input v-model="prizeNum[1]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[1]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[1]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                         <el-form-item label="排三组选6">
-                                            <el-input v-model="prizeNum[2]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[2]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[2]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                     </el-form>
                                     <!-- 排列5 -->
                                     <el-form :label-position="labelPosition" label-width="120px" v-if="arrFive">
                                         <el-form-item label="">
-                                            <el-input v-model="prizeNum[0]" style="width:300px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注
+                                            <el-input v-model="prizeNum[0]" style="width:200px;margin-bottom:20px;" clearable></el-input>&nbsp;&nbsp;注&nbsp;&nbsp;
+                                            <el-input v-model="prizeBonus[0]" style="width:200px;margin-bottom:20px;" clearable></el-input>
                                         </el-form-item>
                                     </el-form>
                                 </div>
-                                <div>
-                                    <h3>奖金</h3>
-                                    <!-- 大乐透 -->
-                                    <el-form label-width="120px" v-if="bigLotto">
-                                        <el-form-item label="一等奖奖金">
-                                            <el-input v-model="prizeBonus[0]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="一等奖追加奖金">
-                                            <el-input v-model="prizeBonus[1]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="二等奖奖金">
-                                            <el-input v-model="prizeBonus[2]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="二等奖追加奖金">
-                                            <el-input v-model="prizeBonus[3]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="三等奖奖金">
-                                            <el-input v-model="prizeBonus[4]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="三等奖追加奖金">
-                                            <el-input v-model="prizeBonus[5]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="四等奖奖金">
-                                            <el-input v-model="prizeBonus[6]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="四等奖追加奖金">
-                                            <el-input v-model="prizeBonus[7]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="五等奖奖金">
-                                            <el-input v-model="prizeBonus[8]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="五等奖追加奖金">
-                                            <el-input v-model="prizeBonus[9]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="六等奖奖金">
-                                            <el-input v-model="prizeBonus[10]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                    <!-- 七星彩 -->
-                                    <el-form label-width="120px" v-if="sevenStar">
-                                        <el-form-item label="一等奖奖金">
-                                            <el-input v-model="prizeBonus[0]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="二等奖奖金">
-                                            <el-input v-model="prizeBonus[1]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="三等奖奖金">
-                                            <el-input v-model="prizeBonus[2]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="四等奖奖金">
-                                            <el-input v-model="prizeBonus[3]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="五等奖奖金">
-                                            <el-input v-model="prizeBonus[4]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="六等奖奖金">
-                                            <el-input v-model="prizeBonus[5]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                    <!-- 排列3 -->
-                                    <el-form label-width="120px" v-if="arrThree">
-                                        <el-form-item label="排列直选奖金">
-                                            <el-input v-model="prizeBonus[0]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="排三组选3奖金">
-                                            <el-input v-model="prizeBonus[1]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                        <el-form-item label="排三组选6奖金">
-                                            <el-input v-model="prizeBonus[2]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                    <!-- 排列5 -->
-                                    <el-form label-width="120px" v-if="arrFive">
-                                        <el-form-item label="">
-                                            <el-input v-model="prizeBonus[0]" style="width:400px;margin-bottom:20px;" clearable></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                </div>
+                                
                             </el-form-item>
                             <div style="text-align:right">
                                 <el-button @click="dialogFormVisible = false">取 消</el-button>

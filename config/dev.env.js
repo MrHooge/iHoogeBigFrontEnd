@@ -7,8 +7,8 @@ const QYAPI = {
   infos: "'https://infos.api.qiyun88.cn'",
   pay: "'https://pay.api.qiyun88.cn'",
   ticket: "'https://ticket.api.qiyun88.cn'",
-  lottery: "'https://lottery.api.qiyun88.cn'"
-  // lottery: "'https://lottery.api.588yd.cn'",
+  // lottery: "'https://lottery.api.qiyun88.cn'"
+  lottery: "'https://lottery.api.588yd.cn'",
 }
 
 module.exports = merge(prodEnv, {
