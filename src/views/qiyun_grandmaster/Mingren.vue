@@ -38,7 +38,7 @@
                 width="60px"
                 label="头像">
                <template slot-scope="scope">
-                  <img :src="'https://qyun88.oss-cn-hangzhou.aliyuncs.com/member/'+scope.row.picture " style="width:100%">
+                  <img :src="'https://qiyun88.oss-cn-qingdao.aliyuncs.com/member/'+scope.row.picture " style="width:100%">
                </template> 
             </el-table-column>
             <el-table-column

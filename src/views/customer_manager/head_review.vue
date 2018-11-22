@@ -59,12 +59,12 @@
 			                 align="center">
 				<template slot-scope="scope">
           <!-- <div>
-            <img :class="'headImg'+scope.row.id" :src="'https://qyun88.oss-cn-hangzhou.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:30%;height:30%" @mouseover="Enlarge(scope.row)" @mouseout="toSmall">
+            <img :class="'headImg'+scope.row.id" :src="'https://qiyun88.oss-cn-qingdao.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:30%;height:30%" @mouseover="Enlarge(scope.row)" @mouseout="toSmall">
           </div> -->
           <el-dropdown style="width:200px;">
-              <img :src="'https://qyun88.oss-cn-hangzhou.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:80px;height:80px">
+              <img :src="'https://qiyun88.oss-cn-qingdao.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:80px;height:80px">
               <el-dropdown-menu slot="dropdown" style="width:200px;height:200px;position:relative">
-                <img :src="'https://qyun88.oss-cn-hangzhou.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:180px;height:180px;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;">
+                <img :src="'https://qiyun88.oss-cn-qingdao.aliyuncs.com/member/'+scope.row.picture" alt="" style="width:180px;height:180px;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;">
               </el-dropdown-menu>
           </el-dropdown> 
 				</template>
