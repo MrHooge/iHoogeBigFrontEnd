@@ -70,88 +70,87 @@
 	</div>
 </template>
 <script>
-import { getMemberWalletByAccount, xxCharge } from '@/api/sys_user'
-import { findAllMember} from '@/api/customer'
-import waves from '@/directive/waves/index.js' // 水波纹指令
-import { Message } from 'element-ui'
-import treeTable from '@/components/TreeTable'
-import { getCookies, setCookies, removeCookies } from '@/utils/cookies'
+import { getMemberWalletByAccount, xxCharge } from "@/api/sys_user";
+import { findAllMember } from "@/api/customer";
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message } from "element-ui";
+import treeTable from "@/components/TreeTable";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
-	data() {
-		return {
-			disabled: false,
-			number: "", // 输入的账号
-			chje: '',    //充值的金额
-            tableData: [], //表格的数据
-            username: "",   //输入查询的昵称
- 		};
-	},
-	filters: {
-		canuse(a) {
-			return a.toFixed(2)
-		}
+  data() {
+    return {
+      disabled: false,
+      number: "", // 输入的账号
+      chje: "", //充值的金额
+      tableData: [], //表格的数据
+      username: "", //输入查询的昵称
+      today: "" //存储当前时间戳
+    };
+  },
+  filters: {
+    canuse(a) {
+      return a.toFixed(2);
+    }
+  },
+  created() {},
+  methods: {
+    search() {
+      if (!this.number && !this.username) {
+        this.$message("请输入您要查询的充值账号或昵称！");
+      } else {
+        if (this.number === "") {
+          this.getAccount();
+        } else {
+          this.accountSearch();
+        }
+      }
     },
-    created(){
-        
+    //用账号搜索
+    accountSearch() {
+      let obj = {
+        account: this.number
+      };
+      getMemberWalletByAccount(obj).then(res => {
+        this.tableData = [];
+        if (res.status == 200) {
+          this.tableData.push(res.data.data);
+        }
+      });
     },
-	methods: {
-		search() {
-			if (!this.number && !this.username) {
-				this.$message("请输入您要查询的充值账号或昵称！")
-			} else {
-                if(this.number === ''){
-                    this.getAccount()
-                }else{
-                    this.accountSearch()
-                }
-			}
-        },
-        //用账号搜索
-        accountSearch(){
-            let obj = {
-                account: this.number
-            };
-            getMemberWalletByAccount(obj).then(res => {
-                this.tableData = [];
-                if (res.status == 200) {
-                    this.tableData.push(res.data.data);
-                }
-            })
-        },
-        //用昵称查询账号
-        getAccount(){
-            let obj = {
-                username: this.username
-            }
-            findAllMember(obj).then(res => {
-                this.number = res.data.data.list[0].ACCOUNT
-                this.accountSearch()
-            })
-        },
-		handleEdit(a) {
-			this.disabled = true
-			let obj = {
-				account: a.account,
-				amount: this.chje
-			}
-			xxCharge(obj).then(res => {
-				if (res.data.success) {
-					this.$message.success("充值成功！")
-					setTimeout(() => {
-						this.disabled = false
-                    }, 1200);
-                    this.chje = ''
-				} else {
-                    this.$message.error("充值失败！")
-					setTimeout(() => {
-						this.disabled = false
-					}, 1200);
-				}
-			})
-
-        },
-        
-	}
+    //用昵称查询账号
+    getAccount() {
+      let obj = {
+        username: this.username
+      };
+      findAllMember(obj).then(res => {
+        this.number = res.data.data.list[0].ACCOUNT;
+        this.accountSearch();
+      });
+    },
+    handleEdit(a) {
+      this.disabled = true;
+      this.today = new Date().getTime();
+      let obj = {
+        account: a.account,
+        amount: this.chje,
+        sign: this.today
+      };
+      xxCharge(obj).then(res => {
+        if (res.data.success) {
+          this.$message.success("充值成功！");
+          setTimeout(() => {
+            this.disabled = false;
+          }, 1200);
+          this.chje = "";
+        } else {
+          this.$message.error("充值失败！");
+          setTimeout(() => {
+            this.disabled = false;
+          }, 1200);
+        }
+      });
+    }
+  }
 };
 </script>
 

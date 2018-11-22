@@ -149,125 +149,127 @@
 
 <script>
 import { findRechargeUnderLine, xxCharge } from "@/api/sys_user";
-import { findAllMember} from '@/api/customer'
+import { findAllMember } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
-    data() {
-        return {
-            name: "", // 用户名
-            number: "", // 充值的金额
-            total: 0, // 总页数
-            tableData: [],//表格的数据
-            dialogVisible: false,
-            username: '',
-            money: '',
-            value1: '',
-            value2: '',
-            user: '',   //搜索的用户的昵称
-
-        };
-    },
-    created() {
-        // this.search(1)
-        this.getData(this.name, this.value1, this.value2)
-    },
-    filters:{
-        time(a){
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-            }
-        }
-    },
-    methods: {
-        onInput() {   //  input 事件
-            if (this.name === ''&& this.user === '') {
-                this.getData(this.name, this.value1, this.value2)
-            }
-        },
-        search() {
-            if(this.name === '' && this.user === ''){
-                this.getData(this.name, this.value1, this.value2)
-            }else if(this.user != ''){
-                this.getAccount()
-            }else{
-                this.getData(this.name, this.value1, this.value2)
-            }
-        },
-        getData(a, b, c) {   //  获取数据列表
-            let obj = {
-                loginAccount: getCookies('name'),
-                agentName: a,
-                startTime: b || '',
-                endTime: c || '',
-            }
-            console.log(obj)
-            findRechargeUnderLine(obj).then(res => {
-                console.log(res)
-                if (res.status == 200) {
-                    if(res.data.error_code === 200){
-                        this.tableData = res.data.data
-                        this.total = res.data.totalCount
-                    }else{
-                        this.$message.error(res.data.data)
-                    }
-                }
-            })
-        },
-        getAccount(){
-            let obj = {
-                username: this.user
-            }
-            findAllMember(obj).then(res => {
-                console.log(res.data.data.list[0].ACCOUNT)
-                this.name = res.data.data.list[0].ACCOUNT
-                // this.accountSearch()
-                this.getData(this.name, this.value1, this.value2)
-            })
-        },
-
-        // 分页的回调
-        changepage(val) {
-            this.getData(val)
-        },
-        // 点击充值掉接口
-        handleRepy(row) {
-            this.dialogVisible = true
-            console.log(row)
-            this.username = row.ACCOUNT
-            this.money = row.number
-        },
-        makersure() {
-            let obj = {
-                account: this.username,
-                amount: this.money
-            }
-            xxCharge(obj).then(res => {
-                console.log(res)
-                if (res.status === 200) {
-                    this.dialogVisible = false
-                    Message.success('充值成功')
-                    this.getData(this.name, this.value1, this.value2)
-                } else {
-
-                }
-            })
-        }
+  data() {
+    return {
+      name: "", // 用户名
+      number: "", // 充值的金额
+      total: 0, // 总页数
+      tableData: [], //表格的数据
+      dialogVisible: false,
+      username: "",
+      money: "",
+      value1: "",
+      value2: "",
+      user: "", //搜索的用户的昵称
+      today: "" //存储当前时间戳
+    };
+  },
+  created() {
+    // this.search(1)
+    this.getData(this.name, this.value1, this.value2);
+  },
+  filters: {
+    time(a) {
+      if (a != null) {
+        let date = new Date(a);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? "0" + MM : MM;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let m = date.getMinutes();
+        m = m < 10 ? "0" + m : m;
+        let s = date.getSeconds();
+        s = s < 10 ? "0" + s : s;
+        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+      }
     }
+  },
+  methods: {
+    onInput() {
+      //  input 事件
+      if (this.name === "" && this.user === "") {
+        this.getData(this.name, this.value1, this.value2);
+      }
+    },
+    search() {
+      if (this.name === "" && this.user === "") {
+        this.getData(this.name, this.value1, this.value2);
+      } else if (this.user != "") {
+        this.getAccount();
+      } else {
+        this.getData(this.name, this.value1, this.value2);
+      }
+    },
+    getData(a, b, c) {
+      //  获取数据列表
+      let obj = {
+        loginAccount: getCookies("name"),
+        agentName: a,
+        startTime: b || "",
+        endTime: c || ""
+      };
+      console.log(obj);
+      findRechargeUnderLine(obj).then(res => {
+        console.log(res);
+        if (res.status == 200) {
+          if (res.data.error_code === 200) {
+            this.tableData = res.data.data;
+            this.total = res.data.totalCount;
+          } else {
+            this.$message.error(res.data.data);
+          }
+        }
+      });
+    },
+    getAccount() {
+      let obj = {
+        username: this.user
+      };
+      findAllMember(obj).then(res => {
+        console.log(res.data.data.list[0].ACCOUNT);
+        this.name = res.data.data.list[0].ACCOUNT;
+        // this.accountSearch()
+        this.getData(this.name, this.value1, this.value2);
+      });
+    },
+
+    // 分页的回调
+    changepage(val) {
+      this.getData(val);
+    },
+    // 点击充值掉接口
+    handleRepy(row) {
+      this.dialogVisible = true;
+      console.log(row);
+      this.username = row.ACCOUNT;
+      this.money = row.number;
+    },
+    makersure() {
+      this.today = new Date().getTime();
+      let obj = {
+        account: this.username,
+        amount: this.money,
+        sign: this.today
+      };
+      xxCharge(obj).then(res => {
+        if (res.status === 200) {
+          this.dialogVisible = false;
+          Message.success("充值成功");
+          this.getData(this.name, this.value1, this.value2);
+        } else {
+        }
+      });
+    }
+  }
 };
 </script>
 
