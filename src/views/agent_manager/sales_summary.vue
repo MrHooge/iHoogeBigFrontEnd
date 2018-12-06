@@ -581,6 +581,7 @@ export default {
           Message.error(error);
         });
     },
+    export2Excel() {},
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));
     },
@@ -605,6 +606,7 @@ export default {
         listParmas: JSON.stringify(this.newarr),
         title: "业绩汇总"
       };
+      
       exportExcle(model.listParmas, model.title).then(res => {});
       require.ensure([], () => {
         const { export_json_to_excel } = require("../../vendor/Export2Excel");

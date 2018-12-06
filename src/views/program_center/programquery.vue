@@ -113,10 +113,11 @@
             </el-date-picker>
             比赛场次:<el-input v-model="lineId" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
             <el-button type="primary" @click="matchSearch">根据比赛查询方案</el-button>
+            <el-button type="success" @click="exportSome" style="margin-left:50px;">导出</el-button>
             <!-- 中奖金额总和 -->
             <div v-show="isAdmin">
                 <span style="display:inline-block;">消费金额:{{consumMoney}}元&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wingPrize}}元</span>
-                <el-button type="primary" @click="searchCount">统计总和</el-button><span style="color:red;font-size:14px;">注：默认显示当天的！</span>
+                <el-button type="primary" @click="searchCount">统计总和</el-button><span style="color:red;font-size:14px;">注：默认显示发单时间当天的！</span>
             </div>
             
             <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
@@ -124,6 +125,10 @@
         <p style="font-size:12px;color:red;">注：点击昵称可以跳转到会员资料修改页面</p>
         <div class="tablelist">
             <el-table :data="tableData" border style="width: 100%;">
+                <el-table-column type="index"
+                                align="center"
+                                label="编号">
+                </el-table-column>
                 <el-table-column
                     align="center"
                     label="方案编号">
@@ -151,9 +156,9 @@
                 <el-table-column
                     prop="qdAccount"
                     align="center"
-                    label="	渠道用户名">
+                    label="渠道用户名">
                 </el-table-column>
-                            <el-table-column
+                <el-table-column
                     align="center"
                     label="发单时间">
                     <template slot-scope="scope">
@@ -192,6 +197,13 @@
                     prop="playType"
                     align="center"
                     label="玩法">           
+                </el-table-column>
+                <el-table-column
+                    align="center"
+                    label="支付方式">
+                    <template slot-scope="scope">
+                        {{scope.row.tradeType | changeTradeType}}
+                    </template>        
                 </el-table-column>
                 <el-table-column
                     align="center"
@@ -456,11 +468,13 @@ import {
   getPlanByMatch
 } from "@/api/period";
 import { findAllMember } from "@/api/customer";
-import { getPlanWiningPrize } from "@/api/sys_user.js";
+import { getPlanWiningPrize,exportExcle } from '@/api/sys_user'
 export default {
   data() {
     return {
       tableData: [],
+      newTableData: [],
+      newarr: [],
       account: "",
       minBonus: "",
       maxBonus: "",
@@ -476,7 +490,7 @@ export default {
       stime: "",
       etime: "",
       page: 1,
-      pageSize: 20,
+      pageSize: 10,
       desc: "",
       dialogShenVisible: false,
       Declarationofwithdrawal: false,
@@ -580,6 +594,10 @@ export default {
         return "竞彩足球半全场";
       }
     },
+    changeTradeType(val){
+      val = Number(val)
+      return val === 0? '钱':'豆'
+    },
     //彩种
     changeLotteryType(val) {
       if (val === 42) {
@@ -632,6 +650,7 @@ export default {
         return "跟单";
       }
     },
+    //来源
     platForm(a) {
       a = Number(a);
       if (a === 1) {
@@ -810,11 +829,46 @@ export default {
       selectLotteryPlan(obj).then(res => {
         this.tableData = res.data.data;
         this.totalList = res.data.totalCount;
+        this.getAll();
         this.fadan = res.data.data.planStatus;
         this.tableData.forEach((e, index) => {
           this.fadan = e.planDesc;
         });
       });
+    },
+    //获取所有数据
+    getAll() {
+      let paramsObj = {
+        account: this.account,
+        endAmount: this.endAmount,
+        endReturnAmount: this.endReturnAmount,
+        endTime: this.etime || "",
+        page: this.page,
+        dlAccount: "",
+        pageSize: this.totalList,
+        planNo: this.planNo,
+        planStatus: this.planStatus,
+        playType: this.playType,
+        startAmount: this.startAmount,
+        startReturnAmount: this.startReturnAmount,
+        startTime: this.stime || "",
+        maxBonus: this.maxBonus,
+        minBonus: this.minBonus,
+        winStatus: this.winStatus,
+        desc: this.desc,
+        lotteryType: this.lotteryType //彩种
+      };
+      selectLotteryPlan(paramsObj)
+        .then(res => {
+          if (res.data.error_code === 200) {
+            this.newTableData = res.data.data;
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch(error => {
+          Message.error(error);
+        });
     },
     //出票
     outticket(data) {
@@ -907,7 +961,114 @@ export default {
           this.gettable();
         }
       });
-    }
+    },
+    export2Excel() {},
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]))
+    },
+    // 导出
+		exportSome() {
+			let newobj
+			this.newTableData.forEach((e, index) => {
+				newobj = {
+          index: index,                                         //编号
+          planNo: e.planNo,                                   //方案编号
+          account: e.account,                                 //用户名
+          dlAccount: e.dlAccount,                             //代理用户名
+          qdAccount: e.qdAccount,                             //渠道用户名
+          createTime: e.createTime,                           //发单时间
+          amount: Number(e.amount).toFixed(2),                //金额
+          planStatus: e.planStatus,                           //方案状态
+          lotteryType: e.lotteryType,                         //彩种
+          dealTime: e.dealTime,                               //截止时间
+          playType: e.playType,                               //玩法
+          tradeType: e.tradeType,       //支付方式
+          platForm: e.platForm,                               //来源
+          addPrize: Number(e.addPrize).toFixed(2),            //嘉奖
+          winStatus: e.winStatus,                             //中奖状态
+					posttaxPrize: Number(e.posttaxPrize).toFixed(2),    //税后奖金
+					maxBonus: Number(e.maxBonus).toFixed(2),            //预测奖金（最大）
+          minBonus: Number(e.minBonus).toFixed(2),            //预测奖金（最小）
+          isSuper: e.isSuper,                                 //跟单/自购
+				}
+				this.newarr.push(newobj)
+			})
+			var model = {
+				listParams: JSON.stringify(this.newarr),
+				title: "方案中心"
+			};
+			exportExcle(model.listParams, model.title)
+				.then(res => {})
+			require.ensure([], () => {
+				const { export_json_to_excel } = require('../../vendor/Export2Excel');
+				const tHeader = ['方案编号', '用户名', '代理用户名', '渠道用户名', '发单时间', '金额', '方案状态','彩种','截止时间','玩法','支付方式','来源','嘉奖（金额）','中奖状态','税后奖金','预测奖金（最大）','预测奖金（最小）','跟单/自购']; //对应表格输出的title
+        // 对应表格输出的数据
+        const filterVal = ['planNo','account','dlAccount','qdAccount','createTime','amount', 'planStatus', 'lotteryType', 'dealTime','playType','tradeType','platForm','addPrize','winStatus','posttaxPrize','maxBonus','minBonus','isSuper'];
+        let arrNew = []
+        for(var i=0;i<this.newTableData.length;i++){
+          //支付方式
+          if(this.newTableData[i].tradeType === 0){
+            this.newTableData[i].tradeType = '钱'
+          }else{
+            this.newTableData[i].tradeType = '豆'
+          }
+          //来源
+          if(this.newTableData[i].platForm === 1){
+            this.newTableData[i].platForm = 'ios'
+          }else if(this.newTableData[i].platForm === 2){
+            this.newTableData[i].platForm = '安卓'
+          }else if(this.newTableData[i].platForm === 3){
+            this.newTableData[i].platForm = 'm端'
+          }else{
+            this.newTableData[i].platForm = 'pc端'
+          }
+          //是否跟单、自购
+          if(this.newTableData[i].isSuper === 1){
+            this.newTableData[i].isSuper = '自购'
+          }else{
+            this.newTableData[i].isSuper = '跟单'
+          }
+          //发单时间
+          if(this.newTableData[i].createTime != null){
+            let date = new Date(this.newTableData[i].createTime);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? "0" + MM : MM;
+            let d = date.getDate();
+            d = d < 10 ? "0" + d : d;
+            let h = date.getHours();
+            h = h < 10 ? "0" + h : h;
+            let m = date.getMinutes();
+            m = m < 10 ? "0" + m : m;
+            let s = date.getSeconds();
+            s = s < 10 ? "0" + s : s;
+            this.newTableData[i].createTime = y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+          }
+          //截止时间
+          if(this.newTableData[i].dealTime != null){
+            let date = new Date(this.newTableData[i].dealTime);
+            let y = date.getFullYear();
+            let MM = date.getMonth() + 1;
+            MM = MM < 10 ? "0" + MM : MM;
+            let d = date.getDate();
+            d = d < 10 ? "0" + d : d;
+            let h = date.getHours();
+            h = h < 10 ? "0" + h : h;
+            let m = date.getMinutes();
+            m = m < 10 ? "0" + m : m;
+            let s = date.getSeconds();
+            s = s < 10 ? "0" + s : s;
+            this.newTableData[i].dealTime = y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+          }
+          arrNew.push(this.newTableData[i])
+        }
+        // const list = this.newTableData;
+        const list = arrNew
+				const data = this.formatJson(filterVal, list);
+				export_json_to_excel(tHeader, data, '方案中心'); //对应下载文件的名字
+			})
+
+		}
   }
 };
 </script>
