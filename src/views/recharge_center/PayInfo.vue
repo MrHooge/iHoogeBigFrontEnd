@@ -62,7 +62,7 @@
                     class="avatar-uploader"
                     :auto-upload="false"
                     :file-list="fileList"
-                    action="https://infos.api.588yd.cn/information/uploadImage"
+                    action="https://infos.api.qyun88.com/information/uploadImage"
                     :on-remove="handleRemove"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload">
@@ -249,7 +249,7 @@
                         class="avatar-uploader"
                         :auto-upload="false"
                         :file-list="fileList2"
-                        action="https://infos.api.588yd.cn/information/uploadImage"
+                        action="https://infos.api.qyun88.com/information/uploadImage"
                         :on-remove="handleRemove2"
                         :on-success="handleAvatarSuccess2"
                         :before-upload="beforeAvatarUpload">
