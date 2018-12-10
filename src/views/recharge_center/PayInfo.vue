@@ -531,7 +531,7 @@ export default {
         //查询支付信息
 		SearchInfoClick(){
             let obj = {
-                endTime:this.endTime,
+                // endTime:this.endTime,
                 startTime:this.startTime,
                 cardNum:this.searchcardNum,
                 limitMoney:this.searchlimitMoney,
@@ -542,6 +542,7 @@ export default {
                 note:this.searchnote,
                 page:this.page,
                 pageSize:this.pageSize,
+                useMoney:""
             }
             searchpayinfo(obj).then(res=>{
                 if (res.data.error_code == 200) {
