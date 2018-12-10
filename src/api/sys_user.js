@@ -485,6 +485,15 @@ export function findPaySwitch() {
     method: 'get',
   })
 }
+
+//充值流水记录
+export function findQrChargeLine(params) {
+  return request.pay({
+    url: '/QrCodePay/findQrChargeLine',
+    method: 'post',
+    params: params
+  })
+}
 //支付修改
 export function addPaySwitch(params) {
   return request.member({
