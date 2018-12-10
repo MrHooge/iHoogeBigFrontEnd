@@ -156,7 +156,39 @@ export function addRoleBondPermission(userInfos) {
     data: JSON.stringify(userInfos)
   })
 }
-
+//支付信息
+export function getpayinfo(obj) {
+  return request.pay({
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    },
+    url: '/QrCodePay/insertQrPayInfo',
+    method: 'post',
+    data: obj
+  })
+}
+//查询支付信息
+export function searchpayinfo(obj) {
+  return request.pay({
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    },
+    url: '/QrCodePay/findQrPayInfo',
+    method: 'post',
+    data: obj
+  })
+}
+//修改支付信息
+export function setpayinfo(obj) {
+  return request.pay({
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    },
+    url: '/QrCodePay/updateQrPayInfo',
+    method: 'post',
+    data: obj
+  })
+}
 //获取表单数据
 export function findAgentInfoByAccount(userInfos) {
   return request.member({

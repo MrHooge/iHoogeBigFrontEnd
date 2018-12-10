@@ -319,7 +319,13 @@ export const constantRouterMap = [
         name: "线下支付审核",
         component: () => import("@/views/recharge_center/auditList"),
         meta: { title: "线下支付审核" }
-      }
+      },
+      {
+        path: "payinfo",
+        name: "支付信息查询",
+        component: () => import("@/views/recharge_center/payinfo"),
+        meta: { title: "支付信息查询" }
+      },
     ]
   },
   {
