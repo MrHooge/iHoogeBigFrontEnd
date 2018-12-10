@@ -328,9 +328,9 @@ export const constantRouterMap = [
       },
       {
         path: "rechange_record",
-        name: "支付信息查询",
+        name: "充值记录",
         component: () => import("@/views/recharge_center/rechange_record"),
-        meta: { title: "支付信息查询" }
+        meta: { title: "充值记录" }
       },
     ]
   },
