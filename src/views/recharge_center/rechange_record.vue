@@ -137,7 +137,7 @@ export default {
 		}
 	},
 	created() {
-
+		this.search(this.name, this.value1, this.value2)
 	},
 	methods: {
 		search() {
@@ -153,10 +153,10 @@ export default {
 			}
 			findQrChargeLine(obj).then(res => {
 				console.log(res)
-				if(res.data.error_code == 200) {
+				if (res.data.error_code == 200) {
 					this.tableData = res.data.data
 					console.log(this.tableData)
-				}else {
+				} else {
 					Message.error(res.data.message);
 				}
 			})
