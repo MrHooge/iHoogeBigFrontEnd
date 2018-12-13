@@ -5,8 +5,8 @@
             <p>原方案详情</p>
             <div style="text-align:left;padding-left:60px;">
                 
-                <p>发起时间：{{oldPlan.createDateTime | time}}</p>
-                <p>截止时间：{{oldPlan.dealDateTime | time}}</p>
+                <p>发起时间：{{oldPlan.createDateTime | setTime}}</p>
+                <p>截止时间：{{oldPlan.dealDateTime | setTime}}</p>
                 <p>方案编号：{{oldPlan.planNo}}</p>
                 <p>方案金额：{{oldPlan.amount}}</p>
                 <p>过关方式：{{oldPlan.playType}}</p>
@@ -56,8 +56,8 @@
             <p>拆包详情</p>
             <div style="text-align:left;padding-left:60px;">
                 <p>拆包号：{{chaibao.id}}</p>
-                <p>发起时间：{{chaibao.createTime | time}}</p>
-                <p>截止时间：{{chaibao.dealTime | time}}</p>
+                <p>发起时间：{{chaibao.createTime | setTime}}</p>
+                <p>截止时间：{{chaibao.dealTime | setTime}}</p>
                 <p>发单人昵称：{{chaibao.account}}</p>
                 <p>过关方式：{{chaibao.passType}}</p>
                 <p>倍数：{{chaibao.multiple}}</p>
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import setTime from '@/utils/time.js'
 import { ticketPrintDetail } from '@/api/ticket'
 export default {
     data(){
@@ -108,23 +109,11 @@ export default {
         }
     },
     filters:{
-        time(a){
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        setTime(a) {
+            if (a != null) {
+                return setTime(a);
             }
-        },
+        }
     },
     created(){
         this.id = this.$route.query.id;

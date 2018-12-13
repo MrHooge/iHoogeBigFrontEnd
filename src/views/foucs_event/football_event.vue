@@ -115,14 +115,14 @@
                 label="开赛日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.matchTime.time | time}}
+                    {{scope.row.matchTime.time | setTime}}
                 </template>
             </el-table-column>
             <el-table-column
                 label="截止日期"
                 align="center">
                  <template slot-scope="scope">
-                    {{scope.row.MatchDealTime.time | time}}
+                    {{scope.row.MatchDealTime.time | setTime}}
                 </template>
             </el-table-column>
          </el-table>
@@ -142,7 +142,7 @@
 </template>
 
 <script>
-import setimes from '@/utils/time.js'
+import setTime from '@/utils/time.js'
 import { findFootballMixureInfo, setFbFocusMatch, updateMatchDealTime, updateDGByStatus } from '@/api/events'
 export default {
     data() {
@@ -160,21 +160,9 @@ export default {
         }
     },
     filters: {
-        time(a) {
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        setTime(a) {
+            if (a != null) {
+                return setTime(a);
             }
         },
     },

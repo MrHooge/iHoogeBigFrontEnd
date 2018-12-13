@@ -339,14 +339,14 @@
                 align="center"
                 label="开始时间" >
                 <template slot-scope="scope">
-                    <span>{{scope.row.start_time | times}}</span>
+                    <span>{{scope.row.start_time | setTime}}</span>
                 </template>
             </el-table-column>
             <el-table-column
                 align="center"
                 label="结束时间" >
                 <template slot-scope="scope">
-                    <span>{{scope.row.end_time | times}}</span>
+                    <span>{{scope.row.end_time | setTime}}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -486,7 +486,7 @@ import {
 import { findAllMember } from "@/api/customer";
 import { Message, MessageBox } from "element-ui";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
-import setTime from "./index.js";
+import setTime from '@/utils/time.js'
 export default {
   data() {
     return {
@@ -561,7 +561,7 @@ export default {
     status(a) {
       return a ? "开启" : "关闭";
     },
-    times(b) {
+    setTime(b) {
       return setTime(b);
     },
     //类别

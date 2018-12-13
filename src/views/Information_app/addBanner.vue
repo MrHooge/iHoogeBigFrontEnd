@@ -30,7 +30,7 @@
 			<el-table-column align="center"
 			                 label="创建时间">
 				<template slot-scope="scope">
-					{{scope.row.create_time | time}}
+					{{scope.row.create_time | setTime}}
 				</template>
 			</el-table-column>
 			<el-table-column label="状态"
@@ -235,7 +235,7 @@
 </template>
 
 <script>
-import setTime from "@/utils/time.js";
+import setTime from '@/utils/time.js'
 import { findAllBanner, addBanner } from "@/api/personal_review";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
@@ -300,27 +300,12 @@ export default {
     type(a) {
       return a == "0" ? "未使用" : "使用中";
     },
-    changeTime(b) {
-      return setTime(b);
-    },
     //时间戳转换为日期
-    time(a) {
+    setTime(a) {
       if (a != null) {
-        let date = new Date(a);
-        let y = date.getFullYear();
-        let MM = date.getMonth() + 1;
-        MM = MM < 10 ? "0" + MM : MM;
-        let d = date.getDate();
-        d = d < 10 ? "0" + d : d;
-        let h = date.getHours();
-        h = h < 10 ? "0" + h : h;
-        let m = date.getMinutes();
-        m = m < 10 ? "0" + m : m;
-        let s = date.getSeconds();
-        s = s < 10 ? "0" + s : s;
-        return MM + "-" + d + " " + h + ":" + m + ":" + s;
+        return setTime(a);
       }
-    }
+    },
   },
 
   computed: {},

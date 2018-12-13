@@ -67,7 +67,7 @@
             <div class="Enthalt">
              <div class="hang">
                 <div class="left">发起时间：</div>
-                <div class="right">{{ createDateTime | time }}</div>
+                <div class="right">{{ createDateTime | setTime }}</div>
             </div>
             <div class="lei">
                 <div class="left">过关方式</div>
@@ -77,7 +77,7 @@
             <div class="Enthalt">
                 <div class="hang">
                     <div class="left">方案截止时间：</div>
-                    <div class="right">{{ dealDateTime | time }}</div>
+                    <div class="right">{{ dealDateTime | setTime }}</div>
                 </div>
                 <div class="lei">
                     <div class="left">税前金额：</div>
@@ -87,17 +87,17 @@
             <div class="Enthalt">
                 <div class="hang">
                 <div class="left">方案打票时间：</div>
-                <div class="right">{{ printTicketDateTime | time }}</div>
+                <div class="right">{{ printTicketDateTime | setTime }}</div>
             </div>
             <div class="lei">
                 <div class="left">退款或派奖日期：</div>
-                <div class="right">{{arrivalTime | time}}</div>
+                <div class="right">{{arrivalTime | setTime}}</div>
             </div>
             </div>
             <div class="Enthalt">
               <div class="hang">
                 <div class="left">开奖时间：</div>
-                <div class="right">{{ openResultTime | time }}</div>
+                <div class="right">{{ openResultTime | setTime }}</div>
             </div>
             <div class="lei">
                 <div class="left">操作：</div>
@@ -211,6 +211,7 @@
 </template>
 
 <script>
+import setTime from '@/utils/time.js'
 import { getPlanDetailForManager, planBack } from "@/api/period";
 export default {
   data() {
@@ -255,23 +256,11 @@ export default {
         return "否";
       }
     },
-    time(a) {
+    setTime(a) {
       if (a != null) {
-        let date = new Date(a);
-        let y = date.getFullYear();
-        let MM = date.getMonth() + 1;
-        MM = MM < 10 ? "0" + MM : MM;
-        let d = date.getDate();
-        d = d < 10 ? "0" + d : d;
-        let h = date.getHours();
-        h = h < 10 ? "0" + h : h;
-        let m = date.getMinutes();
-        m = m < 10 ? "0" + m : m;
-        let s = date.getSeconds();
-        s = s < 10 ? "0" + s : s;
-        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+        return setTime(a);
       }
-    }
+    },
   },
   created() {
     this.number = this.$route.query.planNo;

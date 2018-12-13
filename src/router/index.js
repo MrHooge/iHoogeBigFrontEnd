@@ -1067,6 +1067,12 @@ export const constantRouterMap = [
         meta: { title: "充值提款明细" }
       },
       {
+        path: "drawingDetail",
+        name: "充值提款明细2",
+        component: () => import("@/views/Information_app/drawingDetail.vue"),
+        meta: { title: "充值提款明细2" }
+      },
+      {
         path: "flowingWaterType",
         name: "流水类型查询",
         component: () => import("@/views/Information_app/flowingWaterType.vue"),

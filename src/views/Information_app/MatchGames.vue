@@ -36,7 +36,7 @@
                   <el-radio v-model="fiveball" :label="item.id">
                       <el-tooltip placement="top">
                         <div slot="content">
-                          <p>比赛时间: {{item.matchtime | time}}</p>
+                          <p>比赛时间: {{item.matchtime | setTime}}</p>
                           <p>主队: {{item.homeShortName}}</p>
                           <p>客队: {{item.guestShortName}}</p>
                           <p>彩期: {{item.inttime}}</p>
@@ -48,7 +48,7 @@
                       <span class="box">{{item.homeShortName}}</span>
                       -
                       <span class="box">{{item.guestShortName}}</span>
-                      <span class="box">{{item.matchtime | time}}</span>
+                      <span class="box">{{item.matchtime | setTime}}</span>
                   </el-radio>
               </Li>
              </ul>
@@ -91,7 +91,7 @@
                           <div slot="content">
                             <p>联赛类型: {{item.league_type}}</p>
                             <p>联赛名: {{item.league}}</p>
-                            <p>开赛时间: {{item.time | time}}</p>
+                            <p>开赛时间: {{item.time | setTime}}</p>
                             <p>主队: {{item.home}}</p>
                             <p>客队: {{item.away}}</p>
                             <p>是否有中立场: {{item.zl | zl}}</p>
@@ -106,7 +106,7 @@
                         <span class="box">{{item.home}}</span>
                         -
                         <span class="box">{{item.away}}</span>
-                        <span class="box">{{item.time | time}}</span>
+                        <span class="box">{{item.time | setTime}}</span>
                     </el-radio>
                 </li>
                 <li v-if="sid==1" v-for="item in rightteamlist" :key="item.id">
@@ -125,6 +125,7 @@
 </template>
 
 <script>
+import setTime from '@/utils/time.js'
 import { seachFiveBaketball, seachFjBaketball, FuzzySeach, matchBasketballTeam, matchBasketballGame } from "@/api/personal_review.js";
 export default {
   data() {
@@ -144,22 +145,10 @@ export default {
     };
   },
   filters: {
-    time(a) {
-        if (a != null) {
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? "0" + MM : MM;
-            let d = date.getDate();
-            d = d < 10 ? "0" + d : d;
-            let h = date.getHours();
-            h = h < 10 ? "0" + h : h;
-            let m = date.getMinutes();
-            m = m < 10 ? "0" + m : m;
-            let s = date.getSeconds();
-            s = s < 10 ? "0" + s : s;
-            return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
-        }
+    setTime(a) {
+      if (a != null) {
+        return setTime(a);
+      }
     },
     status(j) {
         if (j == 0) {

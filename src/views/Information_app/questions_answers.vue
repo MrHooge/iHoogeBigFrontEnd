@@ -69,7 +69,7 @@
                     <el-table-column label="提问时间"
                                      align="center">
 												<template slot-scope="scope">
-                            {{scope.row.questionTime | time}}
+                            {{scope.row.questionTime | setTime}}
                         </template>
                     </el-table-column>
                     <el-table-column label="是否公开"
@@ -91,7 +91,7 @@
                     <el-table-column label="回答时间"
                                      align="center">
 											<template slot-scope="scope">
-                            {{scope.row.replyTime | time}}
+                            {{scope.row.replyTime | setTime}}
                         </template>
                     </el-table-column>
                     
@@ -104,7 +104,7 @@
                     <el-table-column label="到账时间"
                                      align="center">
                                      <template slot-scope="scope">
-                                         {{scope.row.arrivalTime | time}}
+                                         {{scope.row.arrivalTime | setTime}}
                                      </template>
                     </el-table-column>
                     <!-- <el-table-column label="串法"
@@ -135,7 +135,7 @@
                     <!-- <el-table-column label="方案创建时间"
                                      align="center">
                         <template slot-scope="scope">
-                            {{scope.row.createTime | time}}
+                            {{scope.row.createTime | setTime}}
                         </template>
                     </el-table-column> -->
                     <!-- <el-table-column label="费用"
@@ -184,13 +184,14 @@
 </template>
 
 <script>
+import setTime from "@/utils/time.js";
 import { getQuestionList, shQuestionById } from "@/api/personal_review.js";
 // import { findAllMember } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message } from "element-ui";
 import treeTable from "@/components/TreeTable";
 import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
-import setTime from "@/utils/time.js";
+
 export default {
   data() {
     return {
@@ -248,12 +249,12 @@ export default {
     //   val = Number(val);
     //   return val === 1 ? "单关" : "二串一";
     // },
-    time(a) {
-			if (a != null) {
-				return setTime(a)
-			}
-
-    }
+    
+    setTime(a) {
+      if (a != null) {
+        return setTime(a);
+      }
+    },
   },
   methods: {
     //查询

@@ -48,13 +48,13 @@
 			<el-table-column label="最后登录时间"
 			                 align="center">
                 <template slot-scope="scope">
-					<span>{{ scope.row.LAST_LOGIN_DATE_TIME | time}}</span>
+					<span>{{ scope.row.LAST_LOGIN_DATE_TIME | setTime}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align="center"
 			                 label="注册时间">
 				<template slot-scope="scope">
-					<span>{{ scope.row.REGISTER_DATE_TIME | time}}</span>
+					<span>{{ scope.row.REGISTER_DATE_TIME | setTime}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column prop="agentAccount"
@@ -132,6 +132,7 @@
 </template>
 
 <script>
+import setTime from '@/utils/time.js'
 import { findAllMemberByLoginAcc, memberLogoutReview } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message } from "element-ui";
@@ -182,21 +183,9 @@ export default {
     afterFour(val) {
       return val.substring(val.length - 4);
     },
-    time(a) {
+    setTime(a) {
       if (a != null) {
-        let date = new Date(a);
-        let y = date.getFullYear();
-        let MM = date.getMonth() + 1;
-        MM = MM < 10 ? "0" + MM : MM;
-        let d = date.getDate();
-        d = d < 10 ? "0" + d : d;
-        let h = date.getHours();
-        h = h < 10 ? "0" + h : h;
-        let m = date.getMinutes();
-        m = m < 10 ? "0" + m : m;
-        let s = date.getSeconds();
-        s = s < 10 ? "0" + s : s;
-        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+          return setTime(a);
       }
     }
   },
@@ -213,6 +202,7 @@ export default {
     },
     //   搜索查询
     search() {
+      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
       console.log(this.account === "");
       if (
         this.account === "" &&
@@ -222,7 +212,9 @@ export default {
         this.mobile === ""
       ) {
         this.$message("请输入查询条件！");
-      } else {
+      }else if(!reg.test(this.mobile)){
+        this.$message("请输入正确手机号码！");
+      }else {
         this.page = 1;
         this.getData();
       }

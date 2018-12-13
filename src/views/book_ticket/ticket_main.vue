@@ -103,21 +103,21 @@
                     align="center"
                     label="发起时间">
                     <template slot-scope="scope">
-                        {{scope.row.createTime | time}}
+                        {{scope.row.createTime | setTime}}
                     </template>
                 </el-table-column>
                 <el-table-column
                     align="center"
                     label="截止时间">
                     <template slot-scope="scope">
-                        {{scope.row.dealTime | time}}
+                        {{scope.row.dealTime | setTime}}
                     </template>
                 </el-table-column>
                 <el-table-column
                     align="center"
                     label="推送时间">
                     <template slot-scope="scope">
-                        {{scope.row.pushTime | time}}
+                        {{scope.row.pushTime | setTime}}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -175,7 +175,7 @@
                     align="center"
                     label="处理时间">
                     <template slot-scope="scope">
-                        {{scope.row.finishTime | time}}
+                        {{scope.row.finishTime | setTime}}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -277,6 +277,7 @@
     </div>
 </template>
 <script>
+import setTime from '@/utils/time.js'
 import { selectLotteryPlan,updatePlanDesc,planBack,getIsFocusPlan,updatePlanStatus } from '@/api/period'
 import { ticketPrintSearch , firstPush , updateTicketStatus , updateChaiPiaoCount , getChaiPiaoCount } from '@/api/ticket'
 import { Message, MessageBox } from 'element-ui'
@@ -378,21 +379,9 @@ export default {
     },
     filters:{
         //时间戳转换为日期
-        time(a){
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        setTime(a) {
+            if (a != null) {
+                return setTime(a);
             }
         },
         isFirst(a){

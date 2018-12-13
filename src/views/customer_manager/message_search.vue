@@ -22,7 +22,7 @@
                 align="center"
                 label="发送时间">
                  <template slot-scope="scope">
-                    {{scope.row.lastSendTime | time}}
+                    {{scope.row.lastSendTime}}
                 </template>
             </el-table-column>
 
@@ -49,25 +49,6 @@ export default {
         total: 0, //总页数
     };
   },
-  filters:{
-    time(a){
-        if(a != null){
-            let date = new Date(a);
-            let y = date.getFullYear();
-            let MM = date.getMonth() + 1;
-            MM = MM < 10 ? ('0' + MM) : MM;
-            let d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            let h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            let m = date.getMinutes();
-            m = m < 10 ? ('0' + m) : m;
-            let s = date.getSeconds();
-            s = s < 10 ? ('0' + s) : s;
-            return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-        }
-    },
-  },
   methods: {
     search() {
         if(!this.mobile){
@@ -79,6 +60,8 @@ export default {
             getSmsCode(obj).then(res => {
                 if(res.data.error_code === 200){
                     this.tableData.push(res.data.data)
+                }else{
+                    Message.error(res.data.message)
                 }
             }).catch(error => {
                 Message.error(error)

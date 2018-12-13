@@ -42,7 +42,7 @@
                 align="center"
                 label="	发生时间">
                 <template slot-scope="scope">
-                    {{scope.row.CREATE_DATE_TIME | time}}
+                    {{scope.row.CREATE_DATE_TIME | setTime}}
                 </template>
             </el-table-column>
 
@@ -114,6 +114,7 @@
 </template>
 
 <script>
+import setTime from '@/utils/time.js'
 import { findMemberWalletLineByAccount } from '@/api/customerDetails'
 import { Message, MessageBox } from 'element-ui'
 export default {
@@ -132,21 +133,9 @@ export default {
         }
     },
     filters:{
-        time(a){
-            if(a != null){
-                let date = new Date(a);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+        setTime(a) {
+            if (a != null) {
+                return setTime(a);
             }
         }
     },

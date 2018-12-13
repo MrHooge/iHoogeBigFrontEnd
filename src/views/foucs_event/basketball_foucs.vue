@@ -35,14 +35,14 @@
                 label="开赛日期"
                 align="center">
                  <template slot-scope="scope">
-					{{scope.row.matchTime.time | setimes}}
+					{{scope.row.matchTime.time | setTime}}
 				</template>
             </el-table-column>
             <el-table-column
                 label="截止日期"
                 align="center">
                 <template slot-scope="scope">
-					{{scope.row.matchDealTime.time | setimes}}
+					{{scope.row.matchDealTime.time | setTime}}
 				</template>
             </el-table-column>
 
@@ -71,9 +71,11 @@ export default {
         }
     },
     filters: {
-         setimes(a) {
-            return setimes(a)
-        },
+        setTime(a) {
+            if (a != null) {
+                return setTime(a);
+            }
+        }
     },
     created() {
         this.getTable()

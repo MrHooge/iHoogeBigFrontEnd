@@ -67,13 +67,13 @@
                     <el-table-column label="到账时间"
                                      align="center">
                         <template slot-scope="scope">
-                            {{scope.row.arrivalTime | time}}
+                            {{scope.row.arrivalTime | setTime}}
                         </template>
                     </el-table-column>
                     <el-table-column label="举报时间"
                                      align="center">
                         <template slot-scope="scope">
-                            {{scope.row.time | time}}
+                            {{scope.row.time | setTime}}
                         </template>
                     </el-table-column>
                     <el-table-column label="举报内容"
@@ -139,6 +139,7 @@
 </template>
 
 <script>
+import setTime from '@/utils/time.js'
 import { getReportList, shReport } from "@/api/personal_review.js";
 import { findAllMember } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
@@ -211,23 +212,12 @@ export default {
         return "审核失败";
       }
     },
-    time(a) {
+    
+    setTime(a) {
       if (a != null) {
-        let date = new Date(a);
-        let y = date.getFullYear();
-        let MM = date.getMonth() + 1;
-        MM = MM < 10 ? "0" + MM : MM;
-        let d = date.getDate();
-        d = d < 10 ? "0" + d : d;
-        let h = date.getHours();
-        h = h < 10 ? "0" + h : h;
-        let m = date.getMinutes();
-        m = m < 10 ? "0" + m : m;
-        let s = date.getSeconds();
-        s = s < 10 ? "0" + s : s;
-        return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+        return setTime(a);
       }
-    }
+    },
   },
   methods: {
     //查询
