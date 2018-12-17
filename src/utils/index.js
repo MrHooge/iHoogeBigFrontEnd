@@ -56,3 +56,58 @@ export function formatTime(time, option) {
     return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
 }
+//验证是否为空
+const validateEmpty = data => {
+
+  if (!data) { return false; }  // 如果data是空   返回false
+
+  if (data.constructor === Array) {  // 如果是数组 判断length
+
+    return data.length ? true : false;
+
+  } else if (data.constructor === String) { // 如果是字符串 判断自身即可
+
+    return true;
+
+  }
+
+}
+//验证手机号号码
+const validateTelePhone = data => {
+
+  const reg = /^1[34578]\d{9}$/;
+
+  if (!reg.test(data)) {
+
+    return false;
+
+  }
+
+  return true;
+
+}
+//验证邮箱格式
+const validateEmail = data => {
+
+  const reg = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
+
+  if (!reg.test(data)) {
+
+    return false;
+
+  }
+
+  return true;
+
+}
+
+
+export const validate = {
+
+  validateEmpty,
+
+  validateTelePhone,
+
+  validateEmail
+
+}

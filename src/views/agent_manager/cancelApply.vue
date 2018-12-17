@@ -132,6 +132,7 @@
 </template>
 
 <script>
+import { validate } from '@/utils';
 import setTime from '@/utils/time.js'
 import { findAllMemberByLoginAcc, memberLogoutReview } from "@/api/customer";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
@@ -202,8 +203,6 @@ export default {
     },
     //   搜索查询
     search() {
-      var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
-      console.log(this.account === "");
       if (
         this.account === "" &&
         this.identifyId === "" &&
@@ -212,8 +211,13 @@ export default {
         this.mobile === ""
       ) {
         this.$message("请输入查询条件！");
-      }else if(!reg.test(this.mobile)){
-        this.$message("请输入正确手机号码！");
+      }else if(this.mobile){//验证手机号码
+        if(!validate.validateTelePhone(this.mobile)){
+          this.$message('请输入正确的手机号码！')
+        }else{
+          this.page = 1;
+          this.getData();
+        }
       }else {
         this.page = 1;
         this.getData();

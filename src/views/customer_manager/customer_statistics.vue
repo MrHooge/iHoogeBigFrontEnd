@@ -113,6 +113,7 @@
 </template>
 
 <script>
+import { validate } from '@/utils';
 import { findAllMember, memberToWrite, getHistoryClient } from "@/api/customer";
 import { Message, MessageBox } from "element-ui";
 export default {
@@ -174,7 +175,22 @@ export default {
         identifyId: this.idcard,
         mobile: this.mobile
       };
-      findAllMember(obj)
+      if(this.mobile){
+        //验证手机号码
+        if(validate.validateTelePhone(this.mobile)){
+          findAllMember(obj)
+          .then(res => {
+            this.tableData = res.data.data.list;
+            this.totalList = res.data.data.total;
+          })
+          .catch(error => {
+            Message.error(error);
+          });
+        }else{
+          this.$message('请输入正确的手机号码！')
+        }
+      }else{
+        findAllMember(obj)
         .then(res => {
           this.tableData = res.data.data.list;
           this.totalList = res.data.data.total;
@@ -182,6 +198,8 @@ export default {
         .catch(error => {
           Message.error(error);
         });
+      }
+      
     },
 
     //加白

@@ -209,6 +209,7 @@
 </template>
 
 <script>
+import { validate } from '@/utils';
 import { mapGetters } from "vuex";
 import {
   findAllMember,
@@ -340,14 +341,21 @@ export default {
         tel: this.form.mobile || "",
         upAccount: this.form.agentAccount || ""
       };
-      updateMemberInfoBack(obj).then(res => {
-        if (res.data.error_code === 200) {
-          this.$message.success(res.data.message);
-          this.gettablelist();
-        } else {
-          this.$message.error(res.data.message);
-        }
-      });
+      //验证手机号码
+      if(!validate.validateTelePhone(this.form.mobile)){
+        this.$message('请输入正确的手机号码！')
+      }else if(!validate.validateEmail(this.form.email)){//验证邮箱格式
+        this.$message('请输入正确的邮箱！')
+      }else{
+        updateMemberInfoBack(obj).then(res => {
+          if (res.data.error_code === 200) {
+            this.$message.success(res.data.message);
+            this.gettablelist();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      }
     },
     inquire() {
       this.page = 1;
