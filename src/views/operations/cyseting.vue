@@ -167,6 +167,7 @@
 </template>
 
 <script>
+import { validate } from '@/utils';
 import { getMember, toCaiYan } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
@@ -262,14 +263,31 @@ export default {
 				mobile: this.mobile || "",
 				pageSize: this.pageSize
 			};
-			getMember(obj).then(res => {
-				if (res.data.success === true) {
-					this.totalNum = res.data.totalCount;
-                    this.tabledata = res.data.data;
+			if(this.mobile){
+				//验证手机号码
+				if(validate.validateTelePhone(this.mobile)){
+					getMember(obj).then(res => {
+						if (res.data.success === true) {
+							this.totalNum = res.data.totalCount;
+							this.tabledata = res.data.data;
+						}else{
+							this.$message.error(res.data.msg)
+						}
+					})
 				}else{
-                    this.$message.error(res.data.msg)
-                }
-			})
+					this.$message('请输入正确的手机号码！')
+				}
+			}else{
+				getMember(obj).then(res => {
+					if (res.data.success === true) {
+						this.totalNum = res.data.totalCount;
+						this.tabledata = res.data.data;
+					}else{
+						this.$message.error(res.data.msg)
+					}
+				})
+			}
+			
 		},
 		// 获取类型
 		gettype() {

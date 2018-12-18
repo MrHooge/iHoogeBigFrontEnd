@@ -210,6 +210,7 @@
 
 <script>
 // import { findAllMember, setRate } from '@/api/sys_user'
+import { validate } from '@/utils';
 import { setRate } from '@/api/sys_user'
 import { findAllMember} from '@/api/customer'
 import waves from '@/directive/waves/index.js' // 水波纹指令
@@ -314,17 +315,35 @@ export default {
                 username: this.username,
                 realName: this.name,
                 identifyId: this.idcard,
-            }
-            findAllMember(obj).then(res => {
-                if(res.data.error_code === 200){
-                    this.tableData = res.data.data.list
-                    this.totalList = res.data.data.total
-                }else{
-                    Message.error(res.data.message)
-                }
-            }).catch(error => {
-                Message.error(error)
-            })
+			}
+			if(this.mobile){
+				//验证手机号码
+				if(validate.validateTelePhone(this.mobile)){
+					findAllMember(obj).then(res => {
+						if(res.data.error_code === 200){
+							this.tableData = res.data.data.list
+							this.totalList = res.data.data.total
+						}else{
+							Message.error(res.data.message)
+						}
+					}).catch(error => {
+						Message.error(error)
+					})
+				}else{
+					this.$message('请输入正确的手机号码！')
+				}
+			}else{
+				findAllMember(obj).then(res => {
+					if(res.data.error_code === 200){
+						this.tableData = res.data.data.list
+						this.totalList = res.data.data.total
+					}else{
+						Message.error(res.data.message)
+					}
+				}).catch(error => {
+					Message.error(error)
+				})
+			}
         },        
 		showDailag(data, type) {
 			this.viewFormType = type

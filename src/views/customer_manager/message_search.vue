@@ -38,6 +38,7 @@
 
 
 <script>
+import { validate } from '@/utils';
 import { getSmsCode } from '@/api/customer'
 import { Message, MessageBox } from 'element-ui'
 export default {
@@ -57,15 +58,21 @@ export default {
             let obj = {
                 mobile:this.mobile
             }
-            getSmsCode(obj).then(res => {
-                if(res.data.error_code === 200){
-                    this.tableData.push(res.data.data)
-                }else{
-                    Message.error(res.data.message)
-                }
-            }).catch(error => {
-                Message.error(error)
-            })
+            //验证手机号码
+            if(validate.validateTelePhone(this.mobile)){
+                getSmsCode(obj).then(res => {
+                    if(res.data.error_code === 200){
+                        this.tableData.push(res.data.data)
+                    }else{
+                        Message.error(res.data.message)
+                    }
+                }).catch(error => {
+                    Message.error(error)
+                })
+            }else{
+                this.$message('请输入正确的手机号码！')
+            }
+            
             
         } 
     }

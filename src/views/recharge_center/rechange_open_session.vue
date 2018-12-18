@@ -212,17 +212,15 @@ export default {
   },
   mounted() {
     // this.uploadUrl = api.member + '/userCount/uploadFile'
-    this.uploadUrl = "https://member.api.qiyun88.cn/userCount/uploadFile";
+    // this.uploadUrl = "https://member.api.qiyun88.cn/userCount/uploadFile";
+    this.uploadUrl = "https://infos.api.588yd.cn/information/uploadImage";
   },
 
   methods: {
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      // console.log(file, fileList);
     },
     handleAvatarSuccess(res, file) {
-      console.log("111111111111111111");
-      console.log(res);
-      // console.log(file)
       this.ruleForm.pay_picture = res; //  添加支付的图片名
       this.fileUrl = res; //  修改支付的图片名
       this.imageUrl = URL.createObjectURL(file.raw);

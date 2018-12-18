@@ -98,6 +98,7 @@
 </template>
 
 <script>
+import { validate } from '@/utils';
 import { getRobotList, addRobot } from '@/api/sys_user'
 import waves from '@/directive/waves/index.js' // 水波纹指令
 import { Message } from 'element-ui'
@@ -154,15 +155,21 @@ export default {
 					mobile: this.phonenum,
 					userName: this.uname
 				}
-				addRobot(model).then(res => {
-					if (res.error_code == 200) {
-						Message.success(res.data.message)
-						this.getTable(1)
-						this.dialogVisible = false
-					} else {
-						Message.error(res.data.message)
-					}
-				})
+				//验证手机号码
+				if(validate.validateTelePhone(this.phonenum)){
+					addRobot(model).then(res => {
+						if (res.error_code == 200) {
+							Message.success(res.data.message)
+							this.getTable(1)
+							this.dialogVisible = false
+						} else {
+							Message.error(res.data.message)
+						}
+					})
+				}else{
+					this.$message('请输入正确的手机号码！')
+				}
+				
 			}
 		},
 		// 分页回调
