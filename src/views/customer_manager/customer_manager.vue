@@ -344,9 +344,11 @@ export default {
       //验证手机号码
       if(!validate.validateTelePhone(this.form.mobile)){
         this.$message('请输入正确的手机号码！')
-      }else if(!validate.validateEmail(this.form.email)){//验证邮箱格式
-        this.$message('请输入正确的邮箱！')
-      }else{
+      }
+      // else if(!validate.validateEmail(this.form.email)){//验证邮箱格式
+      //   this.$message('请输入正确的邮箱！')
+      // }
+      else{
         updateMemberInfoBack(obj).then(res => {
           if (res.data.error_code === 200) {
             this.$message.success(res.data.message);

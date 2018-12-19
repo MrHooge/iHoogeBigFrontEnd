@@ -27,7 +27,7 @@
 			<el-table-column align="center"
 			                 label="图片">
 				<template slot-scope="scope">
-					<img :src="'https://'+scope.row.pay_picture"
+					<img :src="scope.row.pay_picture"
 					     alt="">
 				</template>
 			</el-table-column>
@@ -55,7 +55,7 @@
 				</el-table-column>
 				<el-table-column label="图标"
 				                 align="center">
-					<template slot-scope="scope"><img :src="'https://'+scope.row.pay_picture"
+					<template slot-scope="scope"><img :src="scope.row.pay_picture"
 						     alt=""></template>
 				</el-table-column>
 				<el-table-column label="状态" align="center">
@@ -87,6 +87,7 @@
 								    align="center">
 									<template slot-scope="scope">
 										<el-upload :action="uploadUrl"
+                               :data="folder"
 										           list-type="picture-card"
 										           :on-success="handleAvatarSuccess"
 										           :before-upload="beforeAvatarUpload"
@@ -135,6 +136,7 @@
 					<el-form-item label="图标"
 					              prop="pay_picture">
 						<el-upload :action="uploadUrl"
+                       :data="folder"
 						           list-type="picture-card"
 						           :on-success="handleAvatarSuccess"
 						           :before-upload="beforeAvatarUpload"
@@ -197,7 +199,12 @@ export default {
         ]
       },
       uploadUrl: "", //  图片上传接口
-      fileUrl: ""
+      fileUrl: "",
+
+
+      folder:{
+        folder:"pay"
+      }
     };
   },
   filters: {
@@ -213,7 +220,7 @@ export default {
   mounted() {
     // this.uploadUrl = api.member + '/userCount/uploadFile'
     // this.uploadUrl = "https://member.api.qiyun88.cn/userCount/uploadFile";
-    this.uploadUrl = "https://infos.api.588yd.cn/information/uploadImage";
+    this.uploadUrl = "https://infos.api.qyun88.com/information/uploadImage";
   },
 
   methods: {
@@ -246,7 +253,7 @@ export default {
         this.ruleForm.is_open = 0;
       }
       let obj = {
-        id: "",
+        id: 1,
         is_update: 0,
         pay_name: this.ruleForm.name,
         is_open: this.ruleForm.is_open,
@@ -264,7 +271,7 @@ export default {
             if (res.data.error_code == 200) {
               Message.success(res.data.message);
               this.dialogVisible1 = false;
-              // this.findPaySwitch()
+              this.getTable()
             } else {
               Message.success(res.data.message);
             }
@@ -282,6 +289,12 @@ export default {
     showDailag() {
       //  添加图片
       this.dialogVisible1 = true;
+
+        // this.is_open=''
+        // this.rechangeName=''
+        // this.fileUrl=''
+        this.ruleForm.name = ''
+        // this.ruleForm.pay_picture = ""
     },
     switchChange() {
       //   console.log(this.value3)
@@ -309,9 +322,11 @@ export default {
       this.tableData3 = [];
       this.viewFormVisible = true;
       this.tableData3.push(obj);
-      //   console.log(this.tableData3);
+        console.log(this.tableData3);
       this.onePeople = obj;
       //   console.log(this.onePeople);
+      this.rechangeName = ""
+      // this.ruleForm.pay_picture = ""
     },
     submitInfos() {
       //  修改支付
@@ -327,18 +342,26 @@ export default {
         pay_name: this.rechangeName,
         pay_picture: this.fileUrl
       };
-      console.log(obj);
+      console.log(obj.pay_name == "")
+      console.log(obj.pay_picture == "")
+      //如果操作者只是想修改其中一个内容，其他为空的默认传入原先的数据
+      if(obj.pay_name == ""){
+        obj.pay_name = this.tableData3[0].pay_name
+      }
+      if(obj.pay_picture == ""){
+        obj.pay_picture = this.tableData3[0].pay_picture
+      }
       addPaySwitch(obj).then(res => {
-        console.log(res);
         if (res.data.error_code == 200) {
           Message.success(res.data.message);
           this.viewFormVisible = false;
           this.rechangeName = "";
-          this.findPaySwitch();
+          this.getTable();
         } else {
           Message.success(res.data.message);
         }
       });
+      
     },
     clearForm() {
       //  取消按钮
