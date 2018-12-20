@@ -75,7 +75,7 @@ const validateEmpty = data => {
 //验证手机号号码
 const validateTelePhone = data => {
 
-  const reg = /^1[34578]\d{9}$/;
+  const reg = /^1[3456789]\d{9}$/;
 
   if (!reg.test(data)) {
 

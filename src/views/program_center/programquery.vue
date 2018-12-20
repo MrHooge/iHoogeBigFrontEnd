@@ -198,13 +198,13 @@
                     align="center"
                     label="玩法">           
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     align="center"
                     label="支付方式">
                     <template slot-scope="scope">
                         {{scope.row.tradeType | changeTradeType}}
                     </template>        
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                     align="center"
                     label="来源">
