@@ -2,7 +2,31 @@
 	<div class="app-container">
 		<!--   财务资金明细 -->
 		<div class="row">
-			<el-select v-model="datetype"
+      <div class="content">
+          <el-date-picker
+          v-model="startTime"
+          type="date"
+          style="margin-right:20px"
+          placeholder="请选择开始日期"
+          value-format="yyyy-MM-dd">
+          </el-date-picker>
+
+          <el-date-picker
+          v-model="endTime"
+          align="right"
+          value-format="yyyy-MM-dd"
+          type="date"
+          placeholder="请选择结束日期"
+          >
+          </el-date-picker>
+          <el-button type="primary"
+			           style="margin-left:10%;"
+			           @click="search">查询</el-button>
+          <el-button type="primary"
+			           style="margin-left:10%;"
+			           @click="exportSome">导出</el-button>
+      </div>
+			<!-- <el-select v-model="datetype"
 			           placeholder="请选择时间段"
 			           @change="handledate">
 				<el-option v-for="item in options"
@@ -10,10 +34,8 @@
 				           :label="item.label"
 				           :value="item.value">
 				</el-option>
-			</el-select>
-			<el-button type="primary"
-			           style="margin-left:10%;"
-			           @click="exportSome">导出</el-button>
+			</el-select> -->
+			
 		</div>
 		<el-table :data="tableData"
 		          border
@@ -135,6 +157,8 @@ export default {
   },
   data() {
     return {
+      startTime:this.fun_date(-7),
+      endTime:this.getNowFormatDate(),
       chart: null,
       time: [], //存储日期
       allOnLineMoney: [], //存储线上充值
@@ -161,12 +185,16 @@ export default {
           label: "当前月"
         }
       ],
-      datetype: "",
-      newarr: []
+      // datetype: "",
+      newarr: [],
+
     };
   },
   created() {
-    this.getTableList();
+    let nowTime = this.getNowFormatDate()
+    let didTime = this.fun_date(-7)
+    this.getTableList(nowTime,didTime);
+    console.log(this.getNowFormatDate(),this.fun_date(7))
   },
   filters: {
     commissionUse(a) {
@@ -178,6 +206,39 @@ export default {
     this.moneyEchart();
   },
   methods: {
+    //获取当前日期
+    getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+    },
+    //获取过去的时间
+    fun_date(aa){
+        var date1 = new Date(),
+        time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//time1表示当前时间
+        var date2 = new Date(date1);
+        date2.setDate(date1.getDate()+aa);
+        var month = date2.getMonth() + 1;
+        var strDate = date2.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var time2 = date2.getFullYear()+"-"+month+"-"+strDate;
+        return time2
+    },
     //金额图表
     moneyEchart() {
       this.time = [];
@@ -195,7 +256,9 @@ export default {
         (this.chart = echarts.init(this.$refs.moneyEchart));
       // 把配置和数据放这里
       let model = {
-        isMonth: this.datetype || 1
+        startTime:this.startTime,
+        endTime:this.endTime
+        // isMonth: this.datetype || 1
       };
       findFinancialMoneyInfo(model)
         .then(res => {
@@ -469,7 +532,9 @@ export default {
     // 对接接口数据
     getTableList() {
       let model = {
-        isMonth: this.datetype || 1
+        startTime:this.startTime,
+        endTime:this.endTime
+        // isMonth: this.datetype || 1
       };
       findFinancialMoneyInfo(model).then(res => {
         if (res.status == 200) {
@@ -483,9 +548,10 @@ export default {
         }
       });
     },
+
     // 时间段的回调
-    handledate() {
-      this.getTableList(this.datetype);
+    search() {
+      this.getTableList();
       this.moneyEchart();
     },
     //   合计的方法

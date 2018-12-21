@@ -3,21 +3,41 @@
     <div class="sales_detail" style="padding:0 20px">
         <!-- 搜索 -->
         <div class="row">
-            <el-input placeholder="请输入账号" v-model="account" style="width: 300px;margin-right:100px;" clearable></el-input>
-            <el-input placeholder="请输入昵称" v-model="username" style="width: 300px;margin-right:100px;" clearable></el-input>
-            <el-select v-model="isMOuth" placeholder="请选择时间段" style="margin-right:100px;">
-                <el-option
-                    v-for="item in options1"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-            </el-select>
-            <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;">搜索</el-button>
-            <el-button type="success" @click="exportSome" style="margin-left:50px;">导出</el-button>
-            <p class="taost">
-                注:老销售使用sj查询，新销售使用昵称查询，本表格只支持查询单个代理人员七天或当月的数据
-            </p>
+            <div class="item">
+                <el-input placeholder="请输入账号" v-model="account" style="width: 200px;margin-right:50px;" clearable></el-input>
+                <el-input placeholder="请输入昵称" v-model="username" style="width: 200px;margin-right:50px;" clearable></el-input>
+            </div>
+            <div class="item">
+                <el-date-picker
+                v-model="startTime"
+                type="date"
+                style="margin-right:20px"
+                placeholder="请选择开始日期"
+                value-format="yyyy-MM-dd">
+                </el-date-picker>
+
+                <el-date-picker
+                v-model="endTime"
+                align="right"
+                value-format="yyyy-MM-dd"
+                type="date"
+                placeholder="请选择结束日期"
+                >
+                </el-date-picker>
+            </div>
+        </div>
+        <div class="second">
+            <div class="item">
+                <el-button type="primary"
+                            style="margin-left:30px;"
+                            @click="search">查询</el-button>
+                <el-button type="primary"
+                            style="margin-left:30px;"
+                            @click="exportSome">导出</el-button>
+            </div>
+        </div>
+        <div class="taost">
+            注:老销售使用sj查询，新销售使用昵称查询，本表格只支持查询单个代理人员七天或当月的数据
         </div>
         <el-table
             :data="tableData"
@@ -120,6 +140,8 @@ export default {
     },
     data() {
         return {
+            startTime:this.fun_date(-7),
+            endTime:this.getNowFormatDate(),
             chart1: null,
             // chart2: null,
             // chart3: null,
@@ -157,7 +179,7 @@ export default {
         }
     },
     created(){
-        this.getTableList()
+        // this.getTableList()
     },
     filters: {
         sumCommision(sum){
@@ -165,6 +187,39 @@ export default {
         }
     },
     methods: {
+        //获取当前日期
+        getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = year + seperator1 + month + seperator1 + strDate;
+            return currentdate;
+        },
+        //获取过去的时间
+        fun_date(aa){
+            var date1 = new Date(),
+            time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//time1表示当前时间
+            var date2 = new Date(date1);
+            date2.setDate(date1.getDate()+aa);
+            var month = date2.getMonth() + 1;
+            var strDate = date2.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var time2 = date2.getFullYear()+"-"+month+"-"+strDate;
+            return time2
+        },  
         //金额图表
         moneyEchart() {
             this.time = []
@@ -352,7 +407,10 @@ export default {
         getTableList(){
             let obj = {
                 account: this.account,
-                isMonth: this.isMOuth
+                startTime:this.startTime,
+                endTime:this.endTime,
+                // isMonth: this.isMOuth
+
             }
             findAgentInfoByAccount(obj)
             .then(res => {
@@ -414,11 +472,23 @@ export default {
 
 <style scoped>
 
-div.row {
+.row {
    padding: 20px 0;
-   
+   width: 1200px;
+   display: flex;
+   justify-content: flex-start;
 }
-p.taost{
+.item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.second{
+    width: 600px;
+    display: flex;
+    justify-content: flex-start;
+}
+.taost{
    color: #f00;
    font-size: 14px;
    padding-top: 10px;
