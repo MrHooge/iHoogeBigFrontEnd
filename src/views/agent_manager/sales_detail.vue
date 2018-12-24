@@ -140,8 +140,8 @@ export default {
     },
     data() {
         return {
-            startTime:this.fun_date(-7),
-            endTime:this.getNowFormatDate(),
+            startTime:'',
+            endTime:'',
             chart1: null,
             // chart2: null,
             // chart3: null,
@@ -231,7 +231,9 @@ export default {
             // 把配置和数据放这里
             let obj = {
                 account: this.account,
-                isMonth: this.isMOuth
+                isMonth: this.isMOuth,
+                     startTime:this.startTime,
+                endTime:this.endTime,
             }
             findAgentInfoByAccount(obj)
             .then(res => {
@@ -412,6 +414,7 @@ export default {
                 // isMonth: this.isMOuth
 
             }
+            console.log(obj)
             findAgentInfoByAccount(obj)
             .then(res => {
                 this.tableData = res.data.data
