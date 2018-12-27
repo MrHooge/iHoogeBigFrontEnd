@@ -195,44 +195,36 @@
 				</template>
 			</el-table-column> -->
 			
-			<el-table-column label="操作"
-			                 align="center">
-				<template slot-scope="scope">
-					<div style="padding:5px 0">
-						<!-- <el-button v-if="scope.row.STATUS === 1"
-						    type="primary"
-						    @click="examine(scope.row)" v-if="scope.row.STATUS != 6 && scope.row.STATUS != 5 && scope.row.STATUS != 8">客服通过
-                        </el-button> -->
-						<el-button v-if="scope.row.STATUS === 1"
-						    type="primary"
-						    @click="examine(scope.row)">客服通过
-                        </el-button>
-						<el-button v-if="scope.row.STATUS === 7"
-						    type="primary"
-						    @click="examine(scope.row)">财务通过
-                        </el-button>
-					</div>
-					<div>
-						<el-button v-if="scope.row.STATUS === 1"
-						    type="danger"
-						    @click="reject(scope.row)">客服驳回
-                        </el-button>
-						<el-button v-if="scope.row.STATUS === 7 || scope.row.STATUS === 2"
-						    type="danger"
-						    @click="reject(scope.row)">财务驳回
-                        </el-button>
-					</div>
-                    <div v-if="scope.row.STATUS === 6">
-						<el-button type="success">已到账</el-button>
-					</div>
-                    <div v-if="scope.row.STATUS === 5">
-						<el-button type="success">汇款驳回</el-button>
-					</div>
-                    <div v-if="scope.row.STATUS === 8">
-						<el-button type="success">财务驳回</el-button>
-					</div>
-				</template>
-			</el-table-column>
+      <el-table-column label="操作"
+                       align="center">
+        <template slot-scope="scope">
+          <el-button v-if="scope.row.STATUS == 1"
+                     type="primary"
+                     @click="examine(scope.row)">客服通过
+          </el-button>
+          <el-button v-if="scope.row.STATUS == 7"
+                     type="primary"
+                     @click="examine(scope.row)">财务通过
+          </el-button>
+          <el-button v-if="scope.row.STATUS == 1"
+                     type="danger"
+                     @click="reject(scope.row)">客服驳回
+          </el-button>
+          <el-button v-if="scope.row.STATUS == 7"
+                     type="danger"
+                     @click="reject(scope.row)">财务驳回
+          </el-button>
+          <div v-if="scope.row.STATUS=== 6">
+            <el-button type="success">已到账</el-button>
+          </div>
+          <div v-if="scope.row.STATUS == 5">
+            <el-button type="success">汇款驳回</el-button>
+          </div>
+          <div v-if="scope.row.STATUS == 2">
+            <el-button type="success">客服驳回</el-button>
+          </div>
+        </template>
+      </el-table-column>
 
 		</el-table>
 		<!-- 审核弹窗 -->
