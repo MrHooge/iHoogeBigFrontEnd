@@ -1,462 +1,542 @@
 <template>
-    <div class="program">
-        <div class="search">
-            账号：<el-input v-model="account" placeholder="请输入账户" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
-            昵称：<el-input v-model="username" placeholder="请输入昵称" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
-            方案编号:<el-input v-model="planNo" placeholder="请输入方案编号" style="width: 130px;margin-right:30px;margin-bottom:20px;margin-top:40px" clearable></el-input>
-            发单金额:<el-input v-model="startAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至<el-input v-model="endAmount" placeholder="请输入最大值" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
-            税后奖金:<el-input v-model="startReturnAmount" placeholder="请输入最小值" style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至<el-input v-model="endReturnAmount" placeholder="请输入最大值" style="width: 120px;margin-right:300px;margin-bottom:20px;margin-top:40px"></el-input>
+  <div class="program">
+    <div class="search">
+      账号：
+      <el-input v-model="account"
+                placeholder="请输入账户"
+                style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"
+                clearable></el-input>
+      昵称：
+      <el-input v-model="username"
+                placeholder="请输入昵称"
+                style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"
+                clearable></el-input>
+      方案编号:
+      <el-input v-model="planNo"
+                placeholder="请输入方案编号"
+                style="width: 130px;margin-right:30px;margin-bottom:20px;margin-top:40px"
+                clearable></el-input>
+      发单金额:
+      <el-input v-model="startAmount"
+                placeholder="请输入最小值"
+                style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"
+                clearable></el-input>至
+      <el-input v-model="endAmount"
+                placeholder="请输入最大值"
+                style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px;margin-left:5px"></el-input>
+      税后奖金:
+      <el-input v-model="startReturnAmount"
+                placeholder="请输入最小值"
+                style="width: 120px;margin-right:5px;margin-bottom:20px;margin-top:40px"
+                clearable></el-input>至
+      <el-input v-model="endReturnAmount"
+                placeholder="请输入最大值"
+                style="width: 120px;margin-right:300px;margin-bottom:20px;margin-top:40px"></el-input>
 
-            订单状态：
-            <el-select v-model="planStatus"
-			           placeholder="请选择订单状态"
-			           @change="getval"
-                       style="width:10%">
-				<el-option v-for="item in sections1"
-				           :key="item.planStatus"
-				           :label="item.label"
-				           :value="item.planStatus"
-                           >
-				</el-option>
-               
-			</el-select>
-            彩种：
-            <el-select v-model="lotteryType"
-			           placeholder="请选择彩种类型"
-			           @change="getval"
-                       style="width:10%">
-				<el-option v-for="item in sections2"
-				           :key="item.lotteryType"
-				           :label="item.label"
-				           :value="item.lotteryType"
-                           >
-				</el-option>
-               
-			</el-select>
-            中奖状态：<el-select v-model="winStatus"
-			           placeholder="请选择中奖状态"
-			           @change="getval"
-                       style="width:10%">
-				<el-option v-for="item in sections"
-				           :key="item.winStatus"
-				           :label="item.label"
-				           :value="item.winStatus">
-				</el-option>
-               
-			</el-select><br />
-            玩法：<el-select v-model="playType"
-			           placeholder="请选择玩法"
-			           @change="getval"
-                       style="width:10%">
-				<el-option v-for="item in directions"
-				           :key="item.playType"
-				           :label="item.label"
-				           :value="item.playType">
-				</el-option>
-               
-			</el-select>
-            发单时间（起始）：<el-date-picker
-            v-model="stime"
-            type="datetime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            style="margin-bottom:40px;margin-right:20px;width:200px"
-            placeholder="请选择开始日期">
-            </el-date-picker>
-            
-            发单时间（截止）：<el-date-picker
-            v-model="etime"
-            align="right"
-            type="datetime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            style="margin-left:10px;
+      订单状态：
+      <el-select v-model="planStatus"
+                 placeholder="请选择订单状态"
+                 @change="getval"
+                 style="width:10%">
+        <el-option v-for="item in sections1"
+                   :key="item.planStatus"
+                   :label="item.label"
+                   :value="item.planStatus">
+        </el-option>
+
+      </el-select>
+      彩种：
+      <el-select v-model="lotteryType"
+                 placeholder="请选择彩种类型"
+                 @change="getval"
+                 style="width:10%">
+        <el-option v-for="item in sections2"
+                   :key="item.lotteryType"
+                   :label="item.label"
+                   :value="item.lotteryType">
+        </el-option>
+
+      </el-select>
+      中奖状态：
+      <el-select v-model="winStatus"
+                 placeholder="请选择中奖状态"
+                 @change="getval"
+                 style="width:10%">
+        <el-option v-for="item in sections"
+                   :key="item.winStatus"
+                   :label="item.label"
+                   :value="item.winStatus">
+        </el-option>
+
+      </el-select><br /> 玩法：
+      <el-select v-model="playType"
+                 placeholder="请选择玩法"
+                 @change="getval"
+                 style="width:10%">
+        <el-option v-for="item in directions"
+                   :key="item.playType"
+                   :label="item.label"
+                   :value="item.playType">
+        </el-option>
+
+      </el-select>
+      发单时间（起始）：
+      <el-date-picker v-model="stime"
+                      type="datetime"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      style="margin-bottom:40px;margin-right:20px;width:200px"
+                      placeholder="请选择开始日期">
+      </el-date-picker>
+
+      发单时间（截止）：
+      <el-date-picker v-model="etime"
+                      align="right"
+                      type="datetime"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      style="margin-left:10px;
             margin-right:30px;
             width:200px;
             margin-bottom:40px;"
-            placeholder="请选择结束日期"
-            default-time="23:59:59">
-            </el-date-picker>
-             预测奖金：<el-input v-model="minBonus" placeholder="请输入奖金最小值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>至
-             <el-input v-model="maxBonus" placeholder="请输入奖金最大值" style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px" clearable></el-input>
-            <el-button type="primary" @click="search" @keyup.13="getone" style="margin-left:100px;margin-bottom:40px;margin-top:40px;margin-right:120px;">查询</el-button>
-            <!-- 根据比赛查询方案 -->
-            方案购买开始时间:
-            <el-date-picker
-                v-model="start_time"
-                type="datetime"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                style="margin-bottom:40px;margin-right:20px;width:200px"
-                placeholder="请选择开始日期">
-            </el-date-picker>
-            方案结束时间:
-            <el-date-picker
-                v-model="end_time"
-                align="right"
-                type="datetime"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                style="margin-left:10px;
+                      placeholder="请选择结束日期"
+                      default-time="23:59:59">
+      </el-date-picker>
+      预测奖金：
+      <el-input v-model="minBonus"
+                placeholder="请输入奖金最小值"
+                style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px"
+                clearable></el-input>至
+      <el-input v-model="maxBonus"
+                placeholder="请输入奖金最大值"
+                style="width: 150px;margin-right:5px;margin-bottom:20px;margin-top:40px"
+                clearable></el-input>
+      <el-button type="primary"
+                 @click="search"
+                 @keyup.13="getone"
+                 style="margin-left:100px;margin-bottom:40px;margin-top:40px;margin-right:120px;">查询</el-button>
+      <!-- 根据比赛查询方案 -->
+      方案购买开始时间:
+      <el-date-picker v-model="start_time"
+                      type="datetime"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      style="margin-bottom:40px;margin-right:20px;width:200px"
+                      placeholder="请选择开始日期">
+      </el-date-picker>
+      方案结束时间:
+      <el-date-picker v-model="end_time"
+                      align="right"
+                      type="datetime"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      style="margin-left:10px;
                 margin-right:30px;
                 width:200px;
                 margin-bottom:40px;"
-                placeholder="请选择结束日期"
-                default-time="23:59:59">
-            </el-date-picker>
-            比赛时间:
-            <el-date-picker
-                v-model="intTime"
-                align="right"
-                value-format="yyyyMMdd"
-                style="margin-left:10px;
+                      placeholder="请选择结束日期"
+                      default-time="23:59:59">
+      </el-date-picker>
+      比赛时间:
+      <el-date-picker v-model="intTime"
+                      align="right"
+                      value-format="yyyyMMdd"
+                      style="margin-left:10px;
                 margin-right:30px;
                 width:200px;
                 margin-bottom:40px;"
-                placeholder="请选择比赛时间">
-            </el-date-picker>
-            比赛场次:<el-input v-model="lineId" style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px" clearable></el-input>
-            <el-button type="primary" @click="matchSearch">根据比赛查询方案</el-button>
-            <el-button type="success" @click="exportSome" style="margin-left:50px;">导出</el-button>
-            <!-- 中奖金额总和 -->
-            <div v-show="isAdmin">
-                <span style="display:inline-block;">消费金额:{{consumMoney}}元&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wingPrize}}元</span>
-                <el-button type="primary" @click="searchCount">统计总和</el-button><span style="color:red;font-size:14px;">注：默认显示发单时间当天的！</span>
-            </div>
-            
-            <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
-        </div>
-        <p style="font-size:12px;color:red;">注：点击昵称可以跳转到会员资料修改页面</p>
-        <div class="tablelist">
-            <el-table :data="tableData" border style="width: 100%;">
-                <el-table-column type="index"
-                                align="center"
-                                label="编号">
-                </el-table-column>
-                <el-table-column
-                    align="center"
-                    label="方案编号">
-                    <template slot-scope="scope">
-                        {{scope.row.planNo}}<span style="color:red">{{scope.row.isFocus | shape}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    label="用户名"
-                    align="center">
-                    <template slot-scope="scope">
-                        <span @click="getupnewweb(scope.row.account)" v-if="scope.row.username">
-                        {{scope.row.username}}
-                        </span>
-                        <span @click="getupnewweb(scope.row.account)" v-else>
-                        {{ scope.row.account}}
-                        </span>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    prop="dlAccount"
-                    align="center"
-                    label="代理用户名">
-                </el-table-column>
-                <el-table-column
-                    prop="qdAccount"
-                    align="center"
-                    label="渠道用户名">
-                </el-table-column>
-                <el-table-column
-                    align="center"
-                    label="发单时间">
-                    <template slot-scope="scope">
-                        {{scope.row.createTime | setTime}}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    prop="amount"
-                    align="center"
-                    label="金额">
-                </el-table-column>
-                <el-table-column
-                    prop="planStatus"
-                    align="center"
-                    label="方案状态">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.planStatus === '未支付' || scope.row.planStatus === '未出票作废'" style="color: #409eff;">{{scope.row.planStatus}}</span>
-                        <span v-else-if="scope.row.planStatus === '出票中'" style="color: #ff0134;">{{scope.row.planStatus}}</span>
-                        <span v-else-if="scope.row.planStatus === '已出票'" style="color: green;">{{scope.row.planStatus}}</span>
-                        <span v-else>{{scope.row.planStatus}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    prop="lotteryType"
-                    align="center"
-                    label="彩种">
-                </el-table-column>
-                <el-table-column
-                    align="center"
-                    label="截止时间">
-                    <template slot-scope="scope">
-                        {{scope.row.dealTime | setTime}}
-                    </template>   
-                </el-table-column>
-                <el-table-column
-                    prop="playType"
-                    align="center"
-                    label="玩法">           
-                </el-table-column>
-                <!-- <el-table-column
+                      placeholder="请选择比赛时间">
+      </el-date-picker>
+      比赛场次:
+      <el-input v-model="lineId"
+                style="width: 120px;margin-right:40px;margin-bottom:20px;margin-top:40px"
+                clearable></el-input>
+      <el-button type="primary"
+                 @click="matchSearch">根据比赛查询方案</el-button>
+      <el-button type="success"
+                 @click="exportSome"
+                 style="margin-left:50px;">导出</el-button>
+      <!-- 中奖金额总和 -->
+      <div v-show="isAdmin">
+        <span style="display:inline-block;">消费金额:{{consumMoney}}元&nbsp;&nbsp;&nbsp;&nbsp;中奖总金额：{{wingPrize}}元</span>
+        <el-button type="primary"
+                   @click="searchCount">统计总和</el-button>
+        <span style="color:red;font-size:14px;">注：默认显示发单时间当天的！</span>
+      </div>
+
+      <!-- <el-button type="primary" @click="FokusEreignis">是否焦点赛事内购买</el-button> -->
+    </div>
+    <p style="font-size:12px;color:red;">注：点击昵称可以跳转到会员资料修改页面</p>
+    <div class="tablelist">
+      <el-table :data="tableData"
+                border
+                style="width: 100%;">
+        <el-table-column type="index"
+                         align="center"
+                         label="编号">
+        </el-table-column>
+        <el-table-column align="center"
+                         label="方案编号">
+          <template slot-scope="scope">
+            {{scope.row.planNo}}
+            <span style="color:red">{{scope.row.isFocus | shape}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="用户名"
+                         align="center">
+          <template slot-scope="scope">
+            <span @click="getupnewweb(scope.row.account)"
+                  v-if="scope.row.username">
+              {{scope.row.username}}
+            </span>
+            <span @click="getupnewweb(scope.row.account)"
+                  v-else>
+              {{ scope.row.account}}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="dlAccount"
+                         align="center"
+                         label="代理用户名">
+        </el-table-column>
+        <el-table-column prop="qdAccount"
+                         align="center"
+                         label="渠道用户名">
+        </el-table-column>
+        <el-table-column align="center"
+                         label="发单时间">
+          <template slot-scope="scope">
+            {{scope.row.createTime | setTime}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="amount"
+                         align="center"
+                         label="金额">
+        </el-table-column>
+        <el-table-column prop="planStatus"
+                         align="center"
+                         label="方案状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.planStatus === '未支付' || scope.row.planStatus === '未出票作废'"
+                  style="color: #409eff;">{{scope.row.planStatus}}</span>
+            <span v-else-if="scope.row.planStatus === '出票中'"
+                  style="color: #ff0134;">{{scope.row.planStatus}}</span>
+            <span v-else-if="scope.row.planStatus === '已出票'"
+                  style="color: green;">{{scope.row.planStatus}}</span>
+            <span v-else>{{scope.row.planStatus}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="lotteryType"
+                         align="center"
+                         label="彩种">
+        </el-table-column>
+        <el-table-column align="center"
+                         label="截止时间">
+          <template slot-scope="scope">
+            {{scope.row.dealTime | setTime}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="playType"
+                         align="center"
+                         label="玩法">
+        </el-table-column>
+        <!-- <el-table-column
                     align="center"
                     label="支付方式">
                     <template slot-scope="scope">
                         {{scope.row.tradeType | changeTradeType}}
                     </template>        
                 </el-table-column> -->
-                <el-table-column
-                    align="center"
-                    label="来源">
-                    <template slot-scope="scope">
-                        {{scope.row.platForm | platForm}}
-                    </template>          
-                </el-table-column>
-                <el-table-column
-                    prop="addPrize"
-                    align="center"
-                    label="嘉奖">           
-                </el-table-column>
-                <el-table-column
-                    prop="winStatus"
-                    align="center"
-                    label="中奖状态">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.winStatus === '已派奖'" style="color: #409eff;">{{scope.row.winStatus}}</span>
-                        <span v-else-if="scope.row.winStatus === '已中奖'" style="color: #ff0134;">{{scope.row.winStatus}}</span>
-                        <span v-else>{{scope.row.winStatus}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    prop="posttaxPrize"
-                    align="center"
-                    label="税后奖金">           
-                </el-table-column>
-                <el-table-column
-                    prop="maxBonus"
-                    align="center"
-                    label="预测奖金（最大）">           
-                </el-table-column>
-                <el-table-column
-                    prop="minBonus"
-                    align="center"
-                    label="预测奖金（最小）">           
-                </el-table-column>
-                <el-table-column
-                    align="center"
-                    label="跟单/自购">
-                    <template slot-scope="scope">
-                        {{scope.row.isSuper | isSuper}}
-                    </template>        
-                </el-table-column>
-                <el-table-column
-                    align="center"
-                    label="操作">
-                    <template slot-scope="scope">
-                        <el-dropdown trigger="click">
-                            <el-button type="primary">操作</el-button>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-popover
-                                    placement="right"
-                                    trigger="click">
-                                </el-popover>
-                                <el-button type="warning" @click="outticket(scope.row,'modify')">设置出票</el-button>&nbsp;
-                                &nbsp;&nbsp;<el-button type="danger" @click="Chargeback(scope.row,'modify')">退单</el-button>
-                                <!-- <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button> -->
-                                <el-button type="success" @click="Szczegol(scope.row)">明细</el-button>
-                            </el-dropdown-menu>
-                        </el-dropdown> 
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-dialog title="退单" :visible.sync="Declarationofwithdrawal" width="500px" top="30vh">
-                <div class="body">
-                确认退单吗
-                </div>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="Declarationofwithdrawal = false">取 消</el-button>
-                    <el-button type="primary" @click="want">确定</el-button>
-                </div>
-            </el-dialog>
-            <el-dialog title="出票" :visible.sync="undesirabledesabel" width="500px" top="30vh">
-                <div class="body">
-                确认出票吗
-                </div>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="undesirabledesabel = false">取消</el-button>
-                    <el-button type="primary" @click="getfromyicket">确定</el-button>
-                </div>
-            </el-dialog>
-            <el-dialog title="修改" :visible.sync="dialogShenVisible" width="500px" top="30vh">
-                <div class="body">
-                    请输入罚单宣言：<el-input v-model="desc" clearable></el-input>
-                </div>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogShenVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="sure">确定</el-button>
-                </div>
-            </el-dialog>
-            <el-pagination
-                background
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                :page-sizes="[10, 20, 30, 40, 50]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="totalList"
-                v-if="totalList != ''"
-                style="margin-top:40px">
-            </el-pagination>
+        <el-table-column align="center"
+                         label="来源">
+          <template slot-scope="scope">
+            {{scope.row.platForm | platForm}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="addPrize"
+                         align="center"
+                         label="嘉奖">
+        </el-table-column>
+        <el-table-column prop="winStatus"
+                         align="center"
+                         label="中奖状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.winStatus === '已派奖'"
+                  style="color: #409eff;">{{scope.row.winStatus}}</span>
+            <span v-else-if="scope.row.winStatus === '已中奖'"
+                  style="color: #ff0134;">{{scope.row.winStatus}}</span>
+            <span v-else>{{scope.row.winStatus}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="posttaxPrize"
+                         align="center"
+                         label="税后奖金">
+        </el-table-column>
+        <el-table-column prop="maxBonus"
+                         align="center"
+                         label="预测奖金（最大）">
+        </el-table-column>
+        <el-table-column prop="minBonus"
+                         align="center"
+                         label="预测奖金（最小）">
+        </el-table-column>
+        <el-table-column align="center"
+                         label="跟单/自购">
+          <template slot-scope="scope">
+            {{scope.row.isSuper | isSuper}}
+          </template>
+        </el-table-column>
+        <el-table-column align="center"
+                         label="操作">
+          <template slot-scope="scope">
+            <el-dropdown trigger="click">
+              <el-button type="primary">操作</el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-popover placement="right"
+                            trigger="click">
+                </el-popover>
+                <el-button type="warning"
+                           @click="outticket(scope.row,'modify')">设置出票</el-button>&nbsp; &nbsp;&nbsp;
+                <el-button type="danger"
+                           @click="Chargeback(scope.row,'modify')">退单</el-button>
+                <!-- <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button> -->
+                <el-button type="success"
+                           @click="Szczegol(scope.row)">明细</el-button>
+                <el-button type="success"
+                           @click="setCite(scope.row)">设为嘉奖</el-button>
+                <el-button type="success"
+                           @click="CiteMoney(scope.row)">修改嘉奖金额</el-button>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-dialog title="退单"
+                 :visible.sync="Declarationofwithdrawal"
+                 width="500px"
+                 top="30vh">
+        <div class="body">
+          确认退单吗
+        </div>
+        <div slot="footer"
+             class="dialog-footer">
+          <el-button @click="Declarationofwithdrawal = false">取 消</el-button>
+          <el-button type="primary"
+                     @click="want">确定</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog title="出票"
+                 :visible.sync="undesirabledesabel"
+                 width="500px"
+                 top="30vh">
+        <div class="body">
+          确认出票吗
+        </div>
+        <div slot="footer"
+             class="dialog-footer">
+          <el-button @click="undesirabledesabel = false">取消</el-button>
+          <el-button type="primary"
+                     @click="getfromyicket">确定</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog title="修改"
+                 :visible.sync="dialogShenVisible"
+                 width="500px"
+                 top="30vh">
+        <div class="body">
+          请输入发单宣言：
+          <el-input v-model="desc"
+                    clearable></el-input>
+        </div>
+        <div slot="footer"
+             class="dialog-footer">
+          <el-button @click="dialogShenVisible = false">取 消</el-button>
+          <el-button type="primary"
+                     @click="sure">确定</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog title="设置为嘉奖方案"
+                 :visible.sync="citeShow"
+                 width="500px"
+                 top="30vh">
+        <div class="body">
+          确认设置为嘉奖方案吗
+        </div>
+        <div slot="footer"
+             class="dialog-footer">
+          <el-button @click="citeClear">取消</el-button>
+          <el-button type="primary"
+                     @click="citeSure">确定</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog title="嘉奖金额修改"
+                 :visible.sync="moneyShow"
+                 width="500px"
+                 top="30vh">
+        <div class="body">
+          请输入修改金额：
+          <el-input v-model="moneyCite"
+                    clearable></el-input>
+        </div>
+        <div slot="footer"
+             class="dialog-footer">
+          <el-button @click="moneyShow = false">取 消</el-button>
+          <el-button type="primary"
+                     @click="citeMoneySuer">确定</el-button>
+        </div>
+      </el-dialog>
+      <el-pagination background
+                     @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :current-page="page"
+                     :page-sizes="[10, 20, 30, 40, 50]"
+                     :page-size="pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="totalList"
+                     v-if="totalList != ''"
+                     style="margin-top:40px">
+      </el-pagination>
 
-            <el-dialog :visible.sync="disabled" width="100%" top="30vh">
-                <div class="body">
-                    <el-table :data="tableData1" border style="width: 100%;">
-                        <el-table-column
-                            align="center"
-                            label="方案编号">
-                            <template slot-scope="scope">
-                                {{scope.row.planNo}}<span style="color:red">{{scope.row.isFocus | shape}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            label="用户名"
-                            align="center">
-                            <template slot-scope="scope">
-                                <span @click="getupnewweb(scope.row.account)" v-if="scope.row.username">
-                                {{scope.row.username}}
-                                </span>
-                                <span @click="getupnewweb(scope.row.account)" v-else>
-                                {{ scope.row.account}}
-                                </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            prop="dlAccount"
-                            align="center"
-                            label="代理用户名">
-                        </el-table-column>
-                        <el-table-column
-                            prop="qdAccount"
-                            align="center"
-                            label="	渠道用户名">
-                        </el-table-column>
-                            <el-table-column
-                                align="center"
-                                label="发单时间">
-                                <template slot-scope="scope">
-                                    {{scope.row.createDateTime | setTime}}
-                                </template>
-                            </el-table-column>
-                        <el-table-column
-                            prop="amount"
-                            align="center"
-                            label="金额">
-                        </el-table-column>
-                        <el-table-column
-                            prop="planStatus"
-                            align="center"
-                            label="方案状态">
-                            <template slot-scope="scope">
-                                <span v-if="scope.row.planStatus === 1" style="color: #409eff;">{{scope.row.planStatus | changePlanStatus}}</span>
-                                <span v-else-if="scope.row.planStatus === 3" style="color: #ff0134;">{{scope.row.planStatus | changePlanStatus}}</span>
-                                <span v-else-if="scope.row.planStatus === 4" style="color: green;">{{scope.row.planStatus | changePlanStatus}}</span>
-                                <span v-else>{{scope.row.planStatus | changePlanStatus}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            align="center"
-                            label="彩种">
-                            <template slot-scope="scope">
-                                {{scope.row.lotteryType | changeLotteryType}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            align="center"
-                            label="截止时间">
-                            <template slot-scope="scope">
-                                {{scope.row.dealDateTime | setTime}}
-                            </template>   
-                        </el-table-column>
-                        <el-table-column
-                            align="center"
-                            label="玩法">
-                            <template slot-scope="scope">
-                                {{scope.row.playType | changePlayType}}
-                            </template>        
-                        </el-table-column>
-                        <el-table-column
-                            align="center"
-                            label="来源">
-                            <template slot-scope="scope">
-                                {{scope.row.platform | platForm}}
-                            </template>          
-                        </el-table-column>
-                        <el-table-column
-                            prop="addPrize"
-                            align="center"
-                            label="嘉奖">           
-                        </el-table-column>
-                        <el-table-column
-                            prop="winStatus"
-                            align="center"
-                            label="中奖状态">
-                            <template slot-scope="scope">
-                                <span v-if="scope.row.winStatus === '已派奖'" style="color: #409eff;">{{scope.row.winStatus}}</span>
-                                <span v-else-if="scope.row.winStatus === '已中奖'" style="color: #ff0134;">{{scope.row.winStatus}}</span>
-                                <span v-else>{{scope.row.winStatus}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            prop="posttaxPrize"
-                            align="center"
-                            label="税后奖金">           
-                        </el-table-column>
-                        <el-table-column
-                            prop="maxBonus"
-                            align="center"
-                            label="预测奖金（最大）">           
-                        </el-table-column>
-                        <el-table-column
-                            prop="minBonus"
-                            align="center"
-                            label="预测奖金（最小）">           
-                        </el-table-column>
-                        <el-table-column
-                            align="center"
-                            label="跟单/自购">
-                            <template slot-scope="scope">
-                                {{scope.row.isSuperMan | isSuper}}
-                            </template>        
-                        </el-table-column>
-                        <el-table-column
-                            align="center"
-                            label="操作">
-                            <template slot-scope="scope">
-                                <el-dropdown trigger="click">
-                                    <el-button type="primary">操作</el-button>
-                                    <el-dropdown-menu slot="dropdown">
-                                        <el-popover
-                                            placement="right"
-                                            trigger="click">
-                                        </el-popover>
-                                        <el-button type="warning" @click="outticket(scope.row,'modify')">设置出票</el-button>&nbsp;
-                                        &nbsp;&nbsp;<el-button type="danger" @click="Chargeback(scope.row,'modify')">退单</el-button>
-                                        <!-- <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button> -->
-                                        <el-button type="success" @click="Szczegol(scope.row)">明细</el-button>
-                                    </el-dropdown-menu>
-                                    </el-dropdown> 
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </div>
-                <!-- <div slot="footer" class="dialog-footer">
+      <el-dialog :visible.sync="disabled"
+                 width="100%"
+                 top="30vh">
+        <div class="body">
+          <el-table :data="tableData1"
+                    border
+                    style="width: 100%;">
+            <el-table-column align="center"
+                             label="方案编号">
+              <template slot-scope="scope">
+                {{scope.row.planNo}}
+                <span style="color:red">{{scope.row.isFocus | shape}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="用户名"
+                             align="center">
+              <template slot-scope="scope">
+                <span @click="getupnewweb(scope.row.account)"
+                      v-if="scope.row.username">
+                  {{scope.row.username}}
+                </span>
+                <span @click="getupnewweb(scope.row.account)"
+                      v-else>
+                  {{ scope.row.account}}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="dlAccount"
+                             align="center"
+                             label="代理用户名">
+            </el-table-column>
+            <el-table-column prop="qdAccount"
+                             align="center"
+                             label="	渠道用户名">
+            </el-table-column>
+            <el-table-column align="center"
+                             label="发单时间">
+              <template slot-scope="scope">
+                {{scope.row.createDateTime | setTime}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="amount"
+                             align="center"
+                             label="金额">
+            </el-table-column>
+            <el-table-column prop="planStatus"
+                             align="center"
+                             label="方案状态">
+              <template slot-scope="scope">
+                <span v-if="scope.row.planStatus === 1"
+                      style="color: #409eff;">{{scope.row.planStatus | changePlanStatus}}</span>
+                <span v-else-if="scope.row.planStatus === 3"
+                      style="color: #ff0134;">{{scope.row.planStatus | changePlanStatus}}</span>
+                <span v-else-if="scope.row.planStatus === 4"
+                      style="color: green;">{{scope.row.planStatus | changePlanStatus}}</span>
+                <span v-else>{{scope.row.planStatus | changePlanStatus}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center"
+                             label="彩种">
+              <template slot-scope="scope">
+                {{scope.row.lotteryType | changeLotteryType}}
+              </template>
+            </el-table-column>
+            <el-table-column align="center"
+                             label="截止时间">
+              <template slot-scope="scope">
+                {{scope.row.dealDateTime | setTime}}
+              </template>
+            </el-table-column>
+            <el-table-column align="center"
+                             label="玩法">
+              <template slot-scope="scope">
+                {{scope.row.playType | changePlayType}}
+              </template>
+            </el-table-column>
+            <el-table-column align="center"
+                             label="来源">
+              <template slot-scope="scope">
+                {{scope.row.platform | platForm}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="addPrize"
+                             align="center"
+                             label="嘉奖">
+            </el-table-column>
+            <el-table-column prop="winStatus"
+                             align="center"
+                             label="中奖状态">
+              <template slot-scope="scope">
+                <span v-if="scope.row.winStatus === '已派奖'"
+                      style="color: #409eff;">{{scope.row.winStatus}}</span>
+                <span v-else-if="scope.row.winStatus === '已中奖'"
+                      style="color: #ff0134;">{{scope.row.winStatus}}</span>
+                <span v-else>{{scope.row.winStatus}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="posttaxPrize"
+                             align="center"
+                             label="税后奖金">
+            </el-table-column>
+            <el-table-column prop="maxBonus"
+                             align="center"
+                             label="预测奖金（最大）">
+            </el-table-column>
+            <el-table-column prop="minBonus"
+                             align="center"
+                             label="预测奖金（最小）">
+            </el-table-column>
+            <el-table-column align="center"
+                             label="跟单/自购">
+              <template slot-scope="scope">
+                {{scope.row.isSuperMan | isSuper}}
+              </template>
+            </el-table-column>
+            <el-table-column align="center"
+                             label="操作">
+              <template slot-scope="scope">
+                <el-dropdown trigger="click">
+                  <el-button type="primary">操作</el-button>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-popover placement="right"
+                                trigger="click">
+                    </el-popover>
+                    <el-button type="warning"
+                               @click="outticket(scope.row,'modify')">设置出票</el-button>&nbsp; &nbsp;&nbsp;
+                    <el-button type="danger"
+                               @click="Chargeback(scope.row,'modify')">退单</el-button>
+                    <!-- <el-button type="warning" @click="wallet(scope.row,'modify')">冲正</el-button> -->
+                    <el-button type="success"
+                               @click="Szczegol(scope.row)">明细</el-button>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <!-- <div slot="footer" class="dialog-footer">
                     <el-button @click="disabled = false">取 消</el-button>
                     <el-button type="primary" @click="want">确定</el-button>
                 </div> -->
-            </el-dialog>
-        </div>
+      </el-dialog>
     </div>
+  </div>
 </template>
 <script>
 import setTime from '@/utils/time.js'
@@ -466,13 +546,19 @@ import {
   planBack,
   getIsFocusPlan,
   updatePlanStatus,
-  getPlanByMatch
+  getPlanByMatch,
+  setPlanAddPrize,
+  updatePlanAddPrize
 } from "@/api/period";
 import { findAllMember } from "@/api/customer";
-import { getPlanWiningPrize,exportExcle } from '@/api/sys_user'
+import { getPlanWiningPrize, exportExcle } from '@/api/sys_user'
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
   data() {
     return {
+      moneyShow: false, //  修改嘉奖金额弹框
+      moneyCite: '', //  修改的金额
+      citeShow: false, //  设置嘉奖弹框是否显示
       tableData: [],
       newTableData: [],
       newarr: [],
@@ -595,9 +681,9 @@ export default {
         return "竞彩足球半全场";
       }
     },
-    changeTradeType(val){
+    changeTradeType(val) {
       val = Number(val)
-      return val === 0? '钱':'豆'
+      return val === 0 ? '钱' : '豆'
     },
     //彩种
     changeLotteryType(val) {
@@ -694,6 +780,56 @@ export default {
     }
   },
   methods: {
+    CiteMoney(a) {  // 修改嘉奖金额 弹框显示按钮
+      this.moneyCite = ''
+      this.moneyShow = true
+      this.onePlanNo = a.planNo;
+    },
+    citeMoneySuer() { //  修改嘉奖金额确认按钮
+      let obj = {
+        account: getCookies("name"),
+        planNo: this.onePlanNo,
+        addPrize: this.moneyCite
+      }
+      updatePlanAddPrize(obj).then(res => {
+        if (res.data.error_code == 200) {
+          this.getAll()
+          this.moneyShow = false
+          this.$message.success(res.data.message);
+        } else {
+          this.moneyShow = false
+          this.$message.error(res.data.message);
+        }
+      })
+    },
+
+
+
+    citeClear() {  //  设置嘉奖取消按钮
+      this.citeShow = false
+    },
+    citeSure() {  //  设置嘉奖确定按钮
+      let obj = {
+        account: getCookies("name"),
+        planNo: this.onePlanNo
+      }
+      setPlanAddPrize(obj).then(res => {
+        if (res.data.error_code == 200) {
+          this.getAll()
+          this.citeShow = false
+          this.$message.success(res.data.message);
+        } else {
+          this.citeShow = false
+          this.$message.error(res.data.message);
+        }
+      })
+    },
+    setCite(a) {  //  设置嘉奖按钮
+      this.citeShow = true
+      this.onePlanNo = a.planNo;
+    },
+
+
     //根据比赛查询方案
     matchSearch() {
       if (
@@ -951,15 +1087,15 @@ export default {
         }
       });
     },
-    export2Excel() {},
+    export2Excel() { },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]))
     },
     // 导出
-		exportSome() {
-			let newobj
-			this.newTableData.forEach((e, index) => {
-				newobj = {
+    exportSome() {
+      let newobj
+      this.newTableData.forEach((e, index) => {
+        newobj = {
           index: index,                                         //编号
           planNo: e.planNo,                                   //方案编号
           account: e.account,                                 //用户名
@@ -975,50 +1111,50 @@ export default {
           platForm: e.platForm,                               //来源
           addPrize: Number(e.addPrize).toFixed(2),            //嘉奖
           winStatus: e.winStatus,                             //中奖状态
-					posttaxPrize: Number(e.posttaxPrize).toFixed(2),    //税后奖金
-					maxBonus: Number(e.maxBonus).toFixed(2),            //预测奖金（最大）
+          posttaxPrize: Number(e.posttaxPrize).toFixed(2),    //税后奖金
+          maxBonus: Number(e.maxBonus).toFixed(2),            //预测奖金（最大）
           minBonus: Number(e.minBonus).toFixed(2),            //预测奖金（最小）
           isSuper: e.isSuper,                                 //跟单/自购
-				}
-				this.newarr.push(newobj)
-			})
-			var model = {
-				listParams: JSON.stringify(this.newarr),
-				title: "方案中心"
-			};
-			exportExcle(model.listParams, model.title)
-				.then(res => {})
-			require.ensure([], () => {
-				const { export_json_to_excel } = require('../../vendor/Export2Excel');
-				const tHeader = ['方案编号', '用户名', '代理用户名', '渠道用户名', '发单时间', '金额', '方案状态','彩种','截止时间','玩法','支付方式','来源','嘉奖（金额）','中奖状态','税后奖金','预测奖金（最大）','预测奖金（最小）','跟单/自购']; //对应表格输出的title
+        }
+        this.newarr.push(newobj)
+      })
+      var model = {
+        listParams: JSON.stringify(this.newarr),
+        title: "方案中心"
+      };
+      exportExcle(model.listParams, model.title)
+        .then(res => { })
+      require.ensure([], () => {
+        const { export_json_to_excel } = require('../../vendor/Export2Excel');
+        const tHeader = ['方案编号', '用户名', '代理用户名', '渠道用户名', '发单时间', '金额', '方案状态', '彩种', '截止时间', '玩法', '支付方式', '来源', '嘉奖（金额）', '中奖状态', '税后奖金', '预测奖金（最大）', '预测奖金（最小）', '跟单/自购']; //对应表格输出的title
         // 对应表格输出的数据
-        const filterVal = ['planNo','account','dlAccount','qdAccount','createTime','amount', 'planStatus', 'lotteryType', 'dealTime','playType','tradeType','platForm','addPrize','winStatus','posttaxPrize','maxBonus','minBonus','isSuper'];
+        const filterVal = ['planNo', 'account', 'dlAccount', 'qdAccount', 'createTime', 'amount', 'planStatus', 'lotteryType', 'dealTime', 'playType', 'tradeType', 'platForm', 'addPrize', 'winStatus', 'posttaxPrize', 'maxBonus', 'minBonus', 'isSuper'];
         let arrNew = []
-        for(var i=0;i<this.newTableData.length;i++){
+        for (var i = 0; i < this.newTableData.length; i++) {
           //支付方式
-          if(this.newTableData[i].tradeType === 0){
+          if (this.newTableData[i].tradeType === 0) {
             this.newTableData[i].tradeType = '钱'
-          }else{
+          } else {
             this.newTableData[i].tradeType = '豆'
           }
           //来源
-          if(this.newTableData[i].platForm === 1){
+          if (this.newTableData[i].platForm === 1) {
             this.newTableData[i].platForm = 'ios'
-          }else if(this.newTableData[i].platForm === 2){
+          } else if (this.newTableData[i].platForm === 2) {
             this.newTableData[i].platForm = '安卓'
-          }else if(this.newTableData[i].platForm === 3){
+          } else if (this.newTableData[i].platForm === 3) {
             this.newTableData[i].platForm = 'm端'
-          }else{
+          } else {
             this.newTableData[i].platForm = 'pc端'
           }
           //是否跟单、自购
-          if(this.newTableData[i].isSuper === 1){
+          if (this.newTableData[i].isSuper === 1) {
             this.newTableData[i].isSuper = '自购'
-          }else{
+          } else {
             this.newTableData[i].isSuper = '跟单'
           }
           //发单时间
-          if(this.newTableData[i].createTime != null){
+          if (this.newTableData[i].createTime != null) {
             let date = new Date(this.newTableData[i].createTime);
             let y = date.getFullYear();
             let MM = date.getMonth() + 1;
@@ -1034,7 +1170,7 @@ export default {
             this.newTableData[i].createTime = y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
           }
           //截止时间
-          if(this.newTableData[i].dealTime != null){
+          if (this.newTableData[i].dealTime != null) {
             let date = new Date(this.newTableData[i].dealTime);
             let y = date.getFullYear();
             let MM = date.getMonth() + 1;
@@ -1053,11 +1189,11 @@ export default {
         }
         // const list = this.newTableData;
         const list = arrNew
-				const data = this.formatJson(filterVal, list);
-				export_json_to_excel(tHeader, data, '方案中心'); //对应下载文件的名字
-			})
+        const data = this.formatJson(filterVal, list);
+        export_json_to_excel(tHeader, data, '方案中心'); //对应下载文件的名字
+      })
 
-		}
+    }
   }
 };
 </script>
