@@ -356,7 +356,7 @@
                  width="500px"
                  top="30vh">
         <div class="body">
-          确认设置为嘉奖方案吗
+          确认设置为嘉奖方案吗 <span style="color:#f44">【修改成功后不可取消】</span>
         </div>
         <div slot="footer"
              class="dialog-footer">
@@ -793,7 +793,7 @@ export default {
       }
       updatePlanAddPrize(obj).then(res => {
         if (res.data.error_code == 200) {
-          this.getAll()
+          this.gettable()
           this.moneyShow = false
           this.$message.success(res.data.message);
         } else {
@@ -815,7 +815,7 @@ export default {
       }
       setPlanAddPrize(obj).then(res => {
         if (res.data.error_code == 200) {
-          this.getAll()
+          this.gettable()
           this.citeShow = false
           this.$message.success(res.data.message);
         } else {
