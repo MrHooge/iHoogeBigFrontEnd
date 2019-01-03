@@ -26,7 +26,7 @@
                              align="center">
                 <template slot-scope="scope">
                     <img :src="scope.row.nationalFlag"
-                         alt="">
+                         alt="" style="width:2rem;">
                 </template>
             </el-table-column>
             <el-table-column prop="sellStatus"
