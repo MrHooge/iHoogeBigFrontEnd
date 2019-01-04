@@ -1,6 +1,5 @@
 <template>
 	<div class="app-container">
-		<!-- 设置会员返点 -->
 		<div class="search">
 			账号：
 			<el-input v-model="account"
@@ -107,7 +106,7 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<!-- <div class="page">
+		<div class="page">
 			<el-pagination background
 			               @size-change="handleSizeChange"
 			               @current-change="handleCurrentChange"
@@ -118,7 +117,7 @@
 			               :total="totalList"
 			               v-if="tableData!=''">
 			</el-pagination>
-		</div> -->
+		</div>
 		<!-- 详情信息 -->
 		<el-dialog title="提示"
 		           :visible.sync="dialogVisible"
@@ -173,7 +172,7 @@ export default {
 			end_time: '',    //结束时间
 			planId: '',  //手机号
 			page: 1,
-			pageSize: 20,
+			pageSize: 30,
 			start_time: '',  //开始时间
 			itemData: [], //  存储选中的数据
 		}
@@ -263,8 +262,8 @@ export default {
 			getAllPlanList(obj).then(res => {
 				console.log(res)
 				if (res.data.error_code === 200) {
-					this.tableData = res.data.data
-					this.totalList = res.data.total
+					this.tableData = res.data.data.list
+					this.totalList = res.data.data.total
 				} else {
 					Message.error(res.data.message)
 				}
