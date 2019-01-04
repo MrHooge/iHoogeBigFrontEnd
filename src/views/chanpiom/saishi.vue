@@ -99,7 +99,7 @@ export default {
             if (this.selecons && this.selecons.length > 0) {
                 let arr = []
                 this.selecons.forEach(e => {
-                    arr.push(e.id)
+                    arr.push(e.teamId)
                 })
                 let model = {
                     matchIdList: arr.join(',')
