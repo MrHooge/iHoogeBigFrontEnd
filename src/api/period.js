@@ -124,6 +124,24 @@ export function selectLotteryPlan(userinfos) {
 
     })
 }
+//方案查询 - 设为嘉奖方案
+export function setPlanAddPrize(params) {
+    return request.lottery({
+        url: '/lottery/setPlanAddPrize',
+        method: 'get',
+        params: params
+
+    })
+}
+//方案查询 - 修改嘉奖金额
+export function updatePlanAddPrize(params) {
+    return request.lottery({
+        url: '/lottery/updatePlanAddPrize',
+        method: 'get',
+        params: params
+
+    })
+}
 //根据比赛查询方案
 export function getPlanByMatch(userinfos) {
     return request.lottery({
