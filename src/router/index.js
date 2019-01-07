@@ -1128,6 +1128,12 @@ export const constantRouterMap = [
         name: "优惠券统计",
         component: () => import("@/views/newsSport/couponsCount"),
         meta: { title: "优惠券统计" }
+      },
+      {
+        path: "rankingCommission",
+        name: "等级抽佣",
+        component: () => import("@/views/newsSport/rankingCommission"),
+        meta: { title: "等级抽佣" }
       }
     ]
   },

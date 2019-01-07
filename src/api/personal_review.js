@@ -346,3 +346,12 @@ export function newCardList(params) {
     params: params
   })
 }
+
+// 优惠券统计
+export function getCommissionList(params) {
+  return request.member({
+    url: url + '/memberManage/getCommissionList',
+    method: 'get',
+    params: params
+  })
+}
