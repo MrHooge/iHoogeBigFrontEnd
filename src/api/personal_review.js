@@ -337,3 +337,12 @@ export function modifyPicture(params) {
     params: params
   })
 }
+
+// 优惠券统计
+export function newCardList(params) {
+  return request.member({
+    url: url + '/memberManage/newCardList',
+    method: 'get',
+    params: params
+  })
+}

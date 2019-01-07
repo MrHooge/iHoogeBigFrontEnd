@@ -1116,6 +1116,21 @@ export const constantRouterMap = [
       },
     ]
   },
+  {
+    path: "/newsSport",
+    component: Layout,
+    redirect: "/newsSport/couponsCount",
+    name: "时讯体育",
+    meta: { title: "时讯体育" },
+    children: [
+      {
+        path: "couponsCount",
+        name: "优惠券统计",
+        component: () => import("@/views/newsSport/couponsCount"),
+        meta: { title: "优惠券统计" }
+      }
+    ]
+  },
   { path: "*", redirect: "/404", hidden: true }
 ]; //打票管理 //运营设置 // 麒云大师资讯app
 
