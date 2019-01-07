@@ -391,7 +391,15 @@ export const constantRouterMap = [
         name: "冠亚军赛事列表",
         component: () => import("@/views/chanpiom/guanyajun"),
         meta: { title: "冠亚军赛事列表" }
-      }
+      },
+            {
+              path: "formList",
+              name: "亚洲杯订单列表",
+              component: () => import("@/views/chanpiom/formList"),
+              meta: {
+                title: "亚洲杯订单列表"
+              }
+            }
     ]
   },
   {
