@@ -1142,6 +1142,12 @@ export const constantRouterMap = [
         name: "等级抽佣",
         component: () => import("@/views/newsSport/rankingCommission"),
         meta: { title: "等级抽佣" }
+      },
+      {
+        path: "gradeSet",
+        name: "等级设置",
+        component: () => import("@/views/newsSport/gradeSet"),
+        meta: { title: "等级设置" }
       }
     ]
   },

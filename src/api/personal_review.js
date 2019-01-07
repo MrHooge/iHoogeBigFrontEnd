@@ -363,3 +363,11 @@ export function updateCommission(params) {
     params: params
   })
 }
+// 修改等级
+export function updateLevel(params) {
+  return request.member({
+    url: url + '/memberManage/updateLevel',
+    method: 'get',
+    params: params
+  })
+}
