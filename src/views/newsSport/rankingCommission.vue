@@ -28,19 +28,33 @@
             </el-table-column>
             <el-table-column
                 prop="quiz"
-                label="回答"
+                label="问答"
                 align="center">
             </el-table-column>
             <el-table-column
                 label="操作"
                 align="center">
                 <template slot-scope="scope">
-                    <el-button type="primary">
+                    <el-button type="primary" @click="showUpdataDialog(scope.row)">
                         修改
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <!-- 修改弹窗 -->
+        <el-dialog
+                title="修改等级抽佣"
+                :visible.sync="dialogVisible"
+                width="500px">
+                <div>
+                    推荐抽佣: <el-input type="text" v-model="buyOrder" style="width:20%;margin-bottom:20px;" clearable></el-input><br>
+                    围观抽佣: <br>
+                    平台:<el-input type="text" v-model="onlookers[0]" style="width:20%;margin:20px;" clearable></el-input>回答:<el-input type="text" v-model="onlookers[1]" style="width:20%;margin:20px;" clearable></el-input>提问:<el-input type="text" v-model="onlookers[2]" style="width:20%;" clearable></el-input><br>
+                    问答抽佣: <el-input type="text" v-model="quiz" style="width:20%;margin:20px;" clearable></el-input><br>
+                    <!-- VIP等级: <el-input type="text" v-model="vip" style="width:20%;margin:20px;" clearable></el-input><br> -->
+                    <el-button type="primary" style="margin-left:300px;" @click="updataSure">确认修改</el-button>
+                </div>
+        </el-dialog>
         <!-- 分页 -->
         <!-- <div class="page">
             <el-pagination
@@ -62,7 +76,7 @@
 <script>
 import setTime from '@/utils/time.js'
 import axios from "axios";
-import { getCommissionList } from "@/api/personal_review.js";
+import { updateCommission } from "@/api/personal_review.js";
 export default {
   data() {
     return {
@@ -73,6 +87,12 @@ export default {
       page:1,
       pageSize: 20,
       totalList: 0,
+      
+      dialogVisible: false, //修改等级抽佣弹窗
+      buyOrder: '',
+      onlookers: [],
+      quiz: '',
+      vip: ''
     //   vip: '',  //等级的排序
     //   gradeOptions: [
     //     { vip: "0", label: "降序"},
@@ -165,37 +185,69 @@ export default {
     },
     //获取列表数据
     getTable() {
-    //   let model = {
-    //     account: this.account,
-    //     fansNum: this.fansNum,
-    //     offset: this.page,
-    //     pageSize: this.pageSize,
-    //     type: this.usage,
-    //     vip: this.vip
-    //   };
       axios.get('http://192.168.1.37:10130/memberManage/getCommissionList').then(res=>{
-        console.log(res.data.data)
         if (res.status == 200) {
             if(res.data.error_code === 200){
                 this.tablelist = res.data.data
-                // this.totalList = res.data.data.total
             }else{
                 this.$message.error(res.data.message)
             }
         }
       })
-    //   newCardList(model)
+    //   getCommissionList(model)
     //     .then(res => {
     //         console.log(res)
     //         if (res.status == 200) {
     //             if(res.data.error_code === 200){
-    //                 this.tablelist = res.data.data.list
-    //                 this.totalList = res.data.data.total
+    //                 this.tablelist = res.data.data
     //             }else{
     //                 this.$message.error(res.data.message)
     //             }
     //         }
     //     });
+    },
+    showUpdataDialog(val){
+        this.dialogVisible = true
+        this.buyOrder = val.buyOrder
+        this.onlookers = val.onlookers.split(',')
+        this.quiz = val.quiz
+        this.vip = val.vip
+    },
+    //修改等级抽佣
+    updataSure(){
+        let newOnlookers = ""
+        newOnlookers = this.onlookers.join(',')
+        let model = {
+            buyOrder: this.buyOrder,
+            onlookers: newOnlookers,
+            quiz: this.quiz,
+            vip: this.vip
+        };
+        axios.get('http://192.168.1.37:10130/memberManage/updateCommission',{params: model}).then(res=>{
+            if (res.status == 200) {
+                if(res.data.error_code === 200){
+                    this.dialogVisible = false
+                    this.$message.success(res.data.message)
+                    this.getTable()
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }
+        })
+        // updateCommission(model)
+        // .then(res => {
+        //     console.log(res)
+        //     if (res.status == 200) {
+        //         if(res.data.error_code === 200){
+        //             this.dialogVisible = false
+        //             this.$message.success(res.data.message)
+        //             this.getTable()
+        //         }else{
+        //             this.$message.error(res.data.message)
+        //         }
+        //     }
+        // });
+
     }
   }
 };

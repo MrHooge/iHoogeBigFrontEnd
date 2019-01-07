@@ -347,10 +347,18 @@ export function newCardList(params) {
   })
 }
 
-// 优惠券统计
+// 等级抽佣列表
 export function getCommissionList(params) {
   return request.member({
     url: url + '/memberManage/getCommissionList',
+    method: 'get',
+    params: params
+  })
+}
+// 修改等级抽佣
+export function updateCommission(params) {
+  return request.member({
+    url: url + '/memberManage/updateCommission',
     method: 'get',
     params: params
   })
