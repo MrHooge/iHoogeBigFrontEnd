@@ -15,7 +15,12 @@
                 </template>
             </el-table-column>
             <el-table-column prop="ableCreditBalance" align="center" label="当前可用金额"></el-table-column>
-            <el-table-column prop="freezeCreditBalance" align="center" label="冻结金额"></el-table-column>
+            <el-table-column prop="freezeCreditBalance" align="center" label="冻结金额">
+              <template slot-scope="scope">
+                <p v-if="scope.row.freezeCreditBalance > 0" style="color:red;">{{scope.row.freezeCreditBalance}}</p>
+                <p v-else>{{scope.row.freezeCreditBalance}}</p>
+              </template>
+            </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" @click="shouxin(scope.row)">授信</el-button>

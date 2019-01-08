@@ -176,7 +176,7 @@
                         </el-col>
                         <el-col :span="14">
                            <div class="grid-content bg-purple-dark">
-                              <el-select v-model="value" placeholder="请选择一个彩种" @change="getval">
+                              <el-select v-model="value" placeholder="请选择一个彩种" @change="getval" disabled>
                                  <el-option 
                                     v-for="item in options"
                                     :key="item.value"
@@ -374,6 +374,8 @@ export default {
             playType: [], // 修改的玩法
             rate: '',      // 修改的加奖率
         },
+
+        newLotteryType: '',//传参的彩种值
       }
    },
    created() {
@@ -388,6 +390,30 @@ export default {
         },
 
         updateJia(data){
+            console.log(data)
+            if(data.lotteryType == '竞彩足球胜平负/让球'){
+                this.newLotteryType = 49
+            }else if(data.lotteryType == '竞彩足球混合过关'){
+                this.newLotteryType = 42
+            }else if(data.lotteryType == '竞彩足球比分'){
+                this.newLotteryType = 35
+            }else if(data.lotteryType == '竞彩足球进球数'){
+                this.newLotteryType = 36
+            }else if(data.lotteryType == '竞彩足球半全场'){
+                this.newLotteryType = 37
+            }else if(data.lotteryType == '竞彩篮球单关投注'){
+                this.newLotteryType = 304
+            }else if(data.lotteryType == '竞彩篮球胜负'){
+                this.newLotteryType = 30
+            }else if(data.lotteryType == '竞彩篮球让分胜负'){
+                this.newLotteryType = 31
+            }else if(data.lotteryType == '竞彩篮球胜分差'){
+                this.newLotteryType = 32
+            }else if(data.lotteryType == '竞彩篮球大小分'){
+                this.newLotteryType = 33
+            }else if(data.lotteryType == '竞彩篮球混合过关'){
+                this.newLotteryType = 43
+            }
             this.value = data.lotteryType
             this.updateform.minAmount = data.minAmount.toString()
             this.updateform.rate = data.rate
@@ -550,7 +576,7 @@ export default {
                 this.$message('请输入0-1之间的小数')
             } else {
                 let obj = {
-                    lotteryType: this.value,
+                    lotteryType: this.newLotteryType,
                     minAmount: this.updateform.minAmount || 0,
                     playTypes: this.checkedPlays.join(','),
                     rate: this.updateform.rate || 0
