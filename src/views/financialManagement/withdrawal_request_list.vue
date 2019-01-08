@@ -1,146 +1,173 @@
 <template>
-	<!-- 提款申请 -->
-	<div class="chongzhi app-container">
-		<!-- 顶部筛选 -->
-		<div class="topten">
+  <!-- 提款申请 -->
+  <div class="chongzhi app-container">
+    <!-- 顶部筛选 -->
+    <div class="topten">
 
-			<el-row :gutter="20">
-				<el-col :span="3">
-					<div class="grid-content bg-purple">
-						<el-input v-model="name"
-						          placeholder="请输入查询的账号" clearable></el-input>
-					</div>
-				</el-col>
-				<el-col :span="3">
-					<div class="grid-content bg-purple">
-						<el-input v-model="flow_num"
-						          placeholder="请输入查询流水ID" clearable></el-input>
-					</div>
-				</el-col>
-				<el-col :span="2">
-					<el-select v-model="value"
-					           placeholder="请选择"
-                               style="width:120px;">
-						<el-option v-for="item in options1"
-						           :key="item.value"
-						           :label="item.label"
-						           :value="item.value">
-						</el-option>
-					</el-select>
-                    
-				</el-col>
-                <el-col :span="4">
-                    <el-select v-model="status"
-                            placeholder="请选择筛选数据"
-                            @change="filter"
-                            style="width:200px;">
-                        <el-option v-for="item in options2"
-                                :key="item.status"
-                                :label="item.label"
-                                :value="item.status"
-                                >
-                        </el-option>
-                    
-                    </el-select>
-                </el-col>
+      <el-row :gutter="20">
+        <el-col :span="3">
+          <div class="grid-content bg-purple">
+            <el-input v-model="name"
+                      placeholder="请输入查询的账号"
+                      clearable></el-input>
+          </div>
+        </el-col>
+        <el-col :span="3">
+          <div class="grid-content bg-purple">
+            <el-input v-model="flow_num"
+                      placeholder="请输入查询流水ID"
+                      clearable></el-input>
+          </div>
+        </el-col>
+        <el-col :span="2">
+          <el-select v-model="value"
+                     placeholder="请选择"
+                     style="width:120px;">
+            <el-option v-for="item in options1"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+          </el-select>
 
-				<el-col :span="8">
-					<div class="block"
-					     style="display: inline-block;">
-						<el-date-picker v-model="value1"
-						                type="datetime"
-						                placeholder="选择日期"
-						                value-format="yyyy-MM-dd HH:mm:ss">
-						</el-date-picker>
-					</div>
-					至
-					<div class="block"
-					     style="display: inline-block;">
-						<el-date-picker v-model="value2"
-						                type="datetime"
-						                placeholder="选择日期"
-						                value-format="yyyy-MM-dd HH:mm:ss"
-                                        default-time="23:59:59">
-						</el-date-picker>
-					</div>
-				</el-col>
-                <el-col :span="4">
-                    <el-button type="primary" @click="search">查询</el-button>
-                </el-col>
-                <!-- 搜索财务审核统计 -->
-                <el-col :span="8">
-                    <div style="height:40px;line-height:40px;margin-top:20px;">财务审核统计：{{financeCount}}元<span style="font-size:12px;color:red;margin-left:20px;">注：默认是当天的已到账统计(有时间段就是时间段的统计数)</span></div>
-                </el-col>
-				<el-col :span="2">
-					<div class="grid-content bg-purple" style="margin-top:20px;">
-						<el-button type="primary"
-						           icon="el-icon-search"
-                                   @click="getCount">搜索
-                        </el-button>
-					</div>
-				</el-col>
-			</el-row>
-		</div>
-		<!-- 表格数据  -->
-		<el-table :data="tableData"
-		          border
-		          style="width: 100%">
-			<el-table-column label="流水号"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.id }}
-				</template>
-			</el-table-column>
-			<el-table-column label="账号"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.account }}
-				</template>
-			</el-table-column>
-			<el-table-column label="创建时间"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.create_Date_Time | changeTime}}
-				</template>
-			</el-table-column>
-			<el-table-column label="金额"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.amount }}
-				</template>
-			</el-table-column>
-			<el-table-column label="状态"
-			                 align="center">
-				<template slot-scope="scope">
-					<span v-if="scope.row.STATUS === 6" style="color:green">{{ scope.row.STATUS | changeStatus}}</span>
-                    <span v-else-if="scope.row.STATUS === 7" style="color:red">{{ scope.row.STATUS | changeStatus}}</span>
-                    <span v-else>{{ scope.row.STATUS | changeStatus}}</span>
-				</template>
-			</el-table-column>
-			<el-table-column label="开户支行"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.part_bank}}
-				</template>
-			</el-table-column>
-            <el-table-column label="银行卡"
-                             prop="bank_card"
-                             width="200px;"
-			                 align="center">
-			</el-table-column>
-			<el-table-column label="提款人"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.name}}
-				</template>
-			</el-table-column>
-				<el-table-column label="汇款时间"
-			                 align="center">
-				<template slot-scope="scope">
-					{{ scope.row.send_date_time.substring(5)}}
-				</template>
-			</el-table-column>
-			<!-- <el-table-column label="财务审核时间"
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="status"
+                     placeholder="请选择筛选数据"
+                     @change="filter"
+                     style="width:200px;">
+            <el-option v-for="item in options2"
+                       :key="item.status"
+                       :label="item.label"
+                       :value="item.status">
+            </el-option>
+
+          </el-select>
+        </el-col>
+
+        <el-col :span="8">
+          <div class="block"
+               style="display: inline-block;">
+            <el-date-picker v-model="value1"
+                            type="datetime"
+                            placeholder="选择日期"
+                            value-format="yyyy-MM-dd HH:mm:ss">
+            </el-date-picker>
+          </div>
+          至
+          <div class="block"
+               style="display: inline-block;">
+            <el-date-picker v-model="value2"
+                            type="datetime"
+                            placeholder="选择日期"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            default-time="23:59:59">
+            </el-date-picker>
+          </div>
+        </el-col>
+        <el-col :span="4">
+          <el-button type="primary"
+                     @click="search">查询</el-button>
+        </el-col>
+        <!-- 搜索财务审核统计 -->
+        <el-col :span="8">
+          <div style="height:40px;line-height:40px;margin-top:20px;">财务审核统计：{{financeCount}}元
+            <span style="font-size:12px;color:red;margin-left:20px;">注：默认是当天的已到账统计(有时间段就是时间段的统计数)</span>
+          </div>
+        </el-col>
+        <el-col :span="2">
+          <div class="grid-content bg-purple"
+               style="margin-top:20px;">
+            <el-button type="primary"
+                       icon="el-icon-search"
+                       @click="getCount">搜索
+            </el-button>
+          </div>
+        </el-col>
+        <el-col :span="4">
+
+          <div style="margin-top:20px;">
+            <el-input v-model="phoneNum"
+                :disabled="phoneNum_switch"
+                clearable></el-input>
+            <el-switch
+              style="margin-top:20px;"
+              v-model="switch_value"
+              active-text="开启短信通知"
+              inactive-text="关闭短信通知"
+              active-color="#13ce66"
+              :disabled="switch_value_disabled"
+              @change="switchChange"
+              inactive-color="#ff4949">
+            </el-switch>
+          </div>
+
+        </el-col>
+      </el-row>
+      
+    </div>
+    <!-- 表格数据  -->
+    <el-table :data="tableData"
+              border
+              style="width: 100%">
+      <el-table-column label="流水号"
+                       align="center">
+        <template slot-scope="scope">
+          {{ scope.row.id }}
+        </template>
+      </el-table-column>
+      <el-table-column label="账号"
+                       align="center">
+        <template slot-scope="scope">
+          {{ scope.row.account }}
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间"
+                       align="center">
+        <template slot-scope="scope">
+          {{ scope.row.create_Date_Time | changeTime}}
+        </template>
+      </el-table-column>
+      <el-table-column label="金额"
+                       align="center">
+        <template slot-scope="scope">
+          {{ scope.row.amount }}
+        </template>
+      </el-table-column>
+      <el-table-column label="状态"
+                       align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.STATUS === 6"
+                style="color:green">{{ scope.row.STATUS | changeStatus}}</span>
+          <span v-else-if="scope.row.STATUS === 7"
+                style="color:red">{{ scope.row.STATUS | changeStatus}}</span>
+          <span v-else>{{ scope.row.STATUS | changeStatus}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="开户支行"
+                       align="center">
+        <template slot-scope="scope">
+          {{ scope.row.part_bank}}
+        </template>
+      </el-table-column>
+      <el-table-column label="银行卡"
+                       prop="bank_card"
+                       width="200px;"
+                       align="center">
+      </el-table-column>
+      <el-table-column label="提款人"
+                       align="center">
+        <template slot-scope="scope">
+          {{ scope.row.name}}
+        </template>
+      </el-table-column>
+      <el-table-column label="汇款时间"
+                       align="center">
+        <template slot-scope="scope">
+          {{ scope.row.send_date_time.substring(5)}}
+        </template>
+      </el-table-column>
+      <!-- <el-table-column label="财务审核时间"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.FINANCE_DEAL_DATE_TIME }}
@@ -185,16 +212,14 @@
 					{{ scope.row.confirm_date_time}}
 				</template>
 			</el-table-column> -->
-			
-			
-			
-			<!-- <el-table-column label="提款类型平台"
+
+      <!-- <el-table-column label="提款类型平台"
 			                 align="center">
 				<template slot-scope="scope">
 					{{ scope.row.PLATFORM}}
 				</template>
 			</el-table-column> -->
-			
+
       <el-table-column label="操作"
                        align="center">
         <template slot-scope="scope">
@@ -226,86 +251,91 @@
         </template>
       </el-table-column>
 
-		</el-table>
-		<!-- 审核弹窗 -->
-		<el-dialog title="您确定要通过以下会员的审核吗？"
-		           :visible.sync="dialogVisible"
-		           width="30%">
-			<div>
-				<p>姓名：{{ a }}</p>
-				<p>金额：{{ b }}</p>
-			</div>
-			<span slot="footer"
-			      class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary" v-show="isKF"
-				           @click="confirm(1)">确 定</el-button>
-				<el-button type="primary" v-show="!isKF"
-				           @click="confirm(2)">确 定</el-button>
-			</span>
-		</el-dialog>
-		<!-- 驳回弹窗 -->
-		<el-dialog title="您确定要驳回以下会员的审核吗？"
-		           :visible.sync="dialogVisible1"
-		           width="30%">
-			<div>
-				<p>姓名：{{ a }}</p>
-				<p>金额：{{ b }}</p>
-				<div style="padding-bottom:5px">
-					<el-select v-model="valueList"
-					           placeholder="请选择">
-						<el-option v-for="item in optionsList"
-						           :key="item.valueList"
-						           :label="item.label"
-						           :value="item.valueList">
-						</el-option>
-					</el-select>
-				</div>
-				<el-input type="textarea"
-				          :rows="2"
-				          placeholder="请输入驳回描述"
-				          v-model="textarea" clearable>
-				</el-input>
+    </el-table>
+    <!-- 审核弹窗 -->
+    <el-dialog title="您确定要通过以下会员的审核吗？"
+               :visible.sync="dialogVisible"
+               width="30%">
+      <div>
+        <p>姓名：{{ a }}</p>
+        <p>金额：{{ b }}</p>
+      </div>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   v-show="isKF"
+                   @click="confirm(1)">确 定</el-button>
+        <el-button type="primary"
+                   v-show="!isKF"
+                   @click="confirm(2)">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 驳回弹窗 -->
+    <el-dialog title="您确定要驳回以下会员的审核吗？"
+               :visible.sync="dialogVisible1"
+               width="30%">
+      <div>
+        <p>姓名：{{ a }}</p>
+        <p>金额：{{ b }}</p>
+        <div style="padding-bottom:5px">
+          <el-select v-model="valueList"
+                     placeholder="请选择">
+            <el-option v-for="item in optionsList"
+                       :key="item.valueList"
+                       :label="item.label"
+                       :value="item.valueList">
+            </el-option>
+          </el-select>
+        </div>
+        <el-input type="textarea"
+                  :rows="2"
+                  placeholder="请输入驳回描述"
+                  v-model="textarea"
+                  clearable>
+        </el-input>
 
-			</div>
-			<span slot="footer"
-			      class="dialog-footer">
-				<el-button @click="dialogVisible1 = false">取 消</el-button>
-				<el-button type="primary" v-show="isKF"
-				           @click="sure(1)">确 定</el-button>
-				<el-button type="primary" v-show="!isKF"
-				           @click="sure(2)">确 定</el-button>
-			</span>
-		</el-dialog>
-		<div class="page"
-		     v-show="pageShow">
-			<!-- <el-pagination background
+      </div>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="dialogVisible1 = false">取 消</el-button>
+        <el-button type="primary"
+                   v-show="isKF"
+                   @click="sure(1)">确 定</el-button>
+        <el-button type="primary"
+                   v-show="!isKF"
+                   @click="sure(2)">确 定</el-button>
+      </span>
+    </el-dialog>
+    <div class="page"
+         v-show="pageShow">
+      <!-- <el-pagination background
 			               :page-size=20
 			               @current-change="changepage"
 			               layout="prev, pager, next"
 			               :total="total">
 			</el-pagination> -->
-            <el-pagination
-                background
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                :page-sizes="[10, 20, 30, 40, 50]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="totalList"
-                v-if="totalList != ''"
-                >
-            </el-pagination>
-		</div>
-	</div>
+      <el-pagination background
+                     @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :current-page="page"
+                     :page-sizes="[10, 20, 30, 40, 50]"
+                     :page-size="pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="totalList"
+                     v-if="totalList != ''">
+      </el-pagination>
+    </div>
+  </div>
 </template>
 
 <script>
 import {
   findMemberDrawingList,
   memberDrawingReview,
-  getFinanceCount
+  getFinanceCount,
+  updatePayMessageSwitch,
+  findPayMessageSwitch
 } from "@/api/sys_user";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 import { Message, Checkbox } from "element-ui";
@@ -326,6 +356,10 @@ export default {
       money: "",
       value1: "",
       value2: "",
+      switch_value:false, //短信通知开关
+      switch_value_disabled:"",//短信开关禁止
+      phoneNum_switch:"", //手机号码开关禁止
+      phoneNum:"",
       options1: [
         {
           value: "2",
@@ -385,12 +419,64 @@ export default {
       isKF: false //是否是客服待审核
     };
   },
+  
   created() {
     // this.search(1)
     this.getData(1);
     this.getCount();
+    this.getFindSwitch();
+    this.phoneNum == "" ? this.switch_value_disabled = true : this.switch_value_disabled = false;
+  },
+  watch:{
+    phoneNum(c,v){
+      this.isPoneAvailable(this.phoneNum) == false || c == "" ? this.switch_value_disabled = true : this.switch_value_disabled = false;
+      if(this.isPoneAvailable(this.phoneNum) == false){this.$message.error("请正确输入手机号码");}
+    },
+    
   },
   methods: {
+    getFindSwitch(){
+      findPayMessageSwitch().then(res => {
+            if (res.data.error_code === 200) {
+              let data = res.data.data
+              const {pay_message_switch,pay_message_mobile}=data;
+              let sign= pay_message_switch;
+              sign == 1 ? this.switch_value = true : this.switch_value = false
+              this.phoneNum = pay_message_mobile;
+            } else {
+              this.$message.error(res.data.message);
+            }
+          });
+    },
+    switchChange(e){
+        let obj={
+          pay_message_switch:"",
+          pay_message_mobile:this.phoneNum
+        };
+        e == false ? obj.pay_message_switch = 0 : obj.pay_message_switch = 1;
+        e == false ? this.phoneNum_switch = false : this.phoneNum_switch = true;
+
+        if(obj.pay_message_mobile !== ""){
+          updatePayMessageSwitch(obj).then(res => {
+            if (res.data.error_code === 200) {
+              Message.success(res.data.message);
+              
+            } else {
+              this.$message.error(res.data.message);
+            }
+          });
+        }else{
+          this.$message.error("手机号码不能为空");
+        }
+    },
+    isPoneAvailable(num) {
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test(num)) {
+            return false;
+        } else {
+            return true;
+        }
+    },
     //获取财务审核统计
     getCount() {
       this.page = 1;

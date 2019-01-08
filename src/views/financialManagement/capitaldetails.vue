@@ -66,6 +66,10 @@
 					<span>{{ scope.row.allUnderLineMoney | commissionUse }}</span>
 				</template>
 			</el-table-column>
+      <el-table-column label="授信充值"
+			                 prop="allUnderLineCreditMoney"
+			                 align="center">
+			</el-table-column>
 			<el-table-column label="提款"
 			                 prop="allWithdrawalMoney"
 			                 align="center">

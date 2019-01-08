@@ -14,7 +14,22 @@ export function findAllRole(role_id) {
     }
   })
 }
-
+// 提款申请页面短信开关
+export function updatePayMessageSwitch(data) {
+  return request.pay({
+    url: '/pay/updatePayMessageSwitch',
+    method: 'get',
+    params: data
+  })
+}
+// 查询提款申请页面短信开关
+export function findPayMessageSwitch(data) {
+  return request.pay({
+    url: '/pay/findPayMessageSwitch',
+    method: 'get',
+    params: data
+  })
+}
 // 查询用户权限
 export function findRoleAndPermission(account) {
   return request.member({

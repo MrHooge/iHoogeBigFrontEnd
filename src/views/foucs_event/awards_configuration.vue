@@ -73,7 +73,7 @@
             >
             </el-pagination>
          </div>
-         <!-- 引入弹窗 -->
+         <!-- 设置加奖弹窗 -->
          <el-dialog
             :title="headername"
             :visible.sync="dialogVisible"
@@ -90,7 +90,7 @@
                         </el-col>
                         <el-col :span="14">
                            <div class="grid-content bg-purple-dark">
-                              <el-select v-model="value" placeholder="请选择一个彩种" @change="getval">
+                              <el-select v-model="value" placeholder="请选择一个彩种">
                                  <el-option 
                                     v-for="item in options"
                                     :key="item.value"
@@ -164,87 +164,87 @@
             :title="headername"
             :visible.sync="updatedialog"
             width="600px">
-               <div class="settingprize">
-                  <div class="frow">
-                     <el-row>
+            <div class="settingprize">
+                <div class="frow">
+                    <el-row>
+                    <el-col :span="5">
+                        <div class="grid-content bg-purple-dark">
+                            <div class="kindname">
+                                彩种:
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="14">
+                        <div class="grid-content bg-purple-dark">
+                            <el-select v-model="value" placeholder="请选择一个彩种" disabled>
+                                <el-option 
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </el-col>
+                    </el-row>
+                </div>
+                <div class="frow">
+                    <el-row>
+                    <el-col :span="5">
+                        <div class="grid-content bg-purple-dark">
+                            <div class="kindname">
+                                金额方案:
+                            </div>
+                        </div>
+                    </el-col>
+                    <el-col :span="14">
+                        <div class="grid-content bg-purple-dark">
+                            <el-input v-model.number="updateform.minAmount" placeholder="请输入最小方案金额" style="width: 215px;" type="number"></el-input>
+                        </div>
+                    </el-col>
+                    </el-row>
+                </div>
+                <div class="frow">
+                    <el-row>
                         <el-col :span="5">
-                           <div class="grid-content bg-purple-dark">
-                              <div class="kindname">
-                                    彩种:
-                              </div>
-                           </div>
+                            <div class="grid-content bg-purple-dark">
+                                <div class="kindname">
+                                    玩法选择:
+                                </div>
+                            </div>
+                        </el-col>
+                        <el-col :span="19">
+                            <div class="grid-content bg-purple-dark">
+                                <el-checkbox-group v-model="checkedPlays" @change="handplay">
+                                <el-checkbox v-for="(play,index) in playgames" :label="play.value" :key="index" border >{{play.name}}</el-checkbox>
+                                </el-checkbox-group>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    </div>
+                    <div class="frow">
+                    <el-row>
+                        <el-col :span="5">
+                            <div class="grid-content bg-purple-dark">
+                                <div class="kindname">
+                                    加奖率:
+                                </div>
+                            </div>
                         </el-col>
                         <el-col :span="14">
-                           <div class="grid-content bg-purple-dark">
-                              <el-select v-model="value" placeholder="请选择一个彩种" @change="getval" disabled>
-                                 <el-option 
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                 </el-option>
-                              </el-select>
-                           </div>
+                            <div class="grid-content bg-purple-dark">
+                                <el-input v-model.number="updateform.rate" placeholder="请输入0-1之间的小数" style="width: 215px;" clearable></el-input>
+                            </div>
                         </el-col>
-                     </el-row>
-                  </div>
-                  <div class="frow">
-                     <el-row>
-                        <el-col :span="5">
-                           <div class="grid-content bg-purple-dark">
-                              <div class="kindname">
-                                    金额方案:
-                              </div>
-                           </div>
-                        </el-col>
-                        <el-col :span="14">
-                           <div class="grid-content bg-purple-dark">
-                              <el-input v-model.number="updateform.minAmount" placeholder="请输入最小方案金额" style="width: 215px;" type="number"></el-input>
-                           </div>
-                        </el-col>
-                     </el-row>
-                  </div>
-                  <div class="frow">
-                        <el-row>
-                           <el-col :span="5">
-                              <div class="grid-content bg-purple-dark">
-                                 <div class="kindname">
-                                       玩法选择:
-                                 </div>
-                              </div>
-                           </el-col>
-                           <el-col :span="19">
-                              <div class="grid-content bg-purple-dark">
-                                 <el-checkbox-group v-model="checkedPlays" @change="handplay">
-                                    <el-checkbox v-for="(play,index) in playgames" :label="play.value" :key="index" border >{{play.name}}</el-checkbox>
-                                 </el-checkbox-group>
-                              </div>
-                           </el-col>
-                        </el-row>
-                     </div>
-                     <div class="frow">
-                        <el-row>
-                           <el-col :span="5">
-                              <div class="grid-content bg-purple-dark">
-                                 <div class="kindname">
-                                       加奖率:
-                                 </div>
-                              </div>
-                           </el-col>
-                           <el-col :span="14">
-                              <div class="grid-content bg-purple-dark">
-                                 <el-input v-model.number="updateform.rate" placeholder="请输入0-1之间的小数" style="width: 215px;" clearable></el-input>
-                              </div>
-                           </el-col>
-                        </el-row>
-                     </div>
-               </div>
+                    </el-row>
+                    </div>
+            </div>
             <span slot="footer" class="dialog-footer">
                <el-button @click="updatedialog = false">取 消</el-button>
                <el-button type="primary" @click="Bonus" v-if="headername=='设置加奖'">确 定</el-button>
                <el-button type="primary" @click="updateSure" v-else>确 定</el-button>
             </span>
-         </el-dialog>
+        </el-dialog>
    </div>
 </template>
 <script>
@@ -472,9 +472,6 @@ export default {
                     }
                 })
             }
-        },
-        // 下拉的回调
-        getval() {
         },
         // 选择框的回调
         handplay(value) {
