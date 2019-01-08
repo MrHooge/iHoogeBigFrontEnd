@@ -414,6 +414,7 @@ export default {
             }else if(data.lotteryType == '竞彩篮球混合过关'){
                 this.newLotteryType = 43
             }
+            console.log(this.newLotteryType)
             this.value = data.lotteryType
             this.updateform.minAmount = data.minAmount.toString()
             this.updateform.rate = data.rate
@@ -488,7 +489,7 @@ export default {
                 this.$message('请输入0-1之间的小数')
             } else {
                 let newobj = {
-                    lotteryType: this.value,
+                    lotteryType: this.newLotteryType,
                     minAmount: this.amount || 0,
                     playTypes: this.checkedPlays.join(','),
                     rate: this.num || 0
@@ -543,7 +544,7 @@ export default {
                 this.$message('请输入0-1之间的小数')
             } else {
                 let obj = {
-                    lotteryType: this.value,
+                    lotteryType: this.newLotteryType,
                     minAmount: this.amount || 0,
                     playTypes: this.checkedPlays.join(','),
                     rate: this.num || 0
