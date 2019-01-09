@@ -10,11 +10,17 @@ function Api(baseUrl) {
         console.log("开发环境")
         // 开发环境
         QY = {
-            member: "https://member.api.qiyun88.cn",
-            infos: "http://infos.api.qiyun88.cn",
-            pay: "http://pay.api.qiyun88.cn",
-            ticket: "http://ticket.api.qiyun88.cn",
-            lottery: "http://lottery.api.qiyun88.cn",
+            // member: "https://member.api.qiyun88.cn",
+            // infos: "http://infos.api.qiyun88.cn",
+            // pay: "http://pay.api.qiyun88.cn",
+            // ticket: "http://ticket.api.qiyun88.cn",
+            // lottery: "http://lottery.api.qiyun88.cn",
+            member: "'http://192.168.1.37:10010'",
+              user: "'http://192.168.1.37:10010'",
+              infos: "'http://192.168.1.37:10030'",
+              pay: "'http://192.168.1.37:10050'",
+              ticket: "'http://192.168.1.37:10070'",
+              lottery: "'http://192.168.1.37:10090'"
         }
 
     } else {

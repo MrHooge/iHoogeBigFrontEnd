@@ -203,3 +203,47 @@ export function getPlanDetailForManager(userinfos) {
         params: userinfos
     })
 }
+
+//亚洲杯 - 相关接口
+export function getMatchList(params) {
+  return request.lottery({
+    url: '/champion/getMatchList',
+    method: 'get',
+    params: params
+  })
+}
+export function getMatchUpList(params) {
+  return request.lottery({
+    url: '/champion/getMatchUpList',
+    method: 'get',
+    params: params
+  })
+}
+export function putFailTeam(params) {
+  return request.lottery({
+    url: '/champion/putFailTeam',
+    method: 'get',
+    params: params
+  })
+}
+export function putSuccessTeam(params) {
+  return request.lottery({
+    url: '/champion/putSuccessTeam',
+    method: 'get',
+    params: params
+  })
+}
+export function openAndClose(params) {
+  return request.lottery({
+    url: '/champion/openAndClose',
+    method: 'get',
+    params: params
+  })
+}
+export function getAllPlanList(params) {
+  return request.lottery({
+    url: '/champion/getAllPlanList',
+    method: 'get',
+    params: params
+  })
+}
