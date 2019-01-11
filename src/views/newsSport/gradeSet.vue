@@ -11,23 +11,6 @@
                 :value="item.vip">
                 </el-option>
             </el-select>
-            <!-- <el-select v-model="fansNum" placeholder="粉丝数排序" @change="changeData">
-                <el-option
-                v-for="item in fansOptions"
-                :key="item.fansNum"
-                :label="item.label"
-                :value="item.fansNum">
-                </el-option>
-            </el-select>
-            <el-select v-model="usage" placeholder="体验券使用情况" @change="changeData">
-                <el-option
-                v-for="item in usageOptions"
-                :key="item.usage"
-                :label="item.label"
-                :value="item.usage">
-                </el-option>
-            </el-select> -->
-            
         </div>
         <!-- 表格数据 -->
         <el-table
@@ -56,25 +39,6 @@
                     {{scope.row.vip | changeVip}}
                 </template>
             </el-table-column>
-            <!-- <el-table-column
-                prop="fansNum"
-                label="粉丝数"
-                align="center">
-            </el-table-column>
-            <el-table-column
-                label="体验券"
-                align="center">
-                <template slot-scope="scope">
-                    {{scope.row.cardType | cardType}}
-                </template>
-            </el-table-column>
-            <el-table-column
-                label="领取时间"
-                align="center">
-                <template slot-scope="scope">
-                    {{scope.row.createDatetime | setTime}}
-                </template>
-            </el-table-column> -->
             <el-table-column
                 label="操作"
                 align="center">
@@ -116,7 +80,7 @@
 <script>
 import setTime from '@/utils/time.js'
 import axios from "axios";
-import { newCardList } from "@/api/personal_review.js";
+import { newCardList } from "@/api/assport.js";
 export default {
   data() {
     return {
@@ -269,28 +233,28 @@ export default {
         type: this.usage,
         vip: this.vip
       };
-      axios.get('http://192.168.1.37:10130/memberManage/newCardList',{params: model}).then(res=>{
-        if (res.status == 200) {
-            if(res.data.error_code === 200){
-                this.tablelist = res.data.data.list
-                this.totalList = res.data.data.total
-            }else{
-                this.$message.error(res.data.message)
-            }
-        }
-      })
-    //   newCardList(model)
-    //     .then(res => {
-    //         console.log(res)
-    //         if (res.status == 200) {
-    //             if(res.data.error_code === 200){
-    //                 this.tablelist = res.data.data.list
-    //                 this.totalList = res.data.data.total
-    //             }else{
-    //                 this.$message.error(res.data.message)
-    //             }
+    //   axios.get('http://192.168.1.37:10130/memberManage/newCardList',{params: model}).then(res=>{
+    //     if (res.status == 200) {
+    //         if(res.data.error_code === 200){
+    //             this.tablelist = res.data.data.list
+    //             this.totalList = res.data.data.total
+    //         }else{
+    //             this.$message.error(res.data.message)
     //         }
-    //     });
+    //     }
+    //   })
+      newCardList(model)
+        .then(res => {
+            console.log(res)
+            if (res.status == 200) {
+                if(res.data.error_code === 200){
+                    this.tablelist = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }
+        });
     }
   }
 };

@@ -102,7 +102,7 @@
 <script>
 import setTime from '@/utils/time.js'
 import axios from "axios";
-import { newCardList } from "@/api/personal_review.js";
+import { newCardList } from "@/api/assport.js";
 export default {
   data() {
     return {
@@ -214,28 +214,28 @@ export default {
         type: this.usage,
         vip: this.vip
       };
-      axios.get('http://192.168.1.37:10130/memberManage/newCardList',{params: model}).then(res=>{
-        if (res.status == 200) {
-            if(res.data.error_code === 200){
-                this.tablelist = res.data.data.list
-                this.totalList = res.data.data.total
-            }else{
-                this.$message.error(res.data.message)
-            }
-        }
-      })
-    //   newCardList(model)
-    //     .then(res => {
-    //         console.log(res)
-    //         if (res.status == 200) {
-    //             if(res.data.error_code === 200){
-    //                 this.tablelist = res.data.data.list
-    //                 this.totalList = res.data.data.total
-    //             }else{
-    //                 this.$message.error(res.data.message)
-    //             }
+    //   axios.get('http://192.168.1.37:10130/memberManage/newCardList',{params: model}).then(res=>{
+    //     if (res.status == 200) {
+    //         if(res.data.error_code === 200){
+    //             this.tablelist = res.data.data.list
+    //             this.totalList = res.data.data.total
+    //         }else{
+    //             this.$message.error(res.data.message)
     //         }
-    //     });
+    //     }
+    //   })
+      newCardList(model)
+        .then(res => {
+            console.log(res)
+            if (res.status == 200) {
+                if(res.data.error_code === 200){
+                    this.tablelist = res.data.data.list
+                    this.totalList = res.data.data.total
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }
+        });
     }
   }
 };

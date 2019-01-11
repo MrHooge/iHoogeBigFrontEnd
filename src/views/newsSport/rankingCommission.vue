@@ -76,7 +76,7 @@
 <script>
 import setTime from '@/utils/time.js'
 import axios from "axios";
-import { updateCommission } from "@/api/personal_review.js";
+import { updateCommission } from "@/api/assport.js";
 export default {
   data() {
     return {
@@ -185,26 +185,26 @@ export default {
     },
     //获取列表数据
     getTable() {
-      axios.get('http://192.168.1.37:10130/memberManage/getCommissionList').then(res=>{
-        if (res.status == 200) {
-            if(res.data.error_code === 200){
-                this.tablelist = res.data.data
-            }else{
-                this.$message.error(res.data.message)
-            }
-        }
-      })
-    //   getCommissionList(model)
-    //     .then(res => {
-    //         console.log(res)
-    //         if (res.status == 200) {
-    //             if(res.data.error_code === 200){
-    //                 this.tablelist = res.data.data
-    //             }else{
-    //                 this.$message.error(res.data.message)
-    //             }
+    //   axios.get('http://192.168.1.37:10130/memberManage/getCommissionList').then(res=>{
+    //     if (res.status == 200) {
+    //         if(res.data.error_code === 200){
+    //             this.tablelist = res.data.data
+    //         }else{
+    //             this.$message.error(res.data.message)
     //         }
-    //     });
+    //     }
+    //   })
+      getCommissionList(model)
+        .then(res => {
+            console.log(res)
+            if (res.status == 200) {
+                if(res.data.error_code === 200){
+                    this.tablelist = res.data.data
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }
+        });
     },
     showUpdataDialog(val){
         this.dialogVisible = true
@@ -223,20 +223,7 @@ export default {
             quiz: this.quiz,
             vip: this.vip
         };
-        axios.get('http://192.168.1.37:10130/memberManage/updateCommission',{params: model}).then(res=>{
-            if (res.status == 200) {
-                if(res.data.error_code === 200){
-                    this.dialogVisible = false
-                    this.$message.success(res.data.message)
-                    this.getTable()
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            }
-        })
-        // updateCommission(model)
-        // .then(res => {
-        //     console.log(res)
+        // axios.get('http://192.168.1.37:10130/memberManage/updateCommission',{params: model}).then(res=>{
         //     if (res.status == 200) {
         //         if(res.data.error_code === 200){
         //             this.dialogVisible = false
@@ -246,7 +233,20 @@ export default {
         //             this.$message.error(res.data.message)
         //         }
         //     }
-        // });
+        // })
+        updateCommission(model)
+        .then(res => {
+            console.log(res)
+            if (res.status == 200) {
+                if(res.data.error_code === 200){
+                    this.dialogVisible = false
+                    this.$message.success(res.data.message)
+                    this.getTable()
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }
+        });
     }
   }
 };
