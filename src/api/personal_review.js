@@ -337,3 +337,4 @@ export function modifyPicture(params) {
     params: params
   })
 }
+
