@@ -7,7 +7,8 @@ var url;
 const baseUrl = process.env.NODE_ENV;
 console.log(process.env)
 if (baseUrl === 'development') {
-    url = "https://master.api.qiyun88.cn"
+    // url = "https://master.api.qiyun88.cn"
+    url = "http://192.168.1.37:10130"
 } else {
     url = "https://app.api.99zxds.com"
 }

@@ -80,7 +80,7 @@
 <script>
 import setTime from '@/utils/time.js'
 import axios from "axios";
-import { newCardList } from "@/api/assport.js";
+import { newCardList, updateLevel} from "@/api/assport.js";
 export default {
   data() {
     return {
@@ -178,20 +178,7 @@ export default {
             account: this.username,
             vip: this.updataVip
         };
-        axios.get('http://192.168.1.37:10130/memberManage/updateLevel',{params: model}).then(res=>{
-            console.log(res)
-            if (res.status == 200) {
-                if(res.data.error_code === 200){
-                    this.dialogVisible = false
-                    this.$message.success(res.data.message)
-                    this.getTable()
-                }else{
-                    this.$message.error(res.data.message)
-                }
-            }
-        })
-        // updateLevel(model)
-        // .then(res => {
+        // axios.get('http://192.168.1.37:10130/memberManage/updateLevel',{params: model}).then(res=>{
         //     console.log(res)
         //     if (res.status == 200) {
         //         if(res.data.error_code === 200){
@@ -202,7 +189,20 @@ export default {
         //             this.$message.error(res.data.message)
         //         }
         //     }
-        // });
+        // })
+        updateLevel(model)
+        .then(res => {
+            console.log(res)
+            if (res.status == 200) {
+                if(res.data.error_code === 200){
+                    this.dialogVisible = false
+                    this.$message.success(res.data.message)
+                    this.getTable()
+                }else{
+                    this.$message.error(res.data.message)
+                }
+            }
+        });
     },
     //翻页
         handleCurrentChange(num){

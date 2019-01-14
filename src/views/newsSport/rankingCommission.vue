@@ -76,7 +76,7 @@
 <script>
 import setTime from '@/utils/time.js'
 import axios from "axios";
-import { updateCommission } from "@/api/assport.js";
+import { getCommissionList, updateCommission } from "@/api/assport.js";
 export default {
   data() {
     return {
@@ -194,9 +194,8 @@ export default {
     //         }
     //     }
     //   })
-      getCommissionList(model)
+      getCommissionList()
         .then(res => {
-            console.log(res)
             if (res.status == 200) {
                 if(res.data.error_code === 200){
                     this.tablelist = res.data.data
