@@ -29,9 +29,9 @@
             >
             <template slot-scope="scope">
                 <!-- {{ scope.row.nationalFlag.indexOf()}} -->
-                <img :src="scope.row.nationalFlag.substring(0,scope.row.nationalFlag.indexOf('—'))" alt="">
+                <img :src="scope.row.nationalFlag.substring(0,scope.row.nationalFlag.indexOf('—'))" alt="" style="    width: 2rem;">
                 —
-                <img :src="scope.row.nationalFlag.substring(scope.row.nationalFlag.indexOf('—')+1)" alt="">
+                <img :src="scope.row.nationalFlag.substring(scope.row.nationalFlag.indexOf('—')+1)" alt="" style="    width: 2rem;">
             </template>
             </el-table-column>
             <el-table-column
@@ -73,6 +73,10 @@
 </template>
 
 <script>
+import { getMatchUpList, putFailTeam, putSuccessTeam, openAndClose } from "@/api/period";
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message } from "element-ui";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
     data() {
         return {
@@ -89,10 +93,13 @@ export default {
             this.selecons = val
         },
         getAll() {
-            this.$ajax.get(api.lottery + '/champion/getMatchUpList').then(res => {
-                this.tableData3 = res.data
-                this.gameOpen = res.isOpen
-                if(res.isOpen==1){
+            let obj = {
+
+            }
+            getMatchUpList(obj).then(res => {
+                this.tableData3 = res.data.data
+                this.gameOpen = res.data.isOpen
+                if(res.data.isOpen==1){
                     this.value3 = true
                 }else{
                     this.value3 = false
@@ -108,12 +115,12 @@ export default {
                 let model = {
                     matchIdList:arr.join(',')
                 }
-                this.$ajax.get(api.lottery + '/champion/putFailTeam',model).then(res => {
-                    if(res.error_code==200){
-                        this.$message(res.message)
+                putFailTeam(model).then(res => {
+                    if(res.data.error_code==200){
+                        this.$message(res.data.message)
                         this.getAll()
                     }else{
-                        this.$message(res.message)
+                        this.$message(res.data.message)
                     }
                 })
             }else{
@@ -130,12 +137,12 @@ export default {
                     teamId:arr.join(','),
                     type:2
                 }
-                this.$ajax.get(api.lottery + '/champion/putSuccessTeam',model).then(res => {
-                    if(res.error_code==200){
-                        this.$message(res.message)
+                putSuccessTeam(model).then(res => {
+                    if(res.data.error_code==200){
+                        this.$message(res.data.message)
                         this.getAll()
                     }else{
-                        this.$message(res.message)
+                        this.$message(res.data.message)
                     }
                 })
             }else if(this.selecons.length > 1){
@@ -157,12 +164,12 @@ export default {
             let model = {
                 type:a
             }
-            this.$ajax.get(api.lottery +'/champion/openAndClose',model).then(res=>{
+            openAndClose(model).then(res=>{
                 if(res.error_code==200){
-                    this.$message('设置' + res.message)
+                    this.$message('设置' + res.data.message)
                     this.getAll()
                 }else{
-                    this.$message(res.message)
+                    this.$message(res.data.message)
                 }
             })
         }

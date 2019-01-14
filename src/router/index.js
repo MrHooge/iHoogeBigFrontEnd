@@ -391,7 +391,15 @@ export const constantRouterMap = [
         name: "冠亚军赛事列表",
         component: () => import("@/views/chanpiom/guanyajun"),
         meta: { title: "冠亚军赛事列表" }
-      }
+      },
+            {
+              path: "formList",
+              name: "亚洲杯订单列表",
+              component: () => import("@/views/chanpiom/formList"),
+              meta: {
+                title: "亚洲杯订单列表"
+              }
+            }
     ]
   },
   {
@@ -1114,6 +1122,33 @@ export const constantRouterMap = [
         component: () => import("@/views/Information_app/headImgSearch"),
         meta: { title: "头像查询" }
       },
+    ]
+  },
+  {
+    path: "/newsSport",
+    component: Layout,
+    redirect: "/newsSport/couponsCount",
+    name: "时讯体育",
+    meta: { title: "时讯体育" },
+    children: [
+      {
+        path: "couponsCount",
+        name: "优惠券统计",
+        component: () => import("@/views/newsSport/couponsCount"),
+        meta: { title: "优惠券统计" }
+      },
+      {
+        path: "rankingCommission",
+        name: "等级抽佣",
+        component: () => import("@/views/newsSport/rankingCommission"),
+        meta: { title: "等级抽佣" }
+      },
+      {
+        path: "gradeSet",
+        name: "等级设置",
+        component: () => import("@/views/newsSport/gradeSet"),
+        meta: { title: "等级设置" }
+      }
     ]
   },
   { path: "*", redirect: "/404", hidden: true }

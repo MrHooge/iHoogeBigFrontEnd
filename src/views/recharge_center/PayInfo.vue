@@ -513,7 +513,8 @@ export default {
                 name:this.name,
                 status:this.status,
                 type:this.type,
-                note:this.note
+                note:this.note,
+                canUseMoney:0,
             }
             
             getpayinfo(obj).then(res=>{                
