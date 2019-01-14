@@ -46,32 +46,32 @@ axios.interceptors.request.use(config => {
 })
 
 // respone拦截器
-axios.interceptors.response.use(
-  response => {
-  /**
-  * code为非20000是抛错 可结合自己业务进行修改
-  */
-    const res = response.data
-    console.log(response)
-    if (res.success) {
-      return response.data
-    } else {
-      Message({
-        message: res.message,
-        type: 'error',
-        duration: 3 * 1000
-      })
-    }
-  },
-  error => {
-    console.log('err' + error)// for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
-  }
-)
+// axios.interceptors.response.use(
+//   response => {
+//   /**
+//   * code为非20000是抛错 可结合自己业务进行修改
+//   */
+//     const res = response.data
+//     console.log(response)
+//     if (res.success) {
+//       return response.data
+//     } else {
+//       Message({
+//         message: res.message,
+//         type: 'error',
+//         duration: 3 * 1000
+//       })
+//     }
+//   },
+//   error => {
+//     console.log('err' + error)// for debug
+//     Message({
+//       message: error.message,
+//       type: 'error',
+//       duration: 5 * 1000
+//     })
+//     return Promise.reject(error)
+//   }
+// )
 
 export default service
