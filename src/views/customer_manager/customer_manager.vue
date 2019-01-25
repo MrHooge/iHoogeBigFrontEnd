@@ -104,7 +104,7 @@
                             <el-dropdown-menu slot="dropdown">
                                 <el-popover
                                     placement="right"
-                                    width="400"
+                                    width="340"
                                     trigger="click">
                                         <el-form :model="form">
                                             <el-form-item label="真实姓名">
@@ -134,7 +134,7 @@
                                 </el-popover>
                                 <el-popover
                                     placement="right"
-                                    width="1300"
+                                    width="300"
                                     trigger="click">
                                     <el-form :v-model="walletData">
                                         <el-form-item label="可用金额">
@@ -164,7 +164,7 @@
                                 <!-- 绑定银行卡信息 -->
                                 <el-popover
                                     placement="right"
-                                    width="1300"
+                                    width="300"
                                     trigger="click">
                                     <el-form :v-model="bankInfos">
                                         <el-form-item label="账号">
@@ -178,7 +178,7 @@
                                             </el-form-item>
                                             <el-form-item label="开户地区">
                                                 <el-input v-model="bankInfos.bankPart" auto-complete="off" style="width:60%" clearable></el-input>
-                                                <span style="color:red;">格式：开户省份|开户城市|支行</span>
+                                                <span style="color:red;"><br>格式：开户省份|开户城市|支行</span>
                                             </el-form-item>
                                             <el-button type="primary" @click="bankbinding(scope.row)">确 定</el-button>
                                     </el-form>
