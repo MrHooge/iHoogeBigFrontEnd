@@ -11,9 +11,9 @@ var url;
 const baseUrl = process.env.NODE_ENV;
 console.log(process.env)
 if (baseUrl === 'development') {
-  url = "https://master.api.qiyun88.cn"
+  url = "https://app.api.99zxds.cn"
 } else {
-  url = "https://master.api.qyun88.com"
+  url = "https://app.api.99zxds.com"
 }
 
 export function getReviewList(obj) {
