@@ -133,10 +133,10 @@
 					{{ scope.row.TRANS_TYPE_NAME }}
 				</template>
 			</el-table-column> -->
-			<el-table-column label="可用金额"
+			<el-table-column label="操作金额"
 			                 align="center">
 				<template slot-scope="scope">
-					{{ scope.row.ABLE_BALANCE  }}
+					{{ scope.row.AMOUNT }}
 				</template>
 			</el-table-column>
 			<el-table-column label="发生时间"
