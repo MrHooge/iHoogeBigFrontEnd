@@ -555,6 +555,12 @@ export const constantRouterMap = [
         meta: { title: "渠道销量统计" }
       },
       {
+        path: "drawings",
+        name: "银行提款",
+        component: () => import("@/views/financialManagement/drawings"),
+        meta: { title: "渠道销量统计" }
+      },
+      {
         path: "handsel_give",
         name: "彩金赠送",
         component: () => import("@/views/financialManagement/handsel_give"),
