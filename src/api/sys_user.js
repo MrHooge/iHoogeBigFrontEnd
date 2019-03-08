@@ -757,6 +757,26 @@ export function getFinanceCount(params) {
     params: params
   })
 }
+// 银行卡收款
+export function bankCardReceive(obj) {
+  return request.pay({
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    },
+    url: '/unPay/bankCardReceive',
+    method: 'post',
+    data: obj
+  })
+}
+// 查询余额
+export function findMoney(obj) {
+  return request.pay({
+    url: '/unPay/findMoney',
+    method: 'get',
+    data: obj
+  })
+}
+
 // 中奖金额总和
 export function getPlanWiningPrize(params) {
   return request.user({

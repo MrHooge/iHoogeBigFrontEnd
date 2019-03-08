@@ -6,6 +6,7 @@ const QYAPI = {
     user: "'http://userapi.qiyun88.cn'",
     infos: "'http://infosapi.qiyun88.cn'",
     pay: "'http://payapi.qiyun88.cn'",
+    // pay: "'http://118.31.76.104:10050'",
     ticket: "'http://ticketapi.qiyun88.cn'",
     lottery: "'http://lotteryapi.qiyun88.cn'"
 }

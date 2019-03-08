@@ -1,6 +1,10 @@
 <!-- 竞彩日报 -->
 <template>
 	<div class="top">
+		<div class="balanceMoney">
+			账户余额：
+			<span>{{balance}}</span>元
+		</div>
 		<div class="addstationletter">
 			<div class="left">
 				<p>提款信息录入</p>
@@ -31,6 +35,7 @@
 					</el-form-item>
 					<el-form-item label="银行编码"
 					              style="width:500px">
+						<span style="color:red">（输入银行百度查）</span>
 						<el-input v-model="form.bankcode"
 						          clearable></el-input>
 					</el-form-item>
@@ -64,7 +69,7 @@
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary"
-						:disabled="disabled"
+						           :disabled="disabled"
 						           @click="onSubmitfirst">提交</el-button>
 					</el-form-item>
 				</el-form>
@@ -75,10 +80,16 @@
 
 <script>
 import { createDayOneDan1, createDayOneDan2, createSZ2C11, createSZ2C12 } from '@/api/news'
+import { exportExcle, findSaleInfo, findAllUserAndRole, findQdSaleCount, bankCardReceive, findMoney } from "@/api/sys_user";
+import waves from "@/directive/waves/index.js"; // 水波纹指令
+import { Message, Checkbox } from "element-ui";
+import treeTable from "@/components/TreeTable";
+import { getCookies, setCookies, removeCookies } from "@/utils/cookies";
 export default {
 	data() {
 		return {
-			disabled:false,
+			disabled: false,
+			balance: 0, //  存储账户余额
 			form: {
 				orderAmount: '', //金额分
 				bankcardowner: '',//代付人账户名
@@ -95,10 +106,23 @@ export default {
 	},
 
 	components: {},
-
+	created() {
+		this.getFindMoney()
+	},
 	methods: {
+		//  获取余额
+		getFindMoney() {
+
+			findMoney().then(res => {
+				console.log(res)
+				if (res.data.error_code == 200) {
+					this.balance = res.data.data.balance
+				}
+			})
+		},
+		//  提交申请
 		onSubmitfirst() {
-			
+
 			if (!this.form.orderAmount) {
 				this.$message('请输入金额')
 			} else if (!this.form.bankcardowner) {
@@ -109,8 +133,6 @@ export default {
 				this.$message('请输入银行编码')
 			} else if (!this.form.depositbank) {
 				this.$message('请输入代付人开户行信息')
-			} else if (!this.form.phonenumber) {
-				this.$message('请输入预存在银行手机号')
 			} else {
 				if (this.form.orderAmount > 50000) {
 					if (!this.form.payeebankLinesno) {
@@ -141,20 +163,34 @@ export default {
 				bankprovince: this.form.bankprovince,//代付银行开户行省（金额大于 50000 时 为必填）
 				bankcity: this.form.bankcity,//代付银行开户行市（金额大于 50000 时 为必填）
 			}
-			console.log(obj)
-			// createDayOneDan1(obj).then(res => {
-			// 	if (res.data.error_code == 200) {
-			// 		this.$message.success(res.data.message)
-			// 	} else {
-			// 		this.$message.error(res.data.data)
-			// 	}
-			// })
+			bankCardReceive(obj).then(res => {
+				console.log(res)
+				if (res.data.error_code == 200) {
+					Message.success(res.data.message);
+					this.getFindMoney()
+					setTimeout(() => {
+						this.disabled = false
+					}, 1500);
+				} else {
+					Message.success(res.data.message);
+					this.disabled = false
+				}
+			})
+
 		}
 	}
 }
 </script>
 
 <style scoped>
+.balanceMoney {
+  height: 50px;
+  line-height: 50px;
+  padding-left: 20px;
+}
+.balanceMoney span {
+  color: red;
+}
 .chuan {
   padding: 10px 20px;
 }
