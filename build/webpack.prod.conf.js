@@ -16,7 +16,7 @@ function resolve(dir) {
 }
 
 const env = require('../config/prod.env') //   正式
-    // const env = require('../config/dev.env') //  测试
+// const env = require('../config/dev.env') //  测试
 
 const webpackConfig = merge(baseWebpackConfig, {
     module: {
