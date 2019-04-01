@@ -121,7 +121,7 @@
                                             </el-form-item>
                                             
                                             <el-form-item label="上级用户名">
-                                                    <el-input v-model="form.agentAccount" auto-complete="off" style="width:60%" clearable></el-input>
+                                                    <el-input v-model="form.agentAccount" :disabled="!!form.agentAccount" auto-complete="off" style="width:60%" clearable></el-input>
                                             </el-form-item>
                                             <p style="color:red;font-size:14px;">注：当不知道上级用户名时可用昵称查询！</p>
                                             <el-form-item label="昵称">
