@@ -141,21 +141,7 @@ export default {
                 create_time:this.startTime,
                 end_time:this.endTime,
             }
-            axios.get('http://192.168.1.37:10040/xxPay/getBackAccountChargeLine',{params: obj}).then(res=>{
-                if (res.status == 200) {
-                    if(res.data.error_code === 200){
-                        this.tableData = res.data.data.list
-                        this.totalList = res.data.data.total;
-                        this.totalList < this.pageSize ? this.pageShow = false : this.pageShow = true;
-                        this.tableData.forEach((e,index)=>{
-                            e.id = index + 1 
-                        })
-                    }else{
-                        this.$message.error(res.data.message)
-                    }
-                }
-            })
-            // getBackAccountChargeLine(obj).then(res => {
+            // axios.get('http://192.168.1.37:10040/xxPay/getBackAccountChargeLine',{params: obj}).then(res=>{
             //     if (res.status == 200) {
             //         if(res.data.error_code === 200){
             //             this.tableData = res.data.data.list
@@ -168,7 +154,21 @@ export default {
             //             this.$message.error(res.data.message)
             //         }
             //     }
-            // });
+            // })
+            getBackAccountChargeLine(obj).then(res => {
+                if (res.status == 200) {
+                    if(res.data.error_code === 200){
+                        this.tableData = res.data.data.list
+                        this.totalList = res.data.data.total;
+                        this.totalList < this.pageSize ? this.pageShow = false : this.pageShow = true;
+                        this.tableData.forEach((e,index)=>{
+                            e.id = index + 1 
+                        })
+                    }else{
+                        this.$message.error(res.data.message)
+                    }
+                }
+            });
         },
     }
 }
