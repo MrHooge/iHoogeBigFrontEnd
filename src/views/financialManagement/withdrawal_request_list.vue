@@ -116,12 +116,14 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
+
       <el-table-column label="账号"
                        align="center">
         <template slot-scope="scope">
           {{ scope.row.account }}
         </template>
       </el-table-column>
+      
       <el-table-column label="创建时间"
                        align="center">
         <template slot-scope="scope">

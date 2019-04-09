@@ -247,7 +247,8 @@ export default {
       let obj = {
         account: this.username,
         amount: this.money,
-        sign: this.today
+        sign: this.today,
+        backAccount:getCookies("name")
       };
       xxCharge(obj).then(res => {
         if (res.status === 200) {
