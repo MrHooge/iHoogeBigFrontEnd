@@ -10,7 +10,7 @@ module.exports = ctx => ({
     }
   },
   head: [
-    ['link', { rel: 'icon', href: `/logo.png` }],
+    ['link', { rel: 'icon', href: `/hero.jpg` }],
     ['link', { rel: 'manifest', href: '/manifest.json' }],
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
@@ -25,7 +25,7 @@ module.exports = ctx => ({
     repo: 'MrHooge/iHooge-sBigFrontEnd',
     editLinks: true,
     docsDir: '/docs',
-    logo: '/logo.png',
+    logo: '/hero.jpg',
     // #697 Provided by the official algolia team.
     // algolia: ctx.isProd ? ({
     //   apiKey: '3a539aab83105f01761a137c61004d85',
@@ -39,7 +39,7 @@ module.exports = ctx => ({
         lastUpdated: '上次更新',
         nav: require('./nav/nav'),
         sidebar: {
-          '/html5/': geth5Sidebar('HTML5'),
+          '/h5c3/': geth5c3Sidebar('HTML5', 'CSS3'),
           // '/api/': getApiSidebar(),
           // '/guide/': getGuideSidebar('指南', '深入'),
           // '/plugin/': getPluginSidebar('插件', '介绍', '官方插件'),
@@ -80,13 +80,21 @@ function getApiSidebar () {
     'node'
   ]
 }
-function geth5Sidebar(groupA) {
+function geth5c3Sidebar(groupA, groupB) {
   return [{
     title: groupA,
     collapsable: false,
     children: [
       '',
       'html5',
+    ]
+  },
+  {
+    title: groupB,
+    collapsable: false,
+    children: [
+      // '',
+      'css3',
     ]
   }]
 }
