@@ -572,7 +572,13 @@ export const constantRouterMap = [
         component: () =>
           import("@/views/financialManagement/withdrawal_request_list"),
         meta: { title: "提款申请" }
-      }
+      },
+      {
+        path: "additionalStatistics",
+        name: "线下加款统计",
+        component: () => import("@/views/financialManagement/additionalStatistics"),
+        meta: { title: "线下加款统计" }
+      },
     ]
   },
   {

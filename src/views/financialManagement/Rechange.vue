@@ -133,7 +133,8 @@ export default {
       let obj = {
         account: a.account,
         amount: this.chje,
-        sign: this.today
+        sign: this.today,
+        backAccount:getCookies("name")
       };
       xxCharge(obj).then(res => {
         if (res.data.success) {

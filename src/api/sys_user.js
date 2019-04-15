@@ -733,6 +733,14 @@ export function presentes(username, params) {
     }
   })
 }
+//线下加款统计
+export function getBackAccountChargeLine(params) {
+  return request.pay({
+    url: '/xxPay/getBackAccountChargeLine',
+    method: 'get',
+    params: params
+  })
+}
 // 提款申请列表
 export function findMemberDrawingList(params) {
   return request.pay({
