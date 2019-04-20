@@ -2,23 +2,11 @@ module.exports = [{
   text: 'Web前端',
   items: [{
       text: 'HTML5/CSS3',
-      link: '/html5/'
+      link: '/h5c3/'
     }, 
     {
       text: 'JavaScript',
-      items: [{
-          text: 'JavaScript',
-          link: '/javascript/js.html'
-        },
-        {
-          text: 'ES6',
-          link: '/javascript/es6/'
-        }, 
-        {
-          text: 'ES7',
-          link: '/javascript/es7/'
-        }
-      ]
+      link: '/javascript/'
     },
     {
       text: 'Vue',
