@@ -40,7 +40,7 @@ module.exports = ctx => ({
         nav: require('./nav/nav'),
         sidebar: {
           '/h5c3/': geth5c3Sidebar('HTML5', 'CSS3'),
-          // '/api/': getApiSidebar(),
+          '/javascript/': getJSSidebar('JavaScript高级程序设计', '介绍'),
           // '/guide/': getGuideSidebar('指南', '深入'),
           // '/plugin/': getPluginSidebar('插件', '介绍', '官方插件'),
           // '/theme/': getThemeSidebar('主题', '介绍')
@@ -97,6 +97,20 @@ function geth5c3Sidebar(groupA, groupB) {
       'css3',
     ]
   }]
+}
+
+function getJSSidebar (groupA, introductionA) {
+  return [
+    {
+      title: groupA,
+      collapsable: false,
+      sidebarDepth: 2,
+      children: [
+        '',
+        'JavaScript高级程序设计',
+      ]
+    },
+  ]
 }
 
 function getGuideSidebar (groupA, groupB) {
