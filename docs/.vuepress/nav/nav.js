@@ -84,6 +84,10 @@ module.exports = [{
       }, {
         text: 'Linux',
         link: '/linux/'
+      },
+      {
+        text: 'Nginx',
+        link: '/nginx/'
       }
     ]
   },
