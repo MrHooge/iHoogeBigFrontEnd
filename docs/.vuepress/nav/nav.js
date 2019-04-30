@@ -95,9 +95,6 @@ module.exports = [{
   }, {
     text: '书单',
     items: [{
-        text: '编程',
-        link: '/programming/'
-      }, {
         text: '经管',
         link: '/management/'
       },

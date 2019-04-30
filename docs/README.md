@@ -1,15 +1,15 @@
 ---
 home: true
 heroImage: /hero.jpg
-actionText: 开启前端之旅吧 →
+actionText: 大前端 →
 actionLink: /h5c3/
 features:
-- title: 简洁至上
-  details: 以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
-- title: Vue驱动
-  details: 享受 Vue + webpack 的开发体验，可以在 Markdown 中使用 Vue 组件，又可以使用 Vue 来开发自定义主题。
-- title: 高性能
-  details: VuePress 会为每个页面预渲染生成静态的 HTML，同时，每个页面被加载的时候，将作为 SPA 运行。
+- title: 夯实基础
+  details: 关注底层知识，夯实基础。
+- title: 求知欲驱动
+  details: 享受技术的开发体验，可以在开发中学习，学习后使用。
+- title: 匠心
+  details: 以一个匠心去对待每一件事。
 footer: MIT Licensed | Copyright © 2019-present iHooge
 ---
 <!-- 

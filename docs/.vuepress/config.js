@@ -107,7 +107,7 @@ function getJSSidebar (groupA, introductionA) {
       sidebarDepth: 2,
       children: [
         '',
-        'JavaScript高级程序设计',
+        'professional-javascript-for-web-developers',
       ]
     },
   ]
