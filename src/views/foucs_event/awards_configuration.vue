@@ -36,9 +36,13 @@
         <el-table :data="eventslist"
                   border
                   style="width: 100%">
-            <el-table-column prop="lotteryType"
-                             label="彩种"
-                             align="center">
+            <!-- <el-table-column prop="lotteryType" -->
+            <el-table-column
+                label="彩种"
+                align="center">
+                <template slot-scope="scope">
+					{{scope.row.lotteryType | updateLotter}}
+				</template>
             </el-table-column>
             <el-table-column prop="minAmount"
                              align="center"
@@ -600,7 +604,7 @@ export default {
         // 修改加奖
         updateSure() {
             // 获取修改后的值(判断)
-            if (!this.value) {
+            if (!this.value1) {
                 this.$message('请选择一个彩种')
             } else if (this.updateform.rate >= 1 || this.updateform.rate < 0) {
                 this.$message('请输入0-1之间的小数')
@@ -633,6 +637,17 @@ export default {
                 // })
             }
         },
+    },
+    filters: {
+        updateLotter(lot){
+            let tempLot = ''
+            this.options.forEach(el => {
+                if(lot === el.value){
+                    tempLot = el.label
+                }
+            })
+            return tempLot
+        }
     }
 }
 </script>

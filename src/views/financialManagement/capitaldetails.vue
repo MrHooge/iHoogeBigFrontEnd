@@ -598,7 +598,8 @@ export default {
           index: index, //编号
           date: e.date, //日期
           allOnLineMoney: e.allOnLineMoney.toFixed(2), //线上充值
-          allUnderLineMoney: e.allUnderLineMoney.toFixed(2), //线下充值
+					allUnderLineMoney: e.allUnderLineMoney.toFixed(2), //线下充值
+					allUnderLineCreditMoney: e.allUnderLineCreditMoney.toFixed(2),
           allWithdrawalMoney: e.allWithdrawalMoney.toFixed(2), //提款
           allconsumMoney: e.allconsumMoney.toFixed(2), //消费
           posttaxPrize: e.posttaxPrize.toFixed(2), //税后奖金
