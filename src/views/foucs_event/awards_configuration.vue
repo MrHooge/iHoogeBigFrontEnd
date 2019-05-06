@@ -41,8 +41,8 @@
                 label="彩种"
                 align="center">
                 <template slot-scope="scope">
-					{{scope.row.lotteryType | updateLotter}}
-				</template>
+                    <span style="margin-left: 10px">{{ scope.row.lotteryTypeStr }}</span>
+                </template>
             </el-table-column>
             <el-table-column prop="minAmount"
                              align="center"
@@ -94,8 +94,7 @@
                         <el-col :span="14">
                             <div class="grid-content bg-purple-dark">
                                 <el-select v-model="value"
-                                           placeholder="请选择一个彩种"
-                                           @change="getval">
+                                           placeholder="请选择一个彩种">
                                     <el-option v-for="item in options"
                                                :key="item.value"
                                                :label="item.label"
@@ -195,8 +194,7 @@
                         <el-col :span="14">
                             <div class="grid-content bg-purple-dark">
                                 <el-select v-model="value1"
-                                           placeholder="请选择一个彩种"
-                                           @change="getval">
+                                           placeholder="请选择一个彩种">
                                     <el-option v-for="item in options"
                                                :key="item.value"
                                                :label="item.label"
@@ -422,7 +420,6 @@ export default {
             this.headername = "设置加奖"
             this.dialogVisible = true
         },
-
         updateJia(data) {
             console.log(data)
             this.value1 = data.lotteryType
@@ -610,12 +607,13 @@ export default {
                 this.$message('请输入0-1之间的小数')
             } else {
                 let obj = {
-                    lotteryType: this.newLotteryType,
+                    lotteryType: this.value1,
                     minAmount: this.updateform.minAmount || 0,
                     playTypes: this.checkedPlays.join(','),
                     rate: this.updateform.rate || 0
                 }
                 // this.$http.get(api.lottery + '/lottery/updateAddPirzeConfig', { params: obj }).then(res => {
+                // console.log(obj)
                 updateAddPirzeConfig(obj).then(res => {
                     if (res.status == 200) {
                         if (res.data.error_code == 200) {
@@ -641,7 +639,54 @@ export default {
     filters: {
         updateLotter(lot){
             let tempLot = ''
-            this.options.forEach(el => {
+            let options = [
+                {
+                    value: '49',
+                    label: '竞彩足球胜平负/让球'
+                },
+                {
+                    value: '42',
+                    label: '竞彩足球混合过关'
+                },
+                {
+                    value: '35',
+                    label: '竞彩足球比分'
+                },
+                {
+                    value: '36',
+                    label: '竞彩足球进球数'
+                },
+                {
+                    value: '37',
+                    label: '竞彩足球半全场'
+                },
+                {
+                    value: '304',
+                    label: '竞彩篮球单关投注'
+                },
+                {
+                    value: '30',
+                    label: '竞彩篮球胜负'
+                },
+                {
+                    value: '31',
+                    label: '竞彩篮球让分胜负'
+                },
+                {
+                    value: '32',
+                    label: '竞彩篮球胜分差'
+                },
+                {
+                    value: '33',
+                    label: '竞彩篮球大小分'
+                },
+                {
+                    value: '43',
+                    label: '竞彩篮球混合过关'
+                }
+            ]
+            options.forEach(el => {
+
                 if(lot === el.value){
                     tempLot = el.label
                 }

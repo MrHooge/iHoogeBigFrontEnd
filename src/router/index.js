@@ -355,9 +355,9 @@ export const constantRouterMap = [
       },
       {
         path: "seiper_banner",
-        name: "轮播图管理",
+        name: "轮播图设置",
         component: () => import("@/views/activity_manager/seiper_banner"),
-        meta: { title: "轮播图管理" }
+        meta: { title: "轮播图设置" }
       },
       {
         path: "redpackage",
@@ -1124,9 +1124,9 @@ export const constantRouterMap = [
       },
       {
         path: "addBanner",
-        name: "轮播图管理",
+        name: "轮播图设置",
         component: () => import("@/views/Information_app/addBanner"),
-        meta: { title: "轮播图管理" }
+        meta: { title: "轮播图设置" }
       },
       {
         path: "headImgSearch",
