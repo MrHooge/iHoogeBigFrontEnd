@@ -1,3 +1,5 @@
 node_modules
 .temp
 yarn.lock
+.vscode
+yarn.lock
