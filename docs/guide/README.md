@@ -15,7 +15,7 @@ sidebar: auto
      4. 正则，⽇期
         1. 红宝书 javascript⾼级程序设计
      5.  深⼊理解JS执⾏逻辑
-        1.  <你不知道的javascript>
+        1.  《你不知道的javascript》
   4.  es6
       1.  class promise
       2.  解构
@@ -135,7 +135,7 @@ sidebar: auto
           3.  性能优化
               1.  sql分析
               2.  索引
-          4.  <⾼性能mysql>
+          4.  《⾼性能mysql》
           5.  可⽤性 主从 数据备份
           6.  原理 sql解析 红⿊树数据结构
           7.  实战 orm
