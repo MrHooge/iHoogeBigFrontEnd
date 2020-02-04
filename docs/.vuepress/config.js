@@ -2,7 +2,7 @@ module.exports = {
   title: 'iHoogeBigFrontEnd',
   description: '猴哥的大前端',
   base: '/',
-  dest: './dist',
+  dest: './docs/.vuepress/dist',
   locales: {
     '/': {
       lang: 'zh-CN',
