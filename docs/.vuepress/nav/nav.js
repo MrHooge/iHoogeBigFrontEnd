@@ -53,7 +53,16 @@ module.exports = [{
   {
     text: "WEEX",
     link: "/pages/mobile/weex/"
-  }, {
+  },
+  {
+    text: "uni-app",
+    link: "/pages/mobile/uniapp/"
+  },
+  {
+    text: "Taro",
+    link: "/pages/mobile/taro/"
+  },
+  {
     text: "微信开发",
     items: [
       {
@@ -62,7 +71,7 @@ module.exports = [{
       },
       {
         text: "小程序",
-        link: "/pages/weixin/xcx/"
+        link: "/pages/weixin/miniprogram/"
       }
     ]
   },

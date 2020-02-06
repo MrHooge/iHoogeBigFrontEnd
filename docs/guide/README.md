@@ -3,6 +3,8 @@ sidebar: auto
 ---
 
 # 猴哥的大前端
+> [思否](https://segmentfault.com/)  [掘金](https://juejin.im/) [CSDN](https://www.csdn.net/) 
+
 ## 计算机基础
   1. html5
   2. css

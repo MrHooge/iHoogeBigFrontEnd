@@ -10,3 +10,8 @@
 - JavaScript编程艺术
 
 - 精通JavaScript开发
+
+-------------------
+
+[JavaScript面试题](/pages/web/javascript/JavaScript面试.md)
+[Proxy](Proxy.md)
